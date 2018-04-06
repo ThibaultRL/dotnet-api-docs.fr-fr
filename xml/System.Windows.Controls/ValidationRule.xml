@@ -1,0 +1,410 @@
+<Type Name="ValidationRule" FullName="System.Windows.Controls.ValidationRule">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="059c36959d769279d4c087a19217e26ab58b5f57" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public abstract class ValidationRule" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit ValidationRule extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Windows.Controls.ValidationRule" />
+  <TypeSignature Language="VB.NET" Value="Public MustInherit Class ValidationRule" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ValidationRule abstract" />
+  <AssemblyInfo>
+    <AssemblyName>PresentationFramework</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="f5033-101">Fournit un moyen de créer une règle personnalisée pour vérifier la validité de l’entrée d’utilisateur.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="f5033-101">Provides a way to create a custom rule in order to check the validity of user input.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f5033-102">Lorsque vous utilisez la [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] modèle de liaison de données, vous pouvez associer <xref:System.Windows.Data.Binding.ValidationRules%2A> à votre objet de liaison.</span><span class="sxs-lookup"><span data-stu-id="f5033-102">When you use the [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] data binding model, you can associate <xref:System.Windows.Data.Binding.ValidationRules%2A> with your binding object.</span></span> <span data-ttu-id="f5033-103">Pour créer des règles personnalisées, créez une sous-classe de cette classe et implémenter la <xref:System.Windows.Controls.ValidationRule.Validate%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="f5033-103">To create custom rules, make a subclass of this class and implement the <xref:System.Windows.Controls.ValidationRule.Validate%2A> method.</span></span> <span data-ttu-id="f5033-104">Vous pouvez également utiliser la fonction intégrée <xref:System.Windows.Controls.ExceptionValidationRule>, qui intercepte les exceptions levées pendant les mises à jour de la source, ou le <xref:System.Windows.Controls.DataErrorValidationRule>, qui vérifie les erreurs déclenchées par le <xref:System.ComponentModel.IDataErrorInfo> implémentation de l’objet source.</span><span class="sxs-lookup"><span data-stu-id="f5033-104">Optionally, use the built-in <xref:System.Windows.Controls.ExceptionValidationRule>, which catches exceptions that are thrown during source updates, or the <xref:System.Windows.Controls.DataErrorValidationRule>, which checks for errors raised by the <xref:System.ComponentModel.IDataErrorInfo> implementation of the source object.</span></span>  
+  
+ <span data-ttu-id="f5033-105">Le moteur de liaison vérifie chaque <xref:System.Windows.Controls.ValidationRule> qui est associé à une liaison chaque fois qu’il transfère une valeur d’entrée, qui est la valeur de propriété de cible de liaison, à la propriété de source de liaison.</span><span class="sxs-lookup"><span data-stu-id="f5033-105">The binding engine checks each <xref:System.Windows.Controls.ValidationRule> that is associated with a binding every time it transfers an input value, which is the binding target property value, to the binding source property.</span></span>  
+  
+ <span data-ttu-id="f5033-106">Pour plus d’informations sur la validation des données, consultez [vue d’ensemble de la liaison de données](~/docs/framework/wpf/data/data-binding-overview.md).</span><span class="sxs-lookup"><span data-stu-id="f5033-106">For detailed information about data validation, see [Data Binding Overview](~/docs/framework/wpf/data/data-binding-overview.md).</span></span>  
+  
+ <span data-ttu-id="f5033-107">Pour plus d’informations sur la façon de valider les données fournies par l’utilisateur dans une boîte de dialogue, consultez [vue d’ensemble des boîtes de dialogue](~/docs/framework/wpf/app-development/dialog-boxes-overview.md).</span><span class="sxs-lookup"><span data-stu-id="f5033-107">For information about how to validate user-provided data in a dialog box, see [Dialog Boxes Overview](~/docs/framework/wpf/app-development/dialog-boxes-overview.md).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f5033-108">L’exemple suivant montre comment implémenter une règle de validation.</span><span class="sxs-lookup"><span data-stu-id="f5033-108">The following example shows how to implement a validation rule.</span></span> <span data-ttu-id="f5033-109">La valeur d’entrée n’est pas valide si elle contient des caractères non numériques ou si elle dépasse les limites inférieures et supérieures.</span><span class="sxs-lookup"><span data-stu-id="f5033-109">The input value is invalid if it contains non-numeric characters or if it is outside the lower and upper bounds.</span></span> <span data-ttu-id="f5033-110">Si la valeur de retourné <xref:System.Windows.Controls.ValidationResult> n’est pas valide, le <xref:System.Windows.Controls.ValidationResult.ErrorContent%2A> est définie sur le message d’erreur approprié et la <xref:System.Windows.Controls.ValidationResult.IsValid%2A> est définie sur `false`.</span><span class="sxs-lookup"><span data-stu-id="f5033-110">If the value of the returned <xref:System.Windows.Controls.ValidationResult> is invalid, the <xref:System.Windows.Controls.ValidationResult.ErrorContent%2A> property is set to the appropriate error message and the <xref:System.Windows.Controls.ValidationResult.IsValid%2A> property is set to `false`.</span></span>  
+  
+ <span data-ttu-id="f5033-111">Pour obtenir un exemple complet, consultez [Comment : implémenter la Validation de liaison](~/docs/framework/wpf/data/how-to-implement-binding-validation.md).</span><span class="sxs-lookup"><span data-stu-id="f5033-111">For the complete example, see [How to: Implement Binding Validation](~/docs/framework/wpf/data/how-to-implement-binding-validation.md).</span></span>  
+  
+ [!code-csharp[BindValidation#3](~/samples/snippets/csharp/VS_Snippets_Wpf/BindValidation/CSharp/AgeRangeRule.cs#3)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Windows.Controls.DataErrorValidationRule" />
+    <altmember cref="T:System.Windows.Controls.ExceptionValidationRule" />
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f5033-112">Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Controls.ValidationRule" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-112">Initializes a new instance of the <see cref="T:System.Windows.Controls.ValidationRule" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected ValidationRule ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.ValidationRule.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; ValidationRule();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="f5033-113">Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Controls.ValidationRule" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-113">Initializes a new instance of the <see cref="T:System.Windows.Controls.ValidationRule" /> class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected ValidationRule (System.Windows.Controls.ValidationStep validationStep, bool validatesOnTargetUpdated);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor(valuetype System.Windows.Controls.ValidationStep validationStep, bool validatesOnTargetUpdated) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.ValidationRule.#ctor(System.Windows.Controls.ValidationStep,System.Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; ValidationRule(System::Windows::Controls::ValidationStep validationStep, bool validatesOnTargetUpdated);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="validationStep" Type="System.Windows.Controls.ValidationStep" />
+        <Parameter Name="validatesOnTargetUpdated" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="validationStep">
+          <span data-ttu-id="f5033-114">Une des valeurs d'énumération qui spécifie quand la règle de validation s'exécute.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-114">One of the enumeration values that specifies when the validation rule runs.</span>
+          </span>
+        </param>
+        <param name="validatesOnTargetUpdated">
+          <span data-ttu-id="f5033-115">
+            <see langword="true" /> pour que la règle de validation s'exécute lorsque la cible de <see cref="T:System.Windows.Data.Binding" /> est mise à jour ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-115">
+              <see langword="true" /> to have the validation rule run when the target of the <see cref="T:System.Windows.Data.Binding" /> is updated; otherwise, <see langword="false" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f5033-116">Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Controls.ValidationRule" /> avec l'étape de validation spécifiée et une valeur qui indique si la règle de validation s'exécute lorsque la cible est mise à jour.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-116">Initializes a new instance of the <see cref="T:System.Windows.Controls.ValidationRule" /> class with the specified validation step and a value that indicates whether the validation rule runs when the target is updated.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Validate">
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f5033-117">Exécute des contrôles de validation sur une valeur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-117">Performs validation checks on a value.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Validate">
+      <MemberSignature Language="C#" Value="public abstract System.Windows.Controls.ValidationResult Validate (object value, System.Globalization.CultureInfo cultureInfo);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Windows.Controls.ValidationResult Validate(object value, class System.Globalization.CultureInfo cultureInfo) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.ValidationRule.Validate(System.Object,System.Globalization.CultureInfo)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract System::Windows::Controls::ValidationResult ^ Validate(System::Object ^ value, System::Globalization::CultureInfo ^ cultureInfo);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Controls.ValidationResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Object" />
+        <Parameter Name="cultureInfo" Type="System.Globalization.CultureInfo" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="f5033-118">La valeur de la cible de liaison à vérifier.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-118">The value from the binding target to check.</span>
+          </span>
+        </param>
+        <param name="cultureInfo">
+          <span data-ttu-id="f5033-119">Culture à utiliser dans cette règle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-119">The culture to use in this rule.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f5033-120">En cas de remplacement dans une classe dérivée, effectue des contrôles de validation sur une valeur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-120">When overridden in a derived class, performs validation checks on a value.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f5033-121">Objet <see cref="T:System.Windows.Controls.ValidationResult" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-121">A <see cref="T:System.Windows.Controls.ValidationResult" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="f5033-122">Vous devez implémenter cette méthode lorsque vous créez une sous-classe de la <xref:System.Windows.Controls.ValidationRule> classe afin de créer une règle de validation personnalisée.</span><span class="sxs-lookup"><span data-stu-id="f5033-122">You must implement this method when you create a subclass of the <xref:System.Windows.Controls.ValidationRule> class in order to create a custom validation rule.</span></span>  
+  
+ <span data-ttu-id="f5033-123">Chaque fois que le moteur de liaison de données transfère à une valeur de la propriété de cible de liaison (à partir de l’entrée d’utilisateur) à la propriété de source de liaison (les données sous-jacentes), il vérifie si des <xref:System.Windows.Data.Binding.ValidationRules%2A> sont définis pour cette liaison.</span><span class="sxs-lookup"><span data-stu-id="f5033-123">Each time the data binding engine transfers a value from the binding target property (from user input) to the binding source property (the underlying data), it checks whether any <xref:System.Windows.Data.Binding.ValidationRules%2A> are defined for that binding.</span></span> <span data-ttu-id="f5033-124">Si <xref:System.Windows.Data.Binding.ValidationRules%2A> sont définis pour la liaison, le moteur appelle la <xref:System.Windows.Controls.ValidationRule.Validate%2A> méthode sur chaque <xref:System.Windows.Controls.ValidationRule> jusqu'à ce qu’un d’eux rencontre une erreur ou jusqu'à ce que toutes passent.</span><span class="sxs-lookup"><span data-stu-id="f5033-124">If <xref:System.Windows.Data.Binding.ValidationRules%2A> are defined for the binding, the engine calls the <xref:System.Windows.Controls.ValidationRule.Validate%2A> method on each <xref:System.Windows.Controls.ValidationRule> until one of them finds an error or until all of them pass.</span></span>  
+  
+ <span data-ttu-id="f5033-125">Pour plus d’informations sur la validation des données, consultez [vue d’ensemble de la liaison de données](~/docs/framework/wpf/data/data-binding-overview.md).</span><span class="sxs-lookup"><span data-stu-id="f5033-125">For detailed information about data validation, see [Data Binding Overview](~/docs/framework/wpf/data/data-binding-overview.md).</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="f5033-126">L’exemple suivant montre comment implémenter une règle de validation.</span><span class="sxs-lookup"><span data-stu-id="f5033-126">The following example shows how to implement a validation rule.</span></span> <span data-ttu-id="f5033-127">Dans l’exemple suivant, la valeur d’entrée n’est pas valide si elle contient des caractères non numériques ou si elle dépasse les limites inférieures et supérieures.</span><span class="sxs-lookup"><span data-stu-id="f5033-127">In the following example, the input value is invalid if it contains non-numeric characters or if it is outside the lower and upper bounds.</span></span> <span data-ttu-id="f5033-128">Si la valeur d’entrée n’est pas valide, le <xref:System.Windows.Controls.ValidationResult.ErrorContent%2A> est définie sur le message d’erreur approprié et la <xref:System.Windows.Controls.ValidationResult.IsValid%2A> est définie sur `false`.</span><span class="sxs-lookup"><span data-stu-id="f5033-128">If the input value is invalid, the <xref:System.Windows.Controls.ValidationResult.ErrorContent%2A> property is set to the appropriate error message and the <xref:System.Windows.Controls.ValidationResult.IsValid%2A> property is set to `false`.</span></span>  
+  
+ <span data-ttu-id="f5033-129">Pour obtenir un exemple complet, consultez [Comment : implémenter la Validation de liaison](~/docs/framework/wpf/data/how-to-implement-binding-validation.md).</span><span class="sxs-lookup"><span data-stu-id="f5033-129">For the complete example, see [How to: Implement Binding Validation](~/docs/framework/wpf/data/how-to-implement-binding-validation.md).</span></span>  
+  
+ [!code-csharp[BindValidation#3](~/samples/snippets/csharp/VS_Snippets_Wpf/BindValidation/CSharp/AgeRangeRule.cs#3)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Windows.Controls.DataErrorValidationRule" />
+        <altmember cref="T:System.Windows.Controls.ExceptionValidationRule" />
+      </Docs>
+    </Member>
+    <Member MemberName="Validate">
+      <MemberSignature Language="C#" Value="public virtual System.Windows.Controls.ValidationResult Validate (object value, System.Globalization.CultureInfo cultureInfo, System.Windows.Data.BindingExpressionBase owner);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Windows.Controls.ValidationResult Validate(object value, class System.Globalization.CultureInfo cultureInfo, class System.Windows.Data.BindingExpressionBase owner) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.ValidationRule.Validate(System.Object,System.Globalization.CultureInfo,System.Windows.Data.BindingExpressionBase)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Windows::Controls::ValidationResult ^ Validate(System::Object ^ value, System::Globalization::CultureInfo ^ cultureInfo, System::Windows::Data::BindingExpressionBase ^ owner);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Controls.ValidationResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Object" />
+        <Parameter Name="cultureInfo" Type="System.Globalization.CultureInfo" />
+        <Parameter Name="owner" Type="System.Windows.Data.BindingExpressionBase" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="f5033-130">La valeur de la cible de liaison à vérifier.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-130">The value from the binding target to check.</span>
+          </span>
+        </param>
+        <param name="cultureInfo">
+          <span data-ttu-id="f5033-131">Culture à utiliser dans cette règle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-131">The culture to use in this rule.</span>
+          </span>
+        </param>
+        <param name="owner">
+          <span data-ttu-id="f5033-132">Expression de liaison qui utilise la règle de validation.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-132">The binding expression that uses the validation rule.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f5033-133">Exécute des contrôles de validation sur une valeur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-133">Performs validation checks on a value.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f5033-134">Objet <see cref="T:System.Windows.Controls.ValidationResult" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-134">A <see cref="T:System.Windows.Controls.ValidationResult" /> object.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Validate">
+      <MemberSignature Language="C#" Value="public virtual System.Windows.Controls.ValidationResult Validate (object value, System.Globalization.CultureInfo cultureInfo, System.Windows.Data.BindingGroup owner);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Windows.Controls.ValidationResult Validate(object value, class System.Globalization.CultureInfo cultureInfo, class System.Windows.Data.BindingGroup owner) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Controls.ValidationRule.Validate(System.Object,System.Globalization.CultureInfo,System.Windows.Data.BindingGroup)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Windows::Controls::ValidationResult ^ Validate(System::Object ^ value, System::Globalization::CultureInfo ^ cultureInfo, System::Windows::Data::BindingGroup ^ owner);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Controls.ValidationResult</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Object" />
+        <Parameter Name="cultureInfo" Type="System.Globalization.CultureInfo" />
+        <Parameter Name="owner" Type="System.Windows.Data.BindingGroup" />
+      </Parameters>
+      <Docs>
+        <param name="value">
+          <span data-ttu-id="f5033-135">La valeur de la cible de liaison à vérifier.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-135">The value from the binding target to check.</span>
+          </span>
+        </param>
+        <param name="cultureInfo">
+          <span data-ttu-id="f5033-136">Culture à utiliser dans cette règle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-136">The culture to use in this rule.</span>
+          </span>
+        </param>
+        <param name="owner">
+          <span data-ttu-id="f5033-137">Groupe de liaison qui utilise la règle de validation.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-137">The binding group that uses the validation rule.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="f5033-138">Exécute des contrôles de validation sur une valeur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-138">Performs validation checks on a value.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="f5033-139">Objet <see cref="T:System.Windows.Controls.ValidationResult" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-139">A <see cref="T:System.Windows.Controls.ValidationResult" /> object.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ValidatesOnTargetUpdated">
+      <MemberSignature Language="C#" Value="public bool ValidatesOnTargetUpdated { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool ValidatesOnTargetUpdated" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Controls.ValidationRule.ValidatesOnTargetUpdated" />
+      <MemberSignature Language="VB.NET" Value="Public Property ValidatesOnTargetUpdated As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool ValidatesOnTargetUpdated { bool get(); void set(bool value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f5033-140">Obtient ou définit une valeur qui indique si la règle de validation s'exécute lorsque la cible de <see cref="T:System.Windows.Data.Binding" /> est mise à jour.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-140">Gets or sets a value that indicates whether the validation rule runs when the target of the <see cref="T:System.Windows.Data.Binding" /> is updated.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f5033-141">
+            <see langword="true" /> si la règle de validation s'exécute lorsque la cible de <see cref="T:System.Windows.Data.Binding" /> est mise à jour ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-141">
+              <see langword="true" /> if the validation rule runs when the target of the <see cref="T:System.Windows.Data.Binding" /> is updated; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="f5033-142">L’exemple suivant vérifie si le <xref:System.Windows.Controls.TextBox> est vide.</span><span class="sxs-lookup"><span data-stu-id="f5033-142">The following example checks whether the <xref:System.Windows.Controls.TextBox> is empty.</span></span> <span data-ttu-id="f5033-143">Le <xref:System.Windows.Controls.ValidationRule>, `ValueIsNotNull`, a <xref:System.Windows.Controls.ValidationRule.ValidatesOnTargetUpdated%2A> la valeur `true`, de sorte que lorsque l’application démarre, le <xref:System.Windows.Controls.ValidationRule> s’exécute et affiche un message si la <xref:System.Windows.Controls.TextBox> est vide.</span><span class="sxs-lookup"><span data-stu-id="f5033-143">The <xref:System.Windows.Controls.ValidationRule>, `ValueIsNotNull`, has <xref:System.Windows.Controls.ValidationRule.ValidatesOnTargetUpdated%2A> set to `true`, so that when the application starts, the <xref:System.Windows.Controls.ValidationRule> runs and displays a message if the <xref:System.Windows.Controls.TextBox> is empty.</span></span>  
+  
+ [!code-xaml[BindingGroupSnippets#ValidatesOnTargetUpdated](~/samples/snippets/csharp/VS_Snippets_Wpf/BindingGroupSnippets/CSharp/Window3.xaml#validatesontargetupdated)]  
+  
+ <span data-ttu-id="f5033-144">L’exemple suivant illustre la <xref:System.Windows.Controls.ValidationRule> qui est utilisée dans l’exemple précédent et le Gestionnaire d’événements pour le <xref:System.Windows.Controls.Validation.Error> événement.</span><span class="sxs-lookup"><span data-stu-id="f5033-144">The following example shows the <xref:System.Windows.Controls.ValidationRule> that is used in the previous example and the event handler for the <xref:System.Windows.Controls.Validation.Error> event.</span></span>  
+  
+ [!code-csharp[BindingGroupSnippets#ValueIsNotNull](~/samples/snippets/csharp/VS_Snippets_Wpf/BindingGroupSnippets/CSharp/Window3.xaml.cs#valueisnotnull)]
+ [!code-vb[BindingGroupSnippets#ValueIsNotNull](~/samples/snippets/visualbasic/VS_Snippets_Wpf/BindingGroupSnippets/visualbasic/window3.xaml.vb#valueisnotnull)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ValidationStep">
+      <MemberSignature Language="C#" Value="public System.Windows.Controls.ValidationStep ValidationStep { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Windows.Controls.ValidationStep ValidationStep" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Controls.ValidationRule.ValidationStep" />
+      <MemberSignature Language="VB.NET" Value="Public Property ValidationStep As ValidationStep" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Controls::ValidationStep ValidationStep { System::Windows::Controls::ValidationStep get(); void set(System::Windows::Controls::ValidationStep value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Controls.ValidationStep</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="f5033-145">Obtient ou définit le moment auquel la règle de validation s'exécute.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-145">Gets or sets when the validation rule runs.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="f5033-146">Une des valeurs de l'énumération.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-146">One of the enumeration values.</span>
+          </span>
+          <span data-ttu-id="f5033-147">La valeur par défaut est <see cref="F:System.Windows.Controls.ValidationStep.RawProposedValue" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="f5033-147">The default is <see cref="F:System.Windows.Controls.ValidationStep.RawProposedValue" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="f5033-148">L’exemple suivant définit la <xref:System.Windows.Controls.ValidationRule.ValidationStep%2A> à <xref:System.Windows.Controls.ValidationStep.ConvertedProposedValue> sur la <xref:System.Windows.Controls.ValidationRule> appelé `ValidateDateAndPrice` afin que lorsqu’elle est exécutée, la <xref:System.Windows.Controls.ValidationRule.Validate%2A> méthode a accès aux valeurs de la source du type de propriété.</span><span class="sxs-lookup"><span data-stu-id="f5033-148">The following example sets the <xref:System.Windows.Controls.ValidationRule.ValidationStep%2A> to <xref:System.Windows.Controls.ValidationStep.ConvertedProposedValue> on the <xref:System.Windows.Controls.ValidationRule> called `ValidateDateAndPrice` so that when it runs, the <xref:System.Windows.Controls.ValidationRule.Validate%2A> method has access to values that are of the source property's type.</span></span> <span data-ttu-id="f5033-149">Lorsque les règles `PriceIsAPositiveNumber` et `FutureDateRule` exécuté, les valeurs dans chaque <xref:System.Windows.Controls.ValidationRule.Validate%2A> méthode sont des chaînes, car les règles s’exécutent avant que les valeurs sont converties en leurs types respectifs.</span><span class="sxs-lookup"><span data-stu-id="f5033-149">When the rules `PriceIsAPositiveNumber` and `FutureDateRule` run, the values in each <xref:System.Windows.Controls.ValidationRule.Validate%2A> method are strings because the rules run before the values are converted to their respective types.</span></span>  
+  
+ [!code-xaml[BindingGroupSnippets#WindowLayout](~/samples/snippets/csharp/VS_Snippets_Wpf/BindingGroupSnippets/CSharp/Window1.xaml#windowlayout)]  
+  
+ <span data-ttu-id="f5033-150">L’exemple suivant illustre la <xref:System.Windows.Controls.ValidationRule> `ValidateDateAndPrice`.</span><span class="sxs-lookup"><span data-stu-id="f5033-150">The following example shows the <xref:System.Windows.Controls.ValidationRule>`ValidateDateAndPrice`.</span></span> <span data-ttu-id="f5033-151">Dans le `Validate` substitution de méthode, le `Price` propriété est de type <xref:System.Double> et `OfferExpires` propriété est de type <xref:System.DateTime> , car les chaînes ont été converties en leurs types respectifs avant l’heure la <xref:System.Windows.Controls.ValidationRule> s’exécute.</span><span class="sxs-lookup"><span data-stu-id="f5033-151">In the `Validate` method override, the `Price` property is of type <xref:System.Double> and the `OfferExpires` property is of type <xref:System.DateTime> because the strings have been converted to their respective types by the time the <xref:System.Windows.Controls.ValidationRule> runs.</span></span>  
+  
+ [!code-csharp[BindingGroupSnippets#ValidateObject](~/samples/snippets/csharp/VS_Snippets_Wpf/BindingGroupSnippets/CSharp/Data.cs#validateobject)]
+ [!code-vb[BindingGroupSnippets#ValidateObject](~/samples/snippets/visualbasic/VS_Snippets_Wpf/BindingGroupSnippets/visualbasic/data.vb#validateobject)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

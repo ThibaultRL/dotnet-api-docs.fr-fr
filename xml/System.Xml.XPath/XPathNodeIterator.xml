@@ -1,0 +1,684 @@
+<Type Name="XPathNodeIterator" FullName="System.Xml.XPath.XPathNodeIterator">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="79f55fb6e8b1dfcfb81b3b8d2737df75c404edd2" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public abstract class XPathNodeIterator : ICloneable, System.Collections.IEnumerable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit XPathNodeIterator extends System.Object implements class System.Collections.IEnumerable, class System.ICloneable" />
+  <TypeSignature Language="DocId" Value="T:System.Xml.XPath.XPathNodeIterator" />
+  <TypeSignature Language="VB.NET" Value="Public MustInherit Class XPathNodeIterator&#xA;Implements ICloneable, IEnumerable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class XPathNodeIterator abstract : ICloneable, System::Collections::IEnumerable" />
+  <AssemblyInfo>
+    <AssemblyName>System.Xml.XPath</AssemblyName>
+    <AssemblyVersion>4.0.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Xml</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Xml.ReaderWriter</AssemblyName>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.Collections.IEnumerable</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.ICloneable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Diagnostics.DebuggerDisplay("Position={CurrentPosition}, Current={debuggerDisplayProxy}")</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="ed7bd-101">Fournit un itérateur sur un ensemble de nœuds sélectionné.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="ed7bd-101">Provides an iterator over a selected set of nodes.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ed7bd-102">Un <xref:System.Xml.XPath.XPathNodeIterator> objet retourné par la <xref:System.Xml.XPath.XPathNavigator> classe n’est pas positionné sur le premier nœud dans un ensemble de nœuds sélectionné.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-102">An <xref:System.Xml.XPath.XPathNodeIterator> object returned by the <xref:System.Xml.XPath.XPathNavigator> class is not positioned on the first node in a selected set of nodes.</span></span> <span data-ttu-id="ed7bd-103">Un appel à la <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> méthode de la <xref:System.Xml.XPath.XPathNodeIterator> classe doit être effectué pour placer le <xref:System.Xml.XPath.XPathNodeIterator> objet sur le premier nœud dans l’ensemble de nœuds sélectionné.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-103">A call to the <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> method of the <xref:System.Xml.XPath.XPathNodeIterator> class must be made to position the <xref:System.Xml.XPath.XPathNodeIterator> object on the first node in the selected set of nodes.</span></span>  
+  
+ <span data-ttu-id="ed7bd-104">Lorsque vous utilisez la <xref:System.Xml.XPath.XPathNodeIterator>, si vous modifiez le nœud actuel ou un de ses ancêtres, votre position actuelle est perdue.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-104">When using the <xref:System.Xml.XPath.XPathNodeIterator>, if you edit the current node or any of its ancestors, your current position is lost.</span></span> <span data-ttu-id="ed7bd-105">Si vous souhaitez modifier un certain nombre de nœuds que vous avez sélectionnés, créez un <xref:System.Xml.XPath.XPathNavigator> de tableau, copiez tous les nœuds de la <xref:System.Xml.XPath.XPathNodeIterator> dans le tableau, puis d’effectuer une itération au sein du tableau et de modifier les nœuds.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-105">If you want to edit a number of nodes that you have selected, create a <xref:System.Xml.XPath.XPathNavigator> array, copy all of the nodes from the <xref:System.Xml.XPath.XPathNodeIterator> into the array, then iterate through the array and modify the nodes.</span></span>  
+  
+ <span data-ttu-id="ed7bd-106">Il existe deux façons d’itérer sur une <xref:System.Xml.XPath.XPathNavigator> collection à l’aide de la <xref:System.Xml.XPath.XPathNodeIterator> classe.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-106">There are two ways to iterate over an <xref:System.Xml.XPath.XPathNavigator> collection by using the <xref:System.Xml.XPath.XPathNodeIterator> class.</span></span>  
+  
+ <span data-ttu-id="ed7bd-107">Consiste à utiliser le <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> (méthode), puis appelez <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> obtenir actuel <xref:System.Xml.XPath.XPathNavigator> instance, comme dans l’exemple suivant :</span><span class="sxs-lookup"><span data-stu-id="ed7bd-107">One way is to use the <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> method and then call <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> to get the current <xref:System.Xml.XPath.XPathNavigator> instance, as in the following example:</span></span>  
+  
+ [!code-cpp[XPathNavigatorMethods#55](~/samples/snippets/cpp/VS_Snippets_Data/XPathNavigatorMethods/CPP/xpathnavigatormethods.cpp#55)]
+ [!code-csharp[XPathNavigatorMethods#55](~/samples/snippets/csharp/VS_Snippets_Data/XPathNavigatorMethods/CS/xpathnavigatormethods.cs#55)]
+ [!code-vb[XPathNavigatorMethods#55](~/samples/snippets/visualbasic/VS_Snippets_Data/XPathNavigatorMethods/VB/xpathnavigatormethods.vb#55)]  
+  
+ <span data-ttu-id="ed7bd-108">Une autre méthode consiste à utiliser un `foreach` boucle pour appeler le <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> méthode et l’utilisation retournée <xref:System.Collections.IEnumerator> interface pour énumérer les nœuds, comme dans l’exemple suivant :</span><span class="sxs-lookup"><span data-stu-id="ed7bd-108">Another way is to use a `foreach` loop to call the <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> method and use the returned <xref:System.Collections.IEnumerator> interface to enumerate the nodes, as in the following example:</span></span>  
+  
+ [!code-cpp[XPathNavigatorMethods#56](~/samples/snippets/cpp/VS_Snippets_Data/XPathNavigatorMethods/CPP/xpathnavigatormethods.cpp#56)]
+ [!code-csharp[XPathNavigatorMethods#56](~/samples/snippets/csharp/VS_Snippets_Data/XPathNavigatorMethods/CS/xpathnavigatormethods.cs#56)]
+ [!code-vb[XPathNavigatorMethods#56](~/samples/snippets/visualbasic/VS_Snippets_Data/XPathNavigatorMethods/VB/xpathnavigatormethods.vb#56)]  
+  
+ <span data-ttu-id="ed7bd-109">Vous devez utiliser les <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> et <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> ou utilisez <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A>.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-109">You should either use <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> and <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> or use <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A>.</span></span> <span data-ttu-id="ed7bd-110">Combinaison de ces deux approches peut provoquer des résultats inattendus.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-110">Combining these two approaches can cause unexpected results.</span></span> <span data-ttu-id="ed7bd-111">Par exemple, si le <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> méthode est appelée en premier, puis le <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> méthode est appelée le `foreach` boucle, le `foreach` boucle ne démarrera pas énumérer les résultats à partir du début de la collection, mais à partir de la position après le <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="ed7bd-111">For example, if the <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> method is called first, and then the <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> method is called in the `foreach` loop, the `foreach` loop will not start enumerating the results from the beginning of the collection, but from the position after the <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="ed7bd-112">L’exemple suivant utilise le <xref:System.Xml.XPath.XPathNavigator.Select%2A> méthode de la <xref:System.Xml.XPath.XPathNavigator> classe pour sélectionner un nœud à l’aide de la <xref:System.Xml.XPath.XPathNodeIterator> classe.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-112">The following example uses the <xref:System.Xml.XPath.XPathNavigator.Select%2A> method of the <xref:System.Xml.XPath.XPathNavigator> class to select a node set using the <xref:System.Xml.XPath.XPathNodeIterator> class.</span></span>  
+  
+ [!code-cpp[XPathNavigatorMethods#39](~/samples/snippets/cpp/VS_Snippets_Data/XPathNavigatorMethods/CPP/xpathnavigatormethods.cpp#39)]
+ [!code-csharp[XPathNavigatorMethods#39](~/samples/snippets/csharp/VS_Snippets_Data/XPathNavigatorMethods/CS/xpathnavigatormethods.cs#39)]
+ [!code-vb[XPathNavigatorMethods#39](~/samples/snippets/visualbasic/VS_Snippets_Data/XPathNavigatorMethods/VB/xpathnavigatormethods.vb#39)]  
+  
+ <span data-ttu-id="ed7bd-113">L'exemple prend le fichier `books.xml` comme entrée.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-113">The example takes the `books.xml` file as input.</span></span>  
+  
+```xml  
+  
+<?xml version="1.0" encoding="utf-8" ?>   
+<bookstore>  
+    <book genre="autobiography" publicationdate="1981-03-22" ISBN="1-861003-11-0">  
+        <title>The Autobiography of Benjamin Franklin</title>  
+        <author>  
+            <first-name>Benjamin</first-name>  
+            <last-name>Franklin</last-name>  
+        </author>  
+        <price>8.99</price>  
+    </book>  
+    <book genre="novel" publicationdate="1967-11-17" ISBN="0-201-63361-2">  
+        <title>The Confidence Man</title>  
+        <author>  
+            <first-name>Herman</first-name>  
+            <last-name>Melville</last-name>  
+        </author>  
+        <price>11.99</price>  
+    </book>  
+    <book genre="philosophy" publicationdate="1991-02-15" ISBN="1-861001-57-6">  
+        <title>The Gorgias</title>  
+        <author>  
+            <name>Plato</name>  
+        </author>  
+        <price>9.99</price>  
+    </book>  
+</bookstore>  
+  
+```  
+  
+ ]]></format>
+    </remarks>
+    <block subset="none" type="overrides">
+      <para>
+        <span data-ttu-id="ed7bd-114">Lorsque vous héritez de la <see cref="T:System.Xml.XPath.XPathNodeIterator" /> (classe), vous devez substituer les membres suivants :</span>
+        <span class="sxs-lookup">
+          <span data-stu-id="ed7bd-114">When you inherit from the <see cref="T:System.Xml.XPath.XPathNodeIterator" /> class, you must override the following members:</span>
+        </span>  
+  
+-   <see cref="M:System.Xml.XPath.XPathNodeIterator.Clone" />  
+  
+-   <see cref="P:System.Xml.XPath.XPathNodeIterator.Current" />  
+  
+-   <see cref="P:System.Xml.XPath.XPathNodeIterator.CurrentPosition" />  
+  
+-   <see cref="M:System.Xml.XPath.XPathNodeIterator.MoveNext" /></para>
+    </block>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected XPathNodeIterator ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Xml.XPath.XPathNodeIterator.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; XPathNodeIterator();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.XPath</AssemblyName>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.ReaderWriter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="ed7bd-115">Initialise une nouvelle instance de la classe <see cref="T:System.Xml.XPath.XPathNodeIterator" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-115">Initializes a new instance of the <see cref="T:System.Xml.XPath.XPathNodeIterator" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ed7bd-116">Ce constructeur est appelé par les constructeurs de classes dérivées pour initialiser un état dans ce type.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-116">This constructor is called by derived class constructors to initialize state in this type.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Clone">
+      <MemberSignature Language="C#" Value="public abstract System.Xml.XPath.XPathNodeIterator Clone ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Xml.XPath.XPathNodeIterator Clone() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Xml.XPath.XPathNodeIterator.Clone" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Function Clone () As XPathNodeIterator" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract System::Xml::XPath::XPathNodeIterator ^ Clone();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.XPath</AssemblyName>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.ReaderWriter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Xml.XPath.XPathNodeIterator</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="ed7bd-117">En cas de substitution dans une classe dérivée, retourne un clone de cet objet <see cref="T:System.Xml.XPath.XPathNodeIterator" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-117">When overridden in a derived class, returns a clone of this <see cref="T:System.Xml.XPath.XPathNodeIterator" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="ed7bd-118">Nouveau clone d'objet <see cref="T:System.Xml.XPath.XPathNodeIterator" /> de cet objet <see cref="T:System.Xml.XPath.XPathNodeIterator" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-118">A new <see cref="T:System.Xml.XPath.XPathNodeIterator" /> object clone of this <see cref="T:System.Xml.XPath.XPathNodeIterator" /> object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ed7bd-119">Cloné <xref:System.Xml.XPath.XPathNodeIterator> objet est positionné sur le même nœud dans l’ensemble de nœuds si les appels ont été apportées à la <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="ed7bd-119">The cloned <xref:System.Xml.XPath.XPathNodeIterator> object is positioned at the same node in the node set if calls have been made to the <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> method.</span></span> <span data-ttu-id="ed7bd-120">Cloné <xref:System.Xml.XPath.XPathNodeIterator> objet n’est pas affecté par les modifications apportées à ce <xref:System.Xml.XPath.XPathNodeIterator> objet.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-120">The cloned <xref:System.Xml.XPath.XPathNodeIterator> object is not affected by subsequent changes to this <xref:System.Xml.XPath.XPathNodeIterator> object.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Xml.XPath.XPathNodeIterator.MoveNext" />
+      </Docs>
+    </Member>
+    <Member MemberName="Count">
+      <MemberSignature Language="C#" Value="public virtual int Count { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Count" />
+      <MemberSignature Language="DocId" Value="P:System.Xml.XPath.XPathNodeIterator.Count" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property Count As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property int Count { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.XPath</AssemblyName>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.ReaderWriter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="ed7bd-121">Obtient l'index du dernier nœud dans l'ensemble des nœuds sélectionnés.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-121">Gets the index of the last node in the selected set of nodes.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="ed7bd-122">Index du dernier nœud de l'ensemble de nœuds sélectionné ou 0 s'il n'existe pas de nœuds sélectionnés.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-122">The index of the last node in the selected set of nodes, or 0 if there are no selected nodes.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ed7bd-123">Le <xref:System.Xml.XPath.XPathNodeIterator.Count%2A> propriété n’affecte pas la position de la <xref:System.Xml.XPath.XPathNodeIterator>.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-123">The <xref:System.Xml.XPath.XPathNodeIterator.Count%2A> property does not affect the position of the <xref:System.Xml.XPath.XPathNodeIterator>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Current">
+      <MemberSignature Language="C#" Value="public abstract System.Xml.XPath.XPathNavigator Current { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Xml.XPath.XPathNavigator Current" />
+      <MemberSignature Language="DocId" Value="P:System.Xml.XPath.XPathNodeIterator.Current" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride ReadOnly Property Current As XPathNavigator" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract property System::Xml::XPath::XPathNavigator ^ Current { System::Xml::XPath::XPathNavigator ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.XPath</AssemblyName>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.ReaderWriter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Xml.XPath.XPathNavigator</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="ed7bd-124">En cas de substitution dans une classe dérivée, obtient l’objet <see cref="T:System.Xml.XPath.XPathNavigator" /> pour cet élément <see cref="T:System.Xml.XPath.XPathNodeIterator" />, placé sur le nœud de contexte actuel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-124">When overridden in a derived class, gets the <see cref="T:System.Xml.XPath.XPathNavigator" /> object for this <see cref="T:System.Xml.XPath.XPathNodeIterator" />, positioned on the current context node.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="ed7bd-125">Objet <see cref="T:System.Xml.XPath.XPathNavigator" /> positionné sur le nœud de contexte à partir duquel l’ensemble de nœuds a été sélectionné.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-125">An <see cref="T:System.Xml.XPath.XPathNavigator" /> object positioned on the context node from which the node set was selected.</span>
+          </span>
+          <span data-ttu-id="ed7bd-126">La méthode <see cref="M:System.Xml.XPath.XPathNodeIterator.MoveNext" /> doit être appelée pour déplacer l’élément <see cref="T:System.Xml.XPath.XPathNodeIterator" /> vers le premier nœud de l’ensemble sélectionné.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-126">The <see cref="M:System.Xml.XPath.XPathNodeIterator.MoveNext" /> method must be called to move the <see cref="T:System.Xml.XPath.XPathNodeIterator" /> to the first node in the selected set.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ed7bd-127">Vous pouvez utiliser les propriétés de retourné <xref:System.Xml.XPath.XPathNavigator> objet pour obtenir des informations sur le nœud actuel.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-127">You can use the properties of the returned <xref:System.Xml.XPath.XPathNavigator> object to obtain information on the current node.</span></span> <span data-ttu-id="ed7bd-128">Toutefois, le texte retourné <xref:System.Xml.XPath.XPathNavigator> objet ne doit pas être modifié.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-128">However, the returned <xref:System.Xml.XPath.XPathNavigator> object should not be modified.</span></span> <span data-ttu-id="ed7bd-129">Retourné <xref:System.Xml.XPath.XPathNavigator> objet ne peut pas être déplacé de l’ensemble de nœuds sélectionné.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-129">The returned <xref:System.Xml.XPath.XPathNavigator> object cannot be moved away from the selected node set.</span></span>  
+  
+ <span data-ttu-id="ed7bd-130">Ou bien, vous pouvez cloner le <xref:System.Xml.XPath.XPathNavigator> à l’aide de l’objet le <xref:System.Xml.XPath.XPathNavigator.Clone%2A> méthode de la <xref:System.Xml.XPath.XPathNavigator> classe.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-130">Alternatively, you can clone the <xref:System.Xml.XPath.XPathNavigator> object using the <xref:System.Xml.XPath.XPathNavigator.Clone%2A> method of the <xref:System.Xml.XPath.XPathNavigator> class.</span></span> <span data-ttu-id="ed7bd-131">Cloné <xref:System.Xml.XPath.XPathNavigator> objet peut ensuite être déplacé hors de l’ensemble de nœuds sélectionné.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-131">The cloned <xref:System.Xml.XPath.XPathNavigator> object can then be moved away from the selected node set.</span></span> <span data-ttu-id="ed7bd-132">Cette méthode de clonage du <xref:System.Xml.XPath.XPathNavigator> objet peut affecter les performances de la requête XPath.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-132">This method of cloning the <xref:System.Xml.XPath.XPathNavigator> object might affect the performance of the XPath query.</span></span>  
+  
+ <span data-ttu-id="ed7bd-133">Si le <xref:System.Xml.XPath.XPathNavigator.SelectAncestors%2A>, <xref:System.Xml.XPath.XPathNavigator.SelectDescendants%2A>, et <xref:System.Xml.XPath.XPathNavigator.SelectChildren%2A> méthodes entraîner aucun nœud n’est sélectionné, le <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> propriété pointe pas vers le nœud de contexte.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-133">If the <xref:System.Xml.XPath.XPathNavigator.SelectAncestors%2A>, <xref:System.Xml.XPath.XPathNavigator.SelectDescendants%2A>, and <xref:System.Xml.XPath.XPathNavigator.SelectChildren%2A> methods result in no nodes being selected, the <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> property might not be pointing to the context node.</span></span>  
+  
+ <span data-ttu-id="ed7bd-134">Pour tester si les nœuds ont été sélectionnés, utilisez la <xref:System.Xml.XPath.XPathNodeIterator.Count%2A> la propriété comme indiqué dans l’exemple suivant.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-134">To test whether nodes have been selected, use the <xref:System.Xml.XPath.XPathNodeIterator.Count%2A> property as shown in the following example.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="ed7bd-135">L’exemple suivant obtient tous les titres des livres par Herman Melville à l’aide de la <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> propriété de la <xref:System.Xml.XPath.XPathNodeIterator> objet et la <xref:System.Xml.XPath.XPathNavigator.Clone%2A> méthode de la <xref:System.Xml.XPath.XPathNavigator> classe.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-135">The following example gets all book titles authored by Herman Melville using the <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> property of the <xref:System.Xml.XPath.XPathNodeIterator> object and the <xref:System.Xml.XPath.XPathNavigator.Clone%2A> method of the <xref:System.Xml.XPath.XPathNavigator> class.</span></span>  
+  
+ [!code-cpp[XPathNavigatorMethods#6](~/samples/snippets/cpp/VS_Snippets_Data/XPathNavigatorMethods/CPP/xpathnavigatormethods.cpp#6)]
+ [!code-csharp[XPathNavigatorMethods#6](~/samples/snippets/csharp/VS_Snippets_Data/XPathNavigatorMethods/CS/xpathnavigatormethods.cs#6)]
+ [!code-vb[XPathNavigatorMethods#6](~/samples/snippets/visualbasic/VS_Snippets_Data/XPathNavigatorMethods/VB/xpathnavigatormethods.vb#6)]  
+  
+ <span data-ttu-id="ed7bd-136">L'exemple prend le fichier `contosoBooks.xml` comme entrée.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-136">The example takes the `contosoBooks.xml` file as input.</span></span>  
+  
+```xml  
+  
+<?xml version="1.0" encoding="utf-8" ?>  
+<bookstore xmlns="http://www.contoso.com/books">  
+    <book genre="autobiography" publicationdate="1981-03-22" ISBN="1-861003-11-0">  
+        <title>The Autobiography of Benjamin Franklin</title>  
+        <author>  
+            <first-name>Benjamin</first-name>  
+            <last-name>Franklin</last-name>  
+        </author>  
+        <price>8.99</price>  
+    </book>  
+    <book genre="novel" publicationdate="1967-11-17" ISBN="0-201-63361-2">  
+        <title>The Confidence Man</title>  
+        <author>  
+            <first-name>Herman</first-name>  
+            <last-name>Melville</last-name>  
+        </author>  
+        <price>11.99</price>  
+    </book>  
+    <book genre="philosophy" publicationdate="1991-02-15" ISBN="1-861001-57-6">  
+        <title>The Gorgias</title>  
+        <author>  
+            <name>Plato</name>  
+        </author>  
+        <price>9.99</price>  
+    </book>  
+</bookstore>  
+  
+```  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Xml.XPath.XPathNodeIterator.MoveNext" />
+        <altmember cref="M:System.Xml.XPath.XPathNavigator.Clone" />
+        <altmember cref="Overload:System.Xml.XPath.XPathNavigator.SelectAncestors" />
+        <altmember cref="Overload:System.Xml.XPath.XPathNavigator.SelectDescendants" />
+        <altmember cref="Overload:System.Xml.XPath.XPathNavigator.SelectChildren" />
+        <altmember cref="P:System.Xml.XPath.XPathNodeIterator.Count" />
+      </Docs>
+    </Member>
+    <Member MemberName="CurrentPosition">
+      <MemberSignature Language="C#" Value="public abstract int CurrentPosition { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 CurrentPosition" />
+      <MemberSignature Language="DocId" Value="P:System.Xml.XPath.XPathNodeIterator.CurrentPosition" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride ReadOnly Property CurrentPosition As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract property int CurrentPosition { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.XPath</AssemblyName>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.ReaderWriter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="ed7bd-137">En cas de substitution dans une classe dérivée, obtient l'index de la position actuelle dans l'ensemble des nœuds sélectionnés.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-137">When overridden in a derived class, gets the index of the current position in the selected set of nodes.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="ed7bd-138">Index de la position actuelle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-138">The index of the current position.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ed7bd-139">L'index est de base 1.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-139">The index is 1-based.</span></span> <span data-ttu-id="ed7bd-140">Par conséquent, le premier nœud possède un index de 1.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-140">Therefore, the first node has an index of 1.</span></span> <span data-ttu-id="ed7bd-141">Un index de 0 indique le qu'absence de nœuds sélectionné.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-141">An index of 0 indicates there are no selected nodes.</span></span> <span data-ttu-id="ed7bd-142">Cette propriété retourne toujours un entier positif.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-142">This property always returns a positive integer.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetEnumerator">
+      <MemberSignature Language="C#" Value="public virtual System.Collections.IEnumerator GetEnumerator ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Collections.IEnumerator GetEnumerator() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Xml.XPath.XPathNodeIterator.GetEnumerator" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Function GetEnumerator () As IEnumerator" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual System::Collections::IEnumerator ^ GetEnumerator();" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.Collections.IEnumerable.GetEnumerator</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.XPath</AssemblyName>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.ReaderWriter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.IEnumerator</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="ed7bd-143">Retourne un objet <see cref="T:System.Collections.IEnumerator" /> pour itérer au sein de l'ensemble de nœuds sélectionné.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-143">Returns an <see cref="T:System.Collections.IEnumerator" /> object to iterate through the selected node set.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="ed7bd-144">Objet <see cref="T:System.Collections.IEnumerator" /> pour itérer au sein de l'ensemble de nœuds sélectionné.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-144">An <see cref="T:System.Collections.IEnumerator" /> object to iterate through the selected node set.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ed7bd-145">L’énumérateur est positionné sur la position actuelle de la <xref:System.Xml.XPath.XPathNodeIterator> objet.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-145">The enumerator is positioned on the current position of the <xref:System.Xml.XPath.XPathNodeIterator> object.</span></span>  
+  
+ <span data-ttu-id="ed7bd-146">Il existe deux façons d’itérer sur une <xref:System.Xml.XPath.XPathNavigator> collection à l’aide de la <xref:System.Xml.XPath.XPathNodeIterator> classe.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-146">There are two ways to iterate over an <xref:System.Xml.XPath.XPathNavigator> collection by using the <xref:System.Xml.XPath.XPathNodeIterator> class.</span></span>  
+  
+ <span data-ttu-id="ed7bd-147">Consiste à utiliser le <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> (méthode), puis appelez <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> obtenir actuel <xref:System.Xml.XPath.XPathNavigator> instance, comme dans l’exemple suivant :</span><span class="sxs-lookup"><span data-stu-id="ed7bd-147">One way is to use the <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> method and then call <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> to get the current <xref:System.Xml.XPath.XPathNavigator> instance, as in the following example:</span></span>  
+  
+ [!code-cpp[XPathNavigatorMethods#55](~/samples/snippets/cpp/VS_Snippets_Data/XPathNavigatorMethods/CPP/xpathnavigatormethods.cpp#55)]
+ [!code-csharp[XPathNavigatorMethods#55](~/samples/snippets/csharp/VS_Snippets_Data/XPathNavigatorMethods/CS/xpathnavigatormethods.cs#55)]
+ [!code-vb[XPathNavigatorMethods#55](~/samples/snippets/visualbasic/VS_Snippets_Data/XPathNavigatorMethods/VB/xpathnavigatormethods.vb#55)]  
+  
+ <span data-ttu-id="ed7bd-148">Une autre méthode consiste à utiliser un `foreach` boucle pour appeler le <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> méthode et l’utilisation retournée <xref:System.Collections.IEnumerator> interface pour énumérer les nœuds, comme dans l’exemple suivant :</span><span class="sxs-lookup"><span data-stu-id="ed7bd-148">Another way is to use a `foreach` loop to call the <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> method and use the returned <xref:System.Collections.IEnumerator> interface to enumerate the nodes, as in the following example:</span></span>  
+  
+ [!code-cpp[XPathNavigatorMethods#56](~/samples/snippets/cpp/VS_Snippets_Data/XPathNavigatorMethods/CPP/xpathnavigatormethods.cpp#56)]
+ [!code-csharp[XPathNavigatorMethods#56](~/samples/snippets/csharp/VS_Snippets_Data/XPathNavigatorMethods/CS/xpathnavigatormethods.cs#56)]
+ [!code-vb[XPathNavigatorMethods#56](~/samples/snippets/visualbasic/VS_Snippets_Data/XPathNavigatorMethods/VB/xpathnavigatormethods.vb#56)]  
+  
+ <span data-ttu-id="ed7bd-149">Vous devez utiliser le <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> (méthode) et <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> ou utilisez le <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="ed7bd-149">You should either use the <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> method and <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> or use the <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> method.</span></span> <span data-ttu-id="ed7bd-150">Combinaison de ces deux approches peut provoquer des résultats inattendus.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-150">Combining these two approaches can cause unexpected results.</span></span> <span data-ttu-id="ed7bd-151">Par exemple, si le <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> méthode est appelée en premier, puis le <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> méthode est appelée le `foreach` boucle, le `foreach` boucle ne démarrera pas énumérer les résultats à partir du début de la collection, mais à partir de la position après le <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="ed7bd-151">For example, if the <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> method is called first, and then the <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> method is called in the `foreach` loop, the `foreach` loop will not start enumerating the results from the beginning of the collection, but from the position after the <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Collections.IEnumerator" />
+      </Docs>
+    </Member>
+    <Member MemberName="MoveNext">
+      <MemberSignature Language="C#" Value="public abstract bool MoveNext ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool MoveNext() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Xml.XPath.XPathNodeIterator.MoveNext" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Function MoveNext () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract bool MoveNext();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.XPath</AssemblyName>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.ReaderWriter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="ed7bd-152">En cas de substitution dans une classe dérivée, déplace l’objet <see cref="T:System.Xml.XPath.XPathNavigator" /> retourné par la propriété <see cref="P:System.Xml.XPath.XPathNodeIterator.Current" /> vers le nœud suivant dans l’ensemble de nœuds sélectionné.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-152">When overridden in a derived class, moves the <see cref="T:System.Xml.XPath.XPathNavigator" /> object returned by the <see cref="P:System.Xml.XPath.XPathNodeIterator.Current" /> property to the next node in the selected node set.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="ed7bd-153">
+            <see langword="true" /> si l’objet <see cref="T:System.Xml.XPath.XPathNavigator" /> a été déplacé vers le nœud suivant ; <see langword="false" /> en l’absence d’autres nœuds sélectionnés.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-153">
+              <see langword="true" /> if the <see cref="T:System.Xml.XPath.XPathNavigator" /> object moved to the next node; <see langword="false" /> if there are no more selected nodes.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ed7bd-154">Le <xref:System.Xml.XPath.XPathNodeIterator> objet est placé sur le premier nœud dans le nœud sélectionné est défini uniquement après l’appel initial à la <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="ed7bd-154">The <xref:System.Xml.XPath.XPathNodeIterator> object is positioned on the first node in the selected node set only after the initial call to the <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> method.</span></span> <span data-ttu-id="ed7bd-155">L’ensemble de nœuds est créé dans l’ordre du document.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-155">The node set is created in document order.</span></span> <span data-ttu-id="ed7bd-156">Par conséquent, l’appel du <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> méthode déplace vers le nœud suivant dans l’ordre du document.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-156">Therefore, calling the <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> method moves to the next node in document order.</span></span>  
+  
+ <span data-ttu-id="ed7bd-157">Il existe deux façons d’itérer sur une <xref:System.Xml.XPath.XPathNavigator> collection à l’aide de la <xref:System.Xml.XPath.XPathNodeIterator> classe.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-157">There are two ways to iterate over an <xref:System.Xml.XPath.XPathNavigator> collection by using the <xref:System.Xml.XPath.XPathNodeIterator> class.</span></span>  
+  
+ <span data-ttu-id="ed7bd-158">Consiste à utiliser le <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> (méthode), puis appelez <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> obtenir actuel <xref:System.Xml.XPath.XPathNavigator> instance, comme dans l’exemple suivant :</span><span class="sxs-lookup"><span data-stu-id="ed7bd-158">One way is to use the <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> method and then call <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> to get the current <xref:System.Xml.XPath.XPathNavigator> instance, as in the following example:</span></span>  
+  
+ [!code-cpp[XPathNavigatorMethods#55](~/samples/snippets/cpp/VS_Snippets_Data/XPathNavigatorMethods/CPP/xpathnavigatormethods.cpp#55)]
+ [!code-csharp[XPathNavigatorMethods#55](~/samples/snippets/csharp/VS_Snippets_Data/XPathNavigatorMethods/CS/xpathnavigatormethods.cs#55)]
+ [!code-vb[XPathNavigatorMethods#55](~/samples/snippets/visualbasic/VS_Snippets_Data/XPathNavigatorMethods/VB/xpathnavigatormethods.vb#55)]  
+  
+ <span data-ttu-id="ed7bd-159">Une autre méthode consiste à utiliser un `foreach` boucle pour appeler le <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> méthode et l’utilisation retournée <xref:System.Collections.IEnumerator> interface pour énumérer les nœuds, comme dans l’exemple suivant :</span><span class="sxs-lookup"><span data-stu-id="ed7bd-159">Another way is to use a `foreach` loop to call the <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> method and use the returned <xref:System.Collections.IEnumerator> interface to enumerate the nodes, as in the following example:</span></span>  
+  
+ [!code-cpp[XPathNavigatorMethods#56](~/samples/snippets/cpp/VS_Snippets_Data/XPathNavigatorMethods/CPP/xpathnavigatormethods.cpp#56)]
+ [!code-csharp[XPathNavigatorMethods#56](~/samples/snippets/csharp/VS_Snippets_Data/XPathNavigatorMethods/CS/xpathnavigatormethods.cs#56)]
+ [!code-vb[XPathNavigatorMethods#56](~/samples/snippets/visualbasic/VS_Snippets_Data/XPathNavigatorMethods/VB/xpathnavigatormethods.vb#56)]  
+  
+ <span data-ttu-id="ed7bd-160">Vous devez utiliser le <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> (méthode) et <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> ou utilisez le <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="ed7bd-160">You should either use the <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> method and <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> or use the <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> method.</span></span> <span data-ttu-id="ed7bd-161">Combinaison de ces deux approches peut provoquer des résultats inattendus.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-161">Combining these two approaches can cause unexpected results.</span></span> <span data-ttu-id="ed7bd-162">Par exemple, si le <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> méthode est appelée en premier, puis le <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> méthode est appelée le `foreach` boucle, le `foreach` boucle ne démarrera pas énumérer les résultats à partir du début de la collection, mais à partir de la position après le <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="ed7bd-162">For example, if the <xref:System.Xml.XPath.XPathNodeIterator.MoveNext%2A> method is called first, and then the <xref:System.Xml.XPath.XPathNodeIterator.GetEnumerator%2A> method is called in the `foreach` loop, the `foreach` loop will not start enumerating the results from the beginning of the collection, but from the position after the <xref:System.Xml.XPath.XPathNodeIterator.Current%2A> method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="ed7bd-163">L’exemple suivant utilise le <xref:System.Xml.XPath.XPathNavigator.Select%2A> méthode de la <xref:System.Xml.XPath.XPathNavigator> classe pour sélectionner un nœud à l’aide de la <xref:System.Xml.XPath.XPathNodeIterator> classe.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-163">The following example uses the <xref:System.Xml.XPath.XPathNavigator.Select%2A> method of the <xref:System.Xml.XPath.XPathNavigator> class to select a node set using the <xref:System.Xml.XPath.XPathNodeIterator> class.</span></span>  
+  
+ [!code-cpp[XPathNavigatorMethods#39](~/samples/snippets/cpp/VS_Snippets_Data/XPathNavigatorMethods/CPP/xpathnavigatormethods.cpp#39)]
+ [!code-csharp[XPathNavigatorMethods#39](~/samples/snippets/csharp/VS_Snippets_Data/XPathNavigatorMethods/CS/xpathnavigatormethods.cs#39)]
+ [!code-vb[XPathNavigatorMethods#39](~/samples/snippets/visualbasic/VS_Snippets_Data/XPathNavigatorMethods/VB/xpathnavigatormethods.vb#39)]  
+  
+ <span data-ttu-id="ed7bd-164">L'exemple prend le fichier `books.xml` comme entrée.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-164">The example takes the `books.xml` file as input.</span></span>  
+  
+```xml  
+  
+<?xml version="1.0" encoding="utf-8" ?>   
+<bookstore>  
+    <book genre="autobiography" publicationdate="1981-03-22" ISBN="1-861003-11-0">  
+        <title>The Autobiography of Benjamin Franklin</title>  
+        <author>  
+            <first-name>Benjamin</first-name>  
+            <last-name>Franklin</last-name>  
+        </author>  
+        <price>8.99</price>  
+    </book>  
+    <book genre="novel" publicationdate="1967-11-17" ISBN="0-201-63361-2">  
+        <title>The Confidence Man</title>  
+        <author>  
+            <first-name>Herman</first-name>  
+            <last-name>Melville</last-name>  
+        </author>  
+        <price>11.99</price>  
+    </book>  
+    <book genre="philosophy" publicationdate="1991-02-15" ISBN="1-861001-57-6">  
+        <title>The Gorgias</title>  
+        <author>  
+            <name>Plato</name>  
+        </author>  
+        <price>9.99</price>  
+    </book>  
+</bookstore>  
+  
+```  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Xml.XPath.XPathNodeIterator.Current" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.ICloneable.Clone">
+      <MemberSignature Language="C#" Value="object ICloneable.Clone ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance object System.ICloneable.Clone() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Xml.XPath.XPathNodeIterator.System#ICloneable#Clone" />
+      <MemberSignature Language="VB.NET" Value="Function Clone () As Object Implements ICloneable.Clone" />
+      <MemberSignature Language="C++ CLI" Value=" virtual System::Object ^ System.ICloneable.Clone() = ICloneable::Clone;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.ICloneable.Clone</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Xml.ReaderWriter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="ed7bd-165">Crée un objet qui est une copie de l'instance actuelle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-165">Creates a new object that is a copy of the current instance.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="ed7bd-166">Nouvel objet qui est une copie de cette instance.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="ed7bd-166">A new object that is a copy of this instance.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="ed7bd-167">Ce membre est une implémentation d'un membre d'interface explicite.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-167">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="ed7bd-168">Il peut uniquement être utilisé lorsque l'instance de <xref:System.Xml.XPath.XPathNodeIterator> est castée en interface <xref:System.ICloneable>.</span><span class="sxs-lookup"><span data-stu-id="ed7bd-168">It can be used only when the <xref:System.Xml.XPath.XPathNodeIterator> instance is cast to an <xref:System.ICloneable> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
