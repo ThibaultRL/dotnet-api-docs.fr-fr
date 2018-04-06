@@ -1,0 +1,238 @@
+<Type Name="SerializationBinder" FullName="System.Runtime.Serialization.SerializationBinder">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="e75415f14529a35f5aecd70ea45ae71ba4fe0669" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public abstract class SerializationBinder" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract serializable beforefieldinit SerializationBinder extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Runtime.Serialization.SerializationBinder" />
+  <TypeSignature Language="VB.NET" Value="Public MustInherit Class SerializationBinder" />
+  <TypeSignature Language="C++ CLI" Value="public ref class SerializationBinder abstract" />
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+    <AssemblyVersion>4.0.2.0</AssemblyVersion>
+    <AssemblyVersion>4.0.3.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="cb3c2-101">Permet aux utilisateurs de contrôler le chargement de classe et de sélectionner la classe à charger.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="cb3c2-101">Allows users to control class loading and mandate what class to load.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="cb3c2-102">Au cours de la sérialisation, un formateur transmet les informations requises pour créer une instance d'un objet de type et de version corrects.</span><span class="sxs-lookup"><span data-stu-id="cb3c2-102">During serialization, a formatter transmits the information required to create an instance of an object of the correct type and version.</span></span> <span data-ttu-id="cb3c2-103">Ces informations comprennent généralement le nom de type et le nom d'assembly complets de l'objet.</span><span class="sxs-lookup"><span data-stu-id="cb3c2-103">This information generally includes the full type name and assembly name of the object.</span></span> <span data-ttu-id="cb3c2-104">Le nom de l’assembly inclut le nom, la version et le nom fort (consultez [assemblys avec nom fort](~/docs/framework/app-domains/strong-named-assemblies.md)) hachage de l’assembly.</span><span class="sxs-lookup"><span data-stu-id="cb3c2-104">The assembly name includes the name, version, and strong name (see [Strong-Named Assemblies](~/docs/framework/app-domains/strong-named-assemblies.md)) hash of the assembly.</span></span> <span data-ttu-id="cb3c2-105">Par défaut, la désérialisation utilise ces informations pour créer une instance d’un objet identique (à l’exception du chargement d’un assembly restreint par la stratégie de sécurité).</span><span class="sxs-lookup"><span data-stu-id="cb3c2-105">By default, deserialization uses this information to create an instance of an identical object (with the exception of any assembly loading restricted by the security policy).</span></span> <span data-ttu-id="cb3c2-106">Certains utilisateurs doivent contrôler la classe à charger, soit parce que la classe a été déplacée d'un assembly à un autre, soit une version de la classe différente est requise sur le serveur et le client.</span><span class="sxs-lookup"><span data-stu-id="cb3c2-106">Some users need to control which class to load, either because the class has moved between assemblies or a different version of the class is required on the server and client.</span></span>  
+  
+ <span data-ttu-id="cb3c2-107"><xref:System.Runtime.Serialization.SerializationBinder> peut également être utilisé pour la sécurité.</span><span class="sxs-lookup"><span data-stu-id="cb3c2-107"><xref:System.Runtime.Serialization.SerializationBinder> can also be used for security.</span></span> <span data-ttu-id="cb3c2-108">Il peut y avoir certaines attaques de sécurité lorsque vous essayez de désérialiser des données à partir d’une source non fiable.</span><span class="sxs-lookup"><span data-stu-id="cb3c2-108">There might be some security exploits when you are trying to deserialize some data from an untrusted source.</span></span> <span data-ttu-id="cb3c2-109">Le classeur vous donne la possibilité d’inspecter les types sont chargés dans votre domaine d’application.</span><span class="sxs-lookup"><span data-stu-id="cb3c2-109">The binder gives you an opportunity to inspect what types are being loaded in your application domain.</span></span> <span data-ttu-id="cb3c2-110">Vous pouvez ensuite mettre à jour la liste de types refusés ou une liste de types autorisés et limiter les types sont chargés et instancié.</span><span class="sxs-lookup"><span data-stu-id="cb3c2-110">You can then either maintain list of denied types or a list of allowed types and restrict which types are being loaded and instantiated.</span></span> <span data-ttu-id="cb3c2-111">En outre, vous devez être conscients de quelles informations sont mises sur le câble, vous pouvez sécuriser (utilisez sécurité de transport ou du message) lors de l’envoi des noms de types ou d’autres données sur le câble.</span><span class="sxs-lookup"><span data-stu-id="cb3c2-111">In addition you should be mindful of what information is being put out on the wire, you may want to secure (use transport or message security) when sending type names or other data on the wire.</span></span>  
+  
+> [!WARNING]
+>  <span data-ttu-id="cb3c2-112">Utilisez uniquement <xref:System.Runtime.Serialization.SerializationBinder> si vous êtes tout à fait sûr de quelles informations sont en cours de sérialisation.</span><span class="sxs-lookup"><span data-stu-id="cb3c2-112">Only use <xref:System.Runtime.Serialization.SerializationBinder> if you are completely sure of what information is being serialized.</span></span> <span data-ttu-id="cb3c2-113">Types malveillants peuvent provoquer un comportement inattendu.</span><span class="sxs-lookup"><span data-stu-id="cb3c2-113">Malicious types can cause unexpected behavior.</span></span>  
+  
+ <span data-ttu-id="cb3c2-114">Il s'agit d'une classe de base abstraite.</span><span class="sxs-lookup"><span data-stu-id="cb3c2-114">This is an abstract base class.</span></span> <span data-ttu-id="cb3c2-115">Tous les classeurs étendent cette classe.</span><span class="sxs-lookup"><span data-stu-id="cb3c2-115">All binders extend this class.</span></span>  
+  
+   
+  
+## Examples  
+ [!code-cpp[SerializationBinder Example#1](~/samples/snippets/cpp/VS_Snippets_Remoting/SerializationBinder Example/CPP/serializationbinder.cpp#1)]
+ [!code-csharp[SerializationBinder Example#1](~/samples/snippets/csharp/VS_Snippets_Remoting/SerializationBinder Example/CS/serializationbinder.cs#1)]
+ [!code-vb[SerializationBinder Example#1](~/samples/snippets/visualbasic/VS_Snippets_Remoting/SerializationBinder Example/VB/serializationbinder.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <block subset="none" type="overrides">
+      <para>
+        <span data-ttu-id="cb3c2-116">Lorsque vous héritez de <see cref="T:System.Runtime.Serialization.SerializationBinder" />, vous devez remplacer le membre suivant : <see cref="M:System.Runtime.Serialization.SerializationBinder.BindToType(System.String,System.String)" />.</span>
+        <span class="sxs-lookup">
+          <span data-stu-id="cb3c2-116">When you inherit from <see cref="T:System.Runtime.Serialization.SerializationBinder" />, you must override the following member: <see cref="M:System.Runtime.Serialization.SerializationBinder.BindToType(System.String,System.String)" />.</span>
+        </span>
+      </para>
+    </block>
+    <altmember cref="T:System.Security.Policy.StrongName" />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected SerializationBinder ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.SerializationBinder.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; SerializationBinder();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+        <AssemblyVersion>4.0.2.0</AssemblyVersion>
+        <AssemblyVersion>4.0.3.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="cb3c2-117">Initialise une nouvelle instance de la classe <see cref="T:System.Runtime.Serialization.SerializationBinder" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cb3c2-117">Initializes a new instance of the <see cref="T:System.Runtime.Serialization.SerializationBinder" /> class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BindToName">
+      <MemberSignature Language="C#" Value="public virtual void BindToName (Type serializedType, out string assemblyName, out string typeName);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void BindToName(class System.Type serializedType, [out] string&amp; assemblyName, [out] string&amp; typeName) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.SerializationBinder.BindToName(System.Type,System.String@,System.String@)" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable Sub BindToName (serializedType As Type, ByRef assemblyName As String, ByRef typeName As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual void BindToName(Type ^ serializedType, [Runtime::InteropServices::Out] System::String ^ % assemblyName, [Runtime::InteropServices::Out] System::String ^ % typeName);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+        <AssemblyVersion>4.0.2.0</AssemblyVersion>
+        <AssemblyVersion>4.0.3.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="serializedType" Type="System.Type" />
+        <Parameter Name="assemblyName" Type="System.String&amp;" RefType="out" />
+        <Parameter Name="typeName" Type="System.String&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="serializedType">
+          <span data-ttu-id="cb3c2-118">Type de l’objet dont le formateur crée une instance.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cb3c2-118">The type of the object the formatter creates a new instance of.</span>
+          </span>
+        </param>
+        <param name="assemblyName">
+          <span data-ttu-id="cb3c2-119">Spécifie le nom <see cref="T:System.Reflection.Assembly" /> de l’objet sérialisé.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cb3c2-119">Specifies the <see cref="T:System.Reflection.Assembly" /> name of the serialized object.</span>
+          </span>
+        </param>
+        <param name="typeName">
+          <span data-ttu-id="cb3c2-120">Spécifie le nom <see cref="T:System.Type" /> de l’objet sérialisé.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cb3c2-120">Specifies the <see cref="T:System.Type" /> name of the serialized object.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="cb3c2-121">En cas de substitution dans une classe dérivée, contrôle la liaison d’un objet sérialisé à un type.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cb3c2-121">When overridden in a derived class, controls the binding of a serialized object to a type.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="BindToType">
+      <MemberSignature Language="C#" Value="public abstract Type BindToType (string assemblyName, string typeName);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Type BindToType(string assemblyName, string typeName) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Runtime.Serialization.SerializationBinder.BindToType(System.String,System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public MustOverride Function BindToType (assemblyName As String, typeName As String) As Type" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; abstract Type ^ BindToType(System::String ^ assemblyName, System::String ^ typeName);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime.Serialization.Formatters</AssemblyName>
+        <AssemblyVersion>4.0.2.0</AssemblyVersion>
+        <AssemblyVersion>4.0.3.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Type</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="assemblyName" Type="System.String" />
+        <Parameter Name="typeName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="assemblyName">
+          <span data-ttu-id="cb3c2-122">Spécifie le nom <see cref="T:System.Reflection.Assembly" /> de l’objet sérialisé.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cb3c2-122">Specifies the <see cref="T:System.Reflection.Assembly" /> name of the serialized object.</span>
+          </span>
+        </param>
+        <param name="typeName">
+          <span data-ttu-id="cb3c2-123">Spécifie le nom <see cref="T:System.Type" /> de l’objet sérialisé.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cb3c2-123">Specifies the <see cref="T:System.Type" /> name of the serialized object.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="cb3c2-124">En cas de substitution dans une classe dérivée, contrôle la liaison d’un objet sérialisé à un type.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cb3c2-124">When overridden in a derived class, controls the binding of a serialized object to a type.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="cb3c2-125">Type de l’objet dont le formateur crée une instance.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="cb3c2-125">The type of the object the formatter creates a new instance of.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="cb3c2-126">Exemple 1 de SerializationBinder</span><span class="sxs-lookup"><span data-stu-id="cb3c2-126">SerializationBinder Example#1</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="cb3c2-127">Vous devez implémenter la méthode actuelle dans une classe dérivée.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="cb3c2-127">You must implement the current method in a derived class.</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

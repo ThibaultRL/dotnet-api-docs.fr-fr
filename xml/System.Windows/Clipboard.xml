@@ -1,0 +1,1561 @@
+<Type Name="Clipboard" FullName="System.Windows.Clipboard">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="94c5d4fe8f07a5d02299f466cd595fc27b85ea12" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public static class Clipboard" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Clipboard extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Windows.Clipboard" />
+  <TypeSignature Language="VB.NET" Value="Public Class Clipboard" />
+  <TypeSignature Language="C++ CLI" Value="public ref class Clipboard abstract sealed" />
+  <AssemblyInfo>
+    <AssemblyName>PresentationCore</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="281f5-101">Fournit des méthodes statiques qui facilitent le transfert des données vers et depuis le presse-papiers du système.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="281f5-101">Provides static methods that facilitate transferring data to and from the system Clipboard.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-102">Toutes les applications pour [!INCLUDE[TLA#tla_mswin](~/includes/tlasharptla-mswin-md.md)] partage le Presse-papiers système afin de rendre le contenu susceptible de changer lorsque vous basculez vers une autre application.</span><span class="sxs-lookup"><span data-stu-id="281f5-102">All applications for [!INCLUDE[TLA#tla_mswin](~/includes/tlasharptla-mswin-md.md)] share the system Clipboard, so the contents are subject to change when you switch to another application.</span></span>  
+  
+ <span data-ttu-id="281f5-103">Pour obtenir la liste de formats prédéfinis disponibles à utiliser avec le <xref:System.Windows.Clipboard> de classe, consultez la <xref:System.Windows.DataFormats> classe.</span><span class="sxs-lookup"><span data-stu-id="281f5-103">For a list of predefined formats available to use with the <xref:System.Windows.Clipboard> class, see the <xref:System.Windows.DataFormats> class.</span></span>  
+  
+ <span data-ttu-id="281f5-104">**Alerte de sécurité :** pour des raisons de sécurité, les points suivants doivent être conservées dans l’esprit.</span><span class="sxs-lookup"><span data-stu-id="281f5-104">**Security Alert:** For security purposes, the following points should be kept in mind.</span></span>  
+  
+-   <span data-ttu-id="281f5-105">Opérations de collage doivent être initiée par l’utilisateur (Ctrl-V, Menu Coller).</span><span class="sxs-lookup"><span data-stu-id="281f5-105">Paste operations need to be user initiated (Ctrl-V, Paste Menu).</span></span>  
+  
+-   <span data-ttu-id="281f5-106">Copie peut uniquement être sélectionné par l’utilisateur contenue.</span><span class="sxs-lookup"><span data-stu-id="281f5-106">Copy can only be on user selected content.</span></span>  
+  
+-   <span data-ttu-id="281f5-107">Met le texte brut sur Copier ou couper, le code de confiance partielle et [!INCLUDE[TLA#tla_xaml](~/includes/tlasharptla-xaml-md.md)] le Presse-papiers.</span><span class="sxs-lookup"><span data-stu-id="281f5-107">On copy or cut, partial trust code puts plaintext and [!INCLUDE[TLA#tla_xaml](~/includes/tlasharptla-xaml-md.md)] on to the clipboard.</span></span> <span data-ttu-id="281f5-108">Texte en clair inclut le texte, texte Unicode, texte OEM (modèle d’objet Exchange) et le format CSV (valeurs séparées par des virgules).</span><span class="sxs-lookup"><span data-stu-id="281f5-108">Plaintext includes text, Unicode text, OEM (Object Exchange Model) text, and CSV (Comma-separated values).</span></span>  
+  
+-   <span data-ttu-id="281f5-109">Lors du collage, [!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)] collerez dans [!INCLUDE[TLA#tla_xaml](~/includes/tlasharptla-xaml-md.md)] si la source de ce contenu provient d’un site de confiance aussi ou plus.</span><span class="sxs-lookup"><span data-stu-id="281f5-109">On paste, [!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)] will paste in [!INCLUDE[TLA#tla_xaml](~/includes/tlasharptla-xaml-md.md)] if the source of that content is from a equally trusted or more trusted site.</span></span> <span data-ttu-id="281f5-110">Plus précisément :</span><span class="sxs-lookup"><span data-stu-id="281f5-110">Specifically:</span></span>  
+  
+    -   <span data-ttu-id="281f5-111">Une application de confiance partielle peut coller [!INCLUDE[TLA#tla_xaml](~/includes/tlasharptla-xaml-md.md)] à partir d’une application de confiance totale.</span><span class="sxs-lookup"><span data-stu-id="281f5-111">A partial trust application can paste [!INCLUDE[TLA#tla_xaml](~/includes/tlasharptla-xaml-md.md)] from a full trust application.</span></span>  
+  
+    -   <span data-ttu-id="281f5-112">Une application de confiance partielle peut coller [!INCLUDE[TLA#tla_xaml](~/includes/tlasharptla-xaml-md.md)] à partir d’une application de confiance partielle.</span><span class="sxs-lookup"><span data-stu-id="281f5-112">A partial trust application can paste [!INCLUDE[TLA#tla_xaml](~/includes/tlasharptla-xaml-md.md)] from a partial trust application.</span></span>  
+  
+    -   <span data-ttu-id="281f5-113">Une application de confiance totale peut coller XAML uniquement à partir d’une autre application de confiance totale.</span><span class="sxs-lookup"><span data-stu-id="281f5-113">A full trust application can paste XAML only from another fully trusted application.</span></span>  
+  
+    -   <span data-ttu-id="281f5-114">Non -[!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)] application peut examiner le format ApplicationTrust sur le Presse-papiers et nettoie le XAML si besoin de confiance totale.</span><span class="sxs-lookup"><span data-stu-id="281f5-114">A non-[!INCLUDE[TLA#tla_winclient](~/includes/tlasharptla-winclient-md.md)] full trust application can examine the ApplicationTrust format on the clipboard and sanitize the XAML if appropriate.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="281f5-115">L’exemple suivant montre comment ajouter des données dans le Presse-papiers système.</span><span class="sxs-lookup"><span data-stu-id="281f5-115">The following example shows how to add data to the system Clipboard.</span></span>  
+  
+ [!code-csharp[DragDrop_DragDropMiscCode#_SetData](~/samples/snippets/csharp/VS_Snippets_Wpf/DragDrop_DragDropMiscCode/CSharp/Window1.xaml.cs#_setdata)]
+ [!code-vb[DragDrop_DragDropMiscCode#_SetData](~/samples/snippets/visualbasic/VS_Snippets_Wpf/DragDrop_DragDropMiscCode/visualbasic/window1.xaml.vb#_setdata)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Windows.DataObject" />
+    <altmember cref="T:System.Windows.IDataObject" />
+  </Docs>
+  <Members>
+    <Member MemberName="Clear">
+      <MemberSignature Language="C#" Value="public static void Clear ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void Clear() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.Clear" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub Clear ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void Clear();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-116">Efface toutes les données du Presse-papiers système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-116">Clears any data from the system Clipboard.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-117">Appel de cette méthode équivaut à appeler la méthode **OleSetClipboard**(**null**).</span><span class="sxs-lookup"><span data-stu-id="281f5-117">Calling this method is equivalent to calling **OleSetClipboard**(**null**).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ContainsAudio">
+      <MemberSignature Language="C#" Value="public static bool ContainsAudio ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool ContainsAudio() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.ContainsAudio" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function ContainsAudio () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool ContainsAudio();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-118">Interroge le Presse-papiers sur la présence de données au format <see cref="F:System.Windows.DataFormats.WaveAudio" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-118">Queries the Clipboard for the presence of data in the <see cref="F:System.Windows.DataFormats.WaveAudio" /> data format.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-119">
+            <see langword="true" /> si le Presse-papiers contient des données au format <see cref="F:System.Windows.DataFormats.WaveAudio" /> ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-119">
+              <see langword="true" /> if the Clipboard contains data in the <see cref="F:System.Windows.DataFormats.WaveAudio" /> data format; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-120">Cette méthode retourne `true` uniquement si le format de données spécifié existe en mode natif dans le Presse-papiers ; cette méthode ne vérifie pas la présence de formats de données convertibles automatiquement.</span><span class="sxs-lookup"><span data-stu-id="281f5-120">This method returns `true` only if the specified data format exists natively on the Clipboard; this method does not check for the presence of auto-convertible data formats.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Clipboard.ContainsData(System.String)" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsFileDropList" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsImage" />
+        <altmember cref="Overload:System.Windows.Clipboard.ContainsText" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="ContainsData">
+      <MemberSignature Language="C#" Value="public static bool ContainsData (string format);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool ContainsData(string format) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.ContainsData(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function ContainsData (format As String) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool ContainsData(System::String ^ format);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="format" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="format">
+          <span data-ttu-id="281f5-121">Format des données à rechercher.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-121">The format of the data to look for.</span>
+          </span>
+          <span data-ttu-id="281f5-122">Consultez <see cref="T:System.Windows.DataFormats" /> pour obtenir les formats prédéfinis.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-122">See <see cref="T:System.Windows.DataFormats" /> for predefined formats.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-123">Interroge le Presse-papiers sur la présence de données au format de données spécifié.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-123">Queries the Clipboard for the presence of data in a specified data format.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-124">
+            <see langword="true" /> si les données au format spécifié sont disponibles dans le Presse-papiers ; sinon <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-124">
+              <see langword="true" /> if data in the specified format is available on the Clipboard; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-125">Une requête pour le format de données <xref:System.Windows.DataFormats.Bitmap> ou <xref:System.Windows.DataFormats.FileDrop> retournera `true` si les données peuvent être converties automatiquement au format de données spécifié.</span><span class="sxs-lookup"><span data-stu-id="281f5-125">A query for the data format <xref:System.Windows.DataFormats.Bitmap> or <xref:System.Windows.DataFormats.FileDrop> will return `true` if the data can be automatically converted to the specified data format.</span></span>  <span data-ttu-id="281f5-126">Pour les autres formats de données, cette méthode retourne `true` uniquement si le format spécifié est disponible en mode natif dans le Presse-papiers.</span><span class="sxs-lookup"><span data-stu-id="281f5-126">For other data formats, this method returns `true` only if the specified format is available natively on the Clipboard.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="281f5-127">L’exemple suivant illustre l’utilisation de cette méthode.</span><span class="sxs-lookup"><span data-stu-id="281f5-127">The following example demonstrates the use of this method.</span></span>  
+  
+ [!code-csharp[DragDrop_DragDropMiscCode#_ContainsDataGetData](~/samples/snippets/csharp/VS_Snippets_Wpf/DragDrop_DragDropMiscCode/CSharp/Window1.xaml.cs#_containsdatagetdata)]
+ [!code-vb[DragDrop_DragDropMiscCode#_ContainsDataGetData](~/samples/snippets/visualbasic/VS_Snippets_Wpf/DragDrop_DragDropMiscCode/visualbasic/window1.xaml.vb#_containsdatagetdata)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="281f5-128">
+            <paramref name="format" /> est <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-128">
+              <paramref name="format" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Windows.Clipboard.ContainsAudio" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsFileDropList" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsImage" />
+        <altmember cref="Overload:System.Windows.Clipboard.ContainsText" />
+        <altmember cref="M:System.Windows.Clipboard.GetData(System.String)" />
+        <altmember cref="M:System.Windows.Clipboard.SetData(System.String,System.Object)" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="ContainsFileDropList">
+      <MemberSignature Language="C#" Value="public static bool ContainsFileDropList ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool ContainsFileDropList() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.ContainsFileDropList" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function ContainsFileDropList () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool ContainsFileDropList();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-129">Interroge le Presse-papiers sur la présence de données au format <see cref="F:System.Windows.DataFormats.FileDrop" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-129">Queries the Clipboard for the presence of data in the <see cref="F:System.Windows.DataFormats.FileDrop" /> data format.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-130">
+            <see langword="true" /> si le Presse-papiers contient des données au format <see cref="F:System.Windows.DataFormats.FileDrop" /> ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-130">
+              <see langword="true" /> if the Clipboard contains data in the <see cref="F:System.Windows.DataFormats.FileDrop" /> data format; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-131">Cette méthode retourne `true` uniquement si le format de données spécifié existe en mode natif ou est disponible sous un format de données convertibles automatiquement dans le Presse-papiers ; cette méthode ne vérifie pas la présence de formats de données convertibles automatiquement.</span><span class="sxs-lookup"><span data-stu-id="281f5-131">This method returns `true` only if the specified data format exists natively or is available as an auto-convertible data format on the Clipboard; this method does not check for the presence of auto-convertible data formats.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Clipboard.ContainsAudio" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsData(System.String)" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsFileDropList" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsImage" />
+        <altmember cref="Overload:System.Windows.Clipboard.ContainsText" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="ContainsImage">
+      <MemberSignature Language="C#" Value="public static bool ContainsImage ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool ContainsImage() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.ContainsImage" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function ContainsImage () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool ContainsImage();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-132">Interroge le Presse-papiers sur la présence de données au format <see cref="F:System.Windows.DataFormats.Bitmap" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-132">Queries the Clipboard for the presence of data in the <see cref="F:System.Windows.DataFormats.Bitmap" /> data format.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-133">
+            <see langword="true" /> si le Presse-papiers contient des données au format <see cref="F:System.Windows.DataFormats.Bitmap" /> ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-133">
+              <see langword="true" /> if the Clipboard contains data in the <see cref="F:System.Windows.DataFormats.Bitmap" /> data format; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-134">Cette méthode retourne `true` uniquement si le format de données spécifié existe en mode natif ou est disponible sous un format de données convertibles automatiquement dans le Presse-papiers ; cette méthode ne vérifie pas la présence de formats de données convertibles automatiquement.</span><span class="sxs-lookup"><span data-stu-id="281f5-134">This method returns `true` only if the specified data format exists natively or is available as an auto-convertible data format on the Clipboard; this method does not check for the presence of auto-convertible data formats.</span></span>  
+  
+ <span data-ttu-id="281f5-135">Une image bitmap représente un graphique de l’ordinateur sous forme de tableau de bits dans la mémoire, et ces bits représentant les attributs de chacun des pixels d’une image.</span><span class="sxs-lookup"><span data-stu-id="281f5-135">A bitmap represents a computer graphic as an array of bits in memory, and these bits represent the attributes of the individual pixels in an image.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Clipboard.ContainsAudio" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsData(System.String)" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsFileDropList" />
+        <altmember cref="Overload:System.Windows.Clipboard.ContainsText" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="ContainsText">
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-136">Interroge le Presse-papiers sur la présence de données au format de données texte valide.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-136">Queries the Clipboard for the presence of data in a valid text data format.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="ContainsText">
+      <MemberSignature Language="C#" Value="public static bool ContainsText ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool ContainsText() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.ContainsText" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function ContainsText () As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool ContainsText();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-137">Interroge le Presse-papiers sur la présence de données au format <see cref="F:System.Windows.DataFormats.UnicodeText" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-137">Queries the Clipboard for the presence of data in the <see cref="F:System.Windows.DataFormats.UnicodeText" /> format.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-138">
+            <see langword="true" /> si le Presse-papiers contient des données au format <see cref="F:System.Windows.DataFormats.UnicodeText" /> ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-138">
+              <see langword="true" /> if the Clipboard contains data in the <see cref="F:System.Windows.DataFormats.UnicodeText" /> data format; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-139">Cette méthode retourne `true` uniquement si le format de données spécifié existe en mode natif dans le Presse-papiers ; cette méthode ne vérifie pas la présence de formats de données convertibles automatiquement.</span><span class="sxs-lookup"><span data-stu-id="281f5-139">This method returns `true` only if the specified data format exists natively on the Clipboard; this method does not check for the presence of auto-convertible data formats.</span></span>  
+  
+ <span data-ttu-id="281f5-140">Le <xref:System.Windows.DataFormats.UnicodeText> format de données désigne 16 bits caractères Unicode encodés, également appelé UTF-16 et USC-2.</span><span class="sxs-lookup"><span data-stu-id="281f5-140">The <xref:System.Windows.DataFormats.UnicodeText> data format denotes 16-bit character encoded Unicode, also referred to as UTF-16, and USC-2.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Clipboard.ContainsAudio" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsData(System.String)" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsFileDropList" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsImage" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsText(System.Windows.TextDataFormat)" />
+        <altmember cref="Overload:System.Windows.Clipboard.GetText" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetText" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="ContainsText">
+      <MemberSignature Language="C#" Value="public static bool ContainsText (System.Windows.TextDataFormat format);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool ContainsText(valuetype System.Windows.TextDataFormat format) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.ContainsText(System.Windows.TextDataFormat)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function ContainsText (format As TextDataFormat) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool ContainsText(System::Windows::TextDataFormat format);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="format" Type="System.Windows.TextDataFormat" />
+      </Parameters>
+      <Docs>
+        <param name="format">
+          <span data-ttu-id="281f5-141">Membre de l'énumération <see cref="T:System.Windows.TextDataFormat" /> qui spécifie le format de données texte à interroger.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-141">A member of the <see cref="T:System.Windows.TextDataFormat" /> enumeration that specifies the text data format to query for.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-142">Interroge le Presse-papiers sur la présence de données au format de données texte.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-142">Queries the Clipboard for the presence of data in a text data format.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-143">
+            <see langword="true" /> si le Presse-papiers contient des données au format de données texte ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-143">
+              <see langword="true" /> if the Clipboard contains data in the specified text data format; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-144">Cette méthode retourne `true` uniquement si le format de données spécifié existe en mode natif dans l’objet de données ; cette méthode ne vérifie pas la présence de formats de données convertibles automatiquement.</span><span class="sxs-lookup"><span data-stu-id="281f5-144">This method returns `true` only if the specified data format exists natively in the data object; this method does not check for the presence of auto-convertible data formats.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ComponentModel.InvalidEnumArgumentException">
+          <span data-ttu-id="281f5-145">
+            <paramref name="format" /> ne spécifie pas un membre valide de <see cref="T:System.Windows.TextDataFormat" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-145">
+              <paramref name="format" /> does not specify a valid member of <see cref="T:System.Windows.TextDataFormat" />.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Windows.Clipboard.ContainsAudio" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsData(System.String)" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsFileDropList" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsImage" />
+        <altmember cref="Overload:System.Windows.Clipboard.GetText" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetText" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="Flush">
+      <MemberSignature Language="C#" Value="public static void Flush ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void Flush() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.Flush" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub Flush ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void Flush();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-146">Ajoute définitivement les données qui sont dans le <see cref="T:System.Windows.Clipboard" /> afin qu'elles soient disponibles après la fermeture de leur application d'origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-146">Permanently adds the data that is on the <see cref="T:System.Windows.Clipboard" /> so that it is available after the data's original application closes.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetAudioStream">
+      <MemberSignature Language="C#" Value="public static System.IO.Stream GetAudioStream ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.IO.Stream GetAudioStream() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.GetAudioStream" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetAudioStream () As Stream" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::IO::Stream ^ GetAudioStream();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.IO.Stream</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-147">Retourne un flux de données du Presse-papiers au format <see cref="F:System.Windows.DataFormats.WaveAudio" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-147">Returns a stream of Clipboard data in the <see cref="F:System.Windows.DataFormats.WaveAudio" /> data format.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-148">Flux qui contient les données au format <see cref="F:System.Windows.DataFormats.WaveAudio" />, ou <see langword="null" /> si le Presse-papiers ne contient pas de données dans ce format.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-148">A stream that contains the data in the <see cref="F:System.Windows.DataFormats.WaveAudio" /> format, or <see langword="null" /> if the Clipboard does not contain data in this format.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-149">Cette méthode retourne un flux uniquement si le texte spécifié format existe en mode natif dans l’objet de données ; Cette méthode ne retourne pas de données convertibles automatiquement.</span><span class="sxs-lookup"><span data-stu-id="281f5-149">This method returns a stream only if the specified format exists natively in the data object; this method does not return auto-convertible data.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Clipboard.GetData(System.String)" />
+        <altmember cref="M:System.Windows.Clipboard.GetDataObject" />
+        <altmember cref="M:System.Windows.Clipboard.GetFileDropList" />
+        <altmember cref="M:System.Windows.Clipboard.GetImage" />
+        <altmember cref="Overload:System.Windows.Clipboard.GetText" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsAudio" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetAudio" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetData">
+      <MemberSignature Language="C#" Value="public static object GetData (string format);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig object GetData(string format) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.GetData(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetData (format As String) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Object ^ GetData(System::String ^ format);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="format" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="format">
+          <span data-ttu-id="281f5-150">Chaîne qui spécifie le format des données à récupérer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-150">A string that specifies the format of the data to retrieve.</span>
+          </span>
+          <span data-ttu-id="281f5-151">Pour obtenir un ensemble de formats de données prédéfinis, consultez la classe <see cref="T:System.Windows.DataFormats" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-151">For a set of predefined data formats, see the <see cref="T:System.Windows.DataFormats" /> class.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-152">Récupère des données dans un format spécifié à partir du Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-152">Retrieves data in a specified format from the Clipboard.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-153">Objet qui contient les données au format spécifié, ou <see langword="null" /> si les données ne sont pas disponibles au format spécifié.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-153">An object that contains the data in the specified format, or <see langword="null" /> if the data is unavailable in the specified format.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="281f5-154">L’exemple suivant illustre l’utilisation de cette méthode.</span><span class="sxs-lookup"><span data-stu-id="281f5-154">The following example demonstrates the use of this method.</span></span>  
+  
+ [!code-csharp[DragDrop_DragDropMiscCode#_ContainsDataGetData](~/samples/snippets/csharp/VS_Snippets_Wpf/DragDrop_DragDropMiscCode/CSharp/Window1.xaml.cs#_containsdatagetdata)]
+ [!code-vb[DragDrop_DragDropMiscCode#_ContainsDataGetData](~/samples/snippets/visualbasic/VS_Snippets_Wpf/DragDrop_DragDropMiscCode/visualbasic/window1.xaml.vb#_containsdatagetdata)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="281f5-155">
+            <paramref name="format" /> est <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-155">
+              <paramref name="format" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Windows.Clipboard.GetAudioStream" />
+        <altmember cref="M:System.Windows.Clipboard.GetDataObject" />
+        <altmember cref="M:System.Windows.Clipboard.GetFileDropList" />
+        <altmember cref="M:System.Windows.Clipboard.GetImage" />
+        <altmember cref="Overload:System.Windows.Clipboard.GetText" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsData(System.String)" />
+        <altmember cref="M:System.Windows.Clipboard.SetData(System.String,System.Object)" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetDataObject">
+      <MemberSignature Language="C#" Value="public static System.Windows.IDataObject GetDataObject ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Windows.IDataObject GetDataObject() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.GetDataObject" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetDataObject () As IDataObject" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::IDataObject ^ GetDataObject();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Windows.IDataObject</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-156">Retourne un objet de données qui représente le contenu complet du Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-156">Returns a data object that represents the entire contents of the Clipboard.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-157">Objet de données qui permet l'accès au contenu complet du Presse-papiers système, ou <see langword="null" /> si le Presse-papiers ne contient aucune donnée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-157">A data object that enables access to the entire contents of the system Clipboard, or <see langword="null" /> if there is no data on the Clipboard.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-158">Accès aux données dans le Presse-papiers système est activé via une *objet de données*, autrement dit, un objet qui implémente le <xref:System.Windows.IDataObject> interface.</span><span class="sxs-lookup"><span data-stu-id="281f5-158">Access to data on the system Clipboard is enabled through a *data object*, that is, an object that implements the <xref:System.Windows.IDataObject> interface.</span></span> <span data-ttu-id="281f5-159">Une liste de formats prédéfinis est définie par le <xref:System.Windows.DataFormats> classe.</span><span class="sxs-lookup"><span data-stu-id="281f5-159">A list of predefined formats is defined by the <xref:System.Windows.DataFormats> class.</span></span>  <span data-ttu-id="281f5-160">Utilisez les méthodes spécifiées par <xref:System.Windows.IDataObject> et les champs de <xref:System.Windows.DataFormats> pour examiner et extraire les données à partir de l’objet de données.</span><span class="sxs-lookup"><span data-stu-id="281f5-160">Use the methods specified by <xref:System.Windows.IDataObject> and fields in <xref:System.Windows.DataFormats> to examine and extract the data from the data object.</span></span>  
+  
+ <span data-ttu-id="281f5-161">Pour examiner les formats de données dans le Presse-papiers système, appelez <xref:System.Windows.IDataObject.GetFormats%2A> sur l’objet de données retourné par cette méthode.</span><span class="sxs-lookup"><span data-stu-id="281f5-161">To examine the formats of data on the system Clipboard, call <xref:System.Windows.IDataObject.GetFormats%2A> on the data object returned by this method.</span></span>  <span data-ttu-id="281f5-162">Pour récupérer les données du Presse-papiers du système, appelez <xref:System.Windows.IDataObject.GetData%2A> et spécifier le format de données souhaité.</span><span class="sxs-lookup"><span data-stu-id="281f5-162">To retrieve data from the system Clipboard, call <xref:System.Windows.IDataObject.GetData%2A> and specify the desired data format.</span></span>  
+  
+ <span data-ttu-id="281f5-163">Le système qu'est partagé par toutes les applications, donc les données dans le Presse-papiers sont susceptible d’être modifié par d’autres applications.</span><span class="sxs-lookup"><span data-stu-id="281f5-163">The system Clipboard is shared by all applications, so data on the Clipboard is subject to change by other applications.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.Permissions.UIPermission">
+          <span data-ttu-id="281f5-164">pour l’autorisation d’accéder aux données dans le Presse-papiers système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-164">for permission to access data on the system Clipboard.</span>
+          </span>
+          <span data-ttu-id="281f5-165">Énumération associée : **AllClipboard**.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-165">Associated enumeration: **AllClipboard**.</span>
+          </span>
+        </permission>
+        <altmember cref="Overload:System.Windows.Clipboard.SetDataObject" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetFileDropList">
+      <MemberSignature Language="C#" Value="public static System.Collections.Specialized.StringCollection GetFileDropList ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Collections.Specialized.StringCollection GetFileDropList() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.GetFileDropList" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetFileDropList () As StringCollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Collections::Specialized::StringCollection ^ GetFileDropList();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Specialized.StringCollection</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-166">Retourne un ensemble de chaînes qui contient une liste de fichiers effacés disponible sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-166">Returns a string collection that contains a list of dropped files available on the Clipboard.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-167">Ensemble de chaînes, où chaque chaîne spécifie le nom d'un fichier dans la liste de fichiers effacés sur le Presse-papiers, ou <see langword="null" /> si les données ne sont pas disponibles dans ce format.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-167">A collection of strings, where each string specifies the name of a file in the list of dropped files on the Clipboard, or <see langword="null" /> if the data is unavailable in this format.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Windows.Clipboard.GetAudioStream" />
+        <altmember cref="M:System.Windows.Clipboard.GetDataObject" />
+        <altmember cref="M:System.Windows.Clipboard.GetData(System.String)" />
+        <altmember cref="M:System.Windows.Clipboard.GetImage" />
+        <altmember cref="Overload:System.Windows.Clipboard.GetText" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsFileDropList" />
+        <altmember cref="M:System.Windows.Clipboard.SetFileDropList(System.Collections.Specialized.StringCollection)" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetImage">
+      <MemberSignature Language="C#" Value="public static System.Windows.Media.Imaging.BitmapSource GetImage ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Windows.Media.Imaging.BitmapSource GetImage() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.GetImage" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetImage () As BitmapSource" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::Media::Imaging::BitmapSource ^ GetImage();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Media.Imaging.BitmapSource</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-168">Retourne un objet <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> du Presse-papiers qui contient des données dans le format <see cref="F:System.Windows.DataFormats.Bitmap" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-168">Returns a <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> object from the Clipboard that contains data in the <see cref="F:System.Windows.DataFormats.Bitmap" /> format.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-169">Objet <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> qui contient des données au format <see cref="F:System.Windows.DataFormats.Bitmap" />, ou <see langword="null" /> si les données ne sont pas disponibles dans ce format.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-169">A <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> object that contains data in the <see cref="F:System.Windows.DataFormats.Bitmap" /> format, or <see langword="null" /> if the data is unavailable in this format.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-170">Cette méthode retourne un <xref:System.Windows.Media.Imaging.BitmapSource> objet, lorsque les données sont disponibles en mode natif ou lorsque les données peuvent être converties automatiquement au <xref:System.Windows.DataFormats.Bitmap> format de données.</span><span class="sxs-lookup"><span data-stu-id="281f5-170">This method returns a <xref:System.Windows.Media.Imaging.BitmapSource> object, either when data is available natively or when data can be auto-converted to the <xref:System.Windows.DataFormats.Bitmap> data format.</span></span>  
+  
+ <span data-ttu-id="281f5-171">Une image bitmap représente un graphique de l’ordinateur sous forme de tableau de bits dans la mémoire, et ces bits représentant les attributs de chacun des pixels d’une image.</span><span class="sxs-lookup"><span data-stu-id="281f5-171">A bitmap represents a computer graphic as an array of bits in memory, and these bits represent the attributes of the individual pixels in an image.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Clipboard.GetAudioStream" />
+        <altmember cref="M:System.Windows.Clipboard.GetDataObject" />
+        <altmember cref="M:System.Windows.Clipboard.GetData(System.String)" />
+        <altmember cref="M:System.Windows.Clipboard.GetFileDropList" />
+        <altmember cref="Overload:System.Windows.Clipboard.GetText" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsImage" />
+        <altmember cref="M:System.Windows.Clipboard.SetImage(System.Windows.Media.Imaging.BitmapSource)" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="GetText">
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-172">Retourne une chaîne qui contient les données texte sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-172">Returns a string containing the text data on the Clipboard.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="GetText">
+      <MemberSignature Language="C#" Value="public static string GetText ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string GetText() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.GetText" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetText () As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ GetText();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-173">Retourne une chaîne contenant les données <see cref="F:System.Windows.DataFormats.UnicodeText" /> sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-173">Returns a string containing the <see cref="F:System.Windows.DataFormats.UnicodeText" /> data on the Clipboard.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-174">Chaîne qui contient les données <see cref="F:System.Windows.DataFormats.UnicodeText" />, ou une chaîne vide si aucune donnée <see cref="F:System.Windows.DataFormats.UnicodeText" /> n'est disponible sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-174">A string containing the <see cref="F:System.Windows.DataFormats.UnicodeText" /> data , or an empty string if no <see cref="F:System.Windows.DataFormats.UnicodeText" /> data is available on the Clipboard.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-175">Le <xref:System.Windows.DataFormats.UnicodeText> format de données désigne 16 bits caractères Unicode encodés, également appelé UTF-16 et UCS-2.</span><span class="sxs-lookup"><span data-stu-id="281f5-175">The <xref:System.Windows.DataFormats.UnicodeText> data format denotes 16-bit character encoded Unicode, also referred to as UTF-16, and UCS-2.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Clipboard.GetAudioStream" />
+        <altmember cref="M:System.Windows.Clipboard.GetDataObject" />
+        <altmember cref="M:System.Windows.Clipboard.GetData(System.String)" />
+        <altmember cref="M:System.Windows.Clipboard.GetFileDropList" />
+        <altmember cref="M:System.Windows.Clipboard.GetImage" />
+        <altmember cref="Overload:System.Windows.Clipboard.ContainsText" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetText" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetText">
+      <MemberSignature Language="C#" Value="public static string GetText (System.Windows.TextDataFormat format);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig string GetText(valuetype System.Windows.TextDataFormat format) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.GetText(System.Windows.TextDataFormat)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function GetText (format As TextDataFormat) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::String ^ GetText(System::Windows::TextDataFormat format);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="format" Type="System.Windows.TextDataFormat" />
+      </Parameters>
+      <Docs>
+        <param name="format">
+          <span data-ttu-id="281f5-176">Membre de <see cref="T:System.Windows.TextDataFormat" /> qui spécifie le format de données texte à récupérer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-176">A member of <see cref="T:System.Windows.TextDataFormat" /> that specifies the text data format to retrieve.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-177">Retourne une chaîne qui contient les données texte sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-177">Returns a string containing text data on the Clipboard.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-178">Chaîne qui contient des données texte au format de données spécifié, ou une chaîne vide si aucune donnée texte correspondante n'est disponible.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-178">A string containing text data in the specified data format, or an empty string if no corresponding text data is available.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Windows.Clipboard.GetAudioStream" />
+        <altmember cref="M:System.Windows.Clipboard.GetDataObject" />
+        <altmember cref="M:System.Windows.Clipboard.GetData(System.String)" />
+        <altmember cref="M:System.Windows.Clipboard.GetFileDropList" />
+        <altmember cref="M:System.Windows.Clipboard.GetImage" />
+        <altmember cref="Overload:System.Windows.Clipboard.ContainsText" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetText" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="IsCurrent">
+      <MemberSignature Language="C#" Value="public static bool IsCurrent (System.Windows.IDataObject data);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool IsCurrent(class System.Windows.IDataObject data) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.IsCurrent(System.Windows.IDataObject)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function IsCurrent (data As IDataObject) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool IsCurrent(System::Windows::IDataObject ^ data);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="data" Type="System.Windows.IDataObject" />
+      </Parameters>
+      <Docs>
+        <param name="data">
+          <span data-ttu-id="281f5-179">Objet de données à comparer avec le contenu du Presse-papiers système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-179">A data object to compare to the contents of the system Clipboard.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-180">Compare un objet de données spécifié avec le contenu du Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-180">Compares a specified data object to the contents of the Clipboard.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="281f5-181">
+            <see langword="true" /> si l'objet de données spécifié correspond au contenu du Presse-papiers système ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-181">
+              <see langword="true" /> if the specified data object matches what is on the system Clipboard; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-182">Utilisez cette méthode pour déterminer si un objet de données qui a été précédemment placé dans le Presse-papiers est toujours présent et non modifié.</span><span class="sxs-lookup"><span data-stu-id="281f5-182">Use this method to determine if a data object that was previously placed on the Clipboard is still present and unmodified.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="281f5-183">L’exemple suivant illustre l’utilisation de cette méthode.</span><span class="sxs-lookup"><span data-stu-id="281f5-183">The following example demonstrates the use of this method.</span></span>  
+  
+ [!code-csharp[DragDrop_DragDropMiscCode#_SetDataObjectIsCurrent](~/samples/snippets/csharp/VS_Snippets_Wpf/DragDrop_DragDropMiscCode/CSharp/Window1.xaml.cs#_setdataobjectiscurrent)]
+ [!code-vb[DragDrop_DragDropMiscCode#_SetDataObjectIsCurrent](~/samples/snippets/visualbasic/VS_Snippets_Wpf/DragDrop_DragDropMiscCode/visualbasic/window1.xaml.vb#_setdataobjectiscurrent)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="281f5-184">
+            <paramref name="data" /> est <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-184">
+              <paramref name="data" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Runtime.InteropServices.ExternalException">
+          <span data-ttu-id="281f5-185">Une erreur s'est produite lors de l'accès au Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-185">An error occurred when accessing the Clipboard.</span>
+          </span>
+          <span data-ttu-id="281f5-186">Les détails de l'exception incluent un <see langword="HResult" /> qui identifie l'erreur spécifique. Consultez <see cref="P:System.Runtime.InteropServices.ErrorWrapper.ErrorCode" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-186">The exception details will include an <see langword="HResult" /> that identifies the specific error; see <see cref="P:System.Runtime.InteropServices.ErrorWrapper.ErrorCode" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="SetAudio">
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-187">Stocke les données audio (format de données <see cref="F:System.Windows.DataFormats.WaveAudio" />) sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-187">Stores audio data (<see cref="F:System.Windows.DataFormats.WaveAudio" /> data format) on the Clipboard.</span>
+          </span>
+          <span data-ttu-id="281f5-188">Les données audio peuvent prendre la forme d'un tableau ou d'un flux d'octets.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-188">The audio data can be a byte array or a stream.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="SetAudio">
+      <MemberSignature Language="C#" Value="public static void SetAudio (byte[] audioBytes);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetAudio(unsigned int8[] audioBytes) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.SetAudio(System.Byte[])" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub SetAudio (audioBytes As Byte())" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetAudio(cli::array &lt;System::Byte&gt; ^ audioBytes);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="audioBytes" Type="System.Byte[]" />
+      </Parameters>
+      <Docs>
+        <param name="audioBytes">
+          <span data-ttu-id="281f5-189">Tableau d'octets qui contient les données audio à stocker sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-189">A byte array that contains audio data to store on the Clipboard.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-190">Stocke les données audio (format de données <see cref="F:System.Windows.DataFormats.WaveAudio" />) sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-190">Stores audio data (<see cref="F:System.Windows.DataFormats.WaveAudio" /> data format) on the Clipboard.</span>
+          </span>
+          <span data-ttu-id="281f5-191">Les données audio sont spécifiées en tant que tableau d'octets.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-191">The audio data is specified as a byte array.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-192">Cette méthode ajoute des données avec la conversion automatique désactivée.</span><span class="sxs-lookup"><span data-stu-id="281f5-192">This method adds data with auto-conversion disabled.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="281f5-193">
+            <paramref name="audioBytes" /> est <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-193">
+              <paramref name="audioBytes" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Windows.Clipboard.SetData(System.String,System.Object)" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetDataObject" />
+        <altmember cref="M:System.Windows.Clipboard.SetFileDropList(System.Collections.Specialized.StringCollection)" />
+        <altmember cref="M:System.Windows.Clipboard.SetImage(System.Windows.Media.Imaging.BitmapSource)" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetText" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsAudio" />
+        <altmember cref="M:System.Windows.Clipboard.GetAudioStream" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetAudio">
+      <MemberSignature Language="C#" Value="public static void SetAudio (System.IO.Stream audioStream);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetAudio(class System.IO.Stream audioStream) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.SetAudio(System.IO.Stream)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub SetAudio (audioStream As Stream)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetAudio(System::IO::Stream ^ audioStream);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="audioStream" Type="System.IO.Stream" />
+      </Parameters>
+      <Docs>
+        <param name="audioStream">
+          <span data-ttu-id="281f5-194">Flux de données qui contient les données audio à stocker sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-194">A stream that contains audio data to store on the Clipboard.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-195">Stocke les données audio (format de données <see cref="F:System.Windows.DataFormats.WaveAudio" />) sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-195">Stores audio data (<see cref="F:System.Windows.DataFormats.WaveAudio" /> data format) on the Clipboard.</span>
+          </span>
+          <span data-ttu-id="281f5-196">Les données audio sont spécifiées en tant que flux de données.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-196">The audio data is specified as a stream.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-197">Cette méthode ajoute des données avec la conversion automatique désactivée.</span><span class="sxs-lookup"><span data-stu-id="281f5-197">This method adds data with auto-conversion disabled.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="281f5-198">
+            <paramref name="audioStream" /> est <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-198">
+              <paramref name="audioStream" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Windows.Clipboard.SetData(System.String,System.Object)" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetDataObject" />
+        <altmember cref="M:System.Windows.Clipboard.SetFileDropList(System.Collections.Specialized.StringCollection)" />
+        <altmember cref="M:System.Windows.Clipboard.SetImage(System.Windows.Media.Imaging.BitmapSource)" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetText" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsAudio" />
+        <altmember cref="M:System.Windows.Clipboard.GetAudioStream" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetData">
+      <MemberSignature Language="C#" Value="public static void SetData (string format, object data);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetData(string format, object data) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.SetData(System.String,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub SetData (format As String, data As Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetData(System::String ^ format, System::Object ^ data);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="format" Type="System.String" />
+        <Parameter Name="data" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="format">
+          <span data-ttu-id="281f5-199">Chaîne qui spécifie le format à utiliser pour stocker les données.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-199">A string that specifies the format to use to store the data.</span>
+          </span>
+          <span data-ttu-id="281f5-200">Pour obtenir un ensemble de formats de données prédéfinis, consultez la classe <see cref="T:System.Windows.DataFormats" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-200">See the <see cref="T:System.Windows.DataFormats" /> class for a set of predefined data formats.</span>
+          </span>
+        </param>
+        <param name="data">
+          <span data-ttu-id="281f5-201">Objet qui représente les données à stocker sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-201">An object representing the data to store on the Clipboard.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-202">Stocke les données spécifiées sur le Presse-papiers au format spécifié.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-202">Stores the specified data on the Clipboard in the specified format.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-203">Cette méthode ajoute des données avec la conversion automatique activée si le format de données correspondant est <xref:System.Windows.DataFormats.FileDrop> ou <xref:System.Windows.DataFormats.Bitmap>.</span><span class="sxs-lookup"><span data-stu-id="281f5-203">This method adds data with auto-conversion enabled if the corresponding data format is <xref:System.Windows.DataFormats.FileDrop> or <xref:System.Windows.DataFormats.Bitmap>.</span></span>  <span data-ttu-id="281f5-204">Sinon, la conversion automatique est désactivée.</span><span class="sxs-lookup"><span data-stu-id="281f5-204">Otherwise, auto-conversion is disabled.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="281f5-205">L’exemple suivant illustre l’utilisation de cette méthode.</span><span class="sxs-lookup"><span data-stu-id="281f5-205">The following example demonstrates the use of this method.</span></span>  
+  
+ [!code-csharp[DragDrop_DragDropMiscCode#_SetData](~/samples/snippets/csharp/VS_Snippets_Wpf/DragDrop_DragDropMiscCode/CSharp/Window1.xaml.cs#_setdata)]
+ [!code-vb[DragDrop_DragDropMiscCode#_SetData](~/samples/snippets/visualbasic/VS_Snippets_Wpf/DragDrop_DragDropMiscCode/visualbasic/window1.xaml.vb#_setdata)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Clipboard.ContainsData(System.String)" />
+        <altmember cref="M:System.Windows.Clipboard.GetData(System.String)" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="SetDataObject">
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-206">Stocke un objet de données spécifié sur le Presse-papiers système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-206">Stores a specified data object on the system Clipboard.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="SetDataObject">
+      <MemberSignature Language="C#" Value="public static void SetDataObject (object data);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetDataObject(object data) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.SetDataObject(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub SetDataObject (data As Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetDataObject(System::Object ^ data);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="data" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="data">
+          <span data-ttu-id="281f5-207">Objet de données (un objet qui implémente <see cref="T:System.Windows.IDataObject" />) à placer sur le Presse-papiers système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-207">A data object (an object that implements <see cref="T:System.Windows.IDataObject" />) to place on the system Clipboard.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-208">Place un objet de données non persistant spécifié sur le Presse-papiers système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-208">Places a specified non-persistent data object on the system Clipboard.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-209">Par défaut, les données placées dans le Presse-papiers système avec <xref:System.Windows.Clipboard.SetDataObject%2A> est automatiquement désactivée dans le Presse-papiers lorsque l’application s’arrête.</span><span class="sxs-lookup"><span data-stu-id="281f5-209">By default, data placed on the system Clipboard with <xref:System.Windows.Clipboard.SetDataObject%2A> is automatically cleared from the Clipboard when the application exits.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="281f5-210">Le comportement par défaut d’effacer le Presse-papiers à la sortie de l’application peut-être différer d’autres implémentations, ce qui peuvent laisser des données dans le Presse-papiers sur la sortie de l’application plutôt que d’effacer le contenu par défaut.</span><span class="sxs-lookup"><span data-stu-id="281f5-210">The default behavior of clearing the Clipboard on application exit might differ from other implementations, which might leave data on the Clipboard on application exit rather than clearing it by default.</span></span>  <span data-ttu-id="281f5-211">Utilisez le <xref:System.Windows.Clipboard.SetDataObject%2A> de surcharge et spécifiez le `copy` paramètre en tant que `true` si vous ne souhaitez pas que les données désactivées à partir du Presse-papiers à la sortie de l’application.</span><span class="sxs-lookup"><span data-stu-id="281f5-211">Use the <xref:System.Windows.Clipboard.SetDataObject%2A> overload and specify the `copy` parameter as `true` if you do not want data cleared from the Clipboard on application exit.</span></span>  
+>   
+>  <span data-ttu-id="281f5-212"><xref:System.Windows.DataObject> Fournit une implémentation de base de la <xref:System.Windows.IDataObject> interface.</span><span class="sxs-lookup"><span data-stu-id="281f5-212"><xref:System.Windows.DataObject> provides a basic implementation of the <xref:System.Windows.IDataObject> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="281f5-213">
+            <paramref name="data" /> est <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-213">
+              <paramref name="data" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Runtime.InteropServices.ExternalException">
+          <span data-ttu-id="281f5-214">Une erreur s'est produite lors de l'accès au Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-214">An error occurred when accessing the Clipboard.</span>
+          </span>
+          <span data-ttu-id="281f5-215">Les détails de l'exception incluent un <see langword="HResult" /> qui identifie l'erreur spécifique. Consultez <see cref="P:System.Runtime.InteropServices.ErrorWrapper.ErrorCode" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-215">The exception details will include an <see langword="HResult" /> that identifies the specific error; see <see cref="P:System.Runtime.InteropServices.ErrorWrapper.ErrorCode" />.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.UIPermission">
+          <span data-ttu-id="281f5-216">pour l’autorisation d’accéder aux données dans le Presse-papiers système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-216">for permission to access data on the system Clipboard.</span>
+          </span>
+          <span data-ttu-id="281f5-217">Énumération associée : **AllClipboard**.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-217">Associated enumeration:  **AllClipboard**.</span>
+          </span>
+        </permission>
+        <altmember cref="M:System.Windows.Clipboard.GetDataObject" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetDataObject">
+      <MemberSignature Language="C#" Value="public static void SetDataObject (object data, bool copy);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetDataObject(object data, bool copy) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.SetDataObject(System.Object,System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub SetDataObject (data As Object, copy As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetDataObject(System::Object ^ data, bool copy);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="data" Type="System.Object" />
+        <Parameter Name="copy" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="data">
+          <span data-ttu-id="281f5-218">Objet de données (un objet qui implémente <see cref="T:System.Windows.IDataObject" />) à placer sur le Presse-papiers système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-218">A data object (an object that implements <see cref="T:System.Windows.IDataObject" />) to place on the system Clipboard.</span>
+          </span>
+        </param>
+        <param name="copy">
+          <span data-ttu-id="281f5-219">
+            <see langword="true" /> pour laisser les données sur le Presse-papiers système lors de la fermeture de l'application ; <see langword="false" /> pour effacer les données du Presse-papiers système lors de la fermeture de l'application.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-219">
+              <see langword="true" /> to leave the data on the system Clipboard when the application exits; <see langword="false" /> to clear the data from the system Clipboard when the application exits.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-220">Place un objet de données spécifié sur le Presse-papiers système et accepte un paramètre booléen qui indique si l'objet de données doit être laissé sur le Presse-papiers lors de la fermeture de l'application.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-220">Places a specified data object on the system Clipboard and accepts a Boolean parameter that indicates whether the data object should be left on the Clipboard when the application exits.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-221"><xref:System.Windows.DataObject> Fournit une implémentation de base de la <xref:System.Windows.IDataObject> interface.</span><span class="sxs-lookup"><span data-stu-id="281f5-221"><xref:System.Windows.DataObject> provides a basic implementation of the <xref:System.Windows.IDataObject> interface.</span></span> <span data-ttu-id="281f5-222"><xref:System.Windows.Clipboard.IsCurrent%2A> Détermine l’objet de données précédemment placé sur le Presse-papiers par le dernier <xref:System.Windows.Clipboard.SetDataObject%2A> appeler.</span><span class="sxs-lookup"><span data-stu-id="281f5-222"><xref:System.Windows.Clipboard.IsCurrent%2A> determines the data object previously placed on the clipboard by the last <xref:System.Windows.Clipboard.SetDataObject%2A> call.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="281f5-223">L’exemple suivant illustre l’utilisation de cette méthode.</span><span class="sxs-lookup"><span data-stu-id="281f5-223">The following example demonstrates the use of this method.</span></span>  
+  
+ [!code-csharp[DragDrop_DragDropMiscCode#_SetDataObjectIsCurrent](~/samples/snippets/csharp/VS_Snippets_Wpf/DragDrop_DragDropMiscCode/CSharp/Window1.xaml.cs#_setdataobjectiscurrent)]
+ [!code-vb[DragDrop_DragDropMiscCode#_SetDataObjectIsCurrent](~/samples/snippets/visualbasic/VS_Snippets_Wpf/DragDrop_DragDropMiscCode/visualbasic/window1.xaml.vb#_setdataobjectiscurrent)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="281f5-224">
+            <paramref name="data" /> est <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-224">
+              <paramref name="data" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Runtime.InteropServices.ExternalException">
+          <span data-ttu-id="281f5-225">Une erreur s'est produite lors de l'accès au Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-225">An error occured when accessing the Clipboard.</span>
+          </span>
+          <span data-ttu-id="281f5-226">Les détails de l'exception incluent un <see langword="HResult" /> qui identifie l'erreur spécifique. Consultez <see cref="P:System.Runtime.InteropServices.ErrorWrapper.ErrorCode" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-226">The exception details will include an <see langword="HResult" /> that identifies the specific error; see <see cref="P:System.Runtime.InteropServices.ErrorWrapper.ErrorCode" />.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.UIPermission">
+          <span data-ttu-id="281f5-227">pour l’autorisation d’accéder aux données dans le Presse-papiers système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-227">for permission to access data on the system Clipboard.</span>
+          </span>
+          <span data-ttu-id="281f5-228">Énumération associée : **AllClipboard**.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-228">Associated enumeration:  **AllClipboard**.</span>
+          </span>
+        </permission>
+        <altmember cref="M:System.Windows.Clipboard.GetDataObject" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetFileDropList">
+      <MemberSignature Language="C#" Value="public static void SetFileDropList (System.Collections.Specialized.StringCollection fileDropList);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetFileDropList(class System.Collections.Specialized.StringCollection fileDropList) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.SetFileDropList(System.Collections.Specialized.StringCollection)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub SetFileDropList (fileDropList As StringCollection)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetFileDropList(System::Collections::Specialized::StringCollection ^ fileDropList);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="fileDropList" Type="System.Collections.Specialized.StringCollection" />
+      </Parameters>
+      <Docs>
+        <param name="fileDropList">
+          <span data-ttu-id="281f5-229">Ensemble de chaînes qui contient la liste des fichiers effacés à stocker dans l'objet de données.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-229">A string collection that contains the dropped file list to store in the data object.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-230">Stocke les données <see cref="F:System.Windows.DataFormats.FileDrop" /> sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-230">Stores <see cref="F:System.Windows.DataFormats.FileDrop" /> data on the Clipboard.</span>
+          </span>
+          <span data-ttu-id="281f5-231">La liste des fichiers effacés est spécifiée comme un ensemble de chaînes.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-231">The dropped file list is specified as a string collection.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-232">Cette méthode ajoute des données avec la conversion automatique activée.</span><span class="sxs-lookup"><span data-stu-id="281f5-232">This method adds data with auto-conversion enabled.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="281f5-233">
+            <paramref name="fileDropList" /> est <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-233">
+              <paramref name="fileDropList" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="281f5-234">
+            <paramref name="fileDropList" /> contient des chaînes nulles, ou le chemin d'accès complet au fichier spécifié dans la liste ne peut pas être résolu.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-234">
+              <paramref name="fileDropList" /> contains zero strings, or the full path to file specified in the list cannot be resolved.</span>
+          </span>
+        </exception>
+        <altmember cref="Overload:System.Windows.Clipboard.SetAudio" />
+        <altmember cref="M:System.Windows.Clipboard.SetData(System.String,System.Object)" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetDataObject" />
+        <altmember cref="M:System.Windows.Clipboard.SetImage(System.Windows.Media.Imaging.BitmapSource)" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetText" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsFileDropList" />
+        <altmember cref="M:System.Windows.Clipboard.GetFileDropList" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetImage">
+      <MemberSignature Language="C#" Value="public static void SetImage (System.Windows.Media.Imaging.BitmapSource image);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetImage(class System.Windows.Media.Imaging.BitmapSource image) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.SetImage(System.Windows.Media.Imaging.BitmapSource)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub SetImage (image As BitmapSource)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetImage(System::Windows::Media::Imaging::BitmapSource ^ image);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="image" Type="System.Windows.Media.Imaging.BitmapSource" />
+      </Parameters>
+      <Docs>
+        <param name="image">
+          <span data-ttu-id="281f5-235">Objet <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> qui contient la donnée image à stocker sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-235">A <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> object that contains the image data to store on the Clipboard.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-236">Stocke les données <see cref="F:System.Windows.DataFormats.Bitmap" /> sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-236">Stores <see cref="F:System.Windows.DataFormats.Bitmap" /> data on the Clipboard.</span>
+          </span>
+          <span data-ttu-id="281f5-237">La donnée image est spécifiée en tant que <see cref="T:System.Windows.Media.Imaging.BitmapSource" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-237">The image data is specified as a <see cref="T:System.Windows.Media.Imaging.BitmapSource" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-238">Une image bitmap représente un graphique de l’ordinateur sous forme de tableau de bits dans la mémoire, et ces bits représentant les attributs de chacun des pixels d’une image.</span><span class="sxs-lookup"><span data-stu-id="281f5-238">A bitmap represents a computer graphic as an array of bits in memory, and these bits represent the attributes of the individual pixels in an image.</span></span>  
+  
+ <span data-ttu-id="281f5-239">Cette méthode ajoute des données avec la conversion automatique activée.</span><span class="sxs-lookup"><span data-stu-id="281f5-239">This method adds data with auto-conversion enabled.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="Overload:System.Windows.Clipboard.SetAudio" />
+        <altmember cref="M:System.Windows.Clipboard.SetData(System.String,System.Object)" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetDataObject" />
+        <altmember cref="M:System.Windows.Clipboard.SetFileDropList(System.Collections.Specialized.StringCollection)" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetText" />
+        <altmember cref="M:System.Windows.Clipboard.ContainsImage" />
+        <altmember cref="M:System.Windows.Clipboard.GetImage" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="SetText">
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="281f5-240">Stocke les données texte sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-240">Stores text data on the Clipboard.</span>
+          </span>
+          <span data-ttu-id="281f5-241">Les données texte à stocker sont spécifiées comme une chaîne.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-241">The text data to store is specified as a string.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="SetText">
+      <MemberSignature Language="C#" Value="public static void SetText (string text);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetText(string text) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.SetText(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub SetText (text As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetText(System::String ^ text);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="text" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="text">
+          <span data-ttu-id="281f5-242">Chaîne qui contient les données <see cref="F:System.Windows.DataFormats.UnicodeText" /> à stocker sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-242">A string that contains the <see cref="F:System.Windows.DataFormats.UnicodeText" /> data to store on the Clipboard.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-243">Stocke les données <see cref="F:System.Windows.DataFormats.UnicodeText" /> sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-243">Stores <see cref="F:System.Windows.DataFormats.UnicodeText" /> data on the Clipboard.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-244">Ce format de données désigne 16 bits caractères Unicode encodés, également appelé UTF-16 et UCS-2.</span><span class="sxs-lookup"><span data-stu-id="281f5-244">This data format denotes 16-bit character encoded Unicode, also referred to as UTF-16, and UCS-2.</span></span>  
+  
+ <span data-ttu-id="281f5-245">Cette méthode ajoute des données avec la conversion automatique désactivée.</span><span class="sxs-lookup"><span data-stu-id="281f5-245">This method adds data with auto-conversion disabled.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="281f5-246">
+            <paramref name="text" /> est <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-246">
+              <paramref name="text" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <altmember cref="Overload:System.Windows.Clipboard.SetAudio" />
+        <altmember cref="M:System.Windows.Clipboard.SetData(System.String,System.Object)" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetDataObject" />
+        <altmember cref="M:System.Windows.Clipboard.SetFileDropList(System.Collections.Specialized.StringCollection)" />
+        <altmember cref="M:System.Windows.Clipboard.SetImage(System.Windows.Media.Imaging.BitmapSource)" />
+        <altmember cref="Overload:System.Windows.Clipboard.ContainsText" />
+        <altmember cref="M:System.Windows.Clipboard.GetImage" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetText">
+      <MemberSignature Language="C#" Value="public static void SetText (string text, System.Windows.TextDataFormat format);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetText(string text, valuetype System.Windows.TextDataFormat format) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Clipboard.SetText(System.String,System.Windows.TextDataFormat)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub SetText (text As String, format As TextDataFormat)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetText(System::String ^ text, System::Windows::TextDataFormat format);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="text" Type="System.String" />
+        <Parameter Name="format" Type="System.Windows.TextDataFormat" />
+      </Parameters>
+      <Docs>
+        <param name="text">
+          <span data-ttu-id="281f5-247">Chaîne qui contient les données texte à stocker sur le Presse-papiers.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-247">A string that contains the text data to store on the Clipboard.</span>
+          </span>
+        </param>
+        <param name="format">
+          <span data-ttu-id="281f5-248">Membre de <see cref="T:System.Windows.TextDataFormat" /> qui spécifie le format de données texte spécifique à stocker.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-248">A member of <see cref="T:System.Windows.TextDataFormat" /> that specifies the specific text data format to store.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="281f5-249">Stocke des données texte sur le Presse-papiers dans un format de données texte spécifié.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-249">Stores text data on the Clipboard in a specified text data format.</span>
+          </span>
+          <span data-ttu-id="281f5-250">Les données <see cref="F:System.Windows.DataFormats.UnicodeText" /> à stocker sont spécifiées comme une chaîne.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-250">The <see cref="F:System.Windows.DataFormats.UnicodeText" /> data to store is specified as a string.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="281f5-251">Cette méthode ajoute des données avec la conversion automatique désactivée.</span><span class="sxs-lookup"><span data-stu-id="281f5-251">This method adds data with auto-conversion disabled.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="281f5-252">
+            <paramref name="text" /> est <see langword="null" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="281f5-252">
+              <paramref name="text" /> is <see langword="null" />.</span>
+          </span>
+        </exception>
+        <altmember cref="Overload:System.Windows.Clipboard.SetAudio" />
+        <altmember cref="M:System.Windows.Clipboard.SetData(System.String,System.Object)" />
+        <altmember cref="Overload:System.Windows.Clipboard.SetDataObject" />
+        <altmember cref="M:System.Windows.Clipboard.SetFileDropList(System.Collections.Specialized.StringCollection)" />
+        <altmember cref="M:System.Windows.Clipboard.SetImage(System.Windows.Media.Imaging.BitmapSource)" />
+        <altmember cref="Overload:System.Windows.Clipboard.ContainsText" />
+        <altmember cref="M:System.Windows.Clipboard.GetImage" />
+        <altmember cref="T:System.Windows.DataFormats" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>
