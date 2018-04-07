@@ -1,0 +1,1443 @@
+<Type Name="D3DImage" FullName="System.Windows.Interop.D3DImage">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="67a591e7f26a5181b8d03d81e8af4ab098e8eb98" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class D3DImage : System.Windows.Media.ImageSource" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi D3DImage extends System.Windows.Media.ImageSource" />
+  <TypeSignature Language="DocId" Value="T:System.Windows.Interop.D3DImage" />
+  <TypeSignature Language="VB.NET" Value="Public Class D3DImage&#xA;Inherits ImageSource" />
+  <TypeSignature Language="C++ CLI" Value="public ref class D3DImage : System::Windows::Media::ImageSource" />
+  <AssemblyInfo>
+    <AssemblyName>PresentationCore</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Windows.Media.ImageSource</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="d55ce-101">
+        <see cref="T:System.Windows.Media.ImageSource" /> qui affiche une surface Direct3D créée par l'utilisateur.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="d55ce-101">An <see cref="T:System.Windows.Media.ImageSource" /> that displays a user-created Direct3D surface.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-102">Utilisez la <xref:System.Windows.Interop.D3DImage> classe pour héberger le contenu Direct3D dans une application Windows Presentation Foundation (WPF).</span><span class="sxs-lookup"><span data-stu-id="d55ce-102">Use the <xref:System.Windows.Interop.D3DImage> class to host Direct3D content in a Windows Presentation Foundation (WPF) application.</span></span>  
+  
+ <span data-ttu-id="d55ce-103">Appelez le <xref:System.Windows.Interop.D3DImage.Lock%2A> méthode pour modifier le contenu Direct3D affiché par le <xref:System.Windows.Interop.D3DImage>.</span><span class="sxs-lookup"><span data-stu-id="d55ce-103">Call the <xref:System.Windows.Interop.D3DImage.Lock%2A> method to change the Direct3D content displayed by the <xref:System.Windows.Interop.D3DImage>.</span></span> <span data-ttu-id="d55ce-104">Appelez le <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> méthode pour attribuer une surface Direct3D à un <xref:System.Windows.Interop.D3DImage>.</span><span class="sxs-lookup"><span data-stu-id="d55ce-104">Call the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> method to assign a Direct3D surface to a <xref:System.Windows.Interop.D3DImage>.</span></span> <span data-ttu-id="d55ce-105">Appelez le <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> méthode pour effectuer le suivi des mises à jour à la surface Direct3D.</span><span class="sxs-lookup"><span data-stu-id="d55ce-105">Call the <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> method to track updates to the Direct3D surface.</span></span> <span data-ttu-id="d55ce-106">Appelez le <xref:System.Windows.Interop.D3DImage.Unlock%2A> méthode pour afficher les zones modifiées.</span><span class="sxs-lookup"><span data-stu-id="d55ce-106">Call the <xref:System.Windows.Interop.D3DImage.Unlock%2A> method to display the changed areas.</span></span>  
+  
+ <span data-ttu-id="d55ce-107">Le <xref:System.Windows.Interop.D3DImage> classe gère deux mémoires tampons d’affichage, qui sont appelés les *mémoire tampon d’arrière-plan* et *tampon d’affichage*.</span><span class="sxs-lookup"><span data-stu-id="d55ce-107">The <xref:System.Windows.Interop.D3DImage> class manages two display buffers, which are called the *back buffer* and the *front buffer*.</span></span> <span data-ttu-id="d55ce-108">La mémoire tampon d’arrière-plan est votre surface Direct3D.</span><span class="sxs-lookup"><span data-stu-id="d55ce-108">The back buffer is your Direct3D surface.</span></span>  <span data-ttu-id="d55ce-109">Modifications apportées à la mémoire tampon d’arrière-plan sont copiées en avant dans le tampon d’affichage lorsque vous appelez le <xref:System.Windows.Interop.D3DImage.Unlock%2A> méthode, où il est affiché sur le matériel.</span><span class="sxs-lookup"><span data-stu-id="d55ce-109">Changes to the back buffer are copied forward to the front buffer when you call the <xref:System.Windows.Interop.D3DImage.Unlock%2A> method, where it is displayed on the hardware.</span></span> <span data-ttu-id="d55ce-110">Parfois, le tampon d’affichage n’est plus disponible.</span><span class="sxs-lookup"><span data-stu-id="d55ce-110">Occasionally, the front buffer becomes unavailable.</span></span> <span data-ttu-id="d55ce-111">Ce manque de disponibilité peut résulter de verrouillage de l’écran, les applications Direct3D exclusives plein écran, changement d’utilisateur ou autres activités du système.</span><span class="sxs-lookup"><span data-stu-id="d55ce-111">This lack of availability can be caused by screen locking, full-screen exclusive Direct3D applications, user-switching, or other system activities.</span></span> <span data-ttu-id="d55ce-112">Lorsque cela se produit, votre application WPF est notifiée en gérant le <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> événement.</span><span class="sxs-lookup"><span data-stu-id="d55ce-112">When this occurs, your WPF application is notified by handling the <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> event.</span></span>  <span data-ttu-id="d55ce-113">Comment votre application répond à la mémoire tampon avant de devenir indisponibles dépend de l’activation à revenir au rendu logiciel WPF.</span><span class="sxs-lookup"><span data-stu-id="d55ce-113">How your application responds to the front buffer becoming unavailable depends on whether WPF is enabled to fall back to software rendering.</span></span> <span data-ttu-id="d55ce-114">Le <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> méthode a une surcharge qui accepte un paramètre qui spécifie si les WPF revient au rendu logiciel.</span><span class="sxs-lookup"><span data-stu-id="d55ce-114">The <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> method has an overload that takes a parameter that specifies whether WPF falls back to software rendering.</span></span>  
+  
+## <a name="responding-to-an-unavailable-front-buffer-when-wpf-does-not-fall-back-to-software-rendering"></a><span data-ttu-id="d55ce-115">Répondre à un tampon d’affichage non disponible lorsque WPF ne passe pas à un logiciel de rendu</span><span class="sxs-lookup"><span data-stu-id="d55ce-115">Responding to an Unavailable Front Buffer when WPF Does not Fall Back to Software Rendering</span></span>  
+ <span data-ttu-id="d55ce-116">Lorsque vous appelez le <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%29> surcharge ou appelez le <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> surcharger avec la `enableSoftwareFallback` paramètre la valeur `false`, le système de rendu libère sa référence à la mémoire tampon d’arrière-plan lorsque le tampon d’affichage n’est plus disponible et que rien n’est affiché.</span><span class="sxs-lookup"><span data-stu-id="d55ce-116">When you call the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%29> overload or call the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> overload with the `enableSoftwareFallback` parameter set to `false`, the rendering system releases its reference to the back buffer when the front buffer becomes unavailable and nothing is displayed.</span></span> <span data-ttu-id="d55ce-117">Lorsque le tampon d’affichage est à nouveau disponible, le système de rendu déclenche le <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> événement pour avertir votre application WPF.</span><span class="sxs-lookup"><span data-stu-id="d55ce-117">When the front buffer is available again, the rendering system raises the <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> event to notify your WPF application.</span></span>  <span data-ttu-id="d55ce-118">Vous pouvez créer un gestionnaire d’événements pour le <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> événement pour redémarrer le rendu avec une surface Direct3D valide.</span><span class="sxs-lookup"><span data-stu-id="d55ce-118">You can create an event handler for the <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> event to restart rendering again with a valid Direct3D surface.</span></span> <span data-ttu-id="d55ce-119">Pour redémarrer le rendu, vous devez appeler <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A>.</span><span class="sxs-lookup"><span data-stu-id="d55ce-119">To restart rendering, you must call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A>.</span></span>  
+  
+## <a name="responding-to-an-unavailable-front-buffer-when-wpf-falls-back-to-software-rendering"></a><span data-ttu-id="d55ce-120">Répondre à un tampon d’affichage non disponible lors de WPF revient au rendu logiciel</span><span class="sxs-lookup"><span data-stu-id="d55ce-120">Responding to an Unavailable Front Buffer when WPF Falls Back to Software Rendering</span></span>  
+ <span data-ttu-id="d55ce-121">Lorsque vous appelez le <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> surcharger avec la `enableSoftwareFallback` paramètre la valeur `true`, le système de rendu conserve sa référence à la mémoire tampon d’arrière-plan lorsque le tampon d’affichage n’est plus disponible, il est donc inutile d’appeler <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> lors de l’avant mémoire tampon est à nouveau disponible.</span><span class="sxs-lookup"><span data-stu-id="d55ce-121">When you call the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> overload with the `enableSoftwareFallback` parameter set to `true`, the rendering system retains its reference to the back buffer when the front buffer becomes unavailable, so there is no need to call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> when the front buffer is available again.</span></span>  <span data-ttu-id="d55ce-122">Il peut arriver lorsque le périphérique l’utilisateur n’est plus disponible.</span><span class="sxs-lookup"><span data-stu-id="d55ce-122">There may be situations where the user’s device becomes unavailable.</span></span>  <span data-ttu-id="d55ce-123">Lorsque cela se produit, appelez <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> pour libérer la référence de WPF à la mémoire tampon d’arrière-plan.</span><span class="sxs-lookup"><span data-stu-id="d55ce-123">When that occurs, call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> to release WPF’s reference to the back buffer.</span></span>  <span data-ttu-id="d55ce-124">Si vous devez réinitialiser votre appareil, appelez <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> avec la `backBuffer` paramètre la valeur `null`, puis appelez <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> avec `backBuffer` défini sur une surface Direct3D valide.</span><span class="sxs-lookup"><span data-stu-id="d55ce-124">If you need to reset your device, call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> with the `backBuffer` parameter set to `null`, and then call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> again with `backBuffer` set to a valid Direct3D surface.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="d55ce-125">Les performances dépendent considérablement les paramètres de la surface Direct3D.</span><span class="sxs-lookup"><span data-stu-id="d55ce-125">Performance depends greatly on the settings of the Direct3D surface.</span></span> <span data-ttu-id="d55ce-126">Pour plus d’informations, consultez [considérations sur les performances de Direct3D9 et interopérabilité WPF](~/docs/framework/wpf/advanced/performance-considerations-for-direct3d9-and-wpf-interoperability.md).</span><span class="sxs-lookup"><span data-stu-id="d55ce-126">For more information, see [Performance Considerations for Direct3D9 and WPF Interoperability](~/docs/framework/wpf/advanced/performance-considerations-for-direct3d9-and-wpf-interoperability.md).</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="d55ce-127">Le <xref:System.Windows.Interop.D3DImage> classe n’affiche pas le contenu Direct3D lorsque WPF est rendu dans le logiciel, telles que via une connexion Bureau à distance, sauf si vous appelez <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> et spécifiez `true` pour la `enableSoftwareFallback` paramètre.</span><span class="sxs-lookup"><span data-stu-id="d55ce-127">The <xref:System.Windows.Interop.D3DImage> class does not display Direct3D content when WPF renders in software, such as over a Remote Desktop connection, unless you call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> and specify `true` for the `enableSoftwareFallback` parameter.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d55ce-128">L’exemple de code suivant montre comment déclarer un <xref:System.Windows.Interop.D3DImage> en XAML.</span><span class="sxs-lookup"><span data-stu-id="d55ce-128">The following code example shows how to declare a <xref:System.Windows.Interop.D3DImage> in XAML.</span></span> <span data-ttu-id="d55ce-129">Vous devez mapper le <xref:System.Windows.Interop> espace de noms, car il n’est pas inclus dans les espaces de noms XAML par défaut.</span><span class="sxs-lookup"><span data-stu-id="d55ce-129">You must map the <xref:System.Windows.Interop> namespace, because it is not included in the default XAML namespaces.</span></span> <span data-ttu-id="d55ce-130">Pour plus d’informations, consultez [procédure pas à pas : hébergement de contenu Direct3D9 dans WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span><span class="sxs-lookup"><span data-stu-id="d55ce-130">For more information, see [Walkthrough: Hosting Direct3D9 Content in WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span></span>  
+  
+ [!code-xaml[System.Windows.Interop.D3DImage#10](~/samples/snippets/csharp/VS_Snippets_Wpf/System.Windows.Interop.D3DImage/CS/window1.xaml#10)]  
+  
+ ]]></format>
+    </remarks>
+    <permission cref="T:System.Security.Permissions.SecurityPermission">
+      <span data-ttu-id="d55ce-131">Pour accéder aux ressources non managées.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="d55ce-131">for access to unmanaged resources.</span>
+      </span>
+      <span data-ttu-id="d55ce-132">Action de sécurité : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="d55ce-132">Security action: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+      </span>
+      <span data-ttu-id="d55ce-133">Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+      <span class="sxs-lookup">
+        <span data-stu-id="d55ce-133">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+      </span>
+    </permission>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-134">Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interop.D3DImage" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-134">Initializes a new instance of the <see cref="T:System.Windows.Interop.D3DImage" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public D3DImage ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; D3DImage();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-135">Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interop.D3DImage" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-135">Initializes a new instance of the <see cref="T:System.Windows.Interop.D3DImage" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-136">La résolution d’affichage par défaut est 1/96e de pouce.</span><span class="sxs-lookup"><span data-stu-id="d55ce-136">The default display resolution is 1/96th inch.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="d55ce-137">Pour accéder aux ressources non managées.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-137">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="d55ce-138">Action de sécurité : <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-138">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="d55ce-139">Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-139">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public D3DImage (double dpiX, double dpiY);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(float64 dpiX, float64 dpiY) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.#ctor(System.Double,System.Double)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (dpiX As Double, dpiY As Double)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; D3DImage(double dpiX, double dpiY);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <Parameters>
+        <Parameter Name="dpiX" Type="System.Double" />
+        <Parameter Name="dpiY" Type="System.Double" />
+      </Parameters>
+      <Docs>
+        <param name="dpiX">
+          <span data-ttu-id="d55ce-140">Résolution d'affichage sur l'axe X.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-140">The display resolution on the x-axis.</span>
+          </span>
+        </param>
+        <param name="dpiY">
+          <span data-ttu-id="d55ce-141">Résolution d'affichage sur l'axe Y.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-141">The display resolution on the y-axis.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d55ce-142">Initialise une nouvelle instance de la classe <see cref="T:System.Windows.Interop.D3DImage" /> avec la résolution d'affichage spécifiée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-142">Initializes a new instance of the <see cref="T:System.Windows.Interop.D3DImage" /> class with the specified display resolution.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-143">La résolution d’affichage par défaut est 1/96e de pouce.</span><span class="sxs-lookup"><span data-stu-id="d55ce-143">The default display resolution is 1/96th inch.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="d55ce-144">
+            <paramref name="dpiX" /> ou <paramref name="dpiY" /> est inférieur à zéro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-144">
+              <paramref name="dpiX" /> or <paramref name="dpiY" /> is less than zero.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="d55ce-145">Pour accéder aux ressources non managées.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-145">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="d55ce-146">Action de sécurité : <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-146">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="d55ce-147">Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-147">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+        <altmember cref="P:System.Windows.Interop.D3DImage.Height" />
+        <altmember cref="P:System.Windows.Interop.D3DImage.Width" />
+      </Docs>
+    </Member>
+    <Member MemberName="AddDirtyRect">
+      <MemberSignature Language="C#" Value="public void AddDirtyRect (System.Windows.Int32Rect dirtyRect);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void AddDirtyRect(valuetype System.Windows.Int32Rect dirtyRect) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.AddDirtyRect(System.Windows.Int32Rect)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub AddDirtyRect (dirtyRect As Int32Rect)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void AddDirtyRect(System::Windows::Int32Rect dirtyRect);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dirtyRect" Type="System.Windows.Int32Rect" />
+      </Parameters>
+      <Docs>
+        <param name="dirtyRect">
+          <span data-ttu-id="d55ce-148">
+            <see cref="T:System.Windows.Int32Rect" /> qui représente la zone qui a été modifiée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-148">An <see cref="T:System.Windows.Int32Rect" /> that represents the area that changed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d55ce-149">Spécifie la zone de la mémoire tampon d'arrière-plan qui a été modifiée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-149">Specifies the area of the back buffer that changed.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-150">Appelez le <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> méthode pour indiquer les modifications apportées par votre code à la mémoire tampon d’arrière-plan.</span><span class="sxs-lookup"><span data-stu-id="d55ce-150">Call the <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> method to indicate changes your code has made to the back buffer.</span></span> <span data-ttu-id="d55ce-151">Pour être rendue, la zone modifiée sur la mémoire tampon d’arrière-plan doit avoir une zone modifiée correspondante le <xref:System.Windows.Interop.D3DImage>.</span><span class="sxs-lookup"><span data-stu-id="d55ce-151">To be rendered, the changed area on the back buffer must have a corresponding changed area on the <xref:System.Windows.Interop.D3DImage>.</span></span>  
+  
+ <span data-ttu-id="d55ce-152">Appelez le <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> et <xref:System.Windows.Interop.D3DImage.Lock%2A> méthodes avant d’appeler le <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d55ce-152">Call the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> and <xref:System.Windows.Interop.D3DImage.Lock%2A> methods before calling the <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> method.</span></span>  
+  
+ <span data-ttu-id="d55ce-153">Appelez le <xref:System.Windows.Interop.D3DImage.Unlock%2A> méthode pour copier les zones modifiées dans le tampon d’affichage.</span><span class="sxs-lookup"><span data-stu-id="d55ce-153">Call the <xref:System.Windows.Interop.D3DImage.Unlock%2A> method to copy the changed areas to the front buffer.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="d55ce-154">Après quelques appels à la <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> (méthode), les zones modifiées sont fusionnées dans une seule zone.</span><span class="sxs-lookup"><span data-stu-id="d55ce-154">After a few calls to the <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> method, the changed areas are merged into a single area.</span></span> <span data-ttu-id="d55ce-155">Cela signifie que vous devez disposer des données valides en dehors des zones modifiées.</span><span class="sxs-lookup"><span data-stu-id="d55ce-155">This means you must have valid data outside of the changed areas.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d55ce-156">L’exemple de code suivant montre comment appeler le <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> méthode pour spécifier la région modifiée dans la mémoire tampon d’arrière-plan.</span><span class="sxs-lookup"><span data-stu-id="d55ce-156">The following code example shows how to call the <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> method to specify the changed region in the back buffer.</span></span> <span data-ttu-id="d55ce-157">Pour plus d’informations, consultez [procédure pas à pas : hébergement de contenu Direct3D9 dans WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span><span class="sxs-lookup"><span data-stu-id="d55ce-157">For more information, see [Walkthrough: Hosting Direct3D9 Content in WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span></span>  
+  
+ [!code-csharp[System.Windows.Interop.D3DImage#3](~/samples/snippets/csharp/VS_Snippets_Wpf/System.Windows.Interop.D3DImage/CS/window1.xaml.cs#3)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="d55ce-158">La bitmap n'a pas été verrouillée par un appel à la méthode <see cref="M:System.Windows.Interop.D3DImage.Lock" /> ou <see cref="M:System.Windows.Interop.D3DImage.TryLock(System.Windows.Duration)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-158">The bitmap has not been locked by a call to the <see cref="M:System.Windows.Interop.D3DImage.Lock" /> or <see cref="M:System.Windows.Interop.D3DImage.TryLock(System.Windows.Duration)" /> methods.</span>
+          </span>
+          <span data-ttu-id="d55ce-159">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-159">-or-</span>
+          </span>
+          <span data-ttu-id="d55ce-160">La mémoire tampon d'arrière-plan n'a pas été assignée par un appel à la méthode <see cref="M:System.Windows.Interop.D3DImage.SetBackBuffer(System.Windows.Interop.D3DResourceType,System.IntPtr)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-160">The back buffer has not been assigned by a call to the <see cref="M:System.Windows.Interop.D3DImage.SetBackBuffer(System.Windows.Interop.D3DResourceType,System.IntPtr)" /> method.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="d55ce-161">Une ou plusieurs des conditions suivantes sont vraies.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-161">One or more of the following conditions is true.</span>
+          </span>
+          <span data-ttu-id="d55ce-162">
+            <paramref name="dirtyRect.X" /> &lt; 0</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-162">
+              <paramref name="dirtyRect.X" /> &lt; 0</span>
+          </span>
+          <span data-ttu-id="d55ce-163">
+            <paramref name="dirtyRect.Y" /> &lt; 0</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-163">
+              <paramref name="dirtyRect.Y" /> &lt; 0</span>
+          </span>
+          <span data-ttu-id="d55ce-164">
+            <paramref name="dirtyRect.Width" /> &lt; 0 ou <paramref name="dirtyRect.Width" /> &gt; <see cref="P:System.Windows.Interop.D3DImage.PixelWidth" /><paramref name="dirtyRect.Height" /> &lt; 0 ou <paramref name="dirtyRect.Height" /> &gt; <see cref="P:System.Windows.Interop.D3DImage.PixelHeight" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-164">
+              <paramref name="dirtyRect.Width" /> &lt; 0 or <paramref name="dirtyRect.Width" /> &gt; <see cref="P:System.Windows.Interop.D3DImage.PixelWidth" /><paramref name="dirtyRect.Height" /> &lt; 0 or <paramref name="dirtyRect.Height" /> &gt; <see cref="P:System.Windows.Interop.D3DImage.PixelHeight" /></span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="d55ce-165">Pour accéder aux ressources non managées.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-165">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="d55ce-166">Action de sécurité : <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-166">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="d55ce-167">Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-167">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+        <altmember cref="M:System.Windows.Interop.D3DImage.Unlock" />
+        <altmember cref="M:System.Windows.Interop.D3DImage.SetBackBuffer(System.Windows.Interop.D3DResourceType,System.IntPtr)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Clone">
+      <MemberSignature Language="C#" Value="public System.Windows.Interop.D3DImage Clone ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Windows.Interop.D3DImage Clone() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.Clone" />
+      <MemberSignature Language="VB.NET" Value="Public Function Clone () As D3DImage" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Windows::Interop::D3DImage ^ Clone();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Interop.D3DImage</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-168">Crée un clone modifiable de cet objet <see cref="T:System.Windows.Interop.D3DImage" />, en créant des copies intégrales des valeurs de l'objet.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-168">Creates a modifiable clone of this <see cref="T:System.Windows.Interop.D3DImage" /> object, making deep copies of this object's values.</span>
+          </span>
+          <span data-ttu-id="d55ce-169">Lors de la copie de propriétés de dépendance, cette méthode copie les références de ressources et les liaisons de données (même si elles ne peuvent plus être résolues), mais pas les animations ni leurs valeurs actuelles.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-169">When copying dependency properties, this method copies resource references and data bindings (which may no longer resolve), but not animations or their current values.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d55ce-170">Clone modifiable de l'objet actif.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-170">A modifiable clone of the current object.</span>
+          </span>
+          <span data-ttu-id="d55ce-171">La propriété <see cref="P:System.Windows.Freezable.IsFrozen" /> de l’objet cloné sera <see langword="false" />, même si la propriété <see cref="P:System.Windows.Freezable.IsFrozen" /> de la source était <see langword="true." />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-171">The cloned object's <see cref="P:System.Windows.Freezable.IsFrozen" /> property will be <see langword="false" /> even if the source's <see cref="P:System.Windows.Freezable.IsFrozen" /> property was <see langword="true." /></span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-172">Cette méthode est utilisée pour générer des copies modifiables de figé <xref:System.Windows.Freezable> objets (ou n’importe quel <xref:System.Windows.Freezable> objet).</span><span class="sxs-lookup"><span data-stu-id="d55ce-172">This method is used to produce modifiable copies of frozen <xref:System.Windows.Freezable> objects (or any <xref:System.Windows.Freezable> object).</span></span> <span data-ttu-id="d55ce-173">Pour des raisons pratiques, cette méthode occulte la version héritée avec une implémentation fortement typée.</span><span class="sxs-lookup"><span data-stu-id="d55ce-173">For convenience, this method shadows the inherited version with a strongly typed implementation.</span></span>  
+  
+ <span data-ttu-id="d55ce-174">Pour plus d'informations, consultez <xref:System.Windows.Freezable.Clone%2A?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="d55ce-174">For more information, see <xref:System.Windows.Freezable.Clone%2A?displayProperty=nameWithType>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CloneCore">
+      <MemberSignature Language="C#" Value="protected override void CloneCore (System.Windows.Freezable sourceFreezable);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void CloneCore(class System.Windows.Freezable sourceFreezable) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.CloneCore(System.Windows.Freezable)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub CloneCore (sourceFreezable As Freezable)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void CloneCore(System::Windows::Freezable ^ sourceFreezable);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sourceFreezable" Type="System.Windows.Freezable" />
+      </Parameters>
+      <Docs>
+        <param name="sourceFreezable">
+          <span data-ttu-id="d55ce-175">Objet à cloner.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-175">The object to clone.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d55ce-176">Fait de l’instance un clone (copie complète) du <see cref="T:System.Windows.Freezable" /> spécifié utilisant des valeurs de propriété (non animée) de base.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-176">Makes the instance a clone (deep copy) of the specified <see cref="T:System.Windows.Freezable" /> using base (non-animated) property values.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Windows.Freezable.CloneCore(System.Windows.Freezable)" />
+      </Docs>
+    </Member>
+    <Member MemberName="CloneCurrentValue">
+      <MemberSignature Language="C#" Value="public System.Windows.Interop.D3DImage CloneCurrentValue ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Windows.Interop.D3DImage CloneCurrentValue() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.CloneCurrentValue" />
+      <MemberSignature Language="VB.NET" Value="Public Function CloneCurrentValue () As D3DImage" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Windows::Interop::D3DImage ^ CloneCurrentValue();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Interop.D3DImage</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-177">Crée un clone modifiable de cet objet <see cref="T:System.Windows.Interop.D3DImage" />, en effectuant une copie complète des valeurs actuelles de cet objet.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-177">Creates a modifiable clone of this <see cref="T:System.Windows.Interop.D3DImage" /> object, making deep copies of this object's current values.</span>
+          </span>
+          <span data-ttu-id="d55ce-178">Contrairement à leurs valeurs actuelles, les références de ressources, les liaisons de données et les animations ne sont pas copiées.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-178">Resource references, data bindings, and animations are not copied, but their current values are copied.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d55ce-179">Clone modifiable de l'objet actif.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-179">A modifiable clone of the current object.</span>
+          </span>
+          <span data-ttu-id="d55ce-180">La valeur de la propriété <see cref="P:System.Windows.Freezable.IsFrozen" /> de l'objet cloné est <see langword="false" />, même si la valeur de la propriété <see cref="P:System.Windows.Freezable.IsFrozen" /> de la source était <see langword="true" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-180">The cloned object's <see cref="P:System.Windows.Freezable.IsFrozen" /> property will be <see langword="false" /> even if the source's <see cref="P:System.Windows.Freezable.IsFrozen" /> property was <see langword="true" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-181">Cette méthode est utilisée pour générer des copies modifiables de figé <xref:System.Windows.Freezable> objets (ou n’importe quel <xref:System.Windows.Freezable> objet).</span><span class="sxs-lookup"><span data-stu-id="d55ce-181">This method is used to produce modifiable copies of frozen <xref:System.Windows.Freezable> objects (or any <xref:System.Windows.Freezable> object).</span></span> <span data-ttu-id="d55ce-182">Pour des raisons pratiques, cette méthode occulte la version héritée avec une implémentation fortement typée.</span><span class="sxs-lookup"><span data-stu-id="d55ce-182">For convenience, this method shadows the inherited version with a strongly typed implementation.</span></span>  
+  
+ <span data-ttu-id="d55ce-183">Pour plus d'informations, consultez <xref:System.Windows.Freezable.CloneCurrentValue%2A?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="d55ce-183">For more information, see <xref:System.Windows.Freezable.CloneCurrentValue%2A?displayProperty=nameWithType>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CloneCurrentValueCore">
+      <MemberSignature Language="C#" Value="protected override void CloneCurrentValueCore (System.Windows.Freezable sourceFreezable);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void CloneCurrentValueCore(class System.Windows.Freezable sourceFreezable) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.CloneCurrentValueCore(System.Windows.Freezable)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub CloneCurrentValueCore (sourceFreezable As Freezable)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void CloneCurrentValueCore(System::Windows::Freezable ^ sourceFreezable);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sourceFreezable" Type="System.Windows.Freezable" />
+      </Parameters>
+      <Docs>
+        <param name="sourceFreezable">
+          <span data-ttu-id="d55ce-184">
+            <see cref="T:System.Windows.Freezable" /> à cloner.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-184">The <see cref="T:System.Windows.Freezable" /> to be cloned.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d55ce-185">Fait de l’instance un clone (copie complète) modifiable du <see cref="T:System.Windows.Freezable" /> spécifié à l’aide des valeurs de propriété actuelles.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-185">Makes the instance a modifiable clone (deep copy) of the specified <see cref="T:System.Windows.Freezable" /> using current property values.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Windows.Freezable.CloneCurrentValueCore(System.Windows.Freezable)" />
+      </Docs>
+    </Member>
+    <Member MemberName="CopyBackBuffer">
+      <MemberSignature Language="C#" Value="protected internal virtual System.Windows.Media.Imaging.BitmapSource CopyBackBuffer ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance class System.Windows.Media.Imaging.BitmapSource CopyBackBuffer() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.CopyBackBuffer" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Function CopyBackBuffer () As BitmapSource" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual System::Windows::Media::Imaging::BitmapSource ^ CopyBackBuffer();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Security.SecurityTreatAsSafe</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Windows.Media.Imaging.BitmapSource</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-186">Crée une copie logicielle du <see cref="T:System.Windows.Interop.D3DImage" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-186">Creates a software copy of the <see cref="T:System.Windows.Interop.D3DImage" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d55ce-187">
+            <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> qui est une copie logicielle de l'état actuel de la mémoire tampon d'arrière-plan ; sinon, <see langword="null" /> si la mémoire tampon d'arrière-plan ne peut pas être lue.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-187">A <see cref="T:System.Windows.Media.Imaging.BitmapSource" /> that is a software copy of the current state of the back buffer; otherwise, <see langword="null" /> if the back buffer cannot be read.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-188">Le <xref:System.Windows.Interop.D3DImage.CopyBackBuffer%2A> méthode est appelée par les clients, tels que le système d’impression et la <xref:System.Windows.Media.Imaging.RenderTargetBitmap> classe.</span><span class="sxs-lookup"><span data-stu-id="d55ce-188">The <xref:System.Windows.Interop.D3DImage.CopyBackBuffer%2A> method is called by clients such as the printing system and the <xref:System.Windows.Media.Imaging.RenderTargetBitmap> class.</span></span>  
+  
+ <span data-ttu-id="d55ce-189">Vous pouvez également remplacer le <xref:System.Windows.Interop.D3DImage.CopyBackBuffer%2A> méthode pour implémenter une logique personnalisée et retourner une autre <xref:System.Windows.Media.Imaging.BitmapSource>.</span><span class="sxs-lookup"><span data-stu-id="d55ce-189">Optionally override the <xref:System.Windows.Interop.D3DImage.CopyBackBuffer%2A> method to implement custom logic and return a different <xref:System.Windows.Media.Imaging.BitmapSource>.</span></span> <span data-ttu-id="d55ce-190">Par exemple, vous pouvez retourner un espace réservé <xref:System.Windows.Media.Imaging.BitmapSource> si la valeur par défaut <xref:System.Windows.Interop.D3DImage.CopyBackBuffer%2A> implémentation retourne `null`.</span><span class="sxs-lookup"><span data-stu-id="d55ce-190">For example, you can return a placeholder <xref:System.Windows.Media.Imaging.BitmapSource> if the default <xref:System.Windows.Interop.D3DImage.CopyBackBuffer%2A> implementation returns `null`.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="d55ce-191">Pour accéder aux ressources non managées.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-191">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="d55ce-192">Action de sécurité : <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-192">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="d55ce-193">Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-193">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+        <altmember cref="T:System.Windows.Media.Imaging.BitmapSource" />
+      </Docs>
+    </Member>
+    <Member MemberName="CreateInstanceCore">
+      <MemberSignature Language="C#" Value="protected override System.Windows.Freezable CreateInstanceCore ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Windows.Freezable CreateInstanceCore() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.CreateInstanceCore" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function CreateInstanceCore () As Freezable" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Windows::Freezable ^ CreateInstanceCore();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Freezable</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-194">Une fois implémentée dans une classe dérivée, initialise une nouvelle instance de la classe dérivée <see cref="T:System.Windows.Interop.D3DImage" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-194">When implemented in a derived class, creates a new instance of the <see cref="T:System.Windows.Interop.D3DImage" /> derived class.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d55ce-195">Nouvelle instance.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-195">The new instance.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-196">Si vous dérivez de la <xref:System.Windows.Interop.D3DImage> (classe), vous devez substituer la <xref:System.Windows.Interop.D3DImage.CreateInstanceCore%2A> méthode pour activer un clonage correct.</span><span class="sxs-lookup"><span data-stu-id="d55ce-196">If you derive from the <xref:System.Windows.Interop.D3DImage> class, you must override the <xref:System.Windows.Interop.D3DImage.CreateInstanceCore%2A> method to enable correct cloning.</span></span> <span data-ttu-id="d55ce-197">L’implémentation par défaut effectue un `return new D3DImage()`, qui ne sera pas correct si l’instance est une autre classe.</span><span class="sxs-lookup"><span data-stu-id="d55ce-197">The default implementation performs a `return new D3DImage()`, which will not be correct if the instance is a different class.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~D3DImage ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.Finalize" />
+      <MemberSignature Language="VB.NET" Value="Finalize ()" />
+      <MemberSignature Language="C++ CLI" Value="!D3DImage ()" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.Security.SecurityTreatAsSafe</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-198">Libère les ressources et exécute d’autres opérations de nettoyage avant la récupération du <see cref="T:System.Windows.Interop.D3DImage" /> par la garbage collection.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-198">Frees resources and performs other cleanup operations before the <see cref="T:System.Windows.Interop.D3DImage" /> is reclaimed by garbage collection.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-199">Cette méthode se substitue à <xref:System.Object.Finalize%2A>.</span><span class="sxs-lookup"><span data-stu-id="d55ce-199">This method overrides <xref:System.Object.Finalize%2A>.</span></span> <span data-ttu-id="d55ce-200">Code d’application ne doit pas appeler cette méthode ; d’un objet `Finalize` méthode est appelée automatiquement lors du garbage collection, à moins que la finalisation par le garbage collector a été désactivée par un appel à la <xref:System.GC.SuppressFinalize%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d55ce-200">Application code should not call this method; an object's `Finalize` method is automatically invoked during garbage collection, unless finalization by the garbage collector has been disabled by a call to the <xref:System.GC.SuppressFinalize%2A> method.</span></span>  
+  
+ <span data-ttu-id="d55ce-201">Pour plus d’informations, consultez [destructeurs et méthodes Finalize](http://msdn.microsoft.com/library/fd376774-1643-499b-869e-9546a3aeea70), [de nettoyage des ressources non managées](~/docs/standard/garbage-collection/unmanaged.md), et [substitution de la méthode Finalize](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span><span class="sxs-lookup"><span data-stu-id="d55ce-201">For more information, see [Finalize Methods and Destructors](http://msdn.microsoft.com/library/fd376774-1643-499b-869e-9546a3aeea70), [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md), and [Overriding the Finalize Method](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="d55ce-202">Pour accéder aux ressources non managées.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-202">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="d55ce-203">Action de sécurité : <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-203">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="d55ce-204">Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-204">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="FreezeCore">
+      <MemberSignature Language="C#" Value="protected override sealed bool FreezeCore (bool isChecking);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance bool FreezeCore(bool isChecking) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.FreezeCore(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides NotOverridable Function FreezeCore (isChecking As Boolean) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override bool FreezeCore(bool isChecking);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="isChecking" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="isChecking">
+          <span data-ttu-id="d55ce-205">N'a aucun effet.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-205">Has no effect.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d55ce-206">Rend le <see cref="T:System.Windows.Interop.D3DImage" /> non modifiable ou détermine s'il peut être rendu non modifiable.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-206">Makes the <see cref="T:System.Windows.Interop.D3DImage" /> unmodifiable or determines whether it can be made unmodifiable.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d55ce-207">
+            <see langword="false" /> dans tous les cas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-207">
+              <see langword="false" /> in all cases.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-208">La <xref:System.Windows.Interop.D3DImage> classe n’autorise pas le gel car des modifications sont toujours possibles en raison de la disponibilité du tampon d’affichage.</span><span class="sxs-lookup"><span data-stu-id="d55ce-208">The <xref:System.Windows.Interop.D3DImage> class does not allow freezing because changes are always possible due to front buffer availability.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Interop.D3DImage.IsFrontBufferAvailable" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetAsFrozenCore">
+      <MemberSignature Language="C#" Value="protected override void GetAsFrozenCore (System.Windows.Freezable sourceFreezable);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void GetAsFrozenCore(class System.Windows.Freezable sourceFreezable) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.GetAsFrozenCore(System.Windows.Freezable)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub GetAsFrozenCore (sourceFreezable As Freezable)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void GetAsFrozenCore(System::Windows::Freezable ^ sourceFreezable);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sourceFreezable" Type="System.Windows.Freezable" />
+      </Parameters>
+      <Docs>
+        <param name="sourceFreezable">
+          <span data-ttu-id="d55ce-209">Instance à copier.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-209">The instance to copy.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d55ce-210">Convertit l'instance en clone figé du <see cref="T:System.Windows.Freezable" /> spécifié à l'aide des valeurs de propriétés (non-animées) de base.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-210">Makes the instance a frozen clone of the specified <see cref="T:System.Windows.Freezable" /> using base (non-animated) property values.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Windows.Freezable.GetAsFrozenCore(System.Windows.Freezable)" />
+      </Docs>
+    </Member>
+    <Member MemberName="GetCurrentValueAsFrozenCore">
+      <MemberSignature Language="C#" Value="protected override void GetCurrentValueAsFrozenCore (System.Windows.Freezable sourceFreezable);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void GetCurrentValueAsFrozenCore(class System.Windows.Freezable sourceFreezable) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.GetCurrentValueAsFrozenCore(System.Windows.Freezable)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub GetCurrentValueAsFrozenCore (sourceFreezable As Freezable)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void GetCurrentValueAsFrozenCore(System::Windows::Freezable ^ sourceFreezable);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="sourceFreezable" Type="System.Windows.Freezable" />
+      </Parameters>
+      <Docs>
+        <param name="sourceFreezable">
+          <span data-ttu-id="d55ce-211">
+            <see cref="T:System.Windows.Freezable" /> à copier et figer.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-211">The <see cref="T:System.Windows.Freezable" /> to copy and freeze.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d55ce-212">Convertit l'instance actuelle en un clone figé du <see cref="T:System.Windows.Freezable" /> spécifié.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-212">Makes the current instance a frozen clone of the specified <see cref="T:System.Windows.Freezable" />.</span>
+          </span>
+          <span data-ttu-id="d55ce-213">Si l’objet a des propriétés de dépendance animées, leurs valeurs animées actuelles sont copiées.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-213">If the object has animated dependency properties, their current animated values are copied.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <altmember cref="M:System.Windows.Freezable.GetCurrentValueAsFrozenCore(System.Windows.Freezable)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Height">
+      <MemberSignature Language="C#" Value="public override sealed double Height { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 Height" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Interop.D3DImage.Height" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides NotOverridable ReadOnly Property Height As Double" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property double Height { double get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-214">Obtient la hauteur du <see cref="T:System.Windows.Interop.D3DImage" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-214">Gets the height of the <see cref="T:System.Windows.Interop.D3DImage" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d55ce-215">Hauteur du <see cref="T:System.Windows.Interop.D3DImage" /> en unités de mesure.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-215">The height of the <see cref="T:System.Windows.Interop.D3DImage" />, in measure units.</span>
+          </span>
+          <span data-ttu-id="d55ce-216">Une unité de mesure est égale à 1/96e de pouce.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-216">A measure unit is 1/96th inch.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-217">La valeur de <xref:System.Windows.Interop.D3DImage.Height%2A> peut changer lorsqu’une nouvelle mémoire tampon d’arrière-plan est assignée par un appel à la <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d55ce-217">The value of <xref:System.Windows.Interop.D3DImage.Height%2A> can change when a new back buffer is assigned by a call to the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Interop.D3DImage.Width" />
+        <altmember cref="M:System.Windows.Interop.D3DImage.SetBackBuffer(System.Windows.Interop.D3DResourceType,System.IntPtr)" />
+      </Docs>
+    </Member>
+    <Member MemberName="IsFrontBufferAvailable">
+      <MemberSignature Language="C#" Value="public bool IsFrontBufferAvailable { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsFrontBufferAvailable" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Interop.D3DImage.IsFrontBufferAvailable" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsFrontBufferAvailable As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsFrontBufferAvailable { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-218">Obtient une valeur qui indique si un tampon d'affichage existe.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-218">Gets a value that indicates whether a front buffer exists.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d55ce-219">
+            <see langword="true" /> si un tampon d'affichage existe ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-219">
+              <see langword="true" /> if a front buffer exists; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-220">Parfois, le tampon d’affichage n’est plus disponible.</span><span class="sxs-lookup"><span data-stu-id="d55ce-220">Occasionally, the front buffer becomes unavailable.</span></span> <span data-ttu-id="d55ce-221">Ce manque de disponibilité peut résulter de verrouillage de l’écran, les applications Direct3D exclusives plein écran, changement d’utilisateur ou autres activités du système.</span><span class="sxs-lookup"><span data-stu-id="d55ce-221">This lack of availability can be caused by screen locking, full-screen exclusive Direct3D applications, user-switching, or other system activities.</span></span> <span data-ttu-id="d55ce-222">Lorsque cela se produit, votre application WPF est notifiée en gérant le <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> événement.</span><span class="sxs-lookup"><span data-stu-id="d55ce-222">When this occurs, your WPF application is notified by handling the <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> event.</span></span>  <span data-ttu-id="d55ce-223">Comment votre application répond à la mémoire tampon avant de devenir indisponibles dépend de l’activation à revenir au rendu logiciel WPF.</span><span class="sxs-lookup"><span data-stu-id="d55ce-223">How your application responds to the front buffer becoming unavailable depends on whether WPF is enabled to fall back to software rendering.</span></span> <span data-ttu-id="d55ce-224">Le <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> méthode a une surcharge qui accepte un paramètre qui spécifie si les WPF revient au rendu logiciel.</span><span class="sxs-lookup"><span data-stu-id="d55ce-224">The <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> method has an overload that takes a parameter that specifies whether WPF falls back to software rendering.</span></span> <span data-ttu-id="d55ce-225">Pour plus d’informations, consultez les notes figurant dans la <xref:System.Windows.Interop.D3DImage> classe.</span><span class="sxs-lookup"><span data-stu-id="d55ce-225">For more information, see the remarks in the <xref:System.Windows.Interop.D3DImage> class.</span></span>  
+  
+<a name="dependencyPropertyInfo_IsFrontBufferAvailable"></a>   
+## <a name="dependency-property-information"></a><span data-ttu-id="d55ce-226">Informations sur les propriétés de dépendance</span><span class="sxs-lookup"><span data-stu-id="d55ce-226">Dependency Property Information</span></span>  
+  
+|||  
+|-|-|  
+|<span data-ttu-id="d55ce-227">Champ d’identificateur</span><span class="sxs-lookup"><span data-stu-id="d55ce-227">Identifier field</span></span>|<xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableProperty>|  
+|<span data-ttu-id="d55ce-228">La valeur des propriétés de métadonnées `true`</span><span class="sxs-lookup"><span data-stu-id="d55ce-228">Metadata properties set to `true`</span></span>|<span data-ttu-id="d55ce-229">Aucun.</span><span class="sxs-lookup"><span data-stu-id="d55ce-229">None</span></span>|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d55ce-230">L’exemple de code suivant montre comment vérifier le <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailable%2A> propriété lors du rendu de la cible de composition.</span><span class="sxs-lookup"><span data-stu-id="d55ce-230">The following code example shows how to check the <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailable%2A> property when rendering the composition target.</span></span> <span data-ttu-id="d55ce-231">Pour plus d’informations, consultez [procédure pas à pas : hébergement de contenu Direct3D9 dans WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span><span class="sxs-lookup"><span data-stu-id="d55ce-231">For more information, see [Walkthrough: Hosting Direct3D9 Content in WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span></span>  
+  
+ [!code-csharp[System.Windows.Interop.D3DImage#2](~/samples/snippets/csharp/VS_Snippets_Wpf/System.Windows.Interop.D3DImage/CS/window1.xaml.cs#2)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Interop.D3DImage.SetBackBuffer(System.Windows.Interop.D3DResourceType,System.IntPtr)" />
+        <altmember cref="E:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged" />
+      </Docs>
+    </Member>
+    <Member MemberName="IsFrontBufferAvailableChanged">
+      <MemberSignature Language="C#" Value="public event System.Windows.DependencyPropertyChangedEventHandler IsFrontBufferAvailableChanged;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.Windows.DependencyPropertyChangedEventHandler IsFrontBufferAvailableChanged" />
+      <MemberSignature Language="DocId" Value="E:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged" />
+      <MemberSignature Language="VB.NET" Value="Public Custom Event IsFrontBufferAvailableChanged As DependencyPropertyChangedEventHandler " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; event System::Windows::DependencyPropertyChangedEventHandler ^ IsFrontBufferAvailableChanged;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.DependencyPropertyChangedEventHandler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-232">Se produit quand la propriété <see cref="P:System.Windows.Interop.D3DImage.IsFrontBufferAvailable" /> change.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-232">Occurs when the <see cref="P:System.Windows.Interop.D3DImage.IsFrontBufferAvailable" /> property changes.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-233">Gérer les <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> pour être averti lorsque l’état de la mémoire tampon avant change.</span><span class="sxs-lookup"><span data-stu-id="d55ce-233">Handle the <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> to be notified when the status of the front buffer changes.</span></span> <span data-ttu-id="d55ce-234">Comment votre application répond à la mémoire tampon avant de devenir indisponibles dépend de l’activation à revenir au rendu logiciel WPF.</span><span class="sxs-lookup"><span data-stu-id="d55ce-234">How your application responds to the front buffer becoming unavailable depends on whether WPF is enabled to fall back to software rendering.</span></span> <span data-ttu-id="d55ce-235">Le <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> méthode a une surcharge qui accepte un paramètre qui spécifie si les WPF revient au rendu logiciel.</span><span class="sxs-lookup"><span data-stu-id="d55ce-235">The <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> method has an overload that takes a parameter that specifies whether WPF falls back to software rendering.</span></span> <span data-ttu-id="d55ce-236">Pour plus d’informations, consultez les notes figurant dans la <xref:System.Windows.Interop.D3DImage> classe.</span><span class="sxs-lookup"><span data-stu-id="d55ce-236">For more information, see the remarks in the <xref:System.Windows.Interop.D3DImage> class.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Interop.D3DImage.IsFrontBufferAvailable" />
+        <altmember cref="M:System.Windows.Interop.D3DImage.SetBackBuffer(System.Windows.Interop.D3DResourceType,System.IntPtr)" />
+      </Docs>
+    </Member>
+    <Member MemberName="IsFrontBufferAvailableProperty">
+      <MemberSignature Language="C#" Value="public static readonly System.Windows.DependencyProperty IsFrontBufferAvailableProperty;" />
+      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.DependencyProperty IsFrontBufferAvailableProperty" />
+      <MemberSignature Language="DocId" Value="F:System.Windows.Interop.D3DImage.IsFrontBufferAvailableProperty" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly IsFrontBufferAvailableProperty As DependencyProperty " />
+      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::DependencyProperty ^ IsFrontBufferAvailableProperty;" />
+      <MemberType>Field</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.DependencyProperty</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-237">Identifie la propriété de dépendance <see cref="P:System.Windows.Interop.D3DImage.IsFrontBufferAvailable" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-237">Identifies the <see cref="P:System.Windows.Interop.D3DImage.IsFrontBufferAvailable" /> dependency property.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Lock">
+      <MemberSignature Language="C#" Value="public void Lock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Lock() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.Lock" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Lock ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Lock();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-238">Verrouille le <see cref="T:System.Windows.Interop.D3DImage" /> et active des opérations sur la mémoire tampon d'arrière-plan.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-238">Locks the <see cref="T:System.Windows.Interop.D3DImage" /> and enables operations on the back buffer.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-239">Appelez le <xref:System.Windows.Interop.D3DImage.Lock%2A> méthode pour modifier la mémoire tampon d’arrière-plan en appelant le <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> et <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> méthodes.</span><span class="sxs-lookup"><span data-stu-id="d55ce-239">Call the <xref:System.Windows.Interop.D3DImage.Lock%2A> method to change the back buffer by calling the <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> and <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> methods.</span></span> <span data-ttu-id="d55ce-240">Alors que le <xref:System.Windows.Interop.D3DImage> est verrouillé, votre application peut également rendre à la surface Direct3D affectée à la mémoire tampon d’arrière-plan.</span><span class="sxs-lookup"><span data-stu-id="d55ce-240">While the <xref:System.Windows.Interop.D3DImage> is locked, your application can also render to the Direct3D surface assigned to the back buffer.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="d55ce-241">Le <xref:System.Windows.Interop.D3DImage.Lock%2A> méthode se bloque lorsque le système de rendu lit la mémoire tampon d’arrière-plan pour mettre à jour le tampon d’affichage.</span><span class="sxs-lookup"><span data-stu-id="d55ce-241">The <xref:System.Windows.Interop.D3DImage.Lock%2A> method blocks when the rendering system is reading the back buffer to update the front buffer.</span></span> <span data-ttu-id="d55ce-242">Utilisez la <xref:System.Windows.Interop.D3DImage.TryLock%2A> méthode pour éviter de bloquer indéfiniment.</span><span class="sxs-lookup"><span data-stu-id="d55ce-242">Use the <xref:System.Windows.Interop.D3DImage.TryLock%2A> method to avoid blocking indefinitely.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d55ce-243">L’exemple de code suivant montre comment appeler le <xref:System.Windows.Interop.D3DImage.Lock%2A> méthode d’activation des mises à jour de la mémoire tampon d’arrière-plan.</span><span class="sxs-lookup"><span data-stu-id="d55ce-243">The following code example shows how to call the <xref:System.Windows.Interop.D3DImage.Lock%2A> method to enable updates to the back buffer.</span></span> <span data-ttu-id="d55ce-244">Pour plus d’informations, consultez [procédure pas à pas : hébergement de contenu Direct3D9 dans WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span><span class="sxs-lookup"><span data-stu-id="d55ce-244">For more information, see [Walkthrough: Hosting Direct3D9 Content in WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span></span>  
+  
+ [!code-csharp[System.Windows.Interop.D3DImage#3](~/samples/snippets/csharp/VS_Snippets_Wpf/System.Windows.Interop.D3DImage/CS/window1.xaml.cs#3)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="d55ce-245">Le nombre de verrous est égal à <see cref="F:System.UInt32.MaxValue" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-245">The lock count equals <see cref="F:System.UInt32.MaxValue" />.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Windows.Interop.D3DImage.TryLock(System.Windows.Duration)" />
+        <altmember cref="M:System.Windows.Interop.D3DImage.Unlock" />
+      </Docs>
+    </Member>
+    <Member MemberName="Metadata">
+      <MemberSignature Language="C#" Value="public override sealed System.Windows.Media.ImageMetadata Metadata { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Windows.Media.ImageMetadata Metadata" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Interop.D3DImage.Metadata" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides NotOverridable ReadOnly Property Metadata As ImageMetadata" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Windows::Media::ImageMetadata ^ Metadata { System::Windows::Media::ImageMetadata ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Windows.Media.ImageMetadata</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-246">Obtient les métadonnées associées à la source d'image.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-246">Gets the metadata associated with the image source.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d55ce-247">
+            <see langword="null" /> dans tous les cas.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-247">
+              <see langword="null" /> in all cases.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="PixelHeight">
+      <MemberSignature Language="C#" Value="public int PixelHeight { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 PixelHeight" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Interop.D3DImage.PixelHeight" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property PixelHeight As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int PixelHeight { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-248">Obtient la hauteur du <see cref="T:System.Windows.Interop.D3DImage" /> en pixels.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-248">Gets the height of the <see cref="T:System.Windows.Interop.D3DImage" />, in pixels.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d55ce-249">Hauteur du <see cref="T:System.Windows.Interop.D3DImage" /> en pixels.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-249">The height of the <see cref="T:System.Windows.Interop.D3DImage" />, in pixels.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-250">La valeur de <xref:System.Windows.Interop.D3DImage.PixelHeight%2A> peut changer lorsqu’une nouvelle mémoire tampon d’arrière-plan est assignée par un appel à la <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d55ce-250">The value of <xref:System.Windows.Interop.D3DImage.PixelHeight%2A> can change when a new back buffer is assigned by a call to the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d55ce-251">L’exemple de code suivant montre comment utiliser le <xref:System.Windows.Interop.D3DImage.PixelHeight%2A> propriété pour spécifier la région modifiée dans la mémoire tampon d’arrière-plan.</span><span class="sxs-lookup"><span data-stu-id="d55ce-251">The following code example shows how to use the <xref:System.Windows.Interop.D3DImage.PixelHeight%2A> property to specify the changed region in the back buffer.</span></span> <span data-ttu-id="d55ce-252">Pour plus d’informations, consultez [procédure pas à pas : hébergement de contenu Direct3D9 dans WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span><span class="sxs-lookup"><span data-stu-id="d55ce-252">For more information, see [Walkthrough: Hosting Direct3D9 Content in WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span></span>  
+  
+ [!code-csharp[System.Windows.Interop.D3DImage#3](~/samples/snippets/csharp/VS_Snippets_Wpf/System.Windows.Interop.D3DImage/CS/window1.xaml.cs#3)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Interop.D3DImage.PixelWidth" />
+        <altmember cref="M:System.Windows.Interop.D3DImage.SetBackBuffer(System.Windows.Interop.D3DResourceType,System.IntPtr)" />
+      </Docs>
+    </Member>
+    <Member MemberName="PixelWidth">
+      <MemberSignature Language="C#" Value="public int PixelWidth { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 PixelWidth" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Interop.D3DImage.PixelWidth" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property PixelWidth As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int PixelWidth { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-253">Obtient la largeur du <see cref="T:System.Windows.Interop.D3DImage" /> en pixels.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-253">Gets the width of the <see cref="T:System.Windows.Interop.D3DImage" />, in pixels.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d55ce-254">Largeur du <see cref="T:System.Windows.Interop.D3DImage" />, en pixels.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-254">The width of the <see cref="T:System.Windows.Interop.D3DImage" />, in pixels.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-255">La valeur de <xref:System.Windows.Interop.D3DImage.PixelWidth%2A> peut changer lorsqu’une nouvelle mémoire tampon d’arrière-plan est assignée par un appel à la <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d55ce-255">The value of <xref:System.Windows.Interop.D3DImage.PixelWidth%2A> can change when a new back buffer is assigned by a call to the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d55ce-256">L’exemple de code suivant montre comment utiliser le <xref:System.Windows.Interop.D3DImage.PixelWidth%2A> propriété pour spécifier la région modifiée dans la mémoire tampon d’arrière-plan.</span><span class="sxs-lookup"><span data-stu-id="d55ce-256">The following code example shows how to use the <xref:System.Windows.Interop.D3DImage.PixelWidth%2A> property to specify the changed region in the back buffer.</span></span> <span data-ttu-id="d55ce-257">Pour plus d’informations, consultez [procédure pas à pas : hébergement de contenu Direct3D9 dans WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span><span class="sxs-lookup"><span data-stu-id="d55ce-257">For more information, see [Walkthrough: Hosting Direct3D9 Content in WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span></span>  
+  
+ [!code-csharp[System.Windows.Interop.D3DImage#3](~/samples/snippets/csharp/VS_Snippets_Wpf/System.Windows.Interop.D3DImage/CS/window1.xaml.cs#3)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Interop.D3DImage.PixelHeight" />
+        <altmember cref="M:System.Windows.Interop.D3DImage.SetBackBuffer(System.Windows.Interop.D3DResourceType,System.IntPtr)" />
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="SetBackBuffer">
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-258">Assigne une surface Direct3D comme source de la mémoire tampon d'arrière-plan.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-258">Assigns a Direct3D surface as the source of the back buffer.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="SetBackBuffer">
+      <MemberSignature Language="C#" Value="public void SetBackBuffer (System.Windows.Interop.D3DResourceType backBufferType, IntPtr backBuffer);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetBackBuffer(valuetype System.Windows.Interop.D3DResourceType backBufferType, native int backBuffer) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.SetBackBuffer(System.Windows.Interop.D3DResourceType,System.IntPtr)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetBackBuffer (backBufferType As D3DResourceType, backBuffer As IntPtr)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetBackBuffer(System::Windows::Interop::D3DResourceType backBufferType, IntPtr backBuffer);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="backBufferType" Type="System.Windows.Interop.D3DResourceType" />
+        <Parameter Name="backBuffer" Type="System.IntPtr" />
+      </Parameters>
+      <Docs>
+        <param name="backBufferType">
+          <span data-ttu-id="d55ce-259">Type de surface Direct3D.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-259">The type of Direct3D surface.</span>
+          </span>
+          <span data-ttu-id="d55ce-260">Doit être un <see cref="T:System.Windows.Interop.D3DResourceType" /> valide.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-260">Must be a valid <see cref="T:System.Windows.Interop.D3DResourceType" />.</span>
+          </span>
+        </param>
+        <param name="backBuffer">
+          <span data-ttu-id="d55ce-261">Surface Direct3D à attribuer comme mémoire tampon d'arrière-plan.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-261">The Direct3D surface to assign as the back buffer.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d55ce-262">Assigne une surface Direct3D comme source de la mémoire tampon d'arrière-plan.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-262">Assigns a Direct3D surface as the source of the back buffer.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-263">Appelez le <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> méthode pour attribuer une surface Direct3D à la mémoire tampon d’arrière-plan.</span><span class="sxs-lookup"><span data-stu-id="d55ce-263">Call the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> method to assign a Direct3D surface to the back buffer.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="d55ce-264">Les performances dépendent considérablement les paramètres de la surface Direct3D.</span><span class="sxs-lookup"><span data-stu-id="d55ce-264">Performance depends greatly on the settings of the Direct3D surface.</span></span> <span data-ttu-id="d55ce-265">Pour plus d’informations, consultez [considérations sur les performances de Direct3D9 et interopérabilité WPF](~/docs/framework/wpf/advanced/performance-considerations-for-direct3d9-and-wpf-interoperability.md).</span><span class="sxs-lookup"><span data-stu-id="d55ce-265">For more information, see [Performance Considerations for Direct3D9 and WPF Interoperability](~/docs/framework/wpf/advanced/performance-considerations-for-direct3d9-and-wpf-interoperability.md).</span></span>  
+  
+ <span data-ttu-id="d55ce-266">Appel de la <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%29> surcharge est identique à l’appel le <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> surcharger avec la `enableSoftwareFallback` paramètre la valeur `false`.</span><span class="sxs-lookup"><span data-stu-id="d55ce-266">Calling the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%29> overload is identical to calling the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> overload with the `enableSoftwareFallback` parameter set to `false`.</span></span> <span data-ttu-id="d55ce-267">Lorsque vous appelez <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%29> ou appelez <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> avec la `enableSoftwareFallback` paramètre la valeur `false`, le système de rendu libère sa référence à la mémoire tampon d’arrière-plan lorsque le tampon d’affichage n’est plus disponible et que rien ne s’affiche.</span><span class="sxs-lookup"><span data-stu-id="d55ce-267">When you call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%29> or call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> with the `enableSoftwareFallback` parameter set to `false`, the rendering system releases its reference to the back buffer when front buffer becomes unavailable and nothing is displayed.</span></span> <span data-ttu-id="d55ce-268">Lorsque le tampon d’affichage est à nouveau disponible, le système de rendu déclenche le <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> événement pour avertir votre application WPF.</span><span class="sxs-lookup"><span data-stu-id="d55ce-268">When the front buffer is available again, the rendering system raises the <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> event to notify your WPF application.</span></span>  <span data-ttu-id="d55ce-269">Vous pouvez créer un gestionnaire d’événements pour le <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> événement pour redémarrer le rendu avec une surface Direct3D valide.</span><span class="sxs-lookup"><span data-stu-id="d55ce-269">You can create an event handler for the <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> event to restart rendering again with a valid Direct3D surface.</span></span> <span data-ttu-id="d55ce-270">Pour redémarrer le rendu, vous devez appeler <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A>.</span><span class="sxs-lookup"><span data-stu-id="d55ce-270">To restart rendering, you must call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A>.</span></span>  
+  
+ <span data-ttu-id="d55ce-271">La liste suivante présente les paramètres de la mémoire tampon d’arrière-plan requis pour le `IDirect3DSurface9` type.</span><span class="sxs-lookup"><span data-stu-id="d55ce-271">The following list shows the required back buffer settings for the `IDirect3DSurface9` type.</span></span>  
+  
+-   <span data-ttu-id="d55ce-272">`D3DFMT_A8R8G8B8` ou `D3DFMT_X8R8G8B8`</span><span class="sxs-lookup"><span data-stu-id="d55ce-272">`D3DFMT_A8R8G8B8` or `D3DFMT_X8R8G8B8`</span></span>  
+  
+-   `D3DUSAGE_RENDERTARGET`  
+  
+-   `D3DPOOL_DEFAULT`  
+  
+ <span data-ttu-id="d55ce-273">L’échantillonnage multiple est autorisée sur `IDirect3DSurface9Ex` expose uniquement.</span><span class="sxs-lookup"><span data-stu-id="d55ce-273">Multisampling is allowed on `IDirect3DSurface9Ex` surfaces only.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d55ce-274">L’exemple de code suivant montre comment appeler le <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> méthode pour attribuer une surface Direct3D.</span><span class="sxs-lookup"><span data-stu-id="d55ce-274">The following code example shows how to call the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> method to assign a Direct3D surface.</span></span> <span data-ttu-id="d55ce-275">Pour plus d’informations, consultez [procédure pas à pas : hébergement de contenu Direct3D9 dans WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span><span class="sxs-lookup"><span data-stu-id="d55ce-275">For more information, see [Walkthrough: Hosting Direct3D9 Content in WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span></span>  
+  
+ [!code-csharp[System.Windows.Interop.D3DImage#3](~/samples/snippets/csharp/VS_Snippets_Wpf/System.Windows.Interop.D3DImage/CS/window1.xaml.cs#3)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="d55ce-276">Le <see cref="T:System.Windows.Interop.D3DImage" /> n'a pas été verrouillé par un appel à la méthode <see cref="M:System.Windows.Interop.D3DImage.Lock" /> ou <see cref="M:System.Windows.Interop.D3DImage.TryLock(System.Windows.Duration)" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-276">The <see cref="T:System.Windows.Interop.D3DImage" /> has not been locked by a call to the <see cref="M:System.Windows.Interop.D3DImage.Lock" /> or <see cref="M:System.Windows.Interop.D3DImage.TryLock(System.Windows.Duration)" /> methods.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="d55ce-277">
+            <paramref name="backBufferType" /> n’est pas un <see cref="T:System.Windows.Interop.D3DResourceType" /> valide.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-277">
+              <paramref name="backBufferType" /> is not a valid <see cref="T:System.Windows.Interop.D3DResourceType" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="d55ce-278">Les paramètres de création de <paramref name="backBuffer" /> ne répondent pas aux spécifications pour <paramref name="backBufferType" /> - ou- Le périphérique <paramref name="backBuffer" /> n'est pas valide.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-278">The creation parameters for <paramref name="backBuffer" /> do not meet the requirements for the <paramref name="backBufferType" />-or-The <paramref name="backBuffer" /> device is not valid.</span>
+          </span>
+        </exception>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">
+          <span data-ttu-id="d55ce-279">Pour accéder aux ressources non managées.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-279">for access to unmanaged resources.</span>
+          </span>
+          <span data-ttu-id="d55ce-280">Action de sécurité : <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-280">Security action: <see cref="F:System.Security.Permissions.SecurityAction.Demand" />.</span>
+          </span>
+          <span data-ttu-id="d55ce-281">Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-281">Associated enumeration: <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></span>
+          </span>
+        </permission>
+        <altmember cref="M:System.Windows.Interop.D3DImage.Lock" />
+        <altmember cref="M:System.Windows.Interop.D3DImage.Unlock" />
+      </Docs>
+    </Member>
+    <Member MemberName="SetBackBuffer">
+      <MemberSignature Language="C#" Value="public void SetBackBuffer (System.Windows.Interop.D3DResourceType backBufferType, IntPtr backBuffer, bool enableSoftwareFallback);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetBackBuffer(valuetype System.Windows.Interop.D3DResourceType backBufferType, native int backBuffer, bool enableSoftwareFallback) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.SetBackBuffer(System.Windows.Interop.D3DResourceType,System.IntPtr,System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetBackBuffer (backBufferType As D3DResourceType, backBuffer As IntPtr, enableSoftwareFallback As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetBackBuffer(System::Windows::Interop::D3DResourceType backBufferType, IntPtr backBuffer, bool enableSoftwareFallback);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="backBufferType" Type="System.Windows.Interop.D3DResourceType" />
+        <Parameter Name="backBuffer" Type="System.IntPtr" />
+        <Parameter Name="enableSoftwareFallback" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="backBufferType">
+          <span data-ttu-id="d55ce-282">Type de surface Direct3D.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-282">The type of Direct3D surface.</span>
+          </span>
+          <span data-ttu-id="d55ce-283">Doit être un <see cref="T:System.Windows.Interop.D3DResourceType" /> valide.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-283">Must be a valid <see cref="T:System.Windows.Interop.D3DResourceType" />.</span>
+          </span>
+        </param>
+        <param name="backBuffer">
+          <span data-ttu-id="d55ce-284">Surface Direct3D à attribuer comme mémoire tampon d'arrière-plan.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-284">The Direct3D surface to assign as the back buffer.</span>
+          </span>
+        </param>
+        <param name="enableSoftwareFallback">
+          <span data-ttu-id="d55ce-285">
+            <see langword="true" /> pour revenir au rendu logiciel ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-285">
+              <see langword="true" /> to fall back on software rendering; otherwise, <see langword="false" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d55ce-286">Assigne une surface Direct3D comme source de la mémoire tampon d'arrière-plan.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-286">Assigns a Direct3D surface as the source of the back buffer.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-287">Lorsque vous appelez le <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%29> surcharge ou appelez le <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> surcharger avec la `enableSoftwareFallback` paramètre la valeur `false`, le système de rendu libère sa référence à la mémoire tampon d’arrière-plan lorsque le tampon d’affichage n’est plus disponible et que rien n’est affiché.</span><span class="sxs-lookup"><span data-stu-id="d55ce-287">When you call the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%29> overload or call the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> overload with the `enableSoftwareFallback` parameter set to `false`, the rendering system releases its reference to the back buffer when the front buffer becomes unavailable and nothing is displayed.</span></span> <span data-ttu-id="d55ce-288">Lorsque le tampon d’affichage est à nouveau disponible, le système de rendu déclenche le <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> événement pour avertir votre application WPF.</span><span class="sxs-lookup"><span data-stu-id="d55ce-288">When the front buffer is available again, the rendering system raises the <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> event to notify your WPF application.</span></span>  <span data-ttu-id="d55ce-289">Vous pouvez créer un gestionnaire d’événements pour le <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> événement pour redémarrer le rendu avec une surface Direct3D valide.</span><span class="sxs-lookup"><span data-stu-id="d55ce-289">You can create an event handler for the <xref:System.Windows.Interop.D3DImage.IsFrontBufferAvailableChanged> event to restart rendering again with a valid Direct3D surface.</span></span> <span data-ttu-id="d55ce-290">Pour redémarrer le rendu, vous devez appeler <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A>.</span><span class="sxs-lookup"><span data-stu-id="d55ce-290">To restart rendering, you must call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A>.</span></span>  
+  
+ <span data-ttu-id="d55ce-291">Lorsque vous appelez <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> avec la `enableSoftwareFallback` paramètre la valeur `true`, le système de rendu conserve sa référence à la mémoire tampon d’arrière-plan lorsque le tampon d’affichage n’est plus disponible, il est donc inutile d’appeler <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> lorsque le tampon d’affichage est disponible à nouveau.</span><span class="sxs-lookup"><span data-stu-id="d55ce-291">When you call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%28System.Windows.Interop.D3DResourceType%2CSystem.IntPtr%2CSystem.Boolean%29> with the `enableSoftwareFallback` parameter set to `true`, the rendering system retains its reference to the back buffer when the front buffer becomes unavailable, so there is no need to call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> when the front buffer is available again.</span></span>  <span data-ttu-id="d55ce-292">Il peut arriver lorsque le périphérique l’utilisateur n’est plus disponible.</span><span class="sxs-lookup"><span data-stu-id="d55ce-292">There may be situations where the user’s device becomes unavailable.</span></span>  <span data-ttu-id="d55ce-293">Lorsque cela se produit, appelez <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> pour libérer la référence de WPF à la mémoire tampon d’arrière-plan.</span><span class="sxs-lookup"><span data-stu-id="d55ce-293">When that occurs, call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> to release WPF’s reference to the back buffer.</span></span>  <span data-ttu-id="d55ce-294">Si vous devez réinitialiser votre appareil, appelez <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> avec `backBuffer` la valeur `null`, puis appelez <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> avec `backBuffer` défini sur une surface Direct3D valide.</span><span class="sxs-lookup"><span data-stu-id="d55ce-294">If you need to reset your device, call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> with `backBuffer` set to `null`, and then call <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> again with `backBuffer` set to a valid Direct3D surface.</span></span>  
+  
+ <span data-ttu-id="d55ce-295">La liste suivante présente les paramètres de la mémoire tampon d’arrière-plan requis pour le `IDirect3DSurface9` type.</span><span class="sxs-lookup"><span data-stu-id="d55ce-295">The following list shows the required back buffer settings for the `IDirect3DSurface9` type.</span></span>  
+  
+-   <span data-ttu-id="d55ce-296">`D3DFMT_A8R8G8B8` ou `D3DFMT_X8R8G8B8`</span><span class="sxs-lookup"><span data-stu-id="d55ce-296">`D3DFMT_A8R8G8B8` or `D3DFMT_X8R8G8B8`</span></span>  
+  
+-   `D3DUSAGE_RENDERTARGET`  
+  
+-   `D3DPOOL_DEFAULT`  
+  
+ <span data-ttu-id="d55ce-297">L’échantillonnage multiple est autorisée sur `IDirect3DSurface9Ex` expose uniquement.</span><span class="sxs-lookup"><span data-stu-id="d55ce-297">Multisampling is allowed on `IDirect3DSurface9Ex` surfaces only.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TryLock">
+      <MemberSignature Language="C#" Value="public bool TryLock (System.Windows.Duration timeout);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool TryLock(valuetype System.Windows.Duration timeout) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.TryLock(System.Windows.Duration)" />
+      <MemberSignature Language="VB.NET" Value="Public Function TryLock (timeout As Duration) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool TryLock(System::Windows::Duration timeout);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="timeout" Type="System.Windows.Duration" />
+      </Parameters>
+      <Docs>
+        <param name="timeout">
+          <span data-ttu-id="d55ce-298">Durée d'attente avant l'acquisition du verrou.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-298">The duration to wait for the lock to be acquired.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d55ce-299">Tente de verrouiller le <see cref="T:System.Windows.Interop.D3DImage" /> et attend pendant la durée spécifiée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-299">Attempts to lock the <see cref="T:System.Windows.Interop.D3DImage" /> and waits for the specified duration.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d55ce-300">
+            <see langword="true" /> si le verrou a été acquis ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-300">
+              <see langword="true" /> if the lock was acquired; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="d55ce-301">
+            <paramref name="timeout" /> a la valeur <see cref="P:System.Windows.Duration.Automatic" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-301">
+              <paramref name="timeout" /> is set to <see cref="P:System.Windows.Duration.Automatic" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="d55ce-302">Le nombre de verrous est égal à <see cref="F:System.UInt32.MaxValue" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-302">The lock count equals <see cref="F:System.UInt32.MaxValue" />.</span>
+          </span>
+        </exception>
+        <altmember cref="M:System.Windows.Interop.D3DImage.Lock" />
+        <altmember cref="M:System.Windows.Interop.D3DImage.Unlock" />
+      </Docs>
+    </Member>
+    <Member MemberName="Unlock">
+      <MemberSignature Language="C#" Value="public void Unlock ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Unlock() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Windows.Interop.D3DImage.Unlock" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Unlock ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Unlock();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-303">Décrémente le nombre de verrous pour le <see cref="T:System.Windows.Interop.D3DImage" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-303">Decrements the lock count for the <see cref="T:System.Windows.Interop.D3DImage" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-304">Lorsque le nombre de verrous pour le <xref:System.Windows.Interop.D3DImage> atteint zéro, le <xref:System.Windows.Interop.D3DImage> est entièrement déverrouillé.</span><span class="sxs-lookup"><span data-stu-id="d55ce-304">When the lock count for the <xref:System.Windows.Interop.D3DImage> reaches zero, the <xref:System.Windows.Interop.D3DImage> is fully unlocked.</span></span> <span data-ttu-id="d55ce-305">Le <xref:System.Windows.Interop.D3DImage> est marqué pour le rendu si l’image a modifié des zones spécifiées par les appels précédents à la <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d55ce-305">The <xref:System.Windows.Interop.D3DImage> is marked for rendering if the image has changed areas that were specified by previous calls to the <xref:System.Windows.Interop.D3DImage.AddDirtyRect%2A> method.</span></span>  
+  
+ <span data-ttu-id="d55ce-306">Lorsque les modifications sont validées et rendu se produit, des appels supplémentaires à la <xref:System.Windows.Interop.D3DImage.Lock%2A> un bloc de méthode jusqu'à ce que le thread de rendu a copié le contenu de la mémoire tampon d’arrière-plan dans le tampon d’affichage.</span><span class="sxs-lookup"><span data-stu-id="d55ce-306">When the changes are committed and rendering occurs, additional calls to the <xref:System.Windows.Interop.D3DImage.Lock%2A> method block until the render thread has copied the contents of the back buffer to the front buffer.</span></span> <span data-ttu-id="d55ce-307">Cette synchronisation évite les artefacts d’affichage, tels que les erreurs.</span><span class="sxs-lookup"><span data-stu-id="d55ce-307">This synchronization avoids display artifacts, such as tearing.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="d55ce-308">Ne mettez pas à jour la surface Direct3D lors de la <xref:System.Windows.Interop.D3DImage> est déverrouillé.</span><span class="sxs-lookup"><span data-stu-id="d55ce-308">Do not update the Direct3D surface while the <xref:System.Windows.Interop.D3DImage> is unlocked.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d55ce-309">L’exemple de code suivant montre comment appeler le <xref:System.Windows.Interop.D3DImage.Unlock%2A> méthode pour copier la mémoire tampon d’arrière-plan mise à jour dans le tampon d’affichage.</span><span class="sxs-lookup"><span data-stu-id="d55ce-309">The following code example shows how to call the <xref:System.Windows.Interop.D3DImage.Unlock%2A> method to copy the updated back buffer to the front buffer.</span></span> <span data-ttu-id="d55ce-310">Pour plus d’informations, consultez [procédure pas à pas : hébergement de contenu Direct3D9 dans WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span><span class="sxs-lookup"><span data-stu-id="d55ce-310">For more information, see [Walkthrough: Hosting Direct3D9 Content in WPF](~/docs/framework/wpf/advanced/walkthrough-hosting-direct3d9-content-in-wpf.md).</span></span>  
+  
+ [!code-csharp[System.Windows.Interop.D3DImage#3](~/samples/snippets/csharp/VS_Snippets_Wpf/System.Windows.Interop.D3DImage/CS/window1.xaml.cs#3)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Windows.Interop.D3DImage.Lock" />
+        <altmember cref="M:System.Windows.Interop.D3DImage.TryLock(System.Windows.Duration)" />
+      </Docs>
+    </Member>
+    <Member MemberName="Width">
+      <MemberSignature Language="C#" Value="public override sealed double Width { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance float64 Width" />
+      <MemberSignature Language="DocId" Value="P:System.Windows.Interop.D3DImage.Width" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides NotOverridable ReadOnly Property Width As Double" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property double Width { double get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>PresentationCore</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Double</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d55ce-311">Obtient la largeur du <see cref="T:System.Windows.Interop.D3DImage" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-311">Gets the width of the <see cref="T:System.Windows.Interop.D3DImage" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d55ce-312">Largeur du <see cref="T:System.Windows.Interop.D3DImage" /> en unités de mesure.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-312">The width of the <see cref="T:System.Windows.Interop.D3DImage" />, in measure units.</span>
+          </span>
+          <span data-ttu-id="d55ce-313">Une unité de mesure est égale à 1/96e de pouce.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d55ce-313">A measure unit is 1/96th inch.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d55ce-314">La valeur de <xref:System.Windows.Interop.D3DImage.Width%2A> peut changer lorsqu’une nouvelle mémoire tampon d’arrière-plan est assignée par un appel à la <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d55ce-314">The value of <xref:System.Windows.Interop.D3DImage.Width%2A> can change when a new back buffer is assigned by a call to the <xref:System.Windows.Interop.D3DImage.SetBackBuffer%2A> method.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="P:System.Windows.Interop.D3DImage.Height" />
+        <altmember cref="M:System.Windows.Interop.D3DImage.SetBackBuffer(System.Windows.Interop.D3DResourceType,System.IntPtr)" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>
