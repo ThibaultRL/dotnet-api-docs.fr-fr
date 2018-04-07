@@ -1,0 +1,171 @@
+<Type Name="ICancelAddNew" FullName="System.ComponentModel.ICancelAddNew">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="278da486e62c2461bed74bbab41450685e021f82" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public interface ICancelAddNew" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract ICancelAddNew" />
+  <TypeSignature Language="DocId" Value="T:System.ComponentModel.ICancelAddNew" />
+  <TypeSignature Language="VB.NET" Value="Public Interface ICancelAddNew" />
+  <TypeSignature Language="C++ CLI" Value="public interface class ICancelAddNew" />
+  <AssemblyInfo>
+    <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="e9b2d-101">Ajoute la fonction transactionnelle lors de l'ajout d'un nouvel élément à une collection.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="e9b2d-101">Adds transactional capability when adding a new item to a collection.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="e9b2d-102">Le <xref:System.ComponentModel.ICancelAddNew> interface permet à une collection ajouter un nouvel élément d’une manière extensible.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-102">The <xref:System.ComponentModel.ICancelAddNew> interface enables a collection to add a new item in an extensible way.</span></span> <span data-ttu-id="e9b2d-103">Le nouvel élément peut ensuite être validé ou restauré.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-103">The new item subsequently can be committed or rolled back.</span></span> <span data-ttu-id="e9b2d-104">Le <xref:System.ComponentModel.IBindingList.AddNew%2A> méthode de la collection est utilisée pour ajouter provisoirement l’élément qui est traité par la suite via les opérations suivantes :</span><span class="sxs-lookup"><span data-stu-id="e9b2d-104">The <xref:System.ComponentModel.IBindingList.AddNew%2A> method of the collection is used to tentatively add the item, which is subsequently transacted through the following operations:</span></span>  
+  
+-   <span data-ttu-id="e9b2d-105">Le <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> méthode explicitement validera l’ajout en attente.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-105">The <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> method will explicitly commit the pending addition.</span></span>  
+  
+-   <span data-ttu-id="e9b2d-106">Effectuer une autre opération de collection, par exemple une insertion, suppression ou déplacement validera implicitement l’ajout en attente.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-106">Performing another collection operation, such as an insertion, removal, or move will implicitly commit the pending addition.</span></span>  
+  
+-   <span data-ttu-id="e9b2d-107">Le <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> méthode annule l’ajout en attente si elle n’a pas encore été validée.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-107">The <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> method will roll back the pending addition if it has not already been committed.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="e9b2d-108">Dans certains scénarios, notamment la liaison de données complexe Windows Forms, la collection peut recevoir <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> ou <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> appelle d’autres éléments que l’élément qui vient d’être ajouté.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-108">In some scenarios, such as Windows Forms complex data binding, the collection may receive <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> or <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> calls for items other than the newly added item.</span></span> <span data-ttu-id="e9b2d-109">(Chaque élément est généralement une ligne dans une vue de données). Ignorez ces appels ; Annuler ou valider le nouvel élément uniquement lorsque l’index de cet élément est spécifié.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-109">(Each item is typically a row in a data view.) Ignore these calls; cancel or commit the new item only when that item's index is specified.</span></span>  
+  
+ <span data-ttu-id="e9b2d-110">Il existe deux modèles qui autorisent l’addition transactionnelle d’un élément à une collection liée aux données :</span><span class="sxs-lookup"><span data-stu-id="e9b2d-110">There are two models that allow transactional addition of an item to a data-bound collection:</span></span>  
+  
+-   <span data-ttu-id="e9b2d-111">L’ancien modèle repose directement sur une collection qui implémente le <xref:System.ComponentModel.IBindingList> de l’interface et est lié aux données directement à l’aide de la <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> classe.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-111">The older model relies directly on a collection that implements the <xref:System.ComponentModel.IBindingList> interface and is data-bound directly using the <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> class.</span></span> <span data-ttu-id="e9b2d-112">Le <xref:System.Windows.Forms.CurrencyManager.AddNew%2A>, <xref:System.Windows.Forms.CurrencyManager.EndCurrentEdit%2A>, et <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A> méthodes de la <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> classe sont responsables de la prise en charge transactionnelle permettant d’ajouter de nouveaux éléments.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-112">The <xref:System.Windows.Forms.CurrencyManager.AddNew%2A>, <xref:System.Windows.Forms.CurrencyManager.EndCurrentEdit%2A>, and <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A> methods of the <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> class are responsible for transactional support for adding new items.</span></span> <span data-ttu-id="e9b2d-113">Toutefois, cette fonctionnalité repose sur les éléments que prenant en charge le comportement transactionnel via le <xref:System.ComponentModel.IEditableObject> interface.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-113">However, this functionality depends upon the items supporting transactional behavior through the <xref:System.ComponentModel.IEditableObject> interface.</span></span> <span data-ttu-id="e9b2d-114">Si les éléments ne prennent pas en charge cette interface, l’élément sera toujours être ajouté à la liste, quel que soit les appels suivants à <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A>.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-114">If the items do not support this interface, the item will always be added to the list, regardless of subsequent calls to <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A>.</span></span>  
+  
+-   <span data-ttu-id="e9b2d-115">Le modèle plus récent prend en charge un scénario de liaison de données plus fiable via générique <xref:System.ComponentModel.BindingList%601> classe qui implémente le <xref:System.ComponentModel.IBindingList> et <xref:System.ComponentModel.ICancelAddNew> interfaces.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-115">The newer model supports a more robust data-binding scenario through the generic <xref:System.ComponentModel.BindingList%601> class, which implements the <xref:System.ComponentModel.IBindingList> and <xref:System.ComponentModel.ICancelAddNew> interfaces.</span></span> <span data-ttu-id="e9b2d-116">Dans ce cas, la prise en charge transactionnelle est géré par le <xref:System.ComponentModel.BindingList%601> collection directement.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-116">In this case, the transactional support is managed by the <xref:System.ComponentModel.BindingList%601> collection directly.</span></span>  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.ComponentModel.IBindingList" />
+    <altmember cref="T:System.Windows.Forms.CurrencyManager" />
+    <altmember cref="T:System.ComponentModel.IEditableObject" />
+    <altmember cref="T:System.ComponentModel.BindingList`1" />
+  </Docs>
+  <Members>
+    <Member MemberName="CancelNew">
+      <MemberSignature Language="C#" Value="public void CancelNew (int itemIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void CancelNew(int32 itemIndex) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.ICancelAddNew.CancelNew(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub CancelNew (itemIndex As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void CancelNew(int itemIndex);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="itemIndex" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="itemIndex">
+          <span data-ttu-id="e9b2d-117">Index de l'élément ajouté précédemment à la collection.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="e9b2d-117">The index of the item that was previously added to the collection.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="e9b2d-118">Élimine un nouvel élément en attente de la collection.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="e9b2d-118">Discards a pending new item from the collection.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="e9b2d-119">Le <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> méthode restaure une addition en attente (<xref:System.ComponentModel.IBindingList.AddNew%2A>) d’un élément précédemment ajouté à la collection à la position `itemIndex`.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-119">The <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> method rolls back a pending addition (<xref:System.ComponentModel.IBindingList.AddNew%2A>) of an item previously added to the collection at position `itemIndex`.</span></span> <span data-ttu-id="e9b2d-120">Le paramètre d’index est nécessaire car plusieurs nouveaux éléments peuvent être simultanément en attente.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-120">The index parameter is necessary because several new items can be simultaneously pending.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.ComponentModel.ICancelAddNew.EndNew(System.Int32)" />
+        <altmember cref="M:System.Windows.Forms.CurrencyManager.CancelCurrentEdit" />
+        <altmember cref="T:System.ComponentModel.IEditableObject" />
+      </Docs>
+    </Member>
+    <Member MemberName="EndNew">
+      <MemberSignature Language="C#" Value="public void EndNew (int itemIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void EndNew(int32 itemIndex) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.ICancelAddNew.EndNew(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub EndNew (itemIndex As Integer)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void EndNew(int itemIndex);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="itemIndex" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="itemIndex">
+          <span data-ttu-id="e9b2d-121">Index de l'élément ajouté précédemment à la collection.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="e9b2d-121">The index of the item that was previously added to the collection.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="e9b2d-122">Valide un nouvel élément en attente dans la collection.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="e9b2d-122">Commits a pending new item to the collection.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="e9b2d-123">Le <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> valide une addition en attente (<xref:System.ComponentModel.IBindingList.AddNew%2A>) d’un élément précédemment ajouté à la collection à la position `itemIndex`.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-123">The <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> commits a pending addition (<xref:System.ComponentModel.IBindingList.AddNew%2A>) of an item previously added to the collection at position `itemIndex`.</span></span> <span data-ttu-id="e9b2d-124">Le paramètre d’index est nécessaire car plusieurs nouveaux éléments peuvent être simultanément en attente.</span><span class="sxs-lookup"><span data-stu-id="e9b2d-124">The index parameter is necessary because several new items can be simultaneously pending.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.ComponentModel.ICancelAddNew.CancelNew(System.Int32)" />
+        <altmember cref="M:System.Windows.Forms.CurrencyManager.EndCurrentEdit" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>

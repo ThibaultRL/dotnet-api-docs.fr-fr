@@ -1,0 +1,1129 @@
+<Type Name="SqlDataAdapter" FullName="System.Data.SqlClient.SqlDataAdapter">
+  <TypeSignature Language="C#" Value="public sealed class SqlDataAdapter : System.Data.Common.DbDataAdapter, ICloneable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit SqlDataAdapter extends System.Data.Common.DbDataAdapter implements class System.Data.IDataAdapter, class System.Data.IDbDataAdapter, class System.ICloneable" />
+  <TypeSignature Language="DocId" Value="T:System.Data.SqlClient.SqlDataAdapter" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class SqlDataAdapter&#xA;Inherits DbDataAdapter&#xA;Implements ICloneable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class SqlDataAdapter sealed : System::Data::Common::DbDataAdapter, ICloneable" />
+  <AssemblyInfo>
+    <AssemblyName>System.Data</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Data.SqlClient</AssemblyName>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Data.Common.DbDataAdapter</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.ICloneable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.ComponentModel.DefaultEvent("RowUpdated")</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.ComponentModel.Designer("Microsoft.VSDesigner.Data.VS.SqlDataAdapterDesigner, Microsoft.VSDesigner, Version=0.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", "System.ComponentModel.Design.IDesigner")</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.ComponentModel.ToolboxItem("Microsoft.VSDesigner.Data.VS.SqlDataAdapterToolboxItem, Microsoft.VSDesigner, Version=0.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary><span data-ttu-id="2027b-101">Représente un ensemble de commandes de données et une connexion à une base de données qui permettent de remplir <see cref="T:System.Data.DataSet" /> et de mettre à jour une base de données SQL Server.</span><span class="sxs-lookup"><span data-stu-id="2027b-101">Represents a set of data commands and a database connection that are used to fill the <see cref="T:System.Data.DataSet" /> and update a SQL Server database.</span></span> <span data-ttu-id="2027b-102">Cette classe ne peut pas être héritée.</span><span class="sxs-lookup"><span data-stu-id="2027b-102">This class cannot be inherited.</span></span></summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-103">Le <xref:System.Data.SqlClient.SqlDataAdapter>, sert de pont entre une <xref:System.Data.DataSet> et SQL Server pour la récupération et l’enregistrement de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-103">The <xref:System.Data.SqlClient.SqlDataAdapter>, serves as a bridge between a <xref:System.Data.DataSet> and SQL Server for retrieving and saving data.</span></span> <span data-ttu-id="2027b-104">Le <xref:System.Data.SqlClient.SqlDataAdapter> fournit ce pont en mappant <xref:System.Data.Common.DbDataAdapter.Fill%2A>, qui modifie les données dans le <xref:System.Data.DataSet> pour faire correspondre les données dans la source de données et <xref:System.Data.Common.DbDataAdapter.Update%2A>, qui modifie les données dans la source de données pour faire correspondre les données dans le <xref:System.Data.DataSet>, à l’aide la instructions Transact-SQL appropriées par rapport à la source de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-104">The <xref:System.Data.SqlClient.SqlDataAdapter> provides this bridge by mapping <xref:System.Data.Common.DbDataAdapter.Fill%2A>, which changes the data in the <xref:System.Data.DataSet> to match the data in the data source, and <xref:System.Data.Common.DbDataAdapter.Update%2A>, which changes the data in the data source to match the data in the <xref:System.Data.DataSet>, using the appropriate Transact-SQL statements against the data source.</span></span> <span data-ttu-id="2027b-105">La mise à jour est effectuée sur une base par ligne.</span><span class="sxs-lookup"><span data-stu-id="2027b-105">The update is performed on a by-row basis.</span></span> <span data-ttu-id="2027b-106">Pour chaque ligne insérée, modifié et supprimé, le <xref:System.Data.Common.DbDataAdapter.Update%2A> méthode détermine le type de modification qui a été effectué sur celui-ci (`Insert`, `Update`, ou `Delete`).</span><span class="sxs-lookup"><span data-stu-id="2027b-106">For every inserted, modified, and deleted row, the <xref:System.Data.Common.DbDataAdapter.Update%2A> method determines the type of change that has been performed on it (`Insert`, `Update`, or `Delete`).</span></span> <span data-ttu-id="2027b-107">Selon le type de modification, le `Insert`, `Update`, ou `Delete` modèle de commande s’exécute pour propager la ligne modifiée à la source de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-107">Depending on the type of change, the `Insert`, `Update`, or `Delete` command template executes to propagate the modified row to the data source.</span></span> <span data-ttu-id="2027b-108">Lorsque le <xref:System.Data.SqlClient.SqlDataAdapter> remplit un <xref:System.Data.DataSet>, il crée les tables et colonnes nécessaires pour les données retournées si elles n’existent pas déjà.</span><span class="sxs-lookup"><span data-stu-id="2027b-108">When the <xref:System.Data.SqlClient.SqlDataAdapter> fills a <xref:System.Data.DataSet>, it creates the necessary tables and columns for the returned data if they do not already exist.</span></span> <span data-ttu-id="2027b-109">Toutefois, les informations de clé primaire ne sont pas incluses dans le schéma créé implicitement, sauf si le <xref:System.Data.Common.DataAdapter.MissingSchemaAction%2A> est définie sur <xref:System.Data.MissingSchemaAction.AddWithKey>.</span><span class="sxs-lookup"><span data-stu-id="2027b-109">However, primary key information is not included in the implicitly created schema unless the <xref:System.Data.Common.DataAdapter.MissingSchemaAction%2A> property is set to <xref:System.Data.MissingSchemaAction.AddWithKey>.</span></span> <span data-ttu-id="2027b-110">Vous devrez peut-être également le <xref:System.Data.SqlClient.SqlDataAdapter> créer le schéma de la <xref:System.Data.DataSet>, y compris les informations de clé primaire, avant de le remplir avec des données à l’aide `FillSchema`.</span><span class="sxs-lookup"><span data-stu-id="2027b-110">You may also have the <xref:System.Data.SqlClient.SqlDataAdapter> create the schema of the <xref:System.Data.DataSet>, including primary key information, before filling it with data using `FillSchema`.</span></span> <span data-ttu-id="2027b-111">Pour plus d’informations, consultez [Ajout de contraintes existantes à un DataSet](~/docs/framework/data/adonet/adding-existing-constraints-to-a-dataset.md).</span><span class="sxs-lookup"><span data-stu-id="2027b-111">For more information, see [Adding Existing Constraints to a DataSet](~/docs/framework/data/adonet/adding-existing-constraints-to-a-dataset.md).</span></span>  
+  
+ <span data-ttu-id="2027b-112"><xref:System.Data.SqlClient.SqlDataAdapter> est utilisé conjointement avec <xref:System.Data.SqlClient.SqlConnection> et <xref:System.Data.SqlClient.SqlCommand> pour augmenter les performances lors de la connexion à une base de données SQL Server.</span><span class="sxs-lookup"><span data-stu-id="2027b-112"><xref:System.Data.SqlClient.SqlDataAdapter> is used in conjunction with <xref:System.Data.SqlClient.SqlConnection> and <xref:System.Data.SqlClient.SqlCommand> to increase performance when connecting to a SQL Server database.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="2027b-113">Si vous utilisez des procédures stockées SQL Server pour modifier ou supprimer des données à l'aide de `DataAdapter`, assurez-vous que vous n'utilisez pas SET NOCOUNT ON dans la définition de procédure stockée.</span><span class="sxs-lookup"><span data-stu-id="2027b-113">If you are using SQL Server stored procedures to edit or delete data using a `DataAdapter`, make sure that you do not use SET NOCOUNT ON in the stored procedure definition.</span></span> <span data-ttu-id="2027b-114">En effet, le nombre de lignes affectées retourné serait alors la valeur zéro, ce que `DataAdapter` interprète comme un conflit d'accès concurrentiel.</span><span class="sxs-lookup"><span data-stu-id="2027b-114">This causes the rows affected count returned to be zero, which the `DataAdapter` interprets as a concurrency conflict.</span></span> <span data-ttu-id="2027b-115">Dans ce cas, l'exception <xref:System.Data.DBConcurrencyException> est levée.</span><span class="sxs-lookup"><span data-stu-id="2027b-115">In this event, a <xref:System.Data.DBConcurrencyException> will be thrown.</span></span>  
+  
+ <span data-ttu-id="2027b-116">Le <xref:System.Data.SqlClient.SqlDataAdapter> inclut également le <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A>, et <xref:System.Data.Common.DataAdapter.TableMappings%2A> propriétés afin de faciliter le chargement et la mise à jour de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-116">The <xref:System.Data.SqlClient.SqlDataAdapter> also includes the <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A>, and <xref:System.Data.Common.DataAdapter.TableMappings%2A> properties to facilitate the loading and updating of data.</span></span>  
+  
+ <span data-ttu-id="2027b-117">Lorsqu’une instance de <xref:System.Data.SqlClient.SqlDataAdapter> est créé, la lecture/écriture propriétés sont définies sur les valeurs initiales.</span><span class="sxs-lookup"><span data-stu-id="2027b-117">When an instance of <xref:System.Data.SqlClient.SqlDataAdapter> is created, the read/write properties are set to initial values.</span></span> <span data-ttu-id="2027b-118">Pour obtenir la liste de ces valeurs, consultez le <xref:System.Data.SqlClient.SqlDataAdapter> constructeur.</span><span class="sxs-lookup"><span data-stu-id="2027b-118">For a list of these values, see the <xref:System.Data.SqlClient.SqlDataAdapter> constructor.</span></span>  
+  
+ <span data-ttu-id="2027b-119">Le <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A>, et <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A> sont des modèles génériques qui sont automatiquement remplis avec des valeurs individuelles à partir de chaque ligne modifiée via le mécanisme de paramètres.</span><span class="sxs-lookup"><span data-stu-id="2027b-119">The <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A>, and <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A> are generic templates that are automatically filled with individual values from every modified row through the parameters mechanism.</span></span>  
+  
+ <span data-ttu-id="2027b-120">Pour chaque colonne que vous propagez à la source de données sur <xref:System.Data.Common.DbDataAdapter.Update%2A>, un paramètre doit être ajouté à la `InsertCommand`, `UpdateCommand`, ou `DeleteCommand`.</span><span class="sxs-lookup"><span data-stu-id="2027b-120">For every column that you propagate to the data source on <xref:System.Data.Common.DbDataAdapter.Update%2A>, a parameter should be added to the `InsertCommand`, `UpdateCommand`, or `DeleteCommand`.</span></span> <span data-ttu-id="2027b-121">Le <xref:System.Data.Common.DbParameter.SourceColumn%2A> propriété de la <xref:System.Data.Common.DbParameter> objet doit être défini sur le nom de la colonne.</span><span class="sxs-lookup"><span data-stu-id="2027b-121">The <xref:System.Data.Common.DbParameter.SourceColumn%2A> property of the <xref:System.Data.Common.DbParameter> object should be set to the name of the column.</span></span> <span data-ttu-id="2027b-122">Ce paramètre indique que la valeur du paramètre n’est pas définie manuellement, mais qu’il provient de la colonne particulière de la ligne actuellement traitée.</span><span class="sxs-lookup"><span data-stu-id="2027b-122">This setting indicates that the value of the parameter is not set manually, but is taken from the particular column in the currently processed row.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="2027b-123">Un <xref:System.InvalidOperationException> se produira si la <xref:System.Data.Common.DbDataAdapter.Fill%2A> méthode est appelée et la table contient un type défini par l’utilisateur qui n’est pas disponible sur l’ordinateur client.</span><span class="sxs-lookup"><span data-stu-id="2027b-123">An <xref:System.InvalidOperationException> will occur if the <xref:System.Data.Common.DbDataAdapter.Fill%2A> method is called and the table contains a user-defined type that is not available on the client computer.</span></span> <span data-ttu-id="2027b-124">Pour plus d’informations, consultez [création et utilisation Types](http://go.microsoft.com/fwlink/?LinkId=139492) dans la documentation en ligne de SQL Server.</span><span class="sxs-lookup"><span data-stu-id="2027b-124">For more information, see [Creating and Using User-Defined Types](http://go.microsoft.com/fwlink/?LinkId=139492) in SQL Server Books Online.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="2027b-125">L’exemple suivant utilise le <xref:System.Data.SqlClient.SqlCommand>, <xref:System.Data.SqlClient.SqlDataAdapter>, et <xref:System.Data.SqlClient.SqlConnection> pour sélectionner des enregistrements à partir d’une base de données et remplir un <xref:System.Data.DataSet> avec les lignes sélectionnées.</span><span class="sxs-lookup"><span data-stu-id="2027b-125">The following example uses the <xref:System.Data.SqlClient.SqlCommand>, <xref:System.Data.SqlClient.SqlDataAdapter>, and <xref:System.Data.SqlClient.SqlConnection> to select records from a database and populate a <xref:System.Data.DataSet> with the selected rows.</span></span> <span data-ttu-id="2027b-126">La pleine <xref:System.Data.DataSet> est alors retournée.</span><span class="sxs-lookup"><span data-stu-id="2027b-126">The filled <xref:System.Data.DataSet> is then returned.</span></span> <span data-ttu-id="2027b-127">Pour ce faire, est passé à la méthode initialisé <xref:System.Data.DataSet>, une chaîne de connexion et une chaîne de requête qui est une instruction Transact-SQL SELECT.</span><span class="sxs-lookup"><span data-stu-id="2027b-127">To accomplish this, the method is passed an initialized <xref:System.Data.DataSet>, a connection string, and a query string that is a Transact-SQL SELECT statement.</span></span>  
+  
+ [!code-csharp[Classic WebData SqlDataAdapter Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData SqlDataAdapter Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter Example/VB/source.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary><span data-ttu-id="2027b-128">Initialise une nouvelle instance de la classe <see cref="T:System.Data.SqlClient.SqlDataAdapter" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-128">Initializes a new instance of the <see cref="T:System.Data.SqlClient.SqlDataAdapter" /> class.</span></span></summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public SqlDataAdapter ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; SqlDataAdapter();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary><span data-ttu-id="2027b-129">Initialise une nouvelle instance de la classe <see cref="T:System.Data.SqlClient.SqlDataAdapter" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-129">Initializes a new instance of the <see cref="T:System.Data.SqlClient.SqlDataAdapter" /> class.</span></span></summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-130">Lorsqu’une instance de <xref:System.Data.SqlClient.SqlDataAdapter> est créée, les propriétés sont définies sur les valeurs initiales suivantes en lecture/écriture.</span><span class="sxs-lookup"><span data-stu-id="2027b-130">When an instance of <xref:System.Data.SqlClient.SqlDataAdapter> is created, the following read/write properties are set to the following initial values.</span></span>  
+  
+|<span data-ttu-id="2027b-131">Propriétés</span><span class="sxs-lookup"><span data-stu-id="2027b-131">Properties</span></span>|<span data-ttu-id="2027b-132">Valeur initiale</span><span class="sxs-lookup"><span data-stu-id="2027b-132">Initial value</span></span>|  
+|----------------|-------------------|  
+|<xref:System.Data.Common.DataAdapter.MissingMappingAction%2A>|`MissingMappingAction.Passthrough`|  
+|<xref:System.Data.Common.DataAdapter.MissingSchemaAction%2A>|`MissingSchemaAction.Add`|  
+  
+ <span data-ttu-id="2027b-133">Vous pouvez modifier la valeur d’une de ces propriétés via un appel séparé à la propriété.</span><span class="sxs-lookup"><span data-stu-id="2027b-133">You can change the value of any of these properties through a separate call to the property.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="2027b-134">L’exemple suivant crée un <xref:System.Data.SqlClient.SqlDataAdapter> et définit certaines de ses propriétés.</span><span class="sxs-lookup"><span data-stu-id="2027b-134">The following example creates a <xref:System.Data.SqlClient.SqlDataAdapter> and sets some of its properties.</span></span>  
+  
+ [!code-csharp[Classic WebData SqlDataAdapter.SqlDataAdapter Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter.SqlDataAdapter Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData SqlDataAdapter.SqlDataAdapter Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter.SqlDataAdapter Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public SqlDataAdapter (System.Data.SqlClient.SqlCommand selectCommand);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Data.SqlClient.SqlCommand selectCommand) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.#ctor(System.Data.SqlClient.SqlCommand)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (selectCommand As SqlCommand)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; SqlDataAdapter(System::Data::SqlClient::SqlCommand ^ selectCommand);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="selectCommand" Type="System.Data.SqlClient.SqlCommand" />
+      </Parameters>
+      <Docs>
+        <param name="selectCommand"><span data-ttu-id="2027b-135"><see cref="T:System.Data.SqlClient.SqlCommand" /> qui est une instruction Transact-SQL SELECT ou une procédure stockée ayant valeur de propriété <see cref="P:System.Data.SqlClient.SqlDataAdapter.SelectCommand" /> de <see cref="T:System.Data.SqlClient.SqlDataAdapter" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-135">A <see cref="T:System.Data.SqlClient.SqlCommand" /> that is a Transact-SQL SELECT statement or stored procedure and is set as the <see cref="P:System.Data.SqlClient.SqlDataAdapter.SelectCommand" /> property of the <see cref="T:System.Data.SqlClient.SqlDataAdapter" />.</span></span></param>
+        <summary><span data-ttu-id="2027b-136">Initialise une nouvelle instance de la classe <see cref="T:System.Data.SqlClient.SqlDataAdapter" /> avec le <see cref="T:System.Data.SqlClient.SqlCommand" /> spécifié en tant que propriété <see cref="P:System.Data.SqlClient.SqlDataAdapter.SelectCommand" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-136">Initializes a new instance of the <see cref="T:System.Data.SqlClient.SqlDataAdapter" /> class with the specified <see cref="T:System.Data.SqlClient.SqlCommand" /> as the <see cref="P:System.Data.SqlClient.SqlDataAdapter.SelectCommand" /> property.</span></span></summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-137">Cette implémentation de la <xref:System.Data.SqlClient.SqlDataAdapter> constructeur définit la <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> propriété à la valeur spécifiée dans le `selectCommand` paramètre.</span><span class="sxs-lookup"><span data-stu-id="2027b-137">This implementation of the <xref:System.Data.SqlClient.SqlDataAdapter> constructor sets the <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> property to the value specified in the `selectCommand` parameter.</span></span>  
+  
+ <span data-ttu-id="2027b-138">Lorsqu’une instance de <xref:System.Data.SqlClient.SqlDataAdapter> est créée, les propriétés sont définies sur les valeurs initiales suivantes en lecture/écriture.</span><span class="sxs-lookup"><span data-stu-id="2027b-138">When an instance of <xref:System.Data.SqlClient.SqlDataAdapter> is created, the following read/write properties are set to the following initial values.</span></span>  
+  
+|<span data-ttu-id="2027b-139">Propriétés</span><span class="sxs-lookup"><span data-stu-id="2027b-139">Properties</span></span>|<span data-ttu-id="2027b-140">Valeur initiale</span><span class="sxs-lookup"><span data-stu-id="2027b-140">Initial value</span></span>|  
+|----------------|-------------------|  
+|<xref:System.Data.Common.DataAdapter.MissingMappingAction%2A>|`MissingMappingAction.Passthrough`|  
+|<xref:System.Data.Common.DataAdapter.MissingSchemaAction%2A>|`MissingSchemaAction.Add`|  
+  
+ <span data-ttu-id="2027b-141">Vous pouvez modifier la valeur d’une de ces propriétés via un appel séparé à la propriété.</span><span class="sxs-lookup"><span data-stu-id="2027b-141">You can change the value of any of these properties through a separate call to the property.</span></span>  
+  
+ <span data-ttu-id="2027b-142">Lors de la <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> (ou toute autre propriété de commande) est attribué à un créé précédemment <xref:System.Data.SqlClient.SqlCommand>, le <xref:System.Data.SqlClient.SqlCommand> n’est pas cloné.</span><span class="sxs-lookup"><span data-stu-id="2027b-142">When <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> (or any of the other command properties) is assigned to a previously created <xref:System.Data.SqlClient.SqlCommand>, the <xref:System.Data.SqlClient.SqlCommand> is not cloned.</span></span> <span data-ttu-id="2027b-143">Le <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> conserve une référence à précédemment créé <xref:System.Data.SqlClient.SqlCommand> objet.</span><span class="sxs-lookup"><span data-stu-id="2027b-143">The <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> maintains a reference to the previously created <xref:System.Data.SqlClient.SqlCommand> object.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="2027b-144">L’exemple suivant crée un <xref:System.Data.SqlClient.SqlDataAdapter> et définit certaines de ses propriétés.</span><span class="sxs-lookup"><span data-stu-id="2027b-144">The following example creates a <xref:System.Data.SqlClient.SqlDataAdapter> and sets some of its properties.</span></span>  
+  
+ [!code-csharp[Classic WebData SqlDataAdapter.SqlDataAdapter1 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter.SqlDataAdapter1 Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData SqlDataAdapter.SqlDataAdapter1 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter.SqlDataAdapter1 Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public SqlDataAdapter (string selectCommandText, System.Data.SqlClient.SqlConnection selectConnection);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string selectCommandText, class System.Data.SqlClient.SqlConnection selectConnection) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.#ctor(System.String,System.Data.SqlClient.SqlConnection)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (selectCommandText As String, selectConnection As SqlConnection)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; SqlDataAdapter(System::String ^ selectCommandText, System::Data::SqlClient::SqlConnection ^ selectConnection);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="selectCommandText" Type="System.String" />
+        <Parameter Name="selectConnection" Type="System.Data.SqlClient.SqlConnection" />
+      </Parameters>
+      <Docs>
+        <param name="selectCommandText"><span data-ttu-id="2027b-145"><see cref="T:System.String" /> qui est une instruction Transact-SQL SELECT ou une procédure stockée devant être utilisée par la propriété <see cref="P:System.Data.SqlClient.SqlDataAdapter.SelectCommand" /> de <see cref="T:System.Data.SqlClient.SqlDataAdapter" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-145">A <see cref="T:System.String" /> that is a Transact-SQL SELECT statement or stored procedure to be used by the <see cref="P:System.Data.SqlClient.SqlDataAdapter.SelectCommand" /> property of the <see cref="T:System.Data.SqlClient.SqlDataAdapter" />.</span></span></param>
+        <param name="selectConnection"><span data-ttu-id="2027b-146"><see cref="T:System.Data.SqlClient.SqlConnection" /> représentant la connexion.</span><span class="sxs-lookup"><span data-stu-id="2027b-146">A <see cref="T:System.Data.SqlClient.SqlConnection" /> that represents the connection.</span></span> <span data-ttu-id="2027b-147">Si votre chaîne de connexion n'utilise pas <see langword="Integrated Security = true" />, vous pouvez utiliser les <see cref="T:System.Data.SqlClient.SqlCredential" /> pour obtenir l'ID d'utilisateur et le mot de passe de façon plus sécurisée qu'en spécifiant l'ID d'utilisateur et le mot de passe sous forme de texte dans la chaîne de connexion.</span><span class="sxs-lookup"><span data-stu-id="2027b-147">If your connection string does not use <see langword="Integrated Security = true" />, you can use <see cref="T:System.Data.SqlClient.SqlCredential" /> to pass the user ID and password more securely than by specifying the user ID and password as text in the connection string.</span></span></param>
+        <summary><span data-ttu-id="2027b-148">Initialise une nouvelle instance de la classe <see cref="T:System.Data.SqlClient.SqlDataAdapter" /> avec <see cref="P:System.Data.SqlClient.SqlDataAdapter.SelectCommand" /> et un objet <see cref="T:System.Data.SqlClient.SqlConnection" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-148">Initializes a new instance of the <see cref="T:System.Data.SqlClient.SqlDataAdapter" /> class with a <see cref="P:System.Data.SqlClient.SqlDataAdapter.SelectCommand" /> and a <see cref="T:System.Data.SqlClient.SqlConnection" /> object.</span></span></summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-149">Cette implémentation de la <xref:System.Data.SqlClient.SqlDataAdapter> s’ouvre et ferme un <xref:System.Data.SqlClient.SqlConnection> s’il n’est pas déjà ouvert.</span><span class="sxs-lookup"><span data-stu-id="2027b-149">This implementation of the <xref:System.Data.SqlClient.SqlDataAdapter> opens and closes a <xref:System.Data.SqlClient.SqlConnection> if it is not already open.</span></span> <span data-ttu-id="2027b-150">Cela peut être utile dans une application qui doit appeler le <xref:System.Data.Common.DbDataAdapter.Fill%2A> méthode pour plusieurs <xref:System.Data.SqlClient.SqlDataAdapter> objets.</span><span class="sxs-lookup"><span data-stu-id="2027b-150">This can be useful in an application that must call the <xref:System.Data.Common.DbDataAdapter.Fill%2A> method for two or more <xref:System.Data.SqlClient.SqlDataAdapter> objects.</span></span> <span data-ttu-id="2027b-151">Si le <xref:System.Data.SqlClient.SqlConnection> est déjà ouvert, vous devez appeler explicitement **fermer** ou **Dispose** pour la fermer.</span><span class="sxs-lookup"><span data-stu-id="2027b-151">If the <xref:System.Data.SqlClient.SqlConnection> is already open, you must explicitly call **Close** or **Dispose** to close it.</span></span>  
+  
+ <span data-ttu-id="2027b-152">Lorsqu’une instance de <xref:System.Data.SqlClient.SqlDataAdapter> est créée, les propriétés sont définies sur les valeurs initiales suivantes en lecture/écriture.</span><span class="sxs-lookup"><span data-stu-id="2027b-152">When an instance of <xref:System.Data.SqlClient.SqlDataAdapter> is created, the following read/write properties are set to the following initial values.</span></span>  
+  
+|<span data-ttu-id="2027b-153">Propriétés</span><span class="sxs-lookup"><span data-stu-id="2027b-153">Properties</span></span>|<span data-ttu-id="2027b-154">Valeur initiale</span><span class="sxs-lookup"><span data-stu-id="2027b-154">Initial value</span></span>|  
+|----------------|-------------------|  
+|<xref:System.Data.Common.DataAdapter.MissingMappingAction%2A>|`MissingMappingAction.Passthrough`|  
+|<xref:System.Data.Common.DataAdapter.MissingSchemaAction%2A>|`MissingSchemaAction.Add`|  
+  
+ <span data-ttu-id="2027b-155">Vous pouvez modifier la valeur d’une de ces propriétés via un appel séparé à la propriété.</span><span class="sxs-lookup"><span data-stu-id="2027b-155">You can change the value of either of these properties through a separate call to the property.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="2027b-156">L’exemple suivant crée un <xref:System.Data.SqlClient.SqlDataAdapter> et définit certaines de ses propriétés.</span><span class="sxs-lookup"><span data-stu-id="2027b-156">The following example creates a <xref:System.Data.SqlClient.SqlDataAdapter> and sets some of its properties.</span></span>  
+  
+ [!code-csharp[Classic WebData SqlDataAdapter.SqlDataAdapter3 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter.SqlDataAdapter3 Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData SqlDataAdapter.SqlDataAdapter3 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter.SqlDataAdapter3 Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public SqlDataAdapter (string selectCommandText, string selectConnectionString);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string selectCommandText, string selectConnectionString) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.#ctor(System.String,System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (selectCommandText As String, selectConnectionString As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; SqlDataAdapter(System::String ^ selectCommandText, System::String ^ selectConnectionString);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="selectCommandText" Type="System.String" />
+        <Parameter Name="selectConnectionString" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="selectCommandText"><span data-ttu-id="2027b-157"><see cref="T:System.String" /> qui est une instruction Transact-SQL SELECT ou une procédure stockée devant être utilisée par la propriété <see cref="P:System.Data.SqlClient.SqlDataAdapter.SelectCommand" /> de <see cref="T:System.Data.SqlClient.SqlDataAdapter" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-157">A <see cref="T:System.String" /> that is a Transact-SQL SELECT statement or stored procedure to be used by the <see cref="P:System.Data.SqlClient.SqlDataAdapter.SelectCommand" /> property of the <see cref="T:System.Data.SqlClient.SqlDataAdapter" />.</span></span></param>
+        <param name="selectConnectionString"><span data-ttu-id="2027b-158">Chaîne de connexion</span><span class="sxs-lookup"><span data-stu-id="2027b-158">The connection string.</span></span> <span data-ttu-id="2027b-159">Si votre chaîne de connexion n'utilise pas <see langword="Integrated Security = true" />, vous pouvez utiliser la <see cref="M:System.Data.SqlClient.SqlDataAdapter.#ctor(System.String,System.Data.SqlClient.SqlConnection)" /> et les <see cref="T:System.Data.SqlClient.SqlCredential" /> pour obtenir l'ID d'utilisateur et le mot de passe de façon plus sécurisée qu'en spécifiant l'ID d'utilisateur et le mot de passe sous forme de texte dans la chaîne de connexion.</span><span class="sxs-lookup"><span data-stu-id="2027b-159">If your connection string does not use <see langword="Integrated Security = true" />, you can use <see cref="M:System.Data.SqlClient.SqlDataAdapter.#ctor(System.String,System.Data.SqlClient.SqlConnection)" /> and <see cref="T:System.Data.SqlClient.SqlCredential" /> to pass the user ID and password more securely than by specifying the user ID and password as text in the connection string.</span></span></param>
+        <summary><span data-ttu-id="2027b-160">Initialise une nouvelle instance de la classe <see cref="T:System.Data.SqlClient.SqlDataAdapter" /> avec <see cref="P:System.Data.SqlClient.SqlDataAdapter.SelectCommand" /> et une chaîne de connexion.</span><span class="sxs-lookup"><span data-stu-id="2027b-160">Initializes a new instance of the <see cref="T:System.Data.SqlClient.SqlDataAdapter" /> class with a <see cref="P:System.Data.SqlClient.SqlDataAdapter.SelectCommand" /> and a connection string.</span></span></summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-161">Cette surcharge de la <xref:System.Data.SqlClient.SqlDataAdapter> constructeur utilise le `selectCommandText` pour définir le <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> propriété.</span><span class="sxs-lookup"><span data-stu-id="2027b-161">This overload of the <xref:System.Data.SqlClient.SqlDataAdapter> constructor uses the `selectCommandText` parameter to set the <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> property.</span></span> <span data-ttu-id="2027b-162">Le <xref:System.Data.SqlClient.SqlDataAdapter> crée et conserve la connexion créée avec la `selectConnectionString` paramètre.</span><span class="sxs-lookup"><span data-stu-id="2027b-162">The <xref:System.Data.SqlClient.SqlDataAdapter> will create and maintain the connection created with the `selectConnectionString` parameter.</span></span>  
+  
+ <span data-ttu-id="2027b-163">Lorsqu’une instance de <xref:System.Data.SqlClient.SqlDataAdapter> est créée, les propriétés sont définies sur les valeurs initiales suivantes en lecture/écriture.</span><span class="sxs-lookup"><span data-stu-id="2027b-163">When an instance of <xref:System.Data.SqlClient.SqlDataAdapter> is created, the following read/write properties are set to the following initial values.</span></span>  
+  
+|<span data-ttu-id="2027b-164">Propriétés</span><span class="sxs-lookup"><span data-stu-id="2027b-164">Properties</span></span>|<span data-ttu-id="2027b-165">Valeur initiale</span><span class="sxs-lookup"><span data-stu-id="2027b-165">Initial value</span></span>|  
+|----------------|-------------------|  
+|<xref:System.Data.Common.DataAdapter.MissingMappingAction%2A>|`MissingMappingAction.Passthrough`|  
+|<xref:System.Data.Common.DataAdapter.MissingSchemaAction%2A>|`MissingSchemaAction.Add`|  
+  
+ <span data-ttu-id="2027b-166">Vous pouvez modifier la valeur d’une de ces propriétés via un appel séparé à la propriété.</span><span class="sxs-lookup"><span data-stu-id="2027b-166">You can change the value of any of these properties through a separate call to the property.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="2027b-167">L’exemple suivant crée un <xref:System.Data.SqlClient.SqlDataAdapter> et définit certaines de ses propriétés.</span><span class="sxs-lookup"><span data-stu-id="2027b-167">The following example creates a <xref:System.Data.SqlClient.SqlDataAdapter> and sets some of its properties.</span></span>  
+  
+ [!code-csharp[Classic WebData SqlDataAdapter.SqlDataAdapter2 Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter.SqlDataAdapter2 Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData SqlDataAdapter.SqlDataAdapter2 Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter.SqlDataAdapter2 Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AddToBatch">
+      <MemberSignature Language="C#" Value="protected override int AddToBatch (System.Data.IDbCommand command);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance int32 AddToBatch(class System.Data.IDbCommand command) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.AddToBatch(System.Data.IDbCommand)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function AddToBatch (command As IDbCommand) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override int AddToBatch(System::Data::IDbCommand ^ command);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="command" Type="System.Data.IDbCommand" />
+      </Parameters>
+      <Docs>
+        <param name="command">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ClearBatch">
+      <MemberSignature Language="C#" Value="protected override void ClearBatch ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void ClearBatch() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.ClearBatch" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub ClearBatch ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void ClearBatch();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateRowUpdatedEvent">
+      <MemberSignature Language="C#" Value="protected override System.Data.Common.RowUpdatedEventArgs CreateRowUpdatedEvent (System.Data.DataRow dataRow, System.Data.IDbCommand command, System.Data.StatementType statementType, System.Data.Common.DataTableMapping tableMapping);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Data.Common.RowUpdatedEventArgs CreateRowUpdatedEvent(class System.Data.DataRow dataRow, class System.Data.IDbCommand command, valuetype System.Data.StatementType statementType, class System.Data.Common.DataTableMapping tableMapping) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.CreateRowUpdatedEvent(System.Data.DataRow,System.Data.IDbCommand,System.Data.StatementType,System.Data.Common.DataTableMapping)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Data::Common::RowUpdatedEventArgs ^ CreateRowUpdatedEvent(System::Data::DataRow ^ dataRow, System::Data::IDbCommand ^ command, System::Data::StatementType statementType, System::Data::Common::DataTableMapping ^ tableMapping);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Common.RowUpdatedEventArgs</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dataRow" Type="System.Data.DataRow" />
+        <Parameter Name="command" Type="System.Data.IDbCommand" />
+        <Parameter Name="statementType" Type="System.Data.StatementType" />
+        <Parameter Name="tableMapping" Type="System.Data.Common.DataTableMapping" />
+      </Parameters>
+      <Docs>
+        <param name="dataRow">To be added.</param>
+        <param name="command">To be added.</param>
+        <param name="statementType">To be added.</param>
+        <param name="tableMapping">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CreateRowUpdatingEvent">
+      <MemberSignature Language="C#" Value="protected override System.Data.Common.RowUpdatingEventArgs CreateRowUpdatingEvent (System.Data.DataRow dataRow, System.Data.IDbCommand command, System.Data.StatementType statementType, System.Data.Common.DataTableMapping tableMapping);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Data.Common.RowUpdatingEventArgs CreateRowUpdatingEvent(class System.Data.DataRow dataRow, class System.Data.IDbCommand command, valuetype System.Data.StatementType statementType, class System.Data.Common.DataTableMapping tableMapping) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.CreateRowUpdatingEvent(System.Data.DataRow,System.Data.IDbCommand,System.Data.StatementType,System.Data.Common.DataTableMapping)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Data::Common::RowUpdatingEventArgs ^ CreateRowUpdatingEvent(System::Data::DataRow ^ dataRow, System::Data::IDbCommand ^ command, System::Data::StatementType statementType, System::Data::Common::DataTableMapping ^ tableMapping);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.Common.RowUpdatingEventArgs</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="dataRow" Type="System.Data.DataRow" />
+        <Parameter Name="command" Type="System.Data.IDbCommand" />
+        <Parameter Name="statementType" Type="System.Data.StatementType" />
+        <Parameter Name="tableMapping" Type="System.Data.Common.DataTableMapping" />
+      </Parameters>
+      <Docs>
+        <param name="dataRow">To be added.</param>
+        <param name="command">To be added.</param>
+        <param name="statementType">To be added.</param>
+        <param name="tableMapping">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DeleteCommand">
+      <MemberSignature Language="C#" Value="public System.Data.SqlClient.SqlCommand DeleteCommand { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Data.SqlClient.SqlCommand DeleteCommand" />
+      <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlDataAdapter.DeleteCommand" />
+      <MemberSignature Language="VB.NET" Value="Public Property DeleteCommand As SqlCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Data::SqlClient::SqlCommand ^ DeleteCommand { System::Data::SqlClient::SqlCommand ^ get(); void set(System::Data::SqlClient::SqlCommand ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DefaultValue(null)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Editor("Microsoft.VSDesigner.Data.Design.DBCommandEditor, Microsoft.VSDesigner, Version=0.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", "System.Drawing.Design.UITypeEditor, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Data.SqlClient.SqlCommand</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary><span data-ttu-id="2027b-168">Obtient ou définit une instruction Transact-SQL ou une procédure stockée pour supprimer des enregistrements du groupe de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-168">Gets or sets a Transact-SQL statement or stored procedure to delete records from the data set.</span></span></summary>
+        <value><span data-ttu-id="2027b-169"><see cref="T:System.Data.SqlClient.SqlCommand" /> employé lors de l'utilisation de <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> pour supprimer de la base de données des enregistrements qui correspondent aux lignes supprimées dans <see cref="T:System.Data.DataSet" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-169">A <see cref="T:System.Data.SqlClient.SqlCommand" /> used during <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> to delete records in the database that correspond to deleted rows in the <see cref="T:System.Data.DataSet" />.</span></span></value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-170">Au cours de <xref:System.Data.Common.DbDataAdapter.Update%2A>, si cette propriété n’est pas définie et les informations de clé primaire sont présentes dans le <xref:System.Data.DataSet>, le <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> peut être généré automatiquement si vous définissez la <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> propriété et utiliser le <xref:System.Data.SqlClient.SqlCommandBuilder>.</span><span class="sxs-lookup"><span data-stu-id="2027b-170">During <xref:System.Data.Common.DbDataAdapter.Update%2A>, if this property is not set and primary key information is present in the <xref:System.Data.DataSet>, the <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> can be generated automatically if you set the <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> property and use the <xref:System.Data.SqlClient.SqlCommandBuilder>.</span></span> <span data-ttu-id="2027b-171">Ensuite, toutes les commandes que vous ne définissez pas sont générées par le <xref:System.Data.SqlClient.SqlCommandBuilder>.</span><span class="sxs-lookup"><span data-stu-id="2027b-171">Then, any additional commands that you do not set are generated by the <xref:System.Data.SqlClient.SqlCommandBuilder>.</span></span> <span data-ttu-id="2027b-172">Cette logique de génération requiert des informations de colonne clé dans le <xref:System.Data.DataSet>.</span><span class="sxs-lookup"><span data-stu-id="2027b-172">This generation logic requires key column information to be present in the <xref:System.Data.DataSet>.</span></span> <span data-ttu-id="2027b-173">Pour plus d’informations, consultez [génération de commandes avec CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span><span class="sxs-lookup"><span data-stu-id="2027b-173">For more information, see [Generating Commands with CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span></span>  
+  
+ <span data-ttu-id="2027b-174">Lors de la <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> est attribué à un créé précédemment <xref:System.Data.SqlClient.SqlCommand>, le <xref:System.Data.SqlClient.SqlCommand> n’est pas cloné.</span><span class="sxs-lookup"><span data-stu-id="2027b-174">When <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> is assigned to a previously created <xref:System.Data.SqlClient.SqlCommand>, the <xref:System.Data.SqlClient.SqlCommand> is not cloned.</span></span> <span data-ttu-id="2027b-175">Le <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> conserve une référence à précédemment créé <xref:System.Data.SqlClient.SqlCommand> objet.</span><span class="sxs-lookup"><span data-stu-id="2027b-175">The <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> maintains a reference to the previously created <xref:System.Data.SqlClient.SqlCommand> object.</span></span>  
+  
+ <span data-ttu-id="2027b-176">Pour chaque colonne que vous propagez à la source de données sur <xref:System.Data.Common.DbDataAdapter.Update%2A>, un paramètre doit être ajouté à la `InsertCommand`, `UpdateCommand`, ou `DeleteCommand`.</span><span class="sxs-lookup"><span data-stu-id="2027b-176">For every column that you propagate to the data source on <xref:System.Data.Common.DbDataAdapter.Update%2A>, a parameter should be added to the `InsertCommand`, `UpdateCommand`, or `DeleteCommand`.</span></span> <span data-ttu-id="2027b-177">Le `SourceColumn` propriété du paramètre doit être définie sur le nom de la colonne.</span><span class="sxs-lookup"><span data-stu-id="2027b-177">The `SourceColumn` property of the parameter should be set to the name of the column.</span></span> <span data-ttu-id="2027b-178">Cela indique que la valeur du paramètre n’est pas définie manuellement, mais qu’il provient de la colonne particulière de la ligne actuellement traitée.</span><span class="sxs-lookup"><span data-stu-id="2027b-178">This indicates that the value of the parameter is not set manually, but is taken from the particular column in the currently processed row.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="2027b-179">L’exemple suivant crée un <xref:System.Data.SqlClient.SqlDataAdapter> et définit les <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A>, et <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> propriétés.</span><span class="sxs-lookup"><span data-stu-id="2027b-179">The following example creates a <xref:System.Data.SqlClient.SqlDataAdapter> and sets the <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A>, and <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> properties.</span></span> <span data-ttu-id="2027b-180">Il suppose que vous avez déjà créé un <xref:System.Data.SqlClient.SqlConnection> objet.</span><span class="sxs-lookup"><span data-stu-id="2027b-180">It assumes you have already created a <xref:System.Data.SqlClient.SqlConnection> object.</span></span>  
+  
+ [!code-csharp[DataWorks SqlDataAdapter.Command#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/DataWorks SqlDataAdapter.Command/CS/source.cs#1)]
+ [!code-vb[DataWorks SqlDataAdapter.Command#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/DataWorks SqlDataAdapter.Command/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ExecuteBatch">
+      <MemberSignature Language="C#" Value="protected override int ExecuteBatch ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance int32 ExecuteBatch() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.ExecuteBatch" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function ExecuteBatch () As Integer" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override int ExecuteBatch();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetBatchedParameter">
+      <MemberSignature Language="C#" Value="protected override System.Data.IDataParameter GetBatchedParameter (int commandIdentifier, int parameterIndex);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance class System.Data.IDataParameter GetBatchedParameter(int32 commandIdentifier, int32 parameterIndex) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.GetBatchedParameter(System.Int32,System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function GetBatchedParameter (commandIdentifier As Integer, parameterIndex As Integer) As IDataParameter" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::Data::IDataParameter ^ GetBatchedParameter(int commandIdentifier, int parameterIndex);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.IDataParameter</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="commandIdentifier" Type="System.Int32" />
+        <Parameter Name="parameterIndex" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="commandIdentifier">To be added.</param>
+        <param name="parameterIndex">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetBatchedRecordsAffected">
+      <MemberSignature Language="C#" Value="protected override bool GetBatchedRecordsAffected (int commandIdentifier, out int recordsAffected, out Exception error);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance bool GetBatchedRecordsAffected(int32 commandIdentifier, [out] int32&amp; recordsAffected, [out] class System.Exception&amp; error) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.GetBatchedRecordsAffected(System.Int32,System.Int32@,System.Exception@)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function GetBatchedRecordsAffected (commandIdentifier As Integer, ByRef recordsAffected As Integer, ByRef error As Exception) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override bool GetBatchedRecordsAffected(int commandIdentifier, [Runtime::InteropServices::Out] int % recordsAffected, [Runtime::InteropServices::Out] Exception ^ % error);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="commandIdentifier" Type="System.Int32" />
+        <Parameter Name="recordsAffected" Type="System.Int32&amp;" RefType="out" />
+        <Parameter Name="error" Type="System.Exception&amp;" RefType="out" />
+      </Parameters>
+      <Docs>
+        <param name="commandIdentifier">To be added.</param>
+        <param name="recordsAffected">To be added.</param>
+        <param name="error">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InitializeBatching">
+      <MemberSignature Language="C#" Value="protected override void InitializeBatching ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void InitializeBatching() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.InitializeBatching" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub InitializeBatching ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void InitializeBatching();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InsertCommand">
+      <MemberSignature Language="C#" Value="public System.Data.SqlClient.SqlCommand InsertCommand { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Data.SqlClient.SqlCommand InsertCommand" />
+      <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlDataAdapter.InsertCommand" />
+      <MemberSignature Language="VB.NET" Value="Public Property InsertCommand As SqlCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Data::SqlClient::SqlCommand ^ InsertCommand { System::Data::SqlClient::SqlCommand ^ get(); void set(System::Data::SqlClient::SqlCommand ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DefaultValue(null)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Editor("Microsoft.VSDesigner.Data.Design.DBCommandEditor, Microsoft.VSDesigner, Version=0.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", "System.Drawing.Design.UITypeEditor, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Data.SqlClient.SqlCommand</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary><span data-ttu-id="2027b-181">Obtient ou définit une instruction Transact-SQL ou une procédure stockée pour insérer de nouveaux enregistrements dans la source de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-181">Gets or sets a Transact-SQL statement or stored procedure to insert new records into the data source.</span></span></summary>
+        <value><span data-ttu-id="2027b-182"><see cref="T:System.Data.SqlClient.SqlCommand" /> employé lors de l'utilisation de <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> pour insérer dans la base de données des enregistrements qui correspondent à de nouvelles lignes dans <see cref="T:System.Data.DataSet" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-182">A <see cref="T:System.Data.SqlClient.SqlCommand" /> used during <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> to insert records into the database that correspond to new rows in the <see cref="T:System.Data.DataSet" />.</span></span></value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-183">Au cours de <xref:System.Data.Common.DbDataAdapter.Update%2A>, si cette propriété n’est pas définie et les informations de clé primaire sont présentes dans le <xref:System.Data.DataSet>, le <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A> peut être généré automatiquement si vous définissez la <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> propriété et utiliser le <xref:System.Data.SqlClient.SqlCommandBuilder>.</span><span class="sxs-lookup"><span data-stu-id="2027b-183">During <xref:System.Data.Common.DbDataAdapter.Update%2A>, if this property is not set and primary key information is present in the <xref:System.Data.DataSet>, the <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A> can be generated automatically if you set the <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> property and use the <xref:System.Data.SqlClient.SqlCommandBuilder>.</span></span> <span data-ttu-id="2027b-184">Ensuite, toutes les commandes que vous ne définissez pas sont générées par le <xref:System.Data.SqlClient.SqlCommandBuilder>.</span><span class="sxs-lookup"><span data-stu-id="2027b-184">Then, any additional commands that you do not set are generated by the <xref:System.Data.SqlClient.SqlCommandBuilder>.</span></span> <span data-ttu-id="2027b-185">Cette logique de génération requiert des informations de colonne clé dans le <xref:System.Data.DataSet>.</span><span class="sxs-lookup"><span data-stu-id="2027b-185">This generation logic requires key column information to be present in the <xref:System.Data.DataSet>.</span></span> <span data-ttu-id="2027b-186">Pour plus d’informations, consultez [génération de commandes avec CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span><span class="sxs-lookup"><span data-stu-id="2027b-186">For more information, see [Generating Commands with CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span></span>  
+  
+ <span data-ttu-id="2027b-187">Lors de la <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A> est attribué à un créé précédemment <xref:System.Data.SqlClient.SqlCommand>, le <xref:System.Data.SqlClient.SqlCommand> n’est pas cloné.</span><span class="sxs-lookup"><span data-stu-id="2027b-187">When <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A> is assigned to a previously created <xref:System.Data.SqlClient.SqlCommand>, the <xref:System.Data.SqlClient.SqlCommand> is not cloned.</span></span> <span data-ttu-id="2027b-188">Le <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A> conserve une référence à précédemment créé <xref:System.Data.SqlClient.SqlCommand> objet.</span><span class="sxs-lookup"><span data-stu-id="2027b-188">The <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A> maintains a reference to the previously created <xref:System.Data.SqlClient.SqlCommand> object.</span></span>  
+  
+ <span data-ttu-id="2027b-189">Si l’exécution de cette commande retourne des lignes, ces lignes peuvent être ajoutées à la <xref:System.Data.DataSet> selon la façon dont vous définissez la **UpdatedRowSource** propriété de la <xref:System.Data.SqlClient.SqlCommand> objet.</span><span class="sxs-lookup"><span data-stu-id="2027b-189">If execution of this command returns rows, these rows can be added to the <xref:System.Data.DataSet> depending on how you set the **UpdatedRowSource** property of the <xref:System.Data.SqlClient.SqlCommand> object.</span></span>  
+  
+ <span data-ttu-id="2027b-190">Pour chaque colonne que vous propagez à la source de données sur <xref:System.Data.Common.DbDataAdapter.Update%2A>, un paramètre doit être ajouté à `InsertCommand`, `UpdateCommand`, ou `DeleteCommand`.</span><span class="sxs-lookup"><span data-stu-id="2027b-190">For every column that you propagate to the data source on <xref:System.Data.Common.DbDataAdapter.Update%2A>, a parameter should be added to `InsertCommand`, `UpdateCommand`, or `DeleteCommand`.</span></span> <span data-ttu-id="2027b-191">Le `SourceColumn` propriété du paramètre doit être définie sur le nom de la colonne.</span><span class="sxs-lookup"><span data-stu-id="2027b-191">The `SourceColumn` property of the parameter should be set to the name of the column.</span></span> <span data-ttu-id="2027b-192">Cela indique que la valeur du paramètre n’est pas définie manuellement, mais qu’il provient de la colonne particulière de la ligne actuellement traitée.</span><span class="sxs-lookup"><span data-stu-id="2027b-192">This indicates that the value of the parameter is not set manually, but is taken from the particular column in the currently processed row.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="2027b-193">L’exemple suivant crée un <xref:System.Data.SqlClient.SqlDataAdapter> et définit les <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A>, et <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> propriétés.</span><span class="sxs-lookup"><span data-stu-id="2027b-193">The following example creates a <xref:System.Data.SqlClient.SqlDataAdapter> and sets the <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A>, and <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> properties.</span></span> <span data-ttu-id="2027b-194">Il suppose que vous avez déjà créé un <xref:System.Data.SqlClient.SqlConnection> objet.</span><span class="sxs-lookup"><span data-stu-id="2027b-194">It assumes you have already created a <xref:System.Data.SqlClient.SqlConnection> object.</span></span>  
+  
+ [!code-csharp[DataWorks SqlDataAdapter.Command#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/DataWorks SqlDataAdapter.Command/CS/source.cs#1)]
+ [!code-vb[DataWorks SqlDataAdapter.Command#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/DataWorks SqlDataAdapter.Command/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnRowUpdated">
+      <MemberSignature Language="C#" Value="protected override void OnRowUpdated (System.Data.Common.RowUpdatedEventArgs value);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void OnRowUpdated(class System.Data.Common.RowUpdatedEventArgs value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.OnRowUpdated(System.Data.Common.RowUpdatedEventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub OnRowUpdated (value As RowUpdatedEventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void OnRowUpdated(System::Data::Common::RowUpdatedEventArgs ^ value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Data.Common.RowUpdatedEventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="value">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="OnRowUpdating">
+      <MemberSignature Language="C#" Value="protected override void OnRowUpdating (System.Data.Common.RowUpdatingEventArgs value);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void OnRowUpdating(class System.Data.Common.RowUpdatingEventArgs value) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.OnRowUpdating(System.Data.Common.RowUpdatingEventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub OnRowUpdating (value As RowUpdatingEventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void OnRowUpdating(System::Data::Common::RowUpdatingEventArgs ^ value);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="value" Type="System.Data.Common.RowUpdatingEventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="value">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RowUpdated">
+      <MemberSignature Language="C#" Value="public event System.Data.SqlClient.SqlRowUpdatedEventHandler RowUpdated;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.Data.SqlClient.SqlRowUpdatedEventHandler RowUpdated" />
+      <MemberSignature Language="DocId" Value="E:System.Data.SqlClient.SqlDataAdapter.RowUpdated" />
+      <MemberSignature Language="VB.NET" Value="Public Custom Event RowUpdated As SqlRowUpdatedEventHandler " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; event System::Data::SqlClient::SqlRowUpdatedEventHandler ^ RowUpdated;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.SqlClient.SqlRowUpdatedEventHandler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary><span data-ttu-id="2027b-195">Se produit pendant une opération de <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" />, après l'exécution d'une commande sur la source de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-195">Occurs during <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> after a command is executed against the data source.</span></span> <span data-ttu-id="2027b-196">La tentative de mise à jour provoque le déclenchement de l'événement.</span><span class="sxs-lookup"><span data-stu-id="2027b-196">The attempt to update is made, so the event fires.</span></span></summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-197">Lorsque vous utilisez <xref:System.Data.Common.DbDataAdapter.Update%2A>, deux événements se produisent pour chaque ligne de données mise à jour.</span><span class="sxs-lookup"><span data-stu-id="2027b-197">When using <xref:System.Data.Common.DbDataAdapter.Update%2A>, there are two events that occur per data row updated.</span></span> <span data-ttu-id="2027b-198">L’ordre d’exécution est la suivante :</span><span class="sxs-lookup"><span data-stu-id="2027b-198">The order of execution is as follows:</span></span>  
+  
+1.  <span data-ttu-id="2027b-199">Les valeurs dans le <xref:System.Data.DataRow> sont déplacées vers les valeurs de paramètre.</span><span class="sxs-lookup"><span data-stu-id="2027b-199">The values in the <xref:System.Data.DataRow> are moved to the parameter values.</span></span>  
+  
+2.  <span data-ttu-id="2027b-200">L'événement <xref:System.Data.Common.DbDataAdapter.OnRowUpdating%2A> est déclenché.</span><span class="sxs-lookup"><span data-stu-id="2027b-200">The <xref:System.Data.Common.DbDataAdapter.OnRowUpdating%2A> event is raised.</span></span>  
+  
+3.  <span data-ttu-id="2027b-201">La commande s’exécute.</span><span class="sxs-lookup"><span data-stu-id="2027b-201">The command executes.</span></span>  
+  
+4.  <span data-ttu-id="2027b-202">Si la commande est définie sur `FirstReturnedRecord`, le premier résultat retourné est placé dans le <xref:System.Data.DataRow>.</span><span class="sxs-lookup"><span data-stu-id="2027b-202">If the command is set to `FirstReturnedRecord`, the first returned result is placed in the <xref:System.Data.DataRow>.</span></span>  
+  
+5.  <span data-ttu-id="2027b-203">S’il existe des paramètres de sortie, ils sont placés dans le <xref:System.Data.DataRow>.</span><span class="sxs-lookup"><span data-stu-id="2027b-203">If there are output parameters, they are placed in the <xref:System.Data.DataRow>.</span></span>  
+  
+6.  <span data-ttu-id="2027b-204">L'événement <xref:System.Data.Common.DbDataAdapter.OnRowUpdated%2A> est déclenché.</span><span class="sxs-lookup"><span data-stu-id="2027b-204">The <xref:System.Data.Common.DbDataAdapter.OnRowUpdated%2A> event is raised.</span></span>  
+  
+7.  <span data-ttu-id="2027b-205">La méthode <xref:System.Data.DataRow.AcceptChanges%2A> est appelée.</span><span class="sxs-lookup"><span data-stu-id="2027b-205"><xref:System.Data.DataRow.AcceptChanges%2A> is called.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="2027b-206">L’exemple suivant montre comment utiliser à la fois le <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdating> et <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdated> les événements.</span><span class="sxs-lookup"><span data-stu-id="2027b-206">The following example shows how to use both the <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdating> and <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdated> events.</span></span>  
+  
+ <span data-ttu-id="2027b-207">Le <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdating> événement retourne la sortie :</span><span class="sxs-lookup"><span data-stu-id="2027b-207">The <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdating> event returns this output:</span></span>  
+  
+ <span data-ttu-id="2027b-208">arguments d’événement : (command=System.Data.SqlClient.SqlCommand commandType = état 2 = 0)</span><span class="sxs-lookup"><span data-stu-id="2027b-208">event args: (command=System.Data.SqlClient.SqlCommand commandType=2 status=0)</span></span>  
+  
+ <span data-ttu-id="2027b-209">Le <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdated> événement retourne la sortie :</span><span class="sxs-lookup"><span data-stu-id="2027b-209">The <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdated> event returns this output:</span></span>  
+  
+ <span data-ttu-id="2027b-210">arguments d’événement : (command=System.Data.SqlClient.SqlCommand commandType = recordsAffected 2 = 1 row=System.Data.DataRow[37] état = 0)</span><span class="sxs-lookup"><span data-stu-id="2027b-210">event args: (command=System.Data.SqlClient.SqlCommand commandType=2 recordsAffected=1 row=System.Data.DataRow[37] status=0)</span></span>  
+  
+ [!code-csharp[Classic WebData SqlDataAdapter.RowUpdated Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter.RowUpdated Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData SqlDataAdapter.RowUpdated Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter.RowUpdated Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="RowUpdating">
+      <MemberSignature Language="C#" Value="public event System.Data.SqlClient.SqlRowUpdatingEventHandler RowUpdating;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.Data.SqlClient.SqlRowUpdatingEventHandler RowUpdating" />
+      <MemberSignature Language="DocId" Value="E:System.Data.SqlClient.SqlDataAdapter.RowUpdating" />
+      <MemberSignature Language="VB.NET" Value="Public Custom Event RowUpdating As SqlRowUpdatingEventHandler " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; event System::Data::SqlClient::SqlRowUpdatingEventHandler ^ RowUpdating;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.SqlClient.SqlRowUpdatingEventHandler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary><span data-ttu-id="2027b-211">Se produit pendant une opération de <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" />, avant l'exécution d'une commande sur la source de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-211">Occurs during <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> before a command is executed against the data source.</span></span> <span data-ttu-id="2027b-212">La tentative de mise à jour provoque le déclenchement de l'événement.</span><span class="sxs-lookup"><span data-stu-id="2027b-212">The attempt to update is made, so the event fires.</span></span></summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-213">Lorsque vous utilisez <xref:System.Data.Common.DbDataAdapter.Update%2A>, deux événements se produisent pour chaque ligne de données mise à jour.</span><span class="sxs-lookup"><span data-stu-id="2027b-213">When using <xref:System.Data.Common.DbDataAdapter.Update%2A>, there are two events that occur per data row updated.</span></span> <span data-ttu-id="2027b-214">L’ordre d’exécution est la suivante :</span><span class="sxs-lookup"><span data-stu-id="2027b-214">The order of execution is as follows:</span></span>  
+  
+1.  <span data-ttu-id="2027b-215">Les valeurs dans le <xref:System.Data.DataRow> sont déplacées vers les valeurs de paramètre.</span><span class="sxs-lookup"><span data-stu-id="2027b-215">The values in the <xref:System.Data.DataRow> are moved to the parameter values.</span></span>  
+  
+2.  <span data-ttu-id="2027b-216">L'événement <xref:System.Data.Common.DbDataAdapter.OnRowUpdating%2A> est déclenché.</span><span class="sxs-lookup"><span data-stu-id="2027b-216">The <xref:System.Data.Common.DbDataAdapter.OnRowUpdating%2A> event is raised.</span></span>  
+  
+3.  <span data-ttu-id="2027b-217">La commande s’exécute.</span><span class="sxs-lookup"><span data-stu-id="2027b-217">The command executes.</span></span>  
+  
+4.  <span data-ttu-id="2027b-218">Si la commande est définie sur `FirstReturnedRecord`, le premier résultat retourné est placé dans le <xref:System.Data.DataRow>.</span><span class="sxs-lookup"><span data-stu-id="2027b-218">If the command is set to `FirstReturnedRecord`, the first returned result is placed in the <xref:System.Data.DataRow>.</span></span>  
+  
+5.  <span data-ttu-id="2027b-219">S’il existe des paramètres de sortie, ils sont placés dans le <xref:System.Data.DataRow>.</span><span class="sxs-lookup"><span data-stu-id="2027b-219">If there are output parameters, they are placed in the <xref:System.Data.DataRow>.</span></span>  
+  
+6.  <span data-ttu-id="2027b-220">L'événement <xref:System.Data.Common.DbDataAdapter.OnRowUpdated%2A> est déclenché.</span><span class="sxs-lookup"><span data-stu-id="2027b-220">The <xref:System.Data.Common.DbDataAdapter.OnRowUpdated%2A> event is raised.</span></span>  
+  
+7.  <span data-ttu-id="2027b-221">La méthode <xref:System.Data.DataRow.AcceptChanges%2A> est appelée.</span><span class="sxs-lookup"><span data-stu-id="2027b-221"><xref:System.Data.DataRow.AcceptChanges%2A> is called.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="2027b-222">L’exemple suivant montre comment utiliser à la fois le <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdating> et <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdated> les événements.</span><span class="sxs-lookup"><span data-stu-id="2027b-222">The following example shows how to use both the <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdating> and <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdated> events.</span></span>  
+  
+ <span data-ttu-id="2027b-223">Le <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdating> événement retourne la sortie :</span><span class="sxs-lookup"><span data-stu-id="2027b-223">The <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdating> event returns this output:</span></span>  
+  
+ <span data-ttu-id="2027b-224">arguments d’événement : (command=System.Data.SqlClient.SqlCommand commandType = état 2 = 0)</span><span class="sxs-lookup"><span data-stu-id="2027b-224">event args: (command=System.Data.SqlClient.SqlCommand commandType=2 status=0)</span></span>  
+  
+ <span data-ttu-id="2027b-225">Le <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdated> événement retourne la sortie :</span><span class="sxs-lookup"><span data-stu-id="2027b-225">The <xref:System.Data.SqlClient.SqlDataAdapter.RowUpdated> event returns this output:</span></span>  
+  
+ <span data-ttu-id="2027b-226">arguments d’événement : (command=System.Data.SqlClient.SqlCommand commandType = recordsAffected 2 = 1 row=System.Data.DataRow[37] état = 0)</span><span class="sxs-lookup"><span data-stu-id="2027b-226">event args: (command=System.Data.SqlClient.SqlCommand commandType=2 recordsAffected=1 row=System.Data.DataRow[37] status=0)</span></span>  
+  
+ [!code-csharp[Classic WebData SqlDataAdapter.RowUpdated Example#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter.RowUpdated Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData SqlDataAdapter.RowUpdated Example#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData SqlDataAdapter.RowUpdated Example/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SelectCommand">
+      <MemberSignature Language="C#" Value="public System.Data.SqlClient.SqlCommand SelectCommand { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Data.SqlClient.SqlCommand SelectCommand" />
+      <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlDataAdapter.SelectCommand" />
+      <MemberSignature Language="VB.NET" Value="Public Property SelectCommand As SqlCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Data::SqlClient::SqlCommand ^ SelectCommand { System::Data::SqlClient::SqlCommand ^ get(); void set(System::Data::SqlClient::SqlCommand ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DefaultValue(null)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Editor("Microsoft.VSDesigner.Data.Design.DBCommandEditor, Microsoft.VSDesigner, Version=0.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", "System.Drawing.Design.UITypeEditor, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Data.SqlClient.SqlCommand</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary><span data-ttu-id="2027b-227">Obtient ou définit une instruction Transact-SQL ou une procédure stockée pour sélectionner des enregistrements dans la source de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-227">Gets or sets a Transact-SQL statement or stored procedure used to select records in the data source.</span></span></summary>
+        <value><span data-ttu-id="2027b-228"><see cref="T:System.Data.SqlClient.SqlCommand" /> employé lors de l'utilisation de <see cref="M:System.Data.Common.DbDataAdapter.Fill(System.Data.DataSet)" /> pour sélectionner des enregistrements dans la base de données en vue de leur positionnement dans <see cref="T:System.Data.DataSet" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-228">A <see cref="T:System.Data.SqlClient.SqlCommand" /> used during <see cref="M:System.Data.Common.DbDataAdapter.Fill(System.Data.DataSet)" /> to select records from the database for placement in the <see cref="T:System.Data.DataSet" />.</span></span></value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-229">Lors de la <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> est attribué à un créé précédemment <xref:System.Data.SqlClient.SqlCommand>, le <xref:System.Data.SqlClient.SqlCommand> n’est pas cloné.</span><span class="sxs-lookup"><span data-stu-id="2027b-229">When <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> is assigned to a previously created <xref:System.Data.SqlClient.SqlCommand>, the <xref:System.Data.SqlClient.SqlCommand> is not cloned.</span></span> <span data-ttu-id="2027b-230">Le <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> conserve une référence à précédemment créé <xref:System.Data.SqlClient.SqlCommand> objet.</span><span class="sxs-lookup"><span data-stu-id="2027b-230">The <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> maintains a reference to the previously created <xref:System.Data.SqlClient.SqlCommand> object.</span></span>  
+  
+ <span data-ttu-id="2027b-231">Si le <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> ne retourne pas de lignes, aucune table n’est ajoutés à la <xref:System.Data.DataSet>, et aucune exception n’est déclenchée.</span><span class="sxs-lookup"><span data-stu-id="2027b-231">If the <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> does not return any rows, no tables are added to the <xref:System.Data.DataSet>, and no exception is raised.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="2027b-232">L’exemple suivant crée un <xref:System.Data.SqlClient.SqlDataAdapter> et définit les <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A>, et <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> propriétés.</span><span class="sxs-lookup"><span data-stu-id="2027b-232">The following example creates a <xref:System.Data.SqlClient.SqlDataAdapter> and sets the <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A>, and <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> properties.</span></span> <span data-ttu-id="2027b-233">Il suppose que vous avez déjà créé un <xref:System.Data.SqlClient.SqlConnection> objet.</span><span class="sxs-lookup"><span data-stu-id="2027b-233">It assumes you have already created a <xref:System.Data.SqlClient.SqlConnection> object.</span></span>  
+  
+ [!code-csharp[DataWorks SqlDataAdapter.Command#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/DataWorks SqlDataAdapter.Command/CS/source.cs#1)]
+ [!code-vb[DataWorks SqlDataAdapter.Command#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/DataWorks SqlDataAdapter.Command/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Data.IDbDataAdapter.DeleteCommand">
+      <MemberSignature Language="C#" Value="System.Data.IDbCommand System.Data.IDbDataAdapter.DeleteCommand { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Data.IDbCommand System.Data.IDbDataAdapter.DeleteCommand" />
+      <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlDataAdapter.System#Data#IDbDataAdapter#DeleteCommand" />
+      <MemberSignature Language="VB.NET" Value=" Property DeleteCommand As IDbCommand Implements IDbDataAdapter.DeleteCommand" />
+      <MemberSignature Language="C++ CLI" Value="property System::Data::IDbCommand ^ System.Data.IDbDataAdapter.DeleteCommand { System::Data::IDbCommand ^ get(); void set(System::Data::IDbCommand ^ value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Data.IDbDataAdapter.DeleteCommand</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.IDbCommand</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary><span data-ttu-id="2027b-234">Pour obtenir une description de ce membre, consultez <see cref="P:System.Data.IDbDataAdapter.DeleteCommand" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-234">For a description of this member, see <see cref="P:System.Data.IDbDataAdapter.DeleteCommand" />.</span></span></summary>
+        <value><span data-ttu-id="2027b-235"><see cref="T:System.Data.IDbCommand" /> utilisé lors de <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> pour supprimer des enregistrements dans la source de données pour les lignes supprimées dans le jeu de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-235">An <see cref="T:System.Data.IDbCommand" /> that is used during <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> to delete records in the data source for deleted rows in the data set.</span></span></value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-236">Ce membre est une implémentation d'un membre d'interface explicite.</span><span class="sxs-lookup"><span data-stu-id="2027b-236">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="2027b-237">Il peut uniquement être utilisé lorsque l'instance de <xref:System.Data.SqlClient.SqlDataAdapter> est castée en interface <xref:System.Data.IDbDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="2027b-237">It can be used only when the <xref:System.Data.SqlClient.SqlDataAdapter> instance is cast to an <xref:System.Data.IDbDataAdapter> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Data.IDbDataAdapter.InsertCommand">
+      <MemberSignature Language="C#" Value="System.Data.IDbCommand System.Data.IDbDataAdapter.InsertCommand { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Data.IDbCommand System.Data.IDbDataAdapter.InsertCommand" />
+      <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlDataAdapter.System#Data#IDbDataAdapter#InsertCommand" />
+      <MemberSignature Language="VB.NET" Value=" Property InsertCommand As IDbCommand Implements IDbDataAdapter.InsertCommand" />
+      <MemberSignature Language="C++ CLI" Value="property System::Data::IDbCommand ^ System.Data.IDbDataAdapter.InsertCommand { System::Data::IDbCommand ^ get(); void set(System::Data::IDbCommand ^ value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Data.IDbDataAdapter.InsertCommand</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.IDbCommand</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary><span data-ttu-id="2027b-238">Pour obtenir une description de ce membre, consultez <see cref="P:System.Data.IDbDataAdapter.InsertCommand" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-238">For a description of this member, see <see cref="P:System.Data.IDbDataAdapter.InsertCommand" />.</span></span></summary>
+        <value><span data-ttu-id="2027b-239"><see cref="T:System.Data.IDbCommand" /> qui est utilisé pendant <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> pour insérer des enregistrements dans la source de données pour les nouvelles lignes du groupe de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-239">An <see cref="T:System.Data.IDbCommand" /> that is used during <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> to insert records in the data source for new rows in the data set.</span></span></value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-240">Ce membre est une implémentation d'un membre d'interface explicite.</span><span class="sxs-lookup"><span data-stu-id="2027b-240">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="2027b-241">Il peut uniquement être utilisé lorsque l'instance de <xref:System.Data.SqlClient.SqlDataAdapter> est castée en interface <xref:System.Data.IDbDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="2027b-241">It can be used only when the <xref:System.Data.SqlClient.SqlDataAdapter> instance is cast to an <xref:System.Data.IDbDataAdapter> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Data.IDbDataAdapter.SelectCommand">
+      <MemberSignature Language="C#" Value="System.Data.IDbCommand System.Data.IDbDataAdapter.SelectCommand { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Data.IDbCommand System.Data.IDbDataAdapter.SelectCommand" />
+      <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlDataAdapter.System#Data#IDbDataAdapter#SelectCommand" />
+      <MemberSignature Language="VB.NET" Value=" Property SelectCommand As IDbCommand Implements IDbDataAdapter.SelectCommand" />
+      <MemberSignature Language="C++ CLI" Value="property System::Data::IDbCommand ^ System.Data.IDbDataAdapter.SelectCommand { System::Data::IDbCommand ^ get(); void set(System::Data::IDbCommand ^ value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Data.IDbDataAdapter.SelectCommand</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.IDbCommand</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary><span data-ttu-id="2027b-242">Pour obtenir une description de ce membre, consultez <see cref="P:System.Data.IDbDataAdapter.SelectCommand" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-242">For a description of this member, see <see cref="P:System.Data.IDbDataAdapter.SelectCommand" />.</span></span></summary>
+        <value><span data-ttu-id="2027b-243"><see cref="T:System.Data.IDbCommand" /> utilisé pendant <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> pour sélectionner des enregistrements de la source de données afin de les placer dans le groupe de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-243">An <see cref="T:System.Data.IDbCommand" /> that is used during <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> to select records from data source for placement in the data set.</span></span></value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-244">Ce membre est une implémentation d'un membre d'interface explicite.</span><span class="sxs-lookup"><span data-stu-id="2027b-244">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="2027b-245">Il peut uniquement être utilisé lorsque l'instance de <xref:System.Data.SqlClient.SqlDataAdapter> est castée en interface <xref:System.Data.IDbDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="2027b-245">It can be used only when the <xref:System.Data.SqlClient.SqlDataAdapter> instance is cast to an <xref:System.Data.IDbDataAdapter> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.Data.IDbDataAdapter.UpdateCommand">
+      <MemberSignature Language="C#" Value="System.Data.IDbCommand System.Data.IDbDataAdapter.UpdateCommand { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Data.IDbCommand System.Data.IDbDataAdapter.UpdateCommand" />
+      <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlDataAdapter.System#Data#IDbDataAdapter#UpdateCommand" />
+      <MemberSignature Language="VB.NET" Value=" Property UpdateCommand As IDbCommand Implements IDbDataAdapter.UpdateCommand" />
+      <MemberSignature Language="C++ CLI" Value="property System::Data::IDbCommand ^ System.Data.IDbDataAdapter.UpdateCommand { System::Data::IDbCommand ^ get(); void set(System::Data::IDbCommand ^ value); };" />
+      <MemberType>Property</MemberType>
+      <Implements>
+        <InterfaceMember>P:System.Data.IDbDataAdapter.UpdateCommand</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.IDbCommand</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary><span data-ttu-id="2027b-246">Pour obtenir une description de ce membre, consultez <see cref="P:System.Data.IDbDataAdapter.UpdateCommand" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-246">For a description of this member, see <see cref="P:System.Data.IDbDataAdapter.UpdateCommand" />.</span></span></summary>
+        <value><span data-ttu-id="2027b-247"><see cref="T:System.Data.IdbCommand" /> qui est utilisé pendant <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> pour mettre à jour les enregistrements de la source de données pour des lignes modifiées dans le groupe de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-247">An <see cref="T:System.Data.IdbCommand" /> that is used during <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> to update records in the data source for modified rows in the data set.</span></span></value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-248">Ce membre est une implémentation d'un membre d'interface explicite.</span><span class="sxs-lookup"><span data-stu-id="2027b-248">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="2027b-249">Il peut uniquement être utilisé lorsque l'instance de <xref:System.Data.SqlClient.SqlDataAdapter> est castée en interface <xref:System.Data.IDbDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="2027b-249">It can be used only when the <xref:System.Data.SqlClient.SqlDataAdapter> instance is cast to an <xref:System.Data.IDbDataAdapter> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.ICloneable.Clone">
+      <MemberSignature Language="C#" Value="object ICloneable.Clone ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance object System.ICloneable.Clone() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.System#ICloneable#Clone" />
+      <MemberSignature Language="VB.NET" Value="Function Clone () As Object Implements ICloneable.Clone" />
+      <MemberSignature Language="C++ CLI" Value=" virtual System::Object ^ System.ICloneable.Clone() = ICloneable::Clone;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.ICloneable.Clone</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary><span data-ttu-id="2027b-250">Pour obtenir une description de ce membre, consultez <see cref="M:System.ICloneable.Clone" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-250">For a description of this member, see <see cref="M:System.ICloneable.Clone" />.</span></span></summary>
+        <returns><span data-ttu-id="2027b-251">Nouvel objet représentant une copie de l'instance en cours.</span><span class="sxs-lookup"><span data-stu-id="2027b-251">A new object that is a copy of the current instance.</span></span></returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-252">Ce membre est une implémentation d'un membre d'interface explicite.</span><span class="sxs-lookup"><span data-stu-id="2027b-252">This member is an explicit interface member implementation.</span></span> <span data-ttu-id="2027b-253">Il peut uniquement être utilisé lorsque l'instance de <xref:System.Data.SqlClient.SqlDataAdapter> est castée en interface <xref:System.ICloneable>.</span><span class="sxs-lookup"><span data-stu-id="2027b-253">It can be used only when the <xref:System.Data.SqlClient.SqlDataAdapter> instance is cast to an <xref:System.ICloneable> interface.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="TerminateBatching">
+      <MemberSignature Language="C#" Value="protected override void TerminateBatching ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void TerminateBatching() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.SqlClient.SqlDataAdapter.TerminateBatching" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub TerminateBatching ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void TerminateBatching();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UpdateBatchSize">
+      <MemberSignature Language="C#" Value="public override int UpdateBatchSize { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 UpdateBatchSize" />
+      <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlDataAdapter.UpdateBatchSize" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property UpdateBatchSize As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property int UpdateBatchSize { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary><span data-ttu-id="2027b-254">Obtient ou définit le nombre de lignes qui sont traitées lors de chaque aller-retour au serveur.</span><span class="sxs-lookup"><span data-stu-id="2027b-254">Gets or sets the number of rows that are processed in each round-trip to the server.</span></span></summary>
+        <value><span data-ttu-id="2027b-255">Nombre de lignes à traiter par lot.</span><span class="sxs-lookup"><span data-stu-id="2027b-255">The number of rows to process per-batch.</span></span>  
+  
+ <span data-ttu-id="2027b-256"><list type="table"><listheader><term> La valeur est</span><span class="sxs-lookup"><span data-stu-id="2027b-256"><list type="table"><listheader><term> Value is</span></span>  
+  
+ <span data-ttu-id="2027b-257"></term><description> Effet</span><span class="sxs-lookup"><span data-stu-id="2027b-257"></term><description> Effect</span></span>  
+  
+ <span data-ttu-id="2027b-258"></description></listheader><item><term> 0</span><span class="sxs-lookup"><span data-stu-id="2027b-258"></description></listheader><item><term> 0</span></span>  
+  
+ <span data-ttu-id="2027b-259"></term><description> Il n’existe aucune limite sur la taille de lot...</span><span class="sxs-lookup"><span data-stu-id="2027b-259"></term><description> There is no limit on the batch size..</span></span>  
+  
+ <span data-ttu-id="2027b-260"></description></item><item><term> 1</span><span class="sxs-lookup"><span data-stu-id="2027b-260"></description></item><item><term> 1</span></span>  
+  
+ <span data-ttu-id="2027b-261"></term><description> Désactive la mise à jour par lot.</span><span class="sxs-lookup"><span data-stu-id="2027b-261"></term><description> Disables batch updating.</span></span>  
+  
+ <span data-ttu-id="2027b-262"></description></item><item><term> &gt;1</span><span class="sxs-lookup"><span data-stu-id="2027b-262"></description></item><item><term> &gt;1</span></span>  
+  
+ <span data-ttu-id="2027b-263"></term><description> Les modifications sont envoyées à l’aide de lots de <see cref="P:System.Data.SqlClient.SqlDataAdapter.UpdateBatchSize" /> opérations à la fois.</span><span class="sxs-lookup"><span data-stu-id="2027b-263"></term><description> Changes are sent using batches of <see cref="P:System.Data.SqlClient.SqlDataAdapter.UpdateBatchSize" /> operations at a time.</span></span>  
+  
+ </description></item></list>  
+  
+ <span data-ttu-id="2027b-264">Lorsque vous affectez une valeur autre que 1, toutes les commandes liées à la <see cref="T:System.Data.SqlClient.SqlDataAdapter" /> doivent avoir leur **UpdatedRowSource** propriété <see langword="None" /> ou <see langword="OutputParameters" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-264">When setting this to a value other than 1, all the commands associated with the <see cref="T:System.Data.SqlClient.SqlDataAdapter" /> have to have their **UpdatedRowSource** property set to <see langword="None" /> or <see langword="OutputParameters" />.</span></span> <span data-ttu-id="2027b-265">Sinon, une exception est levée.</span><span class="sxs-lookup"><span data-stu-id="2027b-265">An exception is thrown otherwise.</span></span></value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-266">Obtient ou définit une valeur qui active ou désactive la prise en charge du traitement par lots et qui spécifie le nombre de commandes pouvant être exécutées dans un lot.</span><span class="sxs-lookup"><span data-stu-id="2027b-266">Gets or sets a value that enables or disables batch processing support, and specifies the number of commands that can be executed in a batch.</span></span>  
+  
+ <span data-ttu-id="2027b-267">Utilisez le <xref:System.Data.SqlClient.SqlDataAdapter.UpdateBatchSize%2A> propriété à mettre à jour une source de données avec les modifications d’un <xref:System.Data.DataSet>.</span><span class="sxs-lookup"><span data-stu-id="2027b-267">Use the <xref:System.Data.SqlClient.SqlDataAdapter.UpdateBatchSize%2A> property to update a data source with changes from a <xref:System.Data.DataSet>.</span></span> <span data-ttu-id="2027b-268">Cela peut augmenter les performances de l’application en réduisant le nombre d’allers-retours au serveur.</span><span class="sxs-lookup"><span data-stu-id="2027b-268">This can increase application performance by reducing the number of round-trips to the server.</span></span>  
+  
+ <span data-ttu-id="2027b-269">L'exécution d'un lot très volumineux peut réduire les performances.</span><span class="sxs-lookup"><span data-stu-id="2027b-269">Executing an extremely large batch could decrease performance.</span></span> <span data-ttu-id="2027b-270">Vous devez donc tester le paramètre de taille de lot optimal avant d'implémenter votre application.</span><span class="sxs-lookup"><span data-stu-id="2027b-270">Therefore, you should test for the optimum batch size setting before implementing your application.</span></span>  
+  
+ <span data-ttu-id="2027b-271">Un <xref:System.ArgumentOutOfRangeException> est levée si la valeur est définie sur un nombre inférieur à zéro.</span><span class="sxs-lookup"><span data-stu-id="2027b-271">An <xref:System.ArgumentOutOfRangeException> is thrown if the value is set to a number less than zero.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UpdateCommand">
+      <MemberSignature Language="C#" Value="public System.Data.SqlClient.SqlCommand UpdateCommand { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Data.SqlClient.SqlCommand UpdateCommand" />
+      <MemberSignature Language="DocId" Value="P:System.Data.SqlClient.SqlDataAdapter.UpdateCommand" />
+      <MemberSignature Language="VB.NET" Value="Public Property UpdateCommand As SqlCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Data::SqlClient::SqlCommand ^ UpdateCommand { System::Data::SqlClient::SqlCommand ^ get(); void set(System::Data::SqlClient::SqlCommand ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.SqlClient</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DefaultValue(null)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Editor("Microsoft.VSDesigner.Data.Design.DBCommandEditor, Microsoft.VSDesigner, Version=0.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a", "System.Drawing.Design.UITypeEditor, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a")</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Data.SqlClient.SqlCommand</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary><span data-ttu-id="2027b-272">Obtient ou définit une instruction Transact-SQL ou une procédure stockée pour mettre à jour des enregistrements dans la source de données.</span><span class="sxs-lookup"><span data-stu-id="2027b-272">Gets or sets a Transact-SQL statement or stored procedure used to update records in the data source.</span></span></summary>
+        <value><span data-ttu-id="2027b-273"><see cref="T:System.Data.SqlClient.SqlCommand" /> employé lors de l'utilisation de <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> pour mettre à jour dans la base de données des enregistrements qui correspondent aux lignes modifiées dans <see cref="T:System.Data.DataSet" />.</span><span class="sxs-lookup"><span data-stu-id="2027b-273">A <see cref="T:System.Data.SqlClient.SqlCommand" /> used during <see cref="M:System.Data.Common.DbDataAdapter.Update(System.Data.DataSet)" /> to update records in the database that correspond to modified rows in the <see cref="T:System.Data.DataSet" />.</span></span></value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="2027b-274">Au cours de <xref:System.Data.Common.DbDataAdapter.Update%2A>, si cette propriété n’est pas définie et les informations de clé primaire sont présentes dans le <xref:System.Data.DataSet>, le <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A> peut être généré automatiquement si vous définissez la <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> propriété et utiliser le <xref:System.Data.SqlClient.SqlCommandBuilder>.</span><span class="sxs-lookup"><span data-stu-id="2027b-274">During <xref:System.Data.Common.DbDataAdapter.Update%2A>, if this property is not set and primary key information is present in the <xref:System.Data.DataSet>, the <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A> can be generated automatically if you set the <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A> property and use the <xref:System.Data.SqlClient.SqlCommandBuilder>.</span></span> <span data-ttu-id="2027b-275">Ensuite, toutes les commandes que vous ne définissez pas sont générées par le <xref:System.Data.SqlClient.SqlCommandBuilder>.</span><span class="sxs-lookup"><span data-stu-id="2027b-275">Then, any additional commands that you do not set are generated by the <xref:System.Data.SqlClient.SqlCommandBuilder>.</span></span> <span data-ttu-id="2027b-276">Cette logique de génération requiert des informations de colonne clé dans le <xref:System.Data.DataSet>.</span><span class="sxs-lookup"><span data-stu-id="2027b-276">This generation logic requires key column information to be present in the <xref:System.Data.DataSet>.</span></span> <span data-ttu-id="2027b-277">Pour plus d’informations, consultez [génération de commandes avec CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span><span class="sxs-lookup"><span data-stu-id="2027b-277">For more information, see [Generating Commands with CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span></span>  
+  
+ <span data-ttu-id="2027b-278">Lors de la <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A> est attribué à un créé précédemment <xref:System.Data.SqlClient.SqlCommand>, le <xref:System.Data.SqlClient.SqlCommand> n’est pas cloné.</span><span class="sxs-lookup"><span data-stu-id="2027b-278">When <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A> is assigned to a previously created <xref:System.Data.SqlClient.SqlCommand>, the <xref:System.Data.SqlClient.SqlCommand> is not cloned.</span></span> <span data-ttu-id="2027b-279">Le <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A> conserve une référence à précédemment créé <xref:System.Data.SqlClient.SqlCommand> objet.</span><span class="sxs-lookup"><span data-stu-id="2027b-279">The <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A> maintains a reference to the previously created <xref:System.Data.SqlClient.SqlCommand> object.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="2027b-280">Si l’exécution de cette commande retourne des lignes, les lignes mises à jour peuvent être fusionnées avec les <xref:System.Data.DataSet> selon la façon dont vous définissez la **UpdatedRowSource** propriété de la <xref:System.Data.SqlClient.SqlCommand> objet.</span><span class="sxs-lookup"><span data-stu-id="2027b-280">If execution of this command returns rows, the updated rows may be merged with the <xref:System.Data.DataSet> depending on how you set the **UpdatedRowSource** property of the <xref:System.Data.SqlClient.SqlCommand> object.</span></span>  
+  
+ <span data-ttu-id="2027b-281">Pour chaque colonne que vous propagez à la source de données sur <xref:System.Data.Common.DbDataAdapter.Update%2A>, un paramètre doit être ajouté à `InsertCommand`, `UpdateCommand`, ou `DeleteCommand`.</span><span class="sxs-lookup"><span data-stu-id="2027b-281">For every column that you propagate to the data source on <xref:System.Data.Common.DbDataAdapter.Update%2A>, a parameter should be added to `InsertCommand`, `UpdateCommand`, or `DeleteCommand`.</span></span>  
+  
+ <span data-ttu-id="2027b-282">Le `SourceColumn` propriété du paramètre doit être définie sur le nom de la colonne.</span><span class="sxs-lookup"><span data-stu-id="2027b-282">The `SourceColumn` property of the parameter should be set to the name of the column.</span></span> <span data-ttu-id="2027b-283">Cela indique que la valeur du paramètre n'est pas définie manuellement, mais obtenue à partir de la colonne particulière de la ligne actuellement traitée.</span><span class="sxs-lookup"><span data-stu-id="2027b-283">This indicates that the value of the parameter is not set manually, but taken from the particular column in the currently processed row.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="2027b-284">L’exemple suivant crée un <xref:System.Data.SqlClient.SqlDataAdapter> et définit les <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A> et <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> propriétés.</span><span class="sxs-lookup"><span data-stu-id="2027b-284">The following example creates a <xref:System.Data.SqlClient.SqlDataAdapter> and sets the <xref:System.Data.SqlClient.SqlDataAdapter.SelectCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.InsertCommand%2A>, <xref:System.Data.SqlClient.SqlDataAdapter.UpdateCommand%2A> and <xref:System.Data.SqlClient.SqlDataAdapter.DeleteCommand%2A> properties.</span></span> <span data-ttu-id="2027b-285">Il suppose que vous avez déjà créé un <xref:System.Data.SqlClient.SqlConnection> objet.</span><span class="sxs-lookup"><span data-stu-id="2027b-285">It assumes you have already created a <xref:System.Data.SqlClient.SqlConnection> object.</span></span>  
+  
+ [!code-csharp[DataWorks SqlDataAdapter.Command#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/DataWorks SqlDataAdapter.Command/CS/source.cs#1)]
+ [!code-vb[DataWorks SqlDataAdapter.Command#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/DataWorks SqlDataAdapter.Command/VB/source.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

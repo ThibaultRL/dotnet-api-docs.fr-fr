@@ -1,0 +1,1033 @@
+<Type Name="OracleCommandBuilder" FullName="System.Data.OracleClient.OracleCommandBuilder">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="e58edd034b786cad53ea671d0425b05edcbb32f6" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class OracleCommandBuilder : System.Data.Common.DbCommandBuilder" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit OracleCommandBuilder extends System.Data.Common.DbCommandBuilder" />
+  <TypeSignature Language="DocId" Value="T:System.Data.OracleClient.OracleCommandBuilder" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class OracleCommandBuilder&#xA;Inherits DbCommandBuilder" />
+  <TypeSignature Language="C++ CLI" Value="public ref class OracleCommandBuilder sealed : System::Data::Common::DbCommandBuilder" />
+  <AssemblyInfo>
+    <AssemblyName>System.Data.OracleClient</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Data.Common.DbCommandBuilder</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Obsolete("OracleCommandBuilder has been deprecated. http://go.microsoft.com/fwlink/?LinkID=144260", false)</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="b8ea2-101">Génère automatiquement des commandes de table simple utilisées pour harmoniser les modifications apportées à <see cref="T:System.Data.DataSet" /> avec la base de données associée.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="b8ea2-101">Automatically generates single-table commands used to reconcile changes made to a <see cref="T:System.Data.DataSet" /> with the associated database.</span>
+      </span>
+      <span data-ttu-id="b8ea2-102">Cette classe ne peut pas être héritée.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="b8ea2-102">This class cannot be inherited.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-103">Ce type est déconseillé et sera supprimé dans une future version de .NET Framework.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-103">This type is deprecated and will be removed in a future version of the .NET Framework.</span></span> <span data-ttu-id="b8ea2-104">Pour plus d’informations, consultez [Oracle et ADO.NET](~/docs/framework/data/adonet/oracle-and-adonet.md).</span><span class="sxs-lookup"><span data-stu-id="b8ea2-104">For more information, see [Oracle and ADO.NET](~/docs/framework/data/adonet/oracle-and-adonet.md).</span></span>  
+  
+ <span data-ttu-id="b8ea2-105">Le <xref:System.Data.OracleClient.OracleDataAdapter> ne génère pas automatiquement les instructions SQL requises pour répercuter les modifications apportées à un <xref:System.Data.DataSet> associé à la base de données.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-105">The <xref:System.Data.OracleClient.OracleDataAdapter> does not automatically generate the SQL statements required to reconcile changes made to a <xref:System.Data.DataSet> associated with the database.</span></span> <span data-ttu-id="b8ea2-106">Toutefois, vous pouvez créer un <xref:System.Data.OracleClient.OracleCommandBuilder> objet qui génère des instructions SQL pour les mises à jour de la table unique en définissant le <xref:System.Data.OracleClient.OracleDataAdapter.SelectCommand%2A> propriété de la <xref:System.Data.OracleClient.OracleDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-106">However, you can create an <xref:System.Data.OracleClient.OracleCommandBuilder> object that generates SQL statements for single-table updates by setting the <xref:System.Data.OracleClient.OracleDataAdapter.SelectCommand%2A> property of the <xref:System.Data.OracleClient.OracleDataAdapter>.</span></span> <span data-ttu-id="b8ea2-107">Ensuite, la <xref:System.Data.OracleClient.OracleCommandBuilder> génère les instructions SQL supplémentaires que vous ne définissez pas.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-107">Then, the <xref:System.Data.OracleClient.OracleCommandBuilder> generates any additional SQL statements that you do not set.</span></span>  
+  
+ <span data-ttu-id="b8ea2-108">La relation entre un <xref:System.Data.OracleClient.OracleDataAdapter> et de son <xref:System.Data.OracleClient.OracleCommandBuilder> est toujours un à un.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-108">The relationship between an <xref:System.Data.OracleClient.OracleDataAdapter> and its corresponding <xref:System.Data.OracleClient.OracleCommandBuilder> is always one-to-one.</span></span> <span data-ttu-id="b8ea2-109">Pour créer cette correspondance, vous définissez la <xref:System.Data.OracleClient.OracleDataAdapter> propriété de la <xref:System.Data.OracleClient.OracleCommandBuilder> objet.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-109">To create this correspondence, you set the <xref:System.Data.OracleClient.OracleDataAdapter> property of the <xref:System.Data.OracleClient.OracleCommandBuilder> object.</span></span> <span data-ttu-id="b8ea2-110">Cela entraîne le <xref:System.Data.OracleClient.OracleCommandBuilder> à s’inscrire en tant qu’écouteur, ce qui génère la sortie de <xref:System.Data.OracleClient.OracleDataAdapter.RowUpdating> les événements qui affectent la <xref:System.Data.DataSet>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-110">This causes the <xref:System.Data.OracleClient.OracleCommandBuilder> to register itself as a listener, which produces the output of <xref:System.Data.OracleClient.OracleDataAdapter.RowUpdating> events that affect the <xref:System.Data.DataSet>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-111">Pour générer des instructions INSERT, UPDATE ou DELETE, le <xref:System.Data.OracleClient.OracleCommandBuilder> utilise le <xref:System.Data.OracleClient.OracleDataAdapter.SelectCommand%2A> propriété à récupérer un jeu de métadonnées requis.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-111">To generate INSERT, UPDATE, or DELETE statements, the <xref:System.Data.OracleClient.OracleCommandBuilder> uses the <xref:System.Data.OracleClient.OracleDataAdapter.SelectCommand%2A> property to retrieve a required set of metadata.</span></span>  
+  
+ <span data-ttu-id="b8ea2-112">Le <xref:System.Data.OracleClient.OracleCommandBuilder> utilise également le <xref:System.Data.OracleClient.OracleCommand.Connection%2A>, et <xref:System.Data.OracleClient.OracleCommand.Transaction%2A> propriétés référencées par le <xref:System.Data.OracleClient.OracleDataAdapter.SelectCommand%2A>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-112">The <xref:System.Data.OracleClient.OracleCommandBuilder> also uses the <xref:System.Data.OracleClient.OracleCommand.Connection%2A>, and <xref:System.Data.OracleClient.OracleCommand.Transaction%2A> properties referenced by the <xref:System.Data.OracleClient.OracleDataAdapter.SelectCommand%2A>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-113">Si vous appelez <xref:System.Data.Common.DbDataAdapter.Dispose%2A>, le <xref:System.Data.OracleClient.OracleCommandBuilder> est dissocié de la <xref:System.Data.OracleClient.OracleDataAdapter>, et les commandes générées ne sont plus utilisés.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-113">If you call <xref:System.Data.Common.DbDataAdapter.Dispose%2A>, the <xref:System.Data.OracleClient.OracleCommandBuilder> is disassociated from the <xref:System.Data.OracleClient.OracleDataAdapter>, and the generated commands are no longer used.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="b8ea2-114">L’exemple suivant utilise <xref:System.Data.OracleClient.OracleCommand>, avec <xref:System.Data.OracleClient.OracleDataAdapter> et <xref:System.Data.OracleClient.OracleConnection>pour sélectionner des lignes à partir d’une base de données.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-114">The following example uses <xref:System.Data.OracleClient.OracleCommand>, along with <xref:System.Data.OracleClient.OracleDataAdapter> and <xref:System.Data.OracleClient.OracleConnection>, to select rows from a database.</span></span> <span data-ttu-id="b8ea2-115">L’exemple est passé initialisé <xref:System.Data.DataSet>, une chaîne de connexion, une chaîne de requête qui est une instruction SQL SELECT et une chaîne qui est le nom de la table de base de données.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-115">The example is passed an initialized <xref:System.Data.DataSet>, a connection string, a query string that is an SQL SELECT statement, and a string that is the name of the database table.</span></span> <span data-ttu-id="b8ea2-116">L’exemple crée ensuite un <xref:System.Data.OracleClient.OracleCommandBuilder>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-116">The example then creates an <xref:System.Data.OracleClient.OracleCommandBuilder>.</span></span>  
+  
+```vb  
+Private Function SelectOracleRows(connection As String, queryString As String, tableName As String) As DataSet  
+  
+   Dim connection As New OracleConnection(connection)  
+   Dim dataAdapter As New OracleDataAdapter()  
+   Dim dataSet As DataSet = New DataSet  
+  
+   dataAdapter.SelectCommand = New OracleCommand(queryString, connection)  
+  
+   Dim cmdBuilder As OracleCommandBuilder = New OracleCommandBuilder(dataAdapter)  
+  
+   connection.Open()  
+   dataAdapter.Fill(dataSet, tableName)  
+      ' Code to modify data in DataSet here   
+      ' Without the OracleCommandBuilder this line would fail.  
+   dataAdapter.Update(dataSet, tableName)  
+   connection.Close()  
+End Function  
+```  
+  
+```csharp  
+public static DataSet SelectOracleSrvRows(string myConnection, string mySelectQuery, string myTableName)  
+{  
+   OracleConnection myConn = new OracleConnection(myConnection);  
+   OracleDataAdapter myDataAdapter = new OracleDataAdapter();  
+   myDataAdapter.SelectCommand = new OracleCommand(mySelectQuery, myConn);  
+   OracleCommandBuilder cb = new OracleCommandBuilder(myDataAdapter);  
+  
+   myConn.Open();  
+   DataSet ds = new DataSet();  
+   myDataAdapter.Fill(ds, myTableName);  
+  
+   //Code to modify data in DataSet goes here...  
+  
+   //Without the OracleCommandBuilder this line would fail.  
+   myDataAdapter.Update(ds, myTableName);  
+   myConn.Close();  
+   return ds;  
+}  
+```  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="b8ea2-117">Initialise une nouvelle instance de l'objet <see cref="T:System.Data.OracleClient.OracleCommandBuilder" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-117">Initializes a new instance of the <see cref="T:System.Data.OracleClient.OracleCommandBuilder" />.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public OracleCommandBuilder ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; OracleCommandBuilder();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="b8ea2-118">Initialise une nouvelle instance de l'objet <see cref="T:System.Data.OracleClient.OracleCommandBuilder" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-118">Initializes a new instance of the <see cref="T:System.Data.OracleClient.OracleCommandBuilder" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-119">Le <xref:System.Data.OracleClient.OracleCommandBuilder> s’inscrit lui-même en tant qu’écouteur pour <xref:System.Data.OracleClient.OracleDataAdapter.RowUpdating> les événements générés par la <xref:System.Data.OracleClient.OracleDataAdapter> spécifiée dans cette propriété.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-119">The <xref:System.Data.OracleClient.OracleCommandBuilder> registers itself as a listener for <xref:System.Data.OracleClient.OracleDataAdapter.RowUpdating> events that are generated by the <xref:System.Data.OracleClient.OracleDataAdapter> specified in this property.</span></span>  
+  
+ <span data-ttu-id="b8ea2-120">Lorsque vous créez une nouvelle instance de <xref:System.Data.OracleClient.OracleCommandBuilder>, existants <xref:System.Data.OracleClient.OracleCommandBuilder> associé à cet <xref:System.Data.OracleClient.OracleDataAdapter> est libérée.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-120">When you create a new instance of <xref:System.Data.OracleClient.OracleCommandBuilder>, any existing <xref:System.Data.OracleClient.OracleCommandBuilder> associated with this <xref:System.Data.OracleClient.OracleDataAdapter> is released.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public OracleCommandBuilder (System.Data.OracleClient.OracleDataAdapter adapter);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(class System.Data.OracleClient.OracleDataAdapter adapter) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.#ctor(System.Data.OracleClient.OracleDataAdapter)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (adapter As OracleDataAdapter)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; OracleCommandBuilder(System::Data::OracleClient::OracleDataAdapter ^ adapter);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="adapter" Type="System.Data.OracleClient.OracleDataAdapter" />
+      </Parameters>
+      <Docs>
+        <param name="adapter">
+          <span data-ttu-id="b8ea2-121">Objet <see cref="T:System.Data.OracleClient.OracleDataAdapter" /> à associer à ce <see cref="T:System.Data.OracleClient.OracleCommandBuilder" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-121">An <see cref="T:System.Data.OracleClient.OracleDataAdapter" /> object to associate with this <see cref="T:System.Data.OracleClient.OracleCommandBuilder" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="b8ea2-122">Initialise une nouvelle instance de la classe <see cref="T:System.Data.OracleClient.OracleCommandBuilder" /> avec l'objet <see cref="T:System.Data.OracleClient.OracleDataAdapter" /> associé.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-122">Initializes a new instance of the <see cref="T:System.Data.OracleClient.OracleCommandBuilder" /> class with the associated <see cref="T:System.Data.OracleClient.OracleDataAdapter" /> object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-123">Le <xref:System.Data.OracleClient.OracleCommandBuilder> s’inscrit lui-même en tant qu’écouteur pour <xref:System.Data.OracleClient.OracleDataAdapter.RowUpdating> les événements générés par la <xref:System.Data.OracleClient.OracleDataAdapter> spécifiée dans cette propriété.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-123">The <xref:System.Data.OracleClient.OracleCommandBuilder> registers itself as a listener for <xref:System.Data.OracleClient.OracleDataAdapter.RowUpdating> events that are generated by the <xref:System.Data.OracleClient.OracleDataAdapter> specified in this property.</span></span>  
+  
+ <span data-ttu-id="b8ea2-124">Lorsque vous créez une nouvelle instance de <xref:System.Data.OracleClient.OracleCommandBuilder>, existants <xref:System.Data.OracleClient.OracleCommandBuilder> associé à cet <xref:System.Data.OracleClient.OracleDataAdapter> est libérée.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-124">When you create a new instance of <xref:System.Data.OracleClient.OracleCommandBuilder>, any existing <xref:System.Data.OracleClient.OracleCommandBuilder> associated with this <xref:System.Data.OracleClient.OracleDataAdapter> is released.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ApplyParameterInfo">
+      <MemberSignature Language="C#" Value="protected override void ApplyParameterInfo (System.Data.Common.DbParameter parameter, System.Data.DataRow datarow, System.Data.StatementType statementType, bool whereClause);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void ApplyParameterInfo(class System.Data.Common.DbParameter parameter, class System.Data.DataRow datarow, valuetype System.Data.StatementType statementType, bool whereClause) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.ApplyParameterInfo(System.Data.Common.DbParameter,System.Data.DataRow,System.Data.StatementType,System.Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void ApplyParameterInfo(System::Data::Common::DbParameter ^ parameter, System::Data::DataRow ^ datarow, System::Data::StatementType statementType, bool whereClause);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parameter" Type="System.Data.Common.DbParameter" />
+        <Parameter Name="datarow" Type="System.Data.DataRow" />
+        <Parameter Name="statementType" Type="System.Data.StatementType" />
+        <Parameter Name="whereClause" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="parameter">To be added.</param>
+        <param name="datarow">To be added.</param>
+        <param name="statementType">To be added.</param>
+        <param name="whereClause">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CatalogLocation">
+      <MemberSignature Language="C#" Value="public override System.Data.Common.CatalogLocation CatalogLocation { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.Data.Common.CatalogLocation CatalogLocation" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OracleClient.OracleCommandBuilder.CatalogLocation" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property CatalogLocation As CatalogLocation" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Data::Common::CatalogLocation CatalogLocation { System::Data::Common::CatalogLocation get(); void set(System::Data::Common::CatalogLocation value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Data.Common.CatalogLocation</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="b8ea2-125">Définit ou obtient le <see cref="T:System.Data.Common.CatalogLocation" /> d'une instance de la classe <see cref="T:System.Data.Common.DbCommandBuilder" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-125">Sets or gets the <see cref="T:System.Data.Common.CatalogLocation" /> for an instance of the <see cref="T:System.Data.Common.DbCommandBuilder" /> class.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="b8ea2-126">Objet <see cref="T:System.Data.Common.CatalogLocation" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-126">A <see cref="T:System.Data.Common.CatalogLocation" /> object.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CatalogSeparator">
+      <MemberSignature Language="C#" Value="public override string CatalogSeparator { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string CatalogSeparator" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OracleClient.OracleCommandBuilder.CatalogSeparator" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property CatalogSeparator As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ CatalogSeparator { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="b8ea2-127">Définit ou obtient une chaîne utilisée comme séparateur de catalogue pour une instance de la classe <see cref="T:System.Data.Common.DbCommandBuilder" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-127">Sets or gets a string used as the catalog separator for an instance of the <see cref="T:System.Data.Common.DbCommandBuilder" /> class.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="b8ea2-128">Chaîne indiquant le séparateur de catalogue à utiliser avec une instance de la classe <see cref="T:System.Data.Common.DbCommandBuilder" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-128">A string indicating the catalog separator for use with an instance of the <see cref="T:System.Data.Common.DbCommandBuilder" /> class.</span>
+          </span>
+        </value>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DataAdapter">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleDataAdapter DataAdapter { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Data.OracleClient.OracleDataAdapter DataAdapter" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OracleClient.OracleCommandBuilder.DataAdapter" />
+      <MemberSignature Language="VB.NET" Value="Public Property DataAdapter As OracleDataAdapter" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::Data::OracleClient::OracleDataAdapter ^ DataAdapter { System::Data::OracleClient::OracleDataAdapter ^ get(); void set(System::Data::OracleClient::OracleDataAdapter ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DefaultValue(null)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleDataAdapter</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="b8ea2-129">Obtient ou définit l'objet <see cref="T:System.Data.OracleClient.OracleDataAdapter" /> pour lequel cet objet <see cref="T:System.Data.OracleClient.OracleCommandBuilder" /> générera des instructions SQL.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-129">Gets or sets an <see cref="T:System.Data.OracleClient.OracleDataAdapter" /> object for which this <see cref="T:System.Data.OracleClient.OracleCommandBuilder" /> object will generate SQL statements.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="b8ea2-130">Objet <see cref="T:System.Data.OracleClient.OracleDataAdapter" /> associé à ce <see cref="T:System.Data.OracleClient.OracleCommandBuilder" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-130">An <see cref="T:System.Data.OracleClient.OracleDataAdapter" /> object that is associated with this <see cref="T:System.Data.OracleClient.OracleCommandBuilder" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-131">Le <xref:System.Data.OracleClient.OracleCommandBuilder> s’inscrit lui-même en tant qu’écouteur pour <xref:System.Data.OracleClient.OracleDataAdapter.RowUpdating> les événements générés par la <xref:System.Data.OracleClient.OracleDataAdapter> spécifiée dans cette propriété.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-131">The <xref:System.Data.OracleClient.OracleCommandBuilder> registers itself as a listener for <xref:System.Data.OracleClient.OracleDataAdapter.RowUpdating> events that are generated by the <xref:System.Data.OracleClient.OracleDataAdapter> specified in this property.</span></span>  
+  
+ <span data-ttu-id="b8ea2-132">Lorsque vous créez une nouvelle instance de <xref:System.Data.OracleClient.OracleCommandBuilder>, existants <xref:System.Data.OracleClient.OracleCommandBuilder> associé à cet <xref:System.Data.OracleClient.OracleDataAdapter> est libérée.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-132">When you create a new instance of <xref:System.Data.OracleClient.OracleCommandBuilder>, any existing <xref:System.Data.OracleClient.OracleCommandBuilder> associated with this <xref:System.Data.OracleClient.OracleDataAdapter> is released.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DeriveParameters">
+      <MemberSignature Language="C#" Value="public static void DeriveParameters (System.Data.OracleClient.OracleCommand command);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void DeriveParameters(class System.Data.OracleClient.OracleCommand command) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.DeriveParameters(System.Data.OracleClient.OracleCommand)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Sub DeriveParameters (command As OracleCommand)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void DeriveParameters(System::Data::OracleClient::OracleCommand ^ command);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="command" Type="System.Data.OracleClient.OracleCommand" />
+      </Parameters>
+      <Docs>
+        <param name="command">
+          <span data-ttu-id="b8ea2-133">
+            <see cref="T:System.Data.OracleClient.OracleCommand" /> référençant la procédure stockée à partir de laquelle les informations sur les paramètres doivent être dérivées.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-133">The <see cref="T:System.Data.OracleClient.OracleCommand" /> referencing the stored procedure from which the parameter information is to be derived.</span>
+          </span>
+          <span data-ttu-id="b8ea2-134">Les paramètres dérivés sont ajoutés à la collection <see cref="P:System.Data.OracleClient.OracleCommand.Parameters" /> de <see cref="T:System.Data.OracleClient.OracleCommand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-134">The derived parameters are added to the <see cref="P:System.Data.OracleClient.OracleCommand.Parameters" /> collection of the <see cref="T:System.Data.OracleClient.OracleCommand" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="b8ea2-135">Récupère les informations sur les paramètres à partir de la procédure stockée spécifiée dans <see cref="T:System.Data.OracleClient.OracleCommand" /> et remplit la collection <see cref="P:System.Data.OracleClient.OracleCommand.Parameters" /> de l'objet <see cref="T:System.Data.OracleClient.OracleCommand" /> spécifié.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-135">Retrieves parameter information from the stored procedure specified in the <see cref="T:System.Data.OracleClient.OracleCommand" /> and populates the <see cref="P:System.Data.OracleClient.OracleCommand.Parameters" /> collection of the specified <see cref="T:System.Data.OracleClient.OracleCommand" /> object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-136"><xref:System.Data.OracleClient.OracleCommandBuilder.DeriveParameters%2A> remplace les informations existantes pour le <xref:System.Data.OracleClient.OracleCommand>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-136"><xref:System.Data.OracleClient.OracleCommandBuilder.DeriveParameters%2A> overwrites any existing parameter information for the <xref:System.Data.OracleClient.OracleCommand>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-137"><xref:System.Data.OracleClient.OracleCommandBuilder.DeriveParameters%2A> nécessite un appel supplémentaire à la base de données pour obtenir les informations.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-137"><xref:System.Data.OracleClient.OracleCommandBuilder.DeriveParameters%2A> requires an extra call to the database to obtain the information.</span></span> <span data-ttu-id="b8ea2-138">Si les informations de paramètre sont connues d’avance, il est plus efficace pour remplir la collection de paramètres en définissant explicitement les informations.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-138">If the parameter information is known in advance, it is more efficient to populate the parameters collection by setting the information explicitly.</span></span>  
+  
+ <span data-ttu-id="b8ea2-139">Vous ne pouvez utiliser <xref:System.Data.OracleClient.OracleCommandBuilder.DeriveParameters%2A> avec des procédures stockées.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-139">You can only use <xref:System.Data.OracleClient.OracleCommandBuilder.DeriveParameters%2A> with stored procedures.</span></span> <span data-ttu-id="b8ea2-140">Vous ne pouvez pas utiliser <xref:System.Data.OracleClient.OracleCommandBuilder.DeriveParameters%2A> pour remplir le <xref:System.Data.OracleClient.OracleParameterCollection> avec des instructions Transact-SQL arbitraires, telle qu’une instruction SELECT paramétrable.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-140">You cannot use <xref:System.Data.OracleClient.OracleCommandBuilder.DeriveParameters%2A> to populate the <xref:System.Data.OracleClient.OracleParameterCollection> with arbitrary Transact-SQL statements, such as a parameterized SELECT statement.</span></span>  
+  
+ <span data-ttu-id="b8ea2-141">Pour plus d’informations, consultez [configuration des paramètres et des Types de données de paramètre](~/docs/framework/data/adonet/configuring-parameters-and-parameter-data-types.md).</span><span class="sxs-lookup"><span data-stu-id="b8ea2-141">For more information, see [Configuring Parameters and Parameter Data Types](~/docs/framework/data/adonet/configuring-parameters-and-parameter-data-types.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="b8ea2-142">Le texte de la commande n'est pas un nom de procédure stockée valide, ou le <see cref="T:System.Data.CommandType" /> spécifié n'est pas <see cref="F:System.Data.CommandType.StoredProcedure" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-142">The command text is not a valid stored procedure name, or the <see cref="T:System.Data.CommandType" /> specified was not <see cref="F:System.Data.CommandType.StoredProcedure" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="GetDeleteCommand">
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="b8ea2-143">Obtient l'objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, qui est requis pour effectuer des suppressions au niveau de la base de données.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-143">Gets the automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform deletions on the database.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-144">Vous pouvez utiliser la <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> à des fins de méthode d’information et de dépannage, car elle retourne le <xref:System.Data.OracleClient.OracleCommand> objet à exécuter.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-144">You can use the <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.OracleClient.OracleCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="b8ea2-145">Vous pouvez également utiliser <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> comme base d’une commande modifiée.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-145">You can also use <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="b8ea2-146">Par exemple, vous pouvez appeler <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> et modifier le <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> valeur, puis le définir explicitement sur le <xref:System.Data.OracleClient.OracleDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-146">For example, you might call <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> and modify the <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> value, and then explicitly set that on the <xref:System.Data.OracleClient.OracleDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-147">Les instructions SQL sont d’abord générées lorsque l’application appelle <xref:System.Data.Common.DbDataAdapter.Update%2A> ou <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-147">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-148">Pour plus d’informations, consultez [génération de commandes avec CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span><span class="sxs-lookup"><span data-stu-id="b8ea2-148">For more information, see [Generating Commands with CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="GetDeleteCommand">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleCommand GetDeleteCommand ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.OracleClient.OracleCommand GetDeleteCommand() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetDeleteCommand () As OracleCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleCommand ^ GetDeleteCommand();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleCommand</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="b8ea2-149">Obtient l'objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, qui est requis pour effectuer des suppressions au niveau de la base de données.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-149">Gets the automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform deletions on the database.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="b8ea2-150">Objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, requis pour effectuer des suppressions.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-150">The automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform deletions.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-151">Vous pouvez utiliser la <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> à des fins de méthode d’information et de dépannage, car elle retourne le <xref:System.Data.OracleClient.OracleCommand> objet à exécuter.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-151">You can use the <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.OracleClient.OracleCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="b8ea2-152">Vous pouvez également utiliser <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> comme base d’une commande modifiée.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-152">You can also use <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="b8ea2-153">Par exemple, vous pouvez appeler <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> et modifier le <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> valeur, puis le définir explicitement sur le <xref:System.Data.OracleClient.OracleDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-153">For example, you might call <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> and modify the <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> value, and then explicitly set that on the <xref:System.Data.OracleClient.OracleDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-154">Les instructions SQL sont d’abord générées lorsque l’application appelle <xref:System.Data.Common.DbDataAdapter.Update%2A> ou <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-154">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-155">Pour plus d’informations, consultez [génération de commandes avec CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span><span class="sxs-lookup"><span data-stu-id="b8ea2-155">For more information, see [Generating Commands with CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetDeleteCommand">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleCommand GetDeleteCommand (bool useColumnsForParameterNames);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.OracleClient.OracleCommand GetDeleteCommand(bool useColumnsForParameterNames) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetDeleteCommand (useColumnsForParameterNames As Boolean) As OracleCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleCommand ^ GetDeleteCommand(bool useColumnsForParameterNames);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleCommand</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="useColumnsForParameterNames" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="useColumnsForParameterNames">
+          <span data-ttu-id="b8ea2-156">Si la valeur est true, génère des noms de paramètres correspondant aux noms de colonnes, dans la mesure du possible.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-156">If true, generate parameter names matching column names, if possible.</span>
+          </span>
+          <span data-ttu-id="b8ea2-157">Si la valeur est false, génère @p1, @p2, etc.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-157">If false, generate @p1, @p2, and so on.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="b8ea2-158">Obtient l'objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, qui est requis pour effectuer des suppressions au niveau de la base de données.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-158">Gets the automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform deletions on the database.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="b8ea2-159">Objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, requis pour effectuer des suppressions.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-159">The automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform deletions.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-160">Vous pouvez utiliser la <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> à des fins de méthode d’information et de dépannage, car elle retourne le <xref:System.Data.OracleClient.OracleCommand> objet à exécuter.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-160">You can use the <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.OracleClient.OracleCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="b8ea2-161">Vous pouvez également utiliser <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> comme base d’une commande modifiée.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-161">You can also use <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="b8ea2-162">Par exemple, vous pouvez appeler <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> et modifier le <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> valeur, puis le définir explicitement sur le <xref:System.Data.OracleClient.OracleDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-162">For example, you might call <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A> and modify the <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> value, and then explicitly set that on the <xref:System.Data.OracleClient.OracleDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-163">Les instructions SQL sont d’abord générées lorsque l’application appelle <xref:System.Data.Common.DbDataAdapter.Update%2A> ou <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-163">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.OracleClient.OracleCommandBuilder.GetDeleteCommand%2A>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-164">Le comportement par défaut, lors de la génération des noms de paramètres, consiste à utiliser @p1, @p2, et ainsi de suite pour les différents paramètres.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-164">The default behavior, when generating parameter names, is to use @p1, @p2, and so on for the various parameters.</span></span> <span data-ttu-id="b8ea2-165">Passage `true` pour le `useColumnsForParameterNames` paramètre vous permet de forcer le <xref:System.Data.Common.DbCommandBuilder> génère des paramètres basés sur les noms de colonne à la place.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-165">Passing `true` for the `useColumnsForParameterNames` parameter allows you to force the <xref:System.Data.Common.DbCommandBuilder> to generate parameters based on the column names instead.</span></span> <span data-ttu-id="b8ea2-166">.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-166">.</span></span> <span data-ttu-id="b8ea2-167">Cette opération réussit uniquement si les conditions suivantes sont remplies :</span><span class="sxs-lookup"><span data-stu-id="b8ea2-167">This succeeds only if the following conditions are met:</span></span>  
+  
+-   <span data-ttu-id="b8ea2-168">Le <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> a été spécifié et sa longueur est égale ou supérieure au nom du paramètre généré.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-168">The <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> has been specified and its length is equal to or greater than the generated parameter name.</span></span>  
+  
+-   <span data-ttu-id="b8ea2-169">Le nom de paramètre généré répond aux critères spécifiés dans le <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> expression régulière.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-169">The generated parameter name meets the criteria specified in the <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> regular expression.</span></span>  
+  
+-   <span data-ttu-id="b8ea2-170">A <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> est spécifié.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-170">A <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> is specified.</span></span>  
+  
+ <span data-ttu-id="b8ea2-171">Pour plus d’informations, consultez [génération de commandes avec CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span><span class="sxs-lookup"><span data-stu-id="b8ea2-171">For more information, see [Generating Commands with CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="GetInsertCommand">
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="b8ea2-172">Obtient l'objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, qui est requis pour effectuer des suppressions au niveau de la base de données.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-172">Gets the automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform insertions on the database.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-173">Vous pouvez utiliser la <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> à des fins de méthode d’information et de dépannage, car elle retourne le <xref:System.Data.OracleClient.OracleCommand> objet à exécuter.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-173">You can use the <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.OracleClient.OracleCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="b8ea2-174">Vous pouvez également utiliser <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> comme base d’une commande modifiée.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-174">You can also use <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="b8ea2-175">Par exemple, vous pouvez appeler <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> et modifier le <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> valeur, puis le définir explicitement sur le <xref:System.Data.OracleClient.OracleDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-175">For example, you might call <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> and modify the <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> value, and then explicitly set that on the <xref:System.Data.OracleClient.OracleDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-176">Les instructions SQL sont d’abord générées lorsque l’application appelle <xref:System.Data.Common.DbDataAdapter.Update%2A> ou <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-176">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-177">Pour plus d’informations, consultez [génération de commandes avec CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span><span class="sxs-lookup"><span data-stu-id="b8ea2-177">For more information, see [Generating Commands with CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="GetInsertCommand">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleCommand GetInsertCommand ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.OracleClient.OracleCommand GetInsertCommand() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetInsertCommand () As OracleCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleCommand ^ GetInsertCommand();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleCommand</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="b8ea2-178">Obtient l'objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, qui est requis pour effectuer des suppressions au niveau de la base de données.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-178">Gets the automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform insertions on the database.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="b8ea2-179">Objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, qui est requis pour effectuer des insertions.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-179">The automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform insertions.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-180">Vous pouvez utiliser la <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> à des fins de méthode d’information et de dépannage, car elle retourne le <xref:System.Data.OracleClient.OracleCommand> objet à exécuter.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-180">You can use the <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.OracleClient.OracleCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="b8ea2-181">Vous pouvez également utiliser <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> comme base d’une commande modifiée.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-181">You can also use <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="b8ea2-182">Par exemple, vous pouvez appeler <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> et modifier le <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> valeur, puis le définir explicitement sur le <xref:System.Data.OracleClient.OracleDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-182">For example, you might call <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> and modify the <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> value, and then explicitly set that on the <xref:System.Data.OracleClient.OracleDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-183">Les instructions SQL sont d’abord générées lorsque l’application appelle <xref:System.Data.Common.DbDataAdapter.Update%2A> ou <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-183">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-184">Pour plus d’informations, consultez [génération de commandes avec CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span><span class="sxs-lookup"><span data-stu-id="b8ea2-184">For more information, see [Generating Commands with CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetInsertCommand">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleCommand GetInsertCommand (bool useColumnsForParameterNames);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.OracleClient.OracleCommand GetInsertCommand(bool useColumnsForParameterNames) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetInsertCommand (useColumnsForParameterNames As Boolean) As OracleCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleCommand ^ GetInsertCommand(bool useColumnsForParameterNames);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleCommand</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="useColumnsForParameterNames" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="useColumnsForParameterNames">
+          <span data-ttu-id="b8ea2-185">Si la valeur est true, génère des noms de paramètres correspondant aux noms de colonnes, dans la mesure du possible.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-185">If true, generate parameter names matching column names, if possible.</span>
+          </span>
+          <span data-ttu-id="b8ea2-186">Si la valeur est false, génère @p1, @p2, etc.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-186">If false, generate @p1, @p2, and so on.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="b8ea2-187">Obtient l'objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, qui est requis pour effectuer des suppressions au niveau de la base de données.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-187">Gets the automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform insertions on the database.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="b8ea2-188">Objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, qui est requis pour effectuer des insertions.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-188">The automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform insertions.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-189">Vous pouvez utiliser la <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> à des fins de méthode d’information et de dépannage, car elle retourne le <xref:System.Data.OracleClient.OracleCommand> objet à exécuter.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-189">You can use the <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.OracleClient.OracleCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="b8ea2-190">Vous pouvez également utiliser <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> comme base d’une commande modifiée.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-190">You can also use <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="b8ea2-191">Par exemple, vous pouvez appeler <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> et modifier le <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> valeur, puis le définir explicitement sur le <xref:System.Data.OracleClient.OracleDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-191">For example, you might call <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A> and modify the <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> value, and then explicitly set that on the <xref:System.Data.OracleClient.OracleDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-192">Les instructions SQL sont d’abord générées lorsque l’application appelle <xref:System.Data.Common.DbDataAdapter.Update%2A> ou <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-192">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.OracleClient.OracleCommandBuilder.GetInsertCommand%2A>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-193">Le comportement par défaut, lors de la génération des noms de paramètres, consiste à utiliser @p1, @p2, et ainsi de suite pour les différents paramètres.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-193">The default behavior, when generating parameter names, is to use @p1, @p2, and so on for the various parameters.</span></span> <span data-ttu-id="b8ea2-194">Passage `true` pour le `useColumnsForParameterNames` paramètre vous permet de forcer le <xref:System.Data.Common.DbCommandBuilder> génère des paramètres basés sur les noms de colonne à la place.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-194">Passing `true` for the `useColumnsForParameterNames` parameter allows you to force the <xref:System.Data.Common.DbCommandBuilder> to generate parameters based on the column names instead.</span></span> <span data-ttu-id="b8ea2-195">.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-195">.</span></span> <span data-ttu-id="b8ea2-196">Cette opération réussit uniquement si les conditions suivantes sont remplies :</span><span class="sxs-lookup"><span data-stu-id="b8ea2-196">This succeeds only if the following conditions are met:</span></span>  
+  
+-   <span data-ttu-id="b8ea2-197">Le <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> a été spécifié et sa longueur est égale ou supérieure au nom du paramètre généré.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-197">The <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> has been specified and its length is equal to or greater than the generated parameter name.</span></span>  
+  
+-   <span data-ttu-id="b8ea2-198">Le nom de paramètre généré répond aux critères spécifiés dans le <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> expression régulière.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-198">The generated parameter name meets the criteria specified in the <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> regular expression.</span></span>  
+  
+-   <span data-ttu-id="b8ea2-199">A <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> est spécifié.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-199">A <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> is specified.</span></span>  
+  
+ <span data-ttu-id="b8ea2-200">Pour plus d’informations, consultez [génération de commandes avec CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span><span class="sxs-lookup"><span data-stu-id="b8ea2-200">For more information, see [Generating Commands with CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetParameterName">
+      <MemberSignature Language="C#" Value="protected override string GetParameterName (int parameterOrdinal);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance string GetParameterName(int32 parameterOrdinal) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.GetParameterName(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function GetParameterName (parameterOrdinal As Integer) As String" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::String ^ GetParameterName(int parameterOrdinal);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parameterOrdinal" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="parameterOrdinal">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetParameterName">
+      <MemberSignature Language="C#" Value="protected override string GetParameterName (string parameterName);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance string GetParameterName(string parameterName) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.GetParameterName(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function GetParameterName (parameterName As String) As String" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::String ^ GetParameterName(System::String ^ parameterName);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parameterName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="parameterName">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetParameterPlaceholder">
+      <MemberSignature Language="C#" Value="protected override string GetParameterPlaceholder (int parameterOrdinal);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance string GetParameterPlaceholder(int32 parameterOrdinal) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.GetParameterPlaceholder(System.Int32)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Function GetParameterPlaceholder (parameterOrdinal As Integer) As String" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override System::String ^ GetParameterPlaceholder(int parameterOrdinal);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="parameterOrdinal" Type="System.Int32" />
+      </Parameters>
+      <Docs>
+        <param name="parameterOrdinal">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="GetUpdateCommand">
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="b8ea2-201">Obtient l'objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, qui est requis pour effectuer des mises à jour au niveau de la base de données.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-201">Gets the automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform updates on the database.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-202">Vous pouvez utiliser la <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> à des fins de méthode d’information et de dépannage, car elle retourne le <xref:System.Data.OracleClient.OracleCommand> objet à exécuter.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-202">You can use the <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.OracleClient.OracleCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="b8ea2-203">Vous pouvez également utiliser <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> comme base d’une commande modifiée.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-203">You can also use <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="b8ea2-204">Par exemple, vous pouvez appeler <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> et modifier le <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> valeur, puis le définir explicitement sur le <xref:System.Data.OracleClient.OracleDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-204">For example, you might call <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> and modify the <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> value, and then explicitly set that on the <xref:System.Data.OracleClient.OracleDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-205">Les instructions SQL sont d’abord générées lorsque l’application appelle <xref:System.Data.Common.DbDataAdapter.Update%2A> ou <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-205">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-206">Pour plus d’informations, consultez [génération de commandes avec CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span><span class="sxs-lookup"><span data-stu-id="b8ea2-206">For more information, see [Generating Commands with CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="GetUpdateCommand">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleCommand GetUpdateCommand ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.OracleClient.OracleCommand GetUpdateCommand() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetUpdateCommand () As OracleCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleCommand ^ GetUpdateCommand();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleCommand</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="b8ea2-207">Obtient l'objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, qui est requis pour effectuer des mises à jour au niveau de la base de données.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-207">Gets the automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform updates on the database.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="b8ea2-208">Objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, requis pour effectuer des mises à jour.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-208">The automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform updates.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-209">Vous pouvez utiliser la <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> à des fins de méthode d’information et de dépannage, car elle retourne le <xref:System.Data.OracleClient.OracleCommand> objet à exécuter.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-209">You can use the <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.OracleClient.OracleCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="b8ea2-210">Vous pouvez également utiliser <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> comme base d’une commande modifiée.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-210">You can also use <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="b8ea2-211">Par exemple, vous pouvez appeler <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> et modifier le <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> valeur, puis le définir explicitement sur le <xref:System.Data.OracleClient.OracleDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-211">For example, you might call <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> and modify the <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> value, and then explicitly set that on the <xref:System.Data.OracleClient.OracleDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-212">Les instructions SQL sont d’abord générées lorsque l’application appelle <xref:System.Data.Common.DbDataAdapter.Update%2A> ou <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-212">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-213">Pour plus d’informations, consultez [génération de commandes avec CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span><span class="sxs-lookup"><span data-stu-id="b8ea2-213">For more information, see [Generating Commands with CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetUpdateCommand">
+      <MemberSignature Language="C#" Value="public System.Data.OracleClient.OracleCommand GetUpdateCommand (bool useColumnsForParameterNames);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Data.OracleClient.OracleCommand GetUpdateCommand(bool useColumnsForParameterNames) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetUpdateCommand (useColumnsForParameterNames As Boolean) As OracleCommand" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Data::OracleClient::OracleCommand ^ GetUpdateCommand(bool useColumnsForParameterNames);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Data.OracleClient.OracleCommand</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="useColumnsForParameterNames" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="useColumnsForParameterNames">
+          <span data-ttu-id="b8ea2-214">Si la valeur est true, génère des noms de paramètres correspondant aux noms de colonnes, dans la mesure du possible.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-214">If true, generate parameter names matching column names, if possible.</span>
+          </span>
+          <span data-ttu-id="b8ea2-215">Si la valeur est false, génère @p1, @p2, etc.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-215">If false, generate @p1, @p2, and so on.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="b8ea2-216">Obtient l'objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, qui est requis pour effectuer des mises à jour au niveau de la base de données.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-216">Gets the automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform updates on the database.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="b8ea2-217">Objet <see cref="T:System.Data.OracleClient.OracleCommand" /> généré automatiquement, requis pour effectuer des mises à jour.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-217">The automatically generated <see cref="T:System.Data.OracleClient.OracleCommand" /> object required to perform updates.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-218">Vous pouvez utiliser la <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> à des fins de méthode d’information et de dépannage, car elle retourne le <xref:System.Data.OracleClient.OracleCommand> objet à exécuter.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-218">You can use the <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> method for informational or troubleshooting purposes because it returns the <xref:System.Data.OracleClient.OracleCommand> object to be executed.</span></span>  
+  
+ <span data-ttu-id="b8ea2-219">Vous pouvez également utiliser <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> comme base d’une commande modifiée.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-219">You can also use <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> as the basis of a modified command.</span></span> <span data-ttu-id="b8ea2-220">Par exemple, vous pouvez appeler <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> et modifier le <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> valeur, puis le définir explicitement sur le <xref:System.Data.OracleClient.OracleDataAdapter>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-220">For example, you might call <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A> and modify the <xref:System.Data.OracleClient.OracleCommand.CommandText%2A> value, and then explicitly set that on the <xref:System.Data.OracleClient.OracleDataAdapter>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-221">Les instructions SQL sont d’abord générées lorsque l’application appelle <xref:System.Data.Common.DbDataAdapter.Update%2A> ou <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A>.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-221">The SQL statements are first generated when the application calls either <xref:System.Data.Common.DbDataAdapter.Update%2A> or <xref:System.Data.OracleClient.OracleCommandBuilder.GetUpdateCommand%2A>.</span></span>  
+  
+ <span data-ttu-id="b8ea2-222">Le comportement par défaut, lors de la génération des noms de paramètres, consiste à utiliser @p1, @p2, et ainsi de suite pour les différents paramètres.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-222">The default behavior, when generating parameter names, is to use @p1, @p2, and so on for the various parameters.</span></span> <span data-ttu-id="b8ea2-223">Passage `true` pour le `useColumnsForParameterNames` paramètre vous permet de forcer le <xref:System.Data.Common.DbCommandBuilder> génère des paramètres basés sur les noms de colonne à la place.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-223">Passing `true` for the `useColumnsForParameterNames` parameter allows you to force the <xref:System.Data.Common.DbCommandBuilder> to generate parameters based on the column names instead.</span></span> <span data-ttu-id="b8ea2-224">.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-224">.</span></span> <span data-ttu-id="b8ea2-225">Cette opération réussit uniquement si les conditions suivantes sont remplies :</span><span class="sxs-lookup"><span data-stu-id="b8ea2-225">This succeeds only if the following conditions are met:</span></span>  
+  
+-   <span data-ttu-id="b8ea2-226">Le <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> a été spécifié et sa longueur est égale ou supérieure au nom du paramètre généré.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-226">The <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNameMaxLength> has been specified and its length is equal to or greater than the generated parameter name.</span></span>  
+  
+-   <span data-ttu-id="b8ea2-227">Le nom de paramètre généré répond aux critères spécifiés dans le <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> expression régulière.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-227">The generated parameter name meets the criteria specified in the <xref:System.Data.Common.DbMetaDataColumnNames.ParameterNamePattern> regular expression.</span></span>  
+  
+-   <span data-ttu-id="b8ea2-228">A <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> est spécifié.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-228">A <xref:System.Data.Common.DbMetaDataColumnNames.ParameterMarkerFormat> is specified.</span></span>  
+  
+ <span data-ttu-id="b8ea2-229">Pour plus d’informations, consultez [génération de commandes avec CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span><span class="sxs-lookup"><span data-stu-id="b8ea2-229">For more information, see [Generating Commands with CommandBuilders](~/docs/framework/data/adonet/generating-commands-with-commandbuilders.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="QuoteIdentifier">
+      <MemberSignature Language="C#" Value="public override string QuoteIdentifier (string unquotedIdentifier);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string QuoteIdentifier(string unquotedIdentifier) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.QuoteIdentifier(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function QuoteIdentifier (unquotedIdentifier As String) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ QuoteIdentifier(System::String ^ unquotedIdentifier);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="unquotedIdentifier" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="unquotedIdentifier">
+          <span data-ttu-id="b8ea2-230">Identificateur sans guillemets d'origine.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-230">The original unquoted identifier.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="b8ea2-231">À partir d'un identificateur sans guillemets dans le cas du catalogue correct, retourne le formulaire correct entre guillemets de cet identificateur, y compris une séquence d'échappement correcte des guillemets incorporés dans l'identificateur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-231">Given an unquoted identifier in the correct catalog case, returns the correct quoted form of that identifier, including properly escaping any embedded quotes in the identifier.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="b8ea2-232">Version entre guillemets de l'identificateur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-232">The quoted version of the identifier.</span>
+          </span>
+          <span data-ttu-id="b8ea2-233">Les guillemets incorporés dans l'identificateur sont placés correctement dans une séquence d'échappement.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-233">Embedded quotes within the identifier are properly escaped.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SchemaSeparator">
+      <MemberSignature Language="C#" Value="public override string SchemaSeparator { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string SchemaSeparator" />
+      <MemberSignature Language="DocId" Value="P:System.Data.OracleClient.OracleCommandBuilder.SchemaSeparator" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Property SchemaSeparator As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::String ^ SchemaSeparator { System::String ^ get(); void set(System::String ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="b8ea2-234">Obtient ou définit le caractère à utiliser pour le séparateur entre l'identificateur de schéma et tout autre identificateur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-234">Gets or sets the character to be used for the separator between the schema identifier and any other identifiers.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="b8ea2-235">Caractère à utiliser comme séparateur de schéma.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-235">The character to be used as the schema separator.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b8ea2-236">En règle générale, les serveurs de base de données indiquent le schéma d’un identificateur en séparant le nom du schéma de l’identificateur par un caractère.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-236">Generally, database servers indicate the schema for a identifier by separating the schema name from the identifier with some character.</span></span> <span data-ttu-id="b8ea2-237">Par exemple, SQL Server utilise un signe deux-points, créant des identificateurs complets tels que Person : CustomerName, où « Person » est le nom de schéma et « CustomerName » est l’identificateur.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-237">For example, SQL Server uses a colon, creating complete identifiers such as Person:CustomerName, where "Person" is the schema name and "CustomerName" is the identifier.</span></span> <span data-ttu-id="b8ea2-238">Définition de cette propriété permet aux développeurs de modifier ce comportement.</span><span class="sxs-lookup"><span data-stu-id="b8ea2-238">Setting this property allows developers to modify this behavior.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetRowUpdatingHandler">
+      <MemberSignature Language="C#" Value="protected override void SetRowUpdatingHandler (System.Data.Common.DbDataAdapter adapter);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void SetRowUpdatingHandler(class System.Data.Common.DbDataAdapter adapter) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.SetRowUpdatingHandler(System.Data.Common.DbDataAdapter)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overrides Sub SetRowUpdatingHandler (adapter As DbDataAdapter)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; override void SetRowUpdatingHandler(System::Data::Common::DbDataAdapter ^ adapter);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="adapter" Type="System.Data.Common.DbDataAdapter" />
+      </Parameters>
+      <Docs>
+        <param name="adapter">To be added.</param>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="UnquoteIdentifier">
+      <MemberSignature Language="C#" Value="public override string UnquoteIdentifier (string quotedIdentifier);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance string UnquoteIdentifier(string quotedIdentifier) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Data.OracleClient.OracleCommandBuilder.UnquoteIdentifier(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function UnquoteIdentifier (quotedIdentifier As String) As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::String ^ UnquoteIdentifier(System::String ^ quotedIdentifier);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="quotedIdentifier" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="quotedIdentifier">
+          <span data-ttu-id="b8ea2-239">Identificateur dont les guillemets incorporés seront supprimés.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-239">The identifier that will have its embedded quotes removed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="b8ea2-240">À partir d'un identificateur entre guillemets, retourne le formulaire correct sans guillemets de cet identificateur, y compris une séquence d'échappement correctement annulée de guillemets incorporés dans l'identificateur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-240">Given a quoted identifier, returns the correct unquoted form of that identifier, including properly un-escaping any embedded quotes in the identifier.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="b8ea2-241">Identificateur sans guillemets, avec les guillemets incorporés dont la séquence d'échappement a été correctement annulée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b8ea2-241">The unquoted identifier, with embedded quotes properly un-escaped.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

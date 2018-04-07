@@ -1,0 +1,876 @@
+<Type Name="DesignerTransaction" FullName="System.ComponentModel.Design.DesignerTransaction">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="a10ea87c932e1b46f152fe7e78e29f3ce8ffc4a7" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public abstract class DesignerTransaction : IDisposable" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit DesignerTransaction extends System.Object implements class System.IDisposable" />
+  <TypeSignature Language="DocId" Value="T:System.ComponentModel.Design.DesignerTransaction" />
+  <TypeSignature Language="VB.NET" Value="Public MustInherit Class DesignerTransaction&#xA;Implements IDisposable" />
+  <TypeSignature Language="C++ CLI" Value="public ref class DesignerTransaction abstract : IDisposable" />
+  <AssemblyInfo>
+    <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="9c14a-101">Permet de grouper une série d'actions au moment du design pour améliorer les performances et permettre l'annulation de la plupart des modifications.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="9c14a-101">Provides a way to group a series of design-time actions to improve performance and enable most types of changes to be undone.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9c14a-102">Les transactions peuvent suivre les actions pouvant être annulées ultérieurement.</span><span class="sxs-lookup"><span data-stu-id="9c14a-102">Transactions can track actions that can be undone later.</span></span> <span data-ttu-id="9c14a-103">Modifications apportées lors d’une transaction peuvent être annulées par l’annulation d’une transaction, qui tente automatiquement d’annuler chaque modification en affectant à chaque propriété modifiée sa valeur antérieure.</span><span class="sxs-lookup"><span data-stu-id="9c14a-103">Changes made during a transaction can be reversed by canceling a transaction, which automatically attempts to reverse each change by setting each changed property to its pre-change value.</span></span> <span data-ttu-id="9c14a-104">Les transactions peuvent également améliorer les performances pendant une série d’opérations en différant les mises à jour de l’affichage jusqu'à l’achèvement de la transaction.</span><span class="sxs-lookup"><span data-stu-id="9c14a-104">Transactions can also improve performance during a series of operations by deferring updates to the display until the completion of the transaction.</span></span>  
+  
+ <span data-ttu-id="9c14a-105">Lorsqu’une transaction est en cours, certains composants diffèrent leur traitement jusqu'à ce que la transaction est terminée en écoutant les <xref:System.ComponentModel.Design.IDesignerHost.TransactionOpening> et <xref:System.ComponentModel.Design.IDesignerHost.TransactionClosed> les événements.</span><span class="sxs-lookup"><span data-stu-id="9c14a-105">When a transaction is in progress, some components defer their processing until the transaction has completed by listening to the <xref:System.ComponentModel.Design.IDesignerHost.TransactionOpening> and <xref:System.ComponentModel.Design.IDesignerHost.TransactionClosed> events.</span></span> <span data-ttu-id="9c14a-106">La fenêtre Propriétés, par exemple, ne pas mettre à jour son affichage après qu’une transaction a ouverte jusqu'à ce que la transaction a fermé.</span><span class="sxs-lookup"><span data-stu-id="9c14a-106">The Properties window, for example, does not update its display after a transaction has opened until the transaction has closed.</span></span>  
+  
+ <span data-ttu-id="9c14a-107">Pour utiliser des transactions pour des opérations réversibles ou multiples, que votre concepteur crée un <xref:System.ComponentModel.Design.DesignerTransaction> pour chaque opération ou une série d’opérations qui doivent être réversibles.</span><span class="sxs-lookup"><span data-stu-id="9c14a-107">To use transactions for reversible or multiple operations, have your designer create a <xref:System.ComponentModel.Design.DesignerTransaction> for each operation or series of operations which should be reversible.</span></span> <span data-ttu-id="9c14a-108">Veillez à ne pas effectuer des actions à l’extérieur de transactions qui peuvent empêcher une séquence d’événements d’annulation avec succès.</span><span class="sxs-lookup"><span data-stu-id="9c14a-108">Be careful not to perform actions outside the transactions that might prevent a sequence of undo events from completing successfully.</span></span>  
+  
+ <span data-ttu-id="9c14a-109">Vous pouvez obtenir un nouveau <xref:System.ComponentModel.Design.DesignerTransaction> en appelant le <xref:System.ComponentModel.Design.IDesignerHost.CreateTransaction%2A> méthode d’un <xref:System.ComponentModel.Design.IDesignerHost>.</span><span class="sxs-lookup"><span data-stu-id="9c14a-109">You can obtain a new <xref:System.ComponentModel.Design.DesignerTransaction> by calling the <xref:System.ComponentModel.Design.IDesignerHost.CreateTransaction%2A> method of an <xref:System.ComponentModel.Design.IDesignerHost>.</span></span> <span data-ttu-id="9c14a-110">Veillez à obtenir chacune <xref:System.ComponentModel.Design.DesignerTransaction> active <xref:System.ComponentModel.Design.IDesignerHost> pour intégrer correctement avec la transaction de concepteur mécanisme de traitement, plutôt que de créer un nouveau <xref:System.ComponentModel.Design.DesignerTransaction> directement.</span><span class="sxs-lookup"><span data-stu-id="9c14a-110">Be sure to obtain each <xref:System.ComponentModel.Design.DesignerTransaction> from the active <xref:System.ComponentModel.Design.IDesignerHost> in order to correctly integrate with the designer transaction processing mechanism, rather than creating a new <xref:System.ComponentModel.Design.DesignerTransaction> directly.</span></span>  
+  
+ <span data-ttu-id="9c14a-111">Pour effectuer une action dans une transaction, vous devez d’abord créer une transaction.</span><span class="sxs-lookup"><span data-stu-id="9c14a-111">To perform an action within a transaction, you must first create a transaction.</span></span> <span data-ttu-id="9c14a-112">Vous devez appeler la <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanging%2A> avant chaque modification ou un ensemble de modifications se produit et le <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanged%2A> méthode après chaque modification ou d’un ensemble de modifications se produisent.</span><span class="sxs-lookup"><span data-stu-id="9c14a-112">Then you must call the <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanging%2A> method before each change or set of changes occurs, and the <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanged%2A> method after each change or set of changes occur.</span></span> <span data-ttu-id="9c14a-113">Enfin, terminez et fermez la transaction en appelant le <xref:System.ComponentModel.Design.DesignerTransaction.Commit%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="9c14a-113">Finally, complete and close the transaction by calling the <xref:System.ComponentModel.Design.DesignerTransaction.Commit%2A> method.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="9c14a-114">Lorsque vous modifiez des valeurs de propriété, utilisez la <xref:System.ComponentModel.PropertyDescriptor.SetValue%2A> méthode d’un <xref:System.ComponentModel.PropertyDescriptor>, qui appelle les méthodes de modification de composant de la <xref:System.ComponentModel.Design.IComponentChangeService> et crée un <xref:System.ComponentModel.Design.DesignerTransaction> représentant automatiquement la modification.</span><span class="sxs-lookup"><span data-stu-id="9c14a-114">When making changes to property values, use the <xref:System.ComponentModel.PropertyDescriptor.SetValue%2A> method of a <xref:System.ComponentModel.PropertyDescriptor>, which calls the component change methods of the <xref:System.ComponentModel.Design.IComponentChangeService> and creates a <xref:System.ComponentModel.Design.DesignerTransaction> representing the change automatically.</span></span>  
+  
+ <span data-ttu-id="9c14a-115">Pour effectuer une transaction, procédez comme suit :</span><span class="sxs-lookup"><span data-stu-id="9c14a-115">To perform a transaction, complete the following steps:</span></span>  
+  
+1.  <span data-ttu-id="9c14a-116">Appelez <xref:System.ComponentModel.Design.IDesignerHost.CreateTransaction%2A> pour obtenir un <xref:System.ComponentModel.Design.DesignerTransaction> qui peut être utilisé pour contrôler la transaction.</span><span class="sxs-lookup"><span data-stu-id="9c14a-116">Call <xref:System.ComponentModel.Design.IDesignerHost.CreateTransaction%2A> to obtain a <xref:System.ComponentModel.Design.DesignerTransaction> that can be used to control the transaction.</span></span>  
+  
+2.  <span data-ttu-id="9c14a-117">Dans un `try` bloc, pour chaque action que vous souhaitez effectuer le suivi avec un <xref:System.ComponentModel.Design.DesignerTransaction>, appeler le <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanging%2A> (méthode), appeler l’ou les modifications, puis le <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanged%2A> méthode pour signaler que l’ou les modifications ont été apportées.</span><span class="sxs-lookup"><span data-stu-id="9c14a-117">Within a `try` block, for each action that you want to track with a <xref:System.ComponentModel.Design.DesignerTransaction>, call the <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanging%2A> method, make the change or changes, then call the <xref:System.ComponentModel.Design.IComponentChangeService.OnComponentChanged%2A> method to signal that the change or changes have been made.</span></span>  
+  
+3.  <span data-ttu-id="9c14a-118">Pour terminer la transaction, appelez <xref:System.ComponentModel.Design.DesignerTransaction.Commit%2A> à partir d’un `finally` bloc.</span><span class="sxs-lookup"><span data-stu-id="9c14a-118">To complete the transaction, call <xref:System.ComponentModel.Design.DesignerTransaction.Commit%2A> from within a `finally` block.</span></span>  
+  
+ <span data-ttu-id="9c14a-119">En c#, vous pouvez utiliser la `using` instruction plutôt qu’un `try/finally` bloquer, comme dans l’exemple suivant.</span><span class="sxs-lookup"><span data-stu-id="9c14a-119">In C#, you can use the `using` statement rather than a `try/finally` block, such as in the following example.</span></span>  
+  
+```  
+using (host.CreateTransaction() {  
+// Insert your code here.  
+}  
+```  
+  
+ <span data-ttu-id="9c14a-120">Pour annuler et tenter de restaurer une transaction avant qu’elle soit validée, appelez le <xref:System.ComponentModel.Design.DesignerTransaction.Cancel%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="9c14a-120">To cancel and attempt to roll back a transaction before it has been committed, call the <xref:System.ComponentModel.Design.DesignerTransaction.Cancel%2A> method.</span></span> <span data-ttu-id="9c14a-121">Lorsque le <xref:System.ComponentModel.Design.DesignerTransaction.Cancel%2A> méthode est appelée, les actions de suivi par le <xref:System.ComponentModel.Design.DesignerTransaction> sont annulées pour tenter de restaurer les modifications.</span><span class="sxs-lookup"><span data-stu-id="9c14a-121">When the <xref:System.ComponentModel.Design.DesignerTransaction.Cancel%2A> method is invoked, the actions tracked by the <xref:System.ComponentModel.Design.DesignerTransaction> are reversed to attempt to roll back the changes.</span></span> <span data-ttu-id="9c14a-122">Pour annuler les actions qui s’est produite dans le cadre de transactions antérieures, vous devez utiliser la commande d’annulation fournie par l’environnement de développement.</span><span class="sxs-lookup"><span data-stu-id="9c14a-122">To undo actions that occurred as part of earlier transactions, you must use the undo command provided by the development environment.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="9c14a-123">Le code suivant exemple montre comment créer un <xref:System.ComponentModel.Design.DesignerTransaction> à partir d’un concepteur.</span><span class="sxs-lookup"><span data-stu-id="9c14a-123">The following code example program demonstrates how to create a <xref:System.ComponentModel.Design.DesignerTransaction> from a designer.</span></span> <span data-ttu-id="9c14a-124">Pour exécuter cet exemple, compilez le code source dans une bibliothèque de classes.</span><span class="sxs-lookup"><span data-stu-id="9c14a-124">To run this sample, compile the source code into a class library.</span></span> <span data-ttu-id="9c14a-125">Vous devez ajouter une référence à l’assembly System.Design.</span><span class="sxs-lookup"><span data-stu-id="9c14a-125">You must add a reference to the System.Design assembly.</span></span> <span data-ttu-id="9c14a-126">Dans un nouveau projet, ajoutez une référence à la DLL compilée et ajoutez le composant dans la bibliothèque pour le **boîte à outils**.</span><span class="sxs-lookup"><span data-stu-id="9c14a-126">In a new project, add a reference to the compiled DLL and add the component in the library to the **Toolbox**.</span></span>  
+  
+ <span data-ttu-id="9c14a-127">Il existe une prise en charge étendue pour cette fonctionnalité dans Visual Studio.</span><span class="sxs-lookup"><span data-stu-id="9c14a-127">There is extensive support for this feature in Visual Studio.</span></span>  
+  
+ <span data-ttu-id="9c14a-128">Consultez également [procédure pas à pas : remplissage automatique de la boîte à outils avec des composants personnalisés](http://msdn.microsoft.com/library/fw694kde\(v=vs.110\).aspx).</span><span class="sxs-lookup"><span data-stu-id="9c14a-128">Also see [Walkthrough: Automatically Populating the Toolbox with Custom Components](http://msdn.microsoft.com/library/fw694kde\(v=vs.110\).aspx).</span></span>  
+  
+ <span data-ttu-id="9c14a-129">Le concepteur peut éventuellement afficher des notifications sur les événements de transaction de concepteur.</span><span class="sxs-lookup"><span data-stu-id="9c14a-129">The designer can optionally display notifications about designer transaction events.</span></span> <span data-ttu-id="9c14a-130">Si vous ajoutez une instance de la `DTComponent` à un formulaire en mode conception, une boîte de message s’affiche vous demande si vous souhaitez recevoir des notifications d’événements de transaction de concepteur.</span><span class="sxs-lookup"><span data-stu-id="9c14a-130">If you add an instance of the `DTComponent` to a form while in design mode, a message box appears asking whether you would like to receive designer transaction event notifications.</span></span> <span data-ttu-id="9c14a-131">Vous pouvez désactiver ces notifications à l’aide du menu contextuel qui s’affiche lorsque vous cliquez sur une instance de la `DTComponent`.</span><span class="sxs-lookup"><span data-stu-id="9c14a-131">You may toggle these notifications using the shortcut menu that appears when you right-click an instance of the `DTComponent`.</span></span> <span data-ttu-id="9c14a-132">Les transactions sont créées lorsque vous modifiez les valeurs à l’aide de la fenêtre Propriétés.</span><span class="sxs-lookup"><span data-stu-id="9c14a-132">Transactions are created when you change values using the Properties window.</span></span> <span data-ttu-id="9c14a-133">Vous pouvez également utiliser le Concepteur d’effectuer une transaction en cliquant sur **exécuter l’exemple de Transaction** dans le menu contextuel pour le composant.</span><span class="sxs-lookup"><span data-stu-id="9c14a-133">You can also have the designer perform a transaction by clicking **Perform Example Transaction** on the shortcut menu for the component.</span></span>  
+  
+ [!code-cpp[DesignerTransaction Sample#1](~/samples/snippets/cpp/VS_Snippets_Winforms/DesignerTransaction Sample/CPP/source.cpp#1)]
+ [!code-csharp[DesignerTransaction Sample#1](~/samples/snippets/csharp/VS_Snippets_Winforms/DesignerTransaction Sample/CS/source.cs#1)]
+ [!code-vb[DesignerTransaction Sample#1](~/samples/snippets/visualbasic/VS_Snippets_Winforms/DesignerTransaction Sample/VB/source.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <permission cref="T:System.Security.NamedPermissionSet">
+      <span data-ttu-id="9c14a-134">pour un accès complet aux ressources système.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="9c14a-134">for full access to system resources.</span>
+      </span>
+      <span data-ttu-id="9c14a-135">Valeur de la demande : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="9c14a-135">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+      </span>
+      <span data-ttu-id="9c14a-136">État associé :</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="9c14a-136">Associated state:</span>
+      </span>
+    </permission>
+    <altmember cref="T:System.ComponentModel.Design.IDesignerHost" />
+    <altmember cref="T:System.ComponentModel.Design.IComponentChangeService" />
+    <altmember cref="T:System.ComponentModel.PropertyDescriptor" />
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9c14a-137">Initialise une nouvelle instance de la classe <see cref="T:System.ComponentModel.Design.DesignerTransaction" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-137">Initializes a new instance of the <see cref="T:System.ComponentModel.Design.DesignerTransaction" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected DesignerTransaction ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerTransaction.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; DesignerTransaction();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9c14a-138">Initialise une nouvelle instance de la classe <see cref="T:System.ComponentModel.Design.DesignerTransaction" /> sans description.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-138">Initializes a new instance of the <see cref="T:System.ComponentModel.Design.DesignerTransaction" /> class with no description.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <permission cref="T:System.Security.NamedPermissionSet">
+          <span data-ttu-id="9c14a-139">pour un accès complet aux ressources système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-139">for full access to system resources.</span>
+          </span>
+          <span data-ttu-id="9c14a-140">Valeur de la demande : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-140">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          </span>
+          <span data-ttu-id="9c14a-141">État associé :</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-141">Associated state:</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected DesignerTransaction (string description);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor(string description) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerTransaction.#ctor(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New (description As String)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; DesignerTransaction(System::String ^ description);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="description" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="description">
+          <span data-ttu-id="9c14a-142">Description de cette transaction.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-142">A description for this transaction.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9c14a-143">Initialise une nouvelle instance de la classe <see cref="T:System.ComponentModel.Design.DesignerTransaction" /> avec la description de la transaction spécifiée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-143">Initializes a new instance of the <see cref="T:System.ComponentModel.Design.DesignerTransaction" /> class using the specified transaction description.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9c14a-144">Ce constructeur initialise la transaction avec la description spécifiée.</span><span class="sxs-lookup"><span data-stu-id="9c14a-144">This constructor initializes the transaction with the specified description.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.NamedPermissionSet">
+          <span data-ttu-id="9c14a-145">pour un accès complet aux ressources système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-145">for full access to system resources.</span>
+          </span>
+          <span data-ttu-id="9c14a-146">Valeur de la demande : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-146">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          </span>
+          <span data-ttu-id="9c14a-147">État associé :</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-147">Associated state:</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="Cancel">
+      <MemberSignature Language="C#" Value="public void Cancel ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Cancel() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerTransaction.Cancel" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Cancel ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Cancel();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9c14a-148">Annule la transaction et tente de restaurer les modifications apportées par les événements de la transaction.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-148">Cancels the transaction and attempts to roll back the changes made by the events of the transaction.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+        <permission cref="T:System.Security.NamedPermissionSet">
+          <span data-ttu-id="9c14a-149">pour un accès complet aux ressources système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-149">for full access to system resources.</span>
+          </span>
+          <span data-ttu-id="9c14a-150">Valeur de la demande : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-150">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          </span>
+          <span data-ttu-id="9c14a-151">État associé :</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-151">Associated state:</span>
+          </span>
+        </permission>
+        <altmember cref="M:System.ComponentModel.Design.DesignerTransaction.OnCancel" />
+      </Docs>
+    </Member>
+    <Member MemberName="Canceled">
+      <MemberSignature Language="C#" Value="public bool Canceled { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Canceled" />
+      <MemberSignature Language="DocId" Value="P:System.ComponentModel.Design.DesignerTransaction.Canceled" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Canceled As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool Canceled { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9c14a-152">Obtient une valeur indiquant si la transaction a été annulée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-152">Gets a value indicating whether the transaction was canceled.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9c14a-153">
+            <see langword="true" /> si la transaction a été annulée ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-153">
+              <see langword="true" /> if the transaction was canceled; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9c14a-154">Lorsqu’une transaction de concepteur est annulée, le mécanisme de traitement des transactions tente d’annuler les modifications qui ont été effectuées dans la transaction.</span><span class="sxs-lookup"><span data-stu-id="9c14a-154">When a designer transaction is canceled, the transaction processing mechanism attempts to roll back the changes that have been made so far in the transaction.</span></span> <span data-ttu-id="9c14a-155">Réussite de cette opération est dépend de facteurs tels que le type de chaque opération, si d’autres opérations interférences avec un de l’état du code utilisé, et si une séquence d’opérations attendues a échoué.</span><span class="sxs-lookup"><span data-stu-id="9c14a-155">Whether this succeeds is dependent upon such factors as the type of each operation, whether other operations interfered with any of the involved code's state, and whether a sequence of expected operations failed to complete.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.NamedPermissionSet">
+          <span data-ttu-id="9c14a-156">pour un accès complet aux ressources système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-156">for full access to system resources.</span>
+          </span>
+          <span data-ttu-id="9c14a-157">Valeur de la demande : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-157">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          </span>
+          <span data-ttu-id="9c14a-158">État associé :</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-158">Associated state:</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="Commit">
+      <MemberSignature Language="C#" Value="public void Commit ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Commit() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerTransaction.Commit" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Commit ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Commit();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9c14a-159">Valide cette transaction.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-159">Commits this transaction.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9c14a-160">Lorsqu’une transaction de concepteur est validée, la transaction est considérée comme terminée et ne pas suivre les autres modifications.</span><span class="sxs-lookup"><span data-stu-id="9c14a-160">When a designer transaction is committed, the transaction is considered complete and does not track further changes.</span></span>  
+  
+ <span data-ttu-id="9c14a-161">Une fois qu’une transaction a été validée, plus les appels à cette méthode ne rien faire.</span><span class="sxs-lookup"><span data-stu-id="9c14a-161">Once a transaction has been committed, further calls to this method do nothing.</span></span> <span data-ttu-id="9c14a-162">Appelez toujours cette méthode après la création d’une transaction pour vous assurer que la transaction se ferme correctement.</span><span class="sxs-lookup"><span data-stu-id="9c14a-162">Always call this method after creating a transaction to ensure that the transaction closes properly.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.NamedPermissionSet">
+          <span data-ttu-id="9c14a-163">pour un accès complet aux ressources système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-163">for full access to system resources.</span>
+          </span>
+          <span data-ttu-id="9c14a-164">Valeur de la demande : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-164">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          </span>
+          <span data-ttu-id="9c14a-165">État associé :</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-165">Associated state:</span>
+          </span>
+        </permission>
+        <altmember cref="M:System.ComponentModel.Design.DesignerTransaction.OnCommit" />
+      </Docs>
+    </Member>
+    <Member MemberName="Committed">
+      <MemberSignature Language="C#" Value="public bool Committed { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Committed" />
+      <MemberSignature Language="DocId" Value="P:System.ComponentModel.Design.DesignerTransaction.Committed" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Committed As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool Committed { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9c14a-166">Obtient une valeur indiquant si la transaction a été validée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-166">Gets a value indicating whether the transaction was committed.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9c14a-167">
+            <see langword="true" /> si la transaction a été validée ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-167">
+              <see langword="true" /> if the transaction was committed; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9c14a-168">Lorsqu’une transaction de concepteur est validée, la transaction est considérée comme terminée et ne pas suivre les autres modifications.</span><span class="sxs-lookup"><span data-stu-id="9c14a-168">When a designer transaction is committed, the transaction is considered complete and does not track further changes.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.NamedPermissionSet">
+          <span data-ttu-id="9c14a-169">pour un accès complet aux ressources système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-169">for full access to system resources.</span>
+          </span>
+          <span data-ttu-id="9c14a-170">Valeur de la demande : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-170">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          </span>
+          <span data-ttu-id="9c14a-171">État associé :</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-171">Associated state:</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="Description">
+      <MemberSignature Language="C#" Value="public string Description { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string Description" />
+      <MemberSignature Language="DocId" Value="P:System.ComponentModel.Design.DesignerTransaction.Description" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Description As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ Description { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="9c14a-172">Obtient une description de la transaction.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-172">Gets a description for the transaction.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="9c14a-173">Description de la transaction.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-173">A description for the transaction.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9c14a-174">Une transaction peut avoir une description qui permet d’identifier la nature de l’ou des opérations.</span><span class="sxs-lookup"><span data-stu-id="9c14a-174">A transaction can have a description that is useful in identifying the nature of the operation or operations.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.NamedPermissionSet">
+          <span data-ttu-id="9c14a-175">pour un accès complet aux ressources système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-175">for full access to system resources.</span>
+          </span>
+          <span data-ttu-id="9c14a-176">Valeur de la demande : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-176">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          </span>
+          <span data-ttu-id="9c14a-177">État associé :</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-177">Associated state:</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="Dispose">
+      <MemberSignature Language="C#" Value="protected virtual void Dispose (bool disposing);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void Dispose(bool disposing) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerTransaction.Dispose(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub Dispose (disposing As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void Dispose(bool disposing);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="disposing" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="disposing">
+          <span data-ttu-id="9c14a-178">
+            <see langword="true" /> pour libérer les ressources managées et non managées ; <see langword="false" /> pour ne libérer que les ressources non managées.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-178">
+              <see langword="true" /> to release both managed and unmanaged resources; <see langword="false" /> to release only unmanaged resources.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="9c14a-179">Libère les ressources non managées utilisées par <see cref="T:System.ComponentModel.Design.DesignerTransaction" /> et libère éventuellement les ressources managées.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-179">Releases the unmanaged resources used by the <see cref="T:System.ComponentModel.Design.DesignerTransaction" /> and optionally releases the managed resources.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9c14a-180">Cette méthode est appelée par le public `Dispose()` (méthode) et le <xref:System.Object.Finalize%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="9c14a-180">This method is called by the public `Dispose()` method and the <xref:System.Object.Finalize%2A> method.</span></span> <span data-ttu-id="9c14a-181">`Dispose()` appelle la méthode protégée `Dispose(Boolean)` méthode avec la `disposing` paramètre la valeur `true`.</span><span class="sxs-lookup"><span data-stu-id="9c14a-181">`Dispose()` invokes the protected `Dispose(Boolean)` method with the `disposing` parameter set to `true`.</span></span> <span data-ttu-id="9c14a-182"><xref:System.Object.Finalize%2A> appelle `Dispose` avec `disposing` la valeur `false`.</span><span class="sxs-lookup"><span data-stu-id="9c14a-182"><xref:System.Object.Finalize%2A> invokes `Dispose` with `disposing` set to `false`.</span></span>  
+  
+ <span data-ttu-id="9c14a-183">Si le paramètre `disposing` a la valeur `true`, cette méthode libère toutes les ressources détenues par les objets managés référencés par ce <xref:System.ComponentModel.Design.DesignerTransaction>.</span><span class="sxs-lookup"><span data-stu-id="9c14a-183">When the `disposing` parameter is `true`, this method releases all resources held by any managed objects that this <xref:System.ComponentModel.Design.DesignerTransaction> references.</span></span> <span data-ttu-id="9c14a-184">Cette méthode appelle la méthode `Dispose()` de chaque objet référencé.</span><span class="sxs-lookup"><span data-stu-id="9c14a-184">This method invokes the `Dispose()` method of each referenced object.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.NamedPermissionSet">
+          <span data-ttu-id="9c14a-185">pour un accès complet aux ressources système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-185">for full access to system resources.</span>
+          </span>
+          <span data-ttu-id="9c14a-186">Valeur de la demande : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-186">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          </span>
+          <span data-ttu-id="9c14a-187">État associé :</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-187">Associated state:</span>
+          </span>
+        </permission>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="9c14a-188">
+              <see langword="Dispose" /> peut être appelée plusieurs fois par d'autres objets.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="9c14a-188">
+                <see langword="Dispose" /> can be called multiple times by other objects.</span>
+            </span>
+            <span data-ttu-id="9c14a-189">Lors de la substitution de <see langword="Dispose(Boolean)" />, veillez à ne pas référencer des objets qui ont été préalablement supprimés lors d'un appel précédent à <see langword="Dispose" />.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="9c14a-189">When overriding <see langword="Dispose(Boolean)" />, be careful not to reference objects that have been previously disposed of in an earlier call to <see langword="Dispose" />.</span>
+            </span>
+            <span data-ttu-id="9c14a-190">Pour plus d’informations sur l’implémentation <see langword="Dispose(Boolean)" />, consultez [implémentant une méthode de suppression](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="9c14a-190">For more information about how to implement <see langword="Dispose(Boolean)" />, see [Implementing a Dispose Method](~/docs/standard/garbage-collection/implementing-dispose.md).</span>
+            </span>
+            <span data-ttu-id="9c14a-191">Pour plus d’informations sur <see langword="Dispose" /> et <see cref="M:System.Object.Finalize" />, consultez [de nettoyage des ressources non managées](~/docs/standard/garbage-collection/unmanaged.md) et [substitution de la méthode Finalize](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="9c14a-191">For more information about <see langword="Dispose" /> and <see cref="M:System.Object.Finalize" />, see [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md) and [Overriding the Finalize Method](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span>
+            </span>
+          </para>
+        </block>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~DesignerTransaction ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerTransaction.Finalize" />
+      <MemberSignature Language="VB.NET" Value="Finalize ()" />
+      <MemberSignature Language="C++ CLI" Value="!DesignerTransaction ()" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9c14a-192">Libère les ressources associées à cet objet.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-192">Releases the resources associated with this object.</span>
+          </span>
+          <span data-ttu-id="9c14a-193">Cette substitution valide cette transaction si elle n'est pas encore validée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-193">This override commits this transaction if it was not already committed.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9c14a-194">Cette méthode substitue <xref:System.Object.Finalize%2A?displayProperty=nameWithType> et nettoie les ressources en appelant `Dispose(false)`.</span><span class="sxs-lookup"><span data-stu-id="9c14a-194">This method overrides <xref:System.Object.Finalize%2A?displayProperty=nameWithType> and cleans up resources by calling `Dispose(false)`.</span></span> <span data-ttu-id="9c14a-195">Substitue `Dispose(Boolean)` pour personnaliser le nettoyage.</span><span class="sxs-lookup"><span data-stu-id="9c14a-195">Override `Dispose(Boolean)` to customize the cleanup.</span></span>  
+  
+ <span data-ttu-id="9c14a-196">Code d’application ne doit pas appeler cette méthode ; d’un objet `Finalize` méthode est appelée automatiquement lors du garbage collection, à moins que la finalisation par le garbage collector a été désactivée par un appel à la <xref:System.GC.SuppressFinalize%2A?displayProperty=nameWithType> (méthode).</span><span class="sxs-lookup"><span data-stu-id="9c14a-196">Application code should not call this method; an object's `Finalize` method is automatically invoked during garbage collection, unless finalization by the garbage collector has been disabled by a call to the <xref:System.GC.SuppressFinalize%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ <span data-ttu-id="9c14a-197">Pour plus d’informations, consultez [destructeurs et méthodes Finalize](http://msdn.microsoft.com/library/fd376774-1643-499b-869e-9546a3aeea70), [de nettoyage des ressources non managées](~/docs/standard/garbage-collection/unmanaged.md), et [substitution de la méthode Finalize](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span><span class="sxs-lookup"><span data-stu-id="9c14a-197">For more information, see [Finalize Methods and Destructors](http://msdn.microsoft.com/library/fd376774-1643-499b-869e-9546a3aeea70), [Cleaning Up Unmanaged Resources](~/docs/standard/garbage-collection/unmanaged.md), and [Overriding the Finalize Method](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.NamedPermissionSet">
+          <span data-ttu-id="9c14a-198">pour un accès complet aux ressources système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-198">for full access to system resources.</span>
+          </span>
+          <span data-ttu-id="9c14a-199">Valeur de la demande : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-199">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          </span>
+          <span data-ttu-id="9c14a-200">État associé :</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-200">Associated state:</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+    <Member MemberName="OnCancel">
+      <MemberSignature Language="C#" Value="protected abstract void OnCancel ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnCancel() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerTransaction.OnCancel" />
+      <MemberSignature Language="VB.NET" Value="Protected MustOverride Sub OnCancel ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; abstract void OnCancel();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9c14a-201">Déclenche l'événement <see langword="Cancel" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-201">Raises the <see langword="Cancel" /> event.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9c14a-202">Lorsqu’une transaction de concepteur est annulée, le mécanisme de traitement des transactions tente d’annuler les modifications qui ont été effectuées dans la transaction.</span><span class="sxs-lookup"><span data-stu-id="9c14a-202">When a designer transaction is canceled, the transaction processing mechanism attempts to roll back the changes that have been made so far in the transaction.</span></span> <span data-ttu-id="9c14a-203">Réussite de cette opération est dépend de facteurs tels que le type de chaque opération, si d’autres opérations interférences avec un de l’état du code utilisé, et si une séquence d’opérations attendues a échoué.</span><span class="sxs-lookup"><span data-stu-id="9c14a-203">Whether this succeeds is dependent upon such factors as the type of each operation, whether other operations interfered with any of the involved code's state, and whether a sequence of expected operations failed to complete.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.NamedPermissionSet">
+          <span data-ttu-id="9c14a-204">pour un accès complet aux ressources système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-204">for full access to system resources.</span>
+          </span>
+          <span data-ttu-id="9c14a-205">Valeur de la demande : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-205">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          </span>
+          <span data-ttu-id="9c14a-206">État associé :</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-206">Associated state:</span>
+          </span>
+        </permission>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="9c14a-207">En cas d’implémentation dans une classe dérivée, cette méthode annule une transaction.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="9c14a-207">When implemented in a derived class, this method cancels a transaction.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="M:System.ComponentModel.Design.DesignerTransaction.Cancel" />
+      </Docs>
+    </Member>
+    <Member MemberName="OnCommit">
+      <MemberSignature Language="C#" Value="protected abstract void OnCommit ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void OnCommit() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerTransaction.OnCommit" />
+      <MemberSignature Language="VB.NET" Value="Protected MustOverride Sub OnCommit ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; abstract void OnCommit();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9c14a-208">Exécute l’opération réelle de validation d’une transaction.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-208">Performs the actual work of committing a transaction.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9c14a-209">Lorsqu’une transaction de concepteur est validée, la transaction est considérée comme terminée et ne pas suivre les autres modifications.</span><span class="sxs-lookup"><span data-stu-id="9c14a-209">When a designer transaction is committed, the transaction is considered complete and does not track further changes.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.NamedPermissionSet">
+          <span data-ttu-id="9c14a-210">pour un accès complet aux ressources système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-210">for full access to system resources.</span>
+          </span>
+          <span data-ttu-id="9c14a-211">Valeur de la demande : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-211">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          </span>
+          <span data-ttu-id="9c14a-212">État associé :</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-212">Associated state:</span>
+          </span>
+        </permission>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="9c14a-213">En cas d’implémentation dans une classe dérivée, cette méthode effectue travail associé au traitement de la transaction.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="9c14a-213">When implemented in a derived class, this method performs work associated with processing the transaction.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="M:System.ComponentModel.Design.DesignerTransaction.Commit" />
+      </Docs>
+    </Member>
+    <Member MemberName="System.IDisposable.Dispose">
+      <MemberSignature Language="C#" Value="void IDisposable.Dispose ();" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.IDisposable.Dispose() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ComponentModel.Design.DesignerTransaction.System#IDisposable#Dispose" />
+      <MemberSignature Language="VB.NET" Value="Sub Dispose () Implements IDisposable.Dispose" />
+      <MemberSignature Language="C++ CLI" Value=" virtual void System.IDisposable.Dispose() = IDisposable::Dispose;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.IDisposable.Dispose</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.ComponentModel.TypeConverter</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="9c14a-214">Libère toutes les ressources utilisées par <see cref="T:System.ComponentModel.Design.DesignerTransaction" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-214">Releases all resources used by the <see cref="T:System.ComponentModel.Design.DesignerTransaction" />.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="9c14a-215">Lorsqu’une transaction est supprimée, il est validé.</span><span class="sxs-lookup"><span data-stu-id="9c14a-215">When a transaction is disposed, it is committed.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <permission cref="T:System.Security.NamedPermissionSet">
+          <span data-ttu-id="9c14a-216">pour un accès complet aux ressources système.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-216">for full access to system resources.</span>
+          </span>
+          <span data-ttu-id="9c14a-217">Valeur de la demande : <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-217">Demand value: <see cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand" />.</span>
+          </span>
+          <span data-ttu-id="9c14a-218">État associé :</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="9c14a-218">Associated state:</span>
+          </span>
+        </permission>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
