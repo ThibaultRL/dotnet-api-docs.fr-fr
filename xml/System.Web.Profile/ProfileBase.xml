@@ -1,0 +1,1273 @@
+<Type Name="ProfileBase" FullName="System.Web.Profile.ProfileBase">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="c4c4aa034797f0d73c78986e75e2366030615ac2" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class ProfileBase : System.Configuration.SettingsBase" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ProfileBase extends System.Configuration.SettingsBase" />
+  <TypeSignature Language="DocId" Value="T:System.Web.Profile.ProfileBase" />
+  <TypeSignature Language="VB.NET" Value="Public Class ProfileBase&#xA;Inherits SettingsBase" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ProfileBase : System::Configuration::SettingsBase" />
+  <AssemblyInfo>
+    <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Configuration.SettingsBase</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="716b9-101">Fournit l'accès non typé aux informations et aux valeurs de propriété de profil.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="716b9-101">Provides untyped access to profile property values and information.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-102">ASP.NET utilise le <xref:System.Web.Profile.ProfileBase> classe pour créer la classe utilisée pour le profil utilisateur.</span><span class="sxs-lookup"><span data-stu-id="716b9-102">ASP.NET uses the <xref:System.Web.Profile.ProfileBase> class to create the class used for the user profile.</span></span> <span data-ttu-id="716b9-103">Au démarrage d’une application qui a le profil d’utilisateur activé, ASP.NET crée une nouvelle classe de type `ProfileCommon`, qui hérite de la <xref:System.Web.Profile.ProfileBase> classe.</span><span class="sxs-lookup"><span data-stu-id="716b9-103">When an application that has the user profile enabled is started, ASP.NET creates a new class of type `ProfileCommon`, which inherits from the <xref:System.Web.Profile.ProfileBase> class.</span></span> <span data-ttu-id="716b9-104">Des accesseurs fortement typés sont ajoutés à la `ProfileCommon` classe pour chaque propriété définie dans la section de configuration.</span><span class="sxs-lookup"><span data-stu-id="716b9-104">Strongly typed accessors are added to the `ProfileCommon` class for each property defined in the  configuration section.</span></span> <span data-ttu-id="716b9-105">Les accesseurs fortement typés de la `ProfileCommon` classe appel le <xref:System.Web.Profile.ProfileBase.GetPropertyValue%2A> et <xref:System.Web.Profile.ProfileBase.SetPropertyValue%2A> méthodes de la <xref:System.Web.Profile.ProfileBase> classe pour récupérer et définir les valeurs de propriété de profil de base.</span><span class="sxs-lookup"><span data-stu-id="716b9-105">The strongly typed accessors of the `ProfileCommon` class call the <xref:System.Web.Profile.ProfileBase.GetPropertyValue%2A> and <xref:System.Web.Profile.ProfileBase.SetPropertyValue%2A> methods of the <xref:System.Web.Profile.ProfileBase> base class to retrieve and set profile property values, respectively.</span></span> <span data-ttu-id="716b9-106">Une instance de la `ProfileCommon` classe est définie comme valeur de la <xref:System.Web.HttpContext.Profile%2A> propriété pour l’application ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="716b9-106">An instance of the `ProfileCommon` class is set as the value of the <xref:System.Web.HttpContext.Profile%2A> property for the ASP.NET application.</span></span>  
+  
+ <span data-ttu-id="716b9-107">Pour créer une instance d’un profil utilisateur dans une application ASP.NET, il est recommandé d’utiliser le <xref:System.Web.Profile.ProfileBase.Create%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="716b9-107">To create an instance of a user profile in an ASP.NET application, it is recommended that you use the <xref:System.Web.Profile.ProfileBase.Create%2A> method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="716b9-108">L’exemple de code suivant montre un fichier Web.config qui spécifie un profil utilisateur qui contient un `ZipCode` propriété de type `string` et un `RecentSearchList` propriété de type <xref:System.Collections.Specialized.StringCollection>.</span><span class="sxs-lookup"><span data-stu-id="716b9-108">The following code example shows a Web.config file that specifies a user profile that contains a `ZipCode` property of type `string` and a `RecentSearchList` property of type <xref:System.Collections.Specialized.StringCollection>.</span></span> <span data-ttu-id="716b9-109">Le texte généré <xref:System.Web.HttpContext.Profile%2A> propriété actuelles <xref:System.Web.HttpContext> seront des accesseurs fortement typés pour chacune des propriétés spécifiées.</span><span class="sxs-lookup"><span data-stu-id="716b9-109">The generated <xref:System.Web.HttpContext.Profile%2A> property of the current <xref:System.Web.HttpContext> will have strongly typed accessors for each of the specified properties.</span></span>  
+  
+```  
+<configuration>  
+  <system.web>  
+    <anonymousIdentification enabled="true" />  
+  
+    <profile enabled="true" defaultProvider="SqlProvider" >  
+      <properties>  
+        <add name="ZipCode" allowAnonymous="true" />  
+        <add name="RecentSearchList"  
+          type="System.Collections.Specialized.StringCollection"  
+          serializeAs="Xml"  
+          allowAnonymous="true" />  
+      </properties>  
+    </profile>  
+  </system.web>  
+</configuration>  
+```  
+  
+ <span data-ttu-id="716b9-110">L’exemple de code suivant montre une page ASP.NET qui lit et définit la `ZipCode` la propriété spécifiée pour le profil utilisateur.</span><span class="sxs-lookup"><span data-stu-id="716b9-110">The following code example shows an ASP.NET page that reads and sets the `ZipCode` property specified for the user profile.</span></span> <span data-ttu-id="716b9-111">Avant de tenter d’exécuter ce code, le fournisseur de la valeur par défaut `AspNetSqlProvider` dans les paramètres de configuration ASP.NET pour le site Web.</span><span class="sxs-lookup"><span data-stu-id="716b9-111">Before attempting to run this code, set the provider to the default `AspNetSqlProvider` in the ASP.NET configuration settings for the Web site.</span></span>  
+  
+ [!code-aspx-csharp[System.Web.Profile.HttpProfileBase#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Profile.HttpProfileBase/CS/defaultcs.aspx#1)]
+ [!code-aspx-vb[System.Web.Profile.HttpProfileBase#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Profile.HttpProfileBase/VB/defaultvb.aspx#1)]  
+  
+ <span data-ttu-id="716b9-112">L’exemple de code suivant définit une classe qui hérite de la <xref:System.Web.Profile.ProfileBase> classe pour créer un profil personnalisé.</span><span class="sxs-lookup"><span data-stu-id="716b9-112">The following code example defines a class that inherits from the <xref:System.Web.Profile.ProfileBase> class to create a custom profile.</span></span> <span data-ttu-id="716b9-113">Le type du profil personnalisé est spécifié dans le `inherits` attribut de l’élément de configuration dans le fichier Web.config pour une application.</span><span class="sxs-lookup"><span data-stu-id="716b9-113">The type of the custom profile is specified in the `inherits` attribute of the  configuration element in the Web.config file for an application.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="716b9-114">Cet exemple contient une zone de texte qui accepte l’entrée d’utilisateur, ce qui constitue une menace potentielle pour la sécurité.</span><span class="sxs-lookup"><span data-stu-id="716b9-114">This example contains a text box that accepts user input, which is a potential security threat.</span></span> <span data-ttu-id="716b9-115">Par défaut, les pages web ASP.NET vérifient que l’entrée d’utilisateur n’inclut pas de script ou d’éléments HTML.</span><span class="sxs-lookup"><span data-stu-id="716b9-115">By default, ASP.NET Web pages validate that user input does not include script or HTML elements.</span></span> <span data-ttu-id="716b9-116">Pour plus d’informations, consultez [Vue d’ensemble des attaques de script](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span><span class="sxs-lookup"><span data-stu-id="716b9-116">For more information, see [Script Exploits Overview](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span></span>  
+  
+ [!code-csharp[System.Web.Profile.ProfileBase#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Profile.ProfileBase/CS/employeeprofile.cs#1)]
+ [!code-vb[System.Web.Profile.ProfileBase#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Profile.ProfileBase/VB/employeeprofile.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <block subset="none" type="overrides">
+      <para>
+        <span data-ttu-id="716b9-117">Vous pouvez créer une implémentation d’un profil personnalisé qui hérite de la <see cref="T:System.Web.Profile.ProfileBase" /> classe abstraite et définit les propriétés pour le profil utilisateur qui ne sont pas spécifiées dans l’élément de configuration.</span>
+        <span class="sxs-lookup">
+          <span data-stu-id="716b9-117">You can create a custom profile implementation that inherits from the <see cref="T:System.Web.Profile.ProfileBase" /> abstract class and defines properties for the user profile that are not specified in the  configuration element.</span>
+        </span>
+        <span data-ttu-id="716b9-118">Vous pouvez spécifier un type de profil utilisateur personnalisé dans le fichier Web.config avec les <see langword="inherits" /> attribut de l’élément de configuration, comme indiqué dans l’exemple suivant.</span>
+        <span class="sxs-lookup">
+          <span data-stu-id="716b9-118">You can specify a custom user-profile type in the Web.config file with the <see langword="inherits" /> attribute of the  configuration element, as shown in the following example.</span>
+        </span>
+        <span data-ttu-id="716b9-119">Le code pour le <c>EmployeeProfile</c> classe est incluse dans la section exemple de cette rubrique.</span>
+        <span class="sxs-lookup">
+          <span data-stu-id="716b9-119">The code for the <c>EmployeeProfile</c> class is included in the Example section of this topic.</span>
+        </span>  
+  
+```  
+&lt;profile inherits="Samples.AspNet.Profile.EmployeeProfile"  
+  defaultProvider="SqlProvider"&gt;  
+  &lt;providers&gt;  
+    &lt;clear /&gt;  
+    &lt;add  
+      name="SqlProvider"  
+      type="System.Web.Profile.SqlProfileProvider"   
+      connectionStringName="SqlServices"   
+      description="SQL Profile Provider for Sample"/&gt;   
+    &lt;add  
+      name="EmployeeInfoProvider"  
+      type="System.Web.Profile.SqlProfileProvider"   
+      connectionStringName="SqlServices"   
+      description="SQL Profile Provider for Employee Info"/&gt;   
+  &lt;/providers&gt;  
+  
+  &lt;properties&gt;  
+    &lt;add name="GarmentSize" /&gt;  
+  &lt;/properties&gt;  
+&lt;/profile&gt;  
+```</para>
+    </block>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ProfileBase ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Profile.ProfileBase.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ProfileBase();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="716b9-120">Crée une instance de la classe <see cref="T:System.Web.Profile.ProfileBase" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-120">Creates an instance of the <see cref="T:System.Web.Profile.ProfileBase" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-121">ASP.NET utilise le <xref:System.Web.Profile.ProfileBase> classe pour créer la classe utilisée pour le profil utilisateur.</span><span class="sxs-lookup"><span data-stu-id="716b9-121">ASP.NET uses the <xref:System.Web.Profile.ProfileBase> class to create the class used for the user profile.</span></span> <span data-ttu-id="716b9-122">Au démarrage d’une application qui a le profil d’utilisateur activé, ASP.NET crée une nouvelle classe de type `ProfileCommon`, qui hérite de la <xref:System.Web.Profile.ProfileBase> classe.</span><span class="sxs-lookup"><span data-stu-id="716b9-122">When an application that has the user profile enabled is started, ASP.NET creates a new class of type `ProfileCommon`, which inherits from the <xref:System.Web.Profile.ProfileBase> class.</span></span> <span data-ttu-id="716b9-123">Des accesseurs fortement typés sont ajoutés à la `ProfileCommon` classe pour chaque propriété définie dans la section de configuration.</span><span class="sxs-lookup"><span data-stu-id="716b9-123">Strongly typed accessors are added to the `ProfileCommon` class for each property defined in the  configuration section.</span></span> <span data-ttu-id="716b9-124">Les accesseurs fortement typés de la `ProfileCommon` classe appel le <xref:System.Web.Profile.ProfileBase.GetPropertyValue%2A> et <xref:System.Web.Profile.ProfileBase.SetPropertyValue%2A> méthodes de la <xref:System.Web.Profile.ProfileBase> classe pour récupérer et définir les valeurs de propriété de profil de base.</span><span class="sxs-lookup"><span data-stu-id="716b9-124">The strongly typed accessors of the `ProfileCommon` class call the <xref:System.Web.Profile.ProfileBase.GetPropertyValue%2A> and <xref:System.Web.Profile.ProfileBase.SetPropertyValue%2A> methods of the <xref:System.Web.Profile.ProfileBase> base class to retrieve and set profile property values, respectively.</span></span> <span data-ttu-id="716b9-125">Une instance de la `ProfileCommon` classe est définie comme valeur de la <xref:System.Web.HttpContext.Profile%2A> propriété pour l’application ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="716b9-125">An instance of the `ProfileCommon` class is set as the value of the <xref:System.Web.HttpContext.Profile%2A> property for the ASP.NET application.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="716b9-126">La classe de base utilisée pour générer la classe stockée dans le <xref:System.Web.HttpContext.Profile%2A> propriété peut être substituée à l’aide de la `inherits` attribut de la section du fichier de configuration.</span><span class="sxs-lookup"><span data-stu-id="716b9-126">The base class used to generate the class stored in the <xref:System.Web.HttpContext.Profile%2A> property can be overridden using the `inherits` attribute of the  section of the configuration file.</span></span> <span data-ttu-id="716b9-127">Dans ce cas, vous devez spécifier une classe personnalisée qui hérite de la <xref:System.Web.Profile.ProfileBase> classe de base.</span><span class="sxs-lookup"><span data-stu-id="716b9-127">In this case you would specify a custom class that inherits from the <xref:System.Web.Profile.ProfileBase> base class.</span></span>  
+  
+ <span data-ttu-id="716b9-128">Ce constructeur n’est pas destiné à être utilisé à partir de code d’application.</span><span class="sxs-lookup"><span data-stu-id="716b9-128">This constructor is not intended to be used from application code.</span></span> <span data-ttu-id="716b9-129">Pour créer une instance d’un profil utilisateur, utilisez la <xref:System.Web.Profile.ProfileBase.Create%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="716b9-129">To create an instance of a user profile, use the <xref:System.Web.Profile.ProfileBase.Create%2A> method.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="716b9-130">Le fichier Web.config suivant spécifie un profil utilisateur qui contient un `ZipCode` propriété de type `string` et un `RecentSearchList` propriété de type <xref:System.Collections.Specialized.StringCollection>.</span><span class="sxs-lookup"><span data-stu-id="716b9-130">The following Web.config file specifies a user profile that contains a `ZipCode` property of type `string` and a `RecentSearchList` property of type <xref:System.Collections.Specialized.StringCollection>.</span></span> <span data-ttu-id="716b9-131">Le texte généré <xref:System.Web.HttpContext.Profile%2A> propriété actuelles <xref:System.Web.HttpContext> seront des accesseurs fortement typés pour chacune des propriétés spécifiées.</span><span class="sxs-lookup"><span data-stu-id="716b9-131">The generated <xref:System.Web.HttpContext.Profile%2A> property of the current <xref:System.Web.HttpContext> will have strongly typed accessors for each of the specified properties.</span></span>  
+  
+```  
+<configuration>  
+   <connectionStrings>  
+       <add name="SqlServices" connectionString="Data Source=localhost;Integrated Security=SSPI;Initial Catalog=aspnetdb;" />  
+   </connectionStrings>  
+  
+  <system.web>  
+   <anonymousIdentification enabled="true" />  
+  
+   <profile defaultProvider="SqlProvider" >  
+     <providers>  
+       <add  
+         name="SqlProvider"  
+         connectionStringName="SqlServices"  
+         applicationName="ProfileBaseApplication"  
+         type="System.Web.Profile.SqlProfileProvider" />  
+     </providers>  
+  
+     <properties>  
+       <add name="ZipCode" allowAnonymous="true" />  
+       <add name="RecentSearchList"  
+            type="System.Collections.Specialized.StringCollection"  
+            serializeAs="Xml"  
+            allowAnonymous="true" />  
+      </properties>  
+    </profile>  
+   </system.web>  
+</configuration>  
+```  
+  
+ <span data-ttu-id="716b9-132">La page ASP.NET suivante lit et définit la `ZipCode` la propriété spécifiée pour le profil utilisateur.</span><span class="sxs-lookup"><span data-stu-id="716b9-132">The following ASP.NET page reads and sets the `ZipCode` property specified for the user profile.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="716b9-133">Cet exemple contient une zone de texte qui accepte l’entrée d’utilisateur, ce qui constitue une menace potentielle pour la sécurité.</span><span class="sxs-lookup"><span data-stu-id="716b9-133">This example contains a text box that accepts user input, which is a potential security threat.</span></span> <span data-ttu-id="716b9-134">Par défaut, les pages web ASP.NET vérifient que l’entrée d’utilisateur n’inclut pas de script ou d’éléments HTML.</span><span class="sxs-lookup"><span data-stu-id="716b9-134">By default, ASP.NET Web pages validate that user input does not include script or HTML elements.</span></span> <span data-ttu-id="716b9-135">Pour plus d’informations, consultez [Vue d’ensemble des attaques de script](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span><span class="sxs-lookup"><span data-stu-id="716b9-135">For more information, see [Script Exploits Overview](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span></span>  
+  
+ [!code-aspx-csharp[System.Web.Profile.HttpProfileBase#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Profile.HttpProfileBase/CS/defaultcs.aspx#1)]
+ [!code-aspx-vb[System.Web.Profile.HttpProfileBase#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Profile.HttpProfileBase/VB/defaultvb.aspx#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Configuration.Provider.ProviderException">
+          <span data-ttu-id="716b9-136">L’attribut <see langword="enabled" /> de la section du fichier Web.config a la valeur <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-136">The <see langword="enabled" /> attribute of the  section of the Web.config file is <see langword="false" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Configuration.ConfigurationErrorsException">
+          <span data-ttu-id="716b9-137">Impossible de créer un type de propriété spécifié dans la section du fichier Web.config.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-137">A property type specified in the  section of the Web.config file could not be created.</span>
+          </span>
+          <span data-ttu-id="716b9-138">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-138">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-139">L’attribut <see langword="allowAnonymous" /> d’une propriété de la section du fichier Web.config a la valeur <see langword="true" /> et l’attribut <see langword="enabled" /> de l’élément a la valeur <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-139">The <see langword="allowAnonymous" /> attribute for a property in the  section of the Web.config file is set to <see langword="true" /> and the <see langword="enabled" /> attribute of the  element is set to <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="716b9-140">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-140">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-141">L’attribut <see langword="serializeAs" /> d’une propriété de la section du fichier Web.config a la valeur <see cref="F:System.Configuration.SettingsSerializeAs.Binary" /> et la propriété <see cref="P:System.Type.IsSerializable" /> du <see langword="type" /> spécifié retourne <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-141">The <see langword="serializeAs" /> attribute for a property in the  section of the Web.config file is set to <see cref="F:System.Configuration.SettingsSerializeAs.Binary" /> and the <see cref="P:System.Type.IsSerializable" /> property of the specified <see langword="type" /> returns <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="716b9-142">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-142">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-143">Le nom d'un fournisseur spécifié à l'aide de l'attribut <see langword="provider" /> d'une propriété de profil est introuvable dans la collection <see cref="P:System.Web.Profile.ProfileManager.Providers" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-143">The name of a provider specified using the <see langword="provider" /> attribute of a profile property could not be found in the <see cref="P:System.Web.Profile.ProfileManager.Providers" /> collection.</span>
+          </span>
+          <span data-ttu-id="716b9-144">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-144">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-145">Impossible de trouver le <see langword="type" /> spécifié d'une propriété de profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-145">The <see langword="type" /> specified for a profile property could not be found.</span>
+          </span>
+          <span data-ttu-id="716b9-146">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-146">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-147">Une propriété de profil a été spécifiée avec un nom qui correspond à un nom de propriété de la classe de base spécifiée dans l’attribut <see langword="inherits" />de la section.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-147">A profile property was specified with a name that matches a property name on the base class specified in the <see langword="inherits" /> attribute of the  section.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <MemberGroup MemberName="Create">
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="716b9-148">Crée une instance d'un profil utilisateur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-148">Creates an instance of a user profile.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="Create">
+      <MemberSignature Language="C#" Value="public static System.Web.Profile.ProfileBase Create (string username);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Web.Profile.ProfileBase Create(string username) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Profile.ProfileBase.Create(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Create (username As String) As ProfileBase" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Web::Profile::ProfileBase ^ Create(System::String ^ username);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.Profile.ProfileBase</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="username" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="username">
+          <span data-ttu-id="716b9-149">Nom de l'utilisateur pour lequel créer un profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-149">The name of the user to create a profile for.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="716b9-150">Utilisé par ASP.NET afin de créer une instance d'un profil pour le nom d'utilisateur spécifié.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-150">Used by ASP.NET to create an instance of a profile for the specified user name.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="716b9-151">
+            <see cref="T:System.Web.Profile.ProfileBase" /> représentant le profil de l'utilisateur spécifié.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-151">An <see cref="T:System.Web.Profile.ProfileBase" /> that represents the profile for the specified user.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-152">Le <xref:System.Web.Profile.ProfileBase.Create%2A> méthode crée et initialise une nouvelle instance de profil et est utile pour les applications qui utilisent un profil personnalisé de l’objet ou gérer les profils utilisateur dans un environnement non-ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="716b9-152">The <xref:System.Web.Profile.ProfileBase.Create%2A> method creates and initializes a new profile instance and is useful for applications that use a custom profile object or manage user profiles in a non-ASP.NET environment.</span></span>  
+  
+ <span data-ttu-id="716b9-153">Cette surcharge de la <xref:System.Web.Profile.ProfileBase.Create%2A> méthode part du principe que le nom d’utilisateur spécifié est un utilisateur authentifié.</span><span class="sxs-lookup"><span data-stu-id="716b9-153">This overload of the <xref:System.Web.Profile.ProfileBase.Create%2A> method assumes that the specified user name is an authenticated user.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="716b9-154">L’exemple de code suivant crée une instance d’un objet de profil personnalisé, définit une propriété et enregistre le profil dans la source de données.</span><span class="sxs-lookup"><span data-stu-id="716b9-154">The following code example creates an instance of a custom profile object, sets a property, and saves the profile to the data source.</span></span>  
+  
+ [!code-csharp[System.Web.Profile.ProfileBase.Create#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Profile.ProfileBase.Create/CS/profileBaseCreatecs.aspx.cs#1)]
+ [!code-vb[System.Web.Profile.ProfileBase.Create#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Profile.ProfileBase.Create/VB/profileBaseCreatevb.aspx.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Configuration.Provider.ProviderException">
+          <span data-ttu-id="716b9-155">L’attribut <see langword="enabled" /> de la section du fichier Web.config a la valeur <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-155">The <see langword="enabled" /> attribute of the  section of the Web.config file is <see langword="false" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Web.HttpException">
+          <span data-ttu-id="716b9-156">Le niveau d'autorisation d'hébergement en cours est inférieur à <see cref="F:System.Web.AspNetHostingPermissionLevel.Medium" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-156">The current hosting permission level is less than <see cref="F:System.Web.AspNetHostingPermissionLevel.Medium" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Configuration.ConfigurationErrorsException">
+          <span data-ttu-id="716b9-157">Impossible de créer un type de propriété spécifié dans la section du fichier Web.config.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-157">A property type specified in the  section of the Web.config file could not be created.</span>
+          </span>
+          <span data-ttu-id="716b9-158">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-158">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-159">L’attribut <see langword="allowAnonymous" /> d’une propriété de la section du fichier Web.config a la valeur <see langword="true" /> et l’attribut <see langword="enabled" /> de l’élément a la valeur <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-159">The <see langword="allowAnonymous" /> attribute for a property in the  section of the Web.config file is set to <see langword="true" /> and the <see langword="enabled" /> attribute of the  element is set to <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="716b9-160">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-160">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-161">L’attribut <see langword="serializeAs" /> d’une propriété de la section du fichier Web.config a la valeur <see cref="F:System.Configuration.SettingsSerializeAs.Binary" /> et la propriété <see cref="P:System.Type.IsSerializable" /> du <see langword="type" /> spécifié retourne <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-161">The <see langword="serializeAs" /> attribute for a property in the  section of the Web.config file is set to <see cref="F:System.Configuration.SettingsSerializeAs.Binary" /> and the <see cref="P:System.Type.IsSerializable" /> property of the specified <see langword="type" /> returns <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="716b9-162">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-162">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-163">Le nom d'un fournisseur spécifié à l'aide de l'attribut <see langword="provider" /> d'une propriété de profil est introuvable dans la collection <see cref="P:System.Web.Profile.ProfileManager.Providers" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-163">The name of a provider specified using the <see langword="provider" /> attribute of a profile property could not be found in the <see cref="P:System.Web.Profile.ProfileManager.Providers" /> collection.</span>
+          </span>
+          <span data-ttu-id="716b9-164">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-164">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-165">Impossible de trouver le <see langword="type" /> spécifié d'une propriété de profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-165">The <see langword="type" /> specified for a profile property could not be found.</span>
+          </span>
+          <span data-ttu-id="716b9-166">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-166">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-167">Une propriété de profil a été spécifiée avec un nom qui correspond à un nom de propriété de la classe de base spécifiée dans l’attribut <see langword="inherits" />de la section.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-167">A profile property was specified with a name that matches a property name on the base class specified in the <see langword="inherits" /> attribute of the  section.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Create">
+      <MemberSignature Language="C#" Value="public static System.Web.Profile.ProfileBase Create (string username, bool isAuthenticated);" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Web.Profile.ProfileBase Create(string username, bool isAuthenticated) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Profile.ProfileBase.Create(System.String,System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function Create (username As String, isAuthenticated As Boolean) As ProfileBase" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Web::Profile::ProfileBase ^ Create(System::String ^ username, bool isAuthenticated);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.Profile.ProfileBase</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="username" Type="System.String" />
+        <Parameter Name="isAuthenticated" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="username">
+          <span data-ttu-id="716b9-168">Nom de l'utilisateur pour lequel créer un profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-168">The name of the user to create a profile for.</span>
+          </span>
+        </param>
+        <param name="isAuthenticated">
+          <span data-ttu-id="716b9-169">
+            <see langword="true" /> pour indiquer que l'utilisateur est authentifié ; <see langword="false" /> pour indiquer que l'utilisateur est anonyme.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-169">
+              <see langword="true" /> to indicate the user is authenticated; <see langword="false" /> to indicate the user is anonymous.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="716b9-170">Utilisé par ASP.NET afin de créer une instance d'un profil pour le nom d'utilisateur spécifié.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-170">Used by ASP.NET to create an instance of a profile for the specified user name.</span>
+          </span>
+          <span data-ttu-id="716b9-171">Prend un paramètre qui indique si l'utilisateur est authentifié ou anonyme.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-171">Takes a parameter indicating whether the user is authenticated or anonymous.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="716b9-172">Objet <see cref="T:System.Web.Profile.ProfileBase" /> représentant le profil de l'utilisateur spécifié.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-172">A <see cref="T:System.Web.Profile.ProfileBase" /> object that represents the profile for the specified user.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-173">Le <xref:System.Web.Profile.ProfileBase.Create%2A> méthode crée et initialise une nouvelle instance de profil et est utile pour les applications qui utilisent un profil personnalisé de l’objet ou gérer les profils utilisateur dans un environnement non-ASP.NET.</span><span class="sxs-lookup"><span data-stu-id="716b9-173">The <xref:System.Web.Profile.ProfileBase.Create%2A> method creates and initializes a new profile instance and is useful for applications that use a custom profile object or manage user profiles in a non-ASP.NET environment.</span></span>  
+  
+ <span data-ttu-id="716b9-174">Cette surcharge de la <xref:System.Web.Profile.ProfileBase.Create%2A> méthode peut être utilisée pour créer un profil pour un utilisateur authentifié ou un utilisateur anonyme.</span><span class="sxs-lookup"><span data-stu-id="716b9-174">This overload of the <xref:System.Web.Profile.ProfileBase.Create%2A> method can be used to create a profile for an authenticated user or an anonymous user.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="716b9-175">L’exemple de code suivant crée une instance d’un objet de profil personnalisé, définit une propriété et enregistre le profil dans la source de données.</span><span class="sxs-lookup"><span data-stu-id="716b9-175">The following code example creates an instance of a custom profile object, sets a property, and saves the profile to the data source.</span></span>  
+  
+ [!code-csharp[System.Web.Profile.ProfileBase.Create#2](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Profile.ProfileBase.Create/CS/profileBaseCreatecs.aspx.cs#2)]
+ [!code-vb[System.Web.Profile.ProfileBase.Create#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Profile.ProfileBase.Create/VB/profileBaseCreatevb.aspx.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Configuration.Provider.ProviderException">
+          <span data-ttu-id="716b9-176">L’attribut <see langword="enabled" /> de la section du fichier Web.config a la valeur <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-176">The <see langword="enabled" /> attribute of the  section of the Web.config file is <see langword="false" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Web.HttpException">
+          <span data-ttu-id="716b9-177">Le niveau d'autorisation d'hébergement en cours est inférieur à <see cref="F:System.Web.AspNetHostingPermissionLevel.Medium" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-177">The current hosting permission level is less than <see cref="F:System.Web.AspNetHostingPermissionLevel.Medium" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Configuration.ConfigurationErrorsException">
+          <span data-ttu-id="716b9-178">Impossible de créer un type de propriété spécifié dans la section du fichier Web.config.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-178">A property type specified in the  section of the Web.config file could not be created.</span>
+          </span>
+          <span data-ttu-id="716b9-179">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-179">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-180">L’attribut <see langword="allowAnonymous" /> d’une propriété de la section du fichier Web.config a la valeur <see langword="true" /> et l’attribut <see langword="enabled" /> de l’élément a la valeur <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-180">The <see langword="allowAnonymous" /> attribute for a property in the  section of the Web.config file is set to <see langword="true" /> and the <see langword="enabled" /> attribute of the  element is set to <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="716b9-181">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-181">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-182">L’attribut <see langword="serializeAs" /> d’une propriété de la section du fichier Web.config a la valeur <see cref="F:System.Configuration.SettingsSerializeAs.Binary" /> et la propriété <see cref="P:System.Type.IsSerializable" /> du <see langword="type" /> spécifié retourne <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-182">The <see langword="serializeAs" /> attribute for a property in the  section of the Web.config file is set to <see cref="F:System.Configuration.SettingsSerializeAs.Binary" /> and the <see cref="P:System.Type.IsSerializable" /> property of the specified <see langword="type" /> returns <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="716b9-183">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-183">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-184">Le nom d'un fournisseur spécifié à l'aide de l'attribut <see langword="provider" /> d'une propriété de profil est introuvable dans la collection <see cref="P:System.Web.Profile.ProfileManager.Providers" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-184">The name of a provider specified using the <see langword="provider" /> attribute of a profile property could not be found in the <see cref="P:System.Web.Profile.ProfileManager.Providers" /> collection.</span>
+          </span>
+          <span data-ttu-id="716b9-185">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-185">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-186">Impossible de trouver le <see langword="type" /> spécifié d'une propriété de profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-186">The <see langword="type" /> specified for a profile property could not be found.</span>
+          </span>
+          <span data-ttu-id="716b9-187">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-187">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-188">Une propriété de profil a été spécifiée avec un nom qui correspond à un nom de propriété de la classe de base spécifiée dans l’attribut <see langword="inherits" />de la section.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-188">A profile property was specified with a name that matches a property name on the base class specified in the <see langword="inherits" /> attribute of the  section.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetProfileGroup">
+      <MemberSignature Language="C#" Value="public System.Web.Profile.ProfileGroupBase GetProfileGroup (string groupName);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Web.Profile.ProfileGroupBase GetProfileGroup(string groupName) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Profile.ProfileBase.GetProfileGroup(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetProfileGroup (groupName As String) As ProfileGroupBase" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Web::Profile::ProfileGroupBase ^ GetProfileGroup(System::String ^ groupName);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.Profile.ProfileGroupBase</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="groupName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="groupName">
+          <span data-ttu-id="716b9-189">Nom du groupe de propriétés.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-189">The name of the group of properties.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="716b9-190">Obtient un groupe de propriétés identifié par un nom de groupe.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-190">Gets a group of properties identified by a group name.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="716b9-191">Un objet <see cref="T:System.Web.Profile.ProfileGroupBase" /> pour un groupe de propriétés configuré avec le nom de groupe spécifié.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-191">A <see cref="T:System.Web.Profile.ProfileGroupBase" /> object for a group of properties configured with the specified group name.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-192">Propriétés de profil peuvent être réparties en groupes pour une meilleure organisation.</span><span class="sxs-lookup"><span data-stu-id="716b9-192">Profile properties can be separated into groups for better organization.</span></span> <span data-ttu-id="716b9-193">Le <xref:System.Web.Profile.ProfileBase.GetProfileGroup%2A> propriété peut être utilisée pour récupérer un groupe de propriétés par le nom du groupe.</span><span class="sxs-lookup"><span data-stu-id="716b9-193">The <xref:System.Web.Profile.ProfileBase.GetProfileGroup%2A> property can be used to retrieve a group of properties by the group name.</span></span> <span data-ttu-id="716b9-194">Vous pouvez également accéder à une propriété de profil dans un groupe en spécifiant le nom du groupe en tant que membre de la `Profile` disponible sur chaque page de propriété.</span><span class="sxs-lookup"><span data-stu-id="716b9-194">You can also access a profile property in a group by specifying the group name as a member of the `Profile` property available on each page.</span></span> <span data-ttu-id="716b9-195">Par exemple, le `ZipCode` profil de propriété qui est un membre de la `Address` groupe de profils peut être accessibles à l’aide de `Profile.Address.ZipCode`.</span><span class="sxs-lookup"><span data-stu-id="716b9-195">For example, the `ZipCode` profile property that is a member of the `Address` profile group could be accessed using `Profile.Address.ZipCode`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="716b9-196">Le fichier Web.config suivant spécifie un profil utilisateur qui contient le groupe de propriétés avec un nom de groupe `Address`.</span><span class="sxs-lookup"><span data-stu-id="716b9-196">The following Web.config file specifies a user profile that contains group of properties with a group name of `Address`.</span></span> <span data-ttu-id="716b9-197">Les propriétés groupées générées pour la <xref:System.Web.HttpContext.Profile%2A> propriété actuelles <xref:System.Web.HttpContext> est précédé par le nom du groupe.</span><span class="sxs-lookup"><span data-stu-id="716b9-197">The grouped properties generated for the <xref:System.Web.HttpContext.Profile%2A> property of the current <xref:System.Web.HttpContext> will be preceded by the group name.</span></span> <span data-ttu-id="716b9-198">Par exemple, `Profile.Address.Street`.</span><span class="sxs-lookup"><span data-stu-id="716b9-198">For example, `Profile.Address.Street`.</span></span>  
+  
+```  
+<configuration>  
+  <connectionStrings>  
+    <add name="SqlServices" connectionString=  
+      "Data Source=localhost;Integrated Security=SSPI;Initial Catalog=aspnetdb;" />  
+  </connectionStrings>  
+  
+  <system.web>  
+    <authentication mode="Forms" >  
+      <forms loginUrl="login.aspx"  
+        name=".ASPXFORMSAUTH" />  
+    </authentication>  
+  
+    <authorization>  
+      <deny users="?" />  
+    </authorization>  
+  
+    <membership defaultProvider="SqlProvider"   
+      userIsOnlineTimeWindow="15">  
+      <providers>  
+        <clear />  
+        <add   
+          name="SqlProvider"   
+          type="System.Web.Security.SqlMembershipProvider"   
+          connectionStringName="SqlServices"  
+          enablePasswordRetrieval="false"  
+          enablePasswordReset="true"  
+          requiresQuestionAndAnswer="true"   
+          requiresUniqueEmail="false"  
+          passwordFormat="Hashed"  
+          applicationName="MyApplication" />  
+      </providers>  
+    </membership>  
+  
+    <profile defaultProvider="SqlProvider">  
+      <providers>  
+        <add  
+          name="SqlProvider"  
+          connectionStringName="SqlServices"  
+          applicationName="MyApplication"  
+          type="System.Web.Profile.SqlProfileProvider" />  
+  
+      </providers>  
+  
+      <properties>  
+        <add name="ZipCode" />  
+        <group name="Address">  
+          <add name="Street" />  
+          <add name="City" />  
+          <add name="State" />  
+          <add name="CountryOrRegion" />  
+        </group>  
+      </properties>  
+    </profile>  
+  </system.web>  
+</configuration>  
+```  
+  
+ <span data-ttu-id="716b9-199">La page ASP.NET suivante lit et définit les propriétés groupées spécifiées pour le profil utilisateur.</span><span class="sxs-lookup"><span data-stu-id="716b9-199">The following ASP.NET page reads and sets the grouped properties specified for the user profile.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="716b9-200">Cet exemple contient une zone de texte qui accepte l’entrée d’utilisateur, ce qui constitue une menace potentielle pour la sécurité.</span><span class="sxs-lookup"><span data-stu-id="716b9-200">This example contains a text box that accepts user input, which is a potential security threat.</span></span> <span data-ttu-id="716b9-201">Par défaut, les pages web ASP.NET vérifient que l’entrée d’utilisateur n’inclut pas de script ou d’éléments HTML.</span><span class="sxs-lookup"><span data-stu-id="716b9-201">By default, ASP.NET Web pages validate that user input does not include script or HTML elements.</span></span> <span data-ttu-id="716b9-202">Pour plus d’informations, consultez [Vue d’ensemble des attaques de script](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span><span class="sxs-lookup"><span data-stu-id="716b9-202">For more information, see [Script Exploits Overview](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span></span>  
+  
+ [!code-aspx-csharp[System.Web.Profile.HttpProfileGroupBase#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Profile.HttpProfileGroupBase/CS/defaultcs.aspx#1)]
+ [!code-aspx-vb[System.Web.Profile.HttpProfileGroupBase#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Profile.HttpProfileGroupBase/VB/defaultvb.aspx#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Configuration.Provider.ProviderException">
+          <span data-ttu-id="716b9-203">Le nom de groupe de propriétés de profil spécifié est introuvable dans la section de configuration.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-203">The specified profile property group name was not found in the  configuration section.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetPropertyValue">
+      <MemberSignature Language="C#" Value="public object GetPropertyValue (string propertyName);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance object GetPropertyValue(string propertyName) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Profile.ProfileBase.GetPropertyValue(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetPropertyValue (propertyName As String) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Object ^ GetPropertyValue(System::String ^ propertyName);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="propertyName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="propertyName">
+          <span data-ttu-id="716b9-204">Nom de la propriété de profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-204">The name of the profile property.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="716b9-205">Obtient la valeur d'une propriété de profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-205">Gets the value of a profile property.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="716b9-206">La valeur de la propriété de profil spécifiée, de type <see langword="object" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-206">The value of the specified profile property, typed as <see langword="object" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-207">ASP.NET utilise le <xref:System.Web.Profile.ProfileBase> classe pour créer la classe utilisée pour le profil utilisateur.</span><span class="sxs-lookup"><span data-stu-id="716b9-207">ASP.NET uses the <xref:System.Web.Profile.ProfileBase> class to create the class used for the user profile.</span></span> <span data-ttu-id="716b9-208">Au démarrage d’une application qui a le profil d’utilisateur activé, ASP.NET crée une nouvelle classe de type `ProfileCommon`, qui hérite de la <xref:System.Web.Profile.ProfileBase> classe.</span><span class="sxs-lookup"><span data-stu-id="716b9-208">When an application that has the user profile enabled is started, ASP.NET creates a new class of type `ProfileCommon`, which inherits from the <xref:System.Web.Profile.ProfileBase> class.</span></span> <span data-ttu-id="716b9-209">Des accesseurs fortement typés sont ajoutés à la `ProfileCommon` classe pour chaque propriété définie dans la section de configuration.</span><span class="sxs-lookup"><span data-stu-id="716b9-209">Strongly typed accessors are added to the `ProfileCommon` class for each property defined in the  configuration section.</span></span> <span data-ttu-id="716b9-210">Les accesseurs fortement typés de la `ProfileCommon` classe appel le <xref:System.Web.Profile.ProfileBase.GetPropertyValue%2A> méthode pour récupérer des valeurs non typées à partir de la <xref:System.Web.Profile.ProfileProvider> que l’accesseur généré, puis effectue un cast en type spécifié et retourne la valeur de propriété sous la forme.</span><span class="sxs-lookup"><span data-stu-id="716b9-210">The strongly typed accessors of the `ProfileCommon` class call the <xref:System.Web.Profile.ProfileBase.GetPropertyValue%2A> method to retrieve untyped values from the <xref:System.Web.Profile.ProfileProvider> that the generated accessor then casts as the specified type and returns as the property value.</span></span>  
+  
+ <span data-ttu-id="716b9-211">Vous pouvez utiliser la <xref:System.Web.Profile.ProfileBase.GetPropertyValue%2A> méthode pour récupérer des valeurs de propriété du profil utilisateur pour votre application par nom.</span><span class="sxs-lookup"><span data-stu-id="716b9-211">You can use the <xref:System.Web.Profile.ProfileBase.GetPropertyValue%2A> method to retrieve property values of the user profile for your application by name.</span></span> <span data-ttu-id="716b9-212">Les valeurs retournées sont non typées et doivent être converties en type d’objet spécifique lors de la récupérer.</span><span class="sxs-lookup"><span data-stu-id="716b9-212">Returned values are untyped and must be cast as the specific object type when retrieved.</span></span> <span data-ttu-id="716b9-213">Pour un accès fortement typé aux valeurs de propriété de profil, vous pouvez accéder à la propriété par nom en tant que membre de la propriété de profil disponible sur chaque page, par exemple, `Profile.CustomerAddress`.</span><span class="sxs-lookup"><span data-stu-id="716b9-213">For strongly typed access to profile property values, you can access the property by name as a member of the Profile property available on each page, for example, `Profile.CustomerAddress`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="716b9-214">L’exemple de code suivant montre une page ASP.NET qui lit et définit la `ZipCode` la propriété spécifiée pour le profil utilisateur.</span><span class="sxs-lookup"><span data-stu-id="716b9-214">The following code example shows an ASP.NET page that reads and sets the `ZipCode` property specified for the user profile.</span></span> <span data-ttu-id="716b9-215">Pour obtenir un exemple d’un fichier Web.config qui spécifie les propriétés pour le profil utilisateur, consultez l’exemple fourni pour la <xref:System.Web.Profile.ProfileBase> classe.</span><span class="sxs-lookup"><span data-stu-id="716b9-215">For an example of a Web.config file that specifies properties for the user profile, see the example provided for the <xref:System.Web.Profile.ProfileBase> class.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="716b9-216">Cet exemple contient une zone de texte qui accepte l’entrée d’utilisateur, ce qui constitue une menace potentielle pour la sécurité.</span><span class="sxs-lookup"><span data-stu-id="716b9-216">This example contains a text box that accepts user input, which is a potential security threat.</span></span> <span data-ttu-id="716b9-217">Par défaut, les pages web ASP.NET vérifient que l’entrée d’utilisateur n’inclut pas de script ou d’éléments HTML.</span><span class="sxs-lookup"><span data-stu-id="716b9-217">By default, ASP.NET Web pages validate that user input does not include script or HTML elements.</span></span> <span data-ttu-id="716b9-218">Pour plus d’informations, consultez [Vue d’ensemble des attaques de script](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span><span class="sxs-lookup"><span data-stu-id="716b9-218">For more information, see [Script Exploits Overview](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span></span>  
+  
+ [!code-aspx-csharp[System.Web.Profile.HttpProfileBase#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Profile.HttpProfileBase/CS/defaultcs.aspx#1)]
+ [!code-aspx-vb[System.Web.Profile.HttpProfileBase#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Profile.HttpProfileBase/VB/defaultvb.aspx#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Configuration.Provider.ProviderException">
+          <span data-ttu-id="716b9-219">Une tentative de définition d'une valeur de propriété pour un profil anonyme a été effectuée pour une propriété dont l'attribut <see langword="allowAnonymous" /> est <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-219">An attempt was made to set a property value on an anonymous profile where the property's <see langword="allowAnonymous" /> attribute is <see langword="false" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Configuration.SettingsPropertyNotFoundException">
+          <span data-ttu-id="716b9-220">Aucune propriété n'est définie pour le profil actuel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-220">There are no properties defined for the current profile.</span>
+          </span>
+          <span data-ttu-id="716b9-221">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-221">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-222">Le nom de propriété de profil spécifié n'existe pas dans le profil actuel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-222">The specified profile property name does not exist in the current profile.</span>
+          </span>
+          <span data-ttu-id="716b9-223">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-223">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-224">Le fournisseur de la propriété de profil spécifiée n'a pas reconnu la propriété spécifiée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-224">The provider for the specified profile property did not recognize the specified property.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Initialize">
+      <MemberSignature Language="C#" Value="public void Initialize (string username, bool isAuthenticated);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void Initialize(string username, bool isAuthenticated) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Profile.ProfileBase.Initialize(System.String,System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub Initialize (username As String, isAuthenticated As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Initialize(System::String ^ username, bool isAuthenticated);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="username" Type="System.String" />
+        <Parameter Name="isAuthenticated" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="username">
+          <span data-ttu-id="716b9-225">Nom de l'utilisateur pour lequel initialiser le profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-225">The name of the user to initialize the profile for.</span>
+          </span>
+        </param>
+        <param name="isAuthenticated">
+          <span data-ttu-id="716b9-226">
+            <see langword="true" /> pour indiquer que l'utilisateur est authentifié ; <see langword="false" /> pour indiquer que l'utilisateur est anonyme.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-226">
+              <see langword="true" /> to indicate the user is authenticated; <see langword="false" /> to indicate the user is anonymous.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="716b9-227">Initialise les informations et les valeurs des propriétés du profil de l'utilisateur en cours.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-227">Initializes the profile property values and information for the current user.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-228">Cette méthode n'est pas conçue pour être utilisée à partir de votre code.</span><span class="sxs-lookup"><span data-stu-id="716b9-228">This method is not intended to be used from your code.</span></span> <span data-ttu-id="716b9-229">Utilisez une de le <xref:System.Web.Profile.ProfileBase.Create%2A> surcharges pour créer une instance du profil utilisateur.</span><span class="sxs-lookup"><span data-stu-id="716b9-229">Use one of the <xref:System.Web.Profile.ProfileBase.Create%2A> overloads to create an instance of the user profile.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsAnonymous">
+      <MemberSignature Language="C#" Value="public bool IsAnonymous { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsAnonymous" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Profile.ProfileBase.IsAnonymous" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsAnonymous As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsAnonymous { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="716b9-230">Obtient une valeur qui indique si le profil utilisateur est destiné à un utilisateur anonyme.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-230">Gets a value indicating whether the user profile is for an anonymous user.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="716b9-231">
+            <see langword="true" /> si le compte d'utilisateur est un compte anonyme ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-231">
+              <see langword="true" /> if the user profile is for an anonymous user; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-232">L’accès anonyme pour le profil utilisateur est activé à l’aide de la section de configuration et le `allowAnonymous` attribut de l’élément de configuration permet de spécifier les propriétés de profil.</span><span class="sxs-lookup"><span data-stu-id="716b9-232">Anonymous access to the user profile is enabled using the  configuration section and the `allowAnonymous` attribute of the  configuration element used to specify profile properties.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="IsDirty">
+      <MemberSignature Language="C#" Value="public bool IsDirty { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool IsDirty" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Profile.ProfileBase.IsDirty" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property IsDirty As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool IsDirty { bool get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="716b9-233">Obtient une valeur qui indique si l'une des propriétés de profil a été modifiée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-233">Gets a value indicating whether any of the profile properties have been modified.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="716b9-234">
+            <see langword="true" /> si l'une des propriétés de profil a été modifiée ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-234">
+              <see langword="true" /> if any of the profile properties have been modified; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-235">Le <xref:System.Web.Profile.ProfileBase.IsDirty%2A> propriété peut être utilisée par un fournisseur de profils pendant les <xref:System.Configuration.SettingsBase.Save%2A> méthode pour déterminer si les propriétés qui sont de types primitifs, chaînes, ou <xref:System.DateTime> objets ont été modifiés.</span><span class="sxs-lookup"><span data-stu-id="716b9-235">The <xref:System.Web.Profile.ProfileBase.IsDirty%2A> property can be used by a profile provider during the <xref:System.Configuration.SettingsBase.Save%2A> method to determine whether properties that are made up of primitive types, strings, or <xref:System.DateTime> objects have been changed.</span></span> <span data-ttu-id="716b9-236">Les propriétés modifiées sont ensuite mises à jour par le fournisseur de profil dans le <xref:System.Configuration.SettingsBase.Save%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="716b9-236">Changed properties are then updated by the profile provider in the <xref:System.Configuration.SettingsBase.Save%2A> method.</span></span> <span data-ttu-id="716b9-237">Le <xref:System.Configuration.SettingsBase.Save%2A> méthode est appelée automatiquement à la fin de l’exécution de la page si le <xref:System.Web.Profile.ProfileManager.AutomaticSaveEnabled%2A> est de propriété `true`</span><span class="sxs-lookup"><span data-stu-id="716b9-237">The <xref:System.Configuration.SettingsBase.Save%2A> method is automatically called at the end of page execution if the <xref:System.Web.Profile.ProfileManager.AutomaticSaveEnabled%2A> property is `true`</span></span>  
+  
+ <span data-ttu-id="716b9-238">Un fournisseur de profils appelé dans le <xref:System.Configuration.SettingsBase.Save%2A> méthode ne peut pas déterminer explicitement si une propriété de profil avec un type de classe personnalisé ou un type complex, comme une collection, a été modifiée.</span><span class="sxs-lookup"><span data-stu-id="716b9-238">A profile provider called in the <xref:System.Configuration.SettingsBase.Save%2A> method cannot explicitly determine whether a profile property with a custom class type or a complex type, such as a collection, has changed.</span></span> <span data-ttu-id="716b9-239">Vous pouvez utiliser la <xref:System.Web.Profile.ProfileModule.ProfileAutoSaving> événement pour déterminer si un objet personnalisé a été modifié et poursuivre l’enregistrement automatique des objets modifiés ou annuler la sauvegarde automatique si aucun objet n’a été modifié.</span><span class="sxs-lookup"><span data-stu-id="716b9-239">You can use the <xref:System.Web.Profile.ProfileModule.ProfileAutoSaving> event to determine whether a custom object has been modified and to continue with the automatic save for modified objects or cancel the automatic save if no objects have been modified.</span></span> <span data-ttu-id="716b9-240">Le comportement par défaut de la <xref:System.Web.Profile.ProfileBase> classe consiste à définir le <xref:System.Web.Profile.ProfileBase.IsDirty%2A> propriété `true` pour les propriétés qui sont de type personnalisé ou complexe, la première fois que la propriété est accessible.</span><span class="sxs-lookup"><span data-stu-id="716b9-240">The default behavior of the <xref:System.Web.Profile.ProfileBase> class is to set the <xref:System.Web.Profile.ProfileBase.IsDirty%2A> property to `true` for properties that are of a custom or complex type the first time the property is accessed.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Item">
+      <MemberSignature Language="C#" Value="public override object this[string propertyName] { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance object Item(string)" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Profile.ProfileBase.Item(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Default Public Overrides Property Item(propertyName As String) As Object" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property System::Object ^ default[System::String ^] { System::Object ^ get(System::String ^ propertyName); void set(System::String ^ propertyName, System::Object ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="propertyName" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="propertyName">
+          <span data-ttu-id="716b9-241">Nom de la propriété de profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-241">The name of the profile property.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="716b9-242">Obtient ou définit une valeur de propriété de profil indexée par le nom de propriété.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-242">Gets or sets a profile property value indexed by the property name.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="716b9-243">La valeur de la propriété de profil spécifiée, de type <see langword="object" /></span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-243">The value of the specified profile property, typed as <see langword="object" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-244">Vous pouvez utiliser cette propriété pour récupérer ou définir les valeurs de propriété du profil utilisateur pour votre application par son nom.</span><span class="sxs-lookup"><span data-stu-id="716b9-244">You can use this property to retrieve or set the property values of the user profile for your application by name.</span></span> <span data-ttu-id="716b9-245">Les valeurs retournées sont de type `object` et doivent être castées en type d’objet spécifique lors de la récupérer.</span><span class="sxs-lookup"><span data-stu-id="716b9-245">Returned values are typed as `object` and must be cast as the specific object type when retrieved.</span></span> <span data-ttu-id="716b9-246">Pour un accès fortement typé aux valeurs de propriété de profil, vous pouvez accéder à la propriété par nom en tant que membre de la `Profile` disponible sur chaque page, par exemple, de la propriété `Profile.CustomerAddress`.</span><span class="sxs-lookup"><span data-stu-id="716b9-246">For strongly typed access to profile property values, you can access the property by name as a member of the `Profile` property available on each page, for example, `Profile.CustomerAddress`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="716b9-247">L’exemple de code suivant répertorie les noms des propriétés dans le profil utilisateur en liant la <xref:System.Configuration.SettingsProperty.Name%2A> propriété à partir de la méthode statique <xref:System.Web.Profile.ProfileBase.Properties%2A> collection de <xref:System.Configuration.SettingsProperty> des objets sur un <xref:System.Web.UI.WebControls.GridView> contrôle.</span><span class="sxs-lookup"><span data-stu-id="716b9-247">The following code example lists the names of the properties in the user profile by binding the <xref:System.Configuration.SettingsProperty.Name%2A> property from the static <xref:System.Web.Profile.ProfileBase.Properties%2A> collection of <xref:System.Configuration.SettingsProperty> objects to a <xref:System.Web.UI.WebControls.GridView> control.</span></span> <span data-ttu-id="716b9-248">La valeur de propriété sélectionnée est récupérée par nom à l’aide du <xref:System.Web.Profile.ProfileBase.Item%2A> collection.</span><span class="sxs-lookup"><span data-stu-id="716b9-248">The selected property value is retrieved by name using the <xref:System.Web.Profile.ProfileBase.Item%2A> collection.</span></span> <span data-ttu-id="716b9-249">Pour obtenir un exemple d’un fichier Web.config qui spécifie les propriétés pour le profil utilisateur, consultez l’exemple fourni pour la <xref:System.Web.Profile.ProfileBase> classe.</span><span class="sxs-lookup"><span data-stu-id="716b9-249">For an example of a Web.config file that specifies properties for the user profile, see the example provided for the <xref:System.Web.Profile.ProfileBase> class.</span></span>  
+  
+ [!code-aspx-csharp[System.Web.Profile.HttpProfileBase#2](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Profile.HttpProfileBase/CS/ViewProfilecs.aspx#2)]
+ [!code-aspx-vb[System.Web.Profile.HttpProfileBase#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Profile.HttpProfileBase/VB/ViewProfilevb.aspx#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Configuration.Provider.ProviderException">
+          <span data-ttu-id="716b9-250">Une tentative de définition d'une valeur de propriété pour un profil anonyme a été effectuée pour une propriété dont l'attribut <see langword="allowAnonymous" /> est <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-250">An attempt was made to set a property value on an anonymous profile where the property's <see langword="allowAnonymous" /> attribute is <see langword="false" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Configuration.SettingsPropertyNotFoundException">
+          <span data-ttu-id="716b9-251">Aucune propriété n'est définie pour le profil actuel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-251">There are no properties defined for the current profile.</span>
+          </span>
+          <span data-ttu-id="716b9-252">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-252">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-253">Le nom de propriété de profil spécifié n'existe pas dans le profil actuel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-253">The specified profile property name does not exist in the current profile.</span>
+          </span>
+          <span data-ttu-id="716b9-254">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-254">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-255">Le fournisseur de la propriété de profil spécifiée n'a pas reconnu la propriété spécifiée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-255">The provider for the specified profile property did not recognize the specified property.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Configuration.SettingsPropertyIsReadOnlyException">
+          <span data-ttu-id="716b9-256">Une tentative de définition d'une valeur de propriété marquée en lecture seule a été exécutée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-256">An attempt was made to set a property value that was marked as read-only.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Configuration.SettingsPropertyWrongTypeException">
+          <span data-ttu-id="716b9-257">Une tentative d'assignation d'une valeur à une propriété à l'aide d'un type incompatible a été exécutée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-257">An attempt was made to assign a value to a property using an incompatible type.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="LastActivityDate">
+      <MemberSignature Language="C#" Value="public DateTime LastActivityDate { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.DateTime LastActivityDate" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Profile.ProfileBase.LastActivityDate" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property LastActivityDate As DateTime" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property DateTime LastActivityDate { DateTime get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.DateTime</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="716b9-258">Obtient la date et l'heure de dernière lecture ou modification du profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-258">Gets the most recent date and time that the profile was read or modified.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="716b9-259">Date et heure de dernière lecture ou modification du profil par le fournisseur par défaut.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-259">The most recent date and time that the profile was read or modified by the default provider.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-260">Cette valeur de propriété est modifiée uniquement par le fournisseur de profils par défaut.</span><span class="sxs-lookup"><span data-stu-id="716b9-260">This property value is only modified by the default profile provider.</span></span> <span data-ttu-id="716b9-261">Modifications apportées aux propriétés de profil par un fournisseur autre que le fournisseur de profils par défaut n’affectent pas la valeur de la <xref:System.Web.Profile.ProfileBase.LastActivityDate%2A> propriété.</span><span class="sxs-lookup"><span data-stu-id="716b9-261">Changes made to profile properties by a provider other than the default profile provider do not affect the value of the <xref:System.Web.Profile.ProfileBase.LastActivityDate%2A> property.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="LastUpdatedDate">
+      <MemberSignature Language="C#" Value="public DateTime LastUpdatedDate { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.DateTime LastUpdatedDate" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Profile.ProfileBase.LastUpdatedDate" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property LastUpdatedDate As DateTime" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property DateTime LastUpdatedDate { DateTime get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.DateTime</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="716b9-262">Obtient la date et l'heure de dernière modification du profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-262">Gets the most recent date and time that the profile was modified.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="716b9-263">Date et heure de dernière modification du profil par le fournisseur par défaut.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-263">The most recent date and time that the profile was modified by the default provider.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-264">Cette valeur de propriété est modifiée uniquement par le fournisseur de profils par défaut.</span><span class="sxs-lookup"><span data-stu-id="716b9-264">This property value is only modified by the default profile provider.</span></span> <span data-ttu-id="716b9-265">Modifications apportées aux propriétés de profil par un fournisseur autre que le fournisseur de profils par défaut n’affectent pas la valeur de la <xref:System.Web.Profile.ProfileBase.LastUpdatedDate%2A> propriété.</span><span class="sxs-lookup"><span data-stu-id="716b9-265">Changes made to profile properties by a provider other than the default profile provider do not affect the value of the <xref:System.Web.Profile.ProfileBase.LastUpdatedDate%2A> property.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Properties">
+      <MemberSignature Language="C#" Value="public static System.Configuration.SettingsPropertyCollection Properties { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class System.Configuration.SettingsPropertyCollection Properties" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Profile.ProfileBase.Properties" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property Properties As SettingsPropertyCollection" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::Configuration::SettingsPropertyCollection ^ Properties { System::Configuration::SettingsPropertyCollection ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Configuration.SettingsPropertyCollection</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="716b9-266">Obtient une collection d'objets <see cref="T:System.Configuration.SettingsProperty" /> pour chaque propriété dans le profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-266">Gets a collection of <see cref="T:System.Configuration.SettingsProperty" /> objects for each property in the profile.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="716b9-267">
+            <see cref="T:System.Configuration.SettingsPropertyCollection" /> d'objets <see cref="T:System.Configuration.SettingsProperty" /> associée à chaque propriété dans le profil pour l'application.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-267">A <see cref="T:System.Configuration.SettingsPropertyCollection" /> of <see cref="T:System.Configuration.SettingsProperty" /> objects for each property in the profile for the application.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-268">Vous pouvez utiliser cette propriété pour obtenir des informations sur les propriétés de profil configurées pour une application, y compris les types et les noms de propriété.</span><span class="sxs-lookup"><span data-stu-id="716b9-268">You can use this property to get information about the profile properties configured for an application, including property names and types.</span></span> <span data-ttu-id="716b9-269">Vous pouvez également référencer le <xref:System.Web.Profile.ProfileProvider> de chaque propriété.</span><span class="sxs-lookup"><span data-stu-id="716b9-269">You can also reference the <xref:System.Web.Profile.ProfileProvider> of each property.</span></span> <span data-ttu-id="716b9-270">A <xref:System.Web.Profile.ProfileProvider> gère le stockage et la récupération des valeurs de propriété vers et à partir de la source de données.</span><span class="sxs-lookup"><span data-stu-id="716b9-270">A <xref:System.Web.Profile.ProfileProvider> manages storage and retrieval of property values to and from the data source.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="716b9-271">L’exemple de code suivant répertorie les noms des propriétés dans le profil utilisateur en liant la <xref:System.Configuration.SettingsProperty.Name%2A> propriété à partir de la méthode statique <xref:System.Web.Profile.ProfileBase.Properties%2A> collection de <xref:System.Configuration.SettingsProperty> des objets sur un <xref:System.Web.UI.WebControls.GridView> contrôle.</span><span class="sxs-lookup"><span data-stu-id="716b9-271">The following code example lists the names of the properties in the user profile by binding the <xref:System.Configuration.SettingsProperty.Name%2A> property from the static <xref:System.Web.Profile.ProfileBase.Properties%2A> collection of <xref:System.Configuration.SettingsProperty> objects to a <xref:System.Web.UI.WebControls.GridView> control.</span></span> <span data-ttu-id="716b9-272">La valeur de propriété sélectionnée est récupérée par nom à l’aide du <xref:System.Web.Profile.ProfileBase.Item%2A> collection.</span><span class="sxs-lookup"><span data-stu-id="716b9-272">The selected property value is retrieved by name using the <xref:System.Web.Profile.ProfileBase.Item%2A> collection.</span></span> <span data-ttu-id="716b9-273">Pour obtenir un exemple d’un fichier Web.config qui spécifie les propriétés pour le profil utilisateur, consultez l’exemple fourni pour la <xref:System.Web.Profile.ProfileBase> classe.</span><span class="sxs-lookup"><span data-stu-id="716b9-273">For an example of a Web.config file that specifies properties for the user profile, see the example provided for the <xref:System.Web.Profile.ProfileBase> class.</span></span>  
+  
+ [!code-aspx-csharp[System.Web.Profile.HttpProfileBase#2](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Profile.HttpProfileBase/CS/ViewProfilecs.aspx#2)]
+ [!code-aspx-vb[System.Web.Profile.HttpProfileBase#2](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Profile.HttpProfileBase/VB/ViewProfilevb.aspx#2)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Configuration.ConfigurationErrorsException">
+          <span data-ttu-id="716b9-274">Impossible de créer un type de propriété spécifié dans la section du fichier Web.config.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-274">A property type specified in the  section of the Web.config file could not be created.</span>
+          </span>
+          <span data-ttu-id="716b9-275">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-275">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-276">L’attribut <see langword="allowAnonymous" /> d’une propriété de la section du fichier Web.config a la valeur <see langword="true" /> et l’attribut <see langword="enabled" /> de l’élément a la valeur <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-276">The <see langword="allowAnonymous" /> attribute for a property in the  section of the Web.config file is set to <see langword="true" /> and the <see langword="enabled" /> attribute of the  element is set to <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="716b9-277">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-277">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-278">L’attribut <see langword="serializeAs" /> d’une propriété de la section du fichier Web.config a la valeur <see cref="F:System.Configuration.SettingsSerializeAs.Binary" /> et la propriété <see cref="P:System.Type.IsSerializable" /> du <see langword="type" /> spécifié retourne <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-278">The <see langword="serializeAs" /> attribute for a property in the  section of the Web.config file is set to <see cref="F:System.Configuration.SettingsSerializeAs.Binary" /> and the <see cref="P:System.Type.IsSerializable" /> property of the specified <see langword="type" /> returns <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="716b9-279">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-279">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-280">Le nom d'un fournisseur spécifié à l'aide de l'attribut <see langword="provider" /> d'une propriété de profil est introuvable dans la collection <see cref="P:System.Web.Profile.ProfileManager.Providers" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-280">The name of a provider specified using the <see langword="provider" /> attribute of a profile property could not be found in the <see cref="P:System.Web.Profile.ProfileManager.Providers" /> collection.</span>
+          </span>
+          <span data-ttu-id="716b9-281">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-281">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-282">Impossible de trouver le <see langword="type" /> spécifié d'une propriété de profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-282">The <see langword="type" /> specified for a profile property could not be found.</span>
+          </span>
+          <span data-ttu-id="716b9-283">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-283">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-284">Une propriété de profil a été spécifiée avec un nom qui correspond à un nom de propriété de la classe de base spécifiée dans l’attribut <see langword="inherits" />de la section.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-284">A profile property was specified with a name that matches a property name on the base class specified in the <see langword="inherits" /> attribute of the  section.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Save">
+      <MemberSignature Language="C#" Value="public override void Save ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Save() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Profile.ProfileBase.Save" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub Save ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void Save();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="716b9-285">Met à jour la source de donnée de profil avec les valeurs de propriété de profil modifiées.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-285">Updates the profile data source with changed profile property values.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-286">Le <xref:System.Web.Profile.ProfileBase.Save%2A> méthode écrit les valeurs de propriété du profil modifié à la source de données.</span><span class="sxs-lookup"><span data-stu-id="716b9-286">The <xref:System.Web.Profile.ProfileBase.Save%2A> method writes modified profile property values to the data source.</span></span> <span data-ttu-id="716b9-287">Le fournisseur de profils peut réduire la quantité d’activité au niveau de la source de données en effectuant des mises à jour uniquement lorsque la <xref:System.Web.Profile.ProfileBase.IsDirty%2A> est définie sur `true`.</span><span class="sxs-lookup"><span data-stu-id="716b9-287">The profile provider can reduce the amount of activity at the data source by performing updates only when the <xref:System.Web.Profile.ProfileBase.IsDirty%2A> property is set to `true`.</span></span> <span data-ttu-id="716b9-288">C’est le cas pour la valeur par défaut <xref:System.Web.Profile.SqlProfileProvider>.</span><span class="sxs-lookup"><span data-stu-id="716b9-288">This is the case for the default <xref:System.Web.Profile.SqlProfileProvider>.</span></span> <span data-ttu-id="716b9-289">Après le <xref:System.Web.Profile.ProfileBase.Save%2A> méthode a enregistré les valeurs de propriété pour la source de données <xref:System.Web.Profile.ProfileBase.IsDirty%2A> a la valeur `false`.</span><span class="sxs-lookup"><span data-stu-id="716b9-289">After the <xref:System.Web.Profile.ProfileBase.Save%2A> method has saved the property values to the data source, <xref:System.Web.Profile.ProfileBase.IsDirty%2A> is set to `false`.</span></span>  
+  
+ <span data-ttu-id="716b9-290">Vous pouvez utiliser la <xref:System.Web.Profile.ProfileModule.ProfileAutoSaving> événement pour implémenter une logique personnalisée qui détermine si une propriété de profil avec un type personnalisé ou un type complexe a été modifiée et poursuivre l’enregistrement automatique des objets modifiés ou annuler la sauvegarde automatique si aucun objet n’a été modifiée.</span><span class="sxs-lookup"><span data-stu-id="716b9-290">You can use the <xref:System.Web.Profile.ProfileModule.ProfileAutoSaving> event to implement custom logic that determines whether a profile property with a custom type or a complex type has been modified and continue with the automatic save for modified objects or cancel the automatic save if no objects have been modified.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetPropertyValue">
+      <MemberSignature Language="C#" Value="public void SetPropertyValue (string propertyName, object propertyValue);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig instance void SetPropertyValue(string propertyName, object propertyValue) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.Profile.ProfileBase.SetPropertyValue(System.String,System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetPropertyValue (propertyName As String, propertyValue As Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetPropertyValue(System::String ^ propertyName, System::Object ^ propertyValue);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="propertyName" Type="System.String" />
+        <Parameter Name="propertyValue" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="propertyName">
+          <span data-ttu-id="716b9-291">Nom de la propriété à définir.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-291">The name of the property to set.</span>
+          </span>
+        </param>
+        <param name="propertyValue">
+          <span data-ttu-id="716b9-292">Valeur à assigner à la propriété.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-292">The value to assign to the property.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="716b9-293">Définit la valeur d'une propriété de profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-293">Sets the value of a profile property.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-294">ASP.NET utilise le <xref:System.Web.Profile.ProfileBase> classe pour créer la classe utilisée pour le profil utilisateur.</span><span class="sxs-lookup"><span data-stu-id="716b9-294">ASP.NET uses the <xref:System.Web.Profile.ProfileBase> class to create the class used for the user profile.</span></span> <span data-ttu-id="716b9-295">Au démarrage d’une application qui a le profil d’utilisateur activé, ASP.NET crée une nouvelle classe de type `ProfileCommon`, qui hérite de la <xref:System.Web.Profile.ProfileBase> classe.</span><span class="sxs-lookup"><span data-stu-id="716b9-295">When an application that has the user profile enabled is started, ASP.NET creates a new class of type `ProfileCommon`, which inherits from the <xref:System.Web.Profile.ProfileBase> class.</span></span> <span data-ttu-id="716b9-296">Des accesseurs fortement typés sont ajoutés à la `ProfileCommon` classe pour chaque propriété définie dans la section de configuration.</span><span class="sxs-lookup"><span data-stu-id="716b9-296">Strongly typed accessors are added to the `ProfileCommon` class for each property defined in the  configuration section.</span></span> <span data-ttu-id="716b9-297">Les accesseurs fortement typés de la `ProfileCommon` classe appel le <xref:System.Web.Profile.ProfileBase.SetPropertyValue%2A> méthode pour passer la propriété valeurs le <xref:System.Web.Profile.ProfileProvider> à stocker dans la source de données.</span><span class="sxs-lookup"><span data-stu-id="716b9-297">The strongly typed accessors of the `ProfileCommon` class call the <xref:System.Web.Profile.ProfileBase.SetPropertyValue%2A> method to pass property values to the <xref:System.Web.Profile.ProfileProvider> to be stored at the data source.</span></span>  
+  
+ <span data-ttu-id="716b9-298">Vous pouvez utiliser la <xref:System.Web.Profile.ProfileBase.SetPropertyValue%2A> méthode pour attribuer des valeurs de propriété dans le profil utilisateur pour votre application par nom.</span><span class="sxs-lookup"><span data-stu-id="716b9-298">You can use the <xref:System.Web.Profile.ProfileBase.SetPropertyValue%2A> method to assign property values in the user profile for your application by name.</span></span> <span data-ttu-id="716b9-299">Les valeurs sont non typées et la vérification du type est effectuée au moment de l’exécution, pas de compilation.</span><span class="sxs-lookup"><span data-stu-id="716b9-299">Values are untyped, and type checking will be done at run time, not compile time.</span></span> <span data-ttu-id="716b9-300">Pour un accès fortement typé aux valeurs de propriété de profil, vous pouvez accéder à la propriété par nom en tant que membre de la `Profile` propriété n’est disponible sur chaque page, par exemple, `Profile.CustomerAddress`.</span><span class="sxs-lookup"><span data-stu-id="716b9-300">For strongly typed access to profile property values, you can access the property by name as a member of the `Profile` property that is available on each page, for example, `Profile.CustomerAddress`.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="716b9-301">L’exemple de code suivant montre une page ASP.NET qui lit et définit la `ZipCode` la propriété spécifiée pour le profil utilisateur.</span><span class="sxs-lookup"><span data-stu-id="716b9-301">The following code example shows an ASP.NET page that reads and sets the `ZipCode` property specified for the user profile.</span></span> <span data-ttu-id="716b9-302">Pour obtenir un exemple d’un fichier Web.config qui spécifie les propriétés pour le profil utilisateur, consultez l’exemple fourni pour la <xref:System.Web.Profile.ProfileBase> classe.</span><span class="sxs-lookup"><span data-stu-id="716b9-302">For an example of a Web.config file that specifies properties for the user profile, see the example provided for the <xref:System.Web.Profile.ProfileBase> class.</span></span>  
+  
+> [!IMPORTANT]
+>  <span data-ttu-id="716b9-303">Cet exemple contient une zone de texte qui accepte l’entrée d’utilisateur, ce qui constitue une menace potentielle pour la sécurité.</span><span class="sxs-lookup"><span data-stu-id="716b9-303">This example contains a text box that accepts user input, which is a potential security threat.</span></span> <span data-ttu-id="716b9-304">Par défaut, les pages web ASP.NET vérifient que l’entrée d’utilisateur n’inclut pas de script ou d’éléments HTML.</span><span class="sxs-lookup"><span data-stu-id="716b9-304">By default, ASP.NET Web pages validate that user input does not include script or HTML elements.</span></span> <span data-ttu-id="716b9-305">Pour plus d’informations, consultez [Vue d’ensemble des attaques de script](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span><span class="sxs-lookup"><span data-stu-id="716b9-305">For more information, see [Script Exploits Overview](http://msdn.microsoft.com/library/772c7312-211a-4eb3-8d6e-eec0aa1dcc07).</span></span>  
+  
+ [!code-aspx-csharp[System.Web.Profile.HttpProfileBase#1](~/samples/snippets/csharp/VS_Snippets_WebNet/System.Web.Profile.HttpProfileBase/CS/defaultcs.aspx#1)]
+ [!code-aspx-vb[System.Web.Profile.HttpProfileBase#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/System.Web.Profile.HttpProfileBase/VB/defaultvb.aspx#1)]  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.Configuration.Provider.ProviderException">
+          <span data-ttu-id="716b9-306">Une tentative de définition d'une valeur de propriété pour un profil anonyme a été effectuée pour une propriété dont l'attribut <see langword="allowAnonymous" /> est <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-306">An attempt was made to set a property value on an anonymous profile where the property's <see langword="allowAnonymous" /> attribute is <see langword="false" />.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Configuration.SettingsPropertyNotFoundException">
+          <span data-ttu-id="716b9-307">Aucune propriété n'est définie pour le profil actuel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-307">There are no properties defined for the current profile.</span>
+          </span>
+          <span data-ttu-id="716b9-308">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-308">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-309">Le nom de propriété de profil spécifié n'existe pas dans le profil actuel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-309">The specified profile property name does not exist in the current profile.</span>
+          </span>
+          <span data-ttu-id="716b9-310">- ou -</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-310">-or-</span>
+          </span>
+          <span data-ttu-id="716b9-311">Le fournisseur de la propriété de profil spécifiée n'a pas reconnu la propriété spécifiée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-311">The provider for the specified profile property did not recognize the specified property.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Configuration.SettingsPropertyIsReadOnlyException">
+          <span data-ttu-id="716b9-312">Une tentative a été faite pour définir une valeur sur une propriété en lecture seule.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-312">An attempt was made to set a value value on a property that was marked as read-only.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.Configuration.SettingsPropertyWrongTypeException">
+          <span data-ttu-id="716b9-313">Une tentative d'assignation d'une valeur à une propriété à l'aide d'un type incompatible a été exécutée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-313">An attempt was made to assign a value to a property using an incompatible type.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="UserName">
+      <MemberSignature Language="C#" Value="public string UserName { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance string UserName" />
+      <MemberSignature Language="DocId" Value="P:System.Web.Profile.ProfileBase.UserName" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property UserName As String" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::String ^ UserName { System::String ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.String</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="716b9-314">Obtient le nom d'utilisateur du profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-314">Gets the user name for the profile.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="716b9-315">Nom d'utilisateur du profil ou identificateur d'utilisateur anonyme assigné au profil.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="716b9-315">The user name for the profile or the anonymous-user identifier assigned to the profile.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="716b9-316">Le <xref:System.Web.Profile.ProfileBase.UserName%2A> propriété retourne le nom de l’utilisateur authentifié auquel le profil est associé ou l’identificateur d’utilisateur anonyme assigné au profil si le <xref:System.Web.Profile.ProfileBase.IsAnonymous%2A> propriété est `true`.</span><span class="sxs-lookup"><span data-stu-id="716b9-316">The <xref:System.Web.Profile.ProfileBase.UserName%2A> property returns either the name of the authenticated user that the profile is associated with or the anonymous user identifier assigned to the profile if the <xref:System.Web.Profile.ProfileBase.IsAnonymous%2A> property is `true`.</span></span>  
+  
+ <span data-ttu-id="716b9-317">L’accès anonyme pour le profil utilisateur est activé à l’aide de la section de configuration et le `allowAnonymous` attribut de l’élément de configuration permet de spécifier les propriétés de profil.</span><span class="sxs-lookup"><span data-stu-id="716b9-317">Anonymous access to the user profile is enabled using the  configuration section and the `allowAnonymous` attribute of the  configuration element used to specify profile properties.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

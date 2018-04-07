@@ -1,0 +1,1061 @@
+<Type Name="ControlAdapter" FullName="System.Web.UI.Adapters.ControlAdapter">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="31e3a9db18b7cba85d5901fe816b3124d2f065ba" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public abstract class ControlAdapter" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit ControlAdapter extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Web.UI.Adapters.ControlAdapter" />
+  <TypeSignature Language="VB.NET" Value="Public MustInherit Class ControlAdapter" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ControlAdapter abstract" />
+  <AssemblyInfo>
+    <AssemblyName>System.Web</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="d349e-101">Personnalise le rendu pour le contrôle dérivé auquel l'adaptateur est joint, afin de modifier le balisage par défaut ou le comportement de navigateurs spécifiques, et constitue la classe de base à partir de laquelle sont hérités tous les adaptateurs de contrôles.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="d349e-101">Customizes rendering for the derived control to which the adapter is attached, to modify the default markup or behavior for specific browsers, and is the base class from which all control adapters inherit.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-102">Adaptateurs de contrôle sont des composants qui substituent certaines <xref:System.Web.UI.Control> classe les méthodes et événements du cycle de vie de l’exécution pour permettre la gestion du navigateur ou spécifique au balisage.</span><span class="sxs-lookup"><span data-stu-id="d349e-102">Control adapters are components that override certain <xref:System.Web.UI.Control> class methods and events in its execution lifecycle to allow browser or markup-specific handling.</span></span> <span data-ttu-id="d349e-103">Le .NET Framework mappe un adaptateur de contrôles dérivés seul à un <xref:System.Web.UI.Control> objet pour chaque demande du client.</span><span class="sxs-lookup"><span data-stu-id="d349e-103">The .NET Framework maps a single derived control adapter to a <xref:System.Web.UI.Control> object for each client request.</span></span>  
+  
+ <span data-ttu-id="d349e-104">Un adaptateur modifie le contrôle d’un navigateur spécifique ou une classe de navigateurs ou agit comme un filtre arbitraire sur certaines fonctions.</span><span class="sxs-lookup"><span data-stu-id="d349e-104">An adapter modifies a control for a specific browser or class of browsers or acts as an arbitrary filter on some capability.</span></span> <span data-ttu-id="d349e-105">En règle générale, l’adaptateur est défini par le langage de balisage par le navigateur (par exemple, XHTML ou HTML 3.2).</span><span class="sxs-lookup"><span data-stu-id="d349e-105">Typically the adapter is defined by the markup language that the browser uses (for example, XHTML or HTML 3.2).</span></span> <span data-ttu-id="d349e-106">Une grande partie de l’adaptabilité dans le comportement de rendu peut être encapsulée dans les classes spécialisées qui dérivent de la <xref:System.Web.UI.HtmlTextWriter> classe.</span><span class="sxs-lookup"><span data-stu-id="d349e-106">Much of the adaptability in rendering behavior can be encapsulated in the specialized classes that derive from the <xref:System.Web.UI.HtmlTextWriter> class.</span></span> <span data-ttu-id="d349e-107">Par conséquent, il est probable qu’une seule carte peut être utilisée pour un nombre de comportements de classe de navigateur ou que cette inclusion de l’adaptabilité dans le <xref:System.Web.UI.HtmlTextWriter> classes peuvent rendre l’utilisation d’un adaptateur de contrôle inutiles.</span><span class="sxs-lookup"><span data-stu-id="d349e-107">Therefore, it is likely that a single adapter can be used for a number of browser class behaviors or that inclusion of the adaptability in the <xref:System.Web.UI.HtmlTextWriter> classes could make the use of a control adapter unnecessary.</span></span>  
+  
+ <span data-ttu-id="d349e-108">Un adaptateur pour une classe de contrôle s’applique à tous les contrôles qui héritent de cette classe, à moins que des adaptateurs plus spécialisés sont présents.</span><span class="sxs-lookup"><span data-stu-id="d349e-108">An adapter for a control class applies to all controls that inherit from that class, unless more specialized adapters are present.</span></span> <span data-ttu-id="d349e-109">Par exemple, un adaptateur pour le <xref:System.Web.UI.WebControls.BaseValidator> classe peut être utilisée pour toutes les `Validator` objets.</span><span class="sxs-lookup"><span data-stu-id="d349e-109">For example, an adapter for the <xref:System.Web.UI.WebControls.BaseValidator> class can be used for all `Validator` objects.</span></span>  
+  
+ <span data-ttu-id="d349e-110">Adaptateurs n’héritent généralement pas directement à partir de la <xref:System.Web.UI.Adapters.ControlAdapter> (classe), mais de l’une de l’adaptateur spécifique à la cible les classes de base qui fournissent des fonctionnalités supplémentaires spécifiques au navigateur contrôle type et la cible ou au rendu particulier.</span><span class="sxs-lookup"><span data-stu-id="d349e-110">Adapters typically do not inherit directly from the <xref:System.Web.UI.Adapters.ControlAdapter> class, but from one of the target-specific adapter base classes that provide additional functionality specific to the control type and target browser or the particular rendering required.</span></span>  
+  
+ <span data-ttu-id="d349e-111">Contrôles eux-mêmes ne requièrent pas nécessairement un adaptateur.</span><span class="sxs-lookup"><span data-stu-id="d349e-111">Controls themselves do not necessarily require an adapter.</span></span> <span data-ttu-id="d349e-112">Si les contrôles sont étendus à travers la composition, les adaptateurs de contrôles enfants sont généralement suffisants.</span><span class="sxs-lookup"><span data-stu-id="d349e-112">If controls are extended through composition, generally the child control adapters are sufficient.</span></span>  
+  
+ <span data-ttu-id="d349e-113">Chaque contrôle possède des mappages explicites aux adaptateurs les fichiers de définition browser.</span><span class="sxs-lookup"><span data-stu-id="d349e-113">Each control has explicit mappings to adapters through the .browser definition files.</span></span> <span data-ttu-id="d349e-114">Ainsi, tout accès à la <xref:System.Web.UI.Control.Adapter%2A?displayProperty=nameWithType> propriété utilise la <xref:System.Web.HttpBrowserCapabilities> objet extrait à partir de fichiers de définition de navigateur pour effectuer la recherche pour le mappage de l’adaptateur à contrôler.</span><span class="sxs-lookup"><span data-stu-id="d349e-114">Thus, any access to the <xref:System.Web.UI.Control.Adapter%2A?displayProperty=nameWithType> property uses the <xref:System.Web.HttpBrowserCapabilities> object extracted from the browser definition files to perform the lookup for the mapping of the adapter to control.</span></span>  
+  
+ <span data-ttu-id="d349e-115">Pendant le traitement, le .NET Framework intercepte les appels aux méthodes substituables d’un contrôle qui peut être spécifique à la cible.</span><span class="sxs-lookup"><span data-stu-id="d349e-115">During processing, the .NET Framework intercepts calls to the overridable methods of a control that could be target-specific.</span></span> <span data-ttu-id="d349e-116">Si un adaptateur de contrôle est attaché, le .NET Framework appelle les méthodes de l’adaptateur associé.</span><span class="sxs-lookup"><span data-stu-id="d349e-116">If a control adapter is attached, the .NET Framework calls the associated adapter methods.</span></span>  
+  
+ <span data-ttu-id="d349e-117">L’adaptateur effectue le rendu du contrôle via le <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d349e-117">The adapter performs rendering for the control through the <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> method.</span></span> <span data-ttu-id="d349e-118">Si la substitution, <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> potentiellement ne doivent pas appeler l’implémentation de classe de base car qui effectue un appel sur le <xref:System.Web.UI.Control.Render%2A?displayProperty=nameWithType> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d349e-118">If overridden, <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> potentially should not call the base class implementation because that performs a call back on the <xref:System.Web.UI.Control.Render%2A?displayProperty=nameWithType> method.</span></span> <span data-ttu-id="d349e-119">Cela peut provoquer le rendu à se produire à deux reprises, une fois par l’adaptateur et une fois par le contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-119">This might cause the rendering to occur twice, once by the adapter and once by the control.</span></span>  
+  
+ <span data-ttu-id="d349e-120">Le <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> les appels de méthode de base sur la <xref:System.Web.UI.Control.Render%2A?displayProperty=nameWithType> méthode du contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-120">The <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> base method calls back on the <xref:System.Web.UI.Control.Render%2A?displayProperty=nameWithType> method of the control.</span></span> <span data-ttu-id="d349e-121">Par conséquent, si vous substituez <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A>, vous ne devez pas appeler l’implémentation de classe de base, sauf si le rendu que vous implémentez est en plus de celles fourni par <xref:System.Web.UI.Control.Render%2A?displayProperty=nameWithType> du contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-121">Thus, if you override <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A>, you should not call the base class implementation unless the rendering you implement is in addition to that provided by <xref:System.Web.UI.Control.Render%2A?displayProperty=nameWithType> of the control.</span></span>  
+  
+ <span data-ttu-id="d349e-122">Vous devez vous assurer que le .NET Framework exécute l’interception pour les adaptateurs des contrôles enfants.</span><span class="sxs-lookup"><span data-stu-id="d349e-122">You must ensure that the .NET Framework performs interception for adapters of the child controls.</span></span> <span data-ttu-id="d349e-123">Ce faire, vous pouvez appeler la <xref:System.Web.UI.Adapters.ControlAdapter.RenderChildren%2A> de base (méthode), qui appelle la <xref:System.Web.UI.Control.RenderChildren%2A?displayProperty=nameWithType> (méthode) du contrôle, à partir de votre <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> remplacer.</span><span class="sxs-lookup"><span data-stu-id="d349e-123">You can do this by calling the <xref:System.Web.UI.Adapters.ControlAdapter.RenderChildren%2A> base method, which calls the <xref:System.Web.UI.Control.RenderChildren%2A?displayProperty=nameWithType> method of the control, from your <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> override.</span></span>  
+  
+ <span data-ttu-id="d349e-124">Le <xref:System.Web.UI.Adapters.ControlAdapter.BeginRender%2A> et <xref:System.Web.UI.Adapters.ControlAdapter.EndRender%2A> méthodes sont appelées par le contrôle immédiatement avant et après (respectivement) les appels de contrôle le <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d349e-124">The <xref:System.Web.UI.Adapters.ControlAdapter.BeginRender%2A> and <xref:System.Web.UI.Adapters.ControlAdapter.EndRender%2A> methods are called by the control immediately before and after (respectively) the control calls the <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> method.</span></span> <span data-ttu-id="d349e-125">Si avant et après le rendu uniquement navigateur-spécifique au traitement des tâches nécessaires, en utilisant <xref:System.Web.UI.Adapters.ControlAdapter.BeginRender%2A> et <xref:System.Web.UI.Adapters.ControlAdapter.EndRender%2A> rendent inutiles remplacer <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A>.</span><span class="sxs-lookup"><span data-stu-id="d349e-125">If pre- and post-rendering are the only browser-specific processing tasks required, using <xref:System.Web.UI.Adapters.ControlAdapter.BeginRender%2A> and <xref:System.Web.UI.Adapters.ControlAdapter.EndRender%2A> might make it unnecessary to override <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A>.</span></span> <span data-ttu-id="d349e-126">Le comportement par défaut de la <xref:System.Web.UI.Adapters.ControlAdapter.BeginRender%2A> et <xref:System.Web.UI.Adapters.ControlAdapter.EndRender%2A> méthodes consiste à appeler les méthodes correspondantes de la <xref:System.Web.UI.HtmlTextWriter>.</span><span class="sxs-lookup"><span data-stu-id="d349e-126">The default behavior of the <xref:System.Web.UI.Adapters.ControlAdapter.BeginRender%2A> and <xref:System.Web.UI.Adapters.ControlAdapter.EndRender%2A> methods is to call the corresponding methods of the <xref:System.Web.UI.HtmlTextWriter>.</span></span>  
+  
+ <span data-ttu-id="d349e-127">Pour maintenir ses propres informations d’état, un adaptateur de contrôle peut substituer la <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState%2A>, <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterControlState%2A>, <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState%2A>, et <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterViewState%2A> méthodes.</span><span class="sxs-lookup"><span data-stu-id="d349e-127">To maintain its own state information, a control adapter can override the <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState%2A>, <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterControlState%2A>, <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState%2A>, and <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterViewState%2A> methods.</span></span> <span data-ttu-id="d349e-128"><xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState%2A>, <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState%2A>, <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterControlState%2A>, et <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterViewState%2A> sont appelées lorsque les États de contrôle et d’affichage privés sont enregistrés et chargés, respectivement.</span><span class="sxs-lookup"><span data-stu-id="d349e-128"><xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState%2A>, <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState%2A>, <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterControlState%2A>, and <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterViewState%2A> are called when the private control and view states are saved and loaded, respectively.</span></span>  
+  
+ <span data-ttu-id="d349e-129">Le <xref:System.Web.UI.Adapters.ControlAdapter.OnInit%2A>, <xref:System.Web.UI.Adapters.ControlAdapter.OnLoad%2A>, <xref:System.Web.UI.Adapters.ControlAdapter.OnPreRender%2A>, et <xref:System.Web.UI.Adapters.ControlAdapter.OnUnload%2A> méthodes de base sur correspondant <xref:System.Web.UI.Control> méthodes de la classe.</span><span class="sxs-lookup"><span data-stu-id="d349e-129">The <xref:System.Web.UI.Adapters.ControlAdapter.OnInit%2A>, <xref:System.Web.UI.Adapters.ControlAdapter.OnLoad%2A>, <xref:System.Web.UI.Adapters.ControlAdapter.OnPreRender%2A>, and <xref:System.Web.UI.Adapters.ControlAdapter.OnUnload%2A> base methods call back on the corresponding <xref:System.Web.UI.Control> class methods.</span></span> <span data-ttu-id="d349e-130">Par conséquent, une de ces <xref:System.Web.UI.Adapters.ControlAdapter> les méthodes qui sont substituées doivent appeler ses méthodes de base ; sinon, l’événement associé la <xref:System.Web.UI.Control> méthode de classe n’est pas déclenchée.</span><span class="sxs-lookup"><span data-stu-id="d349e-130">Thus, any of these <xref:System.Web.UI.Adapters.ControlAdapter> methods that are overridden must call their base methods; otherwise, the event associated with the <xref:System.Web.UI.Control> class method will not be raised.</span></span>  
+  
+ <span data-ttu-id="d349e-131">Contrôles et adaptateurs implémentent éventuellement le <xref:System.Web.UI.IPostBackDataHandler> et <xref:System.Web.UI.IPostBackEventHandler> interfaces.</span><span class="sxs-lookup"><span data-stu-id="d349e-131">Controls and adapters optionally implement the <xref:System.Web.UI.IPostBackDataHandler> and <xref:System.Web.UI.IPostBackEventHandler> interfaces.</span></span> <span data-ttu-id="d349e-132">Le .NET Framework détermine si un adaptateur existe et si l’adaptateur implémente ces interfaces.</span><span class="sxs-lookup"><span data-stu-id="d349e-132">The .NET Framework determines whether an adapter exists and whether the adapter implements these interfaces.</span></span> <span data-ttu-id="d349e-133">Dans ce cas, l’adaptateur doit substituer la <xref:System.Web.UI.IPostBackDataHandler.LoadPostData%2A>, <xref:System.Web.UI.IPostBackDataHandler.RaisePostDataChangedEvent%2A>, et <xref:System.Web.UI.IPostBackEventHandler.RaisePostBackEvent%2A> méthodes, selon les besoins.</span><span class="sxs-lookup"><span data-stu-id="d349e-133">If it does, the adapter should override the <xref:System.Web.UI.IPostBackDataHandler.LoadPostData%2A>, <xref:System.Web.UI.IPostBackDataHandler.RaisePostDataChangedEvent%2A>, and <xref:System.Web.UI.IPostBackEventHandler.RaisePostBackEvent%2A> methods, as necessary.</span></span> <span data-ttu-id="d349e-134">Si les données de publication (postback) ne sont pas reconnues dans l’adaptateur, il doit effectuer un rappel sur le contrôle pour le traiter.</span><span class="sxs-lookup"><span data-stu-id="d349e-134">If the postback data is not recognized in the adapter, it must call back on the control to process it.</span></span> <span data-ttu-id="d349e-135">Gestionnaires d’événements suivants également doivent effectuer un rappel sur le contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-135">Subsequent event handlers also must call back on the control.</span></span>  
+  
+ ]]></format>
+    </remarks>
+    <block subset="none" type="overrides">
+      <para>
+        <span data-ttu-id="d349e-136">Lorsque vous héritez de la <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> (classe), un contrôle qui requiert des fonctionnalités d’adaptateur générales doit avoir un adaptateur correspondant nommé dans le modèle de classe de base <paramref name="ControlType" /><see langword="Adapter" /> (par exemple, <see langword="TextBoxAdapter" />).</span>
+        <span class="sxs-lookup">
+          <span data-stu-id="d349e-136">When you inherit from the <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> class, a control that requires general adapter functionality should have a corresponding adapter base class, named in the pattern <paramref name="ControlType" /><see langword="Adapter" /> (for example, <see langword="TextBoxAdapter" />).</span>
+        </span>
+        <span data-ttu-id="d349e-137">L’adaptateur doit retourner au minimum une instance fortement typée du contrôle via son <see cref="P:System.Web.UI.Adapters.ControlAdapter.Control" /> propriété.</span>
+        <span class="sxs-lookup">
+          <span data-stu-id="d349e-137">The adapter should at a minimum return a strongly-typed instance of the control through its <see cref="P:System.Web.UI.Adapters.ControlAdapter.Control" /> property.</span>
+        </span>  
+  
+1.  <span data-ttu-id="d349e-138">Adaptateurs de contrôle pour un langage de balisage et de type de contrôle donné doit être nommé dans le modèle <paramref name="MarkupControlType" /><see langword="Adapter" /> (par exemple, <see langword="XhtmlTextBoxAdapter" />).</span><span class="sxs-lookup"><span data-stu-id="d349e-138">Control adapters for a given control type and markup language should be named in the pattern <paramref name="MarkupControlType" /><see langword="Adapter" /> (for example, <see langword="XhtmlTextBoxAdapter" />).</span></span><span data-ttu-id="d349e-139">Adaptateurs d’un contrôle doivent être implémentées dans un <see langword="Adapters" /> sous-espace de noms.</span><span class="sxs-lookup"><span data-stu-id="d349e-139">Adapters for a control should be implemented in an <see langword="Adapters" /> subnamespace.</span></span><span data-ttu-id="d349e-140">Adaptateurs de contrôle doivent hériter de la classe de base appropriée et suivre le même modèle d’héritage que le contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-140">Control adapters should inherit from the appropriate base class and follow the same inheritance model as the control.</span></span><span data-ttu-id="d349e-141">Par exemple, un adaptateur pour un contrôle héritant de la <see cref="T:System.Web.UI.Control" /> doit hériter de la classe de base à partir de le le <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> classe ou la <paramref name="ControlType" /><see langword="Adapter" /> classe.</span><span class="sxs-lookup"><span data-stu-id="d349e-141">For example, an adapter for a control inheriting from the <see cref="T:System.Web.UI.Control" /> base class should inherit from either the <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> class or the relevant <paramref name="ControlType" /><see langword="Adapter" /> class.</span></span><span data-ttu-id="d349e-142">Tous les adaptateurs spécialisés doivent être définis pour le contrôle spécialisé, sous tous les nœuds de périphérique dans les fichiers de configuration Browser.</span><span class="sxs-lookup"><span data-stu-id="d349e-142">Any specialized adapters should be defined for the specialized control under all of the device nodes in configuration .browser files.</span></span><span data-ttu-id="d349e-143">Un contrôle implémenté correctement ne doit pas supposer qu’un adaptateur est joint, ou que l’adaptateur attaché implémente une interface spécifique.</span><span class="sxs-lookup"><span data-stu-id="d349e-143">A properly implemented control should not assume that an adapter is attached, or that the attached adapter implements a specific interface.</span></span><span data-ttu-id="d349e-144">Au lieu de cela, il doit vérifier ceux-ci avant d’appeler.</span><span class="sxs-lookup"><span data-stu-id="d349e-144">Instead, it should check for these before calling.</span></span><span data-ttu-id="d349e-145">Il est possible de simuler la substitution de méthodes d’événement protégées dans le contrôle, tels que les <see cref="M:System.Web.UI.WebControls.LinkButton.OnClick(System.EventArgs)" /> méthode de la <see cref="T:System.Web.UI.WebControls.LinkButton" />.</span><span class="sxs-lookup"><span data-stu-id="d349e-145">It is possible to simulate overriding protected event methods in the control, such as the <see cref="M:System.Web.UI.WebControls.LinkButton.OnClick(System.EventArgs)" /> method of the <see cref="T:System.Web.UI.WebControls.LinkButton" />.</span></span><span data-ttu-id="d349e-146">Commencez par créer une classe d’adaptateur avec une <c>OnClick</c> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d349e-146">First, create an adapter class with an <c>OnClick</c> method.</span></span><span data-ttu-id="d349e-147">Puis créer un contrôle dérivé de <see cref="T:System.Web.UI.WebControls.LinkButton" /> et remplacez le <see cref="M:System.Web.UI.WebControls.LinkButton.OnClick(System.EventArgs)" /> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d349e-147">Then create a new control derived from <see cref="T:System.Web.UI.WebControls.LinkButton" /> and override the <see cref="M:System.Web.UI.WebControls.LinkButton.OnClick(System.EventArgs)" /> method.</span></span><span data-ttu-id="d349e-148">Remplacée <see cref="M:System.Web.UI.WebControls.LinkButton.OnClick(System.EventArgs)" /> les appels de méthode le <c>OnClick</c> méthode de l’adaptateur.</span><span class="sxs-lookup"><span data-stu-id="d349e-148">The overriden <see cref="M:System.Web.UI.WebControls.LinkButton.OnClick(System.EventArgs)" /> method calls the <c>OnClick</c> method of the adapter.</span></span><span data-ttu-id="d349e-149">L’objet d’adaptateur est disponible via la méthode protégée <see cref="P:System.Web.UI.Control.Adapter" /> propriété de la <see cref="T:System.Web.UI.Control" /> classe.</span><span class="sxs-lookup"><span data-stu-id="d349e-149">The adapter object is available through the protected <see cref="P:System.Web.UI.Control.Adapter" /> property of the <see cref="T:System.Web.UI.Control" /> class.</span></span><span data-ttu-id="d349e-150">Le <see cref="P:System.Web.UI.Control.Adapter" /> propriété du contrôle est <see langword="null" /> lorsqu’il n’existe aucune carte associée, par conséquent, tout code doit vérifier cette condition avant d’appeler les méthodes de l’adaptateur.</span><span class="sxs-lookup"><span data-stu-id="d349e-150">The <see cref="P:System.Web.UI.Control.Adapter" /> property of the control is <see langword="null" /> when there is no associated adapter, so any code should check for that condition before calling methods of the adapter.</span></span></para>
+    </block>
+    <altmember cref="T:System.Web.UI.Control" />
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected ControlAdapter ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; ControlAdapter();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d349e-151">Initialise une nouvelle instance de la classe <see cref="T:System.Web.UI.Adapters.ControlAdapter" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-151">Initializes a new instance of the <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> class.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-152">Le .NET Framework construit en interne cet adaptateur lorsqu’il crée le correspondant <xref:System.Web.UI.Control> objet.</span><span class="sxs-lookup"><span data-stu-id="d349e-152">The .NET Framework internally constructs this adapter when it creates the corresponding <xref:System.Web.UI.Control> object.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Web.UI.Control" />
+      </Docs>
+    </Member>
+    <Member MemberName="BeginRender">
+      <MemberSignature Language="C#" Value="protected internal virtual void BeginRender (System.Web.UI.HtmlTextWriter writer);" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void BeginRender(class System.Web.UI.HtmlTextWriter writer) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.BeginRender(System.Web.UI.HtmlTextWriter)" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub BeginRender (writer As HtmlTextWriter)" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void BeginRender(System::Web::UI::HtmlTextWriter ^ writer);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="writer" Type="System.Web.UI.HtmlTextWriter" />
+      </Parameters>
+      <Docs>
+        <param name="writer">
+          <span data-ttu-id="d349e-153">
+            <see cref="T:System.Web.UI.HtmlTextWriter" /> contenant les méthodes qui restituent la sortie spécifique à la cible.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-153">The <see cref="T:System.Web.UI.HtmlTextWriter" /> containing methods to render the target-specific output.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d349e-154">Appelé avant le rendu d'un contrôle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-154">Called prior to the rendering of a control.</span>
+          </span>
+          <span data-ttu-id="d349e-155">Dans une classe d'adaptateur dérivée, génère des balises d'ouverture requises par une cible spécifique mais pas par les navigateurs HTML.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-155">In a derived adapter class, generates opening tags that are required by a specific target but not needed by HTML browsers.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-156">Le <xref:System.Web.UI.Adapters.ControlAdapter.BeginRender%2A> méthode est appelée juste avant la <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> (méthode) et permet d’exécuter des cibles spécifiques de prétraitement avant le rendu du contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-156">The <xref:System.Web.UI.Adapters.ControlAdapter.BeginRender%2A> method is called just before the <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> method, and is used to perform target-specific preprocessing before the rendering of the control.</span></span>  
+  
+ <span data-ttu-id="d349e-157">Utilisez le <xref:System.Web.UI.Adapters.ControlAdapter.BeginRender%2A> méthode en combinaison avec le <xref:System.Web.UI.Adapters.ControlAdapter.EndRender%2A> pour s’assurer d’ouverture et de la cohérence des balises de fermeture.</span><span class="sxs-lookup"><span data-stu-id="d349e-157">Use the <xref:System.Web.UI.Adapters.ControlAdapter.BeginRender%2A> method in combination with the <xref:System.Web.UI.Adapters.ControlAdapter.EndRender%2A> method to ensure opening and closing tag consistency.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="d349e-158">Lorsque vous héritez de la <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> (classe), le <see cref="M:System.Web.UI.Adapters.ControlAdapter.BeginRender(System.Web.UI.HtmlTextWriter)" /> les appels de méthode de base du <see cref="M:System.Web.UI.HtmlTextWriter.BeginRender" /> (méthode).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-158">When you inherit from the <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> class, the <see cref="M:System.Web.UI.Adapters.ControlAdapter.BeginRender(System.Web.UI.HtmlTextWriter)" /> base method calls the <see cref="M:System.Web.UI.HtmlTextWriter.BeginRender" /> method.</span>
+            </span>
+            <span data-ttu-id="d349e-159">Par conséquent, les remplacements de la <see cref="M:System.Web.UI.Adapters.ControlAdapter.BeginRender(System.Web.UI.HtmlTextWriter)" /> méthode doit appeler la <see cref="M:System.Web.UI.Adapters.ControlAdapter.BeginRender(System.Web.UI.HtmlTextWriter)" /> méthode de base uniquement si son traitement s’effectue en outre, plutôt qu’à la place de la <see cref="M:System.Web.UI.HtmlTextWriter.BeginRender" /> (méthode).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-159">Thus, overrides of the <see cref="M:System.Web.UI.Adapters.ControlAdapter.BeginRender(System.Web.UI.HtmlTextWriter)" /> method should call the <see cref="M:System.Web.UI.Adapters.ControlAdapter.BeginRender(System.Web.UI.HtmlTextWriter)" /> base method only if its processing is in addition to, rather than instead of, the <see cref="M:System.Web.UI.HtmlTextWriter.BeginRender" /> method.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="M:System.Web.UI.HtmlTextWriter.BeginRender" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.EndRender(System.Web.UI.HtmlTextWriter)" />
+        <altmember cref="T:System.Web.UI.HtmlTextWriter" />
+        <altmember cref="T:System.Web.UI.Control" />
+      </Docs>
+    </Member>
+    <Member MemberName="Browser">
+      <MemberSignature Language="C#" Value="protected System.Web.HttpBrowserCapabilities Browser { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.HttpBrowserCapabilities Browser" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.Adapters.ControlAdapter.Browser" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property Browser As HttpBrowserCapabilities" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property System::Web::HttpBrowserCapabilities ^ Browser { System::Web::HttpBrowserCapabilities ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Web.HttpBrowserCapabilities</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d349e-160">Reçoit une référence aux fonctionnalités de navigation du client effectuant la demande HTTP en cours.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-160">Gets a reference to the browser capabilities of the client making the current HTTP request.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d349e-161">
+            <see cref="T:System.Web.HttpBrowserCapabilities" /> qui spécifie le navigateur client et les fonctions de balise.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-161">An <see cref="T:System.Web.HttpBrowserCapabilities" /> specifying client browser and markup capabilities.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-162">A <xref:System.Web.UI.Adapters.ControlAdapter> objet détermine les fonctionnalités de navigation du client à partir de la <xref:System.Web.HttpBrowserCapabilities> objet qui est retourné par la <xref:System.Web.UI.Adapters.ControlAdapter.Browser%2A> propriété.</span><span class="sxs-lookup"><span data-stu-id="d349e-162">A <xref:System.Web.UI.Adapters.ControlAdapter> object determines the client browser capabilities from the <xref:System.Web.HttpBrowserCapabilities> object that is returned by the <xref:System.Web.UI.Adapters.ControlAdapter.Browser%2A> property.</span></span> <span data-ttu-id="d349e-163">Cela permet la <xref:System.Web.UI.Adapters.ControlAdapter> objet à restituer le balisage de navigateur spécifiques ou de modifier le comportement de la <xref:System.Web.UI.Control>.</span><span class="sxs-lookup"><span data-stu-id="d349e-163">This enables the <xref:System.Web.UI.Adapters.ControlAdapter> object to render browser-specific markup or otherwise modify the behavior of the <xref:System.Web.UI.Control>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d349e-164">L’exemple de code suivant montre comment utiliser le <xref:System.Web.UI.Adapters.ControlAdapter.Browser%2A> propriété pour accéder aux informations du navigateur demandeur.</span><span class="sxs-lookup"><span data-stu-id="d349e-164">The following code example shows how to use the <xref:System.Web.UI.Adapters.ControlAdapter.Browser%2A> property to access the details of the requesting browser.</span></span> <span data-ttu-id="d349e-165">Dans cet exemple, le code vérifie pour déterminer si le navigateur est compatible avec JavaScript, puis permet au développeur de restituer la sortie personnalisée dans ce cas.</span><span class="sxs-lookup"><span data-stu-id="d349e-165">In this example, the code checks to determine whether the browser is compatible with JavaScript, and then allows the developer to render customized output in that case.</span></span>  
+  
+ [!code-cpp[ControlAdapter_Browser#1](~/samples/snippets/cpp/VS_Snippets_WebNet/ControlAdapter_Browser/CPP/controladapter_browser.cpp#1)]
+ [!code-csharp[ControlAdapter_Browser#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlAdapter_Browser/CS/controladapter_browser.cs#1)]
+ [!code-vb[ControlAdapter_Browser#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlAdapter_Browser/VB/controladapter_browser.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Web.UI.Control" />
+        <altmember cref="T:System.Web.HttpBrowserCapabilities" />
+        <altmember cref="T:System.Web.Configuration.HttpCapabilitiesBase" />
+      </Docs>
+    </Member>
+    <Member MemberName="Control">
+      <MemberSignature Language="C#" Value="protected System.Web.UI.Control Control { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.UI.Control Control" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.Adapters.ControlAdapter.Control" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property Control As Control" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property System::Web::UI::Control ^ Control { System::Web::UI::Control ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Web.UI.Control</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d349e-166">Reçoit une référence au contrôle auquel cet adaptateur de contrôles est joint.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-166">Gets a reference to the control to which this control adapter is attached.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d349e-167">
+            <see cref="T:System.Web.UI.Control" /> auquel <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> est attaché.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-167">The <see cref="T:System.Web.UI.Control" /> to which this <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> is attached.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-168">Lorsqu’un adaptateur de contrôles dérivés est attaché à un contrôle, le .NET Framework appelle certains membres de l’adaptateur au lieu des membres du contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-168">When a derived control adapter is attached to a control, the .NET Framework calls certain adapter members instead of the control members.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d349e-169">L’exemple de code suivant montre comment dériver un contrôle personnalisé à partir de la <xref:System.Web.UI.Control> de classe et ensuite créer un adaptateur correspondant qui hérite de la <xref:System.Web.UI.Adapters.ControlAdapter> classe.</span><span class="sxs-lookup"><span data-stu-id="d349e-169">The following code example shows how to derive a custom control from the <xref:System.Web.UI.Control> class, and then create a corresponding adapter that inherits from the <xref:System.Web.UI.Adapters.ControlAdapter> class.</span></span> <span data-ttu-id="d349e-170">L’adaptateur substitue le <xref:System.Web.UI.Adapters.ControlAdapter.Control%2A> propriété et retourne une référence fortement typée au contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-170">The adapter overrides the <xref:System.Web.UI.Adapters.ControlAdapter.Control%2A> property and returns a strongly-typed reference to the control.</span></span>  
+  
+ [!code-cpp[ControlAdapter.Control#1](~/samples/snippets/cpp/VS_Snippets_WebNet/ControlAdapter.Control/CPP/controladapter.control.cpp#1)]
+ [!code-csharp[ControlAdapter.Control#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlAdapter.Control/CS/controladapter.control.cs#1)]
+ [!code-vb[ControlAdapter.Control#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlAdapter.Control/VB/controladapter.control.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="d349e-171">Lorsque vous héritez de la <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> (classe), au minimum, vous devez implémenter un <see langword="Control" /> propriété pour retourner une instance fortement typée du contrôle, comme indiqué dans la section exemple.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-171">When you inherit from the <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> class, at a minimum, you should implement a <see langword="Control" /> property to return a strongly-typed instance of the control, as shown in the Example section.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="T:System.Web.UI.Control" />
+      </Docs>
+    </Member>
+    <Member MemberName="CreateChildControls">
+      <MemberSignature Language="C#" Value="protected internal virtual void CreateChildControls ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void CreateChildControls() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.CreateChildControls" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub CreateChildControls ()" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void CreateChildControls();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d349e-172">Crée les contrôles enfants spécifiques à la cible pour un contrôle composite.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-172">Creates the target-specific child controls for a composite control.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-173">S’il existe un adaptateur de contrôles dérivés est attaché à un <xref:System.Web.UI.Control> objet et la <xref:System.Web.UI.Adapters.ControlAdapter.CreateChildControls%2A> méthode est substituée, la substitution est appelée au lieu du <xref:System.Web.UI.Control.CreateChildControls%2A?displayProperty=nameWithType> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d349e-173">If there is a derived control adapter attached to a <xref:System.Web.UI.Control> object and the <xref:System.Web.UI.Adapters.ControlAdapter.CreateChildControls%2A> method is overridden, the override is called instead of the <xref:System.Web.UI.Control.CreateChildControls%2A?displayProperty=nameWithType> method.</span></span> <span data-ttu-id="d349e-174">Par conséquent, <xref:System.Web.UI.Adapters.ControlAdapter.CreateChildControls%2A> peut être utilisé pour créer un jeu de contrôle enfant spécifique à la cible.</span><span class="sxs-lookup"><span data-stu-id="d349e-174">Thus, <xref:System.Web.UI.Adapters.ControlAdapter.CreateChildControls%2A> can be used to create a target-specific child control set.</span></span>  
+  
+ <span data-ttu-id="d349e-175">Pour plus d’informations sur la combinaison de contrôles pour créer un nouveau contrôle, consultez [contrôles composites](http://msdn.microsoft.com/library/fb174677-d845-467c-8bf3-cc096b2490b0).</span><span class="sxs-lookup"><span data-stu-id="d349e-175">For more information about combining controls to create a new control, see [Composite Controls](http://msdn.microsoft.com/library/fb174677-d845-467c-8bf3-cc096b2490b0).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="d349e-176">Si vous créez une classe qui hérite et substituez la <see cref="M:System.Web.UI.Adapters.ControlAdapter.CreateChildControls" /> méthode, n’appelez pas la méthode de base, sauf si vous souhaitez ajouter des contrôles à ceux créée par la méthode de base.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-176">If you create an inheriting class and override the <see cref="M:System.Web.UI.Adapters.ControlAdapter.CreateChildControls" /> method, do not call the base method unless you want to add controls to those created by the base method.</span>
+            </span>
+            <span data-ttu-id="d349e-177">Sinon, vous pouvez créer deux jeux d’enfants contrôles.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-177">Otherwise you could create two sets of child controls.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="M:System.Web.UI.Control.CreateChildControls" />
+        <altmember cref="T:System.Web.UI.Control" />
+      </Docs>
+    </Member>
+    <Member MemberName="EndRender">
+      <MemberSignature Language="C#" Value="protected internal virtual void EndRender (System.Web.UI.HtmlTextWriter writer);" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void EndRender(class System.Web.UI.HtmlTextWriter writer) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.EndRender(System.Web.UI.HtmlTextWriter)" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub EndRender (writer As HtmlTextWriter)" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void EndRender(System::Web::UI::HtmlTextWriter ^ writer);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="writer" Type="System.Web.UI.HtmlTextWriter" />
+      </Parameters>
+      <Docs>
+        <param name="writer">
+          <span data-ttu-id="d349e-178">
+            <see cref="T:System.Web.UI.HtmlTextWriter" /> contenant les méthodes qui restituent la sortie spécifique à la cible.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-178">The <see cref="T:System.Web.UI.HtmlTextWriter" /> containing methods to render the target-specific output.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d349e-179">Appelé après le rendu d'un contrôle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-179">Called after the rendering of a control.</span>
+          </span>
+          <span data-ttu-id="d349e-180">Dans une classe d'adaptateur dérivée, génère des balises de fermeture requises par une cible spécifique mais pas par les navigateurs HTML.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-180">In a derived adapter class, generates closing tags that are required by a specific target but not needed by HTML browsers.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-181">Le <xref:System.Web.UI.Adapters.ControlAdapter.EndRender%2A> méthode est appelée juste après le <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> (méthode) et est utilisé pour effectuer le traitement des résultats spécifiques à la cible après le rendu du contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-181">The <xref:System.Web.UI.Adapters.ControlAdapter.EndRender%2A> method is called just after the <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> method, and is used to perform target-specific postprocessing after the rendering of the control.</span></span>  
+  
+ <span data-ttu-id="d349e-182">Utilisez le <xref:System.Web.UI.Adapters.ControlAdapter.EndRender%2A> méthode en combinaison avec le <xref:System.Web.UI.Adapters.ControlAdapter.BeginRender%2A> pour s’assurer d’ouverture et de la cohérence des balises de fermeture.</span><span class="sxs-lookup"><span data-stu-id="d349e-182">Use the <xref:System.Web.UI.Adapters.ControlAdapter.EndRender%2A> method in combination with the <xref:System.Web.UI.Adapters.ControlAdapter.BeginRender%2A> method to ensure opening and closing tag consistency.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="d349e-183">Lorsque vous héritez de la <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> (classe), le <see cref="M:System.Web.UI.Adapters.ControlAdapter.EndRender(System.Web.UI.HtmlTextWriter)" /> les appels de méthode de base du <see cref="M:System.Web.UI.HtmlTextWriter.EndRender" /> (méthode).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-183">When you inherit from the <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> class, the <see cref="M:System.Web.UI.Adapters.ControlAdapter.EndRender(System.Web.UI.HtmlTextWriter)" /> base method calls the <see cref="M:System.Web.UI.HtmlTextWriter.EndRender" /> method.</span>
+            </span>
+            <span data-ttu-id="d349e-184">Par conséquent, les remplacements de la <see cref="M:System.Web.UI.Adapters.ControlAdapter.EndRender(System.Web.UI.HtmlTextWriter)" /> méthode doit appeler la <see cref="M:System.Web.UI.Adapters.ControlAdapter.EndRender(System.Web.UI.HtmlTextWriter)" /> méthode de base uniquement si son traitement s’effectue en outre, plutôt qu’à la place de la <see cref="M:System.Web.UI.HtmlTextWriter.EndRender" /> (méthode).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-184">Thus, overrides of the <see cref="M:System.Web.UI.Adapters.ControlAdapter.EndRender(System.Web.UI.HtmlTextWriter)" /> method should call the <see cref="M:System.Web.UI.Adapters.ControlAdapter.EndRender(System.Web.UI.HtmlTextWriter)" /> base method only if its processing is in addition to, rather than instead of, the <see cref="M:System.Web.UI.HtmlTextWriter.EndRender" /> method.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="M:System.Web.UI.HtmlTextWriter.EndRender" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.BeginRender(System.Web.UI.HtmlTextWriter)" />
+        <altmember cref="T:System.Web.UI.HtmlTextWriter" />
+        <altmember cref="T:System.Web.UI.Control" />
+      </Docs>
+    </Member>
+    <Member MemberName="LoadAdapterControlState">
+      <MemberSignature Language="C#" Value="protected internal virtual void LoadAdapterControlState (object state);" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void LoadAdapterControlState(object state) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.LoadAdapterControlState(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub LoadAdapterControlState (state As Object)" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void LoadAdapterControlState(System::Object ^ state);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="state" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="state">
+          <span data-ttu-id="d349e-185">
+            <see cref="T:System.Object" /> contenant les informations d'état du contrôle de la carte sous forme de <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-185">An <see cref="T:System.Object" /> that contains the adapter's control state information as a <see cref="T:System.Web.UI.StateBag" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d349e-186">Charge des informations sur l'état du contrôle d'adaptateur qui ont été enregistrées par <see cref="M:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState" />, lors d'une demande antérieure, sur la page sur laquelle réside le contrôle associé à cet adaptateur de contrôles.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-186">Loads adapter control state information that was saved by <see cref="M:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState" /> during a previous request to the page where the control associated with this control adapter resides.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-187">L’état du contrôle est les informations d’état essentielles nécessaires même si l’état d’affichage est désactivé.</span><span class="sxs-lookup"><span data-stu-id="d349e-187">Control state is the essential state information needed even if view state is disabled.</span></span> <span data-ttu-id="d349e-188">Lorsqu’un adaptateur doit gérer ses propres informations d’état de contrôle, il peut remplacer le <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterControlState%2A> et <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState%2A> méthodes.</span><span class="sxs-lookup"><span data-stu-id="d349e-188">When an adapter needs to maintain its own control state information, it can override the <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterControlState%2A> and <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState%2A> methods.</span></span>  
+  
+ <span data-ttu-id="d349e-189">Un adaptateur peut avoir besoin gérer les informations d’état de contrôle lorsque des fonctionnalités qui ont besoin d’état conservé entre les demandes, indépendamment de l’état du contrôle associé.</span><span class="sxs-lookup"><span data-stu-id="d349e-189">An adapter might need to maintain control state information when there are features that need to have state maintained across requests, independent from the state of the associated control.</span></span> <span data-ttu-id="d349e-190">Par exemple, un contrôle composite constitué d’un grand affichage textuel et un groupe de <xref:System.Web.UI.WebControls.RadioButton> contrôles peuvent afficher comme une seule vue sur les navigateurs d’ordinateur de bureau.</span><span class="sxs-lookup"><span data-stu-id="d349e-190">For example, a composite control consisting of a large textual display and a group of <xref:System.Web.UI.WebControls.RadioButton> controls might render as a single view on desktop computer browsers.</span></span> <span data-ttu-id="d349e-191">Sur d’autres navigateurs, il peut fractionner son rendu, une vue pour l’affichage de texte et l’autre pour le groupe de cases d’option.</span><span class="sxs-lookup"><span data-stu-id="d349e-191">On other browsers, it might split its rendering—one view for the textual display and the other for the radio button group.</span></span> <span data-ttu-id="d349e-192">L’adaptateur doit maintenir ses propres informations spécifiques à la cible sur la vue actuellement active.</span><span class="sxs-lookup"><span data-stu-id="d349e-192">The adapter would need to maintain its own target-specific information about the currently active view.</span></span>  
+  
+ <span data-ttu-id="d349e-193">Le <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterControlState%2A> méthode est appelée immédiatement après la <xref:System.Web.UI.Control.LoadControlState%2A?displayProperty=nameWithType> (méthode), dans le `LoadState` phase du cycle de vie.</span><span class="sxs-lookup"><span data-stu-id="d349e-193">The <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterControlState%2A> method is called immediately after the <xref:System.Web.UI.Control.LoadControlState%2A?displayProperty=nameWithType> method, in the `LoadState` lifecycle stage.</span></span> <span data-ttu-id="d349e-194">L’état de contrôle de carte est séparée et en plus de l’état du contrôle du contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-194">The adapter control state is separate and in addition to the control state of the control.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Web.UI.Control.LoadControlState(System.Object)" />
+        <altmember cref="T:System.Web.UI.Control" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.LoadAdapterViewState(System.Object)" />
+      </Docs>
+    </Member>
+    <Member MemberName="LoadAdapterViewState">
+      <MemberSignature Language="C#" Value="protected internal virtual void LoadAdapterViewState (object state);" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void LoadAdapterViewState(object state) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.LoadAdapterViewState(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub LoadAdapterViewState (state As Object)" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void LoadAdapterViewState(System::Object ^ state);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="state" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="state">
+          <span data-ttu-id="d349e-195">Un <see cref="T:System.Object" /> qui contient les informations sur l'état d'affichage de l'adaptateur comme <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-195">An <see cref="T:System.Object" /> that contains the adapter view state information as a <see cref="T:System.Web.UI.StateBag" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d349e-196">Charge des informations sur l'état d'affichage de l'adaptateur qui ont été enregistrées par <see cref="M:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState" />, lors d'une demande antérieure, sur la page sur laquelle réside le contrôle associé à cet adaptateur de contrôles.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-196">Loads adapter view state information that was saved by <see cref="M:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState" /> during a previous request to the page where the control associated with this control adapter resides.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-197">Lorsqu’un adaptateur doit gérer ses propres informations d’état de vue, il peut substituer les <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterViewState%2A> et <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState%2A> méthodes.</span><span class="sxs-lookup"><span data-stu-id="d349e-197">When an adapter needs to maintain its own view state information, it can override the <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterViewState%2A> and <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState%2A> methods.</span></span>  
+  
+ <span data-ttu-id="d349e-198">Un adaptateur doit gérer les informations d’état de vue de données qui doivent être maintenues dans des demandes, indépendamment de l’état d’affichage du contrôle associé.</span><span class="sxs-lookup"><span data-stu-id="d349e-198">An adapter needs to maintain view state information when there is data that must be maintained across requests, independent from the view state of the associated control.</span></span> <span data-ttu-id="d349e-199">Par exemple, un contrôle de grille sur les navigateurs d’ordinateur de bureau peut rendre comme une vue unique des lignes et colonnes de valeurs.</span><span class="sxs-lookup"><span data-stu-id="d349e-199">For example, a grid control on desktop computer browsers might render as a single view of rows and columns of values.</span></span> <span data-ttu-id="d349e-200">Sur d’autres navigateurs, il peut fractionner son rendu en plusieurs vues distinctes, telles qu’une liste de lignes et les détails d’une seule ligne.</span><span class="sxs-lookup"><span data-stu-id="d349e-200">On other browsers, it might split its rendering into multiple separate views, such as a list of rows and details of a single row.</span></span> <span data-ttu-id="d349e-201">L’adaptateur devrait maintenir les données pour les vues qui ne sont pas actuellement actifs dans l’état d’affichage.</span><span class="sxs-lookup"><span data-stu-id="d349e-201">The adapter would need to maintain the data for the views that are not currently active in view state.</span></span>  
+  
+ <span data-ttu-id="d349e-202">Le <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterViewState%2A> méthode est appelée immédiatement avant le <xref:System.Web.UI.Control.LoadViewState%2A?displayProperty=nameWithType> méthode dans le `LoadState` phase du cycle de vie.</span><span class="sxs-lookup"><span data-stu-id="d349e-202">The <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterViewState%2A> method is called immediately before the <xref:System.Web.UI.Control.LoadViewState%2A?displayProperty=nameWithType> method in the `LoadState` lifecycle stage.</span></span> <span data-ttu-id="d349e-203">L’état d’affichage de l’adaptateur est séparée et en plus de l’état d’affichage du contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-203">The adapter view state is separate and in addition to the view state of the control.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Web.UI.Control.LoadViewState(System.Object)" />
+        <altmember cref="T:System.Web.UI.Control" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.LoadAdapterControlState(System.Object)" />
+        <altmember cref="P:System.Web.UI.Control.ViewState" />
+      </Docs>
+    </Member>
+    <Member MemberName="OnInit">
+      <MemberSignature Language="C#" Value="protected internal virtual void OnInit (EventArgs e);" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void OnInit(class System.EventArgs e) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.OnInit(System.EventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub OnInit (e As EventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void OnInit(EventArgs ^ e);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="e" Type="System.EventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="e">
+          <span data-ttu-id="d349e-204">
+            <see cref="T:System.EventArgs" /> qui contient les données d'événement.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-204">An <see cref="T:System.EventArgs" /> that contains the event data.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d349e-205">Substitue la méthode <see cref="M:System.Web.UI.Control.OnInit(System.EventArgs)" /> au contrôle associé.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-205">Overrides the <see cref="M:System.Web.UI.Control.OnInit(System.EventArgs)" /> method for the associated control.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-206">S’il existe un adaptateur est joint à un <xref:System.Web.UI.Control> objet et la <xref:System.Web.UI.Adapters.ControlAdapter.OnInit%2A> méthode est substituée, la méthode de substitution est appelée au lieu du <xref:System.Web.UI.Control.OnInit%2A?displayProperty=nameWithType> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d349e-206">If there is an adapter attached to a <xref:System.Web.UI.Control> object and the <xref:System.Web.UI.Adapters.ControlAdapter.OnInit%2A> method is overridden, the override method is called instead of the <xref:System.Web.UI.Control.OnInit%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ <span data-ttu-id="d349e-207">Substituer <xref:System.Web.UI.Adapters.ControlAdapter.OnInit%2A> pour exécuter le traitement spécifique à la cible dans le `Initialize` phase du cycle de vie de contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-207">Override <xref:System.Web.UI.Adapters.ControlAdapter.OnInit%2A> to perform target-specific processing in the `Initialize` stage of the control lifecycle.</span></span> <span data-ttu-id="d349e-208">En règle générale, ce sont des fonctions qui sont effectuées lorsqu’un contrôle est créé.</span><span class="sxs-lookup"><span data-stu-id="d349e-208">Typically, these are functions that are performed when a control is created.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="d349e-209">L’exemple de code suivant illustre un adaptateur de contrôle personnalisé à partir de la <xref:System.Web.UI.Adapters.ControlAdapter> classe.</span><span class="sxs-lookup"><span data-stu-id="d349e-209">The following code sample derives a custom control adapter from the <xref:System.Web.UI.Adapters.ControlAdapter> class.</span></span> <span data-ttu-id="d349e-210">Il remplace ensuite le <xref:System.Web.UI.Adapters.ControlAdapter.OnInit%2A> méthode pour définir une propriété sur le contrôle associé et appeler la méthode de base pour terminer l’initialisation du contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-210">It then overrides the <xref:System.Web.UI.Adapters.ControlAdapter.OnInit%2A> method to set a property on the associated control and call the base method to complete the control initialization.</span></span>  
+  
+ [!code-cpp[ControlAdapter_OnInit#1](~/samples/snippets/cpp/VS_Snippets_WebNet/ControlAdapter_OnInit/CPP/controladapter_oninit.cpp#1)]
+ [!code-csharp[ControlAdapter_OnInit#1](~/samples/snippets/csharp/VS_Snippets_WebNet/ControlAdapter_OnInit/CS/controladapter_oninit.cs#1)]
+ [!code-vb[ControlAdapter_OnInit#1](~/samples/snippets/visualbasic/VS_Snippets_WebNet/ControlAdapter_OnInit/VB/controladapter_oninit.vb#1)]  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="d349e-211">Lorsque vous héritez de la <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> classe et l’adaptateur substitue la <see cref="M:System.Web.UI.Adapters.ControlAdapter.OnInit(System.EventArgs)" /> (méthode), l’adaptateur doit appeler la méthode correspondante de la classe de base, qui à son tour appelle la <see cref="M:System.Web.UI.Control.OnInit(System.EventArgs)" /> (méthode).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-211">When you inherit from the <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> class and the adapter overrides the <see cref="M:System.Web.UI.Adapters.ControlAdapter.OnInit(System.EventArgs)" /> method, the adapter must call the corresponding base class method, which in turn calls the <see cref="M:System.Web.UI.Control.OnInit(System.EventArgs)" /> method.</span>
+            </span>
+            <span data-ttu-id="d349e-212">Si le <see cref="M:System.Web.UI.Control.OnInit(System.EventArgs)" /> méthode n’est pas appelée, le <see cref="E:System.Web.UI.Control.Init" /> événement ne sera pas déclenché.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-212">If the <see cref="M:System.Web.UI.Control.OnInit(System.EventArgs)" /> method is not called, the <see cref="E:System.Web.UI.Control.Init" /> event will not be raised.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="E:System.Web.UI.Control.Init" />
+        <altmember cref="M:System.Web.UI.Control.OnInit(System.EventArgs)" />
+        <altmember cref="T:System.Web.UI.Control" />
+      </Docs>
+    </Member>
+    <Member MemberName="OnLoad">
+      <MemberSignature Language="C#" Value="protected internal virtual void OnLoad (EventArgs e);" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void OnLoad(class System.EventArgs e) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.OnLoad(System.EventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub OnLoad (e As EventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void OnLoad(EventArgs ^ e);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="e" Type="System.EventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="e">
+          <span data-ttu-id="d349e-213">
+            <see cref="T:System.EventArgs" /> qui contient les données d'événement.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-213">An <see cref="T:System.EventArgs" /> that contains the event data.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d349e-214">Substitue la méthode <see cref="M:System.Web.UI.Control.OnLoad(System.EventArgs)" /> au contrôle associé.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-214">Overrides the <see cref="M:System.Web.UI.Control.OnLoad(System.EventArgs)" /> method for the associated control.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-215">S’il existe un adaptateur est joint à un <xref:System.Web.UI.Control> objet et la <xref:System.Web.UI.Adapters.ControlAdapter.OnLoad%2A> méthode est substituée, la méthode de substitution est appelée au lieu du <xref:System.Web.UI.Control.OnLoad%2A?displayProperty=nameWithType> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d349e-215">If there is an adapter attached to a <xref:System.Web.UI.Control> object and the <xref:System.Web.UI.Adapters.ControlAdapter.OnLoad%2A> method is overridden, the override method is called instead of the <xref:System.Web.UI.Control.OnLoad%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ <span data-ttu-id="d349e-216">Remplacer la <xref:System.Web.UI.Adapters.ControlAdapter.OnLoad%2A> méthode pour exécuter le traitement spécifique à la cible dans le `Load` phase du cycle de vie de contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-216">Override the <xref:System.Web.UI.Adapters.ControlAdapter.OnLoad%2A> method to perform target-specific processing in the `Load` stage of the control lifecycle.</span></span> <span data-ttu-id="d349e-217">En règle générale, ce sont des fonctions qui doivent être effectuées pour chaque demande du client.</span><span class="sxs-lookup"><span data-stu-id="d349e-217">Typically, these are functions that should be performed for each client request.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="d349e-218">Lorsque vous héritez de la <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> classe et l’adaptateur substitue la <see cref="M:System.Web.UI.Adapters.ControlAdapter.OnLoad(System.EventArgs)" /> (méthode), l’adaptateur doit appeler la méthode correspondante de la classe de base, qui à son tour appelle la <see cref="M:System.Web.UI.Control.OnLoad(System.EventArgs)" /> (méthode).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-218">When you inherit from the <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> class and the adapter overrides the <see cref="M:System.Web.UI.Adapters.ControlAdapter.OnLoad(System.EventArgs)" /> method, the adapter must call the corresponding base class method, which in turn calls the <see cref="M:System.Web.UI.Control.OnLoad(System.EventArgs)" /> method.</span>
+            </span>
+            <span data-ttu-id="d349e-219">Si <see cref="M:System.Web.UI.Control.OnLoad(System.EventArgs)" /> n’est pas appelée, le <see cref="E:System.Web.UI.Control.Load" /> événement ne sera pas déclenché.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-219">If <see cref="M:System.Web.UI.Control.OnLoad(System.EventArgs)" /> is not called, the <see cref="E:System.Web.UI.Control.Load" /> event will not be raised.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="E:System.Web.UI.Control.Load" />
+        <altmember cref="M:System.Web.UI.Control.OnLoad(System.EventArgs)" />
+        <altmember cref="T:System.Web.UI.Control" />
+      </Docs>
+    </Member>
+    <Member MemberName="OnPreRender">
+      <MemberSignature Language="C#" Value="protected internal virtual void OnPreRender (EventArgs e);" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void OnPreRender(class System.EventArgs e) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.OnPreRender(System.EventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub OnPreRender (e As EventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void OnPreRender(EventArgs ^ e);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="e" Type="System.EventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="e">
+          <span data-ttu-id="d349e-220">
+            <see cref="T:System.EventArgs" /> qui contient les données d'événement.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-220">An <see cref="T:System.EventArgs" /> that contains the event data.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d349e-221">Substitue la méthode <see cref="M:System.Web.UI.Control.OnPreRender(System.EventArgs)" /> au contrôle associé.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-221">Overrides the <see cref="M:System.Web.UI.Control.OnPreRender(System.EventArgs)" /> method for the associated control.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-222">S’il existe un adaptateur est joint à un <xref:System.Web.UI.Control> objet et la <xref:System.Web.UI.Adapters.ControlAdapter.OnPreRender%2A> méthode est substituée, la méthode de substitution est appelée au lieu du <xref:System.Web.UI.Control.OnPreRender%2A?displayProperty=nameWithType> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d349e-222">If there is an adapter attached to a <xref:System.Web.UI.Control> object and the <xref:System.Web.UI.Adapters.ControlAdapter.OnPreRender%2A> method is overridden, the override method is called instead of the <xref:System.Web.UI.Control.OnPreRender%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ <span data-ttu-id="d349e-223">Remplacer la <xref:System.Web.UI.Adapters.ControlAdapter.OnPreRender%2A> méthode pour exécuter le traitement spécifique à la cible dans le `PreRender` phase du cycle de vie de contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-223">Override the <xref:System.Web.UI.Adapters.ControlAdapter.OnPreRender%2A> method to perform target-specific processing in the `PreRender` stage of the control lifecycle.</span></span> <span data-ttu-id="d349e-224">En règle générale, ce sont des fonctions qui précèdent immédiatement le rendu de la sortie du contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-224">Typically, these are functions that immediately precede rendering of the control output.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="d349e-225">Lorsque vous héritez de la <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> classe et l’adaptateur substitue la <see cref="M:System.Web.UI.Adapters.ControlAdapter.OnPreRender(System.EventArgs)" /> (méthode), l’adaptateur doit appeler la méthode correspondante de la classe de base, qui à son tour appelle la <see cref="M:System.Web.UI.Control.OnPreRender(System.EventArgs)" /> (méthode).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-225">When you inherit from the <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> class and the adapter overrides the <see cref="M:System.Web.UI.Adapters.ControlAdapter.OnPreRender(System.EventArgs)" /> method, the adapter must call the corresponding base class method, which in turn calls the <see cref="M:System.Web.UI.Control.OnPreRender(System.EventArgs)" /> method.</span>
+            </span>
+            <span data-ttu-id="d349e-226">Si le <see cref="M:System.Web.UI.Control.OnPreRender(System.EventArgs)" /> méthode n’est pas appelée, le <see cref="E:System.Web.UI.Control.PreRender" /> événement ne sera pas déclenché.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-226">If the <see cref="M:System.Web.UI.Control.OnPreRender(System.EventArgs)" /> method is not called, the <see cref="E:System.Web.UI.Control.PreRender" /> event will not be raised.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="E:System.Web.UI.Control.PreRender" />
+        <altmember cref="M:System.Web.UI.Control.OnPreRender(System.EventArgs)" />
+        <altmember cref="T:System.Web.UI.Control" />
+      </Docs>
+    </Member>
+    <Member MemberName="OnUnload">
+      <MemberSignature Language="C#" Value="protected internal virtual void OnUnload (EventArgs e);" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void OnUnload(class System.EventArgs e) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.OnUnload(System.EventArgs)" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub OnUnload (e As EventArgs)" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void OnUnload(EventArgs ^ e);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="e" Type="System.EventArgs" />
+      </Parameters>
+      <Docs>
+        <param name="e">
+          <span data-ttu-id="d349e-227">
+            <see cref="T:System.EventArgs" /> qui contient les données d'événement.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-227">An <see cref="T:System.EventArgs" /> that contains the event data.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d349e-228">Substitue la méthode <see cref="M:System.Web.UI.Control.OnUnload(System.EventArgs)" /> au contrôle associé.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-228">Overrides the <see cref="M:System.Web.UI.Control.OnUnload(System.EventArgs)" /> method for the associated control.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-229">S’il existe un adaptateur est joint à un <xref:System.Web.UI.Control> objet et la <xref:System.Web.UI.Adapters.ControlAdapter.OnUnload%2A> méthode est substituée, la méthode de substitution est appelée au lieu du <xref:System.Web.UI.Control.OnUnload%2A?displayProperty=nameWithType> (méthode).</span><span class="sxs-lookup"><span data-stu-id="d349e-229">If there is an adapter attached to a <xref:System.Web.UI.Control> object and the <xref:System.Web.UI.Adapters.ControlAdapter.OnUnload%2A> method is overridden, the override method is called instead of the <xref:System.Web.UI.Control.OnUnload%2A?displayProperty=nameWithType> method.</span></span>  
+  
+ <span data-ttu-id="d349e-230">Remplacer la <xref:System.Web.UI.Adapters.ControlAdapter.OnUnload%2A> méthode à exécuter le traitement spécifique à la cible le `Unload` phase du cycle de vie de contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-230">Override the <xref:System.Web.UI.Adapters.ControlAdapter.OnUnload%2A> method to do target-specific processing in the `Unload` stage of the control lifecycle.</span></span> <span data-ttu-id="d349e-231">En règle générale, il s’agit des fonctions de nettoyage qui précèdent la disposition du contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-231">Typically, these are cleanup functions that precede disposition of the control.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="d349e-232">Lorsque vous héritez de la <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> classe et l’adaptateur substitue la <see cref="M:System.Web.UI.Adapters.ControlAdapter.OnUnload(System.EventArgs)" /> (méthode), l’adaptateur doit appeler la méthode correspondante de la classe de base, qui à son tour appelle la <see cref="M:System.Web.UI.Control.OnUnload(System.EventArgs)" /> (méthode).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-232">When you inherit from the <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> class and the adapter overrides the <see cref="M:System.Web.UI.Adapters.ControlAdapter.OnUnload(System.EventArgs)" /> method, the adapter must call the corresponding base class method, which in turn calls the <see cref="M:System.Web.UI.Control.OnUnload(System.EventArgs)" /> method.</span>
+            </span>
+            <span data-ttu-id="d349e-233">Si <see cref="M:System.Web.UI.Control.OnUnload(System.EventArgs)" /> n’est pas appelée, le <see cref="E:System.Web.UI.Control.Unload" /> événement ne sera pas déclenché.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-233">If <see cref="M:System.Web.UI.Control.OnUnload(System.EventArgs)" /> is not called, the <see cref="E:System.Web.UI.Control.Unload" /> event will not be raised.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="E:System.Web.UI.Control.Unload" />
+        <altmember cref="M:System.Web.UI.Control.OnUnload(System.EventArgs)" />
+        <altmember cref="T:System.Web.UI.Control" />
+      </Docs>
+    </Member>
+    <Member MemberName="Page">
+      <MemberSignature Language="C#" Value="protected System.Web.UI.Page Page { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.UI.Page Page" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.Adapters.ControlAdapter.Page" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property Page As Page" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property System::Web::UI::Page ^ Page { System::Web::UI::Page ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Web.UI.Page</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d349e-234">Reçoit une référence à la page sur laquelle réside le contrôle associé à cet adaptateur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-234">Gets a reference to the page where the control associated with this adapter resides.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d349e-235">Un <see cref="T:System.Web.UI.Page" /> qui fournit l'accès à l'instance de page sur laquelle est situé le contrôle associé.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-235">A <see cref="T:System.Web.UI.Page" /> that provides access to the page instance where the associated control is situated.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-236">Le <xref:System.Web.UI.Adapters.ControlAdapter.Page%2A> propriété fournit l’accès à la <xref:System.Web.UI.Page?displayProperty=nameWithType> objet où est situé le contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-236">The <xref:System.Web.UI.Adapters.ControlAdapter.Page%2A> property provides access to the <xref:System.Web.UI.Page?displayProperty=nameWithType> object where the control is situated.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Web.UI.Page" />
+        <altmember cref="T:System.Web.UI.Control" />
+      </Docs>
+    </Member>
+    <Member MemberName="PageAdapter">
+      <MemberSignature Language="C#" Value="protected System.Web.UI.Adapters.PageAdapter PageAdapter { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.Web.UI.Adapters.PageAdapter PageAdapter" />
+      <MemberSignature Language="DocId" Value="P:System.Web.UI.Adapters.ControlAdapter.PageAdapter" />
+      <MemberSignature Language="VB.NET" Value="Protected ReadOnly Property PageAdapter As PageAdapter" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; property System::Web::UI::Adapters::PageAdapter ^ PageAdapter { System::Web::UI::Adapters::PageAdapter ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Web.UI.Adapters.PageAdapter</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="d349e-237">Reçoit une référence à l'adaptateur de page pour la page sur laquelle réside le contrôle associé.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-237">Gets a reference to the page adapter for the page where the associated control resides.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="d349e-238">
+            <see cref="T:System.Web.UI.Adapters.PageAdapter" /> pour la page sur laquelle est situé le contrôle associé au <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> en cours.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-238">A <see cref="T:System.Web.UI.Adapters.PageAdapter" /> for the page where the control associated with the current <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> is situated.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-239">Le <xref:System.Web.UI.Adapters.ControlAdapter.PageAdapter%2A> propriété fournit l’accès à la <xref:System.Web.UI.Adapters.PageAdapter?displayProperty=nameWithType> de l’objet pour le <xref:System.Web.UI.Page> objet où le <xref:System.Web.UI.Control> objet associé en cours <xref:System.Web.UI.Adapters.ControlAdapter> objet est situé.</span><span class="sxs-lookup"><span data-stu-id="d349e-239">The <xref:System.Web.UI.Adapters.ControlAdapter.PageAdapter%2A> property provides access to the <xref:System.Web.UI.Adapters.PageAdapter?displayProperty=nameWithType> object for the <xref:System.Web.UI.Page> object where the <xref:System.Web.UI.Control> object associated with the current <xref:System.Web.UI.Adapters.ControlAdapter> object is situated.</span></span>  
+  
+ <span data-ttu-id="d349e-240">Le <xref:System.Web.UI.Adapters.ControlAdapter.PageAdapter%2A> propriété peut être utilisée pour accéder aux autres éléments au niveau de l’adaptateur de page, tels que des fonctions spécifiques à la cible communes qui pourraient s’appliquer à plusieurs types de contrôle sur la page.</span><span class="sxs-lookup"><span data-stu-id="d349e-240">The <xref:System.Web.UI.Adapters.ControlAdapter.PageAdapter%2A> property can be used to access other items at the page adapter level, such as common target-specific functions that could apply to several control types on the page.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="T:System.Web.UI.Adapters.PageAdapter" />
+        <altmember cref="T:System.Web.UI.Control" />
+      </Docs>
+    </Member>
+    <Member MemberName="Render">
+      <MemberSignature Language="C#" Value="protected internal virtual void Render (System.Web.UI.HtmlTextWriter writer);" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void Render(class System.Web.UI.HtmlTextWriter writer) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Sub Render (writer As HtmlTextWriter)" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual void Render(System::Web::UI::HtmlTextWriter ^ writer);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="writer" Type="System.Web.UI.HtmlTextWriter" />
+      </Parameters>
+      <Docs>
+        <param name="writer">
+          <span data-ttu-id="d349e-241">
+            <see cref="T:System.Web.UI.HtmlTextWriter" /> permettant de restituer la sortie spécifique à la cible.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-241">The <see cref="T:System.Web.UI.HtmlTextWriter" /> to use to render the target-specific output.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d349e-242">Génère le balisage spécifique à la cible pour le contrôle auquel l’adaptateur de contrôle est attaché.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-242">Generates the target-specific markup for the control to which the control adapter is attached.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-243">Remplacer la <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> méthode permettant de générer le balisage spécifique à la cible à envoyer au navigateur client.</span><span class="sxs-lookup"><span data-stu-id="d349e-243">Override the <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> method to generate target-specific markup to send to the client browser.</span></span> <span data-ttu-id="d349e-244">Le <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> méthode est appelée à la place de la <xref:System.Web.UI.Control.Render%2A?displayProperty=nameWithType> méthode si une <xref:System.Web.UI.Adapters.ControlAdapter> objet est attaché à un <xref:System.Web.UI.Control> objet.</span><span class="sxs-lookup"><span data-stu-id="d349e-244">The <xref:System.Web.UI.Adapters.ControlAdapter.Render%2A> method is called in place of the <xref:System.Web.UI.Control.Render%2A?displayProperty=nameWithType> method if a <xref:System.Web.UI.Adapters.ControlAdapter> object is attached to a <xref:System.Web.UI.Control> object.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="d349e-245">Lorsque vous héritez de la <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> (classe), le <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> les appels de méthode de base du <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> (méthode).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-245">When you inherit from the <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> class, the <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> base method calls the <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> method.</span>
+            </span>
+            <span data-ttu-id="d349e-246">Par conséquent, les remplacements de la <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> méthode doit appeler la <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> méthode de base uniquement si son traitement s’effectue en outre, plutôt qu’à la place de la <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> (méthode).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-246">Thus, overrides of the <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> method should call the <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> base method only if its processing is in addition to, rather than instead of, the <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> method.</span>
+            </span>
+            <span data-ttu-id="d349e-247">Pour un contrôle composite, le développeur d’adaptateur doit garantir que les contrôles enfants sont affichés.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-247">For a composite control, the adapter developer must ensure that the child controls are rendered.</span>
+            </span>
+            <span data-ttu-id="d349e-248">Si le <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> méthode restitue les enfants contrôles mais ne génère pas de balise, il peut être approprié pour la <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> méthode à appeler sa méthode de base.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-248">If the <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> method causes the child controls to be rendered but does not generate markup, it might be appropriate for the <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> method to call its base method.</span>
+            </span>
+            <span data-ttu-id="d349e-249">Si le rendu spécifique à la cible des contrôles enfants est nécessaire, l’adaptateur doit implémenter la <see cref="M:System.Web.UI.Adapters.ControlAdapter.RenderChildren(System.Web.UI.HtmlTextWriter)" /> méthode et appel de la <see cref="M:System.Web.UI.Adapters.ControlAdapter.RenderChildren(System.Web.UI.HtmlTextWriter)" /> méthode à partir de la <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> (méthode).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-249">If target-specific rendering of the child controls is necessary, the adapter should implement the <see cref="M:System.Web.UI.Adapters.ControlAdapter.RenderChildren(System.Web.UI.HtmlTextWriter)" /> method and call the <see cref="M:System.Web.UI.Adapters.ControlAdapter.RenderChildren(System.Web.UI.HtmlTextWriter)" /> method from the <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> method.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" />
+        <altmember cref="T:System.Web.UI.Control" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.RenderChildren(System.Web.UI.HtmlTextWriter)" />
+        <altmember cref="M:System.Web.UI.Control.RenderChildren(System.Web.UI.HtmlTextWriter)" />
+        <altmember cref="M:System.Web.UI.Control.RenderControl(System.Web.UI.HtmlTextWriter,System.Web.UI.Adapters.ControlAdapter)" />
+      </Docs>
+    </Member>
+    <Member MemberName="RenderChildren">
+      <MemberSignature Language="C#" Value="protected virtual void RenderChildren (System.Web.UI.HtmlTextWriter writer);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance void RenderChildren(class System.Web.UI.HtmlTextWriter writer) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.RenderChildren(System.Web.UI.HtmlTextWriter)" />
+      <MemberSignature Language="VB.NET" Value="Protected Overridable Sub RenderChildren (writer As HtmlTextWriter)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; virtual void RenderChildren(System::Web::UI::HtmlTextWriter ^ writer);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="writer" Type="System.Web.UI.HtmlTextWriter" />
+      </Parameters>
+      <Docs>
+        <param name="writer">
+          <span data-ttu-id="d349e-250">
+            <see cref="T:System.Web.UI.HtmlTextWriter" /> permettant de restituer la sortie spécifique à la cible.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-250">The <see cref="T:System.Web.UI.HtmlTextWriter" /> to use to render the target-specific output.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="d349e-251">Génère la balise spécifique à la cible pour les contrôles enfants dans un contrôle composite auquel l'adaptateur de contrôles est joint.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-251">Generates the target-specific markup for the child controls in a composite control to which the control adapter is attached.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-252">Remplacer la <xref:System.Web.UI.Adapters.ControlAdapter.RenderChildren%2A> méthode lorsqu’il est nécessaire générer un balisage spécifique à la cible pour le jeu de contrôles enfants d’un contrôle composite, en outre le balisage pour les contrôles enfants individuels.</span><span class="sxs-lookup"><span data-stu-id="d349e-252">Override the <xref:System.Web.UI.Adapters.ControlAdapter.RenderChildren%2A> method when it is necessary to generate target-specific markup for the child control set of a composite control, in addition to the markup for the individual child controls.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <block subset="none" type="overrides">
+          <para>
+            <span data-ttu-id="d349e-253">Lorsque vous héritez de la <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> (classe), pour un contrôle composite, le développeur d’adaptateur doit garantir que les contrôles enfants sont affichés.</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-253">When you inherit from the <see cref="T:System.Web.UI.Adapters.ControlAdapter" /> class, for a composite control, the adapter developer must ensure that the child controls are rendered.</span>
+            </span>
+            <span data-ttu-id="d349e-254">Si l’adaptateur substitue la <see cref="M:System.Web.UI.Adapters.ControlAdapter.RenderChildren(System.Web.UI.HtmlTextWriter)" /> (méthode), il doit appeler la <see cref="M:System.Web.UI.Adapters.ControlAdapter.RenderChildren(System.Web.UI.HtmlTextWriter)" /> méthode à partir d’une substitution de la <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> (méthode).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-254">If the adapter overrides the <see cref="M:System.Web.UI.Adapters.ControlAdapter.RenderChildren(System.Web.UI.HtmlTextWriter)" /> method, it should call the <see cref="M:System.Web.UI.Adapters.ControlAdapter.RenderChildren(System.Web.UI.HtmlTextWriter)" /> method from an override of the <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> method.</span>
+            </span>
+            <span data-ttu-id="d349e-255">Si le <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> méthode restitue les enfants contrôles mais lui-même ne génère pas de balise, il peut être approprié pour le <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> méthode à appeler sa méthode de base, qui appelle la <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> méthode, au lieu d’implémenter une substitution pour le <see cref="M:System.Web.UI.Adapters.ControlAdapter.RenderChildren(System.Web.UI.HtmlTextWriter)" /> (méthode).</span>
+            <span class="sxs-lookup">
+              <span data-stu-id="d349e-255">If the <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> method causes the child controls to be rendered but itself does not generate markup, it might be appropriate for the <see cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" /> method to call its base method, which calls the <see cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" /> method, instead of implementing an override for the <see cref="M:System.Web.UI.Adapters.ControlAdapter.RenderChildren(System.Web.UI.HtmlTextWriter)" /> method.</span>
+            </span>
+          </para>
+        </block>
+        <altmember cref="M:System.Web.UI.Control.RenderChildren(System.Web.UI.HtmlTextWriter)" />
+        <altmember cref="T:System.Web.UI.Control" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.Render(System.Web.UI.HtmlTextWriter)" />
+        <altmember cref="M:System.Web.UI.Control.Render(System.Web.UI.HtmlTextWriter)" />
+      </Docs>
+    </Member>
+    <Member MemberName="SaveAdapterControlState">
+      <MemberSignature Language="C#" Value="protected internal virtual object SaveAdapterControlState ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance object SaveAdapterControlState() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Function SaveAdapterControlState () As Object" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual System::Object ^ SaveAdapterControlState();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d349e-256">Enregistre les informations sur l'état de contrôle pour l'adaptateur de contrôles.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-256">Saves control state information for the control adapter.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d349e-257">
+            <see cref="T:System.Object" /> contenant les informations d'état du contrôle de la carte sous forme de <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-257">An <see cref="T:System.Object" /> that contains the adapter's control state information as a <see cref="T:System.Web.UI.StateBag" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-258">L’état du contrôle est les informations d’état essentielles nécessaires même si l’état d’affichage est désactivé.</span><span class="sxs-lookup"><span data-stu-id="d349e-258">Control state is the essential state information needed even if view state is disabled.</span></span> <span data-ttu-id="d349e-259">Lorsqu’un adaptateur doit gérer ses propres informations d’état de contrôle, il peut remplacer le <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState%2A> et <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterControlState%2A> méthodes.</span><span class="sxs-lookup"><span data-stu-id="d349e-259">When an adapter needs to maintain its own control state information, it can override the <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState%2A> and <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterControlState%2A> methods.</span></span>  
+  
+ <span data-ttu-id="d349e-260">Un adaptateur peut avoir besoin gérer les informations d’état de contrôle lorsque des fonctionnalités qui ont besoin d’état conservé entre les demandes, indépendamment de l’état du contrôle associé.</span><span class="sxs-lookup"><span data-stu-id="d349e-260">An adapter might need to maintain control state information when there are features that need to have state maintained across requests, independent from the state of the associated control.</span></span> <span data-ttu-id="d349e-261">Par exemple, un contrôle composite constitué d’un grand affichage textuel et un groupe de <xref:System.Web.UI.WebControls.RadioButton> contrôles peuvent afficher comme une seule vue sur les navigateurs d’ordinateur de bureau.</span><span class="sxs-lookup"><span data-stu-id="d349e-261">For example, a composite control consisting of a large textual display and a group of <xref:System.Web.UI.WebControls.RadioButton> controls might render as a single view on desktop computer browsers.</span></span> <span data-ttu-id="d349e-262">Sur d’autres navigateurs, il peut fractionner son rendu, une vue pour l’affichage de texte et l’autre pour le groupe de cases d’option.</span><span class="sxs-lookup"><span data-stu-id="d349e-262">On other browsers, it might split its rendering—one view for the textual display and the other for the radio button group.</span></span> <span data-ttu-id="d349e-263">L’adaptateur doit maintenir ses propres informations spécifiques à la cible sur la vue actuellement active.</span><span class="sxs-lookup"><span data-stu-id="d349e-263">The adapter would need to maintain its own target-specific information about the currently active view.</span></span>  
+  
+ <span data-ttu-id="d349e-264">Le <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState%2A> méthode est appelée immédiatement après la <xref:System.Web.UI.Control.SaveControlState%2A?displayProperty=nameWithType> méthode dans le `SaveState` phase du cycle de vie.</span><span class="sxs-lookup"><span data-stu-id="d349e-264">The <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState%2A> method is called immediately after the <xref:System.Web.UI.Control.SaveControlState%2A?displayProperty=nameWithType> method in the `SaveState` lifecycle stage.</span></span> <span data-ttu-id="d349e-265">L’état de contrôle de carte est séparée et en plus de l’état du contrôle du contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-265">The adapter control state is separate and in addition to the control state of the control.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Web.UI.Control.SaveControlState" />
+        <altmember cref="T:System.Web.UI.Control" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.LoadAdapterControlState(System.Object)" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState" />
+      </Docs>
+    </Member>
+    <Member MemberName="SaveAdapterViewState">
+      <MemberSignature Language="C#" Value="protected internal virtual object SaveAdapterViewState ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance object SaveAdapterViewState() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState" />
+      <MemberSignature Language="VB.NET" Value="Protected Friend Overridable Function SaveAdapterViewState () As Object" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual System::Object ^ SaveAdapterViewState();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Web</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="d349e-266">Enregistre les informations sur l'état d'affichage pour l'adaptateur de contrôles.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-266">Saves view state information for the control adapter.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="d349e-267">Un <see cref="T:System.Object" /> qui contient les informations sur l'état d'affichage de l'adaptateur comme <see cref="T:System.Web.UI.StateBag" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="d349e-267">An <see cref="T:System.Object" /> that contains the adapter view state information as a <see cref="T:System.Web.UI.StateBag" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="d349e-268">Lorsqu’un adaptateur doit gérer ses propres informations d’état de vue, il peut substituer les <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState%2A> et <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterViewState%2A> méthodes.</span><span class="sxs-lookup"><span data-stu-id="d349e-268">When an adapter needs to maintain its own view state information, it can override the <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState%2A> and <xref:System.Web.UI.Adapters.ControlAdapter.LoadAdapterViewState%2A> methods.</span></span>  
+  
+ <span data-ttu-id="d349e-269">Un adaptateur doit gérer les informations d’état de vue de données qui doivent être conservées entre les demandes, indépendamment de l’état de la vue associée du contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-269">An adapter needs to maintain view state information when there is data that must be maintained across requests, independent from the associated view state of the control.</span></span> <span data-ttu-id="d349e-270">Par exemple, un contrôle de grille sur les navigateurs d’ordinateur de bureau peut rendre comme une vue unique des lignes et colonnes de valeurs.</span><span class="sxs-lookup"><span data-stu-id="d349e-270">For example, a grid control on desktop computer browsers might render as a single view of rows and columns of values.</span></span> <span data-ttu-id="d349e-271">Sur d’autres navigateurs, il peut fractionner son rendu en plusieurs vues distinctes, telles qu’une liste de lignes et les détails d’une seule ligne.</span><span class="sxs-lookup"><span data-stu-id="d349e-271">On other browsers, it might split its rendering into multiple separate views, such as a list of rows and details of a single row.</span></span> <span data-ttu-id="d349e-272">L’adaptateur devrait maintenir les données pour les vues qui ne sont pas actuellement actifs dans l’état d’affichage.</span><span class="sxs-lookup"><span data-stu-id="d349e-272">The adapter would need to maintain the data for the views that are not currently active in view state.</span></span>  
+  
+ <span data-ttu-id="d349e-273">Le <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState%2A> méthode est appelée immédiatement avant le <xref:System.Web.UI.Control.SaveViewState%2A?displayProperty=nameWithType> méthode dans le `SaveState` phase du cycle de vie.</span><span class="sxs-lookup"><span data-stu-id="d349e-273">The <xref:System.Web.UI.Adapters.ControlAdapter.SaveAdapterViewState%2A> method is called immediately before the <xref:System.Web.UI.Control.SaveViewState%2A?displayProperty=nameWithType> method in the `SaveState` lifecycle stage.</span></span> <span data-ttu-id="d349e-274">L’état d’affichage de l’adaptateur est séparée et en plus de l’état d’affichage du contrôle.</span><span class="sxs-lookup"><span data-stu-id="d349e-274">The adapter view state is separate and in addition to the view state of the control.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <altmember cref="M:System.Web.UI.Control.SaveViewState" />
+        <altmember cref="T:System.Web.UI.Control" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.SaveAdapterControlState" />
+        <altmember cref="M:System.Web.UI.Adapters.ControlAdapter.LoadAdapterViewState(System.Object)" />
+        <altmember cref="P:System.Web.UI.Control.ViewState" />
+      </Docs>
+    </Member>
+  </Members>
+</Type>
