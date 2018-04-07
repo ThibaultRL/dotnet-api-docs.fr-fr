@@ -1,0 +1,321 @@
+<Type Name="LockRecursionException" FullName="System.Threading.LockRecursionException">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="b46cd9089879e7bb73d82fb20177412e63cffbc2" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public class LockRecursionException : Exception" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit LockRecursionException extends System.Exception" />
+  <TypeSignature Language="DocId" Value="T:System.Threading.LockRecursionException" />
+  <TypeSignature Language="VB.NET" Value="Public Class LockRecursionException&#xA;Inherits Exception" />
+  <TypeSignature Language="C++ CLI" Value="public ref class LockRecursionException : Exception" />
+  <AssemblyInfo>
+    <AssemblyName>System.Threading</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <AssemblyVersion>4.0.10.0</AssemblyVersion>
+    <AssemblyVersion>4.1.0.0</AssemblyVersion>
+    <AssemblyVersion>4.1.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Exception</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Runtime.CompilerServices.TypeForwardedFrom("System.Core, Version=3.5.0.0, Culture=Neutral, PublicKeyToken=b77a5c561934e089")</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="4d85a-101">Exception levée lorsque l'entrée récursive dans un verrou n'est pas compatible avec la stratégie de récurrence pour le verrou.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="4d85a-101">The exception that is thrown when recursive entry into a lock is not compatible with the recursion policy for the lock.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="4d85a-102"><xref:System.Threading.LockRecursionException> est levée pour plusieurs raisons, notamment les suivantes :</span><span class="sxs-lookup"><span data-stu-id="4d85a-102"><xref:System.Threading.LockRecursionException> is thrown for several reasons, including the following:</span></span>  
+  
+-   <span data-ttu-id="4d85a-103">Si un thread essaie d’entrer une instance de <xref:System.Threading.ReaderWriterLockSlim> récursive, mais l’instance ne prend pas en charge la récursivité.</span><span class="sxs-lookup"><span data-stu-id="4d85a-103">If a thread tries to enter an instance of <xref:System.Threading.ReaderWriterLockSlim> recursively, but the instance does not support recursion.</span></span>  
+  
+-   <span data-ttu-id="4d85a-104">Si un thread essaie d’entrer un <xref:System.Threading.ReaderWriterLockSlim> instance en mode écriture ou en mode de mise à niveau lorsque le thread a initialement entré le verrou en mode lecture.</span><span class="sxs-lookup"><span data-stu-id="4d85a-104">If a thread tries to enter a <xref:System.Threading.ReaderWriterLockSlim> instance in write mode or upgradeable mode when the thread initially entered the lock in read mode.</span></span> <span data-ttu-id="4d85a-105">Cela représente un blocage potentiel et par conséquent n’est pas autorisée.</span><span class="sxs-lookup"><span data-stu-id="4d85a-105">This represents a potential deadlock and therefore is not allowed.</span></span>  
+  
+-   <span data-ttu-id="4d85a-106">Si ce qui permet un niveau de récursivité dépasse la valeur maximale pour le compteur de stockage interne utilisé pour suivre les récurrences.</span><span class="sxs-lookup"><span data-stu-id="4d85a-106">If allowing one more level of recursion would exceed the maximum value for the internal storage counter used to track recursions.</span></span> <span data-ttu-id="4d85a-107">Cette limite est si élevée que les applications ne doivent jamais la rencontrer.</span><span class="sxs-lookup"><span data-stu-id="4d85a-107">This limit is so large that applications should never encounter it.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="4d85a-108">L’exemple suivant montre deux causes de <xref:System.Threading.LockRecursionException> lorsque vous utilisez la <xref:System.Threading.ReaderWriterLockSlim> classe.</span><span class="sxs-lookup"><span data-stu-id="4d85a-108">The following example shows two causes of <xref:System.Threading.LockRecursionException> when using the <xref:System.Threading.ReaderWriterLockSlim> class.</span></span> <span data-ttu-id="4d85a-109">Le programme crée un <xref:System.Threading.ReaderWriterLockSlim> à l’aide du constructeur par défaut, ce qui n’autorise pas la récursivité.</span><span class="sxs-lookup"><span data-stu-id="4d85a-109">The program creates a <xref:System.Threading.ReaderWriterLockSlim> by using the default constructor, which disallows recursion.</span></span> <span data-ttu-id="4d85a-110">Le programme démarre ensuite un thread qui a entré le verrou en mode lecture.</span><span class="sxs-lookup"><span data-stu-id="4d85a-110">The program then starts a thread that enters the lock in read mode.</span></span> <span data-ttu-id="4d85a-111">Le thread essaie d’entrer le verrou de manière récursive en mode lecture et intercepte l’exception résultante.</span><span class="sxs-lookup"><span data-stu-id="4d85a-111">The thread tries to enter the lock recursively in read mode, and catches the resulting exception.</span></span> <span data-ttu-id="4d85a-112">Enfin, le thread essaie d’entrer en mode écriture, ce qui créerait un risque potentiel de blocages.</span><span class="sxs-lookup"><span data-stu-id="4d85a-112">Finally, the thread tries to enter write mode, which would create a potential for deadlocks.</span></span> <span data-ttu-id="4d85a-113">Le thread intercepte l’exception résultante.</span><span class="sxs-lookup"><span data-stu-id="4d85a-113">The thread catches the resulting exception.</span></span>  
+  
+ [!code-csharp[System.Threading.LockRecursionException#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.LockRecursionException/cs/source.cs#1)]
+ [!code-vb[System.Threading.LockRecursionException#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.LockRecursionException/vb/source.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Threading.ReaderWriterLockSlim" />
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="4d85a-114">Initialise une nouvelle instance de la classe <see cref="T:System.Threading.LockRecursionException" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="4d85a-114">Initializes a new instance of the <see cref="T:System.Threading.LockRecursionException" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public LockRecursionException ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.LockRecursionException.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; LockRecursionException();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="4d85a-115">Initialise une nouvelle instance de la classe <see cref="T:System.Threading.LockRecursionException" /> avec un message système qui décrit l'erreur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="4d85a-115">Initializes a new instance of the <see cref="T:System.Threading.LockRecursionException" /> class with a system-supplied message that describes the error.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="4d85a-116">Ce constructeur initialise la <xref:System.Exception.Message%2A> propriété de la nouvelle instance à un message système qui décrit l’erreur, tel que « Les acquisitions de verrous sont ne pas autorisées dans ce mode de lecture récursifs ».</span><span class="sxs-lookup"><span data-stu-id="4d85a-116">This constructor initializes the <xref:System.Exception.Message%2A> property of the new instance to a system-supplied message that describes the error, such as "Recursive read lock acquisitions not allowed in this mode."</span></span> <span data-ttu-id="4d85a-117">Ce message tient compte de la culture système en cours.</span><span class="sxs-lookup"><span data-stu-id="4d85a-117">This message takes the current system culture into account.</span></span>  
+  
+ <span data-ttu-id="4d85a-118">Le tableau suivant montre les valeurs initiales des propriétés d'une instance de <xref:System.InsufficientMemoryException>.</span><span class="sxs-lookup"><span data-stu-id="4d85a-118">The following table shows the initial property values for an instance of <xref:System.InsufficientMemoryException>.</span></span>  
+  
+|<span data-ttu-id="4d85a-119">Property</span><span class="sxs-lookup"><span data-stu-id="4d85a-119">Property</span></span>|<span data-ttu-id="4d85a-120">Value</span><span class="sxs-lookup"><span data-stu-id="4d85a-120">Value</span></span>|  
+|--------------|-----------|  
+|<xref:System.Exception.InnerException%2A>|<span data-ttu-id="4d85a-121">`null`.</span><span class="sxs-lookup"><span data-stu-id="4d85a-121">`null`.</span></span>|  
+|<xref:System.Exception.Message%2A>|<span data-ttu-id="4d85a-122">Chaîne du message d'erreur localisé.</span><span class="sxs-lookup"><span data-stu-id="4d85a-122">The localized error message string.</span></span>|  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public LockRecursionException (string message);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string message) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.LockRecursionException.#ctor(System.String)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (message As String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; LockRecursionException(System::String ^ message);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="message" Type="System.String" />
+      </Parameters>
+      <Docs>
+        <param name="message">
+          <span data-ttu-id="4d85a-123">Message décrivant l'exception.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="4d85a-123">The message that describes the exception.</span>
+          </span>
+          <span data-ttu-id="4d85a-124">L’appelant de ce constructeur doit vérifier que cette chaîne a été localisée pour la culture système actuelle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="4d85a-124">The caller of this constructor must make sure that this string has been localized for the current system culture.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="4d85a-125">Initialise une nouvelle instance de la classe <see cref="T:System.Threading.LockRecursionException" /> avec un message spécifié décrivant l'erreur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="4d85a-125">Initializes a new instance of the <see cref="T:System.Threading.LockRecursionException" /> class with a specified message that describes the error.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="4d85a-126">Ce constructeur initialise la <xref:System.Exception.Message%2A?displayProperty=nameWithType> propriété de la nouvelle exception avec le `message` paramètre.</span><span class="sxs-lookup"><span data-stu-id="4d85a-126">This constructor initializes the <xref:System.Exception.Message%2A?displayProperty=nameWithType> property of the new exception with the `message` parameter.</span></span> <span data-ttu-id="4d85a-127">Le contenu de `message` doit être compréhensible par les utilisateurs.</span><span class="sxs-lookup"><span data-stu-id="4d85a-127">The content of `message` is intended to be understood by humans.</span></span> <span data-ttu-id="4d85a-128">L’appelant de ce constructeur doit vérifier que cette chaîne a été localisée pour la culture système actuelle.</span><span class="sxs-lookup"><span data-stu-id="4d85a-128">The caller of this constructor must make sure that this string has been localized for the current system culture.</span></span>  
+  
+ <span data-ttu-id="4d85a-129">Le tableau suivant montre les valeurs initiales des propriétés d'une instance de <xref:System.Threading.LockRecursionException>.</span><span class="sxs-lookup"><span data-stu-id="4d85a-129">The following table shows the initial property values for an instance of <xref:System.Threading.LockRecursionException>.</span></span>  
+  
+|<span data-ttu-id="4d85a-130">Property</span><span class="sxs-lookup"><span data-stu-id="4d85a-130">Property</span></span>|<span data-ttu-id="4d85a-131">Value</span><span class="sxs-lookup"><span data-stu-id="4d85a-131">Value</span></span>|  
+|--------------|-----------|  
+|<xref:System.Exception.InnerException%2A>|<span data-ttu-id="4d85a-132">`null`.</span><span class="sxs-lookup"><span data-stu-id="4d85a-132">`null`.</span></span>|  
+|<xref:System.Exception.Message%2A>|<span data-ttu-id="4d85a-133">Chaîne du message d'erreur.</span><span class="sxs-lookup"><span data-stu-id="4d85a-133">The error message string.</span></span>|  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected LockRecursionException (System.Runtime.Serialization.SerializationInfo info, System.Runtime.Serialization.StreamingContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor(class System.Runtime.Serialization.SerializationInfo info, valuetype System.Runtime.Serialization.StreamingContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.LockRecursionException.#ctor(System.Runtime.Serialization.SerializationInfo,System.Runtime.Serialization.StreamingContext)" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New (info As SerializationInfo, context As StreamingContext)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; LockRecursionException(System::Runtime::Serialization::SerializationInfo ^ info, System::Runtime::Serialization::StreamingContext context);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="info" Type="System.Runtime.Serialization.SerializationInfo" />
+        <Parameter Name="context" Type="System.Runtime.Serialization.StreamingContext" />
+      </Parameters>
+      <Docs>
+        <param name="info">
+          <span data-ttu-id="4d85a-134">Objet qui contient les données sérialisées de l'objet.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="4d85a-134">The object that holds the serialized object data.</span>
+          </span>
+        </param>
+        <param name="context">
+          <span data-ttu-id="4d85a-135">Informations contextuelles sur la source ou la destination.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="4d85a-135">The contextual information about the source or destination.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="4d85a-136">Initialise une nouvelle instance de la classe <see cref="T:System.Threading.LockRecursionException" /> avec des données sérialisées.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="4d85a-136">Initializes a new instance of the <see cref="T:System.Threading.LockRecursionException" /> class with serialized data.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="4d85a-137">Ce constructeur est appelé pendant la désérialisation pour reconstituer l’objet exception transmis sur un flux.</span><span class="sxs-lookup"><span data-stu-id="4d85a-137">This constructor is called during deserialization to reconstitute an exception object that is transmitted over a stream.</span></span> <span data-ttu-id="4d85a-138">Pour plus d’informations, consultez [sérialisation XML et SOAP](~/docs/standard/serialization/xml-and-soap-serialization.md).</span><span class="sxs-lookup"><span data-stu-id="4d85a-138">For more information, see [XML and SOAP Serialization](~/docs/standard/serialization/xml-and-soap-serialization.md).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public LockRecursionException (string message, Exception innerException);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(string message, class System.Exception innerException) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.LockRecursionException.#ctor(System.String,System.Exception)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (message As String, innerException As Exception)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; LockRecursionException(System::String ^ message, Exception ^ innerException);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+        <AssemblyVersion>4.1.0.0</AssemblyVersion>
+        <AssemblyVersion>4.1.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="message" Type="System.String" />
+        <Parameter Name="innerException" Type="System.Exception" />
+      </Parameters>
+      <Docs>
+        <param name="message">
+          <span data-ttu-id="4d85a-139">Message décrivant l'exception.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="4d85a-139">The message that describes the exception.</span>
+          </span>
+          <span data-ttu-id="4d85a-140">L’appelant de ce constructeur doit vérifier que cette chaîne a été localisée pour la culture système actuelle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="4d85a-140">The caller of this constructor must make sure that this string has been localized for the current system culture.</span>
+          </span>
+        </param>
+        <param name="innerException">
+          <span data-ttu-id="4d85a-141">Exception à l'origine de l'exception actuelle.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="4d85a-141">The exception that caused the current exception.</span>
+          </span>
+          <span data-ttu-id="4d85a-142">Si le paramètre <c>innerException</c> n’est pas <see langword="null" />, l’exception actuelle est levée dans un bloc <see langword="catch" /> qui gère l’exception interne.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="4d85a-142">If the <c>innerException</c> parameter is not <see langword="null" />, the current exception is raised in a <see langword="catch" /> block that handles the inner exception.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="4d85a-143">Initialise une nouvelle instance de la classe <see cref="T:System.Threading.LockRecursionException" /> avec un message d'erreur spécifié et une référence à l'exception interne ayant provoqué cette exception.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="4d85a-143">Initializes a new instance of the <see cref="T:System.Threading.LockRecursionException" /> class with a specified error message and a reference to the inner exception that is the cause of this exception.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="4d85a-144">Une exception levée en conséquence directe d'une exception précédente doit contenir une référence à celle-ci dans la propriété <xref:System.Exception.InnerException%2A>.</span><span class="sxs-lookup"><span data-stu-id="4d85a-144">An exception that is thrown as a direct result of a previous exception should include a reference to the previous exception in the <xref:System.Exception.InnerException%2A> property.</span></span> <span data-ttu-id="4d85a-145">La propriété <xref:System.Exception.InnerException%2A> retourne la même valeur que celle qui a été passée dans le constructeur ou retourne `null` si la propriété <xref:System.Exception.InnerException%2A> ne fournit pas la valeur d'exception interne au constructeur.</span><span class="sxs-lookup"><span data-stu-id="4d85a-145">The <xref:System.Exception.InnerException%2A> property returns the same value that is passed into the constructor, or `null` if the <xref:System.Exception.InnerException%2A> property does not supply the inner exception value to the constructor.</span></span>  
+  
+ <span data-ttu-id="4d85a-146">Le tableau suivant montre les valeurs initiales des propriétés d'une instance de <xref:System.Threading.LockRecursionException>.</span><span class="sxs-lookup"><span data-stu-id="4d85a-146">The following table shows the initial property values for an instance of <xref:System.Threading.LockRecursionException>.</span></span>  
+  
+|<span data-ttu-id="4d85a-147">Property</span><span class="sxs-lookup"><span data-stu-id="4d85a-147">Property</span></span>|<span data-ttu-id="4d85a-148">Value</span><span class="sxs-lookup"><span data-stu-id="4d85a-148">Value</span></span>|  
+|--------------|-----------|  
+|<xref:System.Exception.InnerException%2A>|<span data-ttu-id="4d85a-149">L’exception spécifiée dans `innerException`.</span><span class="sxs-lookup"><span data-stu-id="4d85a-149">The exception specified in `innerException`.</span></span>|  
+|<xref:System.Exception.Message%2A>|<span data-ttu-id="4d85a-150">Chaîne de message d'erreur spécifiée dans `message`.</span><span class="sxs-lookup"><span data-stu-id="4d85a-150">The error message string specified in `message`.</span></span>|  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

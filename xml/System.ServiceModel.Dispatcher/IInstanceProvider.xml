@@ -1,0 +1,246 @@
+<Type Name="IInstanceProvider" FullName="System.ServiceModel.Dispatcher.IInstanceProvider">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="991c605f5d41dce095e638fa08e8238060345dba" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public interface IInstanceProvider" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IInstanceProvider" />
+  <TypeSignature Language="DocId" Value="T:System.ServiceModel.Dispatcher.IInstanceProvider" />
+  <TypeSignature Language="VB.NET" Value="Public Interface IInstanceProvider" />
+  <TypeSignature Language="C++ CLI" Value="public interface class IInstanceProvider" />
+  <AssemblyInfo>
+    <AssemblyName>System.ServiceModel</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="091e7-101">Déclare des méthodes qui fournissent un objet de service ou recyclent un objet de service pour un service Windows Communication Foundation (WCF).</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="091e7-101">Declares methods that provide a service object or recycle a service object for a Windows Communication Foundation (WCF) service.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="091e7-102">Implémentez l'interface <xref:System.ServiceModel.Dispatcher.IInstanceProvider> pour contrôler la création et le recyclage d'objets de service en cas de demande ou d'élimination par un objet <xref:System.ServiceModel.InstanceContext>.</span><span class="sxs-lookup"><span data-stu-id="091e7-102">Implement the <xref:System.ServiceModel.Dispatcher.IInstanceProvider> interface to control the creation and recycling of service objects when one is requested or disposed by an <xref:System.ServiceModel.InstanceContext> object.</span></span>  
+  
+ <span data-ttu-id="091e7-103">Une fois l'interface <xref:System.ServiceModel.Dispatcher.IInstanceProvider> implémentée, vous devez assigner votre objet de fournisseur d'instances personnalisé à la propriété <xref:System.ServiceModel.Dispatcher.DispatchRuntime.InstanceProvider%2A> à l'aide d'un comportement de point de terminaison (objet <xref:System.ServiceModel.Description.IEndpointBehavior>) ou d'un comportement de contrat (objet <xref:System.ServiceModel.Description.IContractBehavior>).</span><span class="sxs-lookup"><span data-stu-id="091e7-103">Once the <xref:System.ServiceModel.Dispatcher.IInstanceProvider> interface is implemented, you must assign your custom instance provider object to the <xref:System.ServiceModel.Dispatcher.DispatchRuntime.InstanceProvider%2A> property using either an endpoint behavior (a <xref:System.ServiceModel.Description.IEndpointBehavior> object) or a contract behavior (a <xref:System.ServiceModel.Description.IContractBehavior> object).</span></span>  
+  
+ <span data-ttu-id="091e7-104">Si le mécanisme d'insertion est un comportement de point de terminaison, vous pouvez également implémenter un objet <xref:System.ServiceModel.Configuration.BehaviorExtensionElement> qui peut insérer votre comportement personnalisé à l'aide d'un fichier de configuration.</span><span class="sxs-lookup"><span data-stu-id="091e7-104">If the insertion mechanism is an endpoint behavior you can also implement a <xref:System.ServiceModel.Configuration.BehaviorExtensionElement> object that can insert your custom behavior using a configuration file.</span></span> <span data-ttu-id="091e7-105">Si le mécanisme d'insertion est un comportement de contrat, vous pouvez insérer le comportement par programme avant l'ouverture de l'hôte de service ou vous pouvez implémenter un attribut personnalisé.</span><span class="sxs-lookup"><span data-stu-id="091e7-105">If the insertion mechanism is a contract behavior, you can insert the behavior programmatically prior to the opening of the service host or you can implement a custom attribute.</span></span> <span data-ttu-id="091e7-106">Pour retrouver un exemple d'approche de comportement de contrat, reportez-vous à la section Exemple.</span><span class="sxs-lookup"><span data-stu-id="091e7-106">(For an example of the contract behavior approach, see the Example section.)</span></span>  
+  
+ <span data-ttu-id="091e7-107"><xref:System.ServiceModel.Dispatcher.IInstanceProvider> a deux méthodes : <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%2A> et <xref:System.ServiceModel.Dispatcher.IInstanceProvider.ReleaseInstance%2A>.</span><span class="sxs-lookup"><span data-stu-id="091e7-107"><xref:System.ServiceModel.Dispatcher.IInstanceProvider> has two methods, <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%2A> and <xref:System.ServiceModel.Dispatcher.IInstanceProvider.ReleaseInstance%2A>.</span></span> <span data-ttu-id="091e7-108">Ces méthodes sont généralement implémentées pour créer des objets de service à l'aide d'un constructeur non défini par défaut ou pour initialiser ou éliminer un état lié à la durée de vie de l'objet.</span><span class="sxs-lookup"><span data-stu-id="091e7-108">These methods are typically implemented to create service objects using a non-default constructor or to initialize or dispose of some state related to the lifetime of the object.</span></span> <span data-ttu-id="091e7-109">La mise en mise en pool d’objets de service est un exemple de fonctionnalité <xref:System.ServiceModel.Dispatcher.IInstanceProvider> personnalisée.</span><span class="sxs-lookup"><span data-stu-id="091e7-109">Service object pooling is one example of custom <xref:System.ServiceModel.Dispatcher.IInstanceProvider> functionality.</span></span>  
+  
+ <span data-ttu-id="091e7-110">En règle générale, <xref:System.ServiceModel.InstanceContext> appelle <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%2A> lors de la création de <xref:System.ServiceModel.InstanceContext> et appelle la méthode <xref:System.ServiceModel.Dispatcher.IInstanceProvider.ReleaseInstance%2A> à la fermeture de <xref:System.ServiceModel.InstanceContext>.</span><span class="sxs-lookup"><span data-stu-id="091e7-110">Typically, the <xref:System.ServiceModel.InstanceContext> invokes the <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%2A> when the <xref:System.ServiceModel.InstanceContext> is first created and invokes the <xref:System.ServiceModel.Dispatcher.IInstanceProvider.ReleaseInstance%2A> method when the <xref:System.ServiceModel.InstanceContext> is closed.</span></span>  
+  
+ <span data-ttu-id="091e7-111">Deux méthodes différentes permettent à un objet <xref:System.ServiceModel.InstanceContext> de libérer un objet de service avant la fermeture de <xref:System.ServiceModel.InstanceContext>.</span><span class="sxs-lookup"><span data-stu-id="091e7-111">There are two ways to cause an <xref:System.ServiceModel.InstanceContext> object to release a service object before the <xref:System.ServiceModel.InstanceContext> is closed.</span></span> <span data-ttu-id="091e7-112">La première méthode consiste à assigner <xref:System.ServiceModel.OperationBehaviorAttribute.ReleaseInstanceMode%2A> à <xref:System.ServiceModel.ReleaseInstanceMode.AfterCall> ou à <xref:System.ServiceModel.ReleaseInstanceMode.BeforeAndAfterCall>.</span><span class="sxs-lookup"><span data-stu-id="091e7-112">The first method is to set the <xref:System.ServiceModel.OperationBehaviorAttribute.ReleaseInstanceMode%2A> to <xref:System.ServiceModel.ReleaseInstanceMode.AfterCall> or <xref:System.ServiceModel.ReleaseInstanceMode.BeforeAndAfterCall>.</span></span> <span data-ttu-id="091e7-113">La seconde méthode consiste à appeler la méthode <xref:System.ServiceModel.InstanceContext.ReleaseServiceInstance%2A>.</span><span class="sxs-lookup"><span data-stu-id="091e7-113">The second method is to call the <xref:System.ServiceModel.InstanceContext.ReleaseServiceInstance%2A> method.</span></span> <span data-ttu-id="091e7-114">Dans ce cas, <xref:System.ServiceModel.InstanceContext> appelle la méthode <xref:System.ServiceModel.Dispatcher.IInstanceProvider.ReleaseInstance%2A> sur le fournisseur d'instances du répartiteur.</span><span class="sxs-lookup"><span data-stu-id="091e7-114">If this is done, the <xref:System.ServiceModel.InstanceContext> calls the <xref:System.ServiceModel.Dispatcher.IInstanceProvider.ReleaseInstance%2A> method on the dispatcher's instance provider.</span></span> <span data-ttu-id="091e7-115">Si un nouveau message arrive après la libération de l'instance, [!INCLUDE[indigo2](~/includes/indigo2-md.md)] crée une instance à l'aide de la méthode <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%2A>.</span><span class="sxs-lookup"><span data-stu-id="091e7-115">If a new message arrives after the instance has been released, [!INCLUDE[indigo2](~/includes/indigo2-md.md)] creates a new instance using the <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%2A> method.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="091e7-116">Si le <xref:System.ServiceModel.InstanceContextMode> du service est <xref:System.ServiceModel.InstanceContextMode.Single>, le système n'appelle pas les méthodes <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%2A> et <xref:System.ServiceModel.Dispatcher.IInstanceProvider.ReleaseInstance%2A>, même si l'utilisateur n'a pas fourni d'objet de service connu, sauf si l'utilisateur appelle directement <xref:System.ServiceModel.InstanceContext.ReleaseServiceInstance%2A> puis <xref:System.ServiceModel.InstanceContext.GetServiceInstance%2A>.</span><span class="sxs-lookup"><span data-stu-id="091e7-116">If the <xref:System.ServiceModel.InstanceContextMode> of the service is <xref:System.ServiceModel.InstanceContextMode.Single>, the system does not call the <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%2A> or <xref:System.ServiceModel.Dispatcher.IInstanceProvider.ReleaseInstance%2A> methods even when the user did not provide a well-known service object unless the user directly calls <xref:System.ServiceModel.InstanceContext.ReleaseServiceInstance%2A> and then calls <xref:System.ServiceModel.InstanceContext.GetServiceInstance%2A>.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="091e7-117">L'exemple de code suivant indique comment implémenter <xref:System.ServiceModel.Dispatcher.IInstanceProvider> pour fournir un comportement singleton ; il retourne toujours la même instance de service et ne la recycle pas.</span><span class="sxs-lookup"><span data-stu-id="091e7-117">The following code example shows how to implement <xref:System.ServiceModel.Dispatcher.IInstanceProvider> that provides "singleton" behavior; it always returns the same service instance and does not recycle it.</span></span>  
+  
+ [!code-csharp[IContractBehavior#1](~/samples/snippets/csharp/VS_Snippets_CFX/icontractbehavior/cs/objectproviderbehavior.cs#1)]
+ [!code-vb[IContractBehavior#1](~/samples/snippets/visualbasic/VS_Snippets_CFX/icontractbehavior/vb/objectproviderbehavior.vb#1)]  
+  
+ <span data-ttu-id="091e7-118">L'exemple de code suivant indique comment implémenter un attribut personnalisé qui implémente <xref:System.ServiceModel.Description.IContractBehavior> pour insérer le fournisseur d'instances de service personnalisé.</span><span class="sxs-lookup"><span data-stu-id="091e7-118">The following code example shows how to implement a custom attribute that implements <xref:System.ServiceModel.Description.IContractBehavior> to insert the custom service instance provider.</span></span> <span data-ttu-id="091e7-119">Il implémente également <xref:System.ServiceModel.Description.IContractBehaviorAttribute>, qui lie son utilisation à un contrat spécifique.</span><span class="sxs-lookup"><span data-stu-id="091e7-119">It also implements <xref:System.ServiceModel.Description.IContractBehaviorAttribute>, which binds its use to a specific contract.</span></span>  
+  
+ [!code-csharp[IContractBehavior#2](~/samples/snippets/csharp/VS_Snippets_CFX/icontractbehavior/cs/objectproviderbehavior.cs#2)]
+ [!code-vb[IContractBehavior#2](~/samples/snippets/visualbasic/VS_Snippets_CFX/icontractbehavior/vb/objectproviderbehavior.vb#2)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName="GetInstance">
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="091e7-120">Retourne un objet de service.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="091e7-120">Returns a service object.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName="GetInstance">
+      <MemberSignature Language="C#" Value="public object GetInstance (System.ServiceModel.InstanceContext instanceContext);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance object GetInstance(class System.ServiceModel.InstanceContext instanceContext) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance(System.ServiceModel.InstanceContext)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Object ^ GetInstance(System::ServiceModel::InstanceContext ^ instanceContext);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="instanceContext" Type="System.ServiceModel.InstanceContext" />
+      </Parameters>
+      <Docs>
+        <param name="instanceContext">
+          <span data-ttu-id="091e7-121">Objet <see cref="T:System.ServiceModel.InstanceContext" /> actuel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="091e7-121">The current <see cref="T:System.ServiceModel.InstanceContext" /> object.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="091e7-122">Retourne un objet de service en fonction de l'objet <see cref="T:System.ServiceModel.InstanceContext" /> spécifié.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="091e7-122">Returns a service object given the specified <see cref="T:System.ServiceModel.InstanceContext" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="091e7-123">Objet de service défini par l'utilisateur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="091e7-123">A user-defined service object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="091e7-124">Utilisez la méthode <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%28System.ServiceModel.InstanceContext%29> pour contrôler l'objet de service exact qu'un service [!INCLUDE[indigo2](~/includes/indigo2-md.md)] reçoit lorsqu'il tente d'en créer un nouveau.</span><span class="sxs-lookup"><span data-stu-id="091e7-124">Use the <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%28System.ServiceModel.InstanceContext%29> method to control the exact service object that a [!INCLUDE[indigo2](~/includes/indigo2-md.md)] service receives when it attempts to create a new one.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="091e7-125">L'exemple de code suivant indique comment implémenter <xref:System.ServiceModel.Dispatcher.IInstanceProvider> pour fournir un comportement singleton ; il retourne toujours la même instance de service et ne la recycle pas.</span><span class="sxs-lookup"><span data-stu-id="091e7-125">The following code example shows how to implement <xref:System.ServiceModel.Dispatcher.IInstanceProvider> that provides "singleton" behavior; it always returns the same service instance and does not recycle it.</span></span>  
+  
+ [!code-csharp[IContractBehavior#1](~/samples/snippets/csharp/VS_Snippets_CFX/icontractbehavior/cs/objectproviderbehavior.cs#1)]
+ [!code-vb[IContractBehavior#1](~/samples/snippets/visualbasic/VS_Snippets_CFX/icontractbehavior/vb/objectproviderbehavior.vb#1)]  
+  
+ <span data-ttu-id="091e7-126">L'exemple de code suivant indique comment implémenter un attribut personnalisé qui implémente <xref:System.ServiceModel.Description.IContractBehavior> pour insérer le fournisseur d'instances de service personnalisé.</span><span class="sxs-lookup"><span data-stu-id="091e7-126">The following code example shows how to implement a custom attribute that implements <xref:System.ServiceModel.Description.IContractBehavior> to insert the custom service instance provider.</span></span> <span data-ttu-id="091e7-127">Il implémente également <xref:System.ServiceModel.Description.IContractBehaviorAttribute>, qui lie son utilisation à un contrat spécifique.</span><span class="sxs-lookup"><span data-stu-id="091e7-127">It also implements <xref:System.ServiceModel.Description.IContractBehaviorAttribute>, which binds its use to a specific contract.</span></span>  
+  
+ [!code-csharp[IContractBehavior#2](~/samples/snippets/csharp/VS_Snippets_CFX/icontractbehavior/cs/objectproviderbehavior.cs#2)]
+ [!code-vb[IContractBehavior#2](~/samples/snippets/visualbasic/VS_Snippets_CFX/icontractbehavior/vb/objectproviderbehavior.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetInstance">
+      <MemberSignature Language="C#" Value="public object GetInstance (System.ServiceModel.InstanceContext instanceContext, System.ServiceModel.Channels.Message message);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance object GetInstance(class System.ServiceModel.InstanceContext instanceContext, class System.ServiceModel.Channels.Message message) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance(System.ServiceModel.InstanceContext,System.ServiceModel.Channels.Message)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Object ^ GetInstance(System::ServiceModel::InstanceContext ^ instanceContext, System::ServiceModel::Channels::Message ^ message);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Object</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="instanceContext" Type="System.ServiceModel.InstanceContext" />
+        <Parameter Name="message" Type="System.ServiceModel.Channels.Message" />
+      </Parameters>
+      <Docs>
+        <param name="instanceContext">
+          <span data-ttu-id="091e7-128">Objet <see cref="T:System.ServiceModel.InstanceContext" /> actuel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="091e7-128">The current <see cref="T:System.ServiceModel.InstanceContext" /> object.</span>
+          </span>
+        </param>
+        <param name="message">
+          <span data-ttu-id="091e7-129">Message qui a déclenché la création d'un objet de service.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="091e7-129">The message that triggered the creation of a service object.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="091e7-130">Retourne un objet de service en fonction de l'objet <see cref="T:System.ServiceModel.InstanceContext" /> spécifié.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="091e7-130">Returns a service object given the specified <see cref="T:System.ServiceModel.InstanceContext" /> object.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="091e7-131">Objet de service.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="091e7-131">The service object.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="091e7-132">Utilisez la méthode <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%28System.ServiceModel.InstanceContext%2CSystem.ServiceModel.Channels.Message%29> pour contrôler l'objet de service exact qu'un service [!INCLUDE[indigo2](~/includes/indigo2-md.md)] reçoit lorsqu'il tente d'en créer un nouveau.</span><span class="sxs-lookup"><span data-stu-id="091e7-132">Use the <xref:System.ServiceModel.Dispatcher.IInstanceProvider.GetInstance%28System.ServiceModel.InstanceContext%2CSystem.ServiceModel.Channels.Message%29> method to control the exact service object that a [!INCLUDE[indigo2](~/includes/indigo2-md.md)] service receives when it attempts to create a new one.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="091e7-133">L'exemple de code suivant indique comment implémenter <xref:System.ServiceModel.Dispatcher.IInstanceProvider> pour fournir un comportement singleton ; il retourne toujours la même instance de service et ne la recycle pas.</span><span class="sxs-lookup"><span data-stu-id="091e7-133">The following code example shows how to implement <xref:System.ServiceModel.Dispatcher.IInstanceProvider> that provides "singleton" behavior; it always returns the same service instance and does not recycle it.</span></span>  
+  
+ [!code-csharp[IContractBehavior#1](~/samples/snippets/csharp/VS_Snippets_CFX/icontractbehavior/cs/objectproviderbehavior.cs#1)]
+ [!code-vb[IContractBehavior#1](~/samples/snippets/visualbasic/VS_Snippets_CFX/icontractbehavior/vb/objectproviderbehavior.vb#1)]  
+  
+ <span data-ttu-id="091e7-134">L'exemple de code suivant indique comment implémenter un attribut personnalisé qui implémente <xref:System.ServiceModel.Description.IContractBehavior> pour insérer le fournisseur d'instances de service personnalisé.</span><span class="sxs-lookup"><span data-stu-id="091e7-134">The following code example shows how to implement a custom attribute that implements <xref:System.ServiceModel.Description.IContractBehavior> to insert the custom service instance provider.</span></span> <span data-ttu-id="091e7-135">Il implémente également <xref:System.ServiceModel.Description.IContractBehaviorAttribute>, qui lie son utilisation à un contrat spécifique.</span><span class="sxs-lookup"><span data-stu-id="091e7-135">It also implements <xref:System.ServiceModel.Description.IContractBehaviorAttribute>, which binds its use to a specific contract.</span></span>  
+  
+ [!code-csharp[IContractBehavior#2](~/samples/snippets/csharp/VS_Snippets_CFX/icontractbehavior/cs/objectproviderbehavior.cs#2)]
+ [!code-vb[IContractBehavior#2](~/samples/snippets/visualbasic/VS_Snippets_CFX/icontractbehavior/vb/objectproviderbehavior.vb#2)]  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReleaseInstance">
+      <MemberSignature Language="C#" Value="public void ReleaseInstance (System.ServiceModel.InstanceContext instanceContext, object instance);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ReleaseInstance(class System.ServiceModel.InstanceContext instanceContext, object instance) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.IInstanceProvider.ReleaseInstance(System.ServiceModel.InstanceContext,System.Object)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ReleaseInstance(System::ServiceModel::InstanceContext ^ instanceContext, System::Object ^ instance);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="instanceContext" Type="System.ServiceModel.InstanceContext" />
+        <Parameter Name="instance" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="instanceContext">
+          <span data-ttu-id="091e7-136">Contexte d'instance du service.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="091e7-136">The service's instance context.</span>
+          </span>
+        </param>
+        <param name="instance">
+          <span data-ttu-id="091e7-137">Objet de service à recycler.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="091e7-137">The service object to be recycled.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="091e7-138">Appelé lorsqu'un objet <see cref="T:System.ServiceModel.InstanceContext" /> recycle un objet de service.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="091e7-138">Called when an <see cref="T:System.ServiceModel.InstanceContext" /> object recycles a service object.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="091e7-139">Utilisez la méthode <xref:System.ServiceModel.Dispatcher.IInstanceProvider.ReleaseInstance%2A> pour effectuer une élimination de ressources personnalisée ou une autre personnalisation de recyclage lorsqu'un service recycle un objet de service.</span><span class="sxs-lookup"><span data-stu-id="091e7-139">Use the <xref:System.ServiceModel.Dispatcher.IInstanceProvider.ReleaseInstance%2A> method to perform some custom resource disposal or other recycling customization when a service recycles a service object.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

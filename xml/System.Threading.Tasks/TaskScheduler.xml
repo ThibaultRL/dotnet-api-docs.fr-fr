@@ -1,0 +1,925 @@
+<Type Name="TaskScheduler" FullName="System.Threading.Tasks.TaskScheduler">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="ddd94061f594e353cba8674c76ffcb77a643ddb1" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public abstract class TaskScheduler" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit TaskScheduler extends System.Object" />
+  <TypeSignature Language="DocId" Value="T:System.Threading.Tasks.TaskScheduler" />
+  <TypeSignature Language="VB.NET" Value="Public MustInherit Class TaskScheduler" />
+  <TypeSignature Language="C++ CLI" Value="public ref class TaskScheduler abstract" />
+  <AssemblyInfo>
+    <AssemblyName>System.Threading.Tasks</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <AssemblyVersion>4.0.10.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Runtime</AssemblyName>
+    <AssemblyVersion>4.2.0.0</AssemblyVersion>
+    <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.Object</BaseTypeName>
+  </Base>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Diagnostics.DebuggerDisplay("Id={Id}")</AttributeName>
+    </Attribute>
+    <Attribute>
+      <AttributeName>System.Diagnostics.DebuggerTypeProxy(typeof(System.Threading.Tasks.TaskScheduler/SystemThreadingTasks_TaskSchedulerDebugView))</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="40898-101">Représente un objet qui gère les tâches de bas niveau de la mise en file d'attente de tâches sur des threads.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="40898-101">Represents an object that handles the low-level work of queuing tasks onto threads.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="40898-102">Une instance de la <xref:System.Threading.Tasks.TaskScheduler> classe représente un planificateur de tâches.</span><span class="sxs-lookup"><span data-stu-id="40898-102">An instance of the <xref:System.Threading.Tasks.TaskScheduler> class represents a task scheduler.</span></span> <span data-ttu-id="40898-103">Un planificateur de tâches s’assure que le travail d’une tâche est finalement exécuté.</span><span class="sxs-lookup"><span data-stu-id="40898-103">A task scheduler ensures that the work of a task is eventually executed.</span></span>  
+  
+ <span data-ttu-id="40898-104">Le planificateur de tâches par défaut est basé sur le pool de threads .NET Framework 4, qui fournit le vol de travail pour l'équilibrage de charge, l'injection/retrait du thread  pour un débit maximal et une bonne performance globale.</span><span class="sxs-lookup"><span data-stu-id="40898-104">The default task scheduler is based on the .NET Framework 4 thread pool, which provides work-stealing for load-balancing, thread injection/retirement for maximum throughput, and overall good performance.</span></span> <span data-ttu-id="40898-105">Ce doit être suffisant pour la plupart des scénarios.</span><span class="sxs-lookup"><span data-stu-id="40898-105">It should be sufficient for most scenarios.</span></span>  
+  
+ <span data-ttu-id="40898-106">La <xref:System.Threading.Tasks.TaskScheduler> classe sert également de point d’extension pour toute logique de planification personnalisable.</span><span class="sxs-lookup"><span data-stu-id="40898-106">The <xref:System.Threading.Tasks.TaskScheduler> class also serves as the extension point for all customizable scheduling logic.</span></span>  <span data-ttu-id="40898-107">Cela inclut des mécanismes tels que la planification d’une tâche pour l’exécution et les tâches planifiées comment doit être exposée aux débogueurs.</span><span class="sxs-lookup"><span data-stu-id="40898-107">This includes mechanisms such as how to schedule a task for execution, and how scheduled tasks should be exposed to debuggers.</span></span> <span data-ttu-id="40898-108">Si vous avez besoin des fonctionnalités spéciales, vous pouvez créer un planificateur personnalisé et l’activer pour les requêtes ou des tâches spécifiques.</span><span class="sxs-lookup"><span data-stu-id="40898-108">If you require special functionality, you can create a custom scheduler and enable it for specific tasks or queries.</span></span>  
+  
+ <span data-ttu-id="40898-109">Dans cette rubrique :</span><span class="sxs-lookup"><span data-stu-id="40898-109">In this topic:</span></span>  
+[<span data-ttu-id="40898-110">Le Planificateur de tâches par défaut et le pool de threads</span><span class="sxs-lookup"><span data-stu-id="40898-110">The default task scheduler and the thread pool</span></span>](#Default)  
+ [<span data-ttu-id="40898-111">La file d’attente globale et files d’attente locales</span><span class="sxs-lookup"><span data-stu-id="40898-111">The global queue vs. local queues</span></span>](#Queues)  
+ [<span data-ttu-id="40898-112">Vol de travail</span><span class="sxs-lookup"><span data-stu-id="40898-112">Work stealing</span></span>](#Stealing)  
+ [<span data-ttu-id="40898-113">Tâches longues</span><span class="sxs-lookup"><span data-stu-id="40898-113">Long-running tasks</span></span>](#LongRunning)  
+ [<span data-ttu-id="40898-114">Incorporation de tâche</span><span class="sxs-lookup"><span data-stu-id="40898-114">Task inlining</span></span>](#Inlining)  
+[<span data-ttu-id="40898-115">Spécification d’un contexte de synchronisation</span><span class="sxs-lookup"><span data-stu-id="40898-115">Specifying a synchronization context</span></span>](#Sync)  
+  
+<a name="Default"></a>   
+## <a name="the-default-task-scheduler-and-the-thread-pool"></a><span data-ttu-id="40898-116">Le Planificateur de tâches par défaut et le pool de threads</span><span class="sxs-lookup"><span data-stu-id="40898-116">The default task scheduler and the thread pool</span></span>  
+ <span data-ttu-id="40898-117">Le planificateur par défaut pour la bibliothèque parallèle de tâches et PLINQ utilise le pool de threads .NET Framework, qui est représenté par le <xref:System.Threading.ThreadPool> (classe), à la file d’attente et les exécuter.</span><span class="sxs-lookup"><span data-stu-id="40898-117">The default scheduler for the Task Parallel Library and PLINQ uses the .NET Framework thread pool, which is represented by the <xref:System.Threading.ThreadPool> class, to queue and execute work.</span></span> <span data-ttu-id="40898-118">Le pool de threads utilise les informations fournies par le <xref:System.Threading.Tasks.Task> type à prendre en charge efficacement le parallélisme affiné (unités éphémères de travail) et les tâches parallèles requêtes souvent représentent.</span><span class="sxs-lookup"><span data-stu-id="40898-118">The thread pool uses the information that is provided by the <xref:System.Threading.Tasks.Task> type to efficiently     support the fine-grained parallelism (short-lived units of work) that parallel tasks and queries often represent.</span></span>  
+  
+<a name="Queues"></a>   
+### <a name="the-global-queue-vs-local-queues"></a><span data-ttu-id="40898-119">La file d’attente globale et files d’attente locales</span><span class="sxs-lookup"><span data-stu-id="40898-119">The global queue vs. local queues</span></span>  
+ <span data-ttu-id="40898-120">Le pool de threads gère une globale FIFO (premier entré, premier sorti) fonctionnent de la file d’attente pour les threads dans chaque domaine d’application.</span><span class="sxs-lookup"><span data-stu-id="40898-120">The thread pool maintains a global FIFO (first-in, first-out) work queue for threads in each application domain.</span></span> <span data-ttu-id="40898-121">Chaque fois qu’un programme appelle la <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A?displayProperty=nameWithType> (ou <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A?displayProperty=nameWithType>) méthode, le travail est placé sur cette file d’attente partagée et finalement annuler en file d’attente vers le thread suivant qui devient disponible.</span><span class="sxs-lookup"><span data-stu-id="40898-121">Whenever a program calls the <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A?displayProperty=nameWithType> (or <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A?displayProperty=nameWithType>) method, the work is put on this shared queue and eventually de-queued onto the next thread that becomes available.</span></span> <span data-ttu-id="40898-122">À compter de .NET Framework 4, cette file d’attente a été améliorée pour utiliser un algorithme sans verrou qui ressemble à la <xref:System.Collections.Concurrent.ConcurrentQueue%601> classe.</span><span class="sxs-lookup"><span data-stu-id="40898-122">Starting with the .NET Framework 4, this queue has been improved to use a lock-free algorithm that resembles the <xref:System.Collections.Concurrent.ConcurrentQueue%601> class.</span></span> <span data-ttu-id="40898-123">À l’aide de cette implémentation sans verrou, le pool de threads passe moins de temps lorsqu’il met et sort file d’attente des éléments de travail.</span><span class="sxs-lookup"><span data-stu-id="40898-123">By using this lock-free implementation, the thread pool spends less time when it queues and de-queues work items.</span></span> <span data-ttu-id="40898-124">Ce gain de performances est disponible pour tous les programmes qui utilisent le pool de threads.</span><span class="sxs-lookup"><span data-stu-id="40898-124">This performance benefit is available to all programs that use the thread pool.</span></span>  
+  
+ <span data-ttu-id="40898-125">Les tâches de niveau supérieur, qui ne sont pas créées dans le contexte d’une autre tâche, sont mises en file d’attente globale comme tout autre élément de travail.</span><span class="sxs-lookup"><span data-stu-id="40898-125">Top-level tasks, which are tasks that are not created in the context of another task, are put on the global queue just like any other work item.</span></span> <span data-ttu-id="40898-126">Toutefois, les tâches imbriquées ou enfants, créées dans le contexte d'une autre tâche, sont gérées tout à fait différemment.</span><span class="sxs-lookup"><span data-stu-id="40898-126">However, nested or child tasks, which are created in the context of another task, are handled quite differently.</span></span> <span data-ttu-id="40898-127">Une tâche enfant ou imbriquée est placée dans une file d'attente locale qui est spécifique au thread sur lequel s'exécute la tâche parente.</span><span class="sxs-lookup"><span data-stu-id="40898-127">A child or nested task is put on a local queue that is specific to the thread on which the parent task is executing.</span></span> <span data-ttu-id="40898-128">La tâche parente peut être une tâche de niveau supérieur ou l'enfant d'une autre tâche.</span><span class="sxs-lookup"><span data-stu-id="40898-128">The parent task may be a top-level task or it also may be the child of another task.</span></span> <span data-ttu-id="40898-129">Quand ce thread est prêt pour exécuter davantage de travail, il regarde en premier dans la file d'attente locale.</span><span class="sxs-lookup"><span data-stu-id="40898-129">When this thread is ready for more work, it first looks in the local queue.</span></span> <span data-ttu-id="40898-130">Les éléments de travail qui s’y trouvent éventuellement peuvent être récupérés rapidement.</span><span class="sxs-lookup"><span data-stu-id="40898-130">If work items are waiting there, they can be accessed quickly.</span></span> <span data-ttu-id="40898-131">Les files d’attente locales sont accessibles par ordre dernier entré, entré premier sorti (LIFO) pour conserver la localité du cache et de réduire la contention.</span><span class="sxs-lookup"><span data-stu-id="40898-131">The local queues are accessed in last-in, first-out order (LIFO) to preserve cache locality and reduce contention.</span></span> <span data-ttu-id="40898-132">Pour plus d’informations sur les tâches enfants et imbriquées, consultez [détaché tâches enfants attachées et](~/docs/standard/parallel-programming/attached-and-detached-child-tasks.md).</span><span class="sxs-lookup"><span data-stu-id="40898-132">For more information about child tasks and nested tasks, see [Attached and Detached Child Tasks](~/docs/standard/parallel-programming/attached-and-detached-child-tasks.md).</span></span>  
+  
+ <span data-ttu-id="40898-133">L’utilisation de files d’attente locales non seulement réduit la pression sur la file d’attente globale, mais également tire parti de la localité des données.</span><span class="sxs-lookup"><span data-stu-id="40898-133">The use of local queues not only reduces pressure on the global queue, but also takes advantage of data locality.</span></span> <span data-ttu-id="40898-134">Éléments de travail locaux file d’attente fréquemment des structures de données de référence qui sont physiquement près d’un autre dans la mémoire.</span><span class="sxs-lookup"><span data-stu-id="40898-134">Work items in the local queue frequently reference data structures that are physically near one another in memory.</span></span> <span data-ttu-id="40898-135">Dans ces cas, les données sont déjà dans le cache après que la première tâche s’est exécutée et sont accessibles rapidement.</span><span class="sxs-lookup"><span data-stu-id="40898-135">In these cases, the data is already in the cache after the first task has run and can be accessed quickly.</span></span> <span data-ttu-id="40898-136">Les deux [Parallel LINQ (PLINQ)](~/docs/standard/parallel-programming/parallel-linq-plinq.md) et <xref:System.Threading.Tasks.Parallel> largement de classe utilisent des tâches imbriquées et tâches enfants et accomplissent des accélérations significatives à l’aide de files d’attente de travail locales.</span><span class="sxs-lookup"><span data-stu-id="40898-136">Both [Parallel LINQ (PLINQ)](~/docs/standard/parallel-programming/parallel-linq-plinq.md) and the <xref:System.Threading.Tasks.Parallel> class use nested tasks and child tasks extensively, and achieve significant speedups by using the local work queues.</span></span>  
+  
+<a name="Stealing"></a>   
+### <a name="work-stealing"></a><span data-ttu-id="40898-137">Vol de travail</span><span class="sxs-lookup"><span data-stu-id="40898-137">Work stealing</span></span>  
+ <span data-ttu-id="40898-138">À compter de .NET Framework 4, le pool de threads propose également un algorithme de vol de travail pour vous assurer qu’aucun thread ne soit inactif alors que d’autres ont du travail dans leurs files d’attente.</span><span class="sxs-lookup"><span data-stu-id="40898-138">Starting with the .NET Framework 4, the thread pool also features a work-stealing algorithm to help make sure that no threads are sitting idle while others still have work in their queues.</span></span> <span data-ttu-id="40898-139">Quand un thread de pool de threads est prêt à effectuer davantage de travail, il regarde successivement en tête de sa file d'attente locale, dans la file d'attente globale, puis dans les files d'attente locales d'autres threads.</span><span class="sxs-lookup"><span data-stu-id="40898-139">When a thread-pool thread is ready for more work, it first looks at the head of its local queue, then in the global queue, and then in the local queues of other threads.</span></span> <span data-ttu-id="40898-140">S’il trouve un élément de travail dans la file d’attente locale d’un autre thread, il applique d’abord des méthodes heuristiques pour s’assurer qu’il peut exécuter le travail efficacement.</span><span class="sxs-lookup"><span data-stu-id="40898-140">If it finds a work item in the local queue of another thread, it first applies heuristics to make sure that it can run the work efficiently.</span></span> <span data-ttu-id="40898-141">Si c’est possible, il sort file d’attente l’élément de travail à partir de la fin (dans l’ordre FIFO).</span><span class="sxs-lookup"><span data-stu-id="40898-141">If it can, it de-queues the work item from the tail (in FIFO order).</span></span> <span data-ttu-id="40898-142">Cela réduit les conflits sur chaque file d'attente locale et permet de conserver la localité des données.</span><span class="sxs-lookup"><span data-stu-id="40898-142">This reduces contention on each local queue and preserves data locality.</span></span> <span data-ttu-id="40898-143">Cette architecture permet le thread pool équilibrer la charge de travail plus efficacement que les versions antérieures.</span><span class="sxs-lookup"><span data-stu-id="40898-143">This architecture helps the  thread pool load-balance work more efficiently than past versions did.</span></span>  
+  
+<a name="LongRunning"></a>   
+### <a name="long-running-tasks"></a><span data-ttu-id="40898-144">Tâches longues</span><span class="sxs-lookup"><span data-stu-id="40898-144">Long-running tasks</span></span>  
+ <span data-ttu-id="40898-145">Vous pouvez explicitement empêcher une tâche d’être mise en file d’attente locale.</span><span class="sxs-lookup"><span data-stu-id="40898-145">You may want to explicitly prevent a task from being put on a local queue.</span></span> <span data-ttu-id="40898-146">Par exemple, vous savez peut-être qu'un élément de travail particulier fonctionnera pour une durée relativement longue et sera à même de bloquer tous les autres éléments de travail sur la file d'attente locale.</span><span class="sxs-lookup"><span data-stu-id="40898-146">For example, you may know that a particular work item will run for a relatively long time and is likely to block all other work items on the local queue.</span></span> <span data-ttu-id="40898-147">Dans ce cas, vous pouvez spécifier l'option <xref:System.Threading.Tasks.TaskCreationOptions?displayProperty=nameWithType>, qui indique au planificateur qu'un thread supplémentaire peut être nécessaire pour la tâche afin qu'elle n'entrave pas la progression d'autres threads ou éléments de travail sur la file d'attente locale.</span><span class="sxs-lookup"><span data-stu-id="40898-147">In this case, you can specify the <xref:System.Threading.Tasks.TaskCreationOptions?displayProperty=nameWithType> option, which provides a hint to the scheduler that an additional thread might be required for the task so that it does not block the forward progress of other threads or work items on the local queue.</span></span> <span data-ttu-id="40898-148">À l’aide de cette option vous évitez le pool de threads complètement, d’inclure les files d’attente locales et globales.</span><span class="sxs-lookup"><span data-stu-id="40898-148">By using this option you avoid the thread pool completely, including the global and local queues.</span></span>  
+  
+<a name="Inlining"></a>   
+### <a name="task-inlining"></a><span data-ttu-id="40898-149">Incorporation de tâche</span><span class="sxs-lookup"><span data-stu-id="40898-149">Task inlining</span></span>  
+ <span data-ttu-id="40898-150">Dans certains cas, quand un <xref:System.Threading.Tasks.Task> est attendue, elle peut être exécutée de façon synchrone sur le thread qui effectue l’opération d’attente.</span><span class="sxs-lookup"><span data-stu-id="40898-150">In some cases when a <xref:System.Threading.Tasks.Task> is waited on, it may be executed synchronously on the thread that is performing the wait operation.</span></span> <span data-ttu-id="40898-151">Cela améliore les performances en empêchant la nécessité d’un thread supplémentaire et à la place à l’aide du thread existant, ce qui se serait bloqué dans le cas contraire.</span><span class="sxs-lookup"><span data-stu-id="40898-151">This enhances performance by preventing the need for an additional thread and instead using the existing thread, which would have blocked otherwise.</span></span> <span data-ttu-id="40898-152">Pour éviter les erreurs dues à la réentrance, incorporation de tâche se produit uniquement lorsque la cible d’attente se trouve dans la file d’attente de locale du thread pertinent.</span><span class="sxs-lookup"><span data-stu-id="40898-152">To prevent errors due to re-entrancy, task inlining only occurs when the wait target is found in the relevant thread's local queue.</span></span>  
+  
+<a name="Sync"></a>   
+## <a name="specifying-a-synchronization-context"></a><span data-ttu-id="40898-153">Spécification d’un contexte de synchronisation</span><span class="sxs-lookup"><span data-stu-id="40898-153">Specifying a synchronization context</span></span>  
+ <span data-ttu-id="40898-154">Vous pouvez utiliser la méthode <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> pour spécifier qu'une tâche doit être planifiée pour fonctionner sur un thread particulier.</span><span class="sxs-lookup"><span data-stu-id="40898-154">You can use the <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> method to specify that a task should be scheduled to run on a particular thread.</span></span> <span data-ttu-id="40898-155">Cela s'avère utile dans les infrastructures telles que Windows Forms et Windows Presentation Foundation où l'accès aux objets d'interface utilisateur est souvent restreint au code qui s'exécute sur le thread sur lequel l'objet d'interface utilisateur a été créé.</span><span class="sxs-lookup"><span data-stu-id="40898-155">This is useful in frameworks such as Windows Forms and Windows Presentation Foundation where access to user interface objects is often restricted to code that is running on the same thread on which the UI object was created.</span></span>  
+  
+ <span data-ttu-id="40898-156">L’exemple suivant utilise la <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> méthode dans une application Windows Presentation Foundation (WPF) pour planifier une tâche sur le même thread que le contrôle d’interface utilisateur utilisateur a été créé.</span><span class="sxs-lookup"><span data-stu-id="40898-156">The following example uses the <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> method in a Windows Presentation Foundation (WPF) app to schedule a task on the same thread that the user interface (UI) control was created on.</span></span>   <span data-ttu-id="40898-157">L’exemple crée une mosaïque d’images qui sont sélectionnées au hasard à partir d’un répertoire spécifié.</span><span class="sxs-lookup"><span data-stu-id="40898-157">The example creates a mosaic of images that are randomly selected from a specified directory.</span></span> <span data-ttu-id="40898-158">Les objets WPF sont utilisés pour charger et redimensionner les images.</span><span class="sxs-lookup"><span data-stu-id="40898-158">The WPF objects are used to load and resize the images.</span></span> <span data-ttu-id="40898-159">Les pixels bruts sont ensuite passées à une tâche qui utilise un <xref:System.Threading.Tasks.Parallel.For%2A> boucle pour écrire les données de pixel dans un grand tableau sur un octet.</span><span class="sxs-lookup"><span data-stu-id="40898-159">The raw pixels are then passed to a task that uses a <xref:System.Threading.Tasks.Parallel.For%2A> loop to write the pixel data into a large single-byte array.</span></span> <span data-ttu-id="40898-160">Aucune synchronisation n’est requise, car aucun deux vignettes n’occupent les mêmes éléments de tableau.</span><span class="sxs-lookup"><span data-stu-id="40898-160">No synchronization is required because no two tiles occupy the same array elements.</span></span> <span data-ttu-id="40898-161">Les vignettes peuvent également être écrites dans n’importe quel ordre, car leur position est calculée indépendamment de toute autre mosaïque.</span><span class="sxs-lookup"><span data-stu-id="40898-161">The tiles can also be written in any order because their position is calculated independently of any other tile.</span></span> <span data-ttu-id="40898-162">Le tableau de grande taille est ensuite transmis à une tâche qui s’exécute sur le thread d’interface utilisateur, où les données de pixel sont chargées dans un contrôle Image.</span><span class="sxs-lookup"><span data-stu-id="40898-162">The large array is then passed to a task that runs on the UI thread, where the pixel data is loaded into an Image control.</span></span>  
+  
+ <span data-ttu-id="40898-163">L’exemple déplace les données du thread d’interface utilisateur, il modifie à l’aide de boucles parallèles et <xref:System.Threading.Tasks.Task> objets, puis le transmet à une tâche qui s’exécute sur le thread d’interface utilisateur.</span><span class="sxs-lookup"><span data-stu-id="40898-163">The example moves data off the UI thread, modifies it by using parallel loops and <xref:System.Threading.Tasks.Task> objects, and then passes it back to a task that runs on the UI thread.</span></span> <span data-ttu-id="40898-164">Cette approche est utile lorsque vous devez utiliser la bibliothèque parallèle de tâches pour effectuer des opérations qui ne sont pas pris en charge par l’API WPF, ou qui ne sont pas suffisamment rapides.</span><span class="sxs-lookup"><span data-stu-id="40898-164">This approach is useful when you have to use the Task Parallel Library to perform operations that either are not supported by the WPF API, or are not sufficiently fast.</span></span> <span data-ttu-id="40898-165">Une autre façon de créer une mosaïque d’images dans WPF consiste à utiliser un <xref:System.Windows.Controls.WrapPanel?displayProperty=nameWithType> contrôler et ajouter des images.</span><span class="sxs-lookup"><span data-stu-id="40898-165">Another way to create an image mosaic in WPF is to use a <xref:System.Windows.Controls.WrapPanel?displayProperty=nameWithType> control and add images to it.</span></span> <span data-ttu-id="40898-166">Le <xref:System.Windows.Controls.WrapPanel> gère les tâches de positionnement des mosaïques.</span><span class="sxs-lookup"><span data-stu-id="40898-166">The <xref:System.Windows.Controls.WrapPanel> handles the work of positioning the tiles.</span></span> <span data-ttu-id="40898-167">Toutefois, ce travail peut uniquement être effectué sur le thread d’interface utilisateur.</span><span class="sxs-lookup"><span data-stu-id="40898-167">However, this work can only be performed on the UI thread.</span></span>  
+  
+ [!code-csharp[TPL_SyncContext#01](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_synccontext/cs/mainwindow.xaml.cs#01)]
+ [!code-vb[TPL_SyncContext#01](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_synccontext/vb/MainWindow.xaml.vb#01)]  
+  
+ <span data-ttu-id="40898-168">Pour créer l’exemple, créez un projet d’application WPF dans Visual Studio et lui attribuer un nom de votre choix.</span><span class="sxs-lookup"><span data-stu-id="40898-168">To create the example, create a WPF application project in Visual Studio and assign it a name of your choice.</span></span> <span data-ttu-id="40898-169">Procédez comme suit :</span><span class="sxs-lookup"><span data-stu-id="40898-169">Then do the following:</span></span>  
+  
+1.  <span data-ttu-id="40898-170">En mode conception, faites glisser un <xref:System.Windows.Controls.Image> contrôle depuis la **boîte à outils** à l’aire de conception.</span><span class="sxs-lookup"><span data-stu-id="40898-170">In design view, drag an <xref:System.Windows.Controls.Image> control from the **Toolbox** to the design surface.</span></span> <span data-ttu-id="40898-171">Dans la vue XAML, spécifiez l’alignement horizontal comme « Left ».</span><span class="sxs-lookup"><span data-stu-id="40898-171">In XAML view, specify the horizontal alignment as "Left."</span></span> <span data-ttu-id="40898-172">La taille n’a pas d’importance, car le contrôle est redimensionné dynamiquement au moment de l’exécution.</span><span class="sxs-lookup"><span data-stu-id="40898-172">The size does not matter because the control is be dynamically resized at run time.</span></span> <span data-ttu-id="40898-173">Acceptez le nom par défaut, « image ».</span><span class="sxs-lookup"><span data-stu-id="40898-173">Accept the default name, "image".</span></span>  
+  
+2.  <span data-ttu-id="40898-174">Faites glisser un <xref:System.Windows.Controls.Button> contrôle depuis la **boîte à outils** à la partie inférieure gauche de la fenêtre d’application.</span><span class="sxs-lookup"><span data-stu-id="40898-174">Drag a <xref:System.Windows.Controls.Button> control from the **Toolbox** to the lower left part of the application window.</span></span> <span data-ttu-id="40898-175">Double-cliquez sur le bouton pour ajouter un <xref:System.Windows.Controls.Primitives.ButtonBase.Click> Gestionnaire d’événements.</span><span class="sxs-lookup"><span data-stu-id="40898-175">Double-click the button to add a <xref:System.Windows.Controls.Primitives.ButtonBase.Click> event handler.</span></span> <span data-ttu-id="40898-176">Dans la vue XAML, spécifiez la <xref:System.Windows.Controls.ContentControl.Content%2A> propriété du bouton comme « une mosaïque » et spécifiez son alignement horizontal comme « Left ».</span><span class="sxs-lookup"><span data-stu-id="40898-176">In XAML view, specify the <xref:System.Windows.Controls.ContentControl.Content%2A> property of the button as "Make a Mosaic" and specify its horizontal alignment as "Left".</span></span> <span data-ttu-id="40898-177">Acceptez le nom par défaut, « bouton ».</span><span class="sxs-lookup"><span data-stu-id="40898-177">Accept the default name, "button".</span></span>  
+  
+3.  <span data-ttu-id="40898-178">Remplacez le contenu entier du fichier MainWindow.xaml.cs ou MainWindow.xaml.vb par le code de cet exemple.</span><span class="sxs-lookup"><span data-stu-id="40898-178">Replace the entire contents of the MainWindow.xaml.cs or MainWindow.xaml.vb file with the code from this example.</span></span> <span data-ttu-id="40898-179">Assurez-vous que le nom de l’espace de travail correspond au nom du projet.</span><span class="sxs-lookup"><span data-stu-id="40898-179">Make sure that the name of the workspace matches the project name.</span></span>  
+  
+4.  <span data-ttu-id="40898-180">L’exemple lit les images JPEG à partir d’un répertoire nommé C:\Users\Public\Pictures\Sample images\\.</span><span class="sxs-lookup"><span data-stu-id="40898-180">The example reads JPEG images from a directory named C:\Users\Public\Pictures\Sample Pictures\\.</span></span> <span data-ttu-id="40898-181">Créer le répertoire et placer des images qu’il contient ou modifier le chemin d’accès pour faire référence à un autre annuaire qui contient des images.</span><span class="sxs-lookup"><span data-stu-id="40898-181">Either create the directory and place some images in it, or change the path to refer to some other directory that contains images.</span></span>  
+  
+ <span data-ttu-id="40898-182">Cet exemple présente certaines limitations.</span><span class="sxs-lookup"><span data-stu-id="40898-182">This example has some limitations.</span></span> <span data-ttu-id="40898-183">Par exemple, les images d’uniquement 32-bits par pixel sont prises en charge ; images dans d’autres formats sont endommagées par le <xref:System.Windows.Media.Imaging.BitmapImage> l’objet au cours de l’opération de redimensionnement.</span><span class="sxs-lookup"><span data-stu-id="40898-183">For example, only 32-bits-per-pixel images are supported; images in other formats are corrupted by the <xref:System.Windows.Media.Imaging.BitmapImage> object during the resizing operation.</span></span> <span data-ttu-id="40898-184">En outre, les images de la source doivent tous être supérieure à la taille de la vignette.</span><span class="sxs-lookup"><span data-stu-id="40898-184">Also, the source images must all be larger than the tile size.</span></span> <span data-ttu-id="40898-185">En guise d’exercice supplémentaire, vous pouvez ajouter la fonctionnalité permettant de gérer plusieurs formats de pixel et les tailles des fichiers.</span><span class="sxs-lookup"><span data-stu-id="40898-185">As a further exercise, you can add functionality to handle multiple pixel formats and file sizes.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="40898-186">L’exemple suivant provient de la [exemples de programmation parallèle avec .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717) sur le site Web MSDN Code Gallery.</span><span class="sxs-lookup"><span data-stu-id="40898-186">The following example is taken from the [Samples for Parallel Programming with the .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717) on the MSDN Code Gallery Web site.</span></span>  <span data-ttu-id="40898-187">Il crée un planificateur de tâches qui limite le nombre de threads utilisés par l’application.</span><span class="sxs-lookup"><span data-stu-id="40898-187">It creates a custom task scheduler that limits the number of threads used by the app.</span></span> <span data-ttu-id="40898-188">Ensuite, il lance deux ensembles de tâches et affiche des informations sur la tâche et le thread sur lequel la tâche s’exécute.</span><span class="sxs-lookup"><span data-stu-id="40898-188">It then launches two sets of tasks and displays information about the task and the thread on which the task is executing.</span></span>  
+  
+ [!code-csharp[TPL_Schedulers#02](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_schedulers/cs/limitex1.cs#02)]
+ [!code-vb[TPL_Schedulers#02](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_schedulers/vb/module2.vb#02)]  
+  
+ <span data-ttu-id="40898-189">En outre, plusieurs exemples de planificateurs de tâches sont disponibles dans la galerie de Code : [exemples de programmation parallèle avec .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717).</span><span class="sxs-lookup"><span data-stu-id="40898-189">In addition, several sample task schedulers are available on Code Gallery: [Samples for Parallel Programming with the .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717).</span></span>  
+  
+ ]]></format>
+    </remarks>
+    <threadsafe>
+      <span data-ttu-id="40898-190">Tous les membres du résumé <see cref="T:System.Threading.Tasks.TaskScheduler" /> type sont thread-safe et peuvent être utilisés à partir de plusieurs threads simultanément.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="40898-190">All members of the abstract <see cref="T:System.Threading.Tasks.TaskScheduler" /> type are thread-safe and may be used from multiple threads concurrently.</span>
+      </span>
+    </threadsafe>
+  </Docs>
+  <Members>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="protected TaskScheduler ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Protected Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; TaskScheduler();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="40898-191">Initialise la <see cref="T:System.Threading.Tasks.TaskScheduler" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-191">Initializes the <see cref="T:System.Threading.Tasks.TaskScheduler" />.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Current">
+      <MemberSignature Language="C#" Value="public static System.Threading.Tasks.TaskScheduler Current { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class System.Threading.Tasks.TaskScheduler Current" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.Tasks.TaskScheduler.Current" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property Current As TaskScheduler" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::Threading::Tasks::TaskScheduler ^ Current { System::Threading::Tasks::TaskScheduler ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.Tasks.TaskScheduler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="40898-192">Obtient le <see cref="T:System.Threading.Tasks.TaskScheduler" /> associé à la tâche en cours d'exécution.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-192">Gets the <see cref="T:System.Threading.Tasks.TaskScheduler" /> associated with the currently executing task.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="40898-193">Retourne le <see cref="T:System.Threading.Tasks.TaskScheduler" /> associé à la tâche en cours d'exécution.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-193">Returns the <see cref="T:System.Threading.Tasks.TaskScheduler" /> associated with the currently executing task.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="40898-194">Lorsque ne pas appelée à partir d’une tâche, <xref:System.Threading.Tasks.TaskScheduler.Current%2A> retournera le <xref:System.Threading.Tasks.TaskScheduler.Default%2A> planificateur.</span><span class="sxs-lookup"><span data-stu-id="40898-194">When not called from within a task, <xref:System.Threading.Tasks.TaskScheduler.Current%2A> will return the <xref:System.Threading.Tasks.TaskScheduler.Default%2A> scheduler.</span></span>  
+  
+ <span data-ttu-id="40898-195">Pour plus d'informations, consultez <xref:System.Threading.Tasks.TaskScheduler>.</span><span class="sxs-lookup"><span data-stu-id="40898-195">For more information, see <xref:System.Threading.Tasks.TaskScheduler>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Default">
+      <MemberSignature Language="C#" Value="public static System.Threading.Tasks.TaskScheduler Default { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property class System.Threading.Tasks.TaskScheduler Default" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.Tasks.TaskScheduler.Default" />
+      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly Property Default As TaskScheduler" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static property System::Threading::Tasks::TaskScheduler ^ Default { System::Threading::Tasks::TaskScheduler ^ get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.Tasks.TaskScheduler</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="40898-196">Obtient l'instance de <see cref="T:System.Threading.Tasks.TaskScheduler" /> par défaut fournie par le .NET Framework.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-196">Gets the default <see cref="T:System.Threading.Tasks.TaskScheduler" /> instance that is provided by the .NET Framework.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="40898-197">Retourne l'instance par défaut de <see cref="T:System.Threading.Tasks.TaskScheduler" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-197">Returns the default <see cref="T:System.Threading.Tasks.TaskScheduler" /> instance.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="40898-198">Pour plus d’informations, consultez [des planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).</span><span class="sxs-lookup"><span data-stu-id="40898-198">For more information, see [Task Schedulers](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FromCurrentSynchronizationContext">
+      <MemberSignature Language="C#" Value="public static System.Threading.Tasks.TaskScheduler FromCurrentSynchronizationContext ();" />
+      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Threading.Tasks.TaskScheduler FromCurrentSynchronizationContext() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Function FromCurrentSynchronizationContext () As TaskScheduler" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Threading::Tasks::TaskScheduler ^ FromCurrentSynchronizationContext();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.Tasks.TaskScheduler</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="40898-199">Crée un <see cref="T:System.Threading.Tasks.TaskScheduler" /> associé au <see cref="T:System.Threading.SynchronizationContext" /> en cours.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-199">Creates a <see cref="T:System.Threading.Tasks.TaskScheduler" /> associated with the current <see cref="T:System.Threading.SynchronizationContext" />.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="40898-200">
+            <see cref="T:System.Threading.Tasks.TaskScheduler" /> associé au <see cref="T:System.Threading.SynchronizationContext" /> actuel, comme le détermine <see cref="P:System.Threading.SynchronizationContext.Current" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-200">A <see cref="T:System.Threading.Tasks.TaskScheduler" /> associated with the current <see cref="T:System.Threading.SynchronizationContext" />, as determined by <see cref="P:System.Threading.SynchronizationContext.Current" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="40898-201">Tous les <xref:System.Threading.Tasks.Task> instances en attente pour retourné planificateur est exécuté via un appel à la <xref:System.Threading.SynchronizationContext.Post%2A> méthode sur ce contexte.</span><span class="sxs-lookup"><span data-stu-id="40898-201">All <xref:System.Threading.Tasks.Task> instances queued to the returned scheduler will be executed through a call to the <xref:System.Threading.SynchronizationContext.Post%2A> method on that context.</span></span>  
+  
+ <span data-ttu-id="40898-202">Pour plus d’informations, consultez [des planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).</span><span class="sxs-lookup"><span data-stu-id="40898-202">For more information, see [Task Schedulers](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="40898-203">Le SynchronizationContext actuel ne peut pas être utilisé en tant que TaskScheduler.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-203">The current SynchronizationContext may not be used as a TaskScheduler.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="GetScheduledTasks">
+      <MemberSignature Language="C#" Value="protected abstract System.Collections.Generic.IEnumerable&lt;System.Threading.Tasks.Task&gt; GetScheduledTasks ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance class System.Collections.Generic.IEnumerable`1&lt;class System.Threading.Tasks.Task&gt; GetScheduledTasks() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.GetScheduledTasks" />
+      <MemberSignature Language="VB.NET" Value="Protected MustOverride Function GetScheduledTasks () As IEnumerable(Of Task)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; abstract System::Collections::Generic::IEnumerable&lt;System::Threading::Tasks::Task ^&gt; ^ GetScheduledTasks();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IEnumerable&lt;System.Threading.Tasks.Task&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="40898-204">Pour la prise en charge du débogueur uniquement, génère un énumérateur d'instances de <see cref="T:System.Threading.Tasks.Task" /> actuellement en attente d'exécution dans la file d'attente sur le planificateur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-204">For debugger support only, generates an enumerable of <see cref="T:System.Threading.Tasks.Task" /> instances currently queued to the scheduler waiting to be executed.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="40898-205">Énumérateur qui autorise un débogueur à parcourir les tâches actuellement mises en file d'attente sur ce planificateur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-205">An enumerable that allows a debugger to traverse the tasks currently queued to this scheduler.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="40898-206">Une classe dérivée de <xref:System.Threading.Tasks.TaskScheduler> implémente cette méthode pour prendre en charge l’intégration avec les débogueurs.</span><span class="sxs-lookup"><span data-stu-id="40898-206">A class derived from <xref:System.Threading.Tasks.TaskScheduler> implements this method in order to support integration with debuggers.</span></span> <span data-ttu-id="40898-207">Cette méthode sera uniquement être appelée par le .NET Framework lorsque le débogueur demande l’accès aux données.</span><span class="sxs-lookup"><span data-stu-id="40898-207">This method will only be invoked by the .NET Framework when the debugger requests access to the data.</span></span> <span data-ttu-id="40898-208">Les énumérables retournés seront parcourus par des utilitaires de débogage pour accéder aux tâches actuellement en attente pour ce planificateur, l’activation du débogueur fournir une représentation de ces informations dans l’interface utilisateur.</span><span class="sxs-lookup"><span data-stu-id="40898-208">The enumerable returned will be traversed by debugging utilities to access the tasks currently queued to this scheduler, enabling the debugger to provide a representation of this information in the user interface.</span></span>  
+  
+ <span data-ttu-id="40898-209">Il est important de noter que, lorsque cette méthode est appelée, tous les autres threads dans le processus seront figés.</span><span class="sxs-lookup"><span data-stu-id="40898-209">It is important to note that, when this method is called, all other threads in the process will be frozen.</span></span> <span data-ttu-id="40898-210">Par conséquent, il est important d’éviter la synchronisation avec les autres threads qui peuvent mener au blocage.</span><span class="sxs-lookup"><span data-stu-id="40898-210">Therefore, it's important to avoid synchronization with other threads that may lead to blocking.</span></span> <span data-ttu-id="40898-211">Si la synchronisation est nécessaire, et vous ne parvenez pas à acquérir le verrou dans cette méthode, vous devez lever une exception afin que le débogueur ne soit pas bloquée.</span><span class="sxs-lookup"><span data-stu-id="40898-211">If synchronization is necessary, and you are unable to acquire the lock in this method, then you should throw an exception so that the debugger does not hang.</span></span> <span data-ttu-id="40898-212">L’exemple suivant présente une approche possible en c# :</span><span class="sxs-lookup"><span data-stu-id="40898-212">The following example shows one possible approach in C#:</span></span>  
+  
+```  
+protected override IEnumerable<Task> GetScheduledTasks()  
+{  
+    bool lockTaken = false;  
+    try  
+    {  
+        Monitor.TryEnter(_syncObj, ref lockTaken);  
+        if (lockTaken)  
+        {  
+            return _tasks.ToArray();  
+        }  
+        else throw new NotSupportedException();  
+    }  
+    finally  
+    {  
+    if (lockTaken) Monitor.Exit(_syncObj);  
+    }}  
+```  
+  
+ <span data-ttu-id="40898-213">En outre, cette méthode et l’énumérable retourné ne doit pas modifier aucun état globalement visible.</span><span class="sxs-lookup"><span data-stu-id="40898-213">Additionally, this method and the enumerable returned must not modify any globally visible state.</span></span>  
+  
+ <span data-ttu-id="40898-214">L’énumérable retourné ne doit jamais être null.</span><span class="sxs-lookup"><span data-stu-id="40898-214">The returned enumerable should never be null.</span></span> <span data-ttu-id="40898-215">S’il n’y a aucune tâche en file d’attente, un énumérable vide doit être retourné à la place.</span><span class="sxs-lookup"><span data-stu-id="40898-215">If there are currently no queued tasks, an empty enumerable should be returned instead.</span></span>  
+  
+ <span data-ttu-id="40898-216">Les développeurs qui implémentent des débogueurs personnalisés ne doivent pas appeler cette méthode directement, mais doit utiliser la méthode de wrapper interne `GetScheduledTasksForDebugger` à la place : `internal Task[] GetScheduledTasksForDebugger()`.</span><span class="sxs-lookup"><span data-stu-id="40898-216">Developers who are implementing custom debuggers shouldn't call this method directly, but should use the internal wrapper method `GetScheduledTasksForDebugger` instead: `internal Task[] GetScheduledTasksForDebugger()`.</span></span> <span data-ttu-id="40898-217">Cette méthode de wrapper retourne un tableau de tâches au lieu d’une collection énumérable.</span><span class="sxs-lookup"><span data-stu-id="40898-217">This wrapper method returns an array of tasks instead of an enumerable.</span></span> <span data-ttu-id="40898-218">Pour récupérer une liste de planificateurs actifs, utilisez la méthode interne `internal static TaskScheduler[] GetTaskSchedulersForDebugger()`.</span><span class="sxs-lookup"><span data-stu-id="40898-218">To retrieve a list of active schedulers, use the internal method `internal static TaskScheduler[] GetTaskSchedulersForDebugger()`.</span></span> <span data-ttu-id="40898-219">Cette méthode statique retourne un tableau de tous les actifs <xref:System.Threading.Tasks.TaskScheduler> instances.</span><span class="sxs-lookup"><span data-stu-id="40898-219">This static method returns an array of all active <xref:System.Threading.Tasks.TaskScheduler> instances.</span></span> <span data-ttu-id="40898-220">Vous pouvez ensuite utiliser `GetScheduledTasksForDebugger` sur chaque instance du planificateur pour récupérer la liste des tâches planifiées.</span><span class="sxs-lookup"><span data-stu-id="40898-220">You can then use `GetScheduledTasksForDebugger` on each scheduler instance to retrieve its list of scheduled tasks.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.NotSupportedException">
+          <span data-ttu-id="40898-221">Ce planificateur ne peut pas générer une liste de tâches en file d'attente actuellement.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-221">This scheduler is unable to generate a list of queued tasks at this time.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Id">
+      <MemberSignature Language="C#" Value="public int Id { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 Id" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.Tasks.TaskScheduler.Id" />
+      <MemberSignature Language="VB.NET" Value="Public ReadOnly Property Id As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int Id { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="40898-222">Obtient l'ID unique pour ce <see cref="T:System.Threading.Tasks.TaskScheduler" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-222">Gets the unique ID for this <see cref="T:System.Threading.Tasks.TaskScheduler" />.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="40898-223">Retourne l'ID unique de ce <see cref="T:System.Threading.Tasks.TaskScheduler" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-223">Returns the unique ID for this <see cref="T:System.Threading.Tasks.TaskScheduler" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="40898-224">Pour plus d’informations, consultez [des planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).</span><span class="sxs-lookup"><span data-stu-id="40898-224">For more information, see [Task Schedulers](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="MaximumConcurrencyLevel">
+      <MemberSignature Language="C#" Value="public virtual int MaximumConcurrencyLevel { get; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 MaximumConcurrencyLevel" />
+      <MemberSignature Language="DocId" Value="P:System.Threading.Tasks.TaskScheduler.MaximumConcurrencyLevel" />
+      <MemberSignature Language="VB.NET" Value="Public Overridable ReadOnly Property MaximumConcurrencyLevel As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; virtual property int MaximumConcurrencyLevel { int get(); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="40898-225">Indique le niveau d'accès concurrentiel maximal que ce <see cref="T:System.Threading.Tasks.TaskScheduler" /> peut prendre en charge.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-225">Indicates the maximum concurrency level this <see cref="T:System.Threading.Tasks.TaskScheduler" /> is able to support.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="40898-226">Retourne un entier qui représente le niveau d'accès concurrentiel maximal.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-226">Returns an integer that represents the maximum concurrency level.</span>
+          </span>
+          <span data-ttu-id="40898-227">Le planificateur par défaut retourne <see cref="F:System.Int32.MaxValue" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-227">The default scheduler returns <see cref="F:System.Int32.MaxValue" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="40898-228">Pour plus d’informations, consultez [des planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).</span><span class="sxs-lookup"><span data-stu-id="40898-228">For more information, see [Task Schedulers](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="QueueTask">
+      <MemberSignature Language="C#" Value="protected internal abstract void QueueTask (System.Threading.Tasks.Task task);" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance void QueueTask(class System.Threading.Tasks.Task task) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.QueueTask(System.Threading.Tasks.Task)" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; abstract void QueueTask(System::Threading::Tasks::Task ^ task);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="task" Type="System.Threading.Tasks.Task" />
+      </Parameters>
+      <Docs>
+        <param name="task">
+          <span data-ttu-id="40898-229">
+            <see cref="T:System.Threading.Tasks.Task" /> à mettre en file d'attente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-229">The <see cref="T:System.Threading.Tasks.Task" /> to be queued.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="40898-230">Met en file d'attente une <see cref="T:System.Threading.Tasks.Task" /> sur le planificateur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-230">Queues a <see cref="T:System.Threading.Tasks.Task" /> to the scheduler.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="40898-231">Une classe dérivée de <xref:System.Threading.Tasks.TaskScheduler> implémente cette méthode pour accepter les tâches planifiées sur le planificateur.</span><span class="sxs-lookup"><span data-stu-id="40898-231">A class derived from <xref:System.Threading.Tasks.TaskScheduler> implements this method to accept tasks being scheduled on the scheduler.</span></span>  
+  
+ <span data-ttu-id="40898-232">Une implémentation classique stocke la tâche dans une structure de données interne, gérée par des threads qui seraient d’exécuter ces tâches à un moment donné dans le futur.</span><span class="sxs-lookup"><span data-stu-id="40898-232">A typical implementation would store the task in an internal data structure, which would be serviced by threads that would execute those tasks at some time in the future.</span></span>  
+  
+ <span data-ttu-id="40898-233">Cette méthode est uniquement destinée à être appelé par le .NET Framework et ne doit pas être appelée directement par la classe dérivée.</span><span class="sxs-lookup"><span data-stu-id="40898-233">This method is only meant to be called by the .NET Framework and should not be called directly by the derived class.</span></span> <span data-ttu-id="40898-234">Cela est nécessaire pour conserver la cohérence du système.</span><span class="sxs-lookup"><span data-stu-id="40898-234">This is necessary for maintaining the consistency of the system.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="40898-235">L’argument <paramref name="task" /> a la valeur null.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-235">The <paramref name="task" /> argument is null.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TryDequeue">
+      <MemberSignature Language="C#" Value="protected internal virtual bool TryDequeue (System.Threading.Tasks.Task task);" />
+      <MemberSignature Language="ILAsm" Value=".method familyorassemblyhidebysig newslot virtual instance bool TryDequeue(class System.Threading.Tasks.Task task) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.TryDequeue(System.Threading.Tasks.Task)" />
+      <MemberSignature Language="C++ CLI" Value="protected public:&#xA; virtual bool TryDequeue(System::Threading::Tasks::Task ^ task);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="task" Type="System.Threading.Tasks.Task" />
+      </Parameters>
+      <Docs>
+        <param name="task">
+          <span data-ttu-id="40898-236">
+            <see cref="T:System.Threading.Tasks.Task" /> à sortir de la file d'attente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-236">The <see cref="T:System.Threading.Tasks.Task" /> to be dequeued.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="40898-237">Tente de sortir de la file d'attente une <see cref="T:System.Threading.Tasks.Task" /> qui était précédemment dans la file d'attente de ce planificateur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-237">Attempts to dequeue a <see cref="T:System.Threading.Tasks.Task" /> that was previously queued to this scheduler.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="40898-238">Valeur booléenne qui indique si l'argument <paramref name="task" /> a bien été retiré de la file d'attente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-238">A Boolean denoting whether the <paramref name="task" /> argument was successfully dequeued.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="40898-239">Pour plus d’informations, consultez [des planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).</span><span class="sxs-lookup"><span data-stu-id="40898-239">For more information, see [Task Schedulers](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).</span></span>  
+  
+ <span data-ttu-id="40898-240">Cette méthode peut s’exécuter dans un bloc finally. Par conséquent, elle doit retourner aussi rapidement que possible afin que des ressources telles que <xref:System.Threading.CancellationTokenRegistration> objets puissent être supprimées en temps voulu.</span><span class="sxs-lookup"><span data-stu-id="40898-240">This method may execute in a finally block; therefore it should return as quickly as possible so that any resources such as <xref:System.Threading.CancellationTokenRegistration> objects can be disposed of in a timely manner.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="40898-241">L’argument <paramref name="task" /> a la valeur null.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-241">The <paramref name="task" /> argument is null.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TryExecuteTask">
+      <MemberSignature Language="C#" Value="protected bool TryExecuteTask (System.Threading.Tasks.Task task);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig instance bool TryExecuteTask(class System.Threading.Tasks.Task task) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.TryExecuteTask(System.Threading.Tasks.Task)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; bool TryExecuteTask(System::Threading::Tasks::Task ^ task);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="task" Type="System.Threading.Tasks.Task" />
+      </Parameters>
+      <Docs>
+        <param name="task">
+          <span data-ttu-id="40898-242">Objet <see cref="T:System.Threading.Tasks.Task" /> à exécuter.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-242">A <see cref="T:System.Threading.Tasks.Task" /> object to be executed.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="40898-243">Tente d'exécuter la <see cref="T:System.Threading.Tasks.Task" /> fournie sur ce planificateur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-243">Attempts to execute the provided <see cref="T:System.Threading.Tasks.Task" /> on this scheduler.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="40898-244">Valeur booléenne true si la <paramref name="task" /> a été exécutée avec succès ; false, dans le cas contraire.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-244">A Boolean that is true if <paramref name="task" /> was successfully executed, false if it was not.</span>
+          </span>
+          <span data-ttu-id="40898-245">L'échec de l'exécution est souvent dû au fait que la tâche a déjà été exécutée ou qu'elle est en cours d'exécution par un autre thread.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-245">A common reason for execution failure is that the task had previously been executed or is in the process of being executed by another thread.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="40898-246">Les implémentations de planificateur sont fournies avec <xref:System.Threading.Tasks.Task> instances doit être exécuté par le biais du <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> (méthode) ou <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="40898-246">Scheduler implementations are provided with <xref:System.Threading.Tasks.Task> instances to be executed through either the <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> method or the <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline%2A> method.</span></span> <span data-ttu-id="40898-247">Lorsque le planificateur juge approprié d’exécuter la tâche fournie, <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> doit être utilisé pour le faire.</span><span class="sxs-lookup"><span data-stu-id="40898-247">When the scheduler deems it appropriate to run the provided task, <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> should be used to do so.</span></span> <span data-ttu-id="40898-248">TryExecuteTask gère tous les aspects de l’exécution d’une tâche, y compris l’invocation d’action, la gestion des exceptions, la gestion d’état et contrôle du cycle de vie.</span><span class="sxs-lookup"><span data-stu-id="40898-248">TryExecuteTask handles all aspects of executing a task, including action invocation, exception handling, state management, and lifecycle control.</span></span>  
+  
+ <span data-ttu-id="40898-249"><xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> doit être utilisé uniquement pour les tâches fournies à ce planificateur par l’infrastructure .NET Framework.</span><span class="sxs-lookup"><span data-stu-id="40898-249"><xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> must only be used for tasks provided to this scheduler by the .NET Framework infrastructure.</span></span> <span data-ttu-id="40898-250">Il ne doit pas être utilisé pour exécuter des tâches arbitraires obtenues via des mécanismes personnalisés.</span><span class="sxs-lookup"><span data-stu-id="40898-250">It should not be used to execute arbitrary tasks obtained through custom mechanisms.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="40898-251">
+            <paramref name="task" /> n'est pas associé à ce planificateur.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-251">The <paramref name="task" /> is not associated with this scheduler.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="TryExecuteTaskInline">
+      <MemberSignature Language="C#" Value="protected abstract bool TryExecuteTaskInline (System.Threading.Tasks.Task task, bool taskWasPreviouslyQueued);" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig newslot virtual instance bool TryExecuteTaskInline(class System.Threading.Tasks.Task task, bool taskWasPreviouslyQueued) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline(System.Threading.Tasks.Task,System.Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="protected:&#xA; abstract bool TryExecuteTaskInline(System::Threading::Tasks::Task ^ task, bool taskWasPreviouslyQueued);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="task" Type="System.Threading.Tasks.Task" />
+        <Parameter Name="taskWasPreviouslyQueued" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="task">
+          <span data-ttu-id="40898-252">
+            <see cref="T:System.Threading.Tasks.Task" /> à exécuter.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-252">The <see cref="T:System.Threading.Tasks.Task" /> to be executed.</span>
+          </span>
+        </param>
+        <param name="taskWasPreviouslyQueued">
+          <span data-ttu-id="40898-253">Valeur booléenne qui indique si une tâche a déjà été mise en file d'attente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-253">A Boolean denoting whether or not task has previously been queued.</span>
+          </span>
+          <span data-ttu-id="40898-254">Si ce paramètre a la valeur True, la tâche a pu être mise en file d'attente (par planification) précédemment ; s'il a la valeur False, cela signifie que la tâche a été mise en file d'attente et que cet appel est passé pour exécuter la tâche inline sans mise en file d'attente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-254">If this parameter is True, then the task may have been previously queued (scheduled); if False, then the task is known not to have been queued, and this call is being made in order to execute the task inline without queuing it.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="40898-255">Détermine si la <see cref="T:System.Threading.Tasks.Task" /> fournie peut être exécutée de façon synchrone dans cet appel et, si c'est le cas, l'exécute.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-255">Determines whether the provided <see cref="T:System.Threading.Tasks.Task" /> can be executed synchronously in this call, and if it can, executes it.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="40898-256">Valeur booléenne qui indique si la tâche a été exécutée inline.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-256">A Boolean value indicating whether the task was executed inline.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="40898-257">Une classe dérivée de <xref:System.Threading.Tasks.TaskScheduler> implémente cette fonction pour prendre en charge l’exécution inline d’une tâche sur un thread qui initialise une attente sur cet objet de tâche.</span><span class="sxs-lookup"><span data-stu-id="40898-257">A class derived from <xref:System.Threading.Tasks.TaskScheduler> implements this function to support inline execution of a task on a thread that initiates a wait on that task object.</span></span> <span data-ttu-id="40898-258">L’exécution inline est facultative, et la demande peut être rejetée en retournant la valeur false.</span><span class="sxs-lookup"><span data-stu-id="40898-258">Inline execution is optional, and the request may be rejected by returning false.</span></span> <span data-ttu-id="40898-259">Toutefois, les autres tâches qui peuvent être incorporés, plus le Planificateur de mise à l’échelle.</span><span class="sxs-lookup"><span data-stu-id="40898-259">However, the more tasks that can be inlined, the better the scheduler will scale.</span></span> <span data-ttu-id="40898-260">En fait, un planificateur qui incorporations trop peu peut-être risque d’interblocage.</span><span class="sxs-lookup"><span data-stu-id="40898-260">In fact, a scheduler that inlines too little may be prone to deadlocks.</span></span> <span data-ttu-id="40898-261">Une implémentation appropriée doit assurer qu’une demande s’exécutant sous les stratégies garanties par le planificateur peut fonctionner inline.</span><span class="sxs-lookup"><span data-stu-id="40898-261">A proper implementation should ensure that a request executing under the policies guaranteed by the scheduler can successfully inline.</span></span> <span data-ttu-id="40898-262">Par exemple, si un planificateur utilise un thread dédié pour exécuter des tâches, toutes les demandes d’incorporation (inlining) à partir de ce thread doivent réussir.</span><span class="sxs-lookup"><span data-stu-id="40898-262">For example, if a scheduler uses a dedicated thread to execute tasks, any inlining requests from that thread should succeed.</span></span>  
+  
+ <span data-ttu-id="40898-263">Si un planificateur décide de procéder à l’exécution inline, il doit le faire en appelant le TaskScheduler de base <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> méthode avec l’objet de tâche fourni, la propagation de la valeur de retour.</span><span class="sxs-lookup"><span data-stu-id="40898-263">If a scheduler decides to perform the inline execution, it should do so by calling to the base TaskScheduler's <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> method with the provided task object, propagating the return value.</span></span> <span data-ttu-id="40898-264">Il peut également être appropriée pour le planificateur supprimer une tâche inline à partir de ses structures de données internes s’il décide d’honorer la demande d’incorporation (inlining).</span><span class="sxs-lookup"><span data-stu-id="40898-264">It may also be appropriate for the scheduler to remove an inlined task from its internal data structures if it decides to honor the inlining request.</span></span> <span data-ttu-id="40898-265">Notez, toutefois, que dans certaines circonstances un planificateur peut être invité à inline qui n’a pas été fournie précédemment à l’aide d’une tâche de la <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="40898-265">Note, however, that under some circumstances a scheduler may be asked to inline a task that was not previously provided to it with the <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> method.</span></span>  
+  
+ <span data-ttu-id="40898-266">Le planificateur dérivé est chargé de s’assurer que le thread appelant est approprié pour l’exécution de la tâche donnée si sa propre planification et stratégies d’exécution sont concernés.</span><span class="sxs-lookup"><span data-stu-id="40898-266">The derived scheduler is responsible for making sure that the calling thread is suitable for executing the given task as far as its own scheduling and execution policies are concerned.</span></span>  
+  
+ <span data-ttu-id="40898-267">Pour plus d’informations, consultez [des planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).</span><span class="sxs-lookup"><span data-stu-id="40898-267">For more information, see [Task Schedulers](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentNullException">
+          <span data-ttu-id="40898-268">L’argument <paramref name="task" /> a la valeur null.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-268">The <paramref name="task" /> argument is null.</span>
+          </span>
+        </exception>
+        <exception cref="T:System.InvalidOperationException">
+          <span data-ttu-id="40898-269">
+            <paramref name="task" /> a déjà été exécuté.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-269">The <paramref name="task" /> was already executed.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="UnobservedTaskException">
+      <MemberSignature Language="C#" Value="public static event EventHandler&lt;System.Threading.Tasks.UnobservedTaskExceptionEventArgs&gt; UnobservedTaskException;" />
+      <MemberSignature Language="ILAsm" Value=".event class System.EventHandler`1&lt;class System.Threading.Tasks.UnobservedTaskExceptionEventArgs&gt; UnobservedTaskException" />
+      <MemberSignature Language="DocId" Value="E:System.Threading.Tasks.TaskScheduler.UnobservedTaskException" />
+      <MemberSignature Language="VB.NET" Value="Public Shared Custom Event UnobservedTaskException As EventHandler(Of UnobservedTaskExceptionEventArgs) " />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; static event EventHandler&lt;System::Threading::Tasks::UnobservedTaskExceptionEventArgs ^&gt; ^ UnobservedTaskException;" />
+      <MemberType>Event</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Threading.Tasks</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.10.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Runtime</AssemblyName>
+        <AssemblyVersion>4.2.0.0</AssemblyVersion>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>add: System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+        <Attribute>
+          <AttributeName>remove: System.Security.SecurityCritical</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.EventHandler&lt;System.Threading.Tasks.UnobservedTaskExceptionEventArgs&gt;</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="40898-270">Se produit lorsque l’exception non prise en charge d’une tâche ayant échoué est sur le point de déclencher la stratégie de promotion d’exception, qui, par défaut, arrête le processus.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="40898-270">Occurs when a faulted task's unobserved exception is about to trigger exception escalation policy, which, by default, would terminate the process.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="40898-271">Cet événement à l’échelle du domaine d’application fournit un mécanisme pour empêcher la stratégie d’escalade de verrous exception (qui, par défaut, met fin au processus) à partir de déclenchement.</span><span class="sxs-lookup"><span data-stu-id="40898-271">This application domain-wide event provides a mechanism to prevent exception escalation policy (which, by default, terminates the process) from triggering.</span></span>  
+  
+ <span data-ttu-id="40898-272">Pour le rendre plus facile pour les développeurs d’écrire du code asynchrone basé sur les tâches, les [!INCLUDE[net_v45](~/includes/net-v45-md.md)] modifie le comportement des exceptions par défaut pour les exceptions non prise en charge.</span><span class="sxs-lookup"><span data-stu-id="40898-272">To make it easier for developers to write asynchronous code based on tasks, the [!INCLUDE[net_v45](~/includes/net-v45-md.md)] changes the default exception behavior for unobserved exceptions.</span></span> <span data-ttu-id="40898-273">Bien que les exceptions non prise en charge toujours génèrent le <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> exception, le processus n’arrête pas par défaut.</span><span class="sxs-lookup"><span data-stu-id="40898-273">Although unobserved exceptions still raise the <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> exception, the process does not terminate by default.</span></span> <span data-ttu-id="40898-274">Au lieu de cela, l’exception est gérée par l’exécution une fois que l’événement est déclenché, indépendamment de si un gestionnaire d’événements observe l’exception.</span><span class="sxs-lookup"><span data-stu-id="40898-274">Instead, the exception is handled by the runtime after the event is raised, regardless of whether an event handler observes the exception.</span></span> <span data-ttu-id="40898-275">Ce comportement peut être configuré.</span><span class="sxs-lookup"><span data-stu-id="40898-275">This behavior can be configured.</span></span> <span data-ttu-id="40898-276">En commençant par le [!INCLUDE[net_v45](~/includes/net-v45-md.md)], vous pouvez utiliser l’élément de configuration pour rétablir le comportement de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] et mettre fin au processus :</span><span class="sxs-lookup"><span data-stu-id="40898-276">Starting with the [!INCLUDE[net_v45](~/includes/net-v45-md.md)], you can use the  configuration element to revert to the behavior of the [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] and terminate the process:</span></span>  
+  
+```xml  
+<configuration>   
+   <runtime>   
+      <ThrowUnobservedTaskExceptions enabled="true"/>   
+   </runtime>   
+</configuration>  
+  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

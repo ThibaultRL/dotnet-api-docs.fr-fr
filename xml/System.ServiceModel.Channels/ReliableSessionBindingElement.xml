@@ -1,0 +1,936 @@
+<Type Name="ReliableSessionBindingElement" FullName="System.ServiceModel.Channels.ReliableSessionBindingElement">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="4097429c7ed4894c1a3463da015d64137d31b7a2" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public sealed class ReliableSessionBindingElement : System.ServiceModel.Channels.BindingElement, System.ServiceModel.Description.IPolicyExportExtension" />
+  <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ReliableSessionBindingElement extends System.ServiceModel.Channels.BindingElement implements class System.ServiceModel.Description.IPolicyExportExtension" />
+  <TypeSignature Language="DocId" Value="T:System.ServiceModel.Channels.ReliableSessionBindingElement" />
+  <TypeSignature Language="VB.NET" Value="Public NotInheritable Class ReliableSessionBindingElement&#xA;Inherits BindingElement&#xA;Implements IPolicyExportExtension" />
+  <TypeSignature Language="C++ CLI" Value="public ref class ReliableSessionBindingElement sealed : System::ServiceModel::Channels::BindingElement, System::ServiceModel::Description::IPolicyExportExtension" />
+  <AssemblyInfo>
+    <AssemblyName>System.ServiceModel</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Base>
+    <BaseTypeName>System.ServiceModel.Channels.BindingElement</BaseTypeName>
+  </Base>
+  <Interfaces>
+    <Interface>
+      <InterfaceName>System.ServiceModel.Description.IPolicyExportExtension</InterfaceName>
+    </Interface>
+  </Interfaces>
+  <Docs>
+    <summary>
+      <span data-ttu-id="8a553-101">Représente l’élément de liaison qui peut produire les canaux d’émission et de réception requis pour une session fiable entre des points de terminaison.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="8a553-101">Represents the binding element that can produce the sending and receiving channels required for a reliable session between endpoints.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8a553-102">Fournit des sessions et assure en option la remise de messages demandée.</span><span class="sxs-lookup"><span data-stu-id="8a553-102">Provides sessions and optionally provides ordered message delivery.</span></span> <span data-ttu-id="8a553-103">Cette session implémentée peut croiser des intermédiaires SOAP et de transport.</span><span class="sxs-lookup"><span data-stu-id="8a553-103">This implemented session can cross SOAP and transport intermediaries.</span></span>  
+  
+ <span data-ttu-id="8a553-104">Chaque élément de liaison représente une étape de traitement lors de l'envoi ou de la réception des messages.</span><span class="sxs-lookup"><span data-stu-id="8a553-104">Each binding element represents a processing step when sending or receiving messages.</span></span> <span data-ttu-id="8a553-105">Au moment de l’exécution, les éléments de liaison créent les fabrications de canal et les écouteurs nécessaires pour générer les piles de canaux sortants et entrants requis pour envoyer et recevoir des messages.</span><span class="sxs-lookup"><span data-stu-id="8a553-105">At runtime, binding elements create the channel factories and listeners that are necessary to build outgoing and incoming channel stacks required to send and receive messages.</span></span> <span data-ttu-id="8a553-106">Le <xref:System.ServiceModel.Channels.ReliableSessionBindingElement> fournit une couche facultative dans la pile capable d'établir une session fiable entre des points de terminaison et de configurer le comportement de cette session.</span><span class="sxs-lookup"><span data-stu-id="8a553-106">The <xref:System.ServiceModel.Channels.ReliableSessionBindingElement> provides an optional layer in the stack that can establish a reliable session between endpoints and configure the behavior of this session.</span></span>  
+  
+ <span data-ttu-id="8a553-107"><xref:System.ServiceModel.Channels.ReliableSessionBindingElement> est fourni sur les liaisons standards dans le tableau suivant.</span><span class="sxs-lookup"><span data-stu-id="8a553-107">The <xref:System.ServiceModel.Channels.ReliableSessionBindingElement> is provided on the standard bindings in the following table.</span></span>  
+  
+|<span data-ttu-id="8a553-108">Liaison</span><span class="sxs-lookup"><span data-stu-id="8a553-108">Binding</span></span>|<span data-ttu-id="8a553-109">Par défaut</span><span class="sxs-lookup"><span data-stu-id="8a553-109">Default</span></span>|  
+|-------------|-------------|  
+|<xref:System.ServiceModel.NetTcpBinding>|<span data-ttu-id="8a553-110">Off</span><span class="sxs-lookup"><span data-stu-id="8a553-110">Off</span></span>|  
+|<xref:System.ServiceModel.WSHttpBinding>|<span data-ttu-id="8a553-111">Off</span><span class="sxs-lookup"><span data-stu-id="8a553-111">Off</span></span>|  
+|<xref:System.ServiceModel.WSDualHttpBinding>|<span data-ttu-id="8a553-112">Activé (obligatoire)</span><span class="sxs-lookup"><span data-stu-id="8a553-112">On (required)</span></span>|  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="8a553-113"><xref:System.ServiceModel.Channels.ReliableSessionBindingElement> peut être ajouté à toute liaison personnalisée.</span><span class="sxs-lookup"><span data-stu-id="8a553-113">The <xref:System.ServiceModel.Channels.ReliableSessionBindingElement> can be added to any custom binding.</span></span> <span data-ttu-id="8a553-114">Cet ajout est effectué à l'aide des éléments de configuration suivants.</span><span class="sxs-lookup"><span data-stu-id="8a553-114">This is done using the following configuration elements.</span></span>  
+  
+```  
+<bindings>  
+    <customBinding>  
+        <binding configurationName="ReliabilityHTTP">  
+            <reliableSession/>  
+        </binding>  
+    </customBinding>  
+</bindings>  
+```  
+  
+ <span data-ttu-id="8a553-115">L'exemple de code suivant indique comment utiliser <xref:System.ServiceModel.Channels.ReliableSessionBindingElement> dans le code.</span><span class="sxs-lookup"><span data-stu-id="8a553-115">The following sample code demonstrates how to use <xref:System.ServiceModel.Channels.ReliableSessionBindingElement> in code.</span></span>  
+  
+ [!code-csharp[S_Imperative#1](~/samples/snippets/csharp/VS_Snippets_CFX/s_imperative/cs/service.cs#1)]
+ [!code-vb[S_Imperative#1](~/samples/snippets/visualbasic/VS_Snippets_CFX/s_imperative/vb/service.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <MemberGroup MemberName=".ctor">
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8a553-116">Initialise une nouvelle instance de la classe <see cref="T:System.ServiceModel.Channels.ReliableSessionBindingElement" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-116">Initializes a new instance of the <see cref="T:System.ServiceModel.Channels.ReliableSessionBindingElement" /> class.</span>
+          </span>
+        </summary>
+      </Docs>
+    </MemberGroup>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ReliableSessionBindingElement ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.ReliableSessionBindingElement.#ctor" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New ()" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ReliableSessionBindingElement();" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="8a553-117">Initialise une nouvelle instance de la classe <see cref="T:System.ServiceModel.Channels.ReliableSessionBindingElement" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-117">Initializes a new instance of the <see cref="T:System.ServiceModel.Channels.ReliableSessionBindingElement" /> class.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName=".ctor">
+      <MemberSignature Language="C#" Value="public ReliableSessionBindingElement (bool ordered);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig specialname rtspecialname instance void .ctor(bool ordered) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.ReliableSessionBindingElement.#ctor(System.Boolean)" />
+      <MemberSignature Language="VB.NET" Value="Public Sub New (ordered As Boolean)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; ReliableSessionBindingElement(bool ordered);" />
+      <MemberType>Constructor</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Parameters>
+        <Parameter Name="ordered" Type="System.Boolean" />
+      </Parameters>
+      <Docs>
+        <param name="ordered">
+          <span data-ttu-id="8a553-118">
+            <see langword="true" /> si les messages doivent être remis dans l'ordre dans lequel ils sont envoyés ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-118">
+              <see langword="true" /> if messages must be delivered in the order in which they are sent; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="8a553-119">La valeur par défaut est <see langword="true" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-119">The default value is <see langword="true" />.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8a553-120">Initialise une nouvelle instance de la classe <see cref="T:System.ServiceModel.Channels.ReliableSessionBindingElement" /> qui spécifie si la remise des messages doit conserver l'ordre dans lequel les messages sont envoyés.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-120">Initializes a new instance of the <see cref="T:System.ServiceModel.Channels.ReliableSessionBindingElement" /> class that specifies whether message delivery must preserve the order in which messages are sent.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="AcknowledgementInterval">
+      <MemberSignature Language="C#" Value="public TimeSpan AcknowledgementInterval { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.TimeSpan AcknowledgementInterval" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.ReliableSessionBindingElement.AcknowledgementInterval" />
+      <MemberSignature Language="VB.NET" Value="Public Property AcknowledgementInterval As TimeSpan" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property TimeSpan AcknowledgementInterval { TimeSpan get(); void set(TimeSpan value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.TimeSpan</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8a553-121">Obtient ou définit l'intervalle d'attente d'une destination avant l'envoi d'un accusé de réception à la source de message sur les canaux fiables créés par la fabrication.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-121">Gets or sets the interval of time that a destination waits before sending an acknowledgment to the message source on reliable channels that are created by the factory.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8a553-122">
+            <see cref="T:System.TimeSpan" /> qui spécifie le délai d'attente d'un service avant l'envoi d'un accusé de réception à la source de message.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-122">The <see cref="T:System.TimeSpan" /> that specifies the interval of time that a service waits until sending an acknowledgment to the message source.</span>
+          </span>
+          <span data-ttu-id="8a553-123">La valeur par défaut est de 2 secondes.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-123">The default value is 2 seconds.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8a553-124">La destination qui reçoit des messages sur un canal fiable regroupe les accusés de réception correspondants dans un message unique afin de réduire le trafic réseau et d'augmenter la densité des informations sur les messages.</span><span class="sxs-lookup"><span data-stu-id="8a553-124">The destination that receives messages on a reliable channel groups the acknowledgments for these messages together into a single message to reduce network traffic and to increase information density on messages.</span></span> <span data-ttu-id="8a553-125">Le regroupement est mieux adapté à mesure que le trafic augmente.</span><span class="sxs-lookup"><span data-stu-id="8a553-125">Grouping scales better as traffic increases.</span></span> <span data-ttu-id="8a553-126">La destination n'essaie pas d'envoyer un accusé de réception pour chaque message reçu dès que possible, mais elle patiente plutôt pendant un certain temps, elle regroupe les accusés de réception reçus pendant cet intervalle, puis elle les envoie tous ensemble.</span><span class="sxs-lookup"><span data-stu-id="8a553-126">It does not attempt to send an acknowledgment for every message it receives as soon as possible, but rather waits for an interval of time, groups together the acknowledgments that have arrived during that interval, and then sends them all together.</span></span> <span data-ttu-id="8a553-127">Le premier message reçu fait exception ; il est accepté aussitôt qu'il est remis.</span><span class="sxs-lookup"><span data-stu-id="8a553-127">The first message that is received is the exception; it is acknowledged as soon as it is delivered.</span></span> <span data-ttu-id="8a553-128">En outre, si des sessions fiables sont utilisées avec des connexions HTTP uniques, comme c'est le cas, par exemple, avec <xref:System.ServiceModel.WSHttpBinding> mais pas <xref:System.ServiceModel.WSDualHttpBinding>, ce paramètre n'est alors pas utilisé.</span><span class="sxs-lookup"><span data-stu-id="8a553-128">Also, if reliable sessions are used with single HTTP connections, as is the case for example with the <xref:System.ServiceModel.WSHttpBinding> but not <xref:System.ServiceModel.WSDualHttpBinding>, then this setting is not used.</span></span>  
+  
+ <span data-ttu-id="8a553-129">La valeur définie avec la propriété <xref:System.ServiceModel.Channels.ReliableSessionBindingElement.AcknowledgementInterval%2A> est une recommandation pour l'infrastructure et non une limite définitive.</span><span class="sxs-lookup"><span data-stu-id="8a553-129">The value that is set with the <xref:System.ServiceModel.Channels.ReliableSessionBindingElement.AcknowledgementInterval%2A> property is a recommendation to the infrastructure and not a hard limit.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="8a553-130">La valeur définie est inférieure ou égale à zéro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-130">The value set is less than or equal to zero.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="BuildChannelFactory&lt;TChannel&gt;">
+      <MemberSignature Language="C#" Value="public override System.ServiceModel.Channels.IChannelFactory&lt;TChannel&gt; BuildChannelFactory&lt;TChannel&gt; (System.ServiceModel.Channels.BindingContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.ServiceModel.Channels.IChannelFactory`1&lt;!!TChannel&gt; BuildChannelFactory&lt;TChannel&gt;(class System.ServiceModel.Channels.BindingContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.ReliableSessionBindingElement.BuildChannelFactory``1(System.ServiceModel.Channels.BindingContext)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function BuildChannelFactory(Of TChannel) (context As BindingContext) As IChannelFactory(Of TChannel)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TChannel&gt;&#xA; override System::ServiceModel::Channels::IChannelFactory&lt;TChannel&gt; ^ BuildChannelFactory(System::ServiceModel::Channels::BindingContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceModel.Channels.IChannelFactory&lt;TChannel&gt;</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="TChannel" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="context" Type="System.ServiceModel.Channels.BindingContext" />
+      </Parameters>
+      <Docs>
+        <typeparam name="TChannel">
+          <span data-ttu-id="8a553-131">Type de canal construit par la fabrique.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-131">The type of channel the factory builds.</span>
+          </span>
+        </typeparam>
+        <param name="context">
+          <span data-ttu-id="8a553-132">
+            <see cref="T:System.ServiceModel.Channels.BindingContext" /> contenant les informations nécessaires pour générer les fabriques qui peuvent produire des canaux de type <c>TChannel</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-132">The <see cref="T:System.ServiceModel.Channels.BindingContext" /> that contains the information required to build the factories that can produce channels of type <c>TChannel</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8a553-133">Retourne une fabrique qui crée un canal d'un type spécifié prenant en charge une session fiable.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-133">Returns a factory that creates a channel of a specified type that supports a reliable session.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="8a553-134">
+            <see cref="T:System.ServiceModel.Channels.IChannelFactory`1" /> de type <see cref="T:System.ServiceModel.Channels.IChannel" /> initialisé à partir du <paramref name="context" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-134">A <see cref="T:System.ServiceModel.Channels.IChannelFactory`1" /> of type <see cref="T:System.ServiceModel.Channels.IChannel" /> initialized from the <paramref name="context" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8a553-135"><xref:System.ServiceModel.Channels.IChannel> produit par la fabrique est de type `TChannel`.</span><span class="sxs-lookup"><span data-stu-id="8a553-135">The <xref:System.ServiceModel.Channels.IChannel> produced by the factory is of type `TChannel`.</span></span> <span data-ttu-id="8a553-136">Les types de `TChannel` pris en charge sur le client dépendent des types de canaux sous-jacents qui se connectent au service.</span><span class="sxs-lookup"><span data-stu-id="8a553-136">The types of `TChannel` supported on the client is dependent of the types of underlying channels that connect to the service.</span></span> <span data-ttu-id="8a553-137">Le tableau suivant indique les types de canaux de session fiable qui sont pris en charge comme une fonction des canaux sous-jacents.</span><span class="sxs-lookup"><span data-stu-id="8a553-137">The following table indicates what reliable session channel types are supported as a function of the underlying channels.</span></span>  
+  
+|<span data-ttu-id="8a553-138">Prise en charge des types `TChannel` de session fiable par les types de canaux sous-jacents</span><span class="sxs-lookup"><span data-stu-id="8a553-138">Support for Reliable Session `TChannel` Types by Underlying Channel Types</span></span>|<span data-ttu-id="8a553-139">IRequestChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-139">IRequestChannel</span></span>|<span data-ttu-id="8a553-140">IRequestSessionChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-140">IRequestSessionChannel</span></span>|<span data-ttu-id="8a553-141">IDuplexChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-141">IDuplexChannel</span></span>|<span data-ttu-id="8a553-142">IDuplexSessionChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-142">IDuplexSessionChannel</span></span>|  
+|-------------------------------------------------------------------------------|---------------------|----------------------------|--------------------|---------------------------|  
+|<span data-ttu-id="8a553-143">IOutputSessionChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-143">IOutputSessionChannel</span></span>|<span data-ttu-id="8a553-144">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-144">Yes</span></span>|<span data-ttu-id="8a553-145">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-145">Yes</span></span>|<span data-ttu-id="8a553-146">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-146">Yes</span></span>|<span data-ttu-id="8a553-147">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-147">Yes</span></span>|  
+|<span data-ttu-id="8a553-148">IRequestSessionChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-148">IRequestSessionChannel</span></span>|<span data-ttu-id="8a553-149">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-149">Yes</span></span>|<span data-ttu-id="8a553-150">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-150">Yes</span></span>|<span data-ttu-id="8a553-151">Non</span><span class="sxs-lookup"><span data-stu-id="8a553-151">No</span></span>|<span data-ttu-id="8a553-152">Non</span><span class="sxs-lookup"><span data-stu-id="8a553-152">No</span></span>|  
+|<span data-ttu-id="8a553-153">IDuplexSessionChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-153">IDuplexSessionChannel</span></span>|<span data-ttu-id="8a553-154">Non</span><span class="sxs-lookup"><span data-stu-id="8a553-154">No</span></span>|<span data-ttu-id="8a553-155">Non</span><span class="sxs-lookup"><span data-stu-id="8a553-155">No</span></span>|<span data-ttu-id="8a553-156">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-156">Yes</span></span>|<span data-ttu-id="8a553-157">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-157">Yes</span></span>|  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="8a553-158">
+            <paramref name="TChannel" /> n'est pas pris en charge.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-158">
+              <paramref name="TChannel" /> is not supported.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="BuildChannelListener&lt;TChannel&gt;">
+      <MemberSignature Language="C#" Value="public override System.ServiceModel.Channels.IChannelListener&lt;TChannel&gt; BuildChannelListener&lt;TChannel&gt; (System.ServiceModel.Channels.BindingContext context) where TChannel : class, System.ServiceModel.Channels.IChannel;" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.ServiceModel.Channels.IChannelListener`1&lt;!!TChannel&gt; BuildChannelListener&lt;class (class System.ServiceModel.Channels.IChannel) TChannel&gt;(class System.ServiceModel.Channels.BindingContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.ReliableSessionBindingElement.BuildChannelListener``1(System.ServiceModel.Channels.BindingContext)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function BuildChannelListener(Of TChannel As {Class, IChannel}) (context As BindingContext) As IChannelListener(Of TChannel)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TChannel&gt;&#xA; where TChannel : class, System::ServiceModel::Channels::IChannel override System::ServiceModel::Channels::IChannelListener&lt;TChannel&gt; ^ BuildChannelListener(System::ServiceModel::Channels::BindingContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceModel.Channels.IChannelListener&lt;TChannel&gt;</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="TChannel">
+          <Constraints>
+            <ParameterAttribute>ReferenceTypeConstraint</ParameterAttribute>
+            <InterfaceName>System.ServiceModel.Channels.IChannel</InterfaceName>
+          </Constraints>
+        </TypeParameter>
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="context" Type="System.ServiceModel.Channels.BindingContext" />
+      </Parameters>
+      <Docs>
+        <typeparam name="TChannel">
+          <span data-ttu-id="8a553-159">Le <see cref="T:System.ServiceModel.Channels.IChannel" /> que l'écouteur doit accepter.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-159">The <see cref="T:System.ServiceModel.Channels.IChannel" /> that the listener is built to accept.</span>
+          </span>
+        </typeparam>
+        <param name="context">
+          <span data-ttu-id="8a553-160">
+            <see cref="T:System.ServiceModel.Channels.BindingContext" /> contenant les informations nécessaires pour générer les écouteurs qui peuvent accepter les canaux de type <c>TChannel</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-160">The <see cref="T:System.ServiceModel.Channels.BindingContext" /> that contains the information required to build the listeners that can accept channels of type <c>TChannel</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8a553-161">Retourne un écouteur qui accepte un canal d'un type spécifié prenant en charge une session fiable.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-161">Returns a listener that accepts a channel of a specified type that supports a reliable session.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="8a553-162">
+            <see cref="T:System.ServiceModel.Channels.IChannelListener`1" /> de type <see cref="T:System.ServiceModel.Channels.IChannel" /> initialisé à partir de <paramref name="context" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-162">The <see cref="T:System.ServiceModel.Channels.IChannelListener`1" /> of type <see cref="T:System.ServiceModel.Channels.IChannel" /> initialized from the <paramref name="context" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8a553-163">Le <xref:System.ServiceModel.Channels.IChannel> accepté par l'écouteur est de type `TChannel`.</span><span class="sxs-lookup"><span data-stu-id="8a553-163">The <xref:System.ServiceModel.Channels.IChannel> accepted by the listener is of type `TChannel`.</span></span> <span data-ttu-id="8a553-164">Les types de `TChannel` pris en charge sur le serveur hébergeant le service dépendent des types de canaux sous-jacents utilisés pour se connecter au client.</span><span class="sxs-lookup"><span data-stu-id="8a553-164">The types of `TChannel` supported on the server that hosts the service is dependent of the types of underlying channels used to connect to the client.</span></span> <span data-ttu-id="8a553-165">Le tableau suivant indique les types de canaux de session fiable qui sont pris en charge comme une fonction des canaux sous-jacents.</span><span class="sxs-lookup"><span data-stu-id="8a553-165">The following table indicates what reliable session channel types are supported as a function of the underlying channels.</span></span>  
+  
+|<span data-ttu-id="8a553-166">Prise en charge des types `TChannel` de session fiable par les types de canaux sous-jacents</span><span class="sxs-lookup"><span data-stu-id="8a553-166">Support for Reliable Session `TChannel` Types by Underlying Channel Types</span></span>|<span data-ttu-id="8a553-167">IReplyChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-167">IReplyChannel</span></span>|<span data-ttu-id="8a553-168">IReplySessionChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-168">IReplySessionChannel</span></span>|<span data-ttu-id="8a553-169">IDuplexChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-169">IDuplexChannel</span></span>|<span data-ttu-id="8a553-170">IDuplexSessionChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-170">IDuplexSessionChannel</span></span>|  
+|-------------------------------------------------------------------------------|-------------------|--------------------------|--------------------|---------------------------|  
+|<span data-ttu-id="8a553-171">IInputSessionChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-171">IInputSessionChannel</span></span>|<span data-ttu-id="8a553-172">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-172">Yes</span></span>|<span data-ttu-id="8a553-173">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-173">Yes</span></span>|<span data-ttu-id="8a553-174">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-174">Yes</span></span>|<span data-ttu-id="8a553-175">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-175">Yes</span></span>|  
+|<span data-ttu-id="8a553-176">IReplySessionChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-176">IReplySessionChannel</span></span>|<span data-ttu-id="8a553-177">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-177">Yes</span></span>|<span data-ttu-id="8a553-178">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-178">Yes</span></span>|<span data-ttu-id="8a553-179">Non</span><span class="sxs-lookup"><span data-stu-id="8a553-179">No</span></span>|<span data-ttu-id="8a553-180">Non</span><span class="sxs-lookup"><span data-stu-id="8a553-180">No</span></span>|  
+|<span data-ttu-id="8a553-181">IDuplexSessionChannel</span><span class="sxs-lookup"><span data-stu-id="8a553-181">IDuplexSessionChannel</span></span>|<span data-ttu-id="8a553-182">Non</span><span class="sxs-lookup"><span data-stu-id="8a553-182">No</span></span>|<span data-ttu-id="8a553-183">Non</span><span class="sxs-lookup"><span data-stu-id="8a553-183">No</span></span>|<span data-ttu-id="8a553-184">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-184">Yes</span></span>|<span data-ttu-id="8a553-185">Oui</span><span class="sxs-lookup"><span data-stu-id="8a553-185">Yes</span></span>|  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <span data-ttu-id="8a553-186">
+            <paramref name="TChannel" /> n'est pas pris en charge.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-186">
+              <paramref name="TChannel" /> is not supported.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="CanBuildChannelFactory&lt;TChannel&gt;">
+      <MemberSignature Language="C#" Value="public override bool CanBuildChannelFactory&lt;TChannel&gt; (System.ServiceModel.Channels.BindingContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool CanBuildChannelFactory&lt;TChannel&gt;(class System.ServiceModel.Channels.BindingContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.ReliableSessionBindingElement.CanBuildChannelFactory``1(System.ServiceModel.Channels.BindingContext)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function CanBuildChannelFactory(Of TChannel) (context As BindingContext) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TChannel&gt;&#xA; override bool CanBuildChannelFactory(System::ServiceModel::Channels::BindingContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="TChannel" />
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="context" Type="System.ServiceModel.Channels.BindingContext" />
+      </Parameters>
+      <Docs>
+        <typeparam name="TChannel">
+          <span data-ttu-id="8a553-187">Type de canal construit par la fabrique.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-187">The type of channel the factory builds.</span>
+          </span>
+        </typeparam>
+        <param name="context">
+          <span data-ttu-id="8a553-188">
+            <see cref="T:System.ServiceModel.Channels.BindingContext" /> contenant les informations nécessaires pour générer les fabriques qui peuvent produire des canaux de type <c>TChannel</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-188">The <see cref="T:System.ServiceModel.Channels.BindingContext" /> that contains the information required to build the factories that can produce channels of type <c>TChannel</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8a553-189">Retourne une valeur qui indique si la fabrique de canal peut être construite pour le canal et le contexte fournis qui prennent en charge une session fiable.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-189">Returns a value that indicates whether the channel factory can be built for the channel and context provided that can support a reliable session.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="8a553-190">
+            <see langword="true" /> si le <see cref="T:System.ServiceModel.Channels.IChannelFactory`1" /> de type <paramref name="TChannel" /> peut être construit ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-190">
+              <see langword="true" /> if the <see cref="T:System.ServiceModel.Channels.IChannelFactory`1" /> of type <paramref name="TChannel" /> can be built; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8a553-191">Cette méthode retourne la valeur `true` ou `false` pour un `TChannel` conformément à la table de valeurs présentée dans <xref:System.ServiceModel.Channels.ReliableSessionBindingElement.BuildChannelFactory%60%601%28System.ServiceModel.Channels.BindingContext%29>.</span><span class="sxs-lookup"><span data-stu-id="8a553-191">This method returns `true` or `false` for a `TChannel` in accordance with the table of values provided in <xref:System.ServiceModel.Channels.ReliableSessionBindingElement.BuildChannelFactory%60%601%28System.ServiceModel.Channels.BindingContext%29>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="CanBuildChannelListener&lt;TChannel&gt;">
+      <MemberSignature Language="C#" Value="public override bool CanBuildChannelListener&lt;TChannel&gt; (System.ServiceModel.Channels.BindingContext context) where TChannel : class, System.ServiceModel.Channels.IChannel;" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool CanBuildChannelListener&lt;class (class System.ServiceModel.Channels.IChannel) TChannel&gt;(class System.ServiceModel.Channels.BindingContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.ReliableSessionBindingElement.CanBuildChannelListener``1(System.ServiceModel.Channels.BindingContext)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function CanBuildChannelListener(Of TChannel As {Class, IChannel}) (context As BindingContext) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename TChannel&gt;&#xA; where TChannel : class, System::ServiceModel::Channels::IChannel override bool CanBuildChannelListener(System::ServiceModel::Channels::BindingContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="TChannel">
+          <Constraints>
+            <ParameterAttribute>ReferenceTypeConstraint</ParameterAttribute>
+            <InterfaceName>System.ServiceModel.Channels.IChannel</InterfaceName>
+          </Constraints>
+        </TypeParameter>
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="context" Type="System.ServiceModel.Channels.BindingContext" />
+      </Parameters>
+      <Docs>
+        <typeparam name="TChannel">
+          <span data-ttu-id="8a553-192">Le <see cref="T:System.ServiceModel.Channels.IChannel" /> que l’écouteur de canal, si de build, accepte.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-192">The <see cref="T:System.ServiceModel.Channels.IChannel" /> that the channel listener, if build, accepts.</span>
+          </span>
+        </typeparam>
+        <param name="context">
+          <span data-ttu-id="8a553-193">
+            <see cref="T:System.ServiceModel.Channels.BindingContext" /> contenant les informations nécessaires pour générer les écouteurs qui peuvent accepter les canaux de type <c>TChannel</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-193">The <see cref="T:System.ServiceModel.Channels.BindingContext" /> that contains the information required to build the listeners that can accept channels of type <c>TChannel</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8a553-194">Retourne une valeur qui indique si l'écouteur de canal peut être construit pour le canal et le contexte fournis qui prennent en charge une session fiable.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-194">Returns a value that indicates whether the channel listener can be built for the channel and context provided that can support a reliable session.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="8a553-195">
+            <see langword="true" /> si le <see cref="T:System.ServiceModel.Channels.ChannelListenerBase`1" /> qui peut produire un <see cref="T:System.ServiceModel.Channels.IChannel" /> du type <paramref name="TChannel" /> peut être construit par l'élément de liaison ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-195">
+              <see langword="true" /> if the <see cref="T:System.ServiceModel.Channels.ChannelListenerBase`1" /> that can produce an <see cref="T:System.ServiceModel.Channels.IChannel" /> of type <paramref name="TChannel" /> can be built by the binding element; otherwise, <see langword="false" />.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8a553-196">Les piles de canaux sont créées en principe à l’aide d’un modèle de fabrication, plus précisément à l’aide de liaisons.</span><span class="sxs-lookup"><span data-stu-id="8a553-196">Channel stacks are typically created using a factory pattern where a binding creates the channel stack.</span></span> <span data-ttu-id="8a553-197">Lors de l’envoi de message, une liaison est utilisée pour générer une fabrique de canal, qui génère à son tour une pile de canaux et retourne une référence au canal figurant en haut de la pile.</span><span class="sxs-lookup"><span data-stu-id="8a553-197">When sending messages, a binding is used to build a channel factory which in turn builds a channel stack and returns a reference to the top channel in the stack.</span></span> <span data-ttu-id="8a553-198">L'application peut utiliser ensuite ce canal pour envoyer des messages.</span><span class="sxs-lookup"><span data-stu-id="8a553-198">The application can then use this channel to send messages.</span></span> <span data-ttu-id="8a553-199">De même que lors de la réception de messages, une liaison est utilisée pour construire un écouteur de canal qui écoute les messages entrants.</span><span class="sxs-lookup"><span data-stu-id="8a553-199">Similarly when receiving messages, a binding is used to build a channel listener which listens for incoming messages.</span></span> <span data-ttu-id="8a553-200">L'écouteur de canal envoie des messages à l'application qui écoute en créant des piles de canaux et en remettant à l'application une référence au canal supérieur.</span><span class="sxs-lookup"><span data-stu-id="8a553-200">The channel listener provides messages to the listening application by creating channel stacks and handing the application a reference to the top channel.</span></span>  
+  
+ <span data-ttu-id="8a553-201">Cette méthode retourne la valeur `true` ou `false` pour un `TChannel` conformément à la table de valeurs présentée dans <xref:System.ServiceModel.Channels.ReliableSessionBindingElement.BuildChannelListener%60%601%28System.ServiceModel.Channels.BindingContext%29>.</span><span class="sxs-lookup"><span data-stu-id="8a553-201">This method returns `true` or `false` for a `TChannel` in accordance with the table of values provided in <xref:System.ServiceModel.Channels.ReliableSessionBindingElement.BuildChannelListener%60%601%28System.ServiceModel.Channels.BindingContext%29>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Clone">
+      <MemberSignature Language="C#" Value="public override System.ServiceModel.Channels.BindingElement Clone ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.ServiceModel.Channels.BindingElement Clone() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.ReliableSessionBindingElement.Clone" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function Clone () As BindingElement" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::ServiceModel::Channels::BindingElement ^ Clone();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceModel.Channels.BindingElement</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="8a553-202">Crée une copie de l'élément de liaison de session fiable actuel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-202">Creates a copy of the current reliable session binding element.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="8a553-203">
+            <see cref="T:System.ServiceModel.Channels.BindingElement" /> qui est un clone de l'élément de liaison actuel.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-203">A <see cref="T:System.ServiceModel.Channels.BindingElement" /> that is a clone of the current binding element.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FlowControlEnabled">
+      <MemberSignature Language="C#" Value="public bool FlowControlEnabled { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool FlowControlEnabled" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.ReliableSessionBindingElement.FlowControlEnabled" />
+      <MemberSignature Language="VB.NET" Value="Public Property FlowControlEnabled As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool FlowControlEnabled { bool get(); void set(bool value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8a553-204">Obtient ou définit une valeur indiquant si le contrôle de flux est activé pour la session fiable.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-204">Gets or sets a value that indicates whether the reliable session has flow control enabled.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8a553-205">
+            <see langword="true" /> si le contrôle de flux est activé pour la session fiable ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-205">
+              <see langword="true" /> if the reliable session has flow control enabled; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="8a553-206">La valeur par défaut est <see langword="true" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-206">The default is <see langword="true" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8a553-207">Le contrôle de flux est un mécanisme que les sessions fiables implémentent pour garantir que les expéditeurs n'envoient pas plus de messages qu'un destinataire ne peut gérer.</span><span class="sxs-lookup"><span data-stu-id="8a553-207">Flow control is a mechanism that reliable sessions implement to ensure that senders do not send more messages than a receiver can handle.</span></span> <span data-ttu-id="8a553-208">Les destinataires ont une mémoire tampon de messages qui est utilisée pour s'adapter aux rafales de messages et aux messages hors-service.</span><span class="sxs-lookup"><span data-stu-id="8a553-208">Receivers have a buffer of messages that is used to accommodate message bursts and out-of-order messages.</span></span> <span data-ttu-id="8a553-209">Ils indiquent aux expéditeurs la quantité d'espace restante dans cette mémoire tampon dans chacun de leurs accusés de réception.</span><span class="sxs-lookup"><span data-stu-id="8a553-209">Receivers advertise to senders the amount of space that remains in this buffer in each of their acknowledgements.</span></span> <span data-ttu-id="8a553-210">Les expéditeurs peuvent utiliser cette information pour cesser d'envoyer de nouveaux messages lorsque le destinataire n'a plus d'espace dans sa mémoire tampon.</span><span class="sxs-lookup"><span data-stu-id="8a553-210">Senders can use this information to stop sending new messages whenever the receiver has no buffer space left.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetProperty&lt;T&gt;">
+      <MemberSignature Language="C#" Value="public override T GetProperty&lt;T&gt; (System.ServiceModel.Channels.BindingContext context) where T : class;" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance !!T GetProperty&lt;class T&gt;(class System.ServiceModel.Channels.BindingContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.ReliableSessionBindingElement.GetProperty``1(System.ServiceModel.Channels.BindingContext)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetProperty(Of T As Class) (context As BindingContext) As T" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename T&gt;&#xA; where T : class override T GetProperty(System::ServiceModel::Channels::BindingContext ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>T</ReturnType>
+      </ReturnValue>
+      <TypeParameters>
+        <TypeParameter Name="T">
+          <Constraints>
+            <ParameterAttribute>ReferenceTypeConstraint</ParameterAttribute>
+          </Constraints>
+        </TypeParameter>
+      </TypeParameters>
+      <Parameters>
+        <Parameter Name="context" Type="System.ServiceModel.Channels.BindingContext" />
+      </Parameters>
+      <Docs>
+        <typeparam name="T">
+          <span data-ttu-id="8a553-211">Type de propriété récupéré.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-211">The type of property retrieved.</span>
+          </span>
+        </typeparam>
+        <param name="context">
+          <span data-ttu-id="8a553-212">
+            <see cref="T:System.ServiceModel.Channels.BindingContext" /> contenant les informations nécessaires pour récupérer le canal de type <c>T</c>.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-212">The <see cref="T:System.ServiceModel.Channels.BindingContext" /> that contains the information required to retrieve the channel of type <c>T</c>.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8a553-213">Obtient une propriété du type spécifié à partir de son contexte de liaison.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-213">Gets a property of the specified type from its binding context.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="8a553-214">Propriété de type <paramref name="T" /> avec le <paramref name="context" /> spécifié ou <see langword="null" /> si aucune propriété de type <paramref name="T" /> n'est trouvée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-214">The property of type <paramref name="T" /> with the specified <paramref name="context" /> or <see langword="null" /> if no property of type <paramref name="T" /> is found.</span>
+          </span>
+        </returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InactivityTimeout">
+      <MemberSignature Language="C#" Value="public TimeSpan InactivityTimeout { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance valuetype System.TimeSpan InactivityTimeout" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.ReliableSessionBindingElement.InactivityTimeout" />
+      <MemberSignature Language="VB.NET" Value="Public Property InactivityTimeout As TimeSpan" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property TimeSpan InactivityTimeout { TimeSpan get(); void set(TimeSpan value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.TimeSpan</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8a553-215">Obtient ou définit un intervalle de temps pendant lequel un service reste inactif avant sa fermeture.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-215">Gets or sets an interval of time that a service remains inactive before closing.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8a553-216">
+            <see cref="T:System.TimeSpan" /> qui spécifie l'intervalle de temps pendant lequel un service reste inactif avant sa fermeture.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-216">The <see cref="T:System.TimeSpan" /> that specifies the interval of time that a service remains inactive before closing.</span>
+          </span>
+          <span data-ttu-id="8a553-217">La valeur par défaut est 10 minutes.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-217">The default value is 10 minutes.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8a553-218">L'activité sur un canal est définie telle que la réception d'un message d'application ou d'infrastructure.</span><span class="sxs-lookup"><span data-stu-id="8a553-218">Activity on a channel is defined as receiving an application or infrastructure message.</span></span> <span data-ttu-id="8a553-219">Ce délai d'inactivité contrôle la durée maximale d'activation d'une session inactive.</span><span class="sxs-lookup"><span data-stu-id="8a553-219">The inactivity timeout parameter controls the maximum amount of time to keep an inactive session alive.</span></span> <span data-ttu-id="8a553-220">Si un délai supérieur à <xref:System.ServiceModel.Channels.ReliableSessionBindingElement.InactivityTimeout%2A> s'écoule sans activité, la session est abandonnée par l'infrastructure et une erreur est retournée sur le canal.</span><span class="sxs-lookup"><span data-stu-id="8a553-220">If more than <xref:System.ServiceModel.Channels.ReliableSessionBindingElement.InactivityTimeout%2A> time interval passes with no activity, the session is aborted by the infrastructure and the channel faults.</span></span> <span data-ttu-id="8a553-221">La session fiable est détruite unilatéralement.</span><span class="sxs-lookup"><span data-stu-id="8a553-221">The reliable session is torn down unilaterally.</span></span>  
+  
+ <span data-ttu-id="8a553-222">Si l'application émettrice n'a pas de messages à envoyer, la session fiable ne retourne aucune erreur due à l'inactivité ; un mécanisme d'activation la maintient au contraire active indéfiniment.</span><span class="sxs-lookup"><span data-stu-id="8a553-222">If the sending application has no messages to send then the reliable session is normally not faulted because of inactivity; instead a keep-alive mechanism keeps the session active indefinitely.</span></span> <span data-ttu-id="8a553-223">Notez que le répartiteur peut abandonner la session fiable de façon indépendante si aucun message d'application n'est envoyé ou reçu.</span><span class="sxs-lookup"><span data-stu-id="8a553-223">Note that the dispatcher can independently abort the reliable session if no application messages are sent or received.</span></span> <span data-ttu-id="8a553-224">Ainsi, le délai d'attente d'inactivité expire en général si les conditions du réseau sont telles qu'aucun message n'est reçu ou en cas d'échec de l'expéditeur.</span><span class="sxs-lookup"><span data-stu-id="8a553-224">Thus, the inactivity timeout typically expires if network conditions are such that no messages are received or if there is a failure on the sender.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="8a553-225">La valeur définie est inférieure ou égale à zéro ou supérieure à <see cref="F:System.Int32.MaxValue" /> ou <see cref="F:System.TimeSpan.MaxValue" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-225">The value set is less than or equal to zero or greater than either <see cref="F:System.Int32.MaxValue" /> or <see cref="F:System.TimeSpan.MaxValue" />.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="MaxPendingChannels">
+      <MemberSignature Language="C#" Value="public int MaxPendingChannels { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 MaxPendingChannels" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.ReliableSessionBindingElement.MaxPendingChannels" />
+      <MemberSignature Language="VB.NET" Value="Public Property MaxPendingChannels As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int MaxPendingChannels { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8a553-226">Obtient ou définit le nombre maximal de canaux qui peuvent rester en attente dans une même session fiable.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-226">Gets or sets the largest number of channels that can be pending during the reliable session.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8a553-227">Nombre maximal de canaux en attente.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-227">The largest number of channels that can be pending.</span>
+          </span>
+          <span data-ttu-id="8a553-228">La valeur par défaut est 4.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-228">The default value is 4.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8a553-229">Les canaux sont en attente lorsqu'ils attendent d'être acceptés.</span><span class="sxs-lookup"><span data-stu-id="8a553-229">Channels are pending when they are waiting to be accepted.</span></span> <span data-ttu-id="8a553-230">Une fois que cette limite est atteinte, aucun canal n'est créé et mis en attente tant que cette valeur ne baisse pas (en acceptant des canaux en attente).</span><span class="sxs-lookup"><span data-stu-id="8a553-230">Once that limit is reached, no channels are created and put in pending mode until this number goes down (by accepting pending channels).</span></span> <span data-ttu-id="8a553-231">Cette limite s'applique à chaque écouteur.</span><span class="sxs-lookup"><span data-stu-id="8a553-231">This is a limit for each listener.</span></span>  
+  
+ <span data-ttu-id="8a553-232">Lorsque le seuil est atteint et qu'une application distante essaie d'établir une nouvelle session fiable, la demande est refusée et l'opération d'ouverture initiale notifie l'erreur.</span><span class="sxs-lookup"><span data-stu-id="8a553-232">When the threshold is reached and a remote application tries to establish a new reliable session, the request is denied and the open operation that prompted this faults.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="8a553-233">La valeur définie est inférieure ou égale à zéro ou supérieure à 16384.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-233">The value set is less than or equal to zero or greater than 16384.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="MaxRetryCount">
+      <MemberSignature Language="C#" Value="public int MaxRetryCount { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 MaxRetryCount" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.ReliableSessionBindingElement.MaxRetryCount" />
+      <MemberSignature Language="VB.NET" Value="Public Property MaxRetryCount As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int MaxRetryCount { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8a553-234">Obtient ou définit le nombre maximal des tentatives de transfert d'un message pendant la session fiable.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-234">Gets or sets the maximum number of times that a message attempts to be transferred during the reliable session.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8a553-235">Nombre maximal des tentatives de retransfert d'un message.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-235">The maximum number of times that a message attempts to be re-sent.</span>
+          </span>
+          <span data-ttu-id="8a553-236">La valeur minimale par défaut est 1 ; la valeur maximale est <see cref="F:System.Int32.MaxValue" /> ; et la valeur par défaut est 8.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-236">The minimum value is 1; the maximum is <see cref="F:System.Int32.MaxValue" />; and the default value is 8.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8a553-237">Un message est considéré comme devant être transféré si sa remise au destinataire a été acceptée par le destinataire.</span><span class="sxs-lookup"><span data-stu-id="8a553-237">A message is considered to be transferred if its delivery at the recipient has been acknowledged by the recipient.</span></span>  
+  
+ <span data-ttu-id="8a553-238">Si, pour un message ayant été transmis, aucun accusé de réception n'a été reçu après un certain temps, l'infrastructure retransmet automatiquement le message.</span><span class="sxs-lookup"><span data-stu-id="8a553-238">If an acknowledgment has not been received within a certain amount of time for a message that has been transmitted, the infrastructure automatically retransmits the message.</span></span> <span data-ttu-id="8a553-239">L'infrastructure essaie d'envoyer le message à <xref:System.ServiceModel.Channels.ReliableSessionBindingElement.MaxRetryCount%2A> reprises au maximum.</span><span class="sxs-lookup"><span data-stu-id="8a553-239">The infrastructure tries to send the message for, at most, a <xref:System.ServiceModel.Channels.ReliableSessionBindingElement.MaxRetryCount%2A> number of times.</span></span> <span data-ttu-id="8a553-240">La non réception d'un accusé de réception avant l'atteinte de ce seuil est considérée comme un échec de communication fatal, qui entraîne le déclenchement d'un événement d'échec du canal.</span><span class="sxs-lookup"><span data-stu-id="8a553-240">Not receiving an acknowledgment before this limit is reached is considered a fatal communication failure and causes the channel faulted event to be raised.</span></span>  
+  
+ <span data-ttu-id="8a553-241">L'infrastructure utilise un algorithme de réduction de puissance exponentiel pour déterminer quand retransmettre, selon un délai aller-retour moyen calculé.</span><span class="sxs-lookup"><span data-stu-id="8a553-241">The infrastructure uses an exponential back-off algorithm to determine when to retransmit, based on a computed average round-trip time.</span></span> <span data-ttu-id="8a553-242">Le délai initial entre deux tentatives est calculé sur la base du délai aller-retour mesuré à partir de l'établissement de la session.</span><span class="sxs-lookup"><span data-stu-id="8a553-242">The initial retry time is computed based on the measured roundtrip time of establishing the session.</span></span> <span data-ttu-id="8a553-243">L'algorithme de retransmission multiplie par deux le délai à chaque tentative, ce qui induit l'écoulement de 8,5 minutes environ entre la première et la dernière tentative de retransmission.</span><span class="sxs-lookup"><span data-stu-id="8a553-243">The retransmission algorithm doubles the delay with every attempt, which results in approximately 8.5 minutes passing between the first transmission attempt and the last retransmission attempt.</span></span> <span data-ttu-id="8a553-244">Le délai de la première tentative de retransmission est ajusté au délai aller-retour calculé et le décalage créé par ces tentatives varie en conséquence.</span><span class="sxs-lookup"><span data-stu-id="8a553-244">The time for the first retransmission attempt is adjusted according to the calculated round-trip time and the resulting stretch of time that those attempts take varies accordingly.</span></span> <span data-ttu-id="8a553-245">Cela permet au délai de retransmission de s'adapter dynamiquement aux conditions de réseau variables.</span><span class="sxs-lookup"><span data-stu-id="8a553-245">This allows the retransmission time to dynamically adapt to varying network conditions.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="8a553-246">La valeur définie est inférieure ou égale à zéro.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-246">The value set is less than or equal to zero.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="MaxTransferWindowSize">
+      <MemberSignature Language="C#" Value="public int MaxTransferWindowSize { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance int32 MaxTransferWindowSize" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.ReliableSessionBindingElement.MaxTransferWindowSize" />
+      <MemberSignature Language="VB.NET" Value="Public Property MaxTransferWindowSize As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property int MaxTransferWindowSize { int get(); void set(int value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8a553-247">Obtient ou définit le plus grand nombre de messages qui peuvent exister dans la mémoire tampon d'envoi ou de réception.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-247">Gets or sets the largest number of messages that can exist in either the send buffer or the receive buffer.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8a553-248">Plus grand nombre de messages qui peuvent être mis en mémoire tampon.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-248">The largest number of messages that can be buffered.</span>
+          </span>
+          <span data-ttu-id="8a553-249">La valeur minimale est 1 ; la valeur maximale est 4096 ; et la valeur par défaut est 32.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-249">The minimum value is 1; the maximum value is 4096; and the default value is 32.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8a553-250">La valeur de la propriété <xref:System.ServiceModel.Channels.ReliableSessionBindingElement.MaxTransferWindowSize%2A> peut être définie à la fois sur l'expéditeur et le destinataire.</span><span class="sxs-lookup"><span data-stu-id="8a553-250">The value of the <xref:System.ServiceModel.Channels.ReliableSessionBindingElement.MaxTransferWindowSize%2A> property can be set on both the sender and the receiver.</span></span> <span data-ttu-id="8a553-251">Cette valeur est incluse dans la stratégie de liaison de WSDL, donc si vous utilisez la [ServiceModel Metadata Utility Tool (Svcutil.exe)](~/docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md) pour construire votre client, elle a la même valeur.</span><span class="sxs-lookup"><span data-stu-id="8a553-251">This value is included in the binding policy of the WSDL, so if you use the [ServiceModel Metadata Utility Tool (Svcutil.exe)](~/docs/framework/wcf/servicemodel-metadata-utility-tool-svcutil-exe.md) to construct your client, it has the same value.</span></span> <span data-ttu-id="8a553-252">Sinon, elle prend toute valeur que vous définissez sur le client.</span><span class="sxs-lookup"><span data-stu-id="8a553-252">Otherwise this value is whatever you set it to be on the client.</span></span>  
+  
+ <span data-ttu-id="8a553-253">Lorsque cette limite est atteinte sur l'expéditeur, des appels supplémentaires à envoyer sont bloqués.</span><span class="sxs-lookup"><span data-stu-id="8a553-253">When this limit is reached on the sender, additional calls to send are blocked.</span></span> <span data-ttu-id="8a553-254">Lorsque cette limite est atteinte sur le destinataire, les nouveaux messages qui arrivent sur le canal sous-jacent ne sont pas acceptés.</span><span class="sxs-lookup"><span data-stu-id="8a553-254">When this limit is reached on the receiver, new messages that arrive on the underlying channel are not accepted.</span></span>  
+  
+ <span data-ttu-id="8a553-255">Une session fiable utilise un protocole de fenêtrage qui contribue à améliorer l'utilisation du réseau.</span><span class="sxs-lookup"><span data-stu-id="8a553-255">A reliable session uses a windowing protocol to help improve network utilization.</span></span> <span data-ttu-id="8a553-256">La quantité de données à mettre en mémoire tampon est directement dérivée de la taille de la fenêtre de transmission.</span><span class="sxs-lookup"><span data-stu-id="8a553-256">The amount of buffering required is directly derived from the size of the transmission window.</span></span> <span data-ttu-id="8a553-257">Lors du réglage de cette valeur, notez que la fenêtre de transmission optimale est mise en rapport avec la bande passante et la latence de manière simple.</span><span class="sxs-lookup"><span data-stu-id="8a553-257">When tuning this value, note that the optimal transmission window is related to the bandwidth and the latency in a straight-forward way.</span></span> <span data-ttu-id="8a553-258">La taille de fenêtre maximale idéale correspond à la bande passante multipliée par la latence.</span><span class="sxs-lookup"><span data-stu-id="8a553-258">The ideal maximum window size is the bandwidth times the latency.</span></span> <span data-ttu-id="8a553-259">Toute valeur inférieure donne une utilisation du réseau inférieure à 100 % ; toute valeur supérieure se solde par un gaspillage d'espace.</span><span class="sxs-lookup"><span data-stu-id="8a553-259">Anything smaller yields less than 100% network utilization; anything larger is just wasted space.</span></span>  
+  
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <span data-ttu-id="8a553-260">La valeur définie est inférieure ou égale à 1 ou supérieure à 4096.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-260">The value set is less than or equal to one or greater than 4096.</span>
+          </span>
+        </exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Ordered">
+      <MemberSignature Language="C#" Value="public bool Ordered { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Ordered" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.ReliableSessionBindingElement.Ordered" />
+      <MemberSignature Language="VB.NET" Value="Public Property Ordered As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool Ordered { bool get(); void set(bool value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8a553-261">Obtient ou définit une valeur qui indique si la remise des messages doit se faire dans l'ordre d'envoi des messages.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-261">Gets or sets a value that indicates whether message delivery must preserve the order in which messages are sent.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8a553-262">
+            <see langword="true" /> si les messages doivent être remis dans l'ordre dans lequel ils sont envoyés ; sinon, <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-262">
+              <see langword="true" /> if messages must be delivered in the order in which they are sent; otherwise, <see langword="false" />.</span>
+          </span>
+          <span data-ttu-id="8a553-263">La valeur par défaut est <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-263">The default is <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8a553-264">Pour obtenir des messages distribués en ordre, il convient également d'affecter à <xref:System.ServiceModel.ConcurrencyMode> la valeur <xref:System.ServiceModel.ConcurrencyMode.Single>.</span><span class="sxs-lookup"><span data-stu-id="8a553-264">To get messages dispatched in order, you also must set the <xref:System.ServiceModel.ConcurrencyMode> to <xref:System.ServiceModel.ConcurrencyMode.Single>.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="ReliableMessagingVersion">
+      <MemberSignature Language="C#" Value="public System.ServiceModel.ReliableMessagingVersion ReliableMessagingVersion { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance class System.ServiceModel.ReliableMessagingVersion ReliableMessagingVersion" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.ReliableSessionBindingElement.ReliableMessagingVersion" />
+      <MemberSignature Language="VB.NET" Value="Public Property ReliableMessagingVersion As ReliableMessagingVersion" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property System::ServiceModel::ReliableMessagingVersion ^ ReliableMessagingVersion { System::ServiceModel::ReliableMessagingVersion ^ get(); void set(System::ServiceModel::ReliableMessagingVersion ^ value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.ServiceModel.ReliableMessagingVersion</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="8a553-265">Obtient ou définit la version de WS-ReliableMessaging spécifiée par l’élément de liaison.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-265">Gets or sets the version of WS-ReliableMessaging specified by the binding element.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="8a553-266">Instance dérivée de <see cref="T:System.ServiceModel.ReliableMessagingVersion" /> qui représente la version du protocole WS-ReliableMessaging utilisé par l'élément de configuration.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-266">An instance derived from <see cref="T:System.ServiceModel.ReliableMessagingVersion" /> that represents the version of the WS-ReliableMessaging protocol used by the configuration element.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="8a553-267">Actuellement, [!INCLUDE[indigo1](~/includes/indigo1-md.md)] prend en charge deux versions du protocole WS-ReliableMessaging : WS-ReliableMessaging1.1 et WS-ReliableMessagingFebruary2005.</span><span class="sxs-lookup"><span data-stu-id="8a553-267">There are currently two versions of the WS-ReliableMessaging protocol supported by [!INCLUDE[indigo1](~/includes/indigo1-md.md)]: WS-ReliableMessaging1.1 and WS-ReliableMessagingFebruary2005.</span></span> <span data-ttu-id="8a553-268">La version par défaut est WS-ReliableMessagingFebruary2005.</span><span class="sxs-lookup"><span data-stu-id="8a553-268">The default version is WS-ReliableMessagingFebruary2005.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="System.ServiceModel.Description.IPolicyExportExtension.ExportPolicy">
+      <MemberSignature Language="C#" Value="void IPolicyExportExtension.ExportPolicy (System.ServiceModel.Description.MetadataExporter exporter, System.ServiceModel.Description.PolicyConversionContext context);" />
+      <MemberSignature Language="ILAsm" Value=".method hidebysig newslot virtual instance void System.ServiceModel.Description.IPolicyExportExtension.ExportPolicy(class System.ServiceModel.Description.MetadataExporter exporter, class System.ServiceModel.Description.PolicyConversionContext context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.ReliableSessionBindingElement.System#ServiceModel#Description#IPolicyExportExtension#ExportPolicy(System.ServiceModel.Description.MetadataExporter,System.ServiceModel.Description.PolicyConversionContext)" />
+      <MemberSignature Language="VB.NET" Value="Sub ExportPolicy (exporter As MetadataExporter, context As PolicyConversionContext) Implements IPolicyExportExtension.ExportPolicy" />
+      <MemberSignature Language="C++ CLI" Value=" virtual void System.ServiceModel.Description.IPolicyExportExtension.ExportPolicy(System::ServiceModel::Description::MetadataExporter ^ exporter, System::ServiceModel::Description::PolicyConversionContext ^ context) = System::ServiceModel::Description::IPolicyExportExtension::ExportPolicy;" />
+      <MemberType>Method</MemberType>
+      <Implements>
+        <InterfaceMember>M:System.ServiceModel.Description.IPolicyExportExtension.ExportPolicy(System.ServiceModel.Description.MetadataExporter,System.ServiceModel.Description.PolicyConversionContext)</InterfaceMember>
+      </Implements>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="exporter" Type="System.ServiceModel.Description.MetadataExporter" />
+        <Parameter Name="context" Type="System.ServiceModel.Description.PolicyConversionContext" />
+      </Parameters>
+      <Docs>
+        <param name="exporter">
+          <span data-ttu-id="8a553-269">
+            <see cref="T:System.ServiceModel.Description.MetadataExporter" /> qui exporte les informations de liaison dans l'élément de liaison de session fiable en éléments WSDL.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-269">The <see cref="T:System.ServiceModel.Description.MetadataExporter" /> that exports the binding information in the reliable session binding element to the WSDL elements.</span>
+          </span>
+        </param>
+        <param name="context">
+          <span data-ttu-id="8a553-270">
+            <see cref="T:System.ServiceModel.Description.PolicyConversionContext" /> qui fournit les mappages d'éléments WSDL exportés à la description des points de terminaison.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-270">The <see cref="T:System.ServiceModel.Description.PolicyConversionContext" /> that provides the mapping from exported WSDL elements to the endpoint description.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="8a553-271">Mappe les informations contenues dans l’élément de liaison de session fiable dans les éléments WSDL qui permettent à un point de terminaison distant d’accéder au service avec une session fiable.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="8a553-271">Maps the information contained in the reliable session binding element into the WSDL elements that enable a remote endpoint to access the service with a reliable session.</span>
+          </span>
+        </summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

@@ -1,0 +1,210 @@
+<Type Name="IContextManager" FullName="System.ServiceModel.Channels.IContextManager">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="2b728d30eca3713fb3e5ce3c8c88f39759a38aa2" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public interface IContextManager" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IContextManager" />
+  <TypeSignature Language="DocId" Value="T:System.ServiceModel.Channels.IContextManager" />
+  <TypeSignature Language="VB.NET" Value="Public Interface IContextManager" />
+  <TypeSignature Language="C++ CLI" Value="public interface class IContextManager" />
+  <AssemblyInfo>
+    <AssemblyName>System.ServiceModel</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Attributes>
+    <Attribute>
+      <AttributeName>System.Runtime.CompilerServices.TypeForwardedFrom("System.WorkflowServices, Version=3.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35")</AttributeName>
+    </Attribute>
+  </Attributes>
+  <Docs>
+    <summary>
+      <span data-ttu-id="b1a0d-101">Définit une interface qui vous permet d'obtenir et définir le contexte sur le canal.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="b1a0d-101">Defines an interface that allows you to get and set the context on the channel.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b1a0d-102">Pour les canaux utilisant <xref:System.ServiceModel.WSHttpContextBinding> avec la valeur <xref:System.ServiceModel.SessionMode.NotAllowed>, le contexte n'est pas récupérable sur les clients utilisant <xref:System.ServiceModel.Channels.IContextManager> car chaque fois que <xref:System.ServiceModel.Channels.IChannelFactory.GetProperty%2A> est appelé pour appliquer la sémantique <xref:System.ServiceModel.SessionMode.NotAllowed> sur un canal, un nouveau canal établissant une session est créé.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-102">For channels that use <xref:System.ServiceModel.WSHttpContextBinding> with the <xref:System.ServiceModel.SessionMode.NotAllowed> value set, the context cannot be retrieved on the client using <xref:System.ServiceModel.Channels.IContextManager> because a new channel that establishes a session is created each time <xref:System.ServiceModel.Channels.IChannelFactory.GetProperty%2A> is called to enforce <xref:System.ServiceModel.SessionMode.NotAllowed> semantics on a channel.</span></span> <span data-ttu-id="b1a0d-103">Cette opération signifie que, bien que le contexte soit correctement renvoyé au client dans ce cas, il ne peut pas être extrait en utilisant <xref:System.ServiceModel.Channels.IContextManager>.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-103">This means that even though the context is properly propagated back to the client in this case, it cannot be retrieved using <xref:System.ServiceModel.Channels.IContextManager>.</span></span> <span data-ttu-id="b1a0d-104">Vous pouvez toutefois effectuer cette extraction en utilisant <xref:System.ServiceModel.Channels.ContextMessageProperty>, comme indiqué dans le code suivant.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-104">You can still retrieve it using <xref:System.ServiceModel.Channels.ContextMessageProperty> as shown in the following code.</span></span>  
+  
+```csharp  
+using (new OperationContextScope((IContextChannel)channel))  
+{  
+    channel.MyChannel("Test");  
+    ContextMessageProperty context;  
+    if (ContextMessageProperty.TryGet(OperationContext.Current.IncomingMessageProperties, out context))  
+    {  
+        Console.WriteLine(context.Count);  
+    }  
+}  
+  
+```  
+  
+ ]]></format>
+    </remarks>
+  </Docs>
+  <Members>
+    <Member MemberName="Enabled">
+      <MemberSignature Language="C#" Value="public bool Enabled { get; set; }" />
+      <MemberSignature Language="ILAsm" Value=".property instance bool Enabled" />
+      <MemberSignature Language="DocId" Value="P:System.ServiceModel.Channels.IContextManager.Enabled" />
+      <MemberSignature Language="VB.NET" Value="Public Property Enabled As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; property bool Enabled { bool get(); void set(bool value); };" />
+      <MemberType>Property</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Docs>
+        <summary>
+          <span data-ttu-id="b1a0d-105">Obtient ou définit une valeur indiquant si la gestion du contexte est activée.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b1a0d-105">Gets or sets a value that indicates whether the context management is enabled.</span>
+          </span>
+        </summary>
+        <value>
+          <span data-ttu-id="b1a0d-106">
+            <see langword="true" /> si le contexte est activé ; sinon <see langword="false" />.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b1a0d-106">
+              <see langword="true" /> if the context is enabled; otherwise, <see langword="false" />.</span>
+          </span>
+        </value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="b1a0d-107">Lorsque la gestion du contexte est activée, le canal de contexte met en cache le contexte dans sa durée de vie.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-107">When context management is enabled the context channel caches the context in its lifetime.</span></span> <span data-ttu-id="b1a0d-108">Le contexte peut être récupéré à partir du canal par le biais de la propriété de canal `IContextManager` en appelant la méthode <xref:System.ServiceModel.Channels.IContextManager.GetContext%2A>.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-108">Context can be retrieved from the channel through the `IContextManager` channel property by calling <xref:System.ServiceModel.Channels.IContextManager.GetContext%2A> method on it.</span></span> <span data-ttu-id="b1a0d-109">Le canal peut également être pré-initialisé avec un contexte spécifique avant d'être ouvert en appelant la méthode <xref:System.ServiceModel.Channels.IContextManager.SetContext%2A> sur la propriété de canal.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-109">The channel can also be pre-initialized with context before being opened by calling the <xref:System.ServiceModel.Channels.IContextManager.SetContext%2A> method on the channel property.</span></span> <span data-ttu-id="b1a0d-110">Une fois le canal initialisé avec le contexte, celui-ci ne peut pas être réinitialisé.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-110">Once the channel is initialized with context it cannot be reset.</span></span>  
+  
+ <span data-ttu-id="b1a0d-111">Les éléments suivants sont des invariants dans ce mode :</span><span class="sxs-lookup"><span data-stu-id="b1a0d-111">The following are invariants in this mode:</span></span>  
+  
+-   <span data-ttu-id="b1a0d-112">Tout appel à <xref:System.ServiceModel.Channels.IContextManager.SetContext%2A> après que le canal ait été ouvert lève une `InvalidOperationException`.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-112">Any call to <xref:System.ServiceModel.Channels.IContextManager.SetContext%2A> after the channel is open throws an `InvalidOperationException`.</span></span>  
+  
+-   <span data-ttu-id="b1a0d-113">Toute tentative d'envoi du contexte par le biais du `ContextMessageProperty` dans un message sortant lève une `InvalidOperationException`.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-113">Any attempt to send context through the `ContextMessageProperty` in an outgoing message throws `InvalidOperationException`.</span></span>  
+  
+-   <span data-ttu-id="b1a0d-114">Si un message est reçu du serveur avec un contexte, lorsque le canal est déjà initialisé avec un contexte, cela lève une `ProtocolException`.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-114">If a message is received from the server with context, when the channel is already initialized with a context a `ProtocolException` is thrown.</span></span> <span data-ttu-id="b1a0d-115">Notez que vous pouvez recevoir le contexte initial d'un serveur si le canal est ouvert sans définir le contexte explicitement.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-115">Note that you can receive initial context from a server if the channel is opened without explicitly setting the context.</span></span>  
+  
+-   <span data-ttu-id="b1a0d-116">Le `ContextMessageProperty` sur un message entrant a toujours la valeur `null`.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-116">The `ContextMessageProperty` on an incoming message is always `null`.</span></span>  
+  
+ <span data-ttu-id="b1a0d-117">Lorsque la gestion du contexte n'est pas activée, le canal de contexte ne gère pas le contexte.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-117">When context management is not enabled, the context channel does not manage context.</span></span> <span data-ttu-id="b1a0d-118">C'est la responsabilité de l'application de récupérer, de gérer et d'appliquer le contexte par le biais de `ContextMessageProperty`.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-118">It is the application's responsibility to retrieve, manage and apply context through the `ContextMessageProperty`.</span></span> <span data-ttu-id="b1a0d-119">Toute tentative d'appeler <xref:System.ServiceModel.Channels.IContextManager.GetContext%2A> ou <xref:System.ServiceModel.Channels.IContextManager.SetContext%2A> à l'aide de la propriété de canal `IContextManager` provoque une `InvalidOperationException`.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-119">Any attempt to call <xref:System.ServiceModel.Channels.IContextManager.GetContext%2A> or <xref:System.ServiceModel.Channels.IContextManager.SetContext%2A> using through the `IContextManager` channel property results in `InvalidOperationException`.</span></span>  
+  
+ <span data-ttu-id="b1a0d-120">Tous les cookies HTTP, à l'exception des cookies HTTP de contexte, sont gérés au niveau du canal.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-120">All HTTP cookies, except for context HTTP cookies, are handled at the channel level.</span></span> <span data-ttu-id="b1a0d-121">Les cookies HTTP de contexte sont gérés au niveau de l'application.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-121">Context HTTP cookies are managed at the application level.</span></span> <span data-ttu-id="b1a0d-122">Ceci peut avoir des conséquences inattendues lorsque les canaux sont partagés pour communiquer avec différentes instances ciblées par <xref:System.ServiceModel.Channels.ContextMessageProperty>.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-122">This can have unexpected consequences when channels are shared to talk to different instances targeted by <xref:System.ServiceModel.Channels.ContextMessageProperty>.</span></span> <span data-ttu-id="b1a0d-123">Le tableau suivant illustre l'affectation des cookies HTTP lorsque <xref:System.ServiceModel.Channels.IContextManager.Enabled%2A> a la valeur `true` ou `false`.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-123">The following table shows how HTTP cookies are affected when <xref:System.ServiceModel.Channels.IContextManager.Enabled%2A> is set to either `true` or `false`.</span></span>  
+  
+|<span data-ttu-id="b1a0d-124">Liaison</span><span class="sxs-lookup"><span data-stu-id="b1a0d-124">Binding</span></span>|<span data-ttu-id="b1a0d-125">Valeur IContextManager.Enabled</span><span class="sxs-lookup"><span data-stu-id="b1a0d-125">IContextManager.Enabled Value</span></span>|<span data-ttu-id="b1a0d-126">Étendue des cookies HTTP de contexte</span><span class="sxs-lookup"><span data-stu-id="b1a0d-126">Context HTTP Cookie Scope</span></span>|<span data-ttu-id="b1a0d-127">Étendue des autres cookies HTTP</span><span class="sxs-lookup"><span data-stu-id="b1a0d-127">Other HTTP Cookies Scope</span></span>|  
+|-------------|-----------------------------------|-------------------------------|------------------------------|  
+|<span data-ttu-id="b1a0d-128">BasicHttpBinding</span><span class="sxs-lookup"><span data-stu-id="b1a0d-128">BasicHttpBinding</span></span>|<span data-ttu-id="b1a0d-129">N/A</span><span class="sxs-lookup"><span data-stu-id="b1a0d-129">n/a</span></span>|<span data-ttu-id="b1a0d-130">ChannelFactory</span><span class="sxs-lookup"><span data-stu-id="b1a0d-130">ChannelFactory</span></span>|<span data-ttu-id="b1a0d-131">ChannelFactory</span><span class="sxs-lookup"><span data-stu-id="b1a0d-131">ChannelFactory</span></span>|  
+|<span data-ttu-id="b1a0d-132">BasicHttpContextBinding</span><span class="sxs-lookup"><span data-stu-id="b1a0d-132">BasicHttpContextBinding</span></span>|<span data-ttu-id="b1a0d-133">true</span><span class="sxs-lookup"><span data-stu-id="b1a0d-133">true</span></span>|<span data-ttu-id="b1a0d-134">Canal</span><span class="sxs-lookup"><span data-stu-id="b1a0d-134">Channel</span></span>|<span data-ttu-id="b1a0d-135">Canal</span><span class="sxs-lookup"><span data-stu-id="b1a0d-135">Channel</span></span>|  
+|<span data-ttu-id="b1a0d-136">BasicHttpContextBinding</span><span class="sxs-lookup"><span data-stu-id="b1a0d-136">BasicHttpContextBinding</span></span>|<span data-ttu-id="b1a0d-137">False</span><span class="sxs-lookup"><span data-stu-id="b1a0d-137">false</span></span>|<span data-ttu-id="b1a0d-138">Pour chaque message (géré par application de manière explicite)</span><span class="sxs-lookup"><span data-stu-id="b1a0d-138">For each message (explicitly managed by application)</span></span>|<span data-ttu-id="b1a0d-139">Canal</span><span class="sxs-lookup"><span data-stu-id="b1a0d-139">Channel</span></span>|  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="GetContext">
+      <MemberSignature Language="C#" Value="public System.Collections.Generic.IDictionary&lt;string,string&gt; GetContext ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance class System.Collections.Generic.IDictionary`2&lt;string, string&gt; GetContext() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.IContextManager.GetContext" />
+      <MemberSignature Language="VB.NET" Value="Public Function GetContext () As IDictionary(Of String, String)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; System::Collections::Generic::IDictionary&lt;System::String ^, System::String ^&gt; ^ GetContext();" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Collections.Generic.IDictionary&lt;System.String,System.String&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>
+          <span data-ttu-id="b1a0d-140">Obtient le contexte.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b1a0d-140">Gets the context.</span>
+          </span>
+        </summary>
+        <returns>
+          <span data-ttu-id="b1a0d-141">
+            <see cref="T:System.Collections.Generic.IDictionary`2" /> de paires clé/valeur disposant de l'espace de noms et du nom du contexte.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b1a0d-141">The <see cref="T:System.Collections.Generic.IDictionary`2" /> of key/value pairs with the namespace and name of the context.</span>
+          </span>
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="b1a0d-142">Le code suivant illustre l'obtention de contexte à partir d'une instance de proxy typée sur le client.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-142">The following code shows how the context can be obtained from a typed proxy instance on the client.</span></span>  
+  
+```  
+IDictionary<string, string> context;  
+CalculatorProxy proxy;  
+IContextManager cm = proxy.InnerChannel.GetProperty<IContextManager>();  
+if (cm != null)  
+    context = cm.GetContext();  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="SetContext">
+      <MemberSignature Language="C#" Value="public void SetContext (System.Collections.Generic.IDictionary&lt;string,string&gt; context);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SetContext(class System.Collections.Generic.IDictionary`2&lt;string, string&gt; context) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Channels.IContextManager.SetContext(System.Collections.Generic.IDictionary{System.String,System.String})" />
+      <MemberSignature Language="VB.NET" Value="Public Sub SetContext (context As IDictionary(Of String, String))" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SetContext(System::Collections::Generic::IDictionary&lt;System::String ^, System::String ^&gt; ^ context);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="context" Type="System.Collections.Generic.IDictionary&lt;System.String,System.String&gt;" />
+      </Parameters>
+      <Docs>
+        <param name="context">
+          <span data-ttu-id="b1a0d-143">
+            <see cref="T:System.Collections.Generic.IDictionary`2" /> de paires clé/valeur contenant l'espace de noms et le nom du contexte défini.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b1a0d-143">The <see cref="T:System.Collections.Generic.IDictionary`2" /> of key/value pairs with the namespace and name of the context that is set.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="b1a0d-144">Définit le contexte.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="b1a0d-144">Sets the context.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Examples  
+ <span data-ttu-id="b1a0d-145">Le code suivant illustre la façon dont le contexte peut être défini sur le client.</span><span class="sxs-lookup"><span data-stu-id="b1a0d-145">The following code shows how the context can be set on the client.</span></span>  
+  
+```  
+IDictionary<string, string> context;  
+CalculatorProxy proxy;  
+IContextManager cm = proxy.InnerChannel.GetProperty<IContextManager>();  
+if (cm != null)  
+    cm.SetContext(context);  
+```  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>

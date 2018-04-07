@@ -1,0 +1,289 @@
+<Type Name="IEnlistmentNotification" FullName="System.Transactions.IEnlistmentNotification">
+  <Metadata>
+    <Meta Name="ms.openlocfilehash" Value="8cc94d2e8fdf95496872362fe50ab41f553e0db5" />
+    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.translationtype" Value="HT" />
+    <Meta Name="ms.contentlocale" Value="fr-FR" />
+    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
+  </Metadata>
+  <TypeSignature Language="C#" Value="public interface IEnlistmentNotification" />
+  <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IEnlistmentNotification" />
+  <TypeSignature Language="DocId" Value="T:System.Transactions.IEnlistmentNotification" />
+  <TypeSignature Language="VB.NET" Value="Public Interface IEnlistmentNotification" />
+  <TypeSignature Language="C++ CLI" Value="public interface class IEnlistmentNotification" />
+  <AssemblyInfo>
+    <AssemblyName>System.Transactions</AssemblyName>
+    <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>netstandard</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Transactions.Local</AssemblyName>
+    <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <AssemblyVersion>4.0.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <Interfaces />
+  <Docs>
+    <summary>
+      <span data-ttu-id="eec48-101">Décrit une interface qu’un gestionnaire de ressources devrait implémenter pour fournir au gestionnaire des transactions des rappels de notification de validation à deux phases lors de l’inscription pour participation.</span>
+      <span class="sxs-lookup">
+        <span data-stu-id="eec48-101">Describes an interface that a resource manager should implement to provide two phase commit notification callbacks for the transaction manager upon enlisting for participation.</span>
+      </span>
+    </summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="eec48-102">Dans l’ordre pour un gestionnaire de ressources devant être inclus dans une transaction, il doit s’inscrire dans la transaction via le Gestionnaire de transactions.</span><span class="sxs-lookup"><span data-stu-id="eec48-102">In order for a resource manager to participate in a transaction, it must enlist in the transaction through the transaction manager.</span></span> <span data-ttu-id="eec48-103">La classe <xref:System.Transactions.Transaction> définit un jeu de méthodes, dont les noms commencent par `Enlist`, qui fournit cette fonctionnalité.</span><span class="sxs-lookup"><span data-stu-id="eec48-103">The <xref:System.Transactions.Transaction> class defines a set of methods whose names begin with `Enlist` that provide this functionality.</span></span> <span data-ttu-id="eec48-104">Les différents `Enlist` méthodes correspondent aux différents types d’inscriptions qu’un gestionnaire de ressources peut avoir.</span><span class="sxs-lookup"><span data-stu-id="eec48-104">The different `Enlist` methods correspond to the different types of enlistment that a resource maanger may have.</span></span>  
+  
+ <span data-ttu-id="eec48-105">Cette classe décrit une interface qu’un gestionnaire de ressources doit implémenter pour fournir des rappels de notification de validation à deux phases pour le Gestionnaire de transactions lors de l’inscription pour la participation.</span><span class="sxs-lookup"><span data-stu-id="eec48-105">This class describes an interface that a resource manager should implement to provide two phase commit notification callbacks for the transaction manager upon enlisting for participation.</span></span> <span data-ttu-id="eec48-106">Pour l’implémentation de chaque gestionnaire de ressources de le <xref:System.Transactions.IEnlistmentNotification> interface, vous devez les inscrire à l’aide de la <xref:System.Transactions.Transaction.EnlistVolatile%2A> (méthode) ou le <xref:System.Transactions.Transaction.EnlistDurable%2A> méthode de la <xref:System.Transactions.Transaction> (classe), selon que votre ressource est volatile ou durable.</span><span class="sxs-lookup"><span data-stu-id="eec48-106">For each resource manager's implementation of the <xref:System.Transactions.IEnlistmentNotification> interface, you should enlist it using the <xref:System.Transactions.Transaction.EnlistVolatile%2A> method or the <xref:System.Transactions.Transaction.EnlistDurable%2A> method of the <xref:System.Transactions.Transaction> class, depending on whether your resource is volatile or durable.</span></span> <span data-ttu-id="eec48-107">Pour plus d’informations sur l’inscription et 2PC, consultez [l’inscription des ressources en tant que Participants dans une Transaction](~/docs/framework/data/transactions/enlisting-resources-as-participants-in-a-transaction.md) et [valide la Transaction en une seule phase et à plusieurs phases](~/docs/framework/data/transactions/committing-a-transaction-in-single-phase-and-multi-phase.md) respectivement.</span><span class="sxs-lookup"><span data-stu-id="eec48-107">For more information on enlistment and 2PC, see [Enlisting Resources as Participants in a Transaction](~/docs/framework/data/transactions/enlisting-resources-as-participants-in-a-transaction.md) and [Committing a Transaction in Single-Phase and Multi-Phase](~/docs/framework/data/transactions/committing-a-transaction-in-single-phase-and-multi-phase.md) respectively.</span></span>  
+  
+ <span data-ttu-id="eec48-108">Le Gestionnaire de transactions avertit l’objet inscrit à différentes phases du protocole de validation Phase deux par les méthodes suivantes.</span><span class="sxs-lookup"><span data-stu-id="eec48-108">The transaction manager notifies the enlisted object at different phases of the Two Phase Commit Protocol by the following methods.</span></span>  
+  
+|<span data-ttu-id="eec48-109">Méthode</span><span class="sxs-lookup"><span data-stu-id="eec48-109">Method</span></span>|<span data-ttu-id="eec48-110">Description </span><span class="sxs-lookup"><span data-stu-id="eec48-110">Description</span></span>|  
+|------------|-----------------|  
+|<xref:System.Transactions.IEnlistmentNotification.Prepare%2A>|<span data-ttu-id="eec48-111">Cette méthode d’un objet inscrit est utilisée comme un rappel par le Gestionnaire de transactions pendant la première phase d’une transaction, lorsque le Gestionnaire de transactions demande aux participants s’ils peuvent valider la transaction.</span><span class="sxs-lookup"><span data-stu-id="eec48-111">This method of an enlisted object is used as a callback by the Transaction Manager during the first phase of a transaction, when the transaction manager asks participants whether they can commit the transaction.</span></span>|  
+|<xref:System.Transactions.IEnlistmentNotification.Commit%2A>|<span data-ttu-id="eec48-112">Cette méthode d’un objet inscrit est utilisée comme un rappel par le Gestionnaire de transactions pendant la deuxième phase d’une transaction si la transaction est validée.</span><span class="sxs-lookup"><span data-stu-id="eec48-112">This method of an enlisted object is used as a callback by the Transaction Manager during the second phase of a transaction if the transaction is commited.</span></span>|  
+|<xref:System.Transactions.IEnlistmentNotification.Rollback%2A>|<span data-ttu-id="eec48-113">Cette méthode d’un objet inscrit est utilisée comme un rappel par le Gestionnaire de transactions pendant la deuxième phase d’une transaction si la transaction est abandonnée (c'est-à-dire restaurée).</span><span class="sxs-lookup"><span data-stu-id="eec48-113">This method of an enlisted object is used as a callback by the Transaction Manager during the second phase of a transaction if the transaction is aborted (that is, rolled back).</span></span>|  
+|<xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>|<span data-ttu-id="eec48-114">Cette méthode d’un objet inscrit est utilisée comme un rappel par le Gestionnaire de transactions pendant la deuxième phase d’une transaction si la transaction est douteux.</span><span class="sxs-lookup"><span data-stu-id="eec48-114">This method of an enlisted object is used as a callback by the Transaction Manager during the second phase of a transaction if the transaction is in doubt.</span></span>|  
+  
+> [!NOTE]
+>  <span data-ttu-id="eec48-115">Il se peut que vous devez être conscient que les notifications ne peuvent pas être envoyées dans l’ordre ou dans un ordre particulier.</span><span class="sxs-lookup"><span data-stu-id="eec48-115">You should be aware that notifications might not be sent sequentially, or in a particular order.</span></span>  
+  
+   
+  
+## Examples  
+ <span data-ttu-id="eec48-116">L’exemple suivant illustre une implémentation de cette interface, ainsi que l’inscription de l’objet en tant que participant dans une transaction à l’aide de la <xref:System.Transactions.Transaction.EnlistVolatile%2A> (méthode).</span><span class="sxs-lookup"><span data-stu-id="eec48-116">The following example shows an implementation of this interface, as well as enlisting the object as a participant in a transaction using the <xref:System.Transactions.Transaction.EnlistVolatile%2A> method.</span></span>  
+  
+ [!code-csharp[Tx_Enlist#1](~/samples/snippets/csharp/VS_Snippets_CFX/tx_enlist/cs/enlist.cs#1)]
+ [!code-vb[Tx_Enlist#1](~/samples/snippets/visualbasic/VS_Snippets_CFX/tx_enlist/vb/enlist.vb#1)]  
+  
+ ]]></format>
+    </remarks>
+    <altmember cref="T:System.Transactions.ISinglePhaseNotification" />
+  </Docs>
+  <Members>
+    <Member MemberName="Commit">
+      <MemberSignature Language="C#" Value="public void Commit (System.Transactions.Enlistment enlistment);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Commit(class System.Transactions.Enlistment enlistment) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.IEnlistmentNotification.Commit(System.Transactions.Enlistment)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Commit(System::Transactions::Enlistment ^ enlistment);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="enlistment" Type="System.Transactions.Enlistment" />
+      </Parameters>
+      <Docs>
+        <param name="enlistment">
+          <span data-ttu-id="eec48-117">Objet <see cref="T:System.Transactions.Enlistment" /> utilisé pour envoyer une réponse au gestionnaire de transactions.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="eec48-117">An <see cref="T:System.Transactions.Enlistment" /> object used to send a response to the transaction manager.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="eec48-118">Avertit un objet inscrit qu'une transaction est en cours de validation.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="eec48-118">Notifies an enlisted object that a transaction is being committed.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="eec48-119">Le Gestionnaire de transactions appelle cette méthode d’un objet inscrit pendant la deuxième phase d’une validation lorsqu’il demande à tous les participants de valider la transaction.</span><span class="sxs-lookup"><span data-stu-id="eec48-119">The transaction manager calls this method of an enlisted object during the second phase of a commitment, when it instructs all participants to commit the transaction.</span></span>  
+  
+ <span data-ttu-id="eec48-120">Le Gestionnaire de ressources doit effectuer tout le travail nécessaire pour terminer la transaction, puis informer le Gestionnaire de transactions qu’il a fini en appelant le <xref:System.Transactions.Enlistment.Done%2A> méthode sur le `enlistment` paramètre.</span><span class="sxs-lookup"><span data-stu-id="eec48-120">The resource manager should perform any work necessary to finish the transaction and then inform the TM that it has finished by calling the <xref:System.Transactions.Enlistment.Done%2A> method on the `enlistment` parameter.</span></span>  
+  
+ <span data-ttu-id="eec48-121">Si le Gestionnaire de ressources est inscrit durablement mais ne répond pas en appelant <xref:System.Transactions.Enlistment.Done%2A> consiste, le Gestionnaire de transactions ne sait pas que le Gestionnaire de ressources a reçu le <xref:System.Transactions.IEnlistmentNotification.Commit%2A> appeler.</span><span class="sxs-lookup"><span data-stu-id="eec48-121">If the resource manager has enlisted durably, but does not respond by calling <xref:System.Transactions.Enlistment.Done%2A> method, the transaction manager is unsure that the resource manager has received the <xref:System.Transactions.IEnlistmentNotification.Commit%2A> call.</span></span> <span data-ttu-id="eec48-122">Par conséquent, le Gestionnaire de transactions continue à attendre une réponse et conserve les informations relatives à cette transaction.</span><span class="sxs-lookup"><span data-stu-id="eec48-122">As such, the transaction manager keeps waiting for a response, and maintains information relevant to this transaction.</span></span>  <span data-ttu-id="eec48-123">Si <xref:System.Transactions.Enlistment.Done%2A> est jamais appelée, cette information est conservée indéfiniment en mémoire ou dans une ressource à l’échelle du système.</span><span class="sxs-lookup"><span data-stu-id="eec48-123">If <xref:System.Transactions.Enlistment.Done%2A> is never called, this piece of information is kept around indefinitely in memory or in a system-wide resource.</span></span> <span data-ttu-id="eec48-124">Cela entraîne des ressources n’est pas à être récupéré.</span><span class="sxs-lookup"><span data-stu-id="eec48-124">This results in resources not being able to be reclaimed.</span></span> <span data-ttu-id="eec48-125">Dans le cas d’une transaction distribuée, cela pourrait éventuellement remplir le journal MSDTC qui arrête le processus MSDTC.</span><span class="sxs-lookup"><span data-stu-id="eec48-125">In the case of a distributed transaction, this could eventually fill the MSDTC log which halts the MSDTC process.</span></span> <span data-ttu-id="eec48-126">Dans le cas d’une transaction gérée par <xref:System.Transactions>, cela entraîne une augmentation graduelle et continue de la consommation de mémoire de processus du Gestionnaire de ressources.</span><span class="sxs-lookup"><span data-stu-id="eec48-126">In the case of a transaction managed by <xref:System.Transactions>, this results in a gradual and continual increase in the memory consumption of the resource manager's process.</span></span> <span data-ttu-id="eec48-127">Par conséquent, il est essentiel que vous appelez le <xref:System.Transactions.Enlistment.Done%2A> méthode une fois que votre gestionnaire de ressources a terminé votre travail de préparation.</span><span class="sxs-lookup"><span data-stu-id="eec48-127">Therefore, it is crucial that you call the <xref:System.Transactions.Enlistment.Done%2A> method once your resource manager is done with your prepare work.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="InDoubt">
+      <MemberSignature Language="C#" Value="public void InDoubt (System.Transactions.Enlistment enlistment);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void InDoubt(class System.Transactions.Enlistment enlistment) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.IEnlistmentNotification.InDoubt(System.Transactions.Enlistment)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void InDoubt(System::Transactions::Enlistment ^ enlistment);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="enlistment" Type="System.Transactions.Enlistment" />
+      </Parameters>
+      <Docs>
+        <param name="enlistment">
+          <span data-ttu-id="eec48-128">Objet <see cref="T:System.Transactions.Enlistment" /> utilisé pour envoyer une réponse au gestionnaire de transactions.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="eec48-128">An <see cref="T:System.Transactions.Enlistment" /> object used to send a response to the transaction manager.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="eec48-129">Avertit un objet inscrit que l'état d'une transaction est dans le doute.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="eec48-129">Notifies an enlisted object that the status of a transaction is in doubt.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="eec48-130">Cette méthode est appelée pour les ressources volatiles lorsque le Gestionnaire de transactions a appelé une opération de validation en une seule phase à une seule ressource durable, et ensuite la connexion à la ressource durable a été perdue avant d’obtenir le résultat de la transaction.</span><span class="sxs-lookup"><span data-stu-id="eec48-130">This method is called for volatile resources when the transaction manager has invoked a single phase commit operation to a single durable resource, and then connection to the durable resource was lost prior to getting the transaction result.</span></span> <span data-ttu-id="eec48-131">À ce stade, le résultat de la transaction ne peut pas être déterminé en toute sécurité.</span><span class="sxs-lookup"><span data-stu-id="eec48-131">At that point, the transaction outcome cannot be safely determined.</span></span>  
+  
+ <span data-ttu-id="eec48-132">En tant que <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> est considérée comme un état final pour une transaction, vous ne devez pas appeler <xref:System.Transactions.IEnlistmentNotification.Commit%2A> ou <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> après l’appel <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>.</span><span class="sxs-lookup"><span data-stu-id="eec48-132">As <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> is considered to be a final state for a transaction, you should not call <xref:System.Transactions.IEnlistmentNotification.Commit%2A> or <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> after calling <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>.</span></span>  
+  
+> [!NOTE]
+>  <span data-ttu-id="eec48-133">Votre implémentation de cette méthode pour la ressource volatile doit effectuer toute opération de récupération ou de la relation contenant-contenu qu’il comprend sur les données affectées.</span><span class="sxs-lookup"><span data-stu-id="eec48-133">Your implementation of this method for the volatile resource should perform whatever recovery or containment operation it understands on the affected data.</span></span>  <span data-ttu-id="eec48-134">Il doit également appeler le <xref:System.Transactions.Enlistment.Done%2A> méthode sur le sur le `enlistment` paramètre lorsqu’il a fini son travail.</span><span class="sxs-lookup"><span data-stu-id="eec48-134">It must also call the <xref:System.Transactions.Enlistment.Done%2A> method on the on the `enlistment` parameter when it has finished its work.</span></span>  
+  
+ <span data-ttu-id="eec48-135">Si le Gestionnaire de ressources est inscrit durablement mais ne répond pas en appelant <xref:System.Transactions.Enlistment.Done%2A> consiste, le Gestionnaire de transactions ne sait pas que le Gestionnaire de ressources a reçu le <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> appeler.</span><span class="sxs-lookup"><span data-stu-id="eec48-135">If the resource manager has enlisted durably, but does not respond by calling <xref:System.Transactions.Enlistment.Done%2A> method, the transaction manager is unsure that the resource manager has received the <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> call.</span></span> <span data-ttu-id="eec48-136">Par conséquent, le Gestionnaire de transactions continue à attendre une réponse et conserve les informations relatives à cette transaction.</span><span class="sxs-lookup"><span data-stu-id="eec48-136">As such, the transaction manager keeps waiting for a response, and maintains information relevant to this transaction.</span></span>  <span data-ttu-id="eec48-137">Si <xref:System.Transactions.Enlistment.Done%2A> est jamais appelée, cette information est conservée indéfiniment en mémoire ou dans une ressource à l’échelle du système.</span><span class="sxs-lookup"><span data-stu-id="eec48-137">If <xref:System.Transactions.Enlistment.Done%2A> is never called, this piece of information is kept around indefinitely in memory or in a system-wide resource.</span></span> <span data-ttu-id="eec48-138">Cela entraîne des ressources n’est pas à être récupéré.</span><span class="sxs-lookup"><span data-stu-id="eec48-138">This results in resources not being able to be reclaimed.</span></span> <span data-ttu-id="eec48-139">Dans le cas d’une transaction distribuée, cela pourrait éventuellement remplir le journal MSDTC qui arrête le processus MSDTC.</span><span class="sxs-lookup"><span data-stu-id="eec48-139">In the case of a distributed transaction, this could eventually fill the MSDTC log which halts the MSDTC process.</span></span> <span data-ttu-id="eec48-140">Dans le cas d’une transaction gérée par <xref:System.Transactions>, cela entraîne une augmentation graduelle et continue de la consommation de mémoire de processus du Gestionnaire de ressources.</span><span class="sxs-lookup"><span data-stu-id="eec48-140">In the case of a transaction managed by <xref:System.Transactions>, this results in a gradual and continual increase in the memory consumption of the resource manager's process.</span></span> <span data-ttu-id="eec48-141">Par conséquent, il est essentiel que vous appelez le <xref:System.Transactions.Enlistment.Done%2A> méthode une fois que votre gestionnaire de ressources a terminé votre travail de préparation.</span><span class="sxs-lookup"><span data-stu-id="eec48-141">Therefore, it is crucial that you call the <xref:System.Transactions.Enlistment.Done%2A> method once your resource manager is done with your prepare work.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Prepare">
+      <MemberSignature Language="C#" Value="public void Prepare (System.Transactions.PreparingEnlistment preparingEnlistment);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Prepare(class System.Transactions.PreparingEnlistment preparingEnlistment) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.IEnlistmentNotification.Prepare(System.Transactions.PreparingEnlistment)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Prepare(System::Transactions::PreparingEnlistment ^ preparingEnlistment);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="preparingEnlistment" Type="System.Transactions.PreparingEnlistment" />
+      </Parameters>
+      <Docs>
+        <param name="preparingEnlistment">
+          <span data-ttu-id="eec48-142">Objet <see cref="T:System.Transactions.PreparingEnlistment" /> utilisé pour envoyer une réponse au gestionnaire de transactions.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="eec48-142">A <see cref="T:System.Transactions.PreparingEnlistment" /> object used to send a response to the transaction manager.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="eec48-143">Avertit un objet inscrit qu'une transaction est en cours de préparation pour validation.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="eec48-143">Notifies an enlisted object that a transaction is being prepared for commitment.</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="eec48-144">Le Gestionnaire de transactions appelle cette méthode d’une ressource inscrite manager pendant la phase 1 d’une validation lorsqu’il demande aux participants s’ils peuvent valider la transaction.</span><span class="sxs-lookup"><span data-stu-id="eec48-144">The transaction manager calls this method of an enlisted resource manager during the phase 1 of a commitment, when it asks participants whether they can commit the transaction.</span></span>  
+  
+ <span data-ttu-id="eec48-145">Lorsque vous implémentez un gestionnaire de ressources durable, vous devez vous connecter votre enregistrement de préparation pendant cette phase.</span><span class="sxs-lookup"><span data-stu-id="eec48-145">When you are implementing a durable resource manager, you should log your prepare record during this phase.</span></span> <span data-ttu-id="eec48-146">L’enregistrement doit contenir toutes les informations nécessaires pour effectuer une récupération.</span><span class="sxs-lookup"><span data-stu-id="eec48-146">The record should contain all the necessary information to perform recovery.</span></span> <span data-ttu-id="eec48-147">Cela inclut la <xref:System.Transactions.PreparingEnlistment.RecoveryInformation%2A> propriété, qui est passée au Gestionnaire de transactions dans le <xref:System.Transactions.TransactionManager.Reenlist%2A> méthode lors de la récupération.</span><span class="sxs-lookup"><span data-stu-id="eec48-147">This includes the <xref:System.Transactions.PreparingEnlistment.RecoveryInformation%2A> property, which is passed to the transaction manager in the <xref:System.Transactions.TransactionManager.Reenlist%2A> method during recovery.</span></span> <span data-ttu-id="eec48-148">Pour plus d’informations sur la récupération, consultez [effectuer une récupération](http://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691).</span><span class="sxs-lookup"><span data-stu-id="eec48-148">For more information on recovery, see [Performing Recovery](http://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691).</span></span>  
+  
+ <span data-ttu-id="eec48-149">Votre gestionnaire de ressources doit se terminer tout le travail qui doit être terminé avant d’appeler le <xref:System.Transactions.PreparingEnlistment.Prepared%2A> méthode de le `preparingEnlistment` pour indiquer son vote pour la validation.</span><span class="sxs-lookup"><span data-stu-id="eec48-149">Your resource manager should complete all work that must be finished before calling the <xref:System.Transactions.PreparingEnlistment.Prepared%2A> method of the `preparingEnlistment` parameter to indicate its vote for commitment.</span></span> <span data-ttu-id="eec48-150">Vous devez vous assurer que cela est effectué avant la réception de notification de phase 2 telle que la validation, de restauration ou incertaine.</span><span class="sxs-lookup"><span data-stu-id="eec48-150">You should make sure that this is accomplished before receiving any phase 2 notification such as commit, rollback or in doubt.</span></span> <span data-ttu-id="eec48-151">C’est parce que les notifications de phase 2 peuvent se produire en ligne sur le même thread que celui qui a appelé le <xref:System.Transactions.PreparingEnlistment.Prepared%2A> méthode dans la phase 1.</span><span class="sxs-lookup"><span data-stu-id="eec48-151">This is because phase 2 notifications can happen inline on the same thread that called the <xref:System.Transactions.PreparingEnlistment.Prepared%2A> method in phase 1.</span></span> <span data-ttu-id="eec48-152">Par conséquent, vous ne devez effectuer aucun travail après l'appel <xref:System.Transactions.PreparingEnlistment.Prepared%2A> (par exemple, libérer des verrous) que vous devez avoir terminé avant de recevoir les notifications de phase 2.</span><span class="sxs-lookup"><span data-stu-id="eec48-152">As such, you should not do any work after the <xref:System.Transactions.PreparingEnlistment.Prepared%2A> call (for example, releasing locks) that you would expect to have completed before receiving the phase 2 notifications.</span></span>  
+  
+ <span data-ttu-id="eec48-153">Vous pouvez également appeler la méthode de le `preparingEnlistment` pour indiquer un vote pour la restauration.</span><span class="sxs-lookup"><span data-stu-id="eec48-153">You can also call the method of the `preparingEnlistment` parameter to indicate a vote for rollback.</span></span>  
+  
+ <span data-ttu-id="eec48-154">Si vous souhaitez que l’objet à observer et réagisse simplement à la progression de la transaction, sans participer, votre implémentation de cette méthode doit appeler la <xref:System.Transactions.Enlistment.Done%2A> méthode de le `preparingEnlistment` paramètre lorsqu’il a fini son travail.</span><span class="sxs-lookup"><span data-stu-id="eec48-154">If you want the object to merely observe and react to the progress of the transaction, without participating in it, your implementation of this method should call the <xref:System.Transactions.Enlistment.Done%2A> method of the `preparingEnlistment` parameter when it has finished its work.</span></span> <span data-ttu-id="eec48-155">En procédant ainsi, votre gestionnaire de ressources ne doit pas recevoir de notification de phase 2.</span><span class="sxs-lookup"><span data-stu-id="eec48-155">By doing so, your resource manager would not receive any phase 2 notification.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Rollback">
+      <MemberSignature Language="C#" Value="public void Rollback (System.Transactions.Enlistment enlistment);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void Rollback(class System.Transactions.Enlistment enlistment) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.IEnlistmentNotification.Rollback(System.Transactions.Enlistment)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void Rollback(System::Transactions::Enlistment ^ enlistment);" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>netstandard</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Transactions.Local</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="enlistment" Type="System.Transactions.Enlistment" />
+      </Parameters>
+      <Docs>
+        <param name="enlistment">
+          <span data-ttu-id="eec48-156">Objet <see cref="T:System.Transactions.Enlistment" /> utilisé pour envoyer une réponse au gestionnaire de transactions.</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="eec48-156">A <see cref="T:System.Transactions.Enlistment" /> object used to send a response to the transaction manager.</span>
+          </span>
+        </param>
+        <summary>
+          <span data-ttu-id="eec48-157">Avertit un objet inscrit qu'une transaction est en cours de restauration (abandonnée).</span>
+          <span class="sxs-lookup">
+            <span data-stu-id="eec48-157">Notifies an enlisted object that a transaction is being rolled back (aborted).</span>
+          </span>
+        </summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+ <span data-ttu-id="eec48-158">Le Gestionnaire de transactions appelle cette méthode d’un objet inscrit lorsque la transaction est en cours de restauration (abandonnée) en raison de l’incapacité d’un ou plusieurs participants de la transaction à valider la transaction.</span><span class="sxs-lookup"><span data-stu-id="eec48-158">The transaction manager calls this method of an enlisted object when the transaction is being rolled back (aborted) due to the inability of one or more transaction participants to commit the transaction.</span></span>  
+  
+ <span data-ttu-id="eec48-159">Le Gestionnaire de ressources doit effectuer tout le travail nécessaire pour terminer la transaction, puis informer le Gestionnaire de transactions qu’il a fini en appelant le <xref:System.Transactions.Enlistment.Done%2A> méthode sur le `enlistment` paramètre.</span><span class="sxs-lookup"><span data-stu-id="eec48-159">The resource manager should perform any work necessary to finish the transaction and then inform the TM that it has finished by calling the <xref:System.Transactions.Enlistment.Done%2A> method on the `enlistment` parameter.</span></span>  
+  
+ <span data-ttu-id="eec48-160">Si le Gestionnaire de ressources est inscrit durablement mais ne répond pas en appelant <xref:System.Transactions.Enlistment.Done%2A> consiste, le Gestionnaire de transactions ne sait pas que le Gestionnaire de ressources a reçu le <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> appeler.</span><span class="sxs-lookup"><span data-stu-id="eec48-160">If the resource manager has enlisted durably, but does not respond by calling <xref:System.Transactions.Enlistment.Done%2A> method, the transaction manager is unsure that the resource manager has received the <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> call.</span></span> <span data-ttu-id="eec48-161">Par conséquent, le Gestionnaire de transactions continue à attendre une réponse et conserve les informations relatives à cette transaction.</span><span class="sxs-lookup"><span data-stu-id="eec48-161">As such, the transaction manager keeps waiting for a response, and maintains information relevant to this transaction.</span></span>  <span data-ttu-id="eec48-162">Si <xref:System.Transactions.Enlistment.Done%2A> est jamais appelée, cette information est conservée indéfiniment en mémoire ou dans une ressource à l’échelle du système.</span><span class="sxs-lookup"><span data-stu-id="eec48-162">If <xref:System.Transactions.Enlistment.Done%2A> is never called, this piece of information is kept around indefinitely in memory or in a system-wide resource.</span></span> <span data-ttu-id="eec48-163">Cela entraîne des ressources n’est pas à être récupéré.</span><span class="sxs-lookup"><span data-stu-id="eec48-163">This results in resources not being able to be reclaimed.</span></span> <span data-ttu-id="eec48-164">Dans le cas d’une transaction distribuée, cela pourrait éventuellement remplir le journal MSDTC qui arrête le processus MSDTC.</span><span class="sxs-lookup"><span data-stu-id="eec48-164">In the case of a distributed transaction, this could eventually fill the MSDTC log which halts the MSDTC process.</span></span> <span data-ttu-id="eec48-165">Dans le cas d’une transaction gérée par <xref:System.Transactions>, cela entraîne une augmentation graduelle et continue de la consommation de mémoire de processus du Gestionnaire de ressources.</span><span class="sxs-lookup"><span data-stu-id="eec48-165">In the case of a transaction managed by <xref:System.Transactions>, this results in a gradual and continual increase in the memory consumption of the resource manager's process.</span></span> <span data-ttu-id="eec48-166">Par conséquent, il est essentiel que vous appelez le <xref:System.Transactions.Enlistment.Done%2A> méthode une fois que votre gestionnaire de ressources a terminé votre travail de préparation.</span><span class="sxs-lookup"><span data-stu-id="eec48-166">Therefore, it is crucial that you call the <xref:System.Transactions.Enlistment.Done%2A> method once your resource manager is done with your prepare work.</span></span>  
+  
+ ]]></format>
+        </remarks>
+      </Docs>
+    </Member>
+  </Members>
+</Type>
