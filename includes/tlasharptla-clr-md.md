@@ -1,0 +1,1 @@
+<span data-ttu-id="300d5-101">Common Language Runtime (CLR)</span><span class="sxs-lookup"><span data-stu-id="300d5-101">common language runtime (CLR)</span></span>

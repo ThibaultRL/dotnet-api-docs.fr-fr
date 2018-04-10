@@ -1,0 +1,1 @@
+<span data-ttu-id="a3911-101">SDK Windows</span><span class="sxs-lookup"><span data-stu-id="a3911-101">Windows SDK</span></span>

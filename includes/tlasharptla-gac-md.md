@@ -1,0 +1,1 @@
+<span data-ttu-id="c0be6-101">Global Assembly Cache (GAC)</span><span class="sxs-lookup"><span data-stu-id="c0be6-101">global assembly cache (GAC)</span></span>

@@ -1,0 +1,1 @@
+<span data-ttu-id="de9a4-101">création d’images WPF</span><span class="sxs-lookup"><span data-stu-id="de9a4-101">WPF Imaging</span></span>

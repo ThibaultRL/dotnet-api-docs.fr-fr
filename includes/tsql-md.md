@@ -1,0 +1,1 @@
+<span data-ttu-id="caa4b-101">Transact-SQL</span><span class="sxs-lookup"><span data-stu-id="caa4b-101">Transact-SQL</span></span>

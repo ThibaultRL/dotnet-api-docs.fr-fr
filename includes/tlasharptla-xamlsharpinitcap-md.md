@@ -1,0 +1,1 @@
+<span data-ttu-id="be192-101">langage XAML (eXtensible Application Markup Language)</span><span class="sxs-lookup"><span data-stu-id="be192-101">Extensible Application Markup Language (XAML)</span></span>

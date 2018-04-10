@@ -1,0 +1,1 @@
+<span data-ttu-id="74086-101">Windows XP Édition familiale, Windows XP Professionnel, Windows Server 2003</span><span class="sxs-lookup"><span data-stu-id="74086-101">Windows XP Home Edition, Windows XP Professional, Windows Server 2003</span></span>
