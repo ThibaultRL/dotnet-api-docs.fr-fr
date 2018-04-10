@@ -1,0 +1,2 @@
+
+<span data-ttu-id="2d660-101">Chaque option du compilateur est disponible sous deux formes : **-option** et **/option**.</span><span class="sxs-lookup"><span data-stu-id="2d660-101">Every compiler option is available in two forms: **-option** and **/option**.</span></span> <span data-ttu-id="2d660-102">La documentation ne présente-option dans.</span><span class="sxs-lookup"><span data-stu-id="2d660-102">The documentation only shows the -option form.</span></span> 
