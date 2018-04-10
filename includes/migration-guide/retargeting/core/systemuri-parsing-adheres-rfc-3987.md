@@ -1,0 +1,11 @@
+### <a name="systemuri-parsing-adheres-to-rfc-3987"></a>L’analyse de System.Uri conforme à RFC 3987
+
+|   |   |
+|---|---|
+|Détails|L’analyse URI a changé à différents niveaux dans le .NET 4.5. Notez, cependant, que ces changements affectent uniquement le code qui cible le .NET 4.5. Si un fichier binaire cible le .NET 4.0, l’ancien comportement est appliqué. Les changements appliqués à l’analyse URI dans le .NET 4.5 sont les suivants :<ul><li>URI de l’analyse effectuera la normalisation et la vérification des caractères selon les règles IRI les plus récentes dans RFC 3987.</li><li>Formulaire de normalisation Unicode C est effectué uniquement sur la partie hôte de l’URI.</li><li>Mailto non valide : URI maintenant provoquera une exception.</li><li>À la fin d’un segment de chemin d’accès des points de fin sont conservés maintenant.</li><li><code>file://</code> URI ne puissent se soustraire la <code>?</code> caractère.</li><li>Caractères de contrôle Unicode <code>U+0080</code> via <code>U+009F</code> ne sont pas pris en charge.</li><li>Virgule <code>,</code> ou <code>%2c</code> ne sont pas automatiquement sans séquence d’échappement.</li></ul>|
+|Suggestion|Si l’ancienne sémantique d’analyse URI du .NET 4.0 est nécessaire (et c’est souvent le cas), elle peut être utilisée en ciblant le .NET 4.0. Cela peut être accompli en utilisant un <xref:System.Runtime.Versioning.TargetFrameworkAttribute?displayProperty=name> sur l’assembly, ou par le système de projet de Visual Studio l’interface utilisateur dans la page de propriétés de projet'.|
+|Portée|Majeur|
+|Version|4.5|
+|Type|Reciblage|
+|API affectées|<ul><li><xref:System.Uri.%23ctor(System.String)?displayProperty=nameWithType></li><li><xref:System.Uri.%23ctor(System.String,System.Boolean)?displayProperty=nameWithType></li><li><xref:System.Uri.%23ctor(System.String,System.UriKind)?displayProperty=nameWithType></li><li><xref:System.Uri.%23ctor(System.Uri,System.String)?displayProperty=nameWithType></li><li><xref:System.Uri.TryCreate(System.String,System.UriKind,System.Uri@)?displayProperty=nameWithType></li><li><xref:System.Uri.TryCreate(System.Uri,System.String,System.Uri@)?displayProperty=nameWithType></li><li><xref:System.Uri.TryCreate(System.Uri,System.Uri,System.Uri@)?displayProperty=nameWithType></li></ul>|
+

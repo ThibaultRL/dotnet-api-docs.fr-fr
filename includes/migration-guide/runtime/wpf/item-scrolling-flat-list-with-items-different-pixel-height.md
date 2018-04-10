@@ -1,0 +1,11 @@
+### <a name="item-scrolling-a-flat-list-with-items-of-different-pixel-height"></a>Une liste plate d’éléments de différents-hauteur en pixels de défilement d’élément
+
+|   |   |
+|---|---|
+|Détails|Lorsqu’un <xref:System.Windows.Controls.ItemsControl?displayProperty=name> affiche une collection à l’aide de la virtualisation (<code>IsVirtualizing=true</code>) et élément défilement (<code>ScrollUnit=Item</code>), et lorsque le contrôle fait défiler pour afficher un élément dont la hauteur en pixels diffère de ses voisins, le <xref:System.Windows.Controls.VirtualizingStackPanel?displayProperty=name> effectue une itération sur toutes les éléments de la collection. L’interface utilisateur ne répond pas pendant cette itération ; Si la collection est volumineuse, cela peut être perçu comme un blocage. L’itération a lieu dans d’autres circonstances, même dans les versions précédentes de .net. Par exemple, il se produit lors du défilement en pixels (<code>ScrollUnit=Pixel</code>) lorsqu’il rencontre un élément avec la hauteur en pixels différents et lors du défilement d’élément de données hiérarchiques (telles qu’un <xref:System.Windows.Controls.TreeView?displayProperty=name> ou un <xref:System.Windows.Controls.ItemsControl?displayProperty=name> avec regroupement activé) lorsqu’il rencontre un élément avec un nombre différent d’éléments descendants à ses voisins. Dans le cas de la hauteur en pixels de faire défiler l’élément et différents, l’itération a été introduite dans .net 4.6.1 pour corriger les bogues dans la disposition des données hiérarchiques.  Il n’est pas nécessaire si les données sont plats (sans hiérarchie) et .net 4.6.2 ne l’effectue pas dans ce cas.|
+|Suggestion|Si l’itération a lieu dans le .net 4.6.1 mais pas dans les versions antérieures - autrement dit, si la <xref:System.Windows.Controls.ItemsControl?displayProperty=name> est une liste plate de défilement élément-avec les éléments de la hauteur en pixels différentes - il existe deux solutions :<ol><li>Installez .net 4.6.2.</li><li>Installez le correctif logiciel HR 1605 pour .net 4.6.1.</li></ol>|
+|Portée|Mineur|
+|Version|4.6.1|
+|Type|Runtime|
+|API affectées|<ul><li><xref:System.Windows.Controls.VirtualizingStackPanel?displayProperty=nameWithType></li></ul>|
+

@@ -1,0 +1,11 @@
+### <a name="default-signedxml-and-signedxms-algorithms-changed-to-sha256"></a>Algorithmes par défaut SignedXML et SignedXMS modifiés en SHA256
+
+|   |   |
+|---|---|
+|Détails|Dans le 4.7 Framework .NET et les versions antérieures, SignedXML et SignedCMS par défaut SHA1 pour certaines opérations. À compter de .NET Framework 4.7.1, SHA256 est activée par défaut pour ces opérations. Cette modification est nécessaire car SHA1 est considérée comme n’étant plus sécurisé.|
+|Suggestion|Il existe deux nouvelles valeurs de commutateur de contexte pour contrôler si SHA1 (non sécurisé) ou SHA256 est utilisé par défaut :<ul><li>Switch.System.Security.Cryptography.Xml.UseInsecureHashAlgorithms</li><li>Switch.System.Security.Cryptography.Pkcs.UseInsecureHashAlgorithms</li></ul>Pour les applications que cible le .NET Framework 4.7.1 et versions ultérieures, si l’utilisation de SHA256 n’est pas souhaitable, vous pouvez restaurer la valeur par défaut SHA1 en ajoutant la configuration suivante, basculez vers le [runtime](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) section de la configuration de votre application fichier :<pre><code class="language-xml">&lt;AppContextSwitchOverrides value=&quot;Switch.System.Security.Cryptography.Xml.UseInsecureHashAlgorithms=true;Switch.System.Security.Cryptography.Pkcs.UseInsecureHashAlgorithms=true&quot; /&gt;&#13;&#10;</code></pre>Pour les applications qui ciblent le .NET Framework 4.7 et les versions antérieures, vous pouvez choisir dans cette modification en ajoutant le commutateur de configuration suivant à la [runtime](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) section de votre fichier de configuration d’application :<pre><code class="language-xml">&lt;AppContextSwitchOverrides value=&quot;Switch.System.Security.Cryptography.Xml.UseInsecureHashAlgorithms=false;Switch.System.Security.Cryptography.Pkcs.UseInsecureHashAlgorithms=false&quot; /&gt;&#13;&#10;</code></pre>|
+|Portée|Mineur|
+|Version|4.7.1|
+|Type|Reciblage|
+|API affectées|<ul><li><xref:System.Security.Cryptography.Pkcs.CmsSigner?displayProperty=nameWithType></li><li><xref:System.Security.Cryptography.Xml.SignedXml?displayProperty=nameWithType></li><li><xref:System.Security.Cryptography.Xml.Reference?displayProperty=nameWithType></li></ul>|
+

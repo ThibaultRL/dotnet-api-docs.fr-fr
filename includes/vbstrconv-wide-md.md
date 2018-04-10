@@ -1,0 +1,1 @@
+La conversion peut utiliser formulaire de normalisation C même si un caractère d’entrée est déjà pleine chasse. Par exemple, la chaîne « は゛ » (qui est déjà pleine chasse) est normalisée en « ば ». Consultez [formulaires de normalisation Unicode](http://unicode.org/reports/tr15).

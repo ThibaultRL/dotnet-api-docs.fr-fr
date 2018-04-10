@@ -1,0 +1,10 @@
+### <a name="wpf-pointer-based-touch-stack"></a>WPF tactile pointeur de pile
+
+|   |   |
+|---|---|
+|Détails|Cette modification ajoute la possibilité d’activer un WM_POINTER facultative en fonction de pile tactile/stylet WPF.  Les développeurs qui n’est pas explicitement activée cela ne devrait aucun changement de comportement de tactile/stylet WPF. Actuelle connu des problèmes avec WM_POINTER facultative en fonction de pile de tactile/stylet :<ul><li>Pas de prise en charge de l’écriture manuscrite en temps réel.</li><li>Lors de l’entrée manuscrite et StylusPlugins continueront de fonctionner, ils seront traités sur le Thread d’interface utilisateur qui peut entraîner une baisse des performances.</li><li>Changements de comportement en raison de modifications dans la promotion d’événements tactiles/stylet pour les événements de souris</li><li>Manipulation peut-être se comporter différemment</li><li>Glisser-déplacer n’affiche pas les commentaires appropriés pour la saisie tactile</li><li>Cela n’affecte pas l’entrée du stylet</li><li>Glisser-déplacer n’est plus peut être lancée que sur les événements tactiles/du stylet</li><li>Cela peut éventuellement bloquer l’application jusqu'à ce que l’entrée de la souris soit détectée.</li><li>Au lieu de cela, les développeurs doivent lancer le glisser-déplacer à partir des événements de souris.</li></ul>|
+|Suggestion|Les développeurs qui souhaitent activer cette pile peuvent ajouter et de fusion suivantes au fichier App.config de l’application :<pre><code class="language-xml">&lt;configuration&gt;&#13;&#10;&lt;runtime&gt;&#13;&#10;&lt;AppContextSwitchOverrides value=&quot;Switch.System.Windows.Input.Stylus.EnablePointerSupport=true&quot;/&gt;&#13;&#10;&lt;/runtime&gt;&#13;&#10;&lt;/configuration&gt;&#13;&#10;</code></pre>Suppression de cette ou de la définition de la valeur False désactive cette pile facultatif. Notez que cette pile est disponible uniquement sur la mise à jour des créateurs de Windows 10 et versions ultérieures.|
+|Portée|Microsoft Edge|
+|Version|4.7|
+|Type|Reciblage|
+

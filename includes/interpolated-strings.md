@@ -1,0 +1,3 @@
+
+> [!IMPORTANT] 
+> Au lieu d’appeler le **String.Format** méthode ou à l’aide de [les chaînes de format composite](~/docs/standard/base-types/composite-formatting.md), vous pouvez utiliser *interpolées chaînes* si votre langage prend en charge les. Une chaîne interpolée est une chaîne qui contienne *interpolées expressions*. Chaque expression interpolée est résolue avec la valeur de l’expression et incluse dans la chaîne de résultat lors de la chaîne est assignée. Pour plus d’informations, consultez [(référence c#) une interpolation de chaîne](~/docs/csharp/language-reference/tokens/interpolated.md) et [chaînes interpolées (référence Visual Basic)](~/docs/visual-basic/programming-guide/language-features/strings/interpolated-strings.md). 
