@@ -1,1 +1,1 @@
-.NET Framework 4.5.2
+.NET Framework 4.5.2
