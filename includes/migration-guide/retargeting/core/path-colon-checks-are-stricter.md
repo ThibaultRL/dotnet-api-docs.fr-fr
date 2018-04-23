@@ -1,9 +1,9 @@
-### <a name="path-colon-checks-are-stricter"></a>Vérifications de deux points de chemin d’accès sont plus strictes
+### <a name="path-colon-checks-are-stricter"></a>Les vérifications des signes deux-points dans les chemins sont plus strictes
 
 |   |   |
 |---|---|
-|Détails|Dans .NET Framework 4.6.2, un nombre de modifications ont été apporté pour prendre en charge les chemins d’accès précédemment non pris en charge (à la fois dans la longueur et le format). Vérifie la syntaxe de séparateur (deux-points) de lecteur adéquate ont été apportées plus approprié, qui a comme effet secondaire de bloquer certains chemins d’accès de l’URI dans quelques sélectionnez API de chemin d’accès où ils utilisés pour être tolérée.|
-|Suggestion|Si la transmission d’un URI à l’API affecté, modifiez la chaîne pour d’abord être un chemin d’accès valide.<ul><li>Supprimer le modèle à partir de l’URL manuellement (par exemple, supprimez <code>file://</code> à partir d’URL)</li><li>Passez l’URI pour la <xref:System.Uri> classe et utiliser <xref:System.Uri.LocalPath></li></ul>Ou bien, vous pouvez désactiver la normalisation de chemin d’accès de nouveau en définissant le <code>Switch.System.IO.UseLegacyPathHandling</code> commutateur AppContext sur true.|
+|Détails|Dans.NET Framework 4.6.2, plusieurs changements ont été apportés pour prendre en charge les chemins qui n’étaient précédemment pas pris en charge (à la fois du fait de la longueur et du format). Les vérifications de syntaxe correcte de séparateur de lecteur (signe deux-points) ont été rendues plus exactes, ce qui a eu pour effet secondaire de bloquer certains chemins d’URI dans quelques API de chemin spécifiques qui étaient habituellement tolérées.|
+|Suggestion|Si vous passez un URI à des API affectées, modifiez d’abord la chaîne pour en faire un chemin valide.<ul><li>Supprimez manuellement le schéma des URL (par exemple, supprimez <code>file://</code> des URL)</li><li>Passez l’URI de la classe <xref:System.Uri> et utilisez <xref:System.Uri.LocalPath></li></ul>Vous pouvez également refuser la nouvelle normalisation de chemin en définissant le commutateur AppContext <code>Switch.System.IO.UseLegacyPathHandling</code> sur true.|
 |Portée|Microsoft Edge|
 |Version|4.6.2|
 |Type|Reciblage|

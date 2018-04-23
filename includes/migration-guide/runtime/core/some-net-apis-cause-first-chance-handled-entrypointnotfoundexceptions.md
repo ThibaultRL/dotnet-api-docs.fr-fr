@@ -1,9 +1,9 @@
-### <a name="some-net-apis-cause-first-chance-handled-entrypointnotfoundexceptions"></a>Certaines API .NET cause première chance (géré) EntryPointNotFoundExceptions
+### <a name="some-net-apis-cause-first-chance-handled-entrypointnotfoundexceptions"></a>Certaines API .NET provoquent des exceptions EntryPointNotFoundExceptions de première chance (gérées)
 
 |   |   |
 |---|---|
-|Détails|Dans le .NET Framework 4.5, un petit nombre de méthodes .NET a commencé lever de première chance <xref:System.EntryPointNotFoundException?displayProperty=name>s. Ces exceptions étaient gérées dans le .NET Framework, mais pouvaient arrêter l’automatisation des tests, car celle-ci ne s’attendait pas à des exceptions de première chance. Ces mêmes API provoquent l’arrêt de certaines exécutions ApiVerifier lorsque HighVersionLie est activé.|
-|Suggestion|Vous pouvez éviter ce problème en effectuant une mise à niveau vers .NET Framework 4.5.1. Vous pouvez également automatisation de test peut être mis à jour pour ne pas arrêter de première chance <xref:System.EntryPointNotFoundException?displayProperty=name>s.|
+|Détails|Dans .NET Framework 4.5, un petit nombre de méthodes .NET levaient des exceptions <xref:System.EntryPointNotFoundException?displayProperty=name> de première chance. Ces exceptions étaient gérées dans le .NET Framework, mais pouvaient arrêter l’automatisation des tests, car celle-ci ne s’attendait pas à des exceptions de première chance. Ces mêmes API provoquent l’arrêt de certaines exécutions ApiVerifier lorsque HighVersionLie est activé.|
+|Suggestion|Vous pouvez éviter ce problème en effectuant une mise à niveau vers .NET Framework 4.5.1. Vous pouvez aussi mettre à jour le code d’automatisation des tests pour que son exécution ne soit pas arrêtée en cas d’exceptions <xref:System.EntryPointNotFoundException?displayProperty=name> de première chance.|
 |Portée|Microsoft Edge|
 |Version|4.5|
 |Type|Runtime|

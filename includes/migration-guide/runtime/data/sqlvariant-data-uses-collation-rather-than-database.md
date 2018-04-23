@@ -1,4 +1,4 @@
-### <a name="sqlvariant-data-uses-sqlvariant-collation-rather-than-database-collation"></a>Les données sql_variant utilisent le classement de sql_variant plutôt que le classement de base de données
+### <a name="sqlvariant-data-uses-sqlvariant-collation-rather-than-database-collation"></a>Les données Sql_variant utilisent le classement sql_variant plutôt que le classement de la base de données
 
 |   |   |
 |---|---|

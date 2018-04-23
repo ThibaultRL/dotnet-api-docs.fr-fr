@@ -1,9 +1,9 @@
-### <a name="systemservicemodelwebwebservicehost-object-no-longer-adds-a-default-endpoint"></a>Objet de System.ServiceModel.Web.WebServiceHost n’ajoute plus un point de terminaison par défaut
+### <a name="systemservicemodelwebwebservicehost-object-no-longer-adds-a-default-endpoint"></a>L’objet System.ServiceModel.Web.WebServiceHost n’ajoute plus de point de terminaison par défaut
 
 |   |   |
 |---|---|
 |Détails|L’objet <xref:System.ServiceModel.Web.WebServiceHost> n’ajoute plus de point de terminaison par défaut si un point de terminaison explicite a été ajouté par le code de l’application.|
-|Suggestion|Si les utilisateurs seront attend à être en mesure de se connecter à un point de terminaison par défaut et les autres points de terminaison explicites ont été ajoutées à la <xref:System.ServiceModel.Web.WebServiceHost?displayProperty=name>, points de terminaison par défaut doivent également être ajoutés explicitement (à l’aide de <xref:System.ServiceModel.ServiceHostBase.AddDefaultEndpoints?displayProperty=name>).|
+|Suggestion|Si les utilisateurs s’attendent à pouvoir se connecter à un point de terminaison par défaut alors que d’autres points de terminaison explicites ont été ajoutés à <xref:System.ServiceModel.Web.WebServiceHost?displayProperty=name>, les points de terminaison par défaut doivent également être ajoutés explicitement (à l’aide d’<xref:System.ServiceModel.ServiceHostBase.AddDefaultEndpoints?displayProperty=name>).|
 |Portée|Mineur|
 |Version|4.5|
 |Type|Runtime|

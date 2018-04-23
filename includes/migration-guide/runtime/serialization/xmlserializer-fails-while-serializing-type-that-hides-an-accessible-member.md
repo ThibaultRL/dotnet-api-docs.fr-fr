@@ -1,9 +1,9 @@
-### <a name="xmlserializer-fails-while-serializing-a-type-that-hides-an-accessible-member-with-an-inaccessible-one"></a>XmlSerializer échoue lors de la sérialisation d’un type qui masque un membre accessible avec une inaccessible
+### <a name="xmlserializer-fails-while-serializing-a-type-that-hides-an-accessible-member-with-an-inaccessible-one"></a>XmlSerializer échoue lors de la sérialisation d’un type qui masque un membre accessible avec un membre inaccessible
 
 |   |   |
 |---|---|
-|Détails|Lors de la sérialisation d’un type dérivé, le <xref:System.Xml.Serialization.XmlSerializer?displayProperty=name> peut échouer si le type contient un champ inaccessible ou une propriété qui masque (via le mot clé 'new'), un champ ou une propriété portant le même nom que celui qui a été précédemment accessible (public, par exemple) sur le type de base.|
-|Suggestion|Ce problème peut être résolu en effectuant le nouveau membre masque accessible à le <xref:System.Xml.Serialization.XmlSerializer?displayProperty=name> (en le marquant public, par exemple). Vous pouvez également le paramètre de configuration suivant reviendra à 4.0 <xref:System.Xml.Serialization.XmlSerializer?displayProperty=name> comportement, ce qui permet de résoudre le problème :<pre><code class="language-xml">&lt;system.xml.serialization&gt;&#13;&#10;&lt;xmlSerializer useLegacySerializerGeneration=&quot;true&quot; /&gt;&#13;&#10;&lt;/system.xml.serialization&gt;&#13;&#10;</code></pre>|
+|Détails|Lors de la sérialisation d’un type dérivé, <xref:System.Xml.Serialization.XmlSerializer?displayProperty=name> peut échouer si le type contient un champ ou une propriété inaccessible qui masque (via le mot clé 'new') un champ ou une propriété portant le même nom précédemment accessible (public, par exemple) sur le type de base.|
+|Suggestion|Ce problème peut être résolu en rendant le nouveau membre qui masque accessible à <xref:System.Xml.Serialization.XmlSerializer?displayProperty=name> (en le marquant comme public, par exemple). Vous pouvez également utiliser le paramètre de configuration suivant qui rétablira le comportement de <xref:System.Xml.Serialization.XmlSerializer?displayProperty=name> de la version 4.0, ce qui permet de résoudre le problème :<pre><code class="language-xml">&lt;system.xml.serialization&gt;&#13;&#10;&lt;xmlSerializer useLegacySerializerGeneration=&quot;true&quot; /&gt;&#13;&#10;&lt;/system.xml.serialization&gt;&#13;&#10;</code></pre>|
 |Portée|Mineur|
 |Version|4.5|
 |Type|Runtime|

@@ -1,9 +1,9 @@
-### <a name="wpf-printing-stack-update"></a>Mise à jour de pile de l’impression WPF
+### <a name="wpf-printing-stack-update"></a>Mise à jour de la pile d’impression WPF
 
 |   |   |
 |---|---|
-|Détails|À l’aide des API de l’impression de WPF <xref:System.Printing.PrintQueue?displayProperty=name> maintenant appeler des API de Package de la fenêtre Imprimer Document en faveur de l’API d’impression XPS désormais déconseillé. La modification a été effectuée avec la facilité de maintenance à l’esprit ; ni les utilisateurs ni les développeurs doivent voir toutes les modifications de comportement ou l’utilisation de l’API. La nouvelle pile d’impression est activée par défaut lors de l’exécution de mise à jour des créateurs de Windows 10. La pile d’impression ancien toujours continue de fonctionner exactement comme précédemment dans les versions antérieures de Windows.|
-|Suggestion|Pour utiliser la pile ancien dans la mise à jour de Windows 10 créateurs, définissez la <code>UseXpsOMPrinting</code> valeur REG_DWORD de le <code>HKEY_CURRENT_USER\Software\Microsoft\.NETFramework\Windows Presentation Foundation\Printing</code> clé de Registre <code>1</code>.|
+|Détails|Les API d’impression de WPF utilisant <xref:System.Printing.PrintQueue?displayProperty=name> appellent l’API Print Document Package de Windows au lieu de l’API d’impression XPS, qui est maintenant dépréciée. Le changement a été fait pour des raisons de maintenance : ni les utilisateurs ni les développeurs ne devraient voir de changements de comportement ou d’utilisation de l’API. La nouvelle pile d’impression est activée par défaut lors de l’exécution dans Windows 10 Creators Update. L’ancienne pile d’impression continue de fonctionner comme avant sur les versions antérieures de Windows.|
+|Suggestion|Pour utiliser l’ancienne pile dans Windows 10 Creators Update, définissez la valeur REG_DWORD <code>UseXpsOMPrinting</code> de la clé de Registre <code>HKEY_CURRENT_USER\Software\Microsoft\.NETFramework\Windows Presentation Foundation\Printing</code> sur <code>1</code>.|
 |Portée|Microsoft Edge|
 |Version|4.7|
 |Type|Runtime|

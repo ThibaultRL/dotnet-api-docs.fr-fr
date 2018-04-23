@@ -1,9 +1,9 @@
-### <a name="adonet-now-attempts-to-automatically-reconnect-broken-sql-connections"></a>ADO.NET maintenant tente de se reconnecter automatiquement les connexions SQL rompues
+### <a name="adonet-now-attempts-to-automatically-reconnect-broken-sql-connections"></a>ADO.NET tente maintenant de reconnecter automatiquement les connexions SQL rompues
 
 |   |   |
 |---|---|
-|Détails|À compter de .NET Framework 4.5.1, le .NET Framework tente de se reconnecter automatiquement les connexions SQL interrompues. Bien que cela effectue généralement des applications plus fiables, il existe des cas dans lesquels une application a besoin de savoir que la connexion a été perdue afin qu’il peut intervenir lors de la reconnexion.|
-|Suggestion|Si cette fonctionnalité n’est pas souhaitable pour des raisons de compatibilité, il peut être désactivé en définissant le <xref:System.Data.SqlClient.SqlConnectionStringBuilder.ConnectRetryCount?displayProperty=name> propriété de chaîne de connexion (ou <xref:System.Data.SqlClient.SqlConnectionStringBuilder?displayProperty=name>) à 0.|
+|Détails|À compter de .NET Framework 4.5.1, le .NET Framework tente de reconnecter automatiquement les connexions SQL rompues. Bien que cette opération améliore généralement la fiabilité des applications, il existe des cas particuliers où une application doit savoir que la connexion a été perdue afin de pouvoir prendre des mesures lors de la reconnexion.|
+|Suggestion|Si cette fonctionnalité n’est pas souhaitable pour des raisons de compatibilité, elle peut être désactivée en affectant à la propriété <xref:System.Data.SqlClient.SqlConnectionStringBuilder.ConnectRetryCount?displayProperty=name> d’une chaîne de connexion (ou <xref:System.Data.SqlClient.SqlConnectionStringBuilder?displayProperty=name>) la valeur 0.|
 |Portée|Microsoft Edge|
 |Version|4.5.1|
 |Type|Runtime|

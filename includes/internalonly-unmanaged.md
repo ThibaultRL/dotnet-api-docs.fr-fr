@@ -1,3 +1,3 @@
 
 > [!NOTE] 
-> Cette API méthode est à usage interne uniquement. Elle n’est pas destinée à utiliser à partir du code du développeur.
+> Cette API est destinée à un usage interne uniquement. Elle n’est pas destinée à être utilisée dans le code du développeur.

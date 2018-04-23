@@ -1,9 +1,9 @@
-### <a name="workflow-now-throws-original-exception-instead-of-nullreferenceexception-in-some-cases"></a>Flux de travail présent lève une exception d’origine au lieu de l’exception NullReferenceException dans certains cas
+### <a name="workflow-now-throws-original-exception-instead-of-nullreferenceexception-in-some-cases"></a>Un workflow lève maintenant dans certains cas une exception d’origine au lieu d’une exception NullReferenceException
 
 |   |   |
 |---|---|
-|Détails|Dans le .NET Framework 4.6.2 et les versions antérieures, lorsque la méthode d’exécution d’une activité de workflow lève une exception avec un <code>null</code> la valeur pour le <xref:System.Exception.Message> propriété, le runtime de flux de travail System.Activities lève un <xref:System.NullReferenceException?displayProperty=name>, masquage le exception d’origine. Dans le 4.7 .NET Framework, l’exception précédemment masquée est levée.|
-|Suggestion|Si votre code repose sur la gestion de la <xref:System.NullReferenceException?displayProperty=name>, modifiez-le afin d’intercepter les exceptions qui peuvent être levées à partir de vos activités personnalisées.|
+|Détails|Dans .NET Framework 4.6.2 et antérieur, quand la méthode Execute d’une activité de workflow lève une exception avec une valeur <code>null</code> pour la propriété <xref:System.Exception.Message>, l’exécution du workflow System.Activities lève une <xref:System.NullReferenceException?displayProperty=name>, masquant l’exception d’origine. Dans .NET Framework 4.7, l’exception précédemment masquée est levée.|
+|Suggestion|Si votre code s’appuie sur la gestion de <xref:System.NullReferenceException?displayProperty=name>, modifiez-le afin d’intercepter les exceptions qui peuvent être levées depuis vos activités personnalisées.|
 |Portée|Mineur|
 |Version|4.7|
 |Type|Runtime|

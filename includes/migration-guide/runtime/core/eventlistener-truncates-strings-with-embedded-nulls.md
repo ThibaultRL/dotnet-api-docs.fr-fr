@@ -1,9 +1,9 @@
-### <a name="eventlistener-truncates-strings-with-embedded-nulls"></a>EventListener tronque les chaînes comportant des valeurs null incorporées
+### <a name="eventlistener-truncates-strings-with-embedded-nulls"></a>EventListener tronque les chaînes comportant des valeurs Null incorporées
 
 |   |   |
 |---|---|
 |Détails|<xref:System.Diagnostics.Tracing.EventListener?displayProperty=name> tronque les chaînes comportant des valeurs null incorporées. Les caractères Null ne sont pas pris en charge par la classe <xref:System.Diagnostics.Tracing.EventSource?displayProperty=name>. La modification affecte uniquement les applications qui utilisent <xref:System.Diagnostics.Tracing.EventListener?displayProperty=name> pour lire des données <xref:System.Diagnostics.Tracing.EventSource?displayProperty=name> dans le processus et qui utilisent des caractères Null comme délimiteurs.|
-|Suggestion|<xref:System.Diagnostics.Tracing.EventSource?displayProperty=name> données doivent être mises à jour, si possible, pour ne pas utiliser de caractères null incorporés.|
+|Suggestion|Les données <xref:System.Diagnostics.Tracing.EventSource?displayProperty=name> doivent être, si possible, mises à jour pour ne pas utiliser les caractères Null incorporés.|
 |Portée|Microsoft Edge|
 |Version|4.5.1|
 |Type|Runtime|

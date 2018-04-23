@@ -1,9 +1,9 @@
-### <a name="exceptions-during-unobserved-processing-in-systemthreadingtaskstask-no-longer-propagate-on-finalizer-thread"></a>Propagent les exceptions lors de la non prise en charge le traitement dans System.Threading.Tasks.Task n’est plus sur le thread finaliseur
+### <a name="exceptions-during-unobserved-processing-in-systemthreadingtaskstask-no-longer-propagate-on-finalizer-thread"></a>Les exceptions qui sont levées pendant un traitement non pris en charge dans System.Threading.Tasks.Task ne se propagent plus sur le thread finaliseur
 
 |   |   |
 |---|---|
 |Détails|Comme la classe <xref:System.Threading.Tasks.Task?displayProperty=name> représente une opération asynchrone, elle intercepte toutes les exceptions sans gravité qui se produisent pendant le traitement asynchrone. Dans le .NET Framework 4.5, si une exception n’est pas prise en charge et si votre code n’attend jamais la tâche, l’exception ne se propagera plus sur le thread finaliseur et arrêtera le processus pendant l’opération garbage collection. Cette modification améliore la fiabilité des applications qui utilisent la classe Task pour exécuter un traitement asynchrone non pris en charge.|
-|Suggestion|Si une application dépend des exceptions asynchrones défaillante propager vers le thread finaliseur, le comportement précédent peut être restauré en fournissant un gestionnaire approprié pour le <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> événement, ou en définissant un [élément de configuration d’exécution ](~/docs/framework/configure-apps/file-schema/runtime/throwunobservedtaskexceptions-element.md).|
+|Suggestion|Si une application dépend d’exceptions asynchrones non prises en charge qui se propagent au thread finaliseur, le comportement précédent peut être restauré en fournissant un gestionnaire approprié pour l’événement <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> ou en définissant un [élément de configuration du runtime](~/docs/framework/configure-apps/file-schema/runtime/throwunobservedtaskexceptions-element.md).|
 |Portée|Microsoft Edge|
 |Version|4.5|
 |Type|Runtime|

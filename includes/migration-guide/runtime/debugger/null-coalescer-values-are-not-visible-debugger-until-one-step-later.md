@@ -1,9 +1,9 @@
-### <a name="null-coalescer-values-are-not-visible-in-debugger-until-one-step-later"></a>Les valeurs NULL antémémoire ne sont pas visibles dans le débogueur jusqu'à une étape ultérieure
+### <a name="null-coalescer-values-are-not-visible-in-debugger-until-one-step-later"></a>Les valeurs de fusion Null ne sont pas visibles dans le débogueur jusqu’à une étape ultérieure
 
 |   |   |
 |---|---|
-|Détails|Un bogue dans le .NET Framework 4.5 entraîne des valeurs définies via une opération de fusion null ne soit ne pas visible dans le débogueur immédiatement après l’exécution de l’opération d’assignation lors de l’exécution de la version 64 bits de l’infrastructure.|
-|Suggestion|Pas à pas détaillé d’une seule fois supplémentaire dans le débogueur entraînera la local/valeur du champ à mettre à jour correctement. En outre, ce problème a été résolu dans le .NET Framework 4.6 ; la mise à niveau vers cette version du Framework devrait résoudre le problème.|
+|Détails|Un bogue dans.NET Framework 4.5 empêche de voir les valeurs définies via une opération de fusion Null dans le débogueur immédiatement après le déroulement de l’opération d’assignation lors de l’exécution de la version 64 bits du .NET Framework.|
+|Suggestion|Une nouvelle exécution pas à pas dans le débogueur entraînera la mise à jour correcte de la valeur locale/du champ. Par ailleurs, ce problème a été corrigé dans .NET Framework 4.6 et vous pouvez le résoudre en effectuant la mise à niveau vers cette version du .NET Framework.|
 |Portée|Microsoft Edge|
 |Version|4.5|
 |Type|Runtime|

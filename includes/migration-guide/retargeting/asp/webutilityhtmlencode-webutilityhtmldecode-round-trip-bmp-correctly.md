@@ -1,9 +1,9 @@
-### <a name="webutilityhtmlencode-and-webutilityhtmldecode-round-trip-bmp-correctly"></a>WebUtility.HtmlEncode et BMP aller-retour de WebUtility.HtmlDecode correctement
+### <a name="webutilityhtmlencode-and-webutilityhtmldecode-round-trip-bmp-correctly"></a>WebUtility.HtmlEncode et WebUtility.HtmlDecode font un aller-retour correct au plan BMP
 
 |   |   |
 |---|---|
-|Détails|Pour les applications qui ciblent le .NET Framework 4.5, les caractères situés en dehors de l’aller-retour base plan BMP (Multilingual Plane) correctement lorsqu’ils sont passés à la <xref:System.Net.WebUtility.HtmlDecode(System.String)> méthodes.|
-|Suggestion|Cette modification doit n’ont aucun effet sur les applications actuelles, mais pour restaurer le comportement d’origine, vous devez définir le <code>targetFramework</code> attribut de la <code>&lt;httpRuntime&gt;</code> élément à une chaîne autre que &quot;4.5&quot;. Vous pouvez également définir les attributs <code>unicodeEncodingConformance</code> et <code>unicodeDecodingConformance</code> de l'élément de configuration <code>&lt;webUtility&gt;</code> pour contrôler ce comportement indépendamment de la version ciblée du .NET Framework.|
+|Détails|Pour les applications qui ciblent .NET Framework 4.5, les caractères extérieurs au plan BMP (Basic Multilingual Plane) font un aller-retour correct quand ils sont passés à la méthode <xref:System.Net.WebUtility.HtmlDecode(System.String)>.|
+|Suggestion|Ce changement ne doit avoir aucun effet sur les applications actuelles. Toutefois, pour rétablir le comportement d’origine, affectez à l’attribut <code>targetFramework</code> de l’élément <code>&lt;httpRuntime&gt;</code> la valeur d’une chaîne autre que &quot;4.5&quot;. Vous pouvez également définir les attributs <code>unicodeEncodingConformance</code> et <code>unicodeDecodingConformance</code> de l'élément de configuration <code>&lt;webUtility&gt;</code> pour contrôler ce comportement indépendamment de la version ciblée du .NET Framework.|
 |Portée|Microsoft Edge|
 |Version|4.5|
 |Type|Reciblage|

@@ -1,4 +1,4 @@
-### <a name="winforms-checkforoverflowunderflow-property-is-now-true-for-systemdrawing"></a>Propriété de CheckForOverflowUnderflow de WinForm concerne désormais System.Drawing
+### <a name="winforms-checkforoverflowunderflow-property-is-now-true-for-systemdrawing"></a>La propriété CheckForOverflowUnderflow de WinForm est désormais true pour System.Drawing
 
 |   |   |
 |---|---|

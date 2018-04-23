@@ -1,9 +1,9 @@
-### <a name="exception-message-has-changed-for-failed-datacontract-serialization-in-case-of-an-unknown-type"></a>Message d’exception a été modifiée pour la sérialisation de DataContract échec en cas d’un type inconnu
+### <a name="exception-message-has-changed-for-failed-datacontract-serialization-in-case-of-an-unknown-type"></a>Le message d’exception a été modifié pour l’échec de la sérialisation de DataContract dans le cas d’un type inconnu
 
 |   |   |
 |---|---|
-|Détails|À compter de .NET Framework 4.6, le message d’exception si un <xref:System.Runtime.Serialization.DataContractSerializer?displayProperty=name> ou <xref:System.Runtime.Serialization.Json.DataContractJsonSerializer?displayProperty=name> ne parvient pas à sérialiser ou désérialiser due à l’absence de « types connus » a été clarifié.|
-|Suggestion|Les applications ne doivent pas dépendre de messages d’exception spécifique. Si une application en fonction de ce message, veuillez mettre à jour à attendre le nouveau message, ou modifier (de préférence) pour dépendre uniquement le type d’exception.|
+|Détails|À compter de .NET Framework 4.6, le message d’exception affiché si un <xref:System.Runtime.Serialization.DataContractSerializer?displayProperty=name> ou <xref:System.Runtime.Serialization.Json.DataContractJsonSerializer?displayProperty=name> ne parvient pas à sérialiser ni à désérialiser en l’absence de « types connus » a été clarifié.|
+|Suggestion|Les applications ne doivent pas dépendre de messages d’exceptions spécifiques. Si une application dépend de ce message, mettez-la à jour pour qu’elle attende le nouveau message ou (de préférence) modifiez-la pour qu’elle dépende uniquement du type d’exception.|
 |Portée|Microsoft Edge|
 |Version|4.6|
 |Type|Runtime|

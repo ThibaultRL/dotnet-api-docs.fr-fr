@@ -1,8 +1,8 @@
-### <a name="httputilityjavascriptstringencode-escapes-ampersand"></a>HttpUtility.JavaScriptStringEncode d’échappement « et commercial »
+### <a name="httputilityjavascriptstringencode-escapes-ampersand"></a>HttpUtility.JavaScriptStringEncode place le caractère esperluette (&) dans une séquence d’échappement
 
 |   |   |
 |---|---|
-|Détails|En commençant par le .NET Framework 4.5, <xref:System.Web.HttpUtility.JavaScriptStringEncode(System.String)?displayProperty=name> remplace l’esperluette (&amp;) caractères.|
+|Détails|Depuis .NET Framework 4.5, <xref:System.Web.HttpUtility.JavaScriptStringEncode(System.String)?displayProperty=name> place le caractère esperluette (&amp;) dans une séquence d’échappement.|
 |Suggestion|Si votre application dépend du comportement précédent de cette méthode, vous pouvez ajouter un paramètre aspnet:JavaScriptDoNotEncodeAmpersand à l’[élément appSettings ASP.NET](https://msdn.microsoft.com/library/hh975440.aspx) dans votre fichier de configuration.|
 |Portée|Mineur|
 |Version|4.5|

@@ -1,9 +1,9 @@
-### <a name="xslt-style-sheet-exception-message-changed"></a>Messages d’exception de feuille de style XSLT modifié
+### <a name="xslt-style-sheet-exception-message-changed"></a>Le message de l’exception relative aux feuilles de style XSLT a été changé
 
 |   |   |
 |---|---|
-|Détails|Dans le .NET Framework 4.5, le texte du message d’erreur lorsqu’un fichier XSLT est trop complexe est &quot;la feuille de style est trop complexe.&quot; Dans les versions précédentes, le message d’erreur a été &quot;erreur de compilation XSLT.&quot; Le code d'application qui dépend du texte du message d'erreur ne fonctionne plus. Toutefois, comme les types d’exception restent les mêmes, cette modification ne devrait pas avoir d’impact réel.|
-|Suggestion|Mettre à jour de n’importe quel code d’application, selon le message d’exception à partir de cette condition d’erreur pour attendre le nouveau message, ou (mieux) mettre à jour le code de façon à dépendre uniquement le type d’exception (<xref:System.Xml.Xsl.XsltException?displayProperty=name>), qui n’a pas changé.|
+|Détails|Dans le .NET Framework 4.5, quand un fichier XSLT est trop complexe, le texte du message d’erreur est « La feuille de style est trop complexe. ». Dans les versions antérieures, le message d’erreur était « Erreur de compilation XSLT. ». Le code d'application qui dépend du texte du message d'erreur ne fonctionne plus. Toutefois, comme les types d’exception restent les mêmes, cette modification ne devrait pas avoir d’impact réel.|
+|Suggestion|Mettez à jour le code d’application qui dépend du message d’exception de cette condition d’erreur pour qu’il attende le nouveau message ou (encore mieux) mettez à jour le code pour qu’il dépende uniquement du type d’exception (<xref:System.Xml.Xsl.XsltException?displayProperty=name>), qui n’a pas changé.|
 |Portée|Microsoft Edge|
 |Version|4.5|
 |Type|Runtime|

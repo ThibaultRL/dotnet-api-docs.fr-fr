@@ -2,8 +2,8 @@
 
 |   |   |
 |---|---|
-|Détails|À compter de .NET Framework 4.5, <xref:System.Collections.Generic.List%601?displayProperty=name>d’algorithme de tri a changé (pour un tri approfondie au lieu d’un tri rapide). <xref:System.Collections.Generic.List%601?displayProperty=name>de tri n’a jamais été stable, mais cette modification peut provoquer des différents scénarios trier les manières instable. Cela signifie simplement que des éléments équivalents peuvent effectuer un tri dans des ordres différents dans les appels suivants de l’API.|
-|Suggestion|Étant donné que l’ancien algorithme de tri a été également instable (bien que de manière légèrement différente), il ne doit y avoir aucun code qui dépend des éléments équivalents toujours tri dans un ordre particulier. S’il existe des instances de code en fonction de qui et de chance avec l’ancien comportement, ce code doit être mis à jour pour utiliser un comparateur qui sera de façon déterministe triez les éléments dans l’ordre souhaité.|
+|Détails|À compter de .NET Framework 4.5, l’algorithme de tri de <xref:System.Collections.Generic.List%601?displayProperty=name> a changé (pour correspondre à un tri approfondi au lieu d’un tri rapide). Le tri de <xref:System.Collections.Generic.List%601?displayProperty=name> n’a jamais été stable, mais cette modification peut aboutir à des tris instables dans le cadre de différents scénarios. Cela signifie simplement que des éléments équivalents peuvent être triés dans des ordres différents lors des appels suivants de l’API.|
+|Suggestion|Comme l’ancien algorithme de tri était également instable (de manière légèrement différente, toutefois), aucun code ne doit dépendre du tri dans un ordre particulier des éléments équivalents. Si des instances de code présentent cette dépendance et réussissent avec l’ancien comportement, ce code doit être mis à jour pour utiliser un comparateur qui va trier de façon déterministe les éléments dans l’ordre souhaité.|
 |Portée|Transparent|
 |Version|4.5|
 |Type|Runtime|

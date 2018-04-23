@@ -1,9 +1,9 @@
-### <a name="iasyncresultcompletedsynchronously-property-must-be-correct-for-the-resulting-task-to-complete"></a>Propriété de IAsyncResult.CompletedSynchronously doit être correcte pour la tâche obtenue se termine
+### <a name="iasyncresultcompletedsynchronously-property-must-be-correct-for-the-resulting-task-to-complete"></a>La propriété IAsyncResult.CompletedSynchronously doit être correctement configurée pour que la tâche résultante puisse se terminer
 
 |   |   |
 |---|---|
-|Détails|Lors de l’appel TaskFactory.FromAsync, l’implémentation de la <xref:System.IAsyncResult.CompletedSynchronously> propriété doit être correcte pour la tâche obtenue se termine. Autrement dit, la propriété doit retourner la valeur true si, et uniquement si, l’implémentation s’est effectuée de façon synchrone. Auparavant, la propriété n'était pas vérifiée.|
-|Suggestion|Si <xref:System.IAsyncResult?displayProperty=name> implémentations correctement retournent true pour le <xref:System.IAsyncResult.CompletedSynchronously?displayProperty=name> propriété uniquement lorsqu’une tâche se termine de façon synchrone, puis aucun saut n’est appliqué. Les utilisateurs doivent consulter <xref:System.IAsyncResult?displayProperty=name> implémentations délégations (le cas échéant) pour vous assurer qu’ils évaluent correctement si une tâche s’est terminée de manière synchrone ou non.|
+|Détails|Lors de l’appel à TaskFactory.FromAsync, l’implémentation de la propriété <xref:System.IAsyncResult.CompletedSynchronously> doit être correctement configurée pour que la tâche résultante puisse se terminer. Autrement dit, la propriété doit retourner la valeur true si, et uniquement si, l’implémentation s’est effectuée de façon synchrone. Auparavant, la propriété n'était pas vérifiée.|
+|Suggestion|Si les implémentations d’<xref:System.IAsyncResult?displayProperty=name> retournent comme il se doit la valeur true pour la propriété <xref:System.IAsyncResult.CompletedSynchronously?displayProperty=name> uniquement quand une tâche se termine de façon synchrone, l’exécution n’est pas arrêtée. Les utilisateurs doivent examiner leurs éventuelles implémentations d’<xref:System.IAsyncResult?displayProperty=name> afin de vérifier qu’elles évaluent correctement si une tâche se termine de manière synchrone ou non.|
 |Portée|Microsoft Edge|
 |Version|4.5|
 |Type|Reciblage|

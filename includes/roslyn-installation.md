@@ -1,29 +1,29 @@
 ## <a name="installation-instructions"></a>Instructions d’installation 
 
-Il existe deux façons de trouver la **.NET du compilateur Platform SDK** dans les **le programme d’installation de Visual Studio**:
+Vous pouvez rechercher **SDK .NET Compiler Platform** dans **Visual Studio Installer** de deux façons :
 
-### <a name="install-using-the-workloads-view"></a>Installer à l’aide de la vue de charges de travail
+### <a name="install-using-the-workloads-view"></a>Installer en utilisant la vue Charges de travail
 
-Le SDK de plateforme du compilateur .NET n’est pas sélectionné automatiquement dans le cadre de la charge de travail de développement extension Visual Studio. Vous devez la sélectionner comme un composant facultatif.
+SDK .NET Compiler Platform n’est pas sélectionné automatiquement dans le cadre de la charge de travail Développement d’extensions Visual Studio. Vous devez le sélectionner comme composant facultatif.
 
-1. Exécutez **programme d’installation de Visual Studio** 
-1. Sélectionnez **modifier** 
-1. Vérifiez le **le développement d’extensions Visual Studio** la charge de travail.
-1. Ouvrez le **le développement d’extensions Visual Studio** nœud dans l’arborescence de résumé.
-1. Cochez la case pour **.NET du compilateur Platform SDK**. Vous trouverez dernier sous les composants facultatifs.
+1. Exécutez **Visual Studio Installer**. 
+1. Sélectionnez **Modifier**. 
+1. Choisissez la charge de travail **Développement d’extensions Visual Studio**.
+1. Ouvrez le nœud **Développement d’extensions Visual Studio** dans l’arborescence résumée.
+1. Cochez la case pour **SDK .NET Compiler Platform**. Il se trouve en dernier sous les composants facultatifs.
 
-Si vous le souhaitez, vous aurez également la **l’éditeur DGML** pour afficher des graphiques dans le visualiseur :
+Si vous le souhaitez, vous pouvez ajouter **l’éditeur DGML** pour afficher des graphes dans le visualiseur :
 
-1. Ouvrez le **des composants individuels** nœud dans l’arborescence de résumé.
-1. Cochez la case pour **l’éditeur DGML**
+1. Ouvrez le nœud **Composants individuels** dans l’arborescence résumée.
+1. Cochez la case pour **Éditeur DGML**.
 
-### <a name="install-using-the-individual-components-tab"></a>Installer à l’aide de l’onglet composants individuels
+### <a name="install-using-the-individual-components-tab"></a>Installer en utilisant l’onglet Composants individuels
 
-1. Exécutez **programme d’installation de Visual Studio** 
-1. Sélectionnez **modifier** 
-1. Sélectionnez le **des composants individuels** onglet 
-1. Cochez la case pour **.NET du compilateur Platform SDK**. Vous trouverez dernier sous la **compilateurs, créer des outils et des runtimes** section.
+1. Exécutez **Visual Studio Installer**. 
+1. Sélectionnez **Modifier**. 
+1. Sélectionnez l’onglet **Composants individuels**. 
+1. Cochez la case pour **SDK .NET Compiler Platform**. Il se trouve en dernier sous la section **Compilateurs, outils de génération et runtimes**.
 
-Si vous le souhaitez, vous aurez également la **l’éditeur DGML** pour afficher des graphiques dans le visualiseur :
+Si vous le souhaitez, vous pouvez ajouter **l’éditeur DGML** pour afficher des graphes dans le visualiseur :
 
-1. Cochez la case pour **l’éditeur DGML**. Vous trouverez sous le **outils Code** section.
+1. Cochez la case pour **Éditeur DGML**. Il se trouve sous la section **Outils de code**.

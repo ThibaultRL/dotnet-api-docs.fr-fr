@@ -1,9 +1,9 @@
-### <a name="xmlwriter-throws-on-invalid-surrogate-pairs"></a>XmlWriter lève une exception sur les paires de substitution non valide
+### <a name="xmlwriter-throws-on-invalid-surrogate-pairs"></a>XmlWriter lève une exception en cas de paires de substitution non valides
 
 |   |   |
 |---|---|
-|Détails|Pour les applications qui ciblent .NET Framework 4.5.2 ou des versions antérieures, l'écriture d'une paire de substitution non valide à l'aide de la gestion des stratégies de secours des exceptions ne lève pas toujours une exception. Pour les applications qui ciblent le .NET Framework 4.6, tente d’écrire une substitution non valides paire lève une <xref:System.ArgumentException?displayProperty=name>.|
-|Suggestion|Si nécessaire, cette séparation peut être évité en ciblant le .NET Framework 4.5.2 ou une version antérieure. Les paires de substitution non valide peuvent également être prétraitées en xml valid avant de les écrire.|
+|Détails|Pour les applications qui ciblent .NET Framework 4.5.2 ou des versions antérieures, l'écriture d'une paire de substitution non valide à l'aide de la gestion des stratégies de secours des exceptions ne lève pas toujours une exception. Pour les applications qui ciblent le .NET Framework 4.6, la tentative d’écriture d’une paire de substitution non valide lève une exception <xref:System.ArgumentException?displayProperty=name>.|
+|Suggestion|Si nécessaire, vous pouvez éviter cette interruption en ciblant le .NET Framework 4.5.2 ou antérieur. Vous pouvez également prétraiter les paires de substitution non valides en code XML valide avant de les écrire.|
 |Portée|Microsoft Edge|
 |Version|4.6|
 |Type|Reciblage|

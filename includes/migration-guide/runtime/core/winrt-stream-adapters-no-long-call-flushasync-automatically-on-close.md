@@ -1,4 +1,4 @@
-### <a name="winrt-stream-adapters-no-long-call-flushasync-automatically-on-close"></a>Adaptateurs de flux WinRT appellent ne FlushAsync automatiquement lors de la fermeture
+### <a name="winrt-stream-adapters-no-long-call-flushasync-automatically-on-close"></a>Les adaptateurs de flux WinRT n’appellent plus FlushAsync automatiquement lors de la fermeture
 
 |   |   |
 |---|---|

@@ -1,4 +1,4 @@
-### <a name="entityframework-60-loads-very-slowly-in-apps-launched-from-visual-studio"></a>EntityFramework 6.0 charge très lentement dans les applications lancées à partir de Visual Studio
+### <a name="entityframework-60-loads-very-slowly-in-apps-launched-from-visual-studio"></a>Le chargement d’Entity Framework 6.0 est très lent dans les applications lancées à partir de Visual Studio
 
 |   |   |
 |---|---|
