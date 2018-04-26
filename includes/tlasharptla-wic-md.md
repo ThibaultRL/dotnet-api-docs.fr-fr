@@ -1,1 +1,0 @@
-Composant Imagerie Microsoft Windows Presentation Foundation

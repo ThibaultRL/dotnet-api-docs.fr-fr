@@ -1,1 +1,0 @@
-langage XAML (eXtensible Application Markup Language)

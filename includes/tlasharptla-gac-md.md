@@ -1,1 +1,0 @@
-Global Assembly Cache (GAC)

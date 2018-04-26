@@ -1,1 +1,0 @@
-Éditeurs de méthode d’entrée (IME)
