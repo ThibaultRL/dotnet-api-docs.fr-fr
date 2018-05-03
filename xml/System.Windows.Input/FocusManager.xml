@@ -1,682 +1,288 @@
-<Type Name="FocusManager" FullName="System.Windows.Input.FocusManager">
-  <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c6b2e6e8506664e988d0903f088eee03bf709264" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
-    <Meta Name="ms.translationtype" Value="HT" />
-    <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-  </Metadata>
-  <TypeSignature Language="C#" Value="public static class FocusManager" />
-  <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit FocusManager extends System.Object" />
-  <TypeSignature Language="DocId" Value="T:System.Windows.Input.FocusManager" />
-  <TypeSignature Language="VB.NET" Value="Public Class FocusManager" />
-  <TypeSignature Language="C++ CLI" Value="public ref class FocusManager abstract sealed" />
-  <AssemblyInfo>
-    <AssemblyName>PresentationCore</AssemblyName>
-    <AssemblyVersion>4.0.0.0</AssemblyVersion>
-  </AssemblyInfo>
-  <Base>
-    <BaseTypeName>System.Object</BaseTypeName>
-  </Base>
-  <Interfaces />
-  <Docs>
-    <summary>
-      <span data-ttu-id="cb7bf-101">Fournit un ensemble de méthodes statiques, de propriétés jointes et d'événements pour déterminer et définir des portées de focus et pour définir l'élément ayant le focus dans la portée.</span>
-      <span class="sxs-lookup">
-        <span data-stu-id="cb7bf-101">Provides a set of static methods, attached properties, and events for determining and setting focus scopes and for setting the focused element within the scope.</span>
-      </span>
-    </summary>
-    <remarks>
-      <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="cb7bf-102">Dans [!INCLUDE[TLA#tla_wpf](~/includes/tlasharptla-wpf-md.md)] il existe deux concepts concernant le focus : le focus clavier et le focus logique.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-102">In [!INCLUDE[TLA#tla_wpf](~/includes/tlasharptla-wpf-md.md)] there are two concepts concerning focus: keyboard focus and logical focus.</span></span>  
-  
- <span data-ttu-id="cb7bf-103">Le focus clavier se rapporte à l’élément qui reçoit actuellement l’entrée au clavier.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-103">Keyboard focus pertains to the element which is currently receiving keyboard input.</span></span>  <span data-ttu-id="cb7bf-104">Il peut y avoir qu’un seul élément ayant le focus clavier.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-104">There can be only one element with keyboard focus.</span></span>  <span data-ttu-id="cb7bf-105">Cet élément avec le focus clavier a <xref:System.Windows.IInputElement.IsKeyboardFocused%2A> la valeur `true`.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-105">This element with keyboard focus has <xref:System.Windows.IInputElement.IsKeyboardFocused%2A> set to `true`.</span></span>  <span data-ttu-id="cb7bf-106"><xref:System.Windows.Input.Keyboard.FocusedElement%2A?displayProperty=nameWithType> Retourne l’élément avec le focus clavier.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-106"><xref:System.Windows.Input.Keyboard.FocusedElement%2A?displayProperty=nameWithType> returns the element with keyboard focus.</span></span>  
-  
- <span data-ttu-id="cb7bf-107">Le focus logique se rapporte à la <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType> dans une portée de focus spécifique.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-107">Logical focus pertains to the <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType> within a specific focus scope.</span></span>  
-  
- <span data-ttu-id="cb7bf-108">Une portée de focus est un élément conteneur qui effectue le suivi de le <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType> dans son étendue.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-108">A focus scope is a container element that keeps track of the <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType> within its scope.</span></span>  <span data-ttu-id="cb7bf-109">Par défaut, le <xref:System.Windows.Window> classe est une portée de focus étant le <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ContextMenu>, et <xref:System.Windows.Controls.ToolBar> classes.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-109">By default, the <xref:System.Windows.Window> class is a focus scope as are the <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ContextMenu>, and <xref:System.Windows.Controls.ToolBar> classes.</span></span>  <span data-ttu-id="cb7bf-110">Un élément qui est une portée de focus a <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> la valeur `true`.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-110">An element which is a focus scope has <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> set to `true`.</span></span>  
-  
- <span data-ttu-id="cb7bf-111">Il peut y avoir plusieurs éléments avec le focus logique, mais il ne peut exister qu’un seul élément avec le focus logique dans une portée de focus unique.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-111">There can be multiple elements with logical focus, but there can only be one element with logical focus within a single focus scope.</span></span>  <span data-ttu-id="cb7bf-112">Un élément avec le focus logique ne dispose pas nécessairement le focus clavier, mais un élément avec le focus clavier a le focus logique.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-112">An element with logical focus does not necessarily have keyboard focus, but an element with keyboard focus will have logical focus.</span></span>  <span data-ttu-id="cb7bf-113">Il est possible de définir une portée de focus dans une portée de focus.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-113">It is possible to define a focus scope within a focus scope.</span></span>  <span data-ttu-id="cb7bf-114">Dans ce cas, la portée de focus parent et enfant peuvent avoir un <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType>.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-114">In this case, both the parent focus scope and the child focus scope can have a <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType>.</span></span>  
-  
- <span data-ttu-id="cb7bf-115">Le scénario suivant illustre comment le focus clavier et le focus logique changent dans une [!INCLUDE[TLA#tla_wpf](~/includes/tlasharptla-wpf-md.md)] application qui a un <xref:System.Windows.Window> avec un <xref:System.Windows.Controls.TextBox> et un <xref:System.Windows.Controls.Menu> qui a un <xref:System.Windows.Controls.MenuItem>.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-115">The following scenario illustrates how keyboard focus and logical focus change in a [!INCLUDE[TLA#tla_wpf](~/includes/tlasharptla-wpf-md.md)] application that has a <xref:System.Windows.Window> with a <xref:System.Windows.Controls.TextBox> and a <xref:System.Windows.Controls.Menu> which has a <xref:System.Windows.Controls.MenuItem>.</span></span>  <span data-ttu-id="cb7bf-116">Quand le focus clavier passe de la <xref:System.Windows.Controls.TextBox> à la <xref:System.Windows.Controls.MenuItem>, le <xref:System.Windows.Controls.TextBox> pertes focus mais conserve le focus logique pour la <xref:System.Windows.Window> portée de focus.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-116">When keyboard focus changes from the <xref:System.Windows.Controls.TextBox> to the <xref:System.Windows.Controls.MenuItem>, the <xref:System.Windows.Controls.TextBox> losses keyboard focus but retains logical focus for the <xref:System.Windows.Window> focus scope.</span></span>  <span data-ttu-id="cb7bf-117">Le <xref:System.Windows.Controls.MenuItem> Obtient le focus clavier et le focus logique pour la <xref:System.Windows.Controls.Menu> portée de focus.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-117">The <xref:System.Windows.Controls.MenuItem> obtains keyboard focus and obtains logical focus for the <xref:System.Windows.Controls.Menu> focus scope.</span></span>  <span data-ttu-id="cb7bf-118">Lorsque le focus clavier est retournée à la racine <xref:System.Windows.Window>, l’élément <xref:System.Windows.Window> portée de focus avec le focus logique Obtient le focus clavier, qui dans ce cas est le <xref:System.Windows.Controls.TextBox>.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-118">When keyboard focus returns to the root <xref:System.Windows.Window>, the element in <xref:System.Windows.Window> focus scope with logical focus will obtain keyboard focus, which in this case is the <xref:System.Windows.Controls.TextBox>.</span></span>  <span data-ttu-id="cb7bf-119">Le <xref:System.Windows.Controls.TextBox> a maintenant le focus clavier et le focus logique.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-119">The <xref:System.Windows.Controls.TextBox> now has keyboard focus and logical focus.</span></span>  <span data-ttu-id="cb7bf-120">Le <xref:System.Windows.Controls.MenuItem> perd le focus clavier, mais conserve le focus logique pour la <xref:System.Windows.Controls.Menu> portée de focus.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-120">The <xref:System.Windows.Controls.MenuItem> loses keyboard focus, but retains logical focus for the <xref:System.Windows.Controls.Menu> focus scope.</span></span>  
-  
- <span data-ttu-id="cb7bf-121">La valeur par défaut <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> sur un <xref:System.Windows.Window>, <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ToolBar>, et <xref:System.Windows.Controls.ContextMenu> est `true`.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-121">The default value of <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> on a <xref:System.Windows.Window>, <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ToolBar>, and <xref:System.Windows.Controls.ContextMenu> is `true`.</span></span>  
-  
- <span data-ttu-id="cb7bf-122">Pour plus d’informations sur le focus, consultez le [vue d’ensemble de l’entrée](~/docs/framework/wpf/advanced/input-overview.md) et [Focus Overview](~/docs/framework/wpf/advanced/focus-overview.md).</span><span class="sxs-lookup"><span data-stu-id="cb7bf-122">For more information on focus, see the [Input Overview](~/docs/framework/wpf/advanced/input-overview.md) and the [Focus Overview](~/docs/framework/wpf/advanced/focus-overview.md).</span></span>  
-  
- ]]></format>
-    </remarks>
-  </Docs>
-  <Members>
-    <Member MemberName="AddGotFocusHandler">
-      <MemberSignature Language="C#" Value="public static void AddGotFocusHandler (System.Windows.DependencyObject element, System.Windows.RoutedEventHandler handler);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddGotFocusHandler(class System.Windows.DependencyObject element, class System.Windows.RoutedEventHandler handler) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Input.FocusManager.AddGotFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddGotFocusHandler (element As DependencyObject, handler As RoutedEventHandler)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddGotFocusHandler(System::Windows::DependencyObject ^ element, System::Windows::RoutedEventHandler ^ handler);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="element" Type="System.Windows.DependencyObject" />
-        <Parameter Name="handler" Type="System.Windows.RoutedEventHandler" />
-      </Parameters>
-      <Docs>
-        <param name="element">
-          <span data-ttu-id="cb7bf-123">
-            <see cref="T:System.Windows.UIElement" /> ou <see cref="T:System.Windows.ContentElement" /> qui écoute cet événement.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-123">The <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" /> that listens to this event.</span>
-          </span>
-        </param>
-        <param name="handler">
-          <span data-ttu-id="cb7bf-124">Gestionnaire d’événements à ajouter.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-124">The event handler to be added.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="cb7bf-125">Ajoute un gestionnaire pour l'événement attaché <see cref="E:System.Windows.Input.FocusManager.GotFocus" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-125">Adds a handler for the <see cref="E:System.Windows.Input.FocusManager.GotFocus" /> attached event.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="AddLostFocusHandler">
-      <MemberSignature Language="C#" Value="public static void AddLostFocusHandler (System.Windows.DependencyObject element, System.Windows.RoutedEventHandler handler);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void AddLostFocusHandler(class System.Windows.DependencyObject element, class System.Windows.RoutedEventHandler handler) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Input.FocusManager.AddLostFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Sub AddLostFocusHandler (element As DependencyObject, handler As RoutedEventHandler)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void AddLostFocusHandler(System::Windows::DependencyObject ^ element, System::Windows::RoutedEventHandler ^ handler);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="element" Type="System.Windows.DependencyObject" />
-        <Parameter Name="handler" Type="System.Windows.RoutedEventHandler" />
-      </Parameters>
-      <Docs>
-        <param name="element">
-          <span data-ttu-id="cb7bf-126">
-            <see cref="T:System.Windows.UIElement" /> ou <see cref="T:System.Windows.ContentElement" /> qui écoute cet événement.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-126">The <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" /> that listens to this event.</span>
-          </span>
-        </param>
-        <param name="handler">
-          <span data-ttu-id="cb7bf-127">Gestionnaire d’événements à ajouter.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-127">The event handler to be added.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="cb7bf-128">Ajoute un gestionnaire pour l'événement attaché <see cref="E:System.Windows.Input.FocusManager.LostFocus" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-128">Adds a handler for the <see cref="E:System.Windows.Input.FocusManager.LostFocus" /> attached event.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="FocusedElement">
-      <MemberSignature Language="C#" Value="see GetFocusedElement, and SetFocusedElement" />
-      <MemberSignature Language="ILAsm" Value="see GetFocusedElement, and SetFocusedElement" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Input.FocusManager.FocusedElement" />
-      <MemberSignature Language="VB.NET" Value="see GetFocusedElement, and SetFocusedElement" />
-      <MemberType>AttachedProperty</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="FocusedElementProperty">
-      <MemberSignature Language="C#" Value="public static readonly System.Windows.DependencyProperty FocusedElementProperty;" />
-      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.DependencyProperty FocusedElementProperty" />
-      <MemberSignature Language="DocId" Value="F:System.Windows.Input.FocusManager.FocusedElementProperty" />
-      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly FocusedElementProperty As DependencyProperty " />
-      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::DependencyProperty ^ FocusedElementProperty;" />
-      <MemberType>Field</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.DependencyProperty</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="cb7bf-129">Identifie la propriété jointe <see cref="P:System.Windows.Input.FocusManager.FocusedElement" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-129">Identifies the <see cref="P:System.Windows.Input.FocusManager.FocusedElement" /> attached property.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GetFocusedElement">
-      <MemberSignature Language="C#" Value="public static System.Windows.IInputElement GetFocusedElement (System.Windows.DependencyObject element);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Windows.IInputElement GetFocusedElement(class System.Windows.DependencyObject element) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Input.FocusManager.GetFocusedElement(System.Windows.DependencyObject)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetFocusedElement (element As DependencyObject) As IInputElement" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::IInputElement ^ GetFocusedElement(System::Windows::DependencyObject ^ element);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Attributes>
-        <Attribute>
-          <AttributeName>System.ComponentModel.DesignerSerializationVisibility</AttributeName>
-        </Attribute>
-      </Attributes>
-      <ReturnValue>
-        <ReturnType>System.Windows.IInputElement</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="element" Type="System.Windows.DependencyObject" />
-      </Parameters>
-      <Docs>
-        <param name="element">
-          <span data-ttu-id="cb7bf-130">Élément avec le focus logique dans la portée de focus spécifiée.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-130">The element with logical focus in the specified focus scope.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="cb7bf-131">Obtient l'élément avec le focus logique dans la portée de focus spécifiée.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-131">Gets the element with logical focus within the specified focus scope.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="cb7bf-132">Élément de la portée de focus spécifiée avec le focus logique.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-132">The element in the specified focus scope with logical focus.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="cb7bf-133">Le <xref:System.Windows.Input.FocusManager.FocusedElement%2A> est l’élément qui a le focus logique pour une portée de focus spécifique.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-133">The <xref:System.Windows.Input.FocusManager.FocusedElement%2A> is the element which has logical focus for a specific focus scope.</span></span>  <span data-ttu-id="cb7bf-134">Cet objet peut ou ne peut pas avoir le focus clavier.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-134">This object may or may not have keyboard focus.</span></span>  <span data-ttu-id="cb7bf-135">Le focus clavier fait référence à l’élément qui reçoit l’entrée au clavier.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-135">Keyboard focus refers to the element that receives keyboard input.</span></span>  <span data-ttu-id="cb7bf-136">Pour plus d’informations sur le focus, le focus clavier et le focus logique, consultez le [vue d’ensemble de l’entrée](~/docs/framework/wpf/advanced/input-overview.md).</span><span class="sxs-lookup"><span data-stu-id="cb7bf-136">For more information on focus, keyboard focus, and logical focus, see the [Input Overview](~/docs/framework/wpf/advanced/input-overview.md).</span></span>  
-  
- <span data-ttu-id="cb7bf-137">Si `element` n’est pas une portée de focus, cette méthode retournera `null`.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-137">If `element` is not a focus scope, this method will return `null`.</span></span>  
-  
- <span data-ttu-id="cb7bf-138">Utilisez <xref:System.Windows.Input.FocusManager.SetFocusedElement%2A>, pour spécifier l’élément avec le focus logique dans une portée de focus spécifié.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-138">Use <xref:System.Windows.Input.FocusManager.SetFocusedElement%2A>, to specify the element with logical focus within a specified focus scope.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="cb7bf-139">L’exemple suivant définit l’élément avec le focus logique à l’aide de la <xref:System.Windows.Input.FocusManager.SetFocusedElement%2A> et il obtient l’élément avec le focus logique à l’aide de la <xref:System.Windows.Input.FocusManager.GetFocusedElement%2A>.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-139">The following example sets the element with logical focus by using the <xref:System.Windows.Input.FocusManager.SetFocusedElement%2A> and it gets the element with logical focus by using the <xref:System.Windows.Input.FocusManager.GetFocusedElement%2A>.</span></span>  
-  
- [!code-csharp[focussnippets#FocusGetSetFocusedElement](~/samples/snippets/csharp/VS_Snippets_Wpf/FocusSnippets/CSharp/Window1.xaml.cs#focusgetsetfocusedelement)]
- [!code-vb[focussnippets#FocusGetSetFocusedElement](~/samples/snippets/visualbasic/VS_Snippets_Wpf/FocusSnippets/visualbasic/window1.xaml.vb#focusgetsetfocusedelement)]  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="cb7bf-140">
-            <paramref name="element" /> est <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-140">
-              <paramref name="element" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="GetFocusScope">
-      <MemberSignature Language="C#" Value="public static System.Windows.DependencyObject GetFocusScope (System.Windows.DependencyObject element);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig class System.Windows.DependencyObject GetFocusScope(class System.Windows.DependencyObject element) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Input.FocusManager.GetFocusScope(System.Windows.DependencyObject)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetFocusScope (element As DependencyObject) As DependencyObject" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static System::Windows::DependencyObject ^ GetFocusScope(System::Windows::DependencyObject ^ element);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.DependencyObject</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="element" Type="System.Windows.DependencyObject" />
-      </Parameters>
-      <Docs>
-        <param name="element">
-          <span data-ttu-id="cb7bf-141">Élément pour lequel obtenir la portée de focus la plus proche.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-141">The element to get the closest focus scope for.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="cb7bf-142">Détermine l'ancêtre le plus proche de l'élément spécifié dont la propriété <see cref="P:System.Windows.Input.FocusManager.IsFocusScope" /> a la valeur <see langword="true" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-142">Determines the closest ancestor of the specified element that has <see cref="P:System.Windows.Input.FocusManager.IsFocusScope" /> set to <see langword="true" />.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="cb7bf-143">Portée de focus de l'élément spécifié.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-143">The focus scope for the specified element.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="cb7bf-144">La valeur par défaut <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> sur un <xref:System.Windows.Window>, <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ToolBar>, <xref:System.Windows.Controls.ContextMenu> est `true`.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-144">The default value of <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> on a <xref:System.Windows.Window>, <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ToolBar>, <xref:System.Windows.Controls.ContextMenu> is `true`.</span></span>  
-  
- <span data-ttu-id="cb7bf-145">Une portée de focus est un élément conteneur qui effectue le suivi de le <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType> dans son étendue.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-145">A focus scope is a container element that keeps track of the <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType> within its scope.</span></span>  <span data-ttu-id="cb7bf-146">Par défaut, le <xref:System.Windows.Window> classe est une portée de focus étant le <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ContextMenu>, et <xref:System.Windows.Controls.ToolBar> classes.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-146">By default, the <xref:System.Windows.Window> class is a focus scope as are the <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ContextMenu>, and <xref:System.Windows.Controls.ToolBar> classes.</span></span>  <span data-ttu-id="cb7bf-147">Un élément qui est une portée de focus a <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> la valeur `true`.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-147">An element which is a focus scope has <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> set to `true`.</span></span>  
-  
- <span data-ttu-id="cb7bf-148">Pour plus d’informations sur le focus, le focus clavier et le focus logique, consultez le [vue d’ensemble de l’entrée](~/docs/framework/wpf/advanced/input-overview.md).</span><span class="sxs-lookup"><span data-stu-id="cb7bf-148">For more information on focus, keyboard focus, and logical focus, see the [Input Overview](~/docs/framework/wpf/advanced/input-overview.md).</span></span>  
-  
- ]]></format>
-        </remarks>
-        <exception cref="T:System.ArgumentNullException">
-          <span data-ttu-id="cb7bf-149">
-            <paramref name="element" /> est <see langword="null" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-149">
-              <paramref name="element" /> is <see langword="null" />.</span>
-          </span>
-        </exception>
-      </Docs>
-    </Member>
-    <Member MemberName="GetIsFocusScope">
-      <MemberSignature Language="C#" Value="public static bool GetIsFocusScope (System.Windows.DependencyObject element);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig bool GetIsFocusScope(class System.Windows.DependencyObject element) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Input.FocusManager.GetIsFocusScope(System.Windows.DependencyObject)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Function GetIsFocusScope (element As DependencyObject) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static bool GetIsFocusScope(System::Windows::DependencyObject ^ element);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Boolean</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="element" Type="System.Windows.DependencyObject" />
-      </Parameters>
-      <Docs>
-        <param name="element">
-          <span data-ttu-id="cb7bf-150">Élément à partir duquel lire la propriété jointe.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-150">The element from which to read the attached property.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="cb7bf-151">Détermine si le <see cref="T:System.Windows.DependencyObject" /> spécifié est une portée de focus.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-151">Determines whether the specified <see cref="T:System.Windows.DependencyObject" /> is a focus scope.</span>
-          </span>
-        </summary>
-        <returns>
-          <span data-ttu-id="cb7bf-152">
-            <see langword="true" /> si <see cref="P:System.Windows.Input.FocusManager.IsFocusScope" /> a la valeur <see langword="true" /> sur l'élément spécifié ; sinon <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-152">
-              <see langword="true" /> if <see cref="P:System.Windows.Input.FocusManager.IsFocusScope" /> is set to <see langword="true" /> on the specified element; otherwise, <see langword="false" />.</span>
-          </span>
-        </returns>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="cb7bf-153">Une portée de focus est un élément conteneur qui effectue le suivi de le <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType> dans son étendue.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-153">A focus scope is a container element that keeps track of the <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType> within its scope.</span></span>  <span data-ttu-id="cb7bf-154">Par défaut, le <xref:System.Windows.Window> classe est une portée de focus étant le <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ContextMenu>, et <xref:System.Windows.Controls.ToolBar> classes.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-154">By default, the <xref:System.Windows.Window> class is a focus scope as are the <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ContextMenu>, and <xref:System.Windows.Controls.ToolBar> classes.</span></span>  <span data-ttu-id="cb7bf-155">Un élément qui est une portée de focus a <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> la valeur `true`.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-155">An element which is a focus scope has <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> set to `true`.</span></span>  
-  
- <span data-ttu-id="cb7bf-156">Pour plus d’informations sur le focus, le focus clavier et le focus logique, consultez le [vue d’ensemble de l’entrée](~/docs/framework/wpf/advanced/input-overview.md).</span><span class="sxs-lookup"><span data-stu-id="cb7bf-156">For more information on focus, keyboard focus, and logical focus, see the [Input Overview](~/docs/framework/wpf/advanced/input-overview.md).</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GotFocus">
-      <MemberSignature Language="C#" Value="see AddGotFocusHandler, and RemoveGotFocusHandler" />
-      <MemberSignature Language="ILAsm" Value="see AddGotFocusHandler, and RemoveGotFocusHandler" />
-      <MemberSignature Language="DocId" Value="E:System.Windows.Input.FocusManager.GotFocus" />
-      <MemberSignature Language="VB.NET" Value="see AddGotFocusHandler, and RemoveGotFocusHandler" />
-      <MemberType>AttachedEvent</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="GotFocusEvent">
-      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent GotFocusEvent;" />
-      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent GotFocusEvent" />
-      <MemberSignature Language="DocId" Value="F:System.Windows.Input.FocusManager.GotFocusEvent" />
-      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly GotFocusEvent As RoutedEvent " />
-      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ GotFocusEvent;" />
-      <MemberType>Field</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.RoutedEvent</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="cb7bf-157">Identifie l’événement attaché <see cref="E:System.Windows.Input.FocusManager.GotFocus" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-157">Identifies the <see cref="E:System.Windows.Input.FocusManager.GotFocus" /> attached event.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="IsFocusScope">
-      <MemberSignature Language="C#" Value="see GetIsFocusScope, and SetIsFocusScope" />
-      <MemberSignature Language="ILAsm" Value="see GetIsFocusScope, and SetIsFocusScope" />
-      <MemberSignature Language="DocId" Value="P:System.Windows.Input.FocusManager.IsFocusScope" />
-      <MemberSignature Language="VB.NET" Value="see GetIsFocusScope, and SetIsFocusScope" />
-      <MemberType>AttachedProperty</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="IsFocusScopeProperty">
-      <MemberSignature Language="C#" Value="public static readonly System.Windows.DependencyProperty IsFocusScopeProperty;" />
-      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.DependencyProperty IsFocusScopeProperty" />
-      <MemberSignature Language="DocId" Value="F:System.Windows.Input.FocusManager.IsFocusScopeProperty" />
-      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly IsFocusScopeProperty As DependencyProperty " />
-      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::DependencyProperty ^ IsFocusScopeProperty;" />
-      <MemberType>Field</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.DependencyProperty</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="cb7bf-158">Identifie la propriété jointe <see cref="P:System.Windows.Input.FocusManager.IsFocusScope" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-158">Identifies the <see cref="P:System.Windows.Input.FocusManager.IsFocusScope" /> attached property.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="cb7bf-159">La valeur par défaut <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> sur un <xref:System.Windows.Window>, <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ToolBar>, <xref:System.Windows.Controls.ContextMenu> est `true`.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-159">The default value of <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> on a <xref:System.Windows.Window>, <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ToolBar>, <xref:System.Windows.Controls.ContextMenu> is `true`.</span></span>  
-  
- <span data-ttu-id="cb7bf-160">Une portée de focus est un élément conteneur qui effectue le suivi de le <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType> dans son étendue.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-160">A focus scope is a container element that keeps track of the <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType> within its scope.</span></span>  <span data-ttu-id="cb7bf-161">Par défaut, le <xref:System.Windows.Window> classe est une portée de focus étant le <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ContextMenu>, et <xref:System.Windows.Controls.ToolBar> classes.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-161">By default, the <xref:System.Windows.Window> class is a focus scope as are the <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ContextMenu>, and <xref:System.Windows.Controls.ToolBar> classes.</span></span>  <span data-ttu-id="cb7bf-162">Un élément qui est une portée de focus a <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> la valeur `true`.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-162">An element which is a focus scope has <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> set to `true`.</span></span>  
-  
- <span data-ttu-id="cb7bf-163">Pour plus d’informations sur le focus, le focus clavier et le focus logique, consultez le [vue d’ensemble de l’entrée](~/docs/framework/wpf/advanced/input-overview.md).</span><span class="sxs-lookup"><span data-stu-id="cb7bf-163">For more information on focus, keyboard focus, and logical focus, see the [Input Overview](~/docs/framework/wpf/advanced/input-overview.md).</span></span>  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="LostFocus">
-      <MemberSignature Language="C#" Value="see AddLostFocusHandler, and RemoveLostFocusHandler" />
-      <MemberSignature Language="ILAsm" Value="see AddLostFocusHandler, and RemoveLostFocusHandler" />
-      <MemberSignature Language="DocId" Value="E:System.Windows.Input.FocusManager.LostFocus" />
-      <MemberSignature Language="VB.NET" Value="see AddLostFocusHandler, and RemoveLostFocusHandler" />
-      <MemberType>AttachedEvent</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="LostFocusEvent">
-      <MemberSignature Language="C#" Value="public static readonly System.Windows.RoutedEvent LostFocusEvent;" />
-      <MemberSignature Language="ILAsm" Value=".field public static initonly class System.Windows.RoutedEvent LostFocusEvent" />
-      <MemberSignature Language="DocId" Value="F:System.Windows.Input.FocusManager.LostFocusEvent" />
-      <MemberSignature Language="VB.NET" Value="Public Shared ReadOnly LostFocusEvent As RoutedEvent " />
-      <MemberSignature Language="C++ CLI" Value="public: static initonly System::Windows::RoutedEvent ^ LostFocusEvent;" />
-      <MemberType>Field</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Windows.RoutedEvent</ReturnType>
-      </ReturnValue>
-      <Docs>
-        <summary>
-          <span data-ttu-id="cb7bf-164">Identifie l’événement attaché <see cref="E:System.Windows.Input.FocusManager.LostFocus" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-164">Identifies the <see cref="E:System.Windows.Input.FocusManager.LostFocus" /> attached event.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="RemoveGotFocusHandler">
-      <MemberSignature Language="C#" Value="public static void RemoveGotFocusHandler (System.Windows.DependencyObject element, System.Windows.RoutedEventHandler handler);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemoveGotFocusHandler(class System.Windows.DependencyObject element, class System.Windows.RoutedEventHandler handler) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Input.FocusManager.RemoveGotFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemoveGotFocusHandler (element As DependencyObject, handler As RoutedEventHandler)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemoveGotFocusHandler(System::Windows::DependencyObject ^ element, System::Windows::RoutedEventHandler ^ handler);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="element" Type="System.Windows.DependencyObject" />
-        <Parameter Name="handler" Type="System.Windows.RoutedEventHandler" />
-      </Parameters>
-      <Docs>
-        <param name="element">
-          <span data-ttu-id="cb7bf-165">
-            <see cref="T:System.Windows.UIElement" /> ou <see cref="T:System.Windows.ContentElement" /> qui écoute cet événement.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-165">The <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" /> that listens to this event.</span>
-          </span>
-        </param>
-        <param name="handler">
-          <span data-ttu-id="cb7bf-166">Gestionnaire d’événements à supprimer.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-166">The event handler to be removed.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="cb7bf-167">Supprime un gestionnaire pour l'événement attaché <see cref="E:System.Windows.Input.FocusManager.GotFocus" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-167">Removes a handler for the <see cref="E:System.Windows.Input.FocusManager.GotFocus" /> attached event.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="RemoveLostFocusHandler">
-      <MemberSignature Language="C#" Value="public static void RemoveLostFocusHandler (System.Windows.DependencyObject element, System.Windows.RoutedEventHandler handler);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void RemoveLostFocusHandler(class System.Windows.DependencyObject element, class System.Windows.RoutedEventHandler handler) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Input.FocusManager.RemoveLostFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Sub RemoveLostFocusHandler (element As DependencyObject, handler As RoutedEventHandler)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void RemoveLostFocusHandler(System::Windows::DependencyObject ^ element, System::Windows::RoutedEventHandler ^ handler);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="element" Type="System.Windows.DependencyObject" />
-        <Parameter Name="handler" Type="System.Windows.RoutedEventHandler" />
-      </Parameters>
-      <Docs>
-        <param name="element">
-          <span data-ttu-id="cb7bf-168">
-            <see cref="T:System.Windows.UIElement" /> ou <see cref="T:System.Windows.ContentElement" /> qui écoute cet événement.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-168">The <see cref="T:System.Windows.UIElement" /> or <see cref="T:System.Windows.ContentElement" /> that listens to this event.</span>
-          </span>
-        </param>
-        <param name="handler">
-          <span data-ttu-id="cb7bf-169">Gestionnaire d’événements à supprimer.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-169">The event handler to be removed.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="cb7bf-170">Supprime un gestionnaire pour l'événement attaché <see cref="E:System.Windows.Input.FocusManager.LostFocus" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-170">Removes a handler for the <see cref="E:System.Windows.Input.FocusManager.LostFocus" /> attached event.</span>
-          </span>
-        </summary>
-        <remarks>To be added.</remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="SetFocusedElement">
-      <MemberSignature Language="C#" Value="public static void SetFocusedElement (System.Windows.DependencyObject element, System.Windows.IInputElement value);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetFocusedElement(class System.Windows.DependencyObject element, class System.Windows.IInputElement value) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Input.FocusManager.SetFocusedElement(System.Windows.DependencyObject,System.Windows.IInputElement)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Sub SetFocusedElement (element As DependencyObject, value As IInputElement)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetFocusedElement(System::Windows::DependencyObject ^ element, System::Windows::IInputElement ^ value);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="element" Type="System.Windows.DependencyObject" />
-        <Parameter Name="value" Type="System.Windows.IInputElement" />
-      </Parameters>
-      <Docs>
-        <param name="element">
-          <span data-ttu-id="cb7bf-171">Portée de focus dans laquelle définir l'élément spécifié comme <see cref="P:System.Windows.Input.FocusManager.FocusedElement" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-171">The focus scope in which to make the specified element the <see cref="P:System.Windows.Input.FocusManager.FocusedElement" />.</span>
-          </span>
-        </param>
-        <param name="value">
-          <span data-ttu-id="cb7bf-172">Élément auquel attribuer le focus logique.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-172">The element to give logical focus to.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="cb7bf-173">Définit le focus logique sur l'élément spécifié.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-173">Sets logical focus on the specified element.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="cb7bf-174">Le <xref:System.Windows.Input.FocusManager.FocusedElement%2A> est l’élément qui a le focus logique pour la portée de focus spécifique.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-174">The <xref:System.Windows.Input.FocusManager.FocusedElement%2A> is the element which has logical focus for the specific focus scope.</span></span>  <span data-ttu-id="cb7bf-175">Cet objet peut ou ne peut pas avoir le focus clavier.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-175">This object may or may not have keyboard focus.</span></span>  <span data-ttu-id="cb7bf-176">Le focus clavier fait référence à l’élément qui reçoit l’entrée au clavier.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-176">Keyboard focus refers to the element that receives keyboard input.</span></span>  <span data-ttu-id="cb7bf-177">Pour plus d’informations sur le focus, le focus clavier et le focus logique, consultez le [vue d’ensemble de l’entrée](~/docs/framework/wpf/advanced/input-overview.md).</span><span class="sxs-lookup"><span data-stu-id="cb7bf-177">For more information on focus, keyboard focus, and logical focus, see the [Input Overview](~/docs/framework/wpf/advanced/input-overview.md).</span></span>  
-  
- <span data-ttu-id="cb7bf-178">Il est possible de spécifier une portée de focus est un ancêtre de l’élément est dans la portée de focus.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-178">It is possible to specify a focus scope that is an ancestor of the focus scope the element is in.</span></span>  <span data-ttu-id="cb7bf-179">Par exemple, si un <xref:System.Windows.Controls.StackPanel> est une portée de focus et son parent <xref:System.Windows.Window> est une portée de focus, un <xref:System.Windows.Controls.TextBox> enfant de la <xref:System.Windows.Controls.StackPanel> Impossible de spécifier le <xref:System.Windows.Window> en tant que la portée de focus lors de l’appel <xref:System.Windows.Input.FocusManager.SetFocusedElement%2A>.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-179">For example, if a <xref:System.Windows.Controls.StackPanel> is a focus scope and its parent <xref:System.Windows.Window> is a focus scope, a <xref:System.Windows.Controls.TextBox> child of the <xref:System.Windows.Controls.StackPanel> could specify the <xref:System.Windows.Window> as the focus scope when calling <xref:System.Windows.Input.FocusManager.SetFocusedElement%2A>.</span></span>  <span data-ttu-id="cb7bf-180">Le <xref:System.Windows.Controls.TextBox> est ensuite <xref:System.Windows.Input.FocusManager.FocusedElement%2A> à la fois pour le <xref:System.Windows.Window> portée de focus et <xref:System.Windows.Controls.StackPanel> portée de focus.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-180">The <xref:System.Windows.Controls.TextBox> is then <xref:System.Windows.Input.FocusManager.FocusedElement%2A> for both the <xref:System.Windows.Window> focus scope and the <xref:System.Windows.Controls.StackPanel> focus scope.</span></span>  
-  
- <span data-ttu-id="cb7bf-181"><xref:System.Windows.Input.FocusManager.SetFocusedElement%2A> donne le focus logique de l’élément spécifié dans la portée de focus spécifiée et tente de donner le focus clavier.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-181"><xref:System.Windows.Input.FocusManager.SetFocusedElement%2A> will give the specified element logical focus in the specified focus scope and will attempt to give the element keyboard focus.</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="cb7bf-182">L’exemple suivant définit l’élément avec le focus logique à l’aide de la <xref:System.Windows.Input.FocusManager.SetFocusedElement%2A> et il obtient l’élément avec le focus logique à l’aide de la <xref:System.Windows.Input.FocusManager.GetFocusedElement%2A>.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-182">The following example sets the element with logical focus by using the <xref:System.Windows.Input.FocusManager.SetFocusedElement%2A> and it gets the element with logical focus by using the <xref:System.Windows.Input.FocusManager.GetFocusedElement%2A>.</span></span>  
-  
- [!code-csharp[focussnippets#FocusGetSetFocusedElement](~/samples/snippets/csharp/VS_Snippets_Wpf/FocusSnippets/CSharp/Window1.xaml.cs#focusgetsetfocusedelement)]
- [!code-vb[focussnippets#FocusGetSetFocusedElement](~/samples/snippets/visualbasic/VS_Snippets_Wpf/FocusSnippets/visualbasic/window1.xaml.vb#focusgetsetfocusedelement)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-    <Member MemberName="SetIsFocusScope">
-      <MemberSignature Language="C#" Value="public static void SetIsFocusScope (System.Windows.DependencyObject element, bool value);" />
-      <MemberSignature Language="ILAsm" Value=".method public static hidebysig void SetIsFocusScope(class System.Windows.DependencyObject element, bool value) cil managed" />
-      <MemberSignature Language="DocId" Value="M:System.Windows.Input.FocusManager.SetIsFocusScope(System.Windows.DependencyObject,System.Boolean)" />
-      <MemberSignature Language="VB.NET" Value="Public Shared Sub SetIsFocusScope (element As DependencyObject, value As Boolean)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; static void SetIsFocusScope(System::Windows::DependencyObject ^ element, bool value);" />
-      <MemberType>Method</MemberType>
-      <AssemblyInfo>
-        <AssemblyName>PresentationCore</AssemblyName>
-        <AssemblyVersion>4.0.0.0</AssemblyVersion>
-      </AssemblyInfo>
-      <ReturnValue>
-        <ReturnType>System.Void</ReturnType>
-      </ReturnValue>
-      <Parameters>
-        <Parameter Name="element" Type="System.Windows.DependencyObject" />
-        <Parameter Name="value" Type="System.Boolean" />
-      </Parameters>
-      <Docs>
-        <param name="element">
-          <span data-ttu-id="cb7bf-183">Élément à définir comme portée de focus.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-183">The element to make a focus scope.</span>
-          </span>
-        </param>
-        <param name="value">
-          <span data-ttu-id="cb7bf-184">
-            <see langword="true" /> si l'<c>élément</c> est une étendue de focus ; sinon, <see langword="false" />.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-184">
-              <see langword="true" /> if <c>element</c> is a focus scope; otherwise, <see langword="false" />.</span>
-          </span>
-        </param>
-        <summary>
-          <span data-ttu-id="cb7bf-185">Définit le <see cref="T:System.Windows.DependencyObject" /> spécifié comme une portée de focus.</span>
-          <span class="sxs-lookup">
-            <span data-stu-id="cb7bf-185">Sets the specified <see cref="T:System.Windows.DependencyObject" /> as a focus scope.</span>
-          </span>
-        </summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- <span data-ttu-id="cb7bf-186">Une portée de focus est un élément conteneur qui effectue le suivi de le <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType> dans son étendue.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-186">A focus scope is a container element that keeps track of the <xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType> within its scope.</span></span>  <span data-ttu-id="cb7bf-187">Par défaut, le <xref:System.Windows.Window> classe est une portée de focus étant le <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ContextMenu>, et <xref:System.Windows.Controls.ToolBar> classes.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-187">By default, the <xref:System.Windows.Window> class is a focus scope as are the <xref:System.Windows.Controls.Menu>, <xref:System.Windows.Controls.ContextMenu>, and <xref:System.Windows.Controls.ToolBar> classes.</span></span>  <span data-ttu-id="cb7bf-188">Un élément qui est une portée de focus a <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> la valeur `true`.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-188">An element which is a focus scope has <xref:System.Windows.Input.FocusManager.IsFocusScope%2A> set to `true`.</span></span>  
-  
- <span data-ttu-id="cb7bf-189">Pour plus d’informations sur le focus, le focus clavier et le focus logique, consultez le [vue d’ensemble de l’entrée](~/docs/framework/wpf/advanced/input-overview.md).</span><span class="sxs-lookup"><span data-stu-id="cb7bf-189">For more information on focus, keyboard focus, and logical focus, see the [Input Overview](~/docs/framework/wpf/advanced/input-overview.md).</span></span>  
-  
-   
-  
-## Examples  
- <span data-ttu-id="cb7bf-190">L’exemple suivant définit un élément de la portée de focus à l’aide de <xref:System.Windows.Input.FocusManager.SetIsFocusScope%2A>.</span><span class="sxs-lookup"><span data-stu-id="cb7bf-190">The follow example makes an element a focus scope by using <xref:System.Windows.Input.FocusManager.SetIsFocusScope%2A>.</span></span>  
-  
- [!code-csharp[focussnippets#FocusSetIsFocusScope](~/samples/snippets/csharp/VS_Snippets_Wpf/FocusSnippets/CSharp/Window1.xaml.cs#focussetisfocusscope)]
- [!code-vb[focussnippets#FocusSetIsFocusScope](~/samples/snippets/visualbasic/VS_Snippets_Wpf/FocusSnippets/visualbasic/window1.xaml.vb#focussetisfocusscope)]  
-  
- ]]></format>
-        </remarks>
-      </Docs>
-    </Member>
-  </Members>
-</Type>
+<?xml version="1.0" encoding="utf-8"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" version="1.2" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" original="FocusManager.xml" source-language="en-US" target-language="fr-FR">
+    <header>
+      <tool tool-id="mdxliff" tool-name="mdxliff" tool-version="1.0-efd8310" tool-company="Microsoft" />
+      <xliffext:skl_file_name xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">73cd4428-9abd-4836-b1ef-ba70fe2e0b723e1051a2c47fbf0892f35e2ccc3f38ea87cba9a5.skl</xliffext:skl_file_name>
+      <xliffext:version xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">1.2</xliffext:version>
+      <xliffext:ms.openlocfilehash xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">3e1051a2c47fbf0892f35e2ccc3f38ea87cba9a5</xliffext:ms.openlocfilehash>
+      <xliffext:ms.sourcegitcommit xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">cc0c87a2e12b0fb9ba9ecdd3d4950f0572524db8</xliffext:ms.sourcegitcommit>
+      <xliffext:ms.lasthandoff xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">05/03/2018</xliffext:ms.lasthandoff>
+      <xliffext:moniker_ids xmlns:xliffext="urn:microsoft:content:schema:xliffextensions">netframework-4.5.1,netframework-4.5.2,netframework-4.5,netframework-4.6.1,netframework-4.6.2,netframework-4.6,netframework-4.7.1,netframework-4.7.2,netframework-4.7</xliffext:moniker_ids>
+    </header>
+    <body>
+      <group id="content" extype="content">
+        <trans-unit id="101" translate="yes" xml:space="preserve" uid="T:System.Windows.Input.FocusManager">
+          <source>Provides a set of static methods, attached properties, and events for determining and setting focus scopes and for setting the focused element within the scope.</source>
+          <target state="translated">Fournit un ensemble de méthodes statiques, de propriétés jointes et d'événements pour déterminer et définir des portées de focus et pour définir l'élément ayant le focus dans la portée.</target>       </trans-unit>
+        <trans-unit id="102" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>In Windows Presentation Foundation (WPF) there are two concepts concerning focus: keyboard focus and logical focus.</source>
+          <target state="translated">Dans Windows Presentation Foundation (WPF) il existe deux concepts concernant le focus : le focus clavier et le focus logique.</target>       </trans-unit>
+        <trans-unit id="103" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>Keyboard focus pertains to the element which is currently receiving keyboard input.</source>
+          <target state="translated">Le focus clavier se rapporte à l’élément qui reçoit actuellement l’entrée au clavier.</target>       </trans-unit>
+        <trans-unit id="104" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>There can be only one element with keyboard focus.</source>
+          <target state="translated">Il peut y avoir qu’un seul élément ayant le focus clavier.</target>       </trans-unit>
+        <trans-unit id="105" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>This element with keyboard focus has <ph id="ph1">&lt;xref:System.Windows.IInputElement.IsKeyboardFocused%2A&gt;</ph> set to <ph id="ph2">`true`</ph>.</source>
+          <target state="translated">Cet élément avec le focus clavier a <ph id="ph1">&lt;xref:System.Windows.IInputElement.IsKeyboardFocused%2A&gt;</ph> la valeur <ph id="ph2">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="106" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source><ph id="ph1">&lt;xref:System.Windows.Input.Keyboard.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> returns the element with keyboard focus.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Input.Keyboard.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> Retourne l’élément avec le focus clavier.</target>       </trans-unit>
+        <trans-unit id="107" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>Logical focus pertains to the <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> within a specific focus scope.</source>
+          <target state="translated">Le focus logique se rapporte à la <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> dans une portée de focus spécifique.</target>       </trans-unit>
+        <trans-unit id="108" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>A focus scope is a container element that keeps track of the <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> within its scope.</source>
+          <target state="translated">Une portée de focus est un élément conteneur qui effectue le suivi de le <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> dans son étendue.</target>       </trans-unit>
+        <trans-unit id="109" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>By default, the <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph> class is a focus scope as are the <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph>, and <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph> classes.</source>
+          <target state="translated">Par défaut, le <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph> classe est une portée de focus étant le <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph>, et <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph> classes.</target>       </trans-unit>
+        <trans-unit id="110" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>An element which is a focus scope has <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> set to <ph id="ph2">`true`</ph>.</source>
+          <target state="translated">Un élément qui est une portée de focus a <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> la valeur <ph id="ph2">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="111" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>There can be multiple elements with logical focus, but there can only be one element with logical focus within a single focus scope.</source>
+          <target state="translated">Il peut y avoir plusieurs éléments avec le focus logique, mais il ne peut exister qu’un seul élément avec le focus logique dans une portée de focus unique.</target>       </trans-unit>
+        <trans-unit id="112" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>An element with logical focus does not necessarily have keyboard focus, but an element with keyboard focus will have logical focus.</source>
+          <target state="translated">Un élément avec le focus logique ne dispose pas nécessairement le focus clavier, mais un élément avec le focus clavier a le focus logique.</target>       </trans-unit>
+        <trans-unit id="113" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>It is possible to define a focus scope within a focus scope.</source>
+          <target state="translated">Il est possible de définir une portée de focus dans une portée de focus.</target>       </trans-unit>
+        <trans-unit id="114" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>In this case, both the parent focus scope and the child focus scope can have a <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph>.</source>
+          <target state="translated">Dans ce cas, la portée de focus parent et enfant peuvent avoir un <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="115" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>The following scenario illustrates how keyboard focus and logical focus change in a WPF application that has a <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph> with a <ph id="ph2">&lt;xref:System.Windows.Controls.TextBox&gt;</ph> and a <ph id="ph3">&lt;xref:System.Windows.Controls.Menu&gt;</ph> which has a <ph id="ph4">&lt;xref:System.Windows.Controls.MenuItem&gt;</ph>.</source>
+          <target state="translated">Le scénario suivant illustre comment le focus clavier et le focus logique changent dans une application WPF qui a un <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph> avec un <ph id="ph2">&lt;xref:System.Windows.Controls.TextBox&gt;</ph> et un <ph id="ph3">&lt;xref:System.Windows.Controls.Menu&gt;</ph> qui a un <ph id="ph4">&lt;xref:System.Windows.Controls.MenuItem&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="116" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>When keyboard focus changes from the <ph id="ph1">&lt;xref:System.Windows.Controls.TextBox&gt;</ph> to the <ph id="ph2">&lt;xref:System.Windows.Controls.MenuItem&gt;</ph>, the <ph id="ph3">&lt;xref:System.Windows.Controls.TextBox&gt;</ph> losses keyboard focus but retains logical focus for the <ph id="ph4">&lt;xref:System.Windows.Window&gt;</ph> focus scope.</source>
+          <target state="translated">Quand le focus clavier passe de la <ph id="ph1">&lt;xref:System.Windows.Controls.TextBox&gt;</ph> à la <ph id="ph2">&lt;xref:System.Windows.Controls.MenuItem&gt;</ph>, le <ph id="ph3">&lt;xref:System.Windows.Controls.TextBox&gt;</ph> pertes focus mais conserve le focus logique pour la <ph id="ph4">&lt;xref:System.Windows.Window&gt;</ph> portée de focus.</target>       </trans-unit>
+        <trans-unit id="117" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Controls.MenuItem&gt;</ph> obtains keyboard focus and obtains logical focus for the <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph> focus scope.</source>
+          <target state="translated">Le <ph id="ph1">&lt;xref:System.Windows.Controls.MenuItem&gt;</ph> Obtient le focus clavier et le focus logique pour la <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph> portée de focus.</target>       </trans-unit>
+        <trans-unit id="118" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>When keyboard focus returns to the root <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph>, the element in <ph id="ph2">&lt;xref:System.Windows.Window&gt;</ph> focus scope with logical focus will obtain keyboard focus, which in this case is the <ph id="ph3">&lt;xref:System.Windows.Controls.TextBox&gt;</ph>.</source>
+          <target state="translated">Lorsque le focus clavier est retournée à la racine <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph>, l’élément <ph id="ph2">&lt;xref:System.Windows.Window&gt;</ph> portée de focus avec le focus logique Obtient le focus clavier, qui dans ce cas est le <ph id="ph3">&lt;xref:System.Windows.Controls.TextBox&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="119" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Controls.TextBox&gt;</ph> now has keyboard focus and logical focus.</source>
+          <target state="translated">Le <ph id="ph1">&lt;xref:System.Windows.Controls.TextBox&gt;</ph> a maintenant le focus clavier et le focus logique.</target>       </trans-unit>
+        <trans-unit id="120" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Controls.MenuItem&gt;</ph> loses keyboard focus, but retains logical focus for the <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph> focus scope.</source>
+          <target state="translated">Le <ph id="ph1">&lt;xref:System.Windows.Controls.MenuItem&gt;</ph> perd le focus clavier, mais conserve le focus logique pour la <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph> portée de focus.</target>       </trans-unit>
+        <trans-unit id="121" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>The default value of <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> on a <ph id="ph2">&lt;xref:System.Windows.Window&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph>, and <ph id="ph5">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph> is <ph id="ph6">`true`</ph>.</source>
+          <target state="translated">La valeur par défaut <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> sur un <ph id="ph2">&lt;xref:System.Windows.Window&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph>, et <ph id="ph5">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph> est <ph id="ph6">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="122" translate="yes" xml:space="preserve" extradata="MT" uid="T:System.Windows.Input.FocusManager">
+          <source>For more information on focus, see the <bpt id="p1">[</bpt>Input Overview<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept> and the <bpt id="p2">[</bpt>Focus Overview<ept id="p2">](~/docs/framework/wpf/advanced/focus-overview.md)</ept>.</source>
+          <target state="translated">Pour plus d’informations sur le focus, consultez le <bpt id="p1">[</bpt>vue d’ensemble de l’entrée<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept> et <bpt id="p2">[</bpt>Focus Overview<ept id="p2">](~/docs/framework/wpf/advanced/focus-overview.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="123" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.AddGotFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Windows.UIElement" /&gt;</ph> or <ph id="ph2">&lt;see cref="T:System.Windows.ContentElement" /&gt;</ph> that listens to this event.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Windows.UIElement" /&gt;</ph> ou <ph id="ph2">&lt;see cref="T:System.Windows.ContentElement" /&gt;</ph> qui écoute cet événement.</target>       </trans-unit>
+        <trans-unit id="124" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.AddGotFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)">
+          <source>The event handler to be added.</source>
+          <target state="translated">Gestionnaire d’événements à ajouter.</target>       </trans-unit>
+        <trans-unit id="125" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.AddGotFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)">
+          <source>Adds a handler for the <ph id="ph1">&lt;see cref="E:System.Windows.Input.FocusManager.GotFocus" /&gt;</ph> attached event.</source>
+          <target state="translated">Ajoute un gestionnaire pour l'événement attaché <ph id="ph1">&lt;see cref="E:System.Windows.Input.FocusManager.GotFocus" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="126" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.AddLostFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Windows.UIElement" /&gt;</ph> or <ph id="ph2">&lt;see cref="T:System.Windows.ContentElement" /&gt;</ph> that listens to this event.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Windows.UIElement" /&gt;</ph> ou <ph id="ph2">&lt;see cref="T:System.Windows.ContentElement" /&gt;</ph> qui écoute cet événement.</target>       </trans-unit>
+        <trans-unit id="127" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.AddLostFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)">
+          <source>The event handler to be added.</source>
+          <target state="translated">Gestionnaire d’événements à ajouter.</target>       </trans-unit>
+        <trans-unit id="128" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.AddLostFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)">
+          <source>Adds a handler for the <ph id="ph1">&lt;see cref="E:System.Windows.Input.FocusManager.LostFocus" /&gt;</ph> attached event.</source>
+          <target state="translated">Ajoute un gestionnaire pour l'événement attaché <ph id="ph1">&lt;see cref="E:System.Windows.Input.FocusManager.LostFocus" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="129" translate="yes" xml:space="preserve" uid="F:System.Windows.Input.FocusManager.FocusedElementProperty">
+          <source>Identifies the <ph id="ph1">&lt;see cref="P:System.Windows.Input.FocusManager.FocusedElement" /&gt;</ph> attached property.</source>
+          <target state="translated">Identifie la propriété jointe <ph id="ph1">&lt;see cref="P:System.Windows.Input.FocusManager.FocusedElement" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="130" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.GetFocusedElement(System.Windows.DependencyObject)">
+          <source>The element with logical focus in the specified focus scope.</source>
+          <target state="translated">Élément avec le focus logique dans la portée de focus spécifiée.</target>       </trans-unit>
+        <trans-unit id="131" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.GetFocusedElement(System.Windows.DependencyObject)">
+          <source>Gets the element with logical focus within the specified focus scope.</source>
+          <target state="translated">Obtient l'élément avec le focus logique dans la portée de focus spécifiée.</target>       </trans-unit>
+        <trans-unit id="132" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.GetFocusedElement(System.Windows.DependencyObject)">
+          <source>The element in the specified focus scope with logical focus.</source>
+          <target state="translated">Élément de la portée de focus spécifiée avec le focus logique.</target>       </trans-unit>
+        <trans-unit id="133" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetFocusedElement(System.Windows.DependencyObject)">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A&gt;</ph> is the element which has logical focus for a specific focus scope.</source>
+          <target state="translated">Le <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A&gt;</ph> est l’élément qui a le focus logique pour une portée de focus spécifique.</target>       </trans-unit>
+        <trans-unit id="134" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetFocusedElement(System.Windows.DependencyObject)">
+          <source>This object may or may not have keyboard focus.</source>
+          <target state="translated">Cet objet peut ou ne peut pas avoir le focus clavier.</target>       </trans-unit>
+        <trans-unit id="135" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetFocusedElement(System.Windows.DependencyObject)">
+          <source>Keyboard focus refers to the element that receives keyboard input.</source>
+          <target state="translated">Le focus clavier fait référence à l’élément qui reçoit l’entrée au clavier.</target>       </trans-unit>
+        <trans-unit id="136" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetFocusedElement(System.Windows.DependencyObject)">
+          <source>For more information on focus, keyboard focus, and logical focus, see the <bpt id="p1">[</bpt>Input Overview<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept>.</source>
+          <target state="translated">Pour plus d’informations sur le focus, le focus clavier et le focus logique, consultez le <bpt id="p1">[</bpt>vue d’ensemble de l’entrée<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="137" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetFocusedElement(System.Windows.DependencyObject)">
+          <source>If <ph id="ph1">`element`</ph> is not a focus scope, this method will return <ph id="ph2">`null`</ph>.</source>
+          <target state="translated">Si <ph id="ph1">`element`</ph> n’est pas une portée de focus, cette méthode retournera <ph id="ph2">`null`</ph>.</target>       </trans-unit>
+        <trans-unit id="138" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetFocusedElement(System.Windows.DependencyObject)">
+          <source>Use <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.SetFocusedElement%2A&gt;</ph>, to specify the element with logical focus within a specified focus scope.</source>
+          <target state="translated">Utilisez <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.SetFocusedElement%2A&gt;</ph>, pour spécifier l’élément avec le focus logique dans une portée de focus spécifié.</target>       </trans-unit>
+        <trans-unit id="139" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetFocusedElement(System.Windows.DependencyObject)">
+          <source>The following example sets the element with logical focus by using the <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.SetFocusedElement%2A&gt;</ph> and it gets the element with logical focus by using the <ph id="ph2">&lt;xref:System.Windows.Input.FocusManager.GetFocusedElement%2A&gt;</ph>.</source>
+          <target state="translated">L’exemple suivant définit l’élément avec le focus logique à l’aide de la <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.SetFocusedElement%2A&gt;</ph> et il obtient l’élément avec le focus logique à l’aide de la <ph id="ph2">&lt;xref:System.Windows.Input.FocusManager.GetFocusedElement%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="140" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.GetFocusedElement(System.Windows.DependencyObject)">
+          <source><ph id="ph1">&lt;paramref name="element" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="element" /&gt;</ph> est <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="141" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.GetFocusScope(System.Windows.DependencyObject)">
+          <source>The element to get the closest focus scope for.</source>
+          <target state="translated">Élément pour lequel obtenir la portée de focus la plus proche.</target>       </trans-unit>
+        <trans-unit id="142" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.GetFocusScope(System.Windows.DependencyObject)">
+          <source>Determines the closest ancestor of the specified element that has <ph id="ph1">&lt;see cref="P:System.Windows.Input.FocusManager.IsFocusScope" /&gt;</ph> set to <ph id="ph2">&lt;see langword="true" /&gt;</ph>.</source>
+          <target state="translated">Détermine l'ancêtre le plus proche de l'élément spécifié dont la propriété <ph id="ph1">&lt;see cref="P:System.Windows.Input.FocusManager.IsFocusScope" /&gt;</ph> a la valeur <ph id="ph2">&lt;see langword="true" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="143" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.GetFocusScope(System.Windows.DependencyObject)">
+          <source>The focus scope for the specified element.</source>
+          <target state="translated">Portée de focus de l'élément spécifié.</target>       </trans-unit>
+        <trans-unit id="144" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetFocusScope(System.Windows.DependencyObject)">
+          <source>The default value of <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> on a <ph id="ph2">&lt;xref:System.Windows.Window&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph>, <ph id="ph5">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph> is <ph id="ph6">`true`</ph>.</source>
+          <target state="translated">La valeur par défaut <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> sur un <ph id="ph2">&lt;xref:System.Windows.Window&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph>, <ph id="ph5">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph> est <ph id="ph6">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="145" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetFocusScope(System.Windows.DependencyObject)">
+          <source>A focus scope is a container element that keeps track of the <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> within its scope.</source>
+          <target state="translated">Une portée de focus est un élément conteneur qui effectue le suivi de le <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> dans son étendue.</target>       </trans-unit>
+        <trans-unit id="146" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetFocusScope(System.Windows.DependencyObject)">
+          <source>By default, the <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph> class is a focus scope as are the <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph>, and <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph> classes.</source>
+          <target state="translated">Par défaut, le <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph> classe est une portée de focus étant le <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph>, et <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph> classes.</target>       </trans-unit>
+        <trans-unit id="147" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetFocusScope(System.Windows.DependencyObject)">
+          <source>An element which is a focus scope has <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> set to <ph id="ph2">`true`</ph>.</source>
+          <target state="translated">Un élément qui est une portée de focus a <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> la valeur <ph id="ph2">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="148" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetFocusScope(System.Windows.DependencyObject)">
+          <source>For more information on focus, keyboard focus, and logical focus, see the <bpt id="p1">[</bpt>Input Overview<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept>.</source>
+          <target state="translated">Pour plus d’informations sur le focus, le focus clavier et le focus logique, consultez le <bpt id="p1">[</bpt>vue d’ensemble de l’entrée<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="149" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.GetFocusScope(System.Windows.DependencyObject)">
+          <source><ph id="ph1">&lt;paramref name="element" /&gt;</ph> is <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;paramref name="element" /&gt;</ph> est <ph id="ph2">&lt;see langword="null" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="150" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.GetIsFocusScope(System.Windows.DependencyObject)">
+          <source>The element from which to read the attached property.</source>
+          <target state="translated">Élément à partir duquel lire la propriété jointe.</target>       </trans-unit>
+        <trans-unit id="151" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.GetIsFocusScope(System.Windows.DependencyObject)">
+          <source>Determines whether the specified <ph id="ph1">&lt;see cref="T:System.Windows.DependencyObject" /&gt;</ph> is a focus scope.</source>
+          <target state="translated">Détermine si le <ph id="ph1">&lt;see cref="T:System.Windows.DependencyObject" /&gt;</ph> spécifié est une portée de focus.</target>       </trans-unit>
+        <trans-unit id="152" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.GetIsFocusScope(System.Windows.DependencyObject)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if <ph id="ph2">&lt;see cref="P:System.Windows.Input.FocusManager.IsFocusScope" /&gt;</ph> is set to <ph id="ph3">&lt;see langword="true" /&gt;</ph> on the specified element; otherwise, <ph id="ph4">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> si <ph id="ph2">&lt;see cref="P:System.Windows.Input.FocusManager.IsFocusScope" /&gt;</ph> a la valeur <ph id="ph3">&lt;see langword="true" /&gt;</ph> sur l'élément spécifié ; sinon <ph id="ph4">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="153" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetIsFocusScope(System.Windows.DependencyObject)">
+          <source>A focus scope is a container element that keeps track of the <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> within its scope.</source>
+          <target state="translated">Une portée de focus est un élément conteneur qui effectue le suivi de le <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> dans son étendue.</target>       </trans-unit>
+        <trans-unit id="154" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetIsFocusScope(System.Windows.DependencyObject)">
+          <source>By default, the <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph> class is a focus scope as are the <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph>, and <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph> classes.</source>
+          <target state="translated">Par défaut, le <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph> classe est une portée de focus étant le <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph>, et <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph> classes.</target>       </trans-unit>
+        <trans-unit id="155" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetIsFocusScope(System.Windows.DependencyObject)">
+          <source>An element which is a focus scope has <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> set to <ph id="ph2">`true`</ph>.</source>
+          <target state="translated">Un élément qui est une portée de focus a <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> la valeur <ph id="ph2">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="156" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.GetIsFocusScope(System.Windows.DependencyObject)">
+          <source>For more information on focus, keyboard focus, and logical focus, see the <bpt id="p1">[</bpt>Input Overview<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept>.</source>
+          <target state="translated">Pour plus d’informations sur le focus, le focus clavier et le focus logique, consultez le <bpt id="p1">[</bpt>vue d’ensemble de l’entrée<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="157" translate="yes" xml:space="preserve" uid="F:System.Windows.Input.FocusManager.GotFocusEvent">
+          <source>Identifies the <ph id="ph1">&lt;see cref="E:System.Windows.Input.FocusManager.GotFocus" /&gt;</ph> attached event.</source>
+          <target state="translated">Identifie l’événement attaché <ph id="ph1">&lt;see cref="E:System.Windows.Input.FocusManager.GotFocus" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="158" translate="yes" xml:space="preserve" uid="F:System.Windows.Input.FocusManager.IsFocusScopeProperty">
+          <source>Identifies the <ph id="ph1">&lt;see cref="P:System.Windows.Input.FocusManager.IsFocusScope" /&gt;</ph> attached property.</source>
+          <target state="translated">Identifie la propriété jointe <ph id="ph1">&lt;see cref="P:System.Windows.Input.FocusManager.IsFocusScope" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="159" translate="yes" xml:space="preserve" extradata="MT" uid="F:System.Windows.Input.FocusManager.IsFocusScopeProperty">
+          <source>The default value of <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> on a <ph id="ph2">&lt;xref:System.Windows.Window&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph>, <ph id="ph5">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph> is <ph id="ph6">`true`</ph>.</source>
+          <target state="translated">La valeur par défaut <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> sur un <ph id="ph2">&lt;xref:System.Windows.Window&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph>, <ph id="ph5">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph> est <ph id="ph6">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="160" translate="yes" xml:space="preserve" extradata="MT" uid="F:System.Windows.Input.FocusManager.IsFocusScopeProperty">
+          <source>A focus scope is a container element that keeps track of the <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> within its scope.</source>
+          <target state="translated">Une portée de focus est un élément conteneur qui effectue le suivi de le <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> dans son étendue.</target>       </trans-unit>
+        <trans-unit id="161" translate="yes" xml:space="preserve" extradata="MT" uid="F:System.Windows.Input.FocusManager.IsFocusScopeProperty">
+          <source>By default, the <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph> class is a focus scope as are the <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph>, and <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph> classes.</source>
+          <target state="translated">Par défaut, le <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph> classe est une portée de focus étant le <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph>, et <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph> classes.</target>       </trans-unit>
+        <trans-unit id="162" translate="yes" xml:space="preserve" extradata="MT" uid="F:System.Windows.Input.FocusManager.IsFocusScopeProperty">
+          <source>An element which is a focus scope has <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> set to <ph id="ph2">`true`</ph>.</source>
+          <target state="translated">Un élément qui est une portée de focus a <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> la valeur <ph id="ph2">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="163" translate="yes" xml:space="preserve" extradata="MT" uid="F:System.Windows.Input.FocusManager.IsFocusScopeProperty">
+          <source>For more information on focus, keyboard focus, and logical focus, see the <bpt id="p1">[</bpt>Input Overview<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept>.</source>
+          <target state="translated">Pour plus d’informations sur le focus, le focus clavier et le focus logique, consultez le <bpt id="p1">[</bpt>vue d’ensemble de l’entrée<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="164" translate="yes" xml:space="preserve" uid="F:System.Windows.Input.FocusManager.LostFocusEvent">
+          <source>Identifies the <ph id="ph1">&lt;see cref="E:System.Windows.Input.FocusManager.LostFocus" /&gt;</ph> attached event.</source>
+          <target state="translated">Identifie l’événement attaché <ph id="ph1">&lt;see cref="E:System.Windows.Input.FocusManager.LostFocus" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="165" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.RemoveGotFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Windows.UIElement" /&gt;</ph> or <ph id="ph2">&lt;see cref="T:System.Windows.ContentElement" /&gt;</ph> that listens to this event.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Windows.UIElement" /&gt;</ph> ou <ph id="ph2">&lt;see cref="T:System.Windows.ContentElement" /&gt;</ph> qui écoute cet événement.</target>       </trans-unit>
+        <trans-unit id="166" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.RemoveGotFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)">
+          <source>The event handler to be removed.</source>
+          <target state="translated">Gestionnaire d’événements à supprimer.</target>       </trans-unit>
+        <trans-unit id="167" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.RemoveGotFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)">
+          <source>Removes a handler for the <ph id="ph1">&lt;see cref="E:System.Windows.Input.FocusManager.GotFocus" /&gt;</ph> attached event.</source>
+          <target state="translated">Supprime un gestionnaire pour l'événement attaché <ph id="ph1">&lt;see cref="E:System.Windows.Input.FocusManager.GotFocus" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="168" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.RemoveLostFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)">
+          <source>The <ph id="ph1">&lt;see cref="T:System.Windows.UIElement" /&gt;</ph> or <ph id="ph2">&lt;see cref="T:System.Windows.ContentElement" /&gt;</ph> that listens to this event.</source>
+          <target state="translated"><ph id="ph1">&lt;see cref="T:System.Windows.UIElement" /&gt;</ph> ou <ph id="ph2">&lt;see cref="T:System.Windows.ContentElement" /&gt;</ph> qui écoute cet événement.</target>       </trans-unit>
+        <trans-unit id="169" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.RemoveLostFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)">
+          <source>The event handler to be removed.</source>
+          <target state="translated">Gestionnaire d’événements à supprimer.</target>       </trans-unit>
+        <trans-unit id="170" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.RemoveLostFocusHandler(System.Windows.DependencyObject,System.Windows.RoutedEventHandler)">
+          <source>Removes a handler for the <ph id="ph1">&lt;see cref="E:System.Windows.Input.FocusManager.LostFocus" /&gt;</ph> attached event.</source>
+          <target state="translated">Supprime un gestionnaire pour l'événement attaché <ph id="ph1">&lt;see cref="E:System.Windows.Input.FocusManager.LostFocus" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="171" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.SetFocusedElement(System.Windows.DependencyObject,System.Windows.IInputElement)">
+          <source>The focus scope in which to make the specified element the <ph id="ph1">&lt;see cref="P:System.Windows.Input.FocusManager.FocusedElement" /&gt;</ph>.</source>
+          <target state="translated">Portée de focus dans laquelle définir l'élément spécifié comme <ph id="ph1">&lt;see cref="P:System.Windows.Input.FocusManager.FocusedElement" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="172" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.SetFocusedElement(System.Windows.DependencyObject,System.Windows.IInputElement)">
+          <source>The element to give logical focus to.</source>
+          <target state="translated">Élément auquel attribuer le focus logique.</target>       </trans-unit>
+        <trans-unit id="173" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.SetFocusedElement(System.Windows.DependencyObject,System.Windows.IInputElement)">
+          <source>Sets logical focus on the specified element.</source>
+          <target state="translated">Définit le focus logique sur l'élément spécifié.</target>       </trans-unit>
+        <trans-unit id="174" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetFocusedElement(System.Windows.DependencyObject,System.Windows.IInputElement)">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A&gt;</ph> is the element which has logical focus for the specific focus scope.</source>
+          <target state="translated">Le <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A&gt;</ph> est l’élément qui a le focus logique pour la portée de focus spécifique.</target>       </trans-unit>
+        <trans-unit id="175" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetFocusedElement(System.Windows.DependencyObject,System.Windows.IInputElement)">
+          <source>This object may or may not have keyboard focus.</source>
+          <target state="translated">Cet objet peut ou ne peut pas avoir le focus clavier.</target>       </trans-unit>
+        <trans-unit id="176" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetFocusedElement(System.Windows.DependencyObject,System.Windows.IInputElement)">
+          <source>Keyboard focus refers to the element that receives keyboard input.</source>
+          <target state="translated">Le focus clavier fait référence à l’élément qui reçoit l’entrée au clavier.</target>       </trans-unit>
+        <trans-unit id="177" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetFocusedElement(System.Windows.DependencyObject,System.Windows.IInputElement)">
+          <source>For more information on focus, keyboard focus, and logical focus, see the <bpt id="p1">[</bpt>Input Overview<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept>.</source>
+          <target state="translated">Pour plus d’informations sur le focus, le focus clavier et le focus logique, consultez le <bpt id="p1">[</bpt>vue d’ensemble de l’entrée<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="178" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetFocusedElement(System.Windows.DependencyObject,System.Windows.IInputElement)">
+          <source>It is possible to specify a focus scope that is an ancestor of the focus scope the element is in.</source>
+          <target state="translated">Il est possible de spécifier une portée de focus est un ancêtre de l’élément est dans la portée de focus.</target>       </trans-unit>
+        <trans-unit id="179" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetFocusedElement(System.Windows.DependencyObject,System.Windows.IInputElement)">
+          <source>For example, if a <ph id="ph1">&lt;xref:System.Windows.Controls.StackPanel&gt;</ph> is a focus scope and its parent <ph id="ph2">&lt;xref:System.Windows.Window&gt;</ph> is a focus scope, a <ph id="ph3">&lt;xref:System.Windows.Controls.TextBox&gt;</ph> child of the <ph id="ph4">&lt;xref:System.Windows.Controls.StackPanel&gt;</ph> could specify the <ph id="ph5">&lt;xref:System.Windows.Window&gt;</ph> as the focus scope when calling <ph id="ph6">&lt;xref:System.Windows.Input.FocusManager.SetFocusedElement%2A&gt;</ph>.</source>
+          <target state="translated">Par exemple, si un <ph id="ph1">&lt;xref:System.Windows.Controls.StackPanel&gt;</ph> est une portée de focus et son parent <ph id="ph2">&lt;xref:System.Windows.Window&gt;</ph> est une portée de focus, un <ph id="ph3">&lt;xref:System.Windows.Controls.TextBox&gt;</ph> enfant de la <ph id="ph4">&lt;xref:System.Windows.Controls.StackPanel&gt;</ph> Impossible de spécifier le <ph id="ph5">&lt;xref:System.Windows.Window&gt;</ph> en tant que la portée de focus lors de l’appel <ph id="ph6">&lt;xref:System.Windows.Input.FocusManager.SetFocusedElement%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="180" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetFocusedElement(System.Windows.DependencyObject,System.Windows.IInputElement)">
+          <source>The <ph id="ph1">&lt;xref:System.Windows.Controls.TextBox&gt;</ph> is then <ph id="ph2">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A&gt;</ph> for both the <ph id="ph3">&lt;xref:System.Windows.Window&gt;</ph> focus scope and the <ph id="ph4">&lt;xref:System.Windows.Controls.StackPanel&gt;</ph> focus scope.</source>
+          <target state="translated">Le <ph id="ph1">&lt;xref:System.Windows.Controls.TextBox&gt;</ph> est ensuite <ph id="ph2">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A&gt;</ph> à la fois pour le <ph id="ph3">&lt;xref:System.Windows.Window&gt;</ph> portée de focus et <ph id="ph4">&lt;xref:System.Windows.Controls.StackPanel&gt;</ph> portée de focus.</target>       </trans-unit>
+        <trans-unit id="181" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetFocusedElement(System.Windows.DependencyObject,System.Windows.IInputElement)">
+          <source><ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.SetFocusedElement%2A&gt;</ph> will give the specified element logical focus in the specified focus scope and will attempt to give the element keyboard focus.</source>
+          <target state="translated"><ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.SetFocusedElement%2A&gt;</ph> donne le focus logique de l’élément spécifié dans la portée de focus spécifiée et tente de donner le focus clavier.</target>       </trans-unit>
+        <trans-unit id="182" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetFocusedElement(System.Windows.DependencyObject,System.Windows.IInputElement)">
+          <source>The following example sets the element with logical focus by using the <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.SetFocusedElement%2A&gt;</ph> and it gets the element with logical focus by using the <ph id="ph2">&lt;xref:System.Windows.Input.FocusManager.GetFocusedElement%2A&gt;</ph>.</source>
+          <target state="translated">L’exemple suivant définit l’élément avec le focus logique à l’aide de la <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.SetFocusedElement%2A&gt;</ph> et il obtient l’élément avec le focus logique à l’aide de la <ph id="ph2">&lt;xref:System.Windows.Input.FocusManager.GetFocusedElement%2A&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="183" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.SetIsFocusScope(System.Windows.DependencyObject,System.Boolean)">
+          <source>The element to make a focus scope.</source>
+          <target state="translated">Élément à définir comme portée de focus.</target>       </trans-unit>
+        <trans-unit id="184" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.SetIsFocusScope(System.Windows.DependencyObject,System.Boolean)">
+          <source><ph id="ph1">&lt;see langword="true" /&gt;</ph> if <bpt id="p1">&lt;c&gt;</bpt>element<ept id="p1">&lt;/c&gt;</ept> is a focus scope; otherwise, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</source>
+          <target state="translated"><ph id="ph1">&lt;see langword="true" /&gt;</ph> si l'<bpt id="p1">&lt;c&gt;</bpt>élément<ept id="p1">&lt;/c&gt;</ept> est une étendue de focus ; sinon, <ph id="ph2">&lt;see langword="false" /&gt;</ph>.</target>       </trans-unit>
+        <trans-unit id="185" translate="yes" xml:space="preserve" uid="M:System.Windows.Input.FocusManager.SetIsFocusScope(System.Windows.DependencyObject,System.Boolean)">
+          <source>Sets the specified <ph id="ph1">&lt;see cref="T:System.Windows.DependencyObject" /&gt;</ph> as a focus scope.</source>
+          <target state="translated">Définit le <ph id="ph1">&lt;see cref="T:System.Windows.DependencyObject" /&gt;</ph> spécifié comme une portée de focus.</target>       </trans-unit>
+        <trans-unit id="186" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetIsFocusScope(System.Windows.DependencyObject,System.Boolean)">
+          <source>A focus scope is a container element that keeps track of the <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> within its scope.</source>
+          <target state="translated">Une portée de focus est un élément conteneur qui effectue le suivi de le <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.FocusedElement%2A?displayProperty=nameWithType&gt;</ph> dans son étendue.</target>       </trans-unit>
+        <trans-unit id="187" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetIsFocusScope(System.Windows.DependencyObject,System.Boolean)">
+          <source>By default, the <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph> class is a focus scope as are the <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph>, and <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph> classes.</source>
+          <target state="translated">Par défaut, le <ph id="ph1">&lt;xref:System.Windows.Window&gt;</ph> classe est une portée de focus étant le <ph id="ph2">&lt;xref:System.Windows.Controls.Menu&gt;</ph>, <ph id="ph3">&lt;xref:System.Windows.Controls.ContextMenu&gt;</ph>, et <ph id="ph4">&lt;xref:System.Windows.Controls.ToolBar&gt;</ph> classes.</target>       </trans-unit>
+        <trans-unit id="188" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetIsFocusScope(System.Windows.DependencyObject,System.Boolean)">
+          <source>An element which is a focus scope has <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> set to <ph id="ph2">`true`</ph>.</source>
+          <target state="translated">Un élément qui est une portée de focus a <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.IsFocusScope%2A&gt;</ph> la valeur <ph id="ph2">`true`</ph>.</target>       </trans-unit>
+        <trans-unit id="189" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetIsFocusScope(System.Windows.DependencyObject,System.Boolean)">
+          <source>For more information on focus, keyboard focus, and logical focus, see the <bpt id="p1">[</bpt>Input Overview<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept>.</source>
+          <target state="translated">Pour plus d’informations sur le focus, le focus clavier et le focus logique, consultez le <bpt id="p1">[</bpt>vue d’ensemble de l’entrée<ept id="p1">](~/docs/framework/wpf/advanced/input-overview.md)</ept>.</target>       </trans-unit>
+        <trans-unit id="190" translate="yes" xml:space="preserve" extradata="MT" uid="M:System.Windows.Input.FocusManager.SetIsFocusScope(System.Windows.DependencyObject,System.Boolean)">
+          <source>The follow example makes an element a focus scope by using <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.SetIsFocusScope%2A&gt;</ph>.</source>
+          <target state="translated">L’exemple suivant définit un élément de la portée de focus à l’aide de <ph id="ph1">&lt;xref:System.Windows.Input.FocusManager.SetIsFocusScope%2A&gt;</ph>.</target>       </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>
