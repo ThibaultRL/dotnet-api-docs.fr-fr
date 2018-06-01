@@ -1,1 +1,0 @@
-<span data-ttu-id="121e2-101">Microsoft Windows Installer</span><span class="sxs-lookup"><span data-stu-id="121e2-101">Microsoft Windows Installer</span></span>

@@ -1,1 +1,0 @@
-<span data-ttu-id="a2abe-101">Common Language Specification (CLS)</span><span class="sxs-lookup"><span data-stu-id="a2abe-101">Common Language Specification (CLS)</span></span>

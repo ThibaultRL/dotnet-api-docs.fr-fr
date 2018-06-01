@@ -1,1 +1,0 @@
-<span data-ttu-id="a0c39-101">**Cette rubrique s'applique à: ✓** .NET Core SDK 2.0</span><span class="sxs-lookup"><span data-stu-id="a0c39-101">**This topic applies to: ✓** .NET Core SDK 2.0</span></span>

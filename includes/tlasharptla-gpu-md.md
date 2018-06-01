@@ -1,1 +1,0 @@
-<span data-ttu-id="5aee3-101">unité de traitement graphique (GPU)</span><span class="sxs-lookup"><span data-stu-id="5aee3-101">graphics processing unit (GPU)</span></span>

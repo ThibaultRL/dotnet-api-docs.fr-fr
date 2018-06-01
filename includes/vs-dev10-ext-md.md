@@ -1,1 +1,0 @@
-<span data-ttu-id="cad32-101">Microsoft Visual Studio 2010</span><span class="sxs-lookup"><span data-stu-id="cad32-101">Microsoft Visual Studio 2010</span></span>

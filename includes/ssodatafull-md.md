@@ -1,1 +1,0 @@
-<span data-ttu-id="bfb8d-101">OData (Open Data Protocol)</span><span class="sxs-lookup"><span data-stu-id="bfb8d-101">Open Data Protocol (OData)</span></span>

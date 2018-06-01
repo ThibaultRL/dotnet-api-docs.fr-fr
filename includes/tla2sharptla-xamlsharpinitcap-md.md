@@ -1,1 +1,0 @@
-<span data-ttu-id="1a0ec-101">XAML</span><span class="sxs-lookup"><span data-stu-id="1a0ec-101">XAML</span></span>

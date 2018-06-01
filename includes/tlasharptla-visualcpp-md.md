@@ -1,1 +1,0 @@
-<span data-ttu-id="abfdd-101">Microsoft Visual C++</span><span class="sxs-lookup"><span data-stu-id="abfdd-101">Microsoft Visual C++</span></span>
