@@ -1,24 +1,25 @@
 <Type Name="IWeakEventListener" FullName="System.Windows.IWeakEventListener">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="3a1bf86fcc21c642d34254ee3721d50b914beee5" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="7c3b1a2e5ca5345941bf0defae6b6b61e709598f" />
+    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30676103" />
+    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.locfileid" Value="36459040" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IWeakEventListener" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IWeakEventListener" />
   <TypeSignature Language="DocId" Value="T:System.Windows.IWeakEventListener" />
   <TypeSignature Language="VB.NET" Value="Public Interface IWeakEventListener" />
   <TypeSignature Language="C++ CLI" Value="public interface class IWeakEventListener" />
+  <TypeSignature Language="F#" Value="type IWeakEventListener = interface" />
   <AssemblyInfo>
     <AssemblyName>WindowsBase</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
   <Docs>
-    <summary>Prend en charge l'écoute d'événements pour les classes qui doivent recevoir des événements à travers le modèle WeakEvent et <see cref="T:System.Windows.WeakEventManager" />.</summary>
+    <summary>Provides event listening support for classes that expect to receive events through the WeakEvent pattern and a <see cref="T:System.Windows.WeakEventManager" />.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
@@ -42,6 +43,7 @@
       <MemberSignature Language="DocId" Value="M:System.Windows.IWeakEventListener.ReceiveWeakEvent(System.Type,System.Object,System.EventArgs)" />
       <MemberSignature Language="VB.NET" Value="Public Function ReceiveWeakEvent (managerType As Type, sender As Object, e As EventArgs) As Boolean" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool ReceiveWeakEvent(Type ^ managerType, System::Object ^ sender, EventArgs ^ e);" />
+      <MemberSignature Language="F#" Value="abstract member ReceiveWeakEvent : Type * obj * EventArgs -&gt; bool" Usage="iWeakEventListener.ReceiveWeakEvent (managerType, sender, e)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>WindowsBase</AssemblyName>
@@ -56,12 +58,12 @@
         <Parameter Name="e" Type="System.EventArgs" />
       </Parameters>
       <Docs>
-        <param name="managerType">Le type du <see cref="T:System.Windows.WeakEventManager" /> qui appelle cette méthode.</param>
-        <param name="sender">Objet à l'origine de l'événement.</param>
-        <param name="e">Donnée d’événement.</param>
-        <summary>Reçoit des événements du gestionnaire d'événements centralisé.</summary>
+        <param name="managerType">The type of the <see cref="T:System.Windows.WeakEventManager" /> calling this method.</param>
+        <param name="sender">Object that originated the event.</param>
+        <param name="e">Event data.</param>
+        <summary>Receives events from the centralized event manager.</summary>
         <returns>
-          <see langword="true" /> si l'écouteur a géré l'événement. L’enregistrement d’un écouteur pour un événement que l’écouteur ne gère pas est considéré comme une erreur par la gestion de <see cref="T:System.Windows.WeakEventManager" /> dans [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)]. La méthode doit néanmoins toujours retourner la valeur <see langword="false" /> si elle reçoit un événement qu'elle ne reconnaît ou ne gère pas.</returns>
+          <see langword="true" /> if the listener handled the event. It is considered an error by the <see cref="T:System.Windows.WeakEventManager" /> handling in [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] to register a listener for an event that the listener does not handle. Regardless, the method should return <see langword="false" /> if it receives an event that it does not recognize or handle.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -74,9 +76,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Cette méthode est destinée à recevoir tous les événements possibles où le récepteur est dans une liste d’écouteur. En particulier si l’implémentation pour une classe qui écoute plusieurs événements, vous devez vérifier le type d’entrant <paramref name="managerType" /> paramètre afin de déterminer quel événement de l’appel correspond à. C’est pourquoi chaque événement qui doit faire partie du modèle doit avoir une dédiée <see cref="T:System.Windows.WeakEventManager" />. En outre, le <paramref name="e" /> paramètre est de type général <see cref="T:System.EventArgs" />. Par conséquent, dans l’ordre, obtenir des propriétés spécifiques de données d’événement, votre implémentation doit être convertible vers le type de données d’événement spécifique.  
-  
- En règle générale, après avoir vérifié l’identité de l’événement en fonction de la <see cref="T:System.Windows.WeakEventManager" /> type, votre implémentation doit appeler un gestionnaire de classe privée. Votre gestionnaire de classe peut être parfaitement le même gestionnaire de classe qui est utilisé pour gérer cet événement pour les écouteurs qui sont ajoutés via le modèle d’événement classique d’ajout par <see langword="+=" /> à l’événement sur l’expéditeur. La section suivante fournit un modèle d’implémentation succinct.</para>
+          <para>Cette méthode est destinée à recevoir tous les événements possibles où le récepteur est dans une liste d’écouteur. En particulier si l’implémentation pour une classe qui écoute plusieurs événements, vous devez vérifier le type d’entrant <paramref name="managerType" /> paramètre afin de déterminer quel événement de l’appel correspond à. C’est pourquoi chaque événement qui doit faire partie du modèle doit avoir une dédiée <see cref="T:System.Windows.WeakEventManager" />. En outre, le <paramref name="e" /> paramètre est de type général <see cref="T:System.EventArgs" />. Par conséquent, dans l’ordre, obtenir des propriétés spécifiques de données d’événement, votre implémentation doit être convertible vers le type de données d’événement spécifique.  En règle générale, après avoir vérifié l’identité de l’événement en fonction de la <see cref="T:System.Windows.WeakEventManager" /> type, votre implémentation doit appeler un gestionnaire de classe privée. Votre gestionnaire de classe peut être parfaitement le même gestionnaire de classe qui est utilisé pour gérer cet événement pour les écouteurs qui sont ajoutés via le modèle d’événement classique d’ajout par <see langword="+=" /> à l’événement sur l’expéditeur. La section suivante fournit un modèle d’implémentation succinct.</para>
         </block>
         <altmember cref="T:System.Windows.WeakEventManager" />
       </Docs>
