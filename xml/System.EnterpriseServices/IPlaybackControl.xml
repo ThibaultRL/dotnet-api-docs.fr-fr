@@ -1,11 +1,11 @@
 <Type Name="IPlaybackControl" FullName="System.EnterpriseServices.IPlaybackControl">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="6a2fa35f21d501233854b1e609716c45f5c69687" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="f1d7e688218f9e4d155f0f11867ab1dd115b8742" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36563488" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37655114" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IPlaybackControl" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IPlaybackControl" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type IPlaybackControl = interface" />
   <AssemblyInfo>
     <AssemblyName>System.EnterpriseServices</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
@@ -32,15 +34,15 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La classe d’exception définie pour le composant dans le catalogue COM + implémente à la fois <xref:System.EnterpriseServices.IPlaybackControl> et l’interface de la classe d’origine. Les implémentations de méthode de l’interface de classe d’origine sont utilisées pour effectuer la gestion des exceptions pour les méthodes ayant échouées dans la classe elle-même. Elles seront appelées après <xref:System.EnterpriseServices.IPlaybackControl.FinalClientRetry%2A> ou <xref:System.EnterpriseServices.IPlaybackControl.FinalServerRetry%2A> pour traiter les exceptions pour la méthode appelée à l’origine.  
+ La classe d’exception définie pour le composant dans le catalogue COM + implémente à la fois <xref:System.EnterpriseServices.IPlaybackControl> et l’interface pour la classe d’origine. Les implémentations de méthode de l’interface de classe d’origine sont utilisées pour effectuer la gestion des exceptions pour les méthodes ayant échoués dans la classe elle-même. Elles seront appelées après <xref:System.EnterpriseServices.IPlaybackControl.FinalClientRetry%2A> ou <xref:System.EnterpriseServices.IPlaybackControl.FinalServerRetry%2A> pour traiter les exceptions pour la méthode appelée à l’origine.  
   
- Le Lecteur Queued Components appelle les méthodes de <xref:System.EnterpriseServices.IPlaybackControl> pour informer l’objet de gestionnaire d’exceptions qu’un message est sur le point d’être placé sur la file d’attente finale de repos ou de lettres mortes. Le Lecteur Queued Components appelle ensuite la même méthode dans l’objet de gestionnaire d’exceptions ayant échoué dans l’appel de méthode d’origine. L’objet gestionnaire d’exceptions peut implémenter alternative, par exemple, par la collecte des informations de diagnostic de problème ou de génération d’un objet ou un message qui informe le client du problème. Si l’application n’implémente pas <xref:System.EnterpriseServices.IPlaybackControl>, le message incohérent est placé sur la file d’attente de repos ou de lettres mortes final lorsque le lecteur de composants en file d’attente a effectué toutes les nouvelles tentatives.  
+ Le Lecteur Queued Components appelle les méthodes de <xref:System.EnterpriseServices.IPlaybackControl> pour informer l’objet de gestionnaire d’exceptions qu’un message est sur le point d’être placé sur la file d’attente finale de repos ou de lettres mortes. Le Lecteur Queued Components appelle ensuite la même méthode dans l’objet de gestionnaire d’exceptions qui a échoué dans l’appel de méthode d’origine. L’objet de gestionnaire d’exceptions peut mettre en œuvre alternative, par exemple, en collecte des informations de diagnostic de problème ou en générant un objet ou un message qui informe le client du problème. Si l’application n’implémente pas <xref:System.EnterpriseServices.IPlaybackControl>, le message incohérent est placé sur la file d’attente de repos ou de lettres mortes finale lorsque le lecteur de composants en file d’attente a effectué toutes les nouvelles tentatives.  
   
- Un message incohérent est un message qui ne peut pas être traité pour une raison quelconque, peut-être en raison d’un problème avec le serveur ou le système de file d’attente. La transaction est annulée et le message incohérent est placé en haut de la file d’attente. Lorsque le message est dépilé là encore, la même condition se produit. Ce message peut continuer indéfiniment tant que rien n’est fait pour corriger le problème. Le service de composants de la file d’attente gère le message incohérent à l’aide d’une série de nouvelles tentatives. Après plusieurs tentatives infructueuses, le message est déplacé vers une file d’attente de repos final. Messages incohérents restent dans la file d’attente terminale jusqu'à ce que déplacés manuellement à l’aide de l’outil utilitaire composants en file d’attente.  
+ Un message incohérent est un message qui ne peut pas être traité pour une raison quelconque, peut-être en raison d’un problème avec le serveur ou le système de file d’attente. La transaction est restaurée, et le message incohérent est placé en haut de la file d’attente. Lorsque le message de la file d’attente à nouveau, la même condition se produit. Ce message peut continuer indéfiniment jusqu'à ce que quelque chose est faite pour corriger le problème. Le service de composants en file d’attente gère le message incohérent à l’aide d’une série de nouvelles tentatives. Après plusieurs tentatives infructueuses, le message est déplacé vers une file d’attente de repos finale. Messages incohérents restent dans la file d’attente de repos jusqu'à ce qu’ils sont déplacés manuellement à l’aide de l’outil de moteur de Message de composants en file d’attente.  
   
- Le cas du message poison peut être résolu par programme, à l’aide de la <xref:System.EnterpriseServices.IPlaybackControl.FinalServerRetry%2A> (méthode), qui informe l’auteur du composant côté serveur que toutes les tentatives de lecture de l’activation différée ont échoué.  
+ La situation de messages incohérents peut être résolue par programme, à l’aide de la <xref:System.EnterpriseServices.IPlaybackControl.FinalServerRetry%2A> (méthode), qui informe l’auteur du composant côté serveur que toutes les tentatives de lecture de l’activation différée ont échoué.  
   
- Si vous découvrez un message incohérent, vous pourrez peut-être résoudre la cause sous-jacente du problème rapidement. Par exemple, si le serveur est hors connexion pour une raison quelconque, vous pouvez mettre en ligne. Si vous ne pouvez pas résoudre le problème rapidement, vous pouvez générer automatiquement une autre transaction qui notifie au demandeur que la transaction ne se produisait. Le demandeur peut effectuer une transaction de compensation qui inverse l’effet d’une transaction qui a déjà été validée.  
+ Si vous découvrez un message incohérent, vous pourrez peut-être résoudre la cause sous-jacente du problème rapidement. Par exemple, si le serveur était hors connexion pour une raison quelconque, vous pouvez mettre en ligne. Si vous ne pouvez pas résoudre le problème rapidement, vous pouvez générer automatiquement une autre transaction qui informe le demandeur de la transaction ne s’est produit. Le demandeur peut effectuer une transaction de compensation qui inverse l’effet d’une transaction qui a déjà été validée.  
   
  ]]></format>
     </remarks>
@@ -56,6 +58,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.EnterpriseServices</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -68,9 +72,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Réception de messages dans la file d’attente de lettres mortes Xact, COM + tente d’appeler un gestionnaire d’exception côté client associée à la classe serveur pour livrer cette notification. Il le fait en appelant d’abord <xref:System.EnterpriseServices.IPlaybackControl.FinalClientRetry%2A>, puis la version de la gestion des exceptions de la méthode ayant échouée dans l’objet de gestionnaire d’exceptions. Cette méthode d’exception peut effectuer une action d’exception, telles que l’enregistrement de l’échec, envoyer un message électronique à l’administrateur ou effectuer l’action de compensation côté client (en annulant l’effet d’une transaction précédente). Si la méthode d’exception n’a pas réussie, le message reste dans la file d’attente de lettres mortes Xact.  
+ Réception de messages dans la file d’attente de lettres mortes Xact, COM + tente d’appeler un gestionnaire d’exception côté client lié à la classe de serveur pour livrer cette notification. Pour ce faire, appeler d’abord <xref:System.EnterpriseServices.IPlaybackControl.FinalClientRetry%2A>, puis la version de la gestion des exceptions de la méthode ayant échouée dans l’objet de gestionnaire d’exceptions. Cette méthode d’exception peut prendre ensuite une action d’exception, telles que l’enregistrement de l’échec, envoyer un message électronique à l’administrateur ou prendre des mesures de compensation côté client (en annulant l’effet d’une transaction précédente). Si la méthode d’exception n’est pas réussie, le message reste dans la file d’attente de lettres mortes Xact.  
   
- La file d’attente de lettres mortes Xact peut être affiché dans l’Explorateur Microsoft Message Queue (MSMQ).  
+ La file d’attente de lettres mortes Xact peut être affiché dans l’Explorateur de Microsoft Message Queue (MSMQ).  
   
  ]]></format>
         </remarks>
@@ -86,6 +90,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.EnterpriseServices</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -98,7 +104,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Réception de messages sur la file d’attente de lettres mortes Xact, COM + tente d’appeler un gestionnaire d’exceptions côté serveur associée à la classe serveur pour livrer cette notification. Il le fait en appelant d’abord <xref:System.EnterpriseServices.IPlaybackControl.FinalServerRetry%2A>, puis appeler la version de la méthode ayant échouée dans l’objet de gestionnaire d’exceptions d’exceptions. Cette méthode d’exception peut effectuer une action d’exception, telles que l’enregistrement de l’échec, envoyer un message électronique à l’administrateur ou effectuer l’action de compensation côté client (en annulant l’effet d’une transaction précédente). L’objet serveur doit faire le maximum pour compléter cette transaction. Sinon, une intervention manuelle est requise pour retraiter le message. Si la méthode d’exception n’a pas réussie, le message est déplacé vers la file d’attente de repos final.  
+ Réception de messages dans la file d’attente de lettres mortes Xact, COM + tente d’appeler un gestionnaire d’exceptions côté serveur lié à la classe de serveur pour livrer cette notification. Pour ce faire, appeler d’abord <xref:System.EnterpriseServices.IPlaybackControl.FinalServerRetry%2A>, puis appeler la version de la méthode ayant échouée dans l’objet de gestionnaire d’exceptions de gestion des exceptions. Cette méthode d’exception peut prendre ensuite une action d’exception, telles que l’enregistrement de l’échec, envoyer un message électronique à l’administrateur ou prendre des mesures de compensation côté client (en annulant l’effet d’une transaction précédente). L’objet serveur doit s’efforcer permettre la réalisation de cette transaction. Sinon, une intervention manuelle est nécessaire pour traiter de nouveau le message. Si la méthode d’exception n’est pas réussie, le message est déplacé vers la file d’attente de repos finale.  
   
  ]]></format>
         </remarks>

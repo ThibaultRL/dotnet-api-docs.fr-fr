@@ -1,11 +1,11 @@
 <Type Name="Evidence" FullName="System.Security.Policy.Evidence">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="e5d614d8037f431c53513917ef6a086ac3622915" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="b71a6120495409a3fe3035dadb0f2cfe3309c8fe" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36528180" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37623078" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class Evidence : System.Collections.ICollection" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed beforefieldinit Evidence extends System.Object implements class System.Collections.ICollection, class System.Collections.IEnumerable" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type Evidence = class&#xA;    interface ICollection&#xA;    interface IEnumerable" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -41,22 +43,22 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Les formes courantes de preuves incluent des signatures et l’emplacement d’origine du code, mais peuvent être potentiellement quoi que ce soit. Objets de tout type qui sont reconnus par la stratégie de sécurité représentent une preuve.  
+ Les formes courantes de preuves incluent des signatures et l’emplacement d’origine du code, mais peuvent être quoi que ce soit. Objets de tout type qui sont reconnus par la stratégie de sécurité représentent la preuve.  
   
- Stratégie de sécurité est composée des groupes de codes ; un assembly particulier (l’unité de base de code pour accorder des autorisations de sécurité) est un membre d’un groupe de codes s’il satisfait la condition d’appartenance du groupe de codes. La preuve est le jeu d’entrées à la stratégie qui utilisent des conditions d’appartenance pour déterminer à quels groupes de codes un assembly appartient.  
+ Stratégie de sécurité est composée des groupes de codes ; un assembly particulier (l’unité de base de code pour accorder des autorisations de sécurité) est un membre d’un groupe de codes s’il satisfait la condition d’appartenance du groupe de codes. Preuve est l’ensemble des entrées de stratégie qui utilisent des conditions d’appartenance pour déterminer à quels groupes de codes un assembly appartient.  
   
- Le <xref:System.Security.Policy.Evidence> classe est une collection (voir <xref:System.Collections.ICollection>) qui contient un jeu d’objets qui représentent la preuve. Cette classe conserve deux ensembles qui correspondent à la source de la preuve : hôte et preuve de l’assembly.  
+ Le <xref:System.Security.Policy.Evidence> classe est une collection (voir <xref:System.Collections.ICollection>) qui contient un jeu d’objets qui représentent la preuve. Cette classe conserve deux ensembles qui correspondent à la source de la preuve : preuve d’hôte et une preuve d’assembly.  
   
  Stratégie peut obtenir une preuve à partir de deux sources différentes lors de l’évaluation des autorisations pour le code.  
   
--   `Host evidence` est fourni par l’hôte et peut uniquement être fourni par les hôtes qui ont été accordées le <xref:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence> autorisation. En règle générale, il s’agit d’une preuve de l’origine du code et les signatures numériques sur l’assembly. Une preuve à l’origine inclut généralement <xref:System.Security.Policy.Url>, <xref:System.Security.Policy.Site>, et <xref:System.Security.Policy.Zone> preuve. Les signatures font référence à l’éditeur de logiciel (signature AuthentiCode X.509v3) et les identités de nom fort. Les deux types d’identité signature numérique sont intégrées à l’assembly, mais doivent être validés et passés à la stratégie par l’hôte ; lors du chargement, le système de sécurité vérifie la signature. Le système crée la preuve appropriée et passe à la stratégie que si la signature correspondante est valide.  
+-   `Host evidence` est fourni par l’hôte et ne peut être fournie par les hôtes qui ont reçu la <xref:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence> autorisation. En règle générale, il s’agit de preuve de l’origine du code et des signatures numériques sur l’assembly. Une preuve relatifs à l’origine inclut généralement <xref:System.Security.Policy.Url>, <xref:System.Security.Policy.Site>, et <xref:System.Security.Policy.Zone> preuve. Les signatures font référence à l’éditeur de logiciel (signature AuthentiCode X.509v3) et les identités de nom fort. Les deux types d’identité basé sur la signature numérique sont intégrées à l’assembly, mais doivent être validés et transmis à la stratégie par l’hôte ; lors du chargement, le système de sécurité vérifie la signature. Le système crée la preuve appropriée, puis passe à la stratégie uniquement si la signature correspondante est valide.  
   
--   `Assembly evidence` fait partie de l’assembly lui-même. Les développeurs ou les administrateurs peuvent attacher une preuve personnalisée à l’assembly pour étendre l’ensemble de preuves pour une stratégie. Preuve d’assembly peut être ajoutée uniquement au moment de la génération de l’assembly, qui se produit avant que l’assembly est signé. La stratégie par défaut du système de sécurité ignore les preuves fournies par l’assembly, mais elle peut être étendue pour l’accepter.  
+-   `Assembly evidence` fait partie de l’assembly lui-même. Les développeurs ou les administrateurs peuvent attacher une preuve personnalisée à l’assembly pour étendre l’ensemble de preuves pour une stratégie. Preuve d’assembly peut uniquement être ajoutée au moment de la génération de l’assembly, ce qui se produit avant que l’assembly est signé. La stratégie par défaut du système de sécurité ignore les preuves fournies par l’assembly, mais elle peut être étendue pour l’accepter.  
   
    
   
 ## Examples  
- L’exemple de code suivant montre comment créer de nouveaux <xref:System.Security.Policy.Evidence> avec les classes de preuve d’hôte et une preuve d’assembly.  
+ L’exemple de code suivant montre comment créer de nouvelles <xref:System.Security.Policy.Evidence> avec les deux classes de preuve d’hôte et une preuve d’assembly.  
   
  [!code-cpp[System.Security.Policy.Evidence#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Security.Policy.Evidence/CPP/evidence_evidence.cpp#1)]
  [!code-csharp[System.Security.Policy.Evidence#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Security.Policy.Evidence/CS/evidence_evidence.cs#1)]
@@ -85,6 +87,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -118,6 +122,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -156,6 +162,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -218,7 +226,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ce constructeur crée une nouvelle instance de la classe à l’aide d’objets de preuve qui héritent de la <xref:System.Security.Policy.EvidenceBase> classe.  
+ Ce constructeur crée une nouvelle instance de la classe à l’aide des objets de preuve qui héritent de la <xref:System.Security.Policy.EvidenceBase> classe.  
   
  ]]></format>
         </remarks>
@@ -234,6 +242,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -262,7 +272,7 @@
  Utilisez cette méthode pour les preuves dérivées de l’assembly.  
   
 > [!NOTE]
->  Cette méthode n’effectue pas de contrôle pour empêcher l’ajout de types de preuve dupliqués. Plusieurs objets de preuve d’assembly peuvent exister en même temps.  
+>  Cette méthode n’effectue pas une vérification pour empêcher l’ajout de types de preuve dupliqués. Plusieurs objets de preuve d’assembly peuvent exister en même temps.  
   
    
   
@@ -323,7 +333,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Preuve héritée, autrement dit, preuve qui n’est pas dérivée de <xref:System.Security.Policy.EvidenceBase>, ne peut pas être ajouté. Uniquement la preuve est dérivée de <xref:System.Security.Policy.EvidenceBase> peuvent être ajoutés. Cette méthode n’autorise pas à ajouter une preuve si la preuve de ce type existe déjà dans la liste des assemblys.  
+ Preuve héritée, autrement dit, preuve qui n’est pas dérivée <xref:System.Security.Policy.EvidenceBase>, ne peut pas être ajouté. Uniquement la preuve est dérivée de <xref:System.Security.Policy.EvidenceBase> peuvent être ajoutés. Cette méthode ne vous permet pas à ajouter une preuve si la preuve de ce type existe déjà dans la liste des assemblys.  
   
  ]]></format>
         </remarks>
@@ -344,6 +354,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -372,7 +384,7 @@
  Utilisez cette méthode pour les preuves fournies par l’hôte.  
   
 > [!NOTE]
->  Cette méthode n’effectue pas de contrôle pour empêcher l’ajout de types de preuve dupliqués. Plusieurs objets peuvent exister en même temps de preuve d’hôte.  
+>  Cette méthode n’effectue pas une vérification pour empêcher l’ajout de types de preuve dupliqués. Plusieurs objets peuvent exister en même temps de preuve d’hôte.  
   
    
   
@@ -434,7 +446,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Preuve héritée, autrement dit, preuve qui n’est pas dérivée de <xref:System.Security.Policy.EvidenceBase>, ne peut pas être ajouté. Uniquement la preuve est dérivée de <xref:System.Security.Policy.EvidenceBase> peuvent être ajoutés. Cette méthode n’autorise pas à ajouter une preuve si la preuve de ce type existe déjà dans la liste des assemblys.  
+ Preuve héritée, autrement dit, preuve qui n’est pas dérivée <xref:System.Security.Policy.EvidenceBase>, ne peut pas être ajouté. Uniquement la preuve est dérivée de <xref:System.Security.Policy.EvidenceBase> peuvent être ajoutés. Cette méthode ne vous permet pas à ajouter une preuve si la preuve de ce type existe déjà dans la liste des assemblys.  
   
  ]]></format>
         </remarks>
@@ -453,6 +465,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -488,7 +501,7 @@
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">pour la possibilité de contrôler la preuve. Action de sécurité : <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">la capacité à contrôler les preuves. Action de sécurité : <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" /></permission>
       </Docs>
     </Member>
     <Member MemberName="Clone">
@@ -542,6 +555,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -596,6 +611,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -628,6 +645,36 @@
         </remarks>
       </Docs>
     </Member>
+    <Member MemberName="Equals">
+      <MemberSignature Language="C#" Value="public override bool Equals (object obj);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance bool Equals(object obj) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Security.Policy.Evidence.Equals(System.Object)" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function Equals (obj As Object) As Boolean" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override bool Equals(System::Object ^ obj);" />
+      <MemberSignature Language="F#" Value="override this.Equals : obj -&gt; bool" Usage="evidence.Equals obj" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Boolean</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="obj" Type="System.Object" />
+      </Parameters>
+      <Docs>
+        <param name="obj">To be added.</param>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="GetAssemblyEnumerator">
       <MemberSignature Language="C#" Value="public System.Collections.IEnumerator GetAssemblyEnumerator ();" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Collections.IEnumerator GetAssemblyEnumerator() cil managed" />
@@ -638,6 +685,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -706,7 +755,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode retourne uniquement la preuve qui est dérivée de la <xref:System.Security.Policy.EvidenceBase> classe. Il ne retourne pas les objets de preuve hérités sont dérivées d’autres classes.  
+ Cette méthode retourne uniquement la preuve est dérivée le <xref:System.Security.Policy.EvidenceBase> classe. Elle ne retourne pas les objets de preuve hérités sont dérivées d’autres classes.  
   
  ]]></format>
         </remarks>
@@ -725,6 +774,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -758,6 +809,33 @@
         </remarks>
       </Docs>
     </Member>
+    <Member MemberName="GetHashCode">
+      <MemberSignature Language="C#" Value="public override int GetHashCode ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 GetHashCode() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Security.Policy.Evidence.GetHashCode" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function GetHashCode () As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int GetHashCode();" />
+      <MemberSignature Language="F#" Value="override this.GetHashCode : unit -&gt; int" Usage="evidence.GetHashCode " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <Attributes>
+        <Attribute>
+          <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+        </Attribute>
+      </Attributes>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <returns>To be added.</returns>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
     <Member MemberName="GetHostEnumerator">
       <MemberSignature Language="C#" Value="public System.Collections.IEnumerator GetHostEnumerator ();" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance class System.Collections.IEnumerator GetHostEnumerator() cil managed" />
@@ -768,6 +846,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -836,7 +916,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode retourne uniquement la preuve qui est dérivée de la <xref:System.Security.Policy.EvidenceBase> classe. Il ne retourne pas les objets de preuve hérités sont dérivées d’autres classes.  
+ Cette méthode retourne uniquement la preuve est dérivée le <xref:System.Security.Policy.EvidenceBase> classe. Elle ne retourne pas les objets de preuve hérités sont dérivées d’autres classes.  
   
  ]]></format>
         </remarks>
@@ -852,6 +932,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -888,6 +970,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -921,6 +1005,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -959,6 +1045,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -979,10 +1067,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Chaque objet de preuve de l’ensemble de preuves spécifié est ajouté aux jeux d’assembly et l’hôte de l’ensemble de preuves actuel, en fonction des ensembles dont elle provient.  
+ Chaque objet de preuve dans l’ensemble de preuves spécifié est ajouté aux ensembles d’assembly et l’hôte de l’ensemble de preuves actuel, selon les jeux dont elle provient.  
   
 > [!NOTE]
->  Cette méthode n’effectue pas de contrôle pour empêcher l’ajout de types de preuve dupliqués. Nombreux assembly et les objets de preuve d’hôte peuvent exister en même temps.  
+>  Cette méthode n’effectue pas une vérification pour empêcher l’ajout de types de preuve dupliqués. Nombreux assembly et les objets de preuve d’hôte peuvent exister en même temps.  
   
    
   
@@ -998,7 +1086,7 @@
         <exception cref="T:System.ArgumentException">Le paramètre <paramref name="evidence" /> n'est pas une instance valide de <see cref="T:System.Security.Policy.Evidence" />.</exception>
         <exception cref="T:System.Security.SecurityException">
           <see cref="P:System.Security.Policy.Evidence.Locked" /> est <see langword="true" />, le code qui appelle cette méthode n'a pas <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" /> et le paramètre <paramref name="evidence" /> a une liste d'hôtes qui n'est pas vide.</exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">pour la possibilité de manipuler des preuves lorsque <see cref="P:System.Security.Policy.Evidence.Locked" /> est <see langword="true" /> et <paramref name="evidence" /> le paramètre a une liste d’hôtes qui n’est pas vide. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">pour la possibilité de manipuler des preuves lorsque <see cref="P:System.Security.Policy.Evidence.Locked" /> est <see langword="true" /> et <paramref name="evidence" /> paramètre possède une liste d’hôtes qui n’est pas vide. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" /></permission>
       </Docs>
     </Member>
     <Member MemberName="RemoveType">
@@ -1011,6 +1099,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1036,7 +1125,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Les résultats de l’exécution de la <xref:System.Security.Policy.Evidence.RemoveType%2A> méthode peut être vérifiée à l’aide de la <xref:System.Security.Policy.Evidence.GetAssemblyEnumerator%2A> (méthode) et le <xref:System.Security.Policy.Evidence.GetHostEnumerator%2A> (méthode).  
+ Les résultats de l’exécution de la <xref:System.Security.Policy.Evidence.RemoveType%2A> méthode peut être confirmée à l’aide de la <xref:System.Security.Policy.Evidence.GetAssemblyEnumerator%2A> (méthode) et le <xref:System.Security.Policy.Evidence.GetHostEnumerator%2A> (méthode).  
   
    
   
@@ -1051,7 +1140,7 @@
         </remarks>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="t" /> a la valeur null.</exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">pour la possibilité de contrôler la preuve. Action de sécurité : <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" /></permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">la capacité à contrôler les preuves. Action de sécurité : <see cref="F:System.Security.Permissions.SecurityAction.Demand" />. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" /></permission>
       </Docs>
     </Member>
     <Member MemberName="SyncRoot">
@@ -1067,6 +1156,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
