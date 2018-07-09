@@ -1,11 +1,11 @@
 <Type Name="EntryPointNotFoundException" FullName="System.EntryPointNotFoundException">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="aac24b65ce6f5b534ad40dcece712ef08b0f4355" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="5b4bddb4be0b812c299618fbfe1380d4ff8b17db" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36431896" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37728931" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class EntryPointNotFoundException : TypeLoadException" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit EntryPointNotFoundException extends System.TypeLoadException" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type EntryPointNotFoundException = class&#xA;    inherit TypeLoadException" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -44,52 +46,52 @@
 ## Remarks  
  Un <xref:System.EntryPointNotFoundException> exception est levée lorsque le common language runtime ne peut pas charger un assembly, car il ne peut pas identifier le point d’entrée de l’assembly.  Cette exception peut être levée dans les conditions suivantes :  
   
--   Le common language runtime ne parvient pas à trouver un point d’entrée application (généralement un `Main` méthode) dans un assembly exécutable. Le point d’entrée de l’application doit être global ou `static` méthode qui est associé à aucun paramètre ou un tableau de chaînes en tant que son seul paramètre. Le point d’entrée peut retourner `void`, ou elle peut retourner un <xref:System.Int32> ou <xref:System.UInt32> code de sortie. Un assembly d’application ne peut pas définir plus d’un point d’entrée.  
+-   Le common language runtime ne peut pas localiser un point d’entrée application (généralement un `Main` méthode) dans un assembly exécutable. Le point d’entrée de l’application doit être global ou `static` méthode qui n’a aucun paramètre ou un tableau de chaînes comme seul paramètre. Le point d’entrée peut retourner `void`, ou elle peut retourner un <xref:System.Int32> ou <xref:System.UInt32> code de sortie. Un assembly d’application ne peut pas définir plus d’un point d’entrée.  
   
 -   L’appel à une fonction dans une DLL de Windows ne peut pas être résolu, car la fonction ne peut pas être trouvé. Dans l’exemple suivant, un <xref:System.EntryPointNotFoundException> exception est levée car User32.dll n’inclut pas une fonction nommée `GetMyNumber`.  
   
      [!code-csharp[System.EntryPointNotFoundException.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/cs/nofunction1.cs#1)]
      [!code-vb[System.EntryPointNotFoundException.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/vb/nofunction1.vb#1)]  
   
--   L’appel à une fonction dans une DLL de Windows ne peut pas être résolu, car le nom utilisé dans l’appel de méthode ne correspond pas à un nom de l’assembly. Cela se produit fréquemment, car la <xref:System.Runtime.InteropServices.DllImportAttribute.ExactSpelling?displayProperty=nameWithType> champ est implicitement ou explicitement défini sur `true`, la méthode appelée inclut un ou plusieurs paramètres de chaîne et a une version Unicode et ANSI, et le nom utilisé dans l’appel de méthode n’est pas correspond au nom de cette version ANSI ou Unicode. L’exemple suivant illustre cette situation en tentant d’appeler Windows `MessageBox` fonction dans User32.dll. Étant donné que la première définition de méthode spécifie <xref:System.Runtime.InteropServices.CharSet.Unicode?displayProperty=nameWithType> pour le marshaling des chaînes, le common language recherche la version à caractères larges de la fonction, `MessageBoxW`, au lieu du nom utilisé dans l’appel de méthode `MessageBox`.  La deuxième définition de méthode corrige ce problème en appelant le `MessageBoxW` au lieu du `MessageBox` (fonction).  
+-   L’appel à une fonction dans une DLL de Windows ne peut pas être résolu, car le nom utilisé dans l’appel de méthode ne correspond pas à un nom trouvé dans l’assembly. Cela se produit fréquemment, étant donné que le <xref:System.Runtime.InteropServices.DllImportAttribute.ExactSpelling?displayProperty=nameWithType> champ est implicitement ou explicitement défini sur `true`, la méthode appelée inclut un ou plusieurs paramètres de chaîne et a les versions ANSI et Unicode, et n’est pas le cas du nom utilisé dans l’appel de méthode correspond au nom de cette version ANSI ou Unicode. L’exemple suivant fournit une illustration par une tentative d’appel de la Windows `MessageBox` fonction dans User32.dll. Étant donné que la première définition de méthode spécifie <xref:System.Runtime.InteropServices.CharSet.Unicode?displayProperty=nameWithType> pour le marshaling des chaînes, le common language recherche la version à caractères larges de la fonction, `MessageBoxW`, au lieu du nom utilisé dans l’appel de méthode `MessageBox`.  La deuxième définition de méthode corrige ce problème en appelant le `MessageBoxW` au lieu du `MessageBox` (fonction).  
   
      [!code-csharp[System.EntryPointNotFoundException.Class#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/cs/badcall1.cs#2)]
      [!code-vb[System.EntryPointNotFoundException.Class#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/vb/badcall1.vb#2)]  
   
--   Vous essayez d’appeler une fonction dans une bibliothèque de liens dynamiques par son nom simple plutôt que par son nom décoré. En règle générale, le compilateur C++ génère un nom décoré pour les fonctions de la DLL. Par exemple, le code C++ suivant définit une fonction nommée `Double` dans une bibliothèque nommée TestDll.dll.  
+-   Vous essayez d’appeler une fonction dans une bibliothèque de liens dynamiques par son nom simple plutôt que son nom décoré. En règle générale, le compilateur C++ génère un nom décoré pour les fonctions de la DLL. Par exemple, le code C++ suivant définit une fonction nommée `Double` dans une bibliothèque nommée TestDll.dll.  
   
      [!code-cpp[System.EntryPointNotFoundException.Class#6](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/cpp/testdll.cpp#6)]  
   
-     Lorsque le code dans l’exemple suivant tente d’appeler la fonction, une <xref:System.EntryPointNotFoundException> exception est levée car la `Double` fonction ne peut pas être trouvé.  
+     Lorsque le code dans l’exemple suivant tente d’appeler la fonction, un <xref:System.EntryPointNotFoundException> exception est levée car le `Double` fonction ne peut pas être trouvée.  
   
      [!code-csharp[System.EntryPointNotFoundException.Class#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/cs/mangle1.cs#7)]
      [!code-vb[System.EntryPointNotFoundException.Class#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/vb/mangle1.vb#7)]  
   
-     Toutefois, si la fonction est appelée à l’aide de son nom décoré (dans ce cas, `?Double@@YAHH@Z`), l’appel de fonction aboutit, comme le montre l’exemple suivant.  
+     Toutefois, si la fonction est appelée à l’aide de son nom décoré (dans ce cas, `?Double@@YAHH@Z`), l’appel de fonction réussit, comme le montre l’exemple suivant.  
   
      [!code-csharp[System.EntryPointNotFoundException.Class#8](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/cs/mangle2.cs#8)]
      [!code-vb[System.EntryPointNotFoundException.Class#8](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/vb/mangle2.vb#8)]  
   
      Vous pouvez trouver les noms décorés des fonctions exportées par une DLL à l’aide d’un utilitaire tel que Dumpbin.exe.  
   
--   Vous essayez d’appeler une méthode dans un assembly managé comme s’il s’agissait d’une bibliothèque de liens dynamiques non managé. Pour le voir en action, compilez l’exemple suivant pour un assembly nommé StringUtilities.dll.  
+-   Vous tentez d’appeler une méthode dans un assembly managé comme s’il s’agissait d’une bibliothèque de liens dynamiques non managé. Pour voir comment cela fonctionne, compilez l’exemple suivant dans un assembly nommé StringUtilities.dll.  
   
      [!code-csharp[System.EntryPointNotFoundException.Class#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/cs/stringutilities.cs#3)]
      [!code-vb[System.EntryPointNotFoundException.Class#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/vb/stringutilities.vb#3)]  
   
-     Puis le compiler et exécuter l’exemple suivant, qui tente d’appeler le `StringUtilities.SayGoodMorning` méthode dans la bibliothèque de liens dynamiques StringUtilities.dll comme s’il s’agissait de code non managé. Le résultat est un <xref:System.EntryPointNotFoundException> exception.  
+     Puis compiler et exécuter l’exemple suivant, qui tente d’appeler le `StringUtilities.SayGoodMorning` méthode dans la bibliothèque de liens dynamiques StringUtilities.dll comme s’il s’agissait de code non managé. Le résultat est un <xref:System.EntryPointNotFoundException> exception.  
   
      [!code-csharp[System.EntryPointNotFoundException.Class#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/cs/importassembly1.cs#4)]
      [!code-vb[System.EntryPointNotFoundException.Class#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/vb/importassembly1.vb#4)]  
   
-     Pour éliminer l’exception, ajoutez une référence à l’assembly managé et l’accès le `StringUtilities.SayGoodMorning` méthode tout comme vous accéderiez à toute autre méthode dans du code managé, comme dans l’exemple suivant.  
+     Pour éliminer l’exception, ajoutez une référence à l’assembly managé et l’accès le `StringUtilities.SayGoodMorning` méthode tout comme vous accéderiez à n’importe quelle autre méthode dans le code managé, comme dans l’exemple suivant.  
   
      [!code-csharp[System.EntryPointNotFoundException.Class#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/cs/fiximportassembly1.cs#5)]
      [!code-vb[System.EntryPointNotFoundException.Class#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.entrypointnotfoundexception.class/vb/fiximportassembly1.vb#5)]  
   
--   Vous essayez d’appeler une méthode dans une DLL COM comme s’il s’agissait d’une DLL Windows. Pour accéder à une DLL COM, sélectionnez le **ajouter une référence** option dans Visual Studio pour ajouter une référence au projet, puis sélectionnez la bibliothèque de types à partir de la **COM** onglet.  
+-   Vous essayez d’appeler une méthode dans une DLL COM comme s’il s’agissait d’une DLL de Windows. Pour accéder à une DLL COM, sélectionnez le **ajouter une référence** option dans Visual Studio pour ajouter une référence au projet, puis sélectionnez la bibliothèque de types à partir de la **COM** onglet.  
   
- Pour obtenir la liste de valeurs de propriété initiales d’une instance de <xref:System.EntryPointNotFoundException>, consultez la <xref:System.EntryPointNotFoundException.%23ctor%2A> constructeurs.  
+ Pour obtenir la liste des valeurs initiales des propriétés d’une instance de <xref:System.EntryPointNotFoundException>, consultez le <xref:System.EntryPointNotFoundException.%23ctor%2A> constructeurs.  
   
  ]]></format>
     </remarks>
@@ -115,6 +117,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -134,7 +138,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ce constructeur initialise la <xref:System.Exception.Message%2A> propriété de la nouvelle instance à un message système qui décrit l’erreur, telles que « point d’entrée introuvable ». Ce message prend en compte la culture système en cours.  
+ Ce constructeur initialise la <xref:System.Exception.Message%2A> propriété de la nouvelle instance à un message fourni par le système qui décrit l’erreur, tel que « point d’entrée est introuvable. » Ce message prend en compte la culture système en cours.  
   
  Le tableau suivant montre les valeurs initiales des propriétés d'une instance de <xref:System.EntryPointNotFoundException>.  
   
@@ -157,6 +161,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -202,6 +208,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -242,6 +250,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
