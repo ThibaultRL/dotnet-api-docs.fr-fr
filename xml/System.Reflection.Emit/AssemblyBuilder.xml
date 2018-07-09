@@ -1,11 +1,11 @@
 <Type Name="AssemblyBuilder" FullName="System.Reflection.Emit.AssemblyBuilder">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="0b92ac3b5f1f997c42aefa84e77a107a8c39f415" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="095c7ad81b5646f25ddb06e735a23591f9a8532e" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36470265" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37641652" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class AssemblyBuilder : System.Reflection.Assembly, System.Runtime.InteropServices._AssemblyBuilder" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit AssemblyBuilder extends System.Reflection.Assembly implements class System.Runtime.InteropServices._AssemblyBuilder" />
@@ -21,6 +21,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -49,11 +51,11 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un assembly dynamique est un assembly qui est créé à l’aide de l’API d’émission de réflexion. Les modules dynamiques de l’assembly sont enregistrés lors de l’assembly dynamique est enregistré à l’aide de la <xref:System.Reflection.Emit.AssemblyBuilder.Save%2A> (méthode). Pour générer un fichier exécutable, la <xref:System.Reflection.Emit.AssemblyBuilder.SetEntryPoint%2A> méthode doit être appelée pour identifier la méthode qui est le point d’entrée à l’assembly. Les assemblys sont enregistrés en tant que DLL par défaut, sauf si la <xref:System.Reflection.Emit.AssemblyBuilder.SetEntryPoint%2A> méthode demande la génération d’une application console ou une application Windows.  
+ Un assembly dynamique est un assembly qui est créé à l’aide de l’API d’émission de réflexion. Les modules dynamiques de l’assembly sont enregistrés lors de l’assembly dynamique est enregistré à l’aide de la <xref:System.Reflection.Emit.AssemblyBuilder.Save%2A> (méthode). Pour générer un fichier exécutable, le <xref:System.Reflection.Emit.AssemblyBuilder.SetEntryPoint%2A> méthode doit être appelée pour identifier la méthode qui est le point d’entrée à l’assembly. Les assemblys sont enregistrés en tant que DLL par défaut, sauf si le <xref:System.Reflection.Emit.AssemblyBuilder.SetEntryPoint%2A> méthode demande la génération d’une application console ou une application basée sur Windows.  
   
- Si un assembly dynamique contient plusieurs modules dynamiques, nom du fichier manifeste de l’assembly doit correspondre au nom du module qui est spécifié comme premier argument de la <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A> (méthode).  
+ Si un assembly dynamique contient plusieurs modules dynamique, nom du fichier manifeste de l’assembly doit correspondre le nom du module qui est spécifié comme premier argument de la <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A> (méthode).  
   
- Certaines méthodes de la base de <xref:System.Reflection.Assembly> class, telle que `GetModules` et `GetLoadedModules`, ne fonctionne pas correctement lorsqu’elle est appelée à partir de <xref:System.Reflection.Emit.AssemblyBuilder> objets. Vous pouvez charger l’assembly dynamique défini et appeler les méthodes de l’assembly chargé. Par exemple, pour vous assurer que les modules de ressources sont inclus dans la liste de modules retournée, appelez `GetModules` sur chargé <xref:System.Reflection.Assembly> objet.  
+ Certaines méthodes sur la base de <xref:System.Reflection.Assembly> classe, telle que `GetModules` et `GetLoadedModules`, ne fonctionnera pas correctement lorsqu’elle est appelée à partir de <xref:System.Reflection.Emit.AssemblyBuilder> objets. Vous pouvez charger l’assembly dynamique défini et appeler les méthodes sur l’assembly chargé. Par exemple, pour vous assurer que les modules de ressources sont inclus dans la liste des modules retourné, appelez `GetModules` sur chargé <xref:System.Reflection.Assembly> objet.  
   
  La signature d’un assembly dynamique à l’aide de <xref:System.Reflection.AssemblyName.KeyPair%2A> n’est pas effective tant que l’assembly est enregistré sur le disque. Par conséquent, les noms forts ne fonctionneront pas avec les assemblys dynamiques transitoires.  
   
@@ -63,16 +65,16 @@
  Voici quelques points à considérer lorsque vous utilisez la <xref:System.Reflection.Emit.AssemblyBuilder> classe pour créer des assemblys dynamiques.  
   
 ### <a name="dynamic-modules"></a>Modules dynamiques  
- Émission de réflexion prend en charge la création de modules dynamiques définis dans des assemblys dynamiques. Un module dynamique créé dans un assembly dynamique peut être transitoire ou persistant.  
+ Émission de réflexion prend en charge la création de modules dynamiques définis dans des assemblys dynamiques. Un module dynamique créé dans un assembly dynamique peut être temporaire ou persistant.  
   
 ### <a name="restrictions-on-type-references"></a>Restrictions sur les références de type  
- Les assemblys peuvent référencer des types définis dans un autre assembly. Un assembly dynamique transitoire peut référencer en toute sécurité des types définis dans un autre assembly dynamique transitoire, un assembly dynamique persistable ou un assembly statique. Toutefois, le common language runtime n’autorise pas un module dynamique persistant référencer un type défini dans un module dynamique transitoire. Il s’agit, car lorsque le module dynamique persistant est chargé après avoir été enregistré sur le disque, le runtime ne peut pas résoudre les références aux types définis dans le module dynamique transitoire.  
+ Les assemblys peuvent référencer des types définis dans un autre assembly. Un assembly dynamique transitoire peut référencer en toute sécurité des types définis dans un autre assembly dynamique transitoire, un assembly dynamique persistable ou un assembly statique. Toutefois, le common language runtime n’autorise pas un module dynamique persistant référencer un type défini dans un module dynamique transitoire. Il s’agit, car lorsque le module dynamique persistant est chargé une fois enregistrées sur le disque, le runtime ne peut pas résoudre les références aux types définis dans le module dynamique transitoire.  
   
-### <a name="restrictions-on-emitting-to-remote-application-domains"></a>Restrictions sur l’émission de domaines d’application à distance  
- Certains scénarios requièrent un assembly dynamique créé et l’exécution dans un domaine d’application à distance. Émission de réflexion ne permet pas d’un assembly dynamique d’être émis directement vers un domaine d’application à distance. La solution consiste à émettre l’assembly dynamique dans le domaine d’application actuel, enregistrer l’assembly dynamique émis sur le disque, puis charger l’assembly dynamique dans le domaine d’application à distance.  
+### <a name="restrictions-on-emitting-to-remote-application-domains"></a>Restrictions sur l’émission vers des domaines d’application à distance  
+ Certains scénarios requièrent un assembly dynamique créé et l’exécution dans un domaine d’application distant. L’émission de réflexion n’autorise pas un assembly dynamique d’être émis directement vers un domaine d’application distant. La solution consiste à émettre l’assembly dynamique dans le domaine d’application actuel, enregistrer l’assembly dynamique émis sur le disque, puis charger l’assembly dynamique dans le domaine d’application distant.  
   
 ### <a name="dynamic-assembly-access-modes"></a>Modes d’accès d’assembly dynamique  
- Assemblys dynamiques peuvent être créés à l’aide d’un des modes d’accès suivants :  
+ Assemblys dynamiques peuvent être créés à l’aide d’un des modes d’accès suivant :  
   
 -   <xref:System.Reflection.Emit.AssemblyBuilderAccess.Run?displayProperty=nameWithType>  
   
@@ -80,20 +82,20 @@
   
 -   <xref:System.Reflection.Emit.AssemblyBuilderAccess.Save?displayProperty=nameWithType>  
   
-     L’assembly dynamique représenté par un <xref:System.Reflection.Emit.AssemblyBuilder> objet est persistant, mais ne peut pas être exécutée tant que le fichier enregistré fichier exécutable portable (PE) a été chargé à partir du disque.  
+     L’assembly dynamique représenté par un <xref:System.Reflection.Emit.AssemblyBuilder> objet est persistant, mais ne peut pas être exécutée jusqu'à ce que le fichier enregistré exécutable portable (PE) a été chargé à partir du disque.  
   
 -   <xref:System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave?displayProperty=nameWithType>  
   
-     L’assembly dynamique représenté par un <xref:System.Reflection.Emit.AssemblyBuilder> de l’objet est persistant, mais peuvent également être exécutées avant et/ou après l’enregistrement de l’assembly sur le disque.  
+     L’assembly dynamique représenté par un <xref:System.Reflection.Emit.AssemblyBuilder> de l’objet est persistant, mais peut aussi être exécuté avant et/ou après l’enregistrement de l’assembly sur le disque.  
   
- Le mode d’accès doit être spécifié en fournissant les <xref:System.Reflection.Emit.AssemblyBuilderAccess> valeur dans l’appel à la <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly%2A?displayProperty=nameWithType> méthode lorsque l’assembly dynamique est défini et ne peut pas être modifié ultérieurement. Le runtime utilise le mode d’accès d’un assembly dynamique pour optimiser la représentation interne de l’assembly.  
+ Le mode d’accès doit être spécifié en fournissant le texte approprié <xref:System.Reflection.Emit.AssemblyBuilderAccess> valeur dans l’appel à la <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicAssembly%2A?displayProperty=nameWithType> méthode lorsque l’assembly dynamique est défini et ne peut pas être modifié ultérieurement. Le runtime utilise le mode d’accès d’un assembly dynamique pour optimiser la représentation interne de l’assembly.  
   
    
   
 ## Examples  
- L’exemple de code suivant montre comment définir un assembly dynamique avec un seul module. Le module dans l’assembly de l’exemple contient un seul type, `MyDynamicType`, qui a un champ privé, une propriété qui obtient et définit le champ privé, constructeurs qui initialisent le champ privé et une méthode qui multiplie un nombre fourni par l’utilisateur par le champ privé valeur et retourne le résultat.  
+ L’exemple de code suivant montre comment définir un assembly dynamique avec un seul module. Le module dans l’assembly de l’exemple contient un seul type, `MyDynamicType`, qui a un champ privé, une propriété qui obtient et définit le champ privé, les constructeurs qui initialisent le champ privé et une méthode qui multiplie un nombre fourni par l’utilisateur par le champ privé valeur et retourne le résultat.  
   
- <xref:System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave?displayProperty=nameWithType> est spécifié lorsque l’assembly est créé. Le code assembleur est utilisé immédiatement, et l’assembly est également enregistré sur disque afin qu’il puisse être examiné par [Ildasm.exe (désassembleur IL)](~/docs/framework/tools/ildasm-exe-il-disassembler.md) ou utilisées dans un autre programme.  
+ <xref:System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave?displayProperty=nameWithType> est spécifié lorsque l’assembly est créé. Le code d’assembly est immédiatement utilisé, et l’assembly est également enregistré sur disque afin qu’il peut être examinée avec [Ildasm.exe (désassembleur IL)](~/docs/framework/tools/ildasm-exe-il-disassembler.md) ou utilisées dans un autre programme.  
   
  [!code-cpp[AssemblyBuilderClass#1](~/samples/snippets/cpp/VS_Snippets_CLR/AssemblyBuilderClass/cpp/24895.cpp#1)]
  [!code-csharp[AssemblyBuilderClass#1](~/samples/snippets/csharp/VS_Snippets_CLR/AssemblyBuilderClass/cs/24895.cs#1)]
@@ -142,6 +144,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -160,19 +164,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `fileName` doit pas être identique à celui de tout autre module persistable, une ressource managée autonome ou du fichier manifeste autonome.  
+ `fileName` doit pas être identique à celui de tout autre module persistable, ressource managée autonome ou du fichier manifeste autonome.  
   
  Les ressources managées dans le fichier sont supposées pour être publiques.  
   
  Le fichier de ressources spécifié doit être dans le répertoire dans lequel l’assembly doit être enregistré.  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
    
   
 ## Examples  
- L’exemple de code suivant illustre comment attacher un fichier de ressources à un assembly créé dynamiquement, à l’aide de `AddResourceFile`.  
+ L’exemple de code suivant montre comment attacher un fichier de ressources à un assembly créé dynamiquement, à l’aide de `AddResourceFile`.  
   
  [!code-cpp[System.Reflection.Emit.AssemblyBuilder.AddResourceFile Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.AddResourceFile Example/CPP/source.cpp#1)]
  [!code-csharp[System.Reflection.Emit.AssemblyBuilder.AddResourceFile Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.AddResourceFile Example/CS/source.cs#1)]
@@ -200,6 +204,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -220,19 +226,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- `fileName` doit pas être identique à celui de tout autre module persistable, une ressource managée autonome ou du fichier manifeste autonome.  
+ `fileName` doit pas être identique à celui de tout autre module persistable, ressource managée autonome ou du fichier manifeste autonome.  
   
  Des attributs peuvent être spécifiés pour la ressource managée.  
   
  Le fichier de ressources spécifié doit être dans le répertoire dans lequel l’assembly doit être enregistré.  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
    
   
 ## Examples  
- L’exemple de code suivant illustre comment attacher un fichier de ressources à un assembly créé dynamiquement, à l’aide de `AddResourceFile`.  
+ L’exemple de code suivant montre comment attacher un fichier de ressources à un assembly créé dynamiquement, à l’aide de `AddResourceFile`.  
   
  [!code-cpp[System.Reflection.Emit.AssemblyBuilder.AddResourceFile Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.AddResourceFile Example/CPP/source.cpp#1)]
  [!code-csharp[System.Reflection.Emit.AssemblyBuilder.AddResourceFile Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.AddResourceFile Example/CS/source.cs#1)]
@@ -260,6 +266,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -409,6 +417,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -427,22 +437,22 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il s’agit d’une erreur pour définir plusieurs modules dynamiques portant le même nom dans un assembly.  
+ C’est une erreur pour définir plusieurs modules dynamiques portant le même nom dans un assembly.  
   
  Le module dynamique défini est transitoire. Le module dynamique n’est pas enregistré, même si l’assembly dynamique parent a été créé avec <xref:System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave>.  
   
 > [!NOTE]
->  Pour supprimer les optimisations lorsque vous déboguez des modules dynamiques, appliquez le <xref:System.Diagnostics.DebuggableAttribute> d’attribut à l’assembly dynamique avant d’appeler <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Créez une instance de <xref:System.Diagnostics.DebuggableAttribute> avec la <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations> indicateur et l’appliquer à l’aide de la <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> (méthode). L’attribut doit être appliqué à l’assembly dynamique. Il n’a aucun effet si appliqué au module.  
+>  Pour supprimer les optimisations lorsque vous déboguez des modules dynamiques, appliquez le <xref:System.Diagnostics.DebuggableAttribute> d’attribut à l’assembly dynamique avant d’appeler <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Créez une instance de <xref:System.Diagnostics.DebuggableAttribute> avec la <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations> indicateur et l’appliquer à l’aide de la <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> (méthode). L’attribut doit être appliqué à l’assembly dynamique. Il n’a aucun effet si appliqués au module.  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
    
   
 ## Examples  
  (Visual Basic, c#)  
   
- L’exemple de code ci-dessous montre comment créer un module dynamique transitoire à l’aide de `DefineDynamicModule`.  
+ L’exemple de code ci-dessous montre comment créer un module dynamique transitoire à l’aide `DefineDynamicModule`.  
   
  [!code-cpp[System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example/CPP/source.cpp#1)]
  [!code-csharp[System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example/CS/source.cs#1)]
@@ -469,6 +479,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -490,22 +502,22 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il s’agit d’une erreur pour définir plusieurs modules dynamiques portant le même nom dans un assembly.  
+ C’est une erreur pour définir plusieurs modules dynamiques portant le même nom dans un assembly.  
   
  Le module dynamique n’est pas enregistré, même si l’assembly dynamique parent a été créé avec <xref:System.Reflection.Emit.AssemblyBuilderAccess.RunAndSave>.  
   
 > [!NOTE]
->  Pour supprimer les optimisations lorsque vous déboguez des modules dynamiques, appliquez le <xref:System.Diagnostics.DebuggableAttribute> d’attribut à l’assembly dynamique avant d’appeler <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Créez une instance de <xref:System.Diagnostics.DebuggableAttribute> avec la <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations> indicateur et l’appliquer à l’aide de la <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> (méthode). L’attribut doit être appliqué à l’assembly dynamique. Il n’a aucun effet si appliqué au module.  
+>  Pour supprimer les optimisations lorsque vous déboguez des modules dynamiques, appliquez le <xref:System.Diagnostics.DebuggableAttribute> d’attribut à l’assembly dynamique avant d’appeler <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Créez une instance de <xref:System.Diagnostics.DebuggableAttribute> avec la <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations> indicateur et l’appliquer à l’aide de la <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> (méthode). L’attribut doit être appliqué à l’assembly dynamique. Il n’a aucun effet si appliqués au module.  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
    
   
 ## Examples  
  (Visual Basic, c#)  
   
- L’exemple de code ci-dessous montre comment créer un module dynamique transitoire à l’aide de `DefineDynamicModule`, suppression des informations de symboles.  
+ L’exemple de code ci-dessous montre comment créer un module dynamique transitoire à l’aide `DefineDynamicModule`, supprimer les informations de symboles.  
   
  [!code-cpp[System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example/CPP/source.cpp#2)]
  [!code-csharp[System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example/CS/source.cs#2)]
@@ -532,6 +544,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -558,17 +572,17 @@
  Dans un assembly avec un seul module, ce module doit contenir le manifeste d’assembly.  
   
 > [!NOTE]
->  Pour supprimer les optimisations lorsque vous déboguez des modules dynamiques, appliquez le <xref:System.Diagnostics.DebuggableAttribute> d’attribut à l’assembly dynamique avant d’appeler <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Créez une instance de <xref:System.Diagnostics.DebuggableAttribute> avec la <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations> indicateur et l’appliquer à l’aide de la <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> (méthode). L’attribut doit être appliqué à l’assembly dynamique. Il n’a aucun effet si appliqué au module.  
+>  Pour supprimer les optimisations lorsque vous déboguez des modules dynamiques, appliquez le <xref:System.Diagnostics.DebuggableAttribute> d’attribut à l’assembly dynamique avant d’appeler <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Créez une instance de <xref:System.Diagnostics.DebuggableAttribute> avec la <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations> indicateur et l’appliquer à l’aide de la <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> (méthode). L’attribut doit être appliqué à l’assembly dynamique. Il n’a aucun effet si appliqués au module.  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
    
   
 ## Examples  
  (Visual Basic, c#)  
   
- L’exemple de code ci-dessous montre comment créer un module dynamique persistant à l’aide de `DefineDynamicModule`.  
+ L’exemple de code ci-dessous montre comment créer un module dynamique persistant à l’aide `DefineDynamicModule`.  
   
  [!code-cpp[System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#3](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example/CPP/source.cpp#3)]
  [!code-csharp[System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.DefineDynamicModule Example/CS/source.cs#3)]
@@ -597,6 +611,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -625,10 +641,10 @@
  Dans un assembly avec un seul module, ce module doit contenir le manifeste d’assembly.  
   
 > [!NOTE]
->  Pour supprimer les optimisations lorsque vous déboguez des modules dynamiques, appliquez le <xref:System.Diagnostics.DebuggableAttribute> d’attribut à l’assembly dynamique avant d’appeler <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Créez une instance de <xref:System.Diagnostics.DebuggableAttribute> avec la <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations> indicateur et l’appliquer à l’aide de la <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> (méthode). L’attribut doit être appliqué à l’assembly dynamique. Il n’a aucun effet si appliqué au module.  
+>  Pour supprimer les optimisations lorsque vous déboguez des modules dynamiques, appliquez le <xref:System.Diagnostics.DebuggableAttribute> d’attribut à l’assembly dynamique avant d’appeler <xref:System.Reflection.Emit.AssemblyBuilder.DefineDynamicModule%2A>. Créez une instance de <xref:System.Diagnostics.DebuggableAttribute> avec la <xref:System.Diagnostics.DebuggableAttribute.DebuggingModes.DisableOptimizations> indicateur et l’appliquer à l’aide de la <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> (méthode). L’attribut doit être appliqué à l’assembly dynamique. Il n’a aucun effet si appliqués au module.  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
    
   
@@ -674,6 +690,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -695,19 +713,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ressources de granularité fine peuvent être ajoutées avec retourné <xref:System.Resources.ResourceWriter> en appelant <xref:System.Resources.ResourceWriter.AddResource%2A>.  
+ Ressources à grain fin peuvent être ajoutées avec retourné <xref:System.Resources.ResourceWriter> en appelant <xref:System.Resources.ResourceWriter.AddResource%2A>.  
   
  `fileName` doit pas être identique à celui de tout autre module persistable, ressource managée autonome ou le fichier manifeste autonome.  
   
- Le runtime appelle la <xref:System.Resources.ResourceWriter.Close%2A> méthode lors de l’enregistrement de l’assembly dynamique.  
+ Le runtime appelle le <xref:System.Resources.ResourceWriter.Close%2A> méthode lorsque l’assembly dynamique est enregistré.  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
    
   
 ## Examples  
- L’exemple suivant utilise la <xref:System.Reflection.Emit.AssemblyBuilder.DefineResource%2A> méthode pour obtenir un writer de ressource. L’exemple utilise le writer de ressource pour ajouter trois chaînes de ressources.  
+ L’exemple suivant utilise la <xref:System.Reflection.Emit.AssemblyBuilder.DefineResource%2A> méthode pour obtenir un writer de ressource. L’exemple utilise le writer de ressource pour ajouter les trois chaînes de ressources.  
   
  [!code-cpp[AssemblyBuilder.DefineResource Example 2#1](~/samples/snippets/cpp/VS_Snippets_CLR/AssemblyBuilder.DefineResource Example 2/CPP/assemblybuilder_defineresource.cpp#1)]
  [!code-csharp[AssemblyBuilder.DefineResource Example 2#1](~/samples/snippets/csharp/VS_Snippets_CLR/AssemblyBuilder.DefineResource Example 2/CS/assemblybuilder_defineresource.cs#1)]
@@ -734,6 +752,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -757,14 +777,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ressources de granularité fine peuvent être ajoutées avec retourné <xref:System.Resources.ResourceWriter> en appelant <xref:System.Resources.ResourceWriter.AddResource%2A>.  
+ Ressources à grain fin peuvent être ajoutées avec retourné <xref:System.Resources.ResourceWriter> en appelant <xref:System.Resources.ResourceWriter.AddResource%2A>.  
   
- `fileName` doit pas être identique à celui de tout autre module persistable, une ressource managée autonome ou du fichier manifeste autonome.  
+ `fileName` doit pas être identique à celui de tout autre module persistable, ressource managée autonome ou du fichier manifeste autonome.  
   
- Le runtime appelle la <xref:System.Resources.ResourceWriter.Close%2A> méthode lors de l’enregistrement de l’assembly dynamique.  
+ Le runtime appelle le <xref:System.Resources.ResourceWriter.Close%2A> méthode lorsque l’assembly dynamique est enregistré.  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
  ]]></format>
         </remarks>
@@ -797,6 +817,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -813,7 +835,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un assembly peut être associé à une seule ressource non managée. Cela signifie que l’appel <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> ou <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> après qu’une des méthodes a été appelée précédemment lève System.ArgumentException est levée. Plusieurs ressources non managées doivent être fusionnées avec un outil tel que l’utilitaire Microsoft ResMerge (non fourni avec le common language runtime).  
+ Un assembly peut être associé qu’une seule ressource non managée. Cela signifie que l’appel <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> ou <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> après l’une des méthodes a été appelée précédemment lève System.ArgumentException est levée. Plusieurs ressources non managées doivent être fusionnés avec un outil tel que l’utilitaire Microsoft ResMerge (non fourni avec le common language runtime).  
   
    
   
@@ -843,6 +865,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -859,10 +883,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un assembly peut être associé à une seule ressource non managée. Cela signifie que l’appel <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> ou <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> après qu’une des méthodes a été appelée provoquera la levée de System.ArgumentException. Plusieurs ressources non managées doivent être fusionnées avec un outil tel que l’utilitaire Microsoft ResMerge (non fourni avec le common language runtime).  
+ Un assembly peut être associé qu’une seule ressource non managée. Cela signifie que l’appel <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> ou <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> après l’une des méthodes a été appelée provoquera la levée de System.ArgumentException. Plusieurs ressources non managées doivent être fusionnés avec un outil tel que l’utilitaire Microsoft ResMerge (non fourni avec le common language runtime).  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
    
   
@@ -905,6 +929,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -918,14 +944,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un assembly peut être associé à une seule ressource non managée. Cela signifie que l’appel <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> ou <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> après qu’une des méthodes a été appelée provoquera la levée de System.ArgumentException. Plusieurs ressources non managées doivent être fusionnées avec un outil tel que l’utilitaire Microsoft ResMerge (non fourni avec le Kit de développement logiciel du common language runtime).  
+ Un assembly peut être associé qu’une seule ressource non managée. Cela signifie que l’appel <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> ou <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> après l’une des méthodes a été appelée provoquera la levée de System.ArgumentException. Plusieurs ressources non managées doivent être fusionnés avec un outil tel que l’utilitaire Microsoft ResMerge (non fourni avec le Kit de développement logiciel du common language runtime).  
   
- Chaînes d’arguments vides sont écrites comme un espace unique. Des espaces sont remplacés par les caractères null dans les chaînes d’arguments.  
+ Chaînes d’arguments vide sont écrites comme un espace unique. Les espaces sont substitués aux caractères null dans les chaînes d’arguments.  
   
  Les informations sont déduites à partir de la `AssemblyName` objet utilisé pour définir cet assembly dynamique. Les attributs personnalisés de cet assembly remplacent les informations spécifiées dans le `AssemblyName` objet.  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
    
   
@@ -953,6 +979,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -977,14 +1005,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un assembly peut être associé à une seule ressource non managée. Cela signifie que l’appel <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> ou <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> après qu’une des méthodes a été appelée provoquera la levée de System.ArgumentException. Plusieurs ressources non managées doivent être fusionnées avec un outil tel que Microsoft `ResMerge` utilitaire (non fourni avec le Kit de développement logiciel du common language runtime).  
+ Un assembly peut être associé qu’une seule ressource non managée. Cela signifie que l’appel <xref:System.Reflection.Emit.AssemblyBuilder.DefineVersionInfoResource%2A> ou <xref:System.Reflection.Emit.AssemblyBuilder.DefineUnmanagedResource%2A> après l’une des méthodes a été appelée provoquera la levée de System.ArgumentException. Plusieurs ressources non managées doivent être fusionnés avec un outil tel que Microsoft `ResMerge` utilitaire (non fourni avec le Kit de développement logiciel du common language runtime).  
   
- Chaînes d’arguments vides sont écrites comme un espace unique. Des espaces sont remplacés par les caractères null dans les chaînes d’arguments.  
+ Chaînes d’arguments vide sont écrites comme un espace unique. Les espaces sont substitués aux caractères null dans les chaînes d’arguments.  
   
- La structure de la ressource de version inclut des données qui identifient la version, la langue et la distribution du fichier. Programmes d’installation utilisent les fonctions dans la bibliothèque d’installation de fichiers (VER. (DLL) pour récupérer la ressource d’informations de version à partir d’un fichier et extraire les blocs d’informations de version à partir de la ressource.  
+ La structure de la ressource de version inclut des données qui identifient la version, la langue et la distribution du fichier. Programmes d’installation utilisent les fonctions dans la bibliothèque d’installation de fichier (VER. (DLL) pour récupérer la ressource d’informations de version à partir d’un fichier et extraire des blocs d’informations de version à partir de la ressource.  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
    
   
@@ -1012,6 +1040,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1109,7 +1139,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Consultez <xref:System.Reflection.AssemblyName> pour obtenir une description du format du nom d’affichage d’un assembly.  
+ Consultez <xref:System.Reflection.AssemblyName> pour obtenir une description du format du nom complet d’un assembly.  
   
  ]]></format>
         </remarks>
@@ -1206,7 +1236,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilisez cette méthode pour examiner les attributs personnalisés du code dans le contexte de réflexion uniquement, dans les cas où les attributs personnalisés eux-mêmes sont définis dans le code qui est chargé dans le contexte de réflexion uniquement. Les méthodes telles que <xref:System.Attribute.GetCustomAttributes%2A?displayProperty=nameWithType> et <xref:System.Reflection.Assembly.GetCustomAttributes%2A?displayProperty=nameWithType> ne peut pas être utilisé dans ce cas, parce qu’elles créent des instances des attributs. Impossible d’exécuter le code dans le contexte de réflexion uniquement. Pour plus d’informations et un par exemple de code, consultez la <xref:System.Reflection.CustomAttributeData> classe.  
+ Utilisez cette méthode pour examiner les attributs personnalisés du code dans le contexte de réflexion uniquement, dans les cas où les attributs personnalisés eux-mêmes sont définis dans le code qui est chargé dans le contexte de réflexion uniquement. Méthodes telles que <xref:System.Attribute.GetCustomAttributes%2A?displayProperty=nameWithType> et <xref:System.Reflection.Assembly.GetCustomAttributes%2A?displayProperty=nameWithType> ne peut pas être utilisé dans ce cas, car ils créent des instances des attributs. Impossible d’exécuter le code dans le contexte de réflexion uniquement. Pour plus d’informations et un par exemple de code, consultez la <xref:System.Reflection.CustomAttributeData> classe.  
   
  ]]></format>
         </remarks>
@@ -1228,6 +1258,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1259,6 +1291,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1285,6 +1319,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1322,6 +1358,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1414,6 +1452,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1450,6 +1490,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1492,6 +1534,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1521,6 +1565,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1546,7 +1592,7 @@
    
   
 ## Examples  
- Si le nom complet du `type` est « MyNameSpace.MyClasses » et `name` est « Point », `GetManifestResourceStream` recherche une ressource appelée MyNameSpace.Dot.  
+ Si le nom complet de `type` est « MyNameSpace.MyClasses » et `name` est « Point », `GetManifestResourceStream` recherche une ressource appelée MyNameSpace.Dot.  
   
  ]]></format>
         </remarks>
@@ -1659,9 +1705,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode ne retourne pas une liste complète des assemblys référencés. Par exemple, si vous appliquez un attribut personnalisé à le <xref:System.Reflection.Emit.AssemblyBuilder>, l’assembly dans lequel l’attribut a été défini est inclus dans la liste retournée par cette méthode. Toutefois, si vous utilisez un <xref:System.Type> objet pour spécifier le type d’un paramètre de méthode, que le type n’est pas inclus.  
+ Cette méthode ne retourne pas une liste complète des assemblys référencés. Par exemple, si vous appliquez un attribut personnalisé à la <xref:System.Reflection.Emit.AssemblyBuilder>, l’assembly dans lequel l’attribut a été défini est inclus dans la liste retournée par cette méthode. Toutefois, si vous utilisez un <xref:System.Type> objet pour spécifier le type d’un paramètre de méthode, que le type n’est pas inclus.  
   
- Pour obtenir une liste complète des assemblys référencés, enregistrez l’assembly, chargez-le dans un autre domaine d’application, puis appelez le <xref:System.Reflection.Assembly.GetReferencedAssemblies%2A?displayProperty=nameWithType> (méthode).  
+ Pour obtenir une liste complète des assemblys référencés, enregistrez l’assembly, chargez-le dans un autre domaine d’application et appelez le <xref:System.Reflection.Assembly.GetReferencedAssemblies%2A?displayProperty=nameWithType> (méthode).  
   
  ]]></format>
         </remarks>
@@ -1704,7 +1750,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Les assemblys satellites contiennent des ressources localisées, comme les assemblys d’application principaux qui contiennent du code exécutable non localisables et des ressources pour une culture unique utilisée comme culture neutre ou par défaut.  
+ Les assemblys satellites contiennent des ressources localisées, comme les assemblys d’application principaux qui contiennent du code exécutable non localisable et les ressources pour une culture unique utilisée comme culture neutre ou par défaut.  
   
  Appelez cette méthode pour utiliser votre version actuelle de l’assembly.  
   
@@ -1745,7 +1791,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Les assemblys satellites contiennent des ressources localisées, comme les assemblys d’application principaux qui contiennent du code exécutable non localisables et des ressources pour une culture unique utilisée comme culture neutre ou par défaut.  
+ Les assemblys satellites contiennent des ressources localisées, comme les assemblys d’application principaux qui contiennent du code exécutable non localisable et les ressources pour une culture unique utilisée comme culture neutre ou par défaut.  
   
  Appelez le <xref:System.Reflection.Assembly.GetSatelliteAssembly%28System.Globalization.CultureInfo%29> surcharge à utiliser votre version actuelle de l’assembly.  
   
@@ -1791,7 +1837,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Impossible de trouver un type jusqu'à ce qu’il a été créé en appelant le <xref:System.Reflection.Emit.TypeBuilder.CreateType%2A> (méthode).  
+ Un type ne peut pas être trouvé jusqu'à ce qu’il a été créé en appelant le <xref:System.Reflection.Emit.TypeBuilder.CreateType%2A> (méthode).  
   
  ]]></format>
         </remarks>
@@ -1857,6 +1903,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1945,6 +1993,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2036,11 +2086,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Security.PermissionSet> les objets peuvent contenir des informations sensibles telles que les chemins d’accès. Par conséquent, la confiance totale est requise pour accéder à ces objets.  
+ <xref:System.Security.PermissionSet> les objets peuvent contenir des informations sensibles telles que des chemins d’accès. Par conséquent, une confiance totale est nécessaire pour accéder à ces objets.  
   
  ]]></format>
         </remarks>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiert une confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par le code de confiance partielle ou transparent.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiert une confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par le code de confiance partielle ou transparent.</permission>
       </Docs>
     </Member>
     <Member MemberName="ReflectionOnly">
@@ -2070,7 +2120,7 @@
  Pour émettre un assembly dynamique dans le contexte de réflexion uniquement, spécifiez <xref:System.Reflection.Emit.AssemblyBuilderAccess.ReflectionOnly?displayProperty=nameWithType> lorsque vous créez le <xref:System.Reflection.Emit.AssemblyBuilder>. Si un assembly dynamique est émis dans le contexte de réflexion uniquement, son code ne peut pas être exécuté.  
   
 > [!NOTE]
->  Après avoir enregistré un assembly dynamique sur le disque, vous pouvez utiliser la <xref:System.Reflection.Assembly.ReflectionOnlyLoad%2A?displayProperty=nameWithType> méthode pour charger l’assembly achevé dans le contexte de réflexion uniquement. Toutefois, l’assembly ne peut ne plus être modifié.  
+>  Une fois que vous avez enregistré un assembly dynamique sur disque, vous pouvez utiliser la <xref:System.Reflection.Assembly.ReflectionOnlyLoad%2A?displayProperty=nameWithType> méthode pour charger l’assembly terminé dans le contexte de réflexion uniquement. Toutefois, l’assembly ne peut plus être modifié.  
   
  ]]></format>
         </remarks>
@@ -2098,6 +2148,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2114,18 +2166,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode enregistre tous les modules dynamiques non transitoires définis dans cet assembly dynamique. Les modules dynamiques transitoires ne sont pas enregistrées. Le nom de fichier d’assembly peut être le même que le nom de l’un des modules. Dans ce cas, le manifeste d’assembly est stocké dans ce module. `assemblyFileName` peut être différent des noms de tous les modules contenus dans l’assembly. Dans ce cas, le fichier d’assembly contient le manifeste d’assembly.  
+ Cette méthode enregistre tous les modules dynamiques non transitoires définis dans cet assembly dynamique. Les modules dynamiques transitoires ne sont pas enregistrées. Le nom de fichier d’assembly peut être le même que le nom d’un des modules. Dans ce cas, le manifeste d’assembly est stocké dans ce module. `assemblyFileName` peut être différent de celui de tous les modules contenus dans l’assembly. Dans ce cas, le fichier d’assembly contient le manifeste d’assembly.  
   
- Pour chaque <xref:System.Resources.ResourceWriter> obtenue à l’aide <xref:System.Reflection.Emit.AssemblyBuilder.DefineResource%2A>, cette méthode écrit le fichier .resources et appelle <xref:System.Resources.ResourceWriter.Close%2A> pour fermer le flux.  
+ Pour chaque <xref:System.Resources.ResourceWriter> obtenu à l’aide <xref:System.Reflection.Emit.AssemblyBuilder.DefineResource%2A>, cette méthode écrit le fichier .resources et appelle <xref:System.Resources.ResourceWriter.Close%2A> pour fermer le flux.  
   
  Le `assemblyFileName` doit être un nom de fichier simple sans un composant de lecteur ou un répertoire. Pour créer un assembly dans un répertoire spécifique, utilisez une de la <xref:System.AppDomain.DefineDynamicAssembly%2A> méthodes qui accepte un argument de répertoire cible.  
   
- Dans le .NET Framework version 2.0, cette surcharge de la <xref:System.Reflection.Emit.AssemblyBuilder.Save%2A> méthode équivaut à appeler le <xref:System.Reflection.Emit.AssemblyBuilder.Save%28System.String%2CSystem.Reflection.PortableExecutableKinds%2CSystem.Reflection.ImageFileMachine%29> surcharge de méthode avec <xref:System.Reflection.PortableExecutableKinds.ILOnly> pour le `portableExecutableKind` paramètre et <xref:System.Reflection.ImageFileMachine.I386> pour la `imageFileMachine` paramètre.  
+ Dans le .NET Framework version 2.0, cette surcharge de la <xref:System.Reflection.Emit.AssemblyBuilder.Save%2A> méthode revient à appeler le <xref:System.Reflection.Emit.AssemblyBuilder.Save%28System.String%2CSystem.Reflection.PortableExecutableKinds%2CSystem.Reflection.ImageFileMachine%29> surcharge de méthode avec <xref:System.Reflection.PortableExecutableKinds.ILOnly> pour le `portableExecutableKind` paramètre et <xref:System.Reflection.ImageFileMachine.I386> pour le `imageFileMachine` paramètre.  
   
    
   
 ## Examples  
- L’exemple de code suivant crée un assembly dynamique, puis il à un disque local à l’aide de `Save`.  
+ L’exemple de code suivant crée un assembly dynamique, puis il à un disque local à l’aide `Save`.  
   
  [!code-cpp[System.Reflection.Emit.AssemblyBuilder.Save Example#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.Save Example/CPP/source.cpp#1)]
  [!code-csharp[System.Reflection.Emit.AssemblyBuilder.Save Example#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Reflection.Emit.AssemblyBuilder.Save Example/CS/source.cs#1)]
@@ -2140,7 +2192,7 @@
         <exception cref="T:System.IO.IOException">Une erreur de sortie se produit pendant l’enregistrement.</exception>
         <exception cref="T:System.NotSupportedException">
           <see cref="M:System.Reflection.Emit.TypeBuilder.CreateType" /> n'a pas été appelé pour un des types des modules de l'assembly à écrire sur disque.</exception>
-        <permission cref="T:System.Security.Permissions.FileIOPermission">Écrire = true ou Append = true est requis pour enregistrer cet assembly sous le nom de fichier spécifié.</permission>
+        <permission cref="T:System.Security.Permissions.FileIOPermission">Écrire = true ou Append = true est requis pour enregistrer cet assembly dans le nom de fichier spécifié.</permission>
         <permission cref="T:System.Security.Permissions.ReflectionPermission">Lorsqu’elle est appelée à liaison tardive via des mécanismes tels que <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Énumération associée : <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
@@ -2153,6 +2205,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2175,9 +2228,9 @@
 ## Remarks  
  Si `imageFileMachine` et `portableExecutableKind` ne sont pas compatibles, `imageFileMachine` est prioritaire sur `portableExecutableKind`. Aucune exception n'est levée. Par exemple, si vous spécifiez <xref:System.Reflection.ImageFileMachine.I386?displayProperty=nameWithType> avec <xref:System.Reflection.PortableExecutableKinds.PE32Plus?displayProperty=nameWithType>, <xref:System.Reflection.PortableExecutableKinds.PE32Plus?displayProperty=nameWithType> est ignoré.  
   
- Cette méthode enregistre tous les modules dynamiques non transitoires définis dans cet assembly dynamique. Les modules dynamiques transitoires ne sont pas enregistrées. Le nom de fichier d’assembly peut être le même que le nom d’un des modules. Dans ce cas, le manifeste d’assembly est stocké dans ce module. `assemblyFileName` peut être différent des noms de tous les modules contenus dans l’assembly. Dans ce cas, le fichier d’assembly contient le manifeste d’assembly.  
+ Cette méthode enregistre tous les modules dynamiques non transitoires définis dans cet assembly dynamique. Les modules dynamiques transitoires ne sont pas enregistrées. Le nom de fichier d’assembly peut être le même que le nom d’un des modules. Dans ce cas, le manifeste d’assembly est stocké dans ce module. `assemblyFileName` peut être différent de celui de tous les modules contenus dans l’assembly. Dans ce cas, le fichier d’assembly contient le manifeste d’assembly.  
   
- Pour chaque <xref:System.Resources.ResourceWriter> obtenue à l’aide <xref:System.Reflection.Emit.AssemblyBuilder.DefineResource%2A>, cette méthode écrit le fichier .resources et appelle <xref:System.Resources.ResourceWriter.Close%2A> pour fermer le flux.  
+ Pour chaque <xref:System.Resources.ResourceWriter> obtenu à l’aide <xref:System.Reflection.Emit.AssemblyBuilder.DefineResource%2A>, cette méthode écrit le fichier .resources et appelle <xref:System.Resources.ResourceWriter.Close%2A> pour fermer le flux.  
   
  Le `assemblyFileName` doit être un nom de fichier simple sans un composant de lecteur ou un répertoire. Pour créer un assembly dans un répertoire spécifique, utilisez une de la <xref:System.AppDomain.DefineDynamicAssembly%2A> méthodes qui accepte un argument de répertoire cible.  
   
@@ -2190,7 +2243,7 @@
         <exception cref="T:System.IO.IOException">Une erreur de sortie se produit pendant l’enregistrement.</exception>
         <exception cref="T:System.NotSupportedException">
           <see cref="M:System.Reflection.Emit.TypeBuilder.CreateType" /> n'a pas été appelé pour un des types des modules de l'assembly à écrire sur disque.</exception>
-        <permission cref="T:System.Security.Permissions.FileIOPermission">Écrire = true ou Append = true est requis pour enregistrer cet assembly sous le nom de fichier spécifié.</permission>
+        <permission cref="T:System.Security.Permissions.FileIOPermission">Écrire = true ou Append = true est requis pour enregistrer cet assembly dans le nom de fichier spécifié.</permission>
         <permission cref="T:System.Security.Permissions.ReflectionPermission">Lorsqu’elle est appelée à liaison tardive via des mécanismes tels que <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />. Énumération associée : <see cref="F:System.Security.Permissions.ReflectionPermissionFlag.MemberAccess" />.</permission>
       </Docs>
     </Member>
@@ -2216,7 +2269,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] applique toujours la transparence de niveau 2 (<xref:System.Security.SecurityRuleSet.Level2?displayProperty=nameWithType>) pour les assemblys dynamiques qu’il génère.  
+ Le [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] applique toujours la transparence de niveau 2 (<xref:System.Security.SecurityRuleSet.Level2?displayProperty=nameWithType>) pour les assemblys dynamiques, il génère.  
   
  ]]></format>
         </remarks>
@@ -2248,6 +2301,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2266,10 +2321,10 @@
 ## Remarks  
   
 > [!NOTE]
->  <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> ne peut pas être utilisé pour définir les attributs de sécurité déclarative. Utilisez une des surcharges de <xref:System.AppDomain.DefineDynamicAssembly%2A> que prend obligatoire, facultatif et les autorisations refusées.  
+>  <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> ne peut pas être utilisé pour définir les attributs de sécurité déclarative. Utilisez une des surcharges de <xref:System.AppDomain.DefineDynamicAssembly%2A> que prend obligatoires, facultatifs et les autorisations refusées.  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
    
   
@@ -2304,6 +2359,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2329,13 +2386,13 @@
 ## Remarks  
  Consultez la spécification de métadonnées dans la documentation ECMA Partition II pour plus d’informations sur la mise en forme `binaryAttribute`. La documentation est disponible en ligne. Consultez [ECMA C# and Common Language Infrastructure Standards](http://go.microsoft.com/fwlink/?LinkID=99212) sur MSDN et [Standard ECMA-335 - Common Language Infrastructure (CLI)](http://go.microsoft.com/fwlink/?LinkID=65552) sur le site web d’Ecma International.  
   
- `RuntimeConstructorInfo` est un type spécial généré par le système. Il dérive le <xref:System.Reflection.ConstructorInfo> classe et tous les <xref:System.Reflection.ConstructorInfo> objet que vous obtenez par réflexion est réellement une instance de `RuntimeConstructorInfo`.  
+ `RuntimeConstructorInfo` est un type spécial généré par le système. Il dérive le <xref:System.Reflection.ConstructorInfo> classe et toute <xref:System.Reflection.ConstructorInfo> objet que vous obtenez par réflexion est réellement une instance de `RuntimeConstructorInfo`.  
   
 > [!NOTE]
->  <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> ne peut pas être utilisé pour définir les attributs de sécurité déclarative. Utilisez une des surcharges de <xref:System.AppDomain.DefineDynamicAssembly%2A> que prend obligatoire, facultatif et les autorisations refusées.  
+>  <xref:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute%2A> ne peut pas être utilisé pour définir les attributs de sécurité déclarative. Utilisez une des surcharges de <xref:System.AppDomain.DefineDynamicAssembly%2A> que prend obligatoires, facultatifs et les autorisations refusées.  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
    
   
@@ -2376,6 +2433,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2407,6 +2466,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2427,7 +2488,7 @@
 ## Remarks  
   
 > [!NOTE]
->  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [émettre des problèmes de sécurité dans la réflexion](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
+>  En commençant par le [!INCLUDE[net_v20sp1_long](~/includes/net-v20sp1-long-md.md)], ce membre n’a plus besoin <xref:System.Security.Permissions.ReflectionPermission> avec la <xref:System.Security.Permissions.ReflectionPermissionFlag.ReflectionEmit?displayProperty=nameWithType> indicateur. (Consultez [des problèmes de sécurité dans la réflexion émission](~/docs/framework/reflection-and-codedom/security-issues-in-reflection-emit.md).) Pour utiliser cette fonctionnalité, votre application doit cibler [!INCLUDE[net_v35_long](~/includes/net-v35-long-md.md)] ou version ultérieure.  
   
  ]]></format>
         </remarks>
@@ -2451,6 +2512,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2494,6 +2557,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2533,6 +2598,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -2568,6 +2635,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>

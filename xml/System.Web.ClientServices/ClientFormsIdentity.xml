@@ -1,11 +1,11 @@
 <Type Name="ClientFormsIdentity" FullName="System.Web.ClientServices.ClientFormsIdentity">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="b3f0b0d839caa85bbe26af3561725579fa017283" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="f6dacb7a050b755bd275e866b6ef026770c73b4c" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36604656" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37608274" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ClientFormsIdentity : IDisposable, System.Security.Principal.IIdentity" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ClientFormsIdentity extends System.Object implements class System.IDisposable, class System.Security.Principal.IIdentity" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ClientFormsIdentity = class&#xA;    interface IIdentity&#xA;    interface IDisposable" />
   <AssemblyInfo>
     <AssemblyName>System.Web.Extensions</AssemblyName>
+    <AssemblyVersion>3.5.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -34,11 +35,11 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La fonctionnalité de services d’application cliente utilise cette classe pour représenter un utilisateur authentifié. Lorsque vous configurez votre application pour utiliser l’authentification de formulaires et les services de l’application client, vous pouvez authentifier un utilisateur en appelant le `static` <xref:System.Web.Security.Membership.ValidateUser%2A?displayProperty=nameWithType> (méthode). Après l’authentification, vous pouvez récupérer une référence à le <xref:System.Web.ClientServices.ClientFormsIdentity> par le biais de l’instance le <xref:System.Security.Principal.IPrincipal.Identity%2A> propriété de la <xref:System.Security.Principal.IPrincipal> récupérées via la `static` <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> propriété. Pour plus d’informations, consultez [Services d’application cliente](~/docs/framework/common-client-technologies/client-application-services.md).  
+ La fonctionnalité de services d’application cliente utilise cette classe pour représenter un utilisateur authentifié. Lorsque vous configurez votre application pour utiliser le client application services et authentification par formulaire, vous pouvez authentifier un utilisateur en appelant le `static` <xref:System.Web.Security.Membership.ValidateUser%2A?displayProperty=nameWithType> (méthode). Après l’authentification, vous pouvez récupérer une référence à le <xref:System.Web.ClientServices.ClientFormsIdentity> par le biais de l’instance la <xref:System.Security.Principal.IPrincipal.Identity%2A> propriété de la <xref:System.Security.Principal.IPrincipal> récupéré via la `static` <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> propriété. Pour plus d’informations, consultez [Services d’application cliente](~/docs/framework/common-client-technologies/client-application-services.md).  
   
- Vous accéderez en général à un <xref:System.Web.ClientServices.ClientFormsIdentity> de l’objet en un <xref:System.Security.Principal.IIdentity> référence afin d’éviter une dépendance directe sur cette classe. Vous pouvez déterminer si un utilisateur est authentifié en vérifiant la <xref:System.Security.Principal.IIdentity.IsAuthenticated%2A?displayProperty=nameWithType> propriété de l’identité. Toutefois, l’utilisateur peut être authentifié pour Windows, mais pas pour les services d’application cliente. Pour déterminer si l’utilisateur est authentifié pour les services d’application cliente, vous devez également vérifier que le <xref:System.Security.Principal.IIdentity.AuthenticationType%2A?displayProperty=nameWithType> valeur de propriété est « ClientForms ».  
+ Vous accéderez généralement un <xref:System.Web.ClientServices.ClientFormsIdentity> de l’objet comme un <xref:System.Security.Principal.IIdentity> référence afin d’éviter une dépendance directe sur cette classe. Vous pouvez déterminer si un utilisateur est authentifié en vérifiant la <xref:System.Security.Principal.IIdentity.IsAuthenticated%2A?displayProperty=nameWithType> propriété de l’identité. Toutefois, l’utilisateur peut être authentifié pour Windows, mais pas pour les services d’application cliente. Pour déterminer si l’utilisateur est authentifié pour les services d’application cliente, vous devez également confirmer que le <xref:System.Security.Principal.IIdentity.AuthenticationType%2A?displayProperty=nameWithType> valeur de propriété est « ClientForms ».  
   
- Vous devez utiliser explicite <xref:System.Web.ClientServices.ClientFormsIdentity> référence pour appeler le <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> (méthode), qui n’est pas défini par le <xref:System.Security.Principal.IIdentity> interface.  
+ Vous devez utiliser explicite <xref:System.Web.ClientServices.ClientFormsIdentity> référence pour appeler le <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> (méthode), ce qui n’est pas définie par le <xref:System.Security.Principal.IIdentity> interface.  
   
    
   
@@ -46,7 +47,7 @@
  L’exemple de code suivant montre comment utiliser cette classe pour revalider un utilisateur silencieusement lorsque l’application quitte l’état hors connexion. Dans cet exemple, un <xref:System.Windows.Forms.CheckBox.CheckedChanged> Gestionnaire d’événements met à jour l’état hors connexion pour correspondre à la valeur de la case à cocher. Si l’utilisateur définit l’application à l’état en ligne, le Gestionnaire d’événements essaie de revalider l’utilisateur en appelant le <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> (méthode). Toutefois, si le serveur d’authentification n’est pas disponible, le Gestionnaire d’événements retourne l’application à l’état hors connexion.  
   
 > [!NOTE]
->  La méthode <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> est fournie pour des raisons pratiques uniquement. Étant donné qu'elle n'a pas de valeur de retour, elle ne peut pas indiquer si la revalidation a échoué. La revalidation peut, par exemple, échouer si les informations d'identification de l'utilisateur ont été modifiées sur le serveur. Dans ce cas, vous souhaitez peut-être inclure du code qui valide explicitement les utilisateurs après l'échec d'un appel de service. Pour plus d’informations, consultez la section accès aux paramètres Web dans [procédure pas à pas : à l’aide de Services d’Application cliente](~/docs/framework/common-client-technologies/walkthrough-using-client-application-services.md).  
+>  La méthode <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> est fournie pour des raisons pratiques uniquement. Étant donné qu'elle n'a pas de valeur de retour, elle ne peut pas indiquer si la revalidation a échoué. La revalidation peut, par exemple, échouer si les informations d'identification de l'utilisateur ont été modifiées sur le serveur. Dans ce cas, vous souhaitez peut-être inclure du code qui valide explicitement les utilisateurs après l'échec d'un appel de service. Pour plus d’informations, consultez la section accès aux paramètres Web dans [procédure pas à pas : Services d’Application cliente à l’aide de](~/docs/framework/common-client-technologies/walkthrough-using-client-application-services.md).  
   
  [!code-csharp[ClientApplicationServices#315](~/samples/snippets/csharp/VS_Snippets_Winforms/ClientApplicationServices/CS/Class1.cs#315)]
  [!code-vb[ClientApplicationServices#315](~/samples/snippets/visualbasic/VS_Snippets_Winforms/ClientApplicationServices/VB/Class1.vb#315)]  
@@ -75,6 +76,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -107,6 +109,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -119,7 +122,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette propriété n’est pas conçue pour une utilisation dans votre code d’application. Vous ne pouvez pas modifier significativement les cookies extraits via cette propriété, et ils ne contiennent aucune information utile.  
+ Cette propriété n’est pas destinée à utiliser dans votre code d’application. Vous ne pouvez pas modifier significativement les cookies extraits via cette propriété, et ils ne contiennent aucune information utile.  
   
  ]]></format>
         </remarks>
@@ -135,6 +138,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -147,12 +151,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Vous accéderez en général à un <xref:System.Web.ClientServices.ClientFormsIdentity> de l’objet en un <xref:System.Security.Principal.IIdentity> référence afin d’éviter une dépendance directe sur cette classe. Vous pouvez déterminer si un utilisateur est authentifié en vérifiant la <xref:System.Security.Principal.IIdentity.IsAuthenticated%2A?displayProperty=nameWithType> propriété de l’identité. Toutefois, l’utilisateur peut être authentifié pour Windows, mais pas pour les services d’application cliente. Pour déterminer si l’utilisateur est authentifié pour les services d’application cliente, vous devez également vérifier que le <xref:System.Security.Principal.IIdentity.AuthenticationType%2A?displayProperty=nameWithType> valeur de propriété est « ClientForms ». Pour plus d’informations, consultez le <xref:System.Web.ClientServices.ClientFormsIdentity> vue d’ensemble de la classe.  
+ Vous accéderez généralement un <xref:System.Web.ClientServices.ClientFormsIdentity> de l’objet comme un <xref:System.Security.Principal.IIdentity> référence afin d’éviter une dépendance directe sur cette classe. Vous pouvez déterminer si un utilisateur est authentifié en vérifiant la <xref:System.Security.Principal.IIdentity.IsAuthenticated%2A?displayProperty=nameWithType> propriété de l’identité. Toutefois, l’utilisateur peut être authentifié pour Windows, mais pas pour les services d’application cliente. Pour déterminer si l’utilisateur est authentifié pour les services d’application cliente, vous devez également confirmer que le <xref:System.Security.Principal.IIdentity.AuthenticationType%2A?displayProperty=nameWithType> valeur de propriété est « ClientForms ». Pour plus d’informations, consultez le <xref:System.Web.ClientServices.ClientFormsIdentity> vue d’ensemble de la classe.  
   
    
   
 ## Examples  
- L’exemple de code suivant montre comment utiliser cette propriété via un <xref:System.Security.Principal.IIdentity> référence pour déterminer si un utilisateur est actuellement authentifié pour les services d’application cliente. Cet exemple suppose que l’application est dans la configuration par défaut dans laquelle les utilisateurs ne sont pas requises pour vous connecter à nouveau lorsque le cookie d’authentification expire. Dans le cas contraire, le <xref:System.Net.WebException> peut indiquer que la connexion de l’utilisateur a expiré. Pour plus d'informations, consultez [How to: Configure Client Application Services](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md).  
+ L’exemple de code suivant montre comment utiliser cette propriété via un <xref:System.Security.Principal.IIdentity> référence pour déterminer si un utilisateur est actuellement authentifié pour les services d’application cliente. Cet exemple suppose que l’application est dans la configuration par défaut où les utilisateurs ne doivent pas se connecter à nouveau lorsque le cookie d’authentification expire. Sinon, le <xref:System.Net.WebException> peut indiquer que la connexion de l’utilisateur a expiré. Pour plus d'informations, consultez [How to: Configure Client Application Services](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md).  
   
  [!code-csharp[ClientApplicationServices#312](~/samples/snippets/csharp/VS_Snippets_Winforms/ClientApplicationServices/CS/Class1.cs#312)]
  [!code-vb[ClientApplicationServices#312](~/samples/snippets/visualbasic/VS_Snippets_Winforms/ClientApplicationServices/VB/Class1.vb#312)]  
@@ -187,6 +191,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -199,7 +204,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Appelez la méthode <xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A> une fois que vous avez terminé d'utiliser <xref:System.Web.ClientServices.ClientFormsIdentity>. La méthode <xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A> rend le <xref:System.Web.ClientServices.ClientFormsIdentity> inutilisable. Après avoir appelé <xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A>, vous devez libérer toutes les références à la <xref:System.Web.ClientServices.ClientFormsIdentity> pour que le garbage collector puisse récupérer la mémoire qui le <xref:System.Web.ClientServices.ClientFormsIdentity> occupée. Pour plus d’informations, consultez [de nettoyage des ressources non managées](~/docs/standard/garbage-collection/unmanaged.md) et [implémentant une méthode de suppression](~/docs/standard/garbage-collection/implementing-dispose.md).  
+ Appelez la méthode <xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A> une fois que vous avez terminé d'utiliser <xref:System.Web.ClientServices.ClientFormsIdentity>. La méthode <xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A> rend le <xref:System.Web.ClientServices.ClientFormsIdentity> inutilisable. Après avoir appelé <xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A>, vous devez libérer toutes les références à la <xref:System.Web.ClientServices.ClientFormsIdentity> pour que le garbage collector puisse récupérer la mémoire qui le <xref:System.Web.ClientServices.ClientFormsIdentity> occupée. Pour plus d’informations, consultez [de nettoyage des ressources non managées](~/docs/standard/garbage-collection/unmanaged.md) et [implémentation d’une méthode Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
   
 > [!NOTE]
 >  Appelez toujours <xref:System.Web.ClientServices.ClientFormsIdentity.Dispose%2A> avant de libérer votre dernière référence à <xref:System.Web.ClientServices.ClientFormsIdentity>. Sinon, les ressources utilisées ne seront pas libérées tant que le garbage collector n'aura pas appelé la méthode <xref:System.Web.ClientServices.ClientFormsIdentity> de l'objet `Finalize`.  
@@ -218,6 +223,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -234,15 +240,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est appelée par le public `Dispose()` (méthode) et le <xref:System.Object.Finalize%2A> (méthode). `Dispose()` appelle la méthode protégée `Dispose(Boolean)` méthode avec la `disposing` paramètre la valeur `true`. <xref:System.Object.Finalize%2A> appelle `Dispose` avec `disposing` la valeur `false`.  
+ Cette méthode est appelée par le public `Dispose()` (méthode) et le <xref:System.Object.Finalize%2A> (méthode). `Dispose()` appelle la méthode protégée `Dispose(Boolean)` méthode avec le `disposing` paramètre défini sur `true`. <xref:System.Object.Finalize%2A> appelle `Dispose` avec `disposing` défini sur `false`.  
   
- Lorsque le `disposing` paramètre a la valeur true, cette méthode libère toutes les ressources détenues par les objets managés référencés par ce <xref:System.Web.ClientServices.ClientFormsIdentity> références. Cette méthode appelle la méthode `Dispose()` de chaque objet référencé.  
+ Lorsque le `disposing` paramètre est true, cette méthode libère toutes les ressources détenues par les objets managés par ce <xref:System.Web.ClientServices.ClientFormsIdentity> références. Cette méthode appelle la méthode `Dispose()` de chaque objet référencé.  
   
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
           <para>
-            <see langword="Dispose" /> peut être appelée plusieurs fois par d’autres objets. Lors de la substitution <see langword="Dispose(Boolean)" /> veillez à ne pas référencer des objets qui ont été supprimés lors d’un appel précédent à <see langword="Dispose" />. Pour plus d’informations sur l’implémentation <see langword="Dispose(Boolean)" />, consultez [implémentation d’un Method](~/docs/standard/garbage-collection/implementing-dispose.md) de suppression.  Pour plus d’informations sur <see langword="Dispose" /> et <see cref="M:System.Object.Finalize" />, voir [nettoyage des Resources](~/docs/standard/garbage-collection/unmanaged.md) non managé et [substitution de la méthode Finalize] (http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</para>
+            <see langword="Dispose" /> peut être appelée plusieurs fois par d’autres objets. Lors de la substitution <see langword="Dispose(Boolean)" /> veillez à ne pas référencer des objets qui ont été supprimés lors d’un appel précédent à <see langword="Dispose" />. Pour plus d’informations sur l’implémentation <see langword="Dispose(Boolean)" />, consultez [implémentation d’un Method](~/docs/standard/garbage-collection/implementing-dispose.md) Dispose.  Pour plus d’informations sur <see langword="Dispose" /> et <see cref="M:System.Object.Finalize" />, consultez [nettoyage des Resources](~/docs/standard/garbage-collection/unmanaged.md) non managé et [substitution de la méthode Finalize] (http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</para>
         </block>
       </Docs>
     </Member>
@@ -256,6 +262,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -269,12 +276,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Vous accéderez en général à un <xref:System.Web.ClientServices.ClientFormsIdentity> de l’objet en un <xref:System.Security.Principal.IIdentity> référence afin d’éviter une dépendance directe sur cette classe. Vous pouvez déterminer si un utilisateur est authentifié en vérifiant la <xref:System.Security.Principal.IIdentity.IsAuthenticated%2A?displayProperty=nameWithType> propriété de l’identité. Toutefois, l’utilisateur peut être authentifié pour Windows, mais pas pour les services d’application cliente. Pour déterminer si l’utilisateur est authentifié pour les services d’application cliente, vous devez également vérifier que le <xref:System.Security.Principal.IIdentity.AuthenticationType%2A?displayProperty=nameWithType> valeur de propriété est « ClientForms ». Pour plus d’informations, consultez le <xref:System.Web.ClientServices.ClientFormsIdentity> vue d’ensemble de la classe.  
+ Vous accéderez généralement un <xref:System.Web.ClientServices.ClientFormsIdentity> de l’objet comme un <xref:System.Security.Principal.IIdentity> référence afin d’éviter une dépendance directe sur cette classe. Vous pouvez déterminer si un utilisateur est authentifié en vérifiant la <xref:System.Security.Principal.IIdentity.IsAuthenticated%2A?displayProperty=nameWithType> propriété de l’identité. Toutefois, l’utilisateur peut être authentifié pour Windows, mais pas pour les services d’application cliente. Pour déterminer si l’utilisateur est authentifié pour les services d’application cliente, vous devez également confirmer que le <xref:System.Security.Principal.IIdentity.AuthenticationType%2A?displayProperty=nameWithType> valeur de propriété est « ClientForms ». Pour plus d’informations, consultez le <xref:System.Web.ClientServices.ClientFormsIdentity> vue d’ensemble de la classe.  
   
    
   
 ## Examples  
- L’exemple de code suivant montre comment utiliser cette propriété via un <xref:System.Security.Principal.IIdentity> référence pour déterminer si un utilisateur est actuellement authentifié pour les services d’application cliente. Cet exemple suppose que l’application est dans la configuration par défaut dans laquelle les utilisateurs ne sont pas requises pour vous connecter à nouveau lorsque le cookie d’authentification expire. Dans le cas contraire, le <xref:System.Net.WebException> peut indiquer que la connexion de l’utilisateur a expiré. Pour plus d'informations, consultez [How to: Configure Client Application Services](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md).  
+ L’exemple de code suivant montre comment utiliser cette propriété via un <xref:System.Security.Principal.IIdentity> référence pour déterminer si un utilisateur est actuellement authentifié pour les services d’application cliente. Cet exemple suppose que l’application est dans la configuration par défaut où les utilisateurs ne doivent pas se connecter à nouveau lorsque le cookie d’authentification expire. Sinon, le <xref:System.Net.WebException> peut indiquer que la connexion de l’utilisateur a expiré. Pour plus d'informations, consultez [How to: Configure Client Application Services](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md).  
   
  [!code-csharp[ClientApplicationServices#312](~/samples/snippets/csharp/VS_Snippets_Winforms/ClientApplicationServices/CS/Class1.cs#312)]
  [!code-vb[ClientApplicationServices#312](~/samples/snippets/visualbasic/VS_Snippets_Winforms/ClientApplicationServices/VB/Class1.vb#312)]  
@@ -300,6 +307,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -321,6 +329,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -342,6 +351,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Web.Extensions</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -354,10 +364,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Lorsque vous utilisez l’authentification par formulaire pour valider l’utilisateur actuel, la <xref:System.Web.ClientServices.ClientFormsIdentity> classe stocke les informations d’identification de l’utilisateur tant que l’application est en cours d’exécution. Toutefois, l’utilisateur est authentifié uniquement les jusqu'à ce que le cookie d’authentification expire. Une fois que le cookie expire, l’utilisateur doit être revalidé pour accéder aux rôles distants ou des services de paramètres Web. Vous pouvez utiliser la **paramètres avancés pour les Services** boîte de dialogue pour configurer votre application pour revalider automatiquement l’utilisateur, comme décrit dans [Comment : configurer les Services d’Application cliente](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md). Toutefois, si vous configurez votre application pour honorer l’expiration du cookie, vous pouvez revalider par programme l’utilisateur en appelant le <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> (méthode). Cette méthode est également utile lors du passage du mode hors connexion en mode en ligne, car l’application a été arrêtée pendant qu’elle était hors connexion.  
+ Lorsque vous utilisez l’authentification par formulaire pour valider l’utilisateur actuel, le <xref:System.Web.ClientServices.ClientFormsIdentity> classe stocke les informations d’identification de l’utilisateur tant que l’application est en cours d’exécution. Toutefois, l’utilisateur est authentifié uniquement jusqu'à ce que le cookie d’authentification expire. Une fois que le cookie expire, l’utilisateur doit être revalidé pour accéder aux services de paramètres Web ou de rôles distants. Vous pouvez utiliser la **paramètres avancés pour les Services** boîte de dialogue pour configurer votre application pour revalider automatiquement l’utilisateur, comme décrit dans [Comment : configurer les Services d’Application cliente](~/docs/framework/common-client-technologies/how-to-configure-client-application-services.md). Toutefois, si vous configurez votre application pour honorer l’expiration du cookie, vous pouvez revalider par programme l’utilisateur en appelant le <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> (méthode). Cette méthode est également utile lors du passage du mode hors connexion en mode en ligne, car l’application a été arrêtée pendant qu’elle était hors connexion.  
   
 > [!NOTE]
->  La méthode <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> est fournie pour des raisons pratiques uniquement. Étant donné qu'elle n'a pas de valeur de retour, elle ne peut pas indiquer si la revalidation a échoué. La revalidation peut, par exemple, échouer si les informations d'identification de l'utilisateur ont été modifiées sur le serveur. Dans ce cas, vous souhaitez peut-être inclure du code qui valide explicitement les utilisateurs après l'échec d'un appel de service. Pour plus d’informations, consultez la section accès aux paramètres Web dans [procédure pas à pas : à l’aide de Services d’Application cliente](~/docs/framework/common-client-technologies/walkthrough-using-client-application-services.md).  
+>  La méthode <xref:System.Web.ClientServices.ClientFormsIdentity.RevalidateUser%2A> est fournie pour des raisons pratiques uniquement. Étant donné qu'elle n'a pas de valeur de retour, elle ne peut pas indiquer si la revalidation a échoué. La revalidation peut, par exemple, échouer si les informations d'identification de l'utilisateur ont été modifiées sur le serveur. Dans ce cas, vous souhaitez peut-être inclure du code qui valide explicitement les utilisateurs après l'échec d'un appel de service. Pour plus d’informations, consultez la section accès aux paramètres Web dans [procédure pas à pas : Services d’Application cliente à l’aide de](~/docs/framework/common-client-technologies/walkthrough-using-client-application-services.md).  
   
    
   

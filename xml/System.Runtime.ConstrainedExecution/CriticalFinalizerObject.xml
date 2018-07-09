@@ -1,11 +1,11 @@
 <Type Name="CriticalFinalizerObject" FullName="System.Runtime.ConstrainedExecution.CriticalFinalizerObject">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="fe97b05a2989e47897cb61a38334753cf0833bcd" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="ff978c2c7e9663073c3017bfd7df78e1e92251af" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36540540" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37638707" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class CriticalFinalizerObject" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit CriticalFinalizerObject extends System.Object" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type CriticalFinalizerObject = class" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -42,16 +43,16 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Les classes dérivées de la <xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject> classe sont traitées implicitement comme une région d’exécution limitée (CER).  Cela nécessite que du code dans le finaliseur d’appeler uniquement du code avec un contrat de fiabilité fort. Pour plus d’informations sur les régions d’exécution limitée, consultez le <xref:System.Runtime.ConstrainedExecution> espace de noms.  
+ Les classes dérivées de la <xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject> classe sont implicitement traitée comme une région d’exécution limitée (CER).  Cela nécessite du code dans le finaliseur d’appeler uniquement du code avec un contrat de fiabilité fort. Pour plus d’informations sur les zones CER, consultez le <xref:System.Runtime.ConstrainedExecution> espace de noms.  
   
- Dans les classes dérivées de la <xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject> (classe), le common language runtime (CLR) garantit que tout le code critique de finalisation a la possibilité de s’exécuter, fourni le finaliseur respecte les règles d’une région d’exécution limitée, même dans les situations où le CLR décharge un domaine d’application ou abandonne un thread de force. Si un finaliseur ne respecte pas les règles pour une région d’exécution limitée, il ne peut pas exécuter correctement. En outre, le CLR établit un ordonnancement faible parmi les finaliseurs normaux et critiques : pour les objets récupérés par le garbage collection en même temps, tous les finaliseurs non critiques sont appelés avant les finaliseurs critiques. Par exemple, une classe telle que <xref:System.IO.FileStream>, qui contient des données dans le <xref:System.Runtime.InteropServices.SafeHandle> classe qui est dérivée de <xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>, peut exécuter un finaliseur standard pour nettoyer les données mises en mémoire tampon existantes.  
+ Dans les classes dérivées de la <xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject> (classe), le common language runtime (CLR) garantit que tout code de finalisation critique aura l’occasion pour s’exécuter, fournie par le finaliseur respecte les règles d’une région d’exécution limitée, même dans les situations où le CLR décharge un domaine d’application ou abandonne un thread de force. Si un finaliseur ne respecte pas les règles pour une zone CER, il ne peut pas exécuter correctement. En outre, le CLR établit un ordonnancement faible parmi les finaliseurs normaux et critiques : pour les objets récupérés par le garbage collection en même temps, tous les finaliseurs non critiques sont appelés avant les finaliseurs critiques. Par exemple, une classe telle que <xref:System.IO.FileStream>, qui contient des données dans le <xref:System.Runtime.InteropServices.SafeHandle> classe qui est dérivée de <xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject>, peut exécuter un finaliseur standard pour nettoyer des données mises en mémoire tampon existantes.  
   
  Dans la plupart des cas, vous n’avez pas besoin d’écrire des classes qui dérivent de la <xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject> classe. La bibliothèque de classes .NET Framework fournit deux classes, <xref:System.Runtime.InteropServices.SafeHandle> et <xref:System.Runtime.InteropServices.CriticalHandle>, qui fournissent des fonctionnalités de finalisation critiques pour les ressources de handle. En outre, le .NET Framework fournit un ensemble de classes dérivées de la <xref:System.Runtime.InteropServices.SafeHandle> classe et ce jeu se trouve dans le <xref:Microsoft.Win32.SafeHandles> espace de noms. Ces classes sont conçues pour fournir des fonctionnalités communes pour prendre en charge des handles de fichiers et de système d’exploitation.  
   
    
   
 ## Examples  
- L’exemple de code suivant illustre l’utilisation de la <xref:Microsoft.Win32.SafeHandles.SafeFileHandle> classe afin de fournir la finalisation critique pour l’entrée standard et le flux de sortie. Le <xref:Microsoft.Win32.SafeHandles.SafeFileHandle>, dérivée de la <xref:System.Runtime.InteropServices.SafeHandle> de classe, est passé au flux de fichiers dans le <xref:System.IO.FileStream> constructeur.  
+ L’exemple de code suivant illustre l’utilisation de la <xref:Microsoft.Win32.SafeHandles.SafeFileHandle> classe afin de fournir la finalisation critique pour l’entrée standard et le flux de sortie. Le <xref:Microsoft.Win32.SafeHandles.SafeFileHandle>, dérivée de la <xref:System.Runtime.InteropServices.SafeHandle> class, est passé dans le flux de fichier dans le <xref:System.IO.FileStream> constructeur.  
   
  [!code-csharp[SafeHandle.SafeFileHandle#1](~/samples/snippets/csharp/VS_Snippets_CLR/SafeHandle.SafeFileHandle/CS/program.cs#1)]
  [!code-vb[SafeHandle.SafeFileHandle#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/SafeHandle.SafeFileHandle/vb/program.vb#1)]  
@@ -59,7 +60,7 @@
  ]]></format>
     </remarks>
     <permission cref="T:System.Security.Permissions.SecurityPermission">pour l’autorisation d’appeler du code non managé. Action de sécurité : <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
-    <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">pour la confiance totale pour les héritiers de. Cette classe ne peut pas être utilisée par du code partiellement fiable.</permission>
+    <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">pour la confiance totale pour les héritiers. Cette classe ne peut pas être utilisée par du code partiellement fiable.</permission>
     <altmember cref="T:System.Runtime.InteropServices.SafeHandle" />
     <altmember cref="T:System.Runtime.InteropServices.CriticalHandle" />
     <altmember cref="N:Microsoft.Win32.SafeHandles" />
@@ -74,6 +75,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -96,7 +98,7 @@
         <summary>Initialise une nouvelle instance de la classe <see cref="T:System.Runtime.ConstrainedExecution.CriticalFinalizerObject" />.</summary>
         <remarks>To be added.</remarks>
         <permission cref="T:System.Security.Permissions.SecurityPermission">pour l’autorisation d’appeler du code non managé. Action de sécurité : <see cref="F:System.Security.Permissions.SecurityAction.LinkDemand" />. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
-        <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">pour la confiance totale pour les héritiers de. Cette classe ne peut pas être utilisée par du code partiellement fiable.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.InheritanceDemand">pour la confiance totale pour les héritiers. Cette classe ne peut pas être utilisée par du code partiellement fiable.</permission>
       </Docs>
     </Member>
     <Member MemberName="Finalize">
@@ -109,6 +111,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -136,7 +139,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le finaliseur pour tous les types qui dérivent de <xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject> reçoit la possibilité d’exécuter et n’est pas abandonné, en supposant le finaliseur respecte les règles pour une région d’exécution limitée (CER).  
+ Le finaliseur pour tous les types dérivant de <xref:System.Runtime.ConstrainedExecution.CriticalFinalizerObject> porte la possibilité d’exécuter et n’est pas abandonné, en supposant que le finaliseur respecte les règles pour une région d’exécution limitée (CER).  
   
  ]]></format>
         </remarks>

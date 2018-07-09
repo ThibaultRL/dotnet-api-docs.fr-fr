@@ -1,11 +1,11 @@
 <Type Name="TransferMode" FullName="System.ServiceModel.TransferMode">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="fd27ea071ce2cdc686ce977d83a9516b7b04aeb8" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="eb3a0b4f3d0f2b79019682d8846a12c4a818ab0a" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36410293" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37611748" />
   </Metadata>
   <TypeSignature Language="C#" Value="public enum TransferMode" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed TransferMode extends System.Enum" />
@@ -16,6 +16,7 @@
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -39,7 +40,7 @@
   
 -   Les transferts en continu ne mettent que les en-têtes de message en mémoire tampon et exposent le corps du message sous forme de flux continu, dont des portions peuvent être lues progressivement.  
   
- Définir le mode de transfert pour transmis en continu permet de diffusion en continu de communication dans les deux sens. Définir le mode de transfert vers StreamedRequest ou StreamedResponse permet de communication de diffusion en continu uniquement dans le sens spécifié.  
+ Définition du mode de transfert transmis en continu permet la communication de diffusion en continu dans les deux sens. Définition du mode de transfert StreamedRequest ou StreamedResponse permet la communication de diffusion en continu uniquement dans le sens spécifié.  
   
  Les transferts en flux continu peuvent améliorer l'évolutivité d'un service car ils évitent d'avoir à recourir à de grandes mémoires tampons. Le gain réel d'évolutivité dépend de la taille des messages transférés. Il est plus significatif dans le cas de messages volumineux.  
   
@@ -49,20 +50,20 @@
   
  Le choix de l'un ou l'autre mode de transfert (mise en mémoire tampon ou flux continu) revient en local au point de terminaison pour les transports HTTP. Pour les transports HTTP, le mode de transfert ne se propage pas sur une connexion ou sur des serveurs proxy ou d'autres intermédiaires. La définition du mode de transfert n'est pas reflétée dans la description du contrat de service. Après avoir généré un proxy sur un service, vous pouvez (mais ne devez pas) modifier le fichier de configuration des services destinés à être utilisés avec des transferts en continu pour définir le mode de transfert. Pour les transports TCP et les transports de canal nommé, le mode de transfert est propagé sous forme d'assertion de stratégie.  
   
- À l’aide du mode de transfert transmis en continu provoque l’exécution WCF appliquer certaines restrictions.  
+ L’utilisation du mode de transfert transmis en continu provoque le runtime WCF appliquer certaines restrictions.  
   
 -   Le contrat des opérations intervenant sur un transport en flux continu peut contenir au maximum un paramètre d'entrée ou de sortie au niveau de la couche du modèle de programmation. Ce paramètre correspond au corps entier du message et doit être un <xref:System.ServiceModel.Channels.Message>, un sous-type de <xref:System.IO.Stream> ou implémenter l'interface <xref:System.Xml.Serialization.IXmlSerializable>. Disposer d'une valeur de retour pour une opération équivaut à disposer d'un paramètre de sortie.  
   
--   Certaines fonctionnalités WCF tels que messagerie fiable et la sécurité au niveau du message SOAP s’appuient sur la mise en mémoire tampon des messages pour les transmissions. L’utilisation de ces fonctionnalités peut réduire, voire annuler les gains en termes de performances obtenus grâce au flux continu. Pour sécuriser un transport en flux continu, utilisez la sécurité de niveau transport uniquement ou la sécurité de mode mixte, qui associe des revendications WS-Security à la sécurité de niveau transport.  
+-   Certaines fonctionnalités WCF tels que messagerie fiable et de sécurité de niveau message SOAP s’appuient sur la mise en mémoire tampon des messages pour les transmissions. L’utilisation de ces fonctionnalités peut réduire, voire annuler les gains en termes de performances obtenus grâce au flux continu. Pour sécuriser un transport en flux continu, utilisez la sécurité de niveau transport uniquement ou la sécurité de mode mixte, qui associe des revendications WS-Security à la sécurité de niveau transport.  
   
--   En-têtes SOAP sont toujours mis en mémoire tampon, même lorsque le mode de transfert a transmis en continu. Les en-têtes de message ne doivent pas dépasser la taille du quota de transport MaxBufferSize exposé sur les divers éléments de liaison et liaisons.  
+-   En-têtes SOAP sont toujours mis en mémoire tampon, même lorsque le mode de transfert a la valeur transmis en continu. Les en-têtes de message ne doivent pas dépasser la taille du quota de transport MaxBufferSize exposé sur les divers éléments de liaison et liaisons.  
   
  Modifier le mode de transfert à partir de mises en mémoire tampon à transmis en continu modifie également la forme du canal natif des transports TCP et transports de canal nommé. Pour les transferts mis en mémoire tampon, la forme du canal natif est <xref:System.ServiceModel.Channels.IDuplexSessionChannel>. Pour les transferts en flux continu, les canaux natifs correspondent à <xref:System.ServiceModel.Channels.IRequestChannel> et à <xref:System.ServiceModel.Channels.IReplyChannel>. Une conséquence de ce principe réside dans le fait que les contrats de service de session ne peuvent pas être utilisés avec la diffusion en flux continu du transport.  
   
    
   
 ## Examples  
- L’exemple de code suivant montre le paramètre du <xref:System.ServiceModel.TransferMode> propriété transmis en continu via le code :  
+ L’exemple de code suivant montre le paramètre le <xref:System.ServiceModel.TransferMode> propriété transmis en continu via le code :  
   
  **c#**  
   
@@ -99,6 +100,7 @@ CustomBinding binding = new CustomBinding(encoder, transport);
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -126,6 +128,7 @@ CustomBinding binding = new CustomBinding(encoder, transport);
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -153,6 +156,7 @@ CustomBinding binding = new CustomBinding(encoder, transport);
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -180,6 +184,7 @@ CustomBinding binding = new CustomBinding(encoder, transport);
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
