@@ -1,11 +1,11 @@
 <Type Name="SystemEvents" FullName="Microsoft.Win32.SystemEvents">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c517974716d9aca4ce942d8903397dfbf421327a" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="457c13d6502a241ce92550145818bf19215321e1" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36657137" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37707351" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class SystemEvents" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit SystemEvents extends System.Object" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type SystemEvents = class" />
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -27,9 +29,9 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:Microsoft.Win32.SystemEvents> classe fournit la possibilité de répondre à des types spécifiques d’événements système.  
+ Le <xref:Microsoft.Win32.SystemEvents> classe fournit la capacité à répondre à des types d’événements système.  
   
- Lorsqu’un événement système est déclenché, les délégués attachés à l’événement sont appelées à l’aide du thread qui surveille les événements système. Par conséquent, vous devez effectuer tous les appels à partir de vos gestionnaires événement thread-safe. Si vous avez besoin d’appeler un événement système qui n’est pas exposé en tant que membre de cette classe, vous pouvez utiliser la <xref:Microsoft.Win32.SystemEvents.InvokeOnEventsThread%2A> (méthode).  
+ Lorsqu’un événement système est déclenché, les délégués attachés à l’événement sont appelées à l’aide du thread qui surveille les événements système. Par conséquent, vous devez vous tous les appels à partir de vos gestionnaires événement thread-safe. Si vous avez besoin d’appeler un événement système qui n’est pas exposé en tant que membre de cette classe, vous pouvez utiliser le <xref:Microsoft.Win32.SystemEvents.InvokeOnEventsThread%2A> (méthode).  
   
 > [!CAUTION]
 >  N’effectuez pas de traitement du temps sur le thread qui déclenche un gestionnaire d’événements système, car cela pourrait empêcher les autres applications de fonctionner.  
@@ -44,7 +46,7 @@
   
  **Exemple 1**  
   
- L’exemple de code suivant s’intéresse à certains événements système, puis attend que ces événements se produisent. La sortie se produit si l’utilisateur modifie la résolution d’affichage.  
+ L’exemple de code suivant s’intéresse à certains événements système, puis attend que ces événements se produisent. La sortie illustrée se produit si l’utilisateur modifie la résolution d’affichage.  
   
  [!code-cpp[SystemEvents#1](~/samples/snippets/cpp/VS_Snippets_Winforms/SystemEvents/cpp/SystemEvents.cpp#1)]
  [!code-csharp[SystemEvents#1](~/samples/snippets/csharp/VS_Snippets_Winforms/SystemEvents/CS/SystemEvents.cs#1)]
@@ -52,31 +54,31 @@
   
  **Exemple 2**  
   
- L’exemple de code suivant illustre un service Windows très simple qui gère la <xref:Microsoft.Win32.SystemEvents.TimeChanged> et <xref:Microsoft.Win32.SystemEvents.UserPreferenceChanged> les événements. L’exemple inclut un service nommé `SimpleService`, un formulaire nommé `HiddenForm`et un programme d’installation. Le formulaire fournit la boucle de messages qui est requis par les événements système.  
+ L’exemple de code suivant illustre un service Windows très simple qui gère la <xref:Microsoft.Win32.SystemEvents.TimeChanged> et <xref:Microsoft.Win32.SystemEvents.UserPreferenceChanged> événements. L’exemple inclut un service nommé `SimpleService`, un formulaire nommé `HiddenForm`et un programme d’installation. Le formulaire fournit la boucle de message est requis par les événements système.  
   
 > [!NOTE]
->  Services n’ont pas de boucles de message, sauf s’ils sont autorisés à interagir avec le bureau. Si la boucle de message n’est pas fournie par un formulaire masqué, comme dans cet exemple, le service doit être exécuté sous le compte système local, et une intervention manuelle est requise pour permettre l’interaction avec le bureau. Autrement dit, l’administrateur doit vérifier manuellement la **autoriser le service à interagir avec le bureau** case à cocher sur la **ouvrir une session** onglet de la boîte de dialogue Propriétés du service. Dans ce cas, une boucle de message est automatiquement fournie. Cette option est disponible uniquement lorsque le service est exécuté sous le compte système local. Interaction avec le bureau ne peut pas être activée par programme.  
+>  Services n’ont pas de boucles de messages, sauf s’ils sont autorisés à interagir avec le bureau. Si la boucle de message n’est pas fournie par un formulaire masqué, comme dans cet exemple, le service doit être exécuté sous le compte système local, et une intervention manuelle est nécessaire pour permettre l’interaction avec le bureau. Autrement dit, l’administrateur doit vérifier manuellement la **autoriser le service à interagir avec le bureau** case à cocher sur la **ouvrir une session** onglet de la boîte de dialogue de propriétés de service. Dans ce cas, une boucle de message est automatiquement fournie. Cette option est disponible uniquement lorsque le service est exécuté sous le compte système local. Interaction avec le bureau ne peut pas être activée par programme.  
   
- Dans cet exemple, le service démarre un thread qui exécute une instance de `HiddenForm`. Les événements sont raccordées et gérés dans le formulaire. Les événements doivent être rattachées dans l’événement de chargement du formulaire, pour vous assurer que le formulaire est complètement chargé en premier ; Sinon, les événements ne seront pas déclenchés.  
+ Dans cet exemple, le service démarre un thread qui exécute une instance de `HiddenForm`. Les événements sont raccordées et gérés dans le formulaire. Les événements doivent être raccordés dans l’événement load du formulaire, pour vous assurer que le formulaire est complètement chargé en premier ; sinon les événements ne seront pas déclenchés.  
   
 > [!NOTE]
->  L’exemple fournit tout le code nécessaire, y compris le code d’initialisation du formulaire habituellement généré par les concepteurs Visual Studio. Si vous développez votre service dans Visual Studio, vous pouvez omettre la deuxième classe partielle et utiliser la **propriétés** fenêtre pour définir la hauteur et la largeur du formulaire caché à zéro, le style de bordure à <xref:System.Windows.Forms.FormBorderStyle.None?displayProperty=nameWithType>et à l’état de fenêtre <xref:System.Windows.Forms.FormWindowState.Minimized?displayProperty=nameWithType>.  
+>  L’exemple fournit tout le code nécessaire, y compris le code d’initialisation de formulaire généralement généré par les concepteurs de Visual Studio. Si vous développez votre service dans Visual Studio, vous pouvez omettre la deuxième classe partielle et utiliser la **propriétés** fenêtre pour définir la hauteur et largeur du formulaire caché à zéro, le style de bordure à <xref:System.Windows.Forms.FormBorderStyle.None?displayProperty=nameWithType>et à l’état de fenêtre <xref:System.Windows.Forms.FormWindowState.Minimized?displayProperty=nameWithType>.  
   
  Pour exécuter l’exemple :  
   
 1.  Compilez le code à partir de la ligne de commande. Le nom que vous utilisez pour le fichier source n’est pas important.  
   
-2.  Installer le service à partir de la ligne de commande à l’aide de la [Installutil.exe (outil Installer)](~/docs/framework/tools/installutil-exe-installer-tool.md) utilitaire. Par exemple, `InstallUtil example.exe` si le nom du fichier source est `example.cs` ou `example.vb`. Vous devez être un administrateur pour installer le service.  
+2.  Installer le service à partir de la ligne de commande à l’aide de la [Installutil.exe (outil Installer Tool)](~/docs/framework/tools/installutil-exe-installer-tool.md) utilitaire. Par exemple, `InstallUtil example.exe` si le nom de fichier source est `example.cs` ou `example.vb`. Vous devez être administrateur pour installer le service.  
   
 3.  Utilisez la console Services pour démarrer le service.  
   
-4.  Modifier l’heure système, ou modifier les préférences de l’utilisateur, telles que les propriétés de la souris.  
+4.  Modifier l’heure système ou de modifier les préférences utilisateur, telles que les propriétés de la souris.  
   
 5.  Afficher les messages dans la **Application** catégorie de l’Observateur d’événements.  
   
 6.  Utilisez la console Services pour arrêter le service.  
   
-7.  Désinstallez le service à partir de la ligne de commande à l’aide de la `/u` option. Par exemple, `InstallUtil /u example.exe`.  
+7.  Désinstaller le service à partir de la ligne de commande à l’aide de la `/u` option. Par exemple, `InstallUtil /u example.exe`.  
   
  [!code-csharp[ManagedWindowsService#1](~/samples/snippets/csharp/VS_Snippets_CLR/ManagedWindowsService/cs/source.cs#1)]
  [!code-vb[ManagedWindowsService#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/ManagedWindowsService/VB/source.vb#1)]  
@@ -103,6 +105,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -131,6 +135,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -154,7 +160,7 @@
    
   
 ## Examples  
- L’exemple de code suivant montre comment surveiller le <xref:Microsoft.Win32.SystemEvents.DisplaySettingsChanged> événement. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:Microsoft.Win32.SystemEvents> classe.  
+ L’exemple de code suivant montre comment surveiller la <xref:Microsoft.Win32.SystemEvents.DisplaySettingsChanged> événement. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:Microsoft.Win32.SystemEvents> classe.  
   
  [!code-cpp[SystemEvents#2](~/samples/snippets/cpp/VS_Snippets_Winforms/SystemEvents/cpp/SystemEvents.cpp#2)]
  [!code-csharp[SystemEvents#2](~/samples/snippets/csharp/VS_Snippets_Winforms/SystemEvents/CS/SystemEvents.cs#2)]
@@ -177,6 +183,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -214,6 +221,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -230,7 +239,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cet événement est déclenché lorsque le thread qui écoute les événements système est sur le point de se terminer. Délégués d’événement système sont appelés à l’aide du thread qui écoute les événements système.  
+ Cet événement est déclenché que le thread qui écoute les événements système est sur le point de se terminer. Les délégués d’événements système sont appelés à l’aide du thread qui écoute les événements système.  
   
 > [!CAUTION]
 >  Comme il s’agit d’un événement statique, vous devez détacher vos gestionnaires d’événements lorsque votre application est supprimée, ou entraînent des fuites de mémoire.  
@@ -251,6 +260,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -287,6 +298,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -307,9 +320,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Vous pouvez utiliser cette méthode chaque fois que vous avez besoin de gérer un événement système qui n’est pas exposée dans le cas contraire par le <xref:Microsoft.Win32.SystemEvents> classe.  
+ Vous pouvez utiliser cette méthode chaque fois que vous avez besoin pour gérer un événement système qui n’est pas exposée dans le cas contraire par le <xref:Microsoft.Win32.SystemEvents> classe.  
   
- Lorsque vous appelez cette méthode, le délégué spécifié est appelé par le thread à l’aide de votre application pour traiter les événements système.  
+ Lorsque vous appelez cette méthode, le délégué spécifié sera appelé par le thread à l’aide de votre application pour traiter des événements système.  
   
  ]]></format>
         </remarks>
@@ -327,6 +340,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -353,6 +368,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -378,10 +395,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cet événement encapsule le message WM_COMPACTING. Ce message est envoyé à toutes les fenêtres de niveau supérieur lorsque le système détecte plus de 12,5 % de temps système sur un intervalle de 30 à 60 secondes est consacré à compresser la mémoire. Cela indique que la mémoire système est insuffisante.  
+ Cet événement encapsule le message WM_COMPACTING. Ce message est envoyé à toutes les fenêtres de niveau supérieur lorsque le système détecte plus de 12,5 pour cent du temps système sur un intervalle de 30 à 60 secondes est consacré à compresser la mémoire. Cela indique que la mémoire système est insuffisante.  
   
 > [!NOTE]
->  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement n’est pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement ne sera pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
 >  Comme il s’agit d’un événement statique, vous devez détacher vos gestionnaires d’événements lorsque votre application est supprimée, ou entraînent des fuites de mémoire.  
@@ -405,6 +422,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -423,7 +442,7 @@
 ## Remarks  
   
 > [!NOTE]
->  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement n’est pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement ne sera pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
 >  Comme il s’agit d’un événement statique, vous devez détacher vos gestionnaires d’événements lorsque votre application est supprimée, ou entraînent des fuites de mémoire.  
@@ -431,7 +450,7 @@
    
   
 ## Examples  
- L’exemple de code suivant montre comment surveiller le <xref:Microsoft.Win32.SystemEvents.PaletteChanged> événement. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:Microsoft.Win32.SystemEvents> classe.  
+ L’exemple de code suivant montre comment surveiller la <xref:Microsoft.Win32.SystemEvents.PaletteChanged> événement. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:Microsoft.Win32.SystemEvents> classe.  
   
  [!code-cpp[SystemEvents#2](~/samples/snippets/cpp/VS_Snippets_Winforms/SystemEvents/cpp/SystemEvents.cpp#2)]
  [!code-csharp[SystemEvents#2](~/samples/snippets/csharp/VS_Snippets_Winforms/SystemEvents/CS/SystemEvents.cs#2)]
@@ -453,6 +472,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -471,7 +492,7 @@
 ## Remarks  
   
 > [!NOTE]
->  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement n’est pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement ne sera pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
 >  Comme il s’agit d’un événement statique, vous devez détacher vos gestionnaires d’événements lorsque votre application est supprimée, ou entraînent des fuites de mémoire.  
@@ -495,6 +516,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -513,7 +536,7 @@
 ## Remarks  
   
 > [!NOTE]
->  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement n’est pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement ne sera pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
 >  Comme il s’agit d’un événement statique, vous devez détacher vos gestionnaires d’événements lorsque votre application est supprimée, ou entraînent des fuites de mémoire.  
@@ -537,6 +560,8 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -555,9 +580,9 @@
 ## Remarks  
  Cet événement peut être annulé. Définition de la <xref:Microsoft.Win32.SessionEndingEventArgs.Cancel%2A> propriété `true` demande que la session continue de s’exécuter. Il ne garantit pas que la session se terminera pas.  
   
- Si vous utilisez <xref:Microsoft.Win32.SystemEvents.SessionEnding> dans un Windows form pour détecter une fermeture de session ou le redémarrage, il n’existe aucun moyen déterministe de décider si le <xref:System.Windows.Forms.Form.Closing> événement se déclenche avant cet événement.  
+ Si vous utilisez <xref:Microsoft.Win32.SystemEvents.SessionEnding> dans un formulaire Windows pour détecter une fermeture de session ou le redémarrage, il n’existe aucun moyen déterministe pour décider si le <xref:System.Windows.Forms.Form.Closing> événement se déclenche avant cet événement.  
   
- Si vous souhaitez effectuer des tâches particulières avant <xref:System.Windows.Forms.Form.Closing> est déclenché, vous devez vous assurer que <xref:Microsoft.Win32.SystemEvents.SessionEnding> se déclenche avant <xref:System.Windows.Forms.Form.Closing>. Pour ce faire, vous devez intercepter le `WM_QUERYENDSESSION` dans l’écran en substituant le `WndProc` (fonction).  Cet exemple montre comment effectuer cette opération.  
+ Si vous souhaitez effectuer des tâches particulières avant <xref:System.Windows.Forms.Form.Closing> est déclenché, vous devez vous assurer que <xref:Microsoft.Win32.SystemEvents.SessionEnding> se déclenche avant <xref:System.Windows.Forms.Form.Closing>. Pour ce faire, vous devez intercepter la `WM_QUERYENDSESSION` dans l’écran en substituant le `WndProc` (fonction).  Cet exemple montre comment effectuer cette opération.  
   
 ```vb  
 Private Shared WM_QUERYENDSESSION As Integer = &H11  
@@ -626,10 +651,10 @@ private void Form1_Closing(
 ```  
   
 > [!IMPORTANT]
->  Les applications console ne déclenchent pas le <xref:Microsoft.Win32.SystemEvents.SessionEnding> événement.  
+>  Les applications de console ne déclenchent pas la <xref:Microsoft.Win32.SystemEvents.SessionEnding> événement.  
   
 > [!NOTE]
->  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement n’est pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement ne sera pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
 >  Comme il s’agit d’un événement statique, vous devez détacher vos gestionnaires d’événements lorsque votre application est supprimée, ou entraînent des fuites de mémoire.  
@@ -653,6 +678,7 @@ private void Form1_Closing(
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -671,7 +697,7 @@ private void Form1_Closing(
 ## Remarks  
   
 > [!NOTE]
->  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement n’est pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement ne sera pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
 >  Comme il s’agit d’un événement statique, vous devez détacher vos gestionnaires d’événements lorsque votre application est supprimée, ou entraînent des fuites de mémoire.  
@@ -693,6 +719,8 @@ private void Form1_Closing(
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -711,7 +739,7 @@ private void Form1_Closing(
 ## Remarks  
   
 > [!NOTE]
->  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement n’est pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement ne sera pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
 >  Comme il s’agit d’un événement statique, vous devez détacher vos gestionnaires d’événements lorsque votre application est supprimée, ou entraînent des fuites de mémoire.  
@@ -733,6 +761,8 @@ private void Form1_Closing(
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -746,7 +776,7 @@ private void Form1_Closing(
 ## Remarks  
   
 > [!NOTE]
->  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement n’est pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement ne sera pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
 >  Comme il s’agit d’un événement statique, vous devez détacher vos gestionnaires d’événements lorsque votre application est supprimée, ou entraînent des fuites de mémoire.  
@@ -769,6 +799,8 @@ private void Form1_Closing(
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -787,7 +819,7 @@ private void Form1_Closing(
 ## Remarks  
   
 > [!NOTE]
->  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement n’est pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement ne sera pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
 >  Comme il s’agit d’un événement statique, vous devez détacher vos gestionnaires d’événements lorsque votre application est supprimée, ou entraînent des fuites de mémoire.  
@@ -811,6 +843,8 @@ private void Form1_Closing(
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -829,7 +863,7 @@ private void Form1_Closing(
 ## Remarks  
   
 > [!NOTE]
->  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement n’est pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
+>  Cet événement est déclenché uniquement si la pompe de messages est en cours d’exécution. Dans un service Windows, sauf si un formulaire masqué est utilisé ou la pompe de messages a été démarrée manuellement, cet événement ne sera pas déclenché. Pour obtenir un exemple de code qui montre comment gérer les événements système à l’aide d’un formulaire caché dans un service Windows, consultez la <xref:Microsoft.Win32.SystemEvents> classe.  
   
 > [!CAUTION]
 >  Comme il s’agit d’un événement statique, vous devez détacher vos gestionnaires d’événements lorsque votre application est supprimée, ou entraînent des fuites de mémoire.  
@@ -837,7 +871,7 @@ private void Form1_Closing(
    
   
 ## Examples  
- L’exemple de code suivant montre comment surveiller le <xref:Microsoft.Win32.SystemEvents.UserPreferenceChanging> événement. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:Microsoft.Win32.SystemEvents> classe.  
+ L’exemple de code suivant montre comment surveiller la <xref:Microsoft.Win32.SystemEvents.UserPreferenceChanging> événement. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:Microsoft.Win32.SystemEvents> classe.  
   
  [!code-cpp[SystemEvents#2](~/samples/snippets/cpp/VS_Snippets_Winforms/SystemEvents/cpp/SystemEvents.cpp#2)]
  [!code-csharp[SystemEvents#2](~/samples/snippets/csharp/VS_Snippets_Winforms/SystemEvents/CS/SystemEvents.cs#2)]

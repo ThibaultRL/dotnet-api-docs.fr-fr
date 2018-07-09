@@ -1,11 +1,11 @@
 <Type Name="DataContractSerializer" FullName="System.Runtime.Serialization.DataContractSerializer">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="34a05821bfe0c455b40d67eae470aaf811dab055" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="9f44f5ab013f06b8fe5cf47d9e29bbd1195287c0" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36534225" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37634416" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class DataContractSerializer : System.Runtime.Serialization.XmlObjectSerializer" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit DataContractSerializer extends System.Runtime.Serialization.XmlObjectSerializer" />
@@ -22,6 +22,7 @@
   <AssemblyInfo>
     <AssemblyName>System.Runtime.Serialization</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -58,19 +59,19 @@
   
  Le format final du code XML ne doit pas obligatoirement être le format texte. À la place, la classe <xref:System.Runtime.Serialization.DataContractSerializer> écrit les données comme un jeu d'informations XML, qui vous permet d'écrire les données dans n'importe quel format reconnu par la classe <xref:System.Xml.XmlReader> et <xref:System.Xml.XmlWriter>. Il est recommandé d'utiliser les classes <xref:System.Xml.XmlDictionaryReader> et <xref:System.Xml.XmlDictionaryWriter> pour lire et écrire, car toutes deux sont optimisées pour l'utilisation de la classe <xref:System.Runtime.Serialization.DataContractSerializer>.  
   
- Si vous créez une classe qui possède des champs ou des propriétés qui doivent être remplies avant la sérialisation ou la désérialisation se produit, utilisez les attributs de rappel, comme décrit dans [des rappels de sérialisation avec tolérance de Version](~/docs/framework/wcf/feature-details/version-tolerant-serialization-callbacks.md).  
+ Si vous créez une classe qui possède des champs ou propriétés qui doivent être remplies avant la sérialisation ou la désérialisation se produit, utilisez les attributs de rappel, comme décrit dans [des rappels de sérialisation avec tolérance de Version](~/docs/framework/wcf/feature-details/version-tolerant-serialization-callbacks.md).  
   
 ## <a name="adding-to-the-collection-of-known-types"></a>Ajout à la collection des types connus  
  Lors de la sérialisation ou désérialisation d'un objet, il est nécessaire que le type soit « connu » de la classe <xref:System.Runtime.Serialization.DataContractSerializer>. Commencez en créant une instance d'une classe qui implémente <xref:System.Collections.Generic.IEnumerable%601> (comme <xref:System.Collections.Generic.List%601>) et en ajoutant les types connus à la collection. Créez ensuite une instance de la classe <xref:System.Runtime.Serialization.DataContractSerializer> à l'aide d'une des surcharges qui utilise l'interface <xref:System.Collections.Generic.IEnumerable%601> (par exemple, <xref:System.Runtime.Serialization.DataContractSerializer.%23ctor%28System.Type%2CSystem.Collections.Generic.IEnumerable%7BSystem.Type%7D%29>.  
   
 > [!NOTE]
->  Contrairement à d’autres types primitifs, les <xref:System.DateTimeOffset> structure n’est pas un type connu par défaut, il doit être ajoutée manuellement à la liste des types connus (consultez [Types connus de contrat de données](~/docs/framework/wcf/feature-details/data-contract-known-types.md)).  
+>  Contrairement à d’autres types primitifs, les <xref:System.DateTimeOffset> structure n’est pas un type connu par défaut, il doit être ajoutée manuellement à la liste des types connus (consultez [Data Contract Known Types](~/docs/framework/wcf/feature-details/data-contract-known-types.md)).  
   
 ## <a name="forward-compatibility"></a>Compatibilité ascendante  
  La classe <xref:System.Runtime.Serialization.DataContractSerializer> comprend les contrats de données conçus pour être compatibles avec de futures versions du contrat. Les types de cette sorte implémentent l'interface <xref:System.Runtime.Serialization.IExtensibleDataObject>. L'interface présente la propriété <xref:System.Runtime.Serialization.IExtensibleDataObject.ExtensionData%2A> qui retourne un objet <xref:System.Runtime.Serialization.ExtensionDataObject>. Pour plus d’informations, consultez [Contrats de données compatibles avec des versions ultérieures](~/docs/framework/wcf/feature-details/forward-compatible-data-contracts.md).  
   
 ## <a name="running-under-partial-trust"></a>Exécution en situation de confiance partielle  
- Lorsque vous instanciez l'objet cible pendant la désérialisation, la classe <xref:System.Runtime.Serialization.DataContractSerializer> n'appelle pas le constructeur de l'objet cible. Si vous créez un *[DataContract]* type qui est accessible à partir d’une confiance partielle (autrement dit, il est public et dans un assembly qui a le `AllowPartiallyTrustedCallers` attribut appliqué) et qui n’effectue certaines actions liées à la sécurité, vous devez être conscient qui le constructeur n’est pas appelé. En particulier, les techniques suivantes ne fonctionnent pas:  
+ Lorsque vous instanciez l'objet cible pendant la désérialisation, la classe <xref:System.Runtime.Serialization.DataContractSerializer> n'appelle pas le constructeur de l'objet cible. Si vous créez un *[DataContract]* type qui est accessible à partir de la confiance partielle (autrement dit, il est public et dans un assembly qui a le `AllowPartiallyTrustedCallers` attribut appliqué) et qui effectue quelques actions relatives à la sécurité, vous devez être conscient que le constructeur n’est pas appelé. En particulier, les techniques suivantes ne fonctionnent pas:  
   
 -   Si vous essayez de restreindre l'accès en confiance partielle en rendant le constructeur interne ou privé, ou en ajoutant un `LinkDemand` au constructeur, ni l'un ni l'autre n'ont d'effet pendant la désérialisation en confiance partielle.  
   
@@ -86,7 +87,7 @@
   
  ]]></format>
     </remarks>
-    <threadsafe>Les instances de cette classe sont thread-safe, sauf lorsque l’instance est utilisé avec une implémentation de la <see cref="T:System.Runtime.Serialization.IDataContractSurrogate" /> ou <see cref="T:System.Runtime.Serialization.DataContractResolver" />.</threadsafe>
+    <threadsafe>Instances de cette classe sont thread-safe, sauf si l’instance est utilisé avec une implémentation de la <see cref="T:System.Runtime.Serialization.IDataContractSurrogate" /> ou <see cref="T:System.Runtime.Serialization.DataContractResolver" />.</threadsafe>
     <altmember cref="T:System.Runtime.Serialization.DataMemberAttribute" />
     <altmember cref="T:System.Runtime.Serialization.DataContractAttribute" />
     <altmember cref="T:System.Runtime.Serialization.IExtensibleDataObject" />
@@ -120,6 +121,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -161,6 +163,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -240,6 +243,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -285,6 +289,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -331,6 +336,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -381,6 +387,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -426,6 +433,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -451,7 +459,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- L'exemple suivant crée une instance de la classe <xref:System.Runtime.Serialization.DataContractSerializer> qui spécifie le type à sérialiser ou désérialiser et une instance d'une interface <xref:System.Collections.Generic.IEnumerable%601> pour contenir les types connus utilisés pendant la sérialisation ou la désérialisation. Le code définit également la `ignoreExtensionDataObject` et `preserveObjectReferences` paramètres `true`et spécifie une implémentation de la <xref:System.Runtime.Serialization.IDataContractSurrogate> permettant de gérer des types hérités (types qui n’ont pas le <xref:System.Runtime.Serialization.DataContractAttribute> attribut appliqué). Pour plus d’informations, consultez le <xref:System.Runtime.Serialization.IDataContractSurrogate> documentation.  
+ L'exemple suivant crée une instance de la classe <xref:System.Runtime.Serialization.DataContractSerializer> qui spécifie le type à sérialiser ou désérialiser et une instance d'une interface <xref:System.Collections.Generic.IEnumerable%601> pour contenir les types connus utilisés pendant la sérialisation ou la désérialisation. Le code affecte également le `ignoreExtensionDataObject` et `preserveObjectReferences` paramètres `true`et spécifie une implémentation de la <xref:System.Runtime.Serialization.IDataContractSurrogate> interface pour gérer des types hérités (types qui n’ont pas le <xref:System.Runtime.Serialization.DataContractAttribute> attribut appliqué). Pour plus d’informations, consultez le <xref:System.Runtime.Serialization.IDataContractSurrogate> documentation.  
   
  [!code-csharp[DataContractSerializer#14](~/samples/snippets/csharp/VS_Snippets_CFX/datacontractserializer/cs/source.cs#14)]
  [!code-vb[DataContractSerializer#14](~/samples/snippets/visualbasic/VS_Snippets_CFX/datacontractserializer/vb/source.vb#14)]  
@@ -507,7 +515,7 @@
 ## Remarks  
   
 > [!WARNING]
->  Cette méthode n’est pas disponible dans les applications du Windows Store.  
+>  Cette méthode n’est pas disponible dans les applications Windows Store.  
   
  ]]></format>
         </remarks>
@@ -523,6 +531,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -552,7 +561,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- L'exemple suivant crée une instance de la classe <xref:System.Runtime.Serialization.DataContractSerializer> qui spécifie le type à sérialiser ou désérialiser, l'élément et l'espace de noms XML racine, et une instance d'une interface <xref:System.Collections.Generic.IEnumerable%601> qui contient les types utilisés pendant la désérialisation. Le code définit également la `ignoreExtensionDataObject` et `preserveObjectReferences` paramètres `true`et spécifie une implémentation de la <xref:System.Runtime.Serialization.IDataContractSurrogate> permettant de gérer des types hérités (types qui n’ont pas le <xref:System.Runtime.Serialization.DataContractAttribute> attribut appliqué). Pour plus d’informations, consultez le <xref:System.Runtime.Serialization.IDataContractSurrogate> documentation.  
+ L'exemple suivant crée une instance de la classe <xref:System.Runtime.Serialization.DataContractSerializer> qui spécifie le type à sérialiser ou désérialiser, l'élément et l'espace de noms XML racine, et une instance d'une interface <xref:System.Collections.Generic.IEnumerable%601> qui contient les types utilisés pendant la désérialisation. Le code affecte également le `ignoreExtensionDataObject` et `preserveObjectReferences` paramètres `true`et spécifie une implémentation de la <xref:System.Runtime.Serialization.IDataContractSurrogate> interface pour gérer des types hérités (types qui n’ont pas le <xref:System.Runtime.Serialization.DataContractAttribute> attribut appliqué). Pour plus d’informations, consultez le <xref:System.Runtime.Serialization.IDataContractSurrogate> documentation.  
   
  [!code-csharp[DataContractSerializer#15](~/samples/snippets/csharp/VS_Snippets_CFX/datacontractserializer/cs/source.cs#15)]
  [!code-vb[DataContractSerializer#15](~/samples/snippets/visualbasic/VS_Snippets_CFX/datacontractserializer/vb/source.vb#15)]  
@@ -579,6 +588,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -609,7 +619,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- L'exemple suivant crée une instance de la classe <xref:System.Runtime.Serialization.DataContractSerializer> qui spécifie le type à sérialiser ou désérialiser, l'élément et l'espace de noms XML racine (sous forme de paramètres <xref:System.Xml.XmlDictionaryString>) et une instance d'interface <xref:System.Collections.Generic.IEnumerable%601> qui contient les types utilisés pendant la désérialisation. Le code définit également la `ignoreExtensionDataObject` et `preserveObjectReferences` paramètres `true`et spécifie une implémentation de la <xref:System.Runtime.Serialization.IDataContractSurrogate> permettant de gérer des types hérités (types qui n’ont pas le <xref:System.Runtime.Serialization.DataContractAttribute> attribut appliqué). Pour plus d’informations, consultez le <xref:System.Runtime.Serialization.IDataContractSurrogate> documentation.  
+ L'exemple suivant crée une instance de la classe <xref:System.Runtime.Serialization.DataContractSerializer> qui spécifie le type à sérialiser ou désérialiser, l'élément et l'espace de noms XML racine (sous forme de paramètres <xref:System.Xml.XmlDictionaryString>) et une instance d'interface <xref:System.Collections.Generic.IEnumerable%601> qui contient les types utilisés pendant la désérialisation. Le code affecte également le `ignoreExtensionDataObject` et `preserveObjectReferences` paramètres `true`et spécifie une implémentation de la <xref:System.Runtime.Serialization.IDataContractSurrogate> interface pour gérer des types hérités (types qui n’ont pas le <xref:System.Runtime.Serialization.DataContractAttribute> attribut appliqué). Pour plus d’informations, consultez le <xref:System.Runtime.Serialization.IDataContractSurrogate> documentation.  
   
  [!code-csharp[DataContractSerializer#16](~/samples/snippets/csharp/VS_Snippets_CFX/datacontractserializer/cs/source.cs#16)]
  [!code-vb[DataContractSerializer#16](~/samples/snippets/visualbasic/VS_Snippets_CFX/datacontractserializer/vb/source.vb#16)]  
@@ -754,6 +764,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -790,6 +801,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -844,6 +856,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -897,6 +910,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -935,6 +949,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -976,6 +991,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1028,6 +1044,7 @@ OperationDescription operation = host.Description.Endpoints[0].Contract.Operatio
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1071,6 +1088,7 @@ OperationDescription operation = host.Description.Endpoints[0].Contract.Operatio
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1108,6 +1126,7 @@ OperationDescription operation = host.Description.Endpoints[0].Contract.Operatio
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1159,6 +1178,7 @@ OperationDescription operation = host.Description.Endpoints[0].Contract.Operatio
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1282,6 +1302,7 @@ OperationDescription operation = host.Description.Endpoints[0].Contract.Operatio
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1330,6 +1351,7 @@ OperationDescription operation = host.Description.Endpoints[0].Contract.Operatio
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1378,6 +1400,7 @@ OperationDescription operation = host.Description.Endpoints[0].Contract.Operatio
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1465,6 +1488,7 @@ OperationDescription operation = host.Description.Endpoints[0].Contract.Operatio
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1515,6 +1539,7 @@ OperationDescription operation = host.Description.Endpoints[0].Contract.Operatio
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1565,6 +1590,7 @@ OperationDescription operation = host.Description.Endpoints[0].Contract.Operatio
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1613,6 +1639,7 @@ OperationDescription operation = host.Description.Endpoints[0].Contract.Operatio
       <AssemblyInfo>
         <AssemblyName>System.Runtime.Serialization</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
