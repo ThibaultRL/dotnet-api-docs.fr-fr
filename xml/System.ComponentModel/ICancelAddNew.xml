@@ -1,11 +1,11 @@
 <Type Name="ICancelAddNew" FullName="System.ComponentModel.ICancelAddNew">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="cd2446cbe765291b3c6b7f8c8df33e2f265e2481" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="4a90ef799e4d00c36c06e1d73fd90e9c03baeab9" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36703040" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37692954" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface ICancelAddNew" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract ICancelAddNew" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ICancelAddNew = interface" />
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -36,18 +37,18 @@
 ## Remarks  
  Le <xref:System.ComponentModel.ICancelAddNew> interface permet à une collection ajouter un nouvel élément d’une manière extensible. Le nouvel élément peut ensuite être validé ou restauré. Le <xref:System.ComponentModel.IBindingList.AddNew%2A> méthode de la collection est utilisée pour ajouter provisoirement l’élément qui est traité par la suite via les opérations suivantes :  
   
--   Le <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> méthode explicitement validera l’ajout en attente.  
+-   Le <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> méthode sera validée explicitement l’ajout en attente.  
   
--   Effectuer une autre opération de collection, par exemple une insertion, suppression ou déplacement validera implicitement l’ajout en attente.  
+-   Une autre opération collection, tel qu’un insertion, suppression ou déplacement validera implicitement l’ajout en attente.  
   
--   Le <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> méthode annule l’ajout en attente si elle n’a pas encore été validée.  
+-   Le <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> méthode restaurera l’ajout en attente si elle n’a pas déjà été validée.  
   
 > [!NOTE]
->  Dans certains scénarios, notamment la liaison de données complexe Windows Forms, la collection peut recevoir <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> ou <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> appelle d’autres éléments que l’élément qui vient d’être ajouté. (Chaque élément est généralement une ligne dans une vue de données). Ignorez ces appels ; Annuler ou valider le nouvel élément uniquement lorsque l’index de cet élément est spécifié.  
+>  Dans certains scénarios, par exemple de liaison de données complexe Windows Forms, la collection peut recevoir <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> ou <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> appelle d’autres éléments que l’élément qui vient d’être ajouté. (Chaque élément est généralement une ligne dans une vue de données). Ignorer ces appels ; Annuler ou valider le nouvel élément uniquement lorsque l’index de cet élément est spécifié.  
   
  Il existe deux modèles qui autorisent l’addition transactionnelle d’un élément à une collection liée aux données :  
   
--   L’ancien modèle repose directement sur une collection qui implémente le <xref:System.ComponentModel.IBindingList> de l’interface et est lié aux données directement à l’aide de la <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> classe. Le <xref:System.Windows.Forms.CurrencyManager.AddNew%2A>, <xref:System.Windows.Forms.CurrencyManager.EndCurrentEdit%2A>, et <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A> méthodes de la <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> classe sont responsables de la prise en charge transactionnelle permettant d’ajouter de nouveaux éléments. Toutefois, cette fonctionnalité repose sur les éléments que prenant en charge le comportement transactionnel via le <xref:System.ComponentModel.IEditableObject> interface. Si les éléments ne prennent pas en charge cette interface, l’élément sera toujours être ajouté à la liste, quel que soit les appels suivants à <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A>.  
+-   L’ancien modèle repose directement sur une collection qui implémente le <xref:System.ComponentModel.IBindingList> interface et est lié aux données directement à l’aide de la <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> classe. Le <xref:System.Windows.Forms.CurrencyManager.AddNew%2A>, <xref:System.Windows.Forms.CurrencyManager.EndCurrentEdit%2A>, et <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A> méthodes de la <xref:System.Windows.Forms.CurrencyManager?displayProperty=nameWithType> classe sont responsables de la prise en charge transactionnelle pour l’ajout de nouveaux éléments. Toutefois, cette fonctionnalité repose sur les éléments prenant en charge le comportement transactionnel via le <xref:System.ComponentModel.IEditableObject> interface. Si les éléments ne prennent pas en charge cette interface, l’élément est toujours ajouté à la liste, quel que soit les appels suivants à <xref:System.Windows.Forms.CurrencyManager.CancelCurrentEdit%2A>.  
   
 -   Le modèle plus récent prend en charge un scénario de liaison de données plus fiable via générique <xref:System.ComponentModel.BindingList%601> classe qui implémente le <xref:System.ComponentModel.IBindingList> et <xref:System.ComponentModel.ICancelAddNew> interfaces. Dans ce cas, la prise en charge transactionnelle est géré par le <xref:System.ComponentModel.BindingList%601> collection directement.  
   
@@ -69,6 +70,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -94,7 +96,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> méthode restaure une addition en attente (<xref:System.ComponentModel.IBindingList.AddNew%2A>) d’un élément précédemment ajouté à la collection à la position `itemIndex`. Le paramètre d’index est nécessaire car plusieurs nouveaux éléments peuvent être simultanément en attente.  
+ Le <xref:System.ComponentModel.ICancelAddNew.CancelNew%2A> méthode restaure un ajout en attente (<xref:System.ComponentModel.IBindingList.AddNew%2A>) d’un élément précédemment ajouté à la collection à la position `itemIndex`. Le paramètre d’index est nécessaire, car plusieurs nouveaux éléments peuvent être simultanément en attente.  
   
  ]]></format>
         </remarks>
@@ -113,6 +115,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -138,7 +141,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> valide une addition en attente (<xref:System.ComponentModel.IBindingList.AddNew%2A>) d’un élément précédemment ajouté à la collection à la position `itemIndex`. Le paramètre d’index est nécessaire car plusieurs nouveaux éléments peuvent être simultanément en attente.  
+ Le <xref:System.ComponentModel.ICancelAddNew.EndNew%2A> valide une addition en attente (<xref:System.ComponentModel.IBindingList.AddNew%2A>) d’un élément précédemment ajouté à la collection à la position `itemIndex`. Le paramètre d’index est nécessaire, car plusieurs nouveaux éléments peuvent être simultanément en attente.  
   
  ]]></format>
         </remarks>

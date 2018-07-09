@@ -1,11 +1,11 @@
 <Type Name="UndoEngine" FullName="System.ComponentModel.Design.UndoEngine">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="48eb554af8844eb60128026d2a65b10736aa04d7" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="8b0267ac2fcb6d6a62b42c1a34fef6ce849aa900" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36705289" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37694965" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class UndoEngine : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit UndoEngine extends System.Object implements class System.IDisposable" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type UndoEngine = class&#xA;    interface IDisposable" />
   <AssemblyInfo>
     <AssemblyName>System.Design</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -31,33 +32,33 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.ComponentModel.Design.UndoEngine> classe abstraite fournit une implémentation par défaut de la fonctionnalité Annuler au moment du design. Une unité d’annulation représente une seule unité de travail annulable. Cette unité est ajoutée à une pile et l’utilisateur peut ensuite parcourir la pile pour annuler chaque action. Unités d’annulation en général sont conçues pour activer ou désactiver, ce qui signifie que l’annulation appel renvoie deux fois l’application à son état de départ.  
+ Le <xref:System.ComponentModel.Design.UndoEngine> classe abstraite fournit une implémentation par défaut de la fonctionnalité d’annulation au moment du design. Une unité d’annulation représente une seule unité de travail annulable. Cette unité est ajoutée à une pile et l’utilisateur peut ensuite parcourir la pile pour annuler chaque action. Unités d’annulation en général sont conçues pour activer/désactiver, ce qui signifie que l’annulation appelante retourne deux fois l’application à son état initial.  
   
- La <xref:System.ComponentModel.Design.UndoEngine> classe tire parti des caractéristiques suivantes des objets qui s’exécutent dans le concepteur :  
+ Le <xref:System.ComponentModel.Design.UndoEngine> classe tire parti des caractéristiques suivantes des objets en cours d’exécution dans le concepteur :  
   
--   Tous les objets intéressants peuvent être conservées en un format par le chargeur de concepteur.  
+-   Tous les objets intéressants peuvent être enregistrées dans un format par le chargeur de concepteur.  
   
--   Tous les objets de déclenchent des notifications de modification de propriété lorsqu’une propriété est modifiée.  
+-   Tous les objets génère des notifications de modification de propriété lorsqu’une propriété est modifiée.  
   
--   <xref:System.ComponentModel.Design.IDesignerHost> fournit l’idée de transactions, qui peut être utilisé pour fabriquer une opération d’annulation couvrant plusieurs actions plus petites.  
+-   <xref:System.ComponentModel.Design.IDesignerHost> fournit l’idée de transactions, qui peut être utilisé pour fabriquer une opération d’annulation qui s’étend sur plusieurs actions plus petites.  
   
- Avec ces fonctionnalités, <xref:System.ComponentModel.Design.UndoEngine> peut créer des unités d’annulation dont il a besoin automatiquement.  
+ Avec ces fonctionnalités, <xref:System.ComponentModel.Design.UndoEngine> peut fabriquer des unités d’annulation dont il a besoin automatiquement.  
   
 > [!NOTE]
 >  Ne modifiez pas directement les valeurs de propriété. Le <xref:System.ComponentModel.Design.UndoEngine> classe, vous devez utiliser approprié <xref:System.ComponentModel.TypeDescriptor> pour modifier les valeurs de propriété.  
   
- <xref:System.ComponentModel.Design.UndoEngine> analyses des notifications de modification créer des unités d’annulation et les unités elles-mêmes se composent d’états de l’objet sérialisé. Le tableau suivant présente les services qui doivent être disponible lorsque <xref:System.ComponentModel.Design.UndoEngine> est créé.  
+ <xref:System.ComponentModel.Design.UndoEngine> analyses pour les notifications de modification créer des unités d’annulation et les unités elles-mêmes se composent d’états de l’objet sérialisé. Le tableau suivant présente les services qui doivent être disponible lorsque <xref:System.ComponentModel.Design.UndoEngine> est créé.  
   
 |Service|Description |  
 |-------------|-----------------|  
-|<xref:System.ComponentModel.Design.Serialization.ComponentSerializationService>|Enregistre les valeurs de propriété et d’objet pour un composant avant et après qu’une modification est apportée.|  
+|<xref:System.ComponentModel.Design.Serialization.ComponentSerializationService>|Enregistre les valeurs de propriété et objet pour un composant avant et après qu’une modification est apportée.|  
 |<xref:System.ComponentModel.Design.IComponentChangeService>|Notifie le moteur d’annulation des modifications apportées aux composants.|  
 |<xref:System.ComponentModel.Design.IDesignerHost>|Utilisé pour effectuer le suivi des transactions.|  
   
 > [!NOTE]
->  Étant donné que la <xref:System.ComponentModel.Design.UndoEngine> requiert de la classe <xref:System.ComponentModel.Design.Serialization.ComponentSerializationService> et <xref:System.ComponentModel.Design.IComponentChangeService>, il est disponible uniquement au moment du design.  
+>  Étant donné que le <xref:System.ComponentModel.Design.UndoEngine> nécessite de la classe <xref:System.ComponentModel.Design.Serialization.ComponentSerializationService> et <xref:System.ComponentModel.Design.IComponentChangeService>, il est disponible uniquement au moment du design.  
   
- Le moteur d’annulation effectue le suivi des transactions et crée une seule unité d’annulation qui englobe une transaction. Par conséquent, le moteur d’annulation a contrôle la durée d’une action annulable. En outre, étant donné que les transactions pouvant être nommées, actions annulables héritent de leurs noms la transaction en cours. Si aucune transaction n’est disponible, et une modification est signalée, le moteur d’annulation crée un nom d’annulation en fonction du type de modification (par exemple, « modification de propriété 'Text' »).  
+ Le moteur d’annulation effectue le suivi des transactions et crée une seule unité d’annulation qui englobe une transaction. Par conséquent, le moteur d’annulation ne contrôle la durée d’une action annulable. En outre, étant donné que les transactions peuvent être nommées, actions annulables héritent leurs noms à partir de la transaction en cours. Si aucune transaction n’est disponible et une modification est signalée, le moteur d’annulation crée un nom d’annulation en fonction du type de modification (par exemple, « Change property 'Text' »).  
   
  ]]></format>
     </remarks>
@@ -78,6 +79,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -90,7 +92,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.ComponentModel.Design.UndoEngine> requiert plusieurs services à partir de la `provider` le paramètre doit être utile.  
+ Le <xref:System.ComponentModel.Design.UndoEngine> requiert plusieurs services à partir de la `provider` paramètre soit utile.  
   
  ]]></format>
         </remarks>
@@ -112,6 +114,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -144,6 +147,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -165,7 +169,7 @@
 ## Remarks  
  L’implémentation par défaut de la <xref:System.ComponentModel.Design.UndoEngine.CreateUndoUnit%2A> méthode retourne simplement un nouveau <xref:System.ComponentModel.Design.UndoEngine.UndoUnit>.  
   
- Par défaut, <xref:System.ComponentModel.Design.UndoEngine> ne fait rien avec la `primary` paramètre, mais certaines implémentations de restauration, comme ceux impliquant le modèle COM `Microsoft.VisualStudio.OLE.Interop.IOleParentUndoUnit` modèle de conception, peut être nécessaire identifier la différence entre une unité principale et ses enfants.  
+ Par défaut, <xref:System.ComponentModel.Design.UndoEngine> ne fait rien avec le `primary` paramètre, mais certaines implémentations d’annulation, telles que celles impliquant le modèle COM `Microsoft.VisualStudio.OLE.Interop.IOleParentUndoUnit` modèle de conception, peut être nécessaire identifier la différence entre une unité principale et ses enfants.  
   
  ]]></format>
         </remarks>
@@ -181,6 +185,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -225,6 +230,7 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -246,6 +252,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -271,6 +278,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -293,6 +301,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -322,6 +331,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -349,6 +359,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -374,6 +385,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -399,6 +411,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -419,6 +432,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -441,6 +455,7 @@
       <MemberType>Event</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
