@@ -1,11 +1,11 @@
 <Type Name="Matrix" FullName="System.Drawing.Drawing2D.Matrix">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="830c4b8105496845c2dc0d32c2ce03349b30fe2b" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="f452e60fa5c29b74928e01611ab68e3ac7a43cc2" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36671031" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37762858" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class Matrix : MarshalByRefObject, IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit Matrix extends System.MarshalByRefObject implements class System.IDisposable" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type Matrix = class&#xA;    inherit MarshalByRefObject&#xA;    interface IDisposable" />
   <AssemblyInfo>
     <AssemblyName>System.Drawing</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -36,21 +38,21 @@
  ![Transformations](~/add/media/aboutgdip05-art10.gif "Transformations")  
   
 ## <a name="composite-transformations"></a>Transformations composites  
- Une transformation composite est une séquence de transformations, un après l’autre. Prenons les matrices et les transformations dans la liste suivante :  
+ Une transformation composite est une séquence de transformations, une après l’autre. Prenez en compte les matrices et les transformations dans la liste suivante :  
   
 |||  
 |-|-|  
-|Matrice A|Rotation de 90 degrés|  
-|Matrice B|Mettre à l’échelle par un facteur de 2 dans la direction x|  
+|Matrice A|Faire pivoter de 90 degrés|  
+|Matrice B|Mettre à l’échelle par un facteur de 2 sur l’axe x|  
 |Matrice C|Translation de 3 unités dans la direction y|  
   
- Si nous commençons avec le point (2, 1), représenté par la matrice [2 1 1] — et multiplier par A, puis B, puis C, le point (2, 1) subiront les trois transformations dans l’ordre indiqué.  
+ Si nous commençons avec le point (2, 1), représenté par la matrice [2 1 1] et le multiplier par A, puis B, puis C, le point (2, 1) subiront les trois transformations dans l’ordre indiqué.  
   
- [1 DE 1 2] ABC = [1 DE 5-2]  
+ [2 1 1] ABC = [1 DE 5-2]  
   
- Au lieu de cela les trois parties de la transformation composite dans trois matrices distinctes, vous pouvez multiplier A, B et C ensemble pour obtenir une matrice 3 x 3 unique qui stocke la transformation composite entière. Supposons que ABC = D. Puis un point multiplié par D donne le même résultat qu’un point multiplié par A, puis B, puis sur C.  
+ Au lieu de cela les trois parties de la transformation composite dans trois matrices distinctes, vous pouvez multiplier A, B et C entre elles pour obtenir une matrice 3 x 3 unique qui stocke la transformation composite entière. Supposons que ABC = D. Puis un point multiplié par D donne le même résultat qu’un point multiplié par A, puis B, puis sur C.  
   
- [1 DE 1 2] D = [1 DE 5-2]  
+ [2 1 1] D = [1 DE 5-2]  
   
  L’illustration suivante montre les matrices A, B, C et D.  
   
@@ -59,9 +61,9 @@
  Le fait que la matrice d’une transformation composite peut être formée en multipliant les matrices de transformation individuelles signifie que n’importe quelle séquence de transformations affines peut être stockée dans un seul <xref:System.Drawing.Drawing2D.Matrix> objet.  
   
 > [!CAUTION]
->  L’ordre d’une transformation composite est important. En règle générale, faire pivoter, mettre à l’échelle, puis traduire n’est pas le même que l’échelle, faire pivoter, puis traduire. De même, l’ordre de la multiplication des matrices est important. En général, ABC n’est pas identique à l’arrière.  
+>  L’ordre d’une transformation composite est important. En règle générale, faire pivoter, mettre à l’échelle, puis traduire n’est pas le même en tant que mise à l’échelle, faire pivoter, puis traduire. De même, l’ordre de multiplication de matrice est important. En général, ABC n’est pas identique à BAC.  
   
- Le <xref:System.Drawing.Drawing2D.Matrix> classe fournit plusieurs méthodes pour créer une transformation composite : <xref:System.Drawing.Drawing2D.Matrix.Multiply%2A>, <xref:System.Drawing.Drawing2D.Matrix.Rotate%2A>, <xref:System.Drawing.Drawing2D.Matrix.RotateAt%2A>, <xref:System.Drawing.Drawing2D.Matrix.Scale%2A>, <xref:System.Drawing.Drawing2D.Matrix.Shear%2A>, et <xref:System.Drawing.Drawing2D.Matrix.Translate%2A>. L’exemple suivant crée la matrice d’une transformation composite qui pivote tout d’abord de 30 degrés, puis met à l’échelle par un facteur de 2 sur l’axe y et enfin une translation de 5 unités dans la direction x :  
+ Le <xref:System.Drawing.Drawing2D.Matrix> classe fournit plusieurs méthodes pour créer une transformation composite : <xref:System.Drawing.Drawing2D.Matrix.Multiply%2A>, <xref:System.Drawing.Drawing2D.Matrix.Rotate%2A>, <xref:System.Drawing.Drawing2D.Matrix.RotateAt%2A>, <xref:System.Drawing.Drawing2D.Matrix.Scale%2A>, <xref:System.Drawing.Drawing2D.Matrix.Shear%2A>, et <xref:System.Drawing.Drawing2D.Matrix.Translate%2A>. L’exemple suivant crée la matrice d’une transformation composite qui pivote tout d’abord de 30 degrés, puis met à l’échelle par un facteur de 2 sur l’axe y et traduit alors 5 unités dans la direction x :  
   
  [!code-csharp[System.Drawing.CoordinateSystems#11](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Drawing.CoordinateSystems/CS/Class1.cs#11)]
  [!code-vb[System.Drawing.CoordinateSystems#11](~/samples/snippets/visualbasic/VS_Snippets_Winforms/System.Drawing.CoordinateSystems/VB/Class1.vb#11)]  
@@ -88,6 +90,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -106,6 +110,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -120,7 +126,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode initialise la nouvelle matrice, tel qu’il représente la transformation géométrique mappant le rectangle spécifié par le `rect` paramètre parallélogramme défini par les trois points dans le `plgpts` paramètre. L’angle supérieur gauche du rectangle est mappé au premier point dans le `plgpts` tableau, l’angle supérieur droit est mappé au deuxième point et l’angle inférieur gauche est mappé au troisième point. Le point inférieur droit du parallélogramme est défini par les trois premières.  
+ Cette méthode initialise la nouvelle matrice, tel qu’il représente la transformation géométrique qui mappe le rectangle spécifié par le `rect` paramètre en parallélogramme défini par les trois points dans le `plgpts` paramètre. Le coin supérieur gauche du rectangle est mappé au premier point dans le `plgpts` tableau, l’angle supérieur droit est mappé au deuxième point et l’angle inférieur gauche est mappé au troisième point. Le point inférieur droit du parallélogramme est défini par les trois premiers.  
   
  ]]></format>
         </remarks>
@@ -136,6 +142,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -150,7 +158,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode initialise la nouvelle <xref:System.Drawing.Drawing2D.Matrix> tel qu’il représente la transformation géométrique mappant le rectangle spécifié par le `rect` paramètre parallélogramme défini par les trois points dans le `plgpts` paramètre. L’angle supérieur gauche du rectangle est mappé au premier point dans le `plgpts` tableau, l’angle supérieur droit est mappé au deuxième point et l’angle inférieur gauche est mappé au troisième point. Le point inférieur droit du parallélogramme est défini par les trois premières.  
+ Cette méthode initialise la nouvelle <xref:System.Drawing.Drawing2D.Matrix> tel qu’il représente la transformation géométrique qui mappe le rectangle spécifié par le `rect` paramètre en parallélogramme défini par les trois points dans le `plgpts` paramètre. Le coin supérieur gauche du rectangle est mappé au premier point dans le `plgpts` tableau, l’angle supérieur droit est mappé au deuxième point et l’angle inférieur gauche est mappé au troisième point. Le point inférieur droit du parallélogramme est défini par les trois premiers.  
   
  ]]></format>
         </remarks>
@@ -166,6 +174,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -197,6 +207,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -223,6 +235,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -235,7 +249,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Appel de `Dispose` autorise les ressources utilisées par ce <xref:System.Drawing.Drawing2D.Matrix> objet à être réaffectés à d’autres fins.  
+ Appel `Dispose` autorise les ressources utilisées par ce <xref:System.Drawing.Drawing2D.Matrix> objet à être réaffectées à d’autres fins.  
   
  ]]></format>
         </remarks>
@@ -251,6 +265,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -279,6 +295,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -304,6 +322,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -325,6 +345,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -347,6 +369,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -380,6 +404,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -401,6 +427,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -430,6 +458,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -461,6 +491,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -495,7 +527,7 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
   
 -   Répertorie le contenu de la matrice 1 à l’écran.  
   
--   Multiplie le résultat enregistré dans la matrice 1 par la matrice 3 et à nouveau stocke le résultat dans la matrice 1.  
+-   Multiplie le résultat stocké dans la matrice 1 par la matrice 3 et à nouveau stocke le résultat dans la matrice 1.  
   
 -   Répertorie le contenu de la matrice 1 à l’écran.  
   
@@ -505,7 +537,7 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
   
 -   Dessine le rectangle transformé à l’écran (rectangle rouge), à l’aide des mêmes coordonnées que le rectangle précédent.  
   
- Notez que le rectangle rouge a été mis à l’échelle par un facteur de deux dans le sens horizontal, puis pivote de 90 degrés et déplacé (converti) de 250 points sur l’axe x et de 50 points sur l’axe y.  
+ Notez que le rectangle rouge a été mis à l’échelle par un facteur de deux dans le sens horizontal, puis pivoté de 90 degrés et déplacé (converti) de 250 points sur l’axe x et de 50 points sur l’axe y.  
   
  [!code-cpp[System.Drawing.Drawing2D.ClassicMatrixExamples#1](~/samples/snippets/cpp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CPP/form1.cpp#1)]
  [!code-csharp[System.Drawing.Drawing2D.ClassicMatrixExamples#1](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CS/form1.cs#1)]
@@ -525,6 +557,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -546,6 +580,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -567,6 +603,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -594,11 +632,11 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
   
 -   Répertorie les éléments à l’écran.  
   
--   Convertit la matrice de 50 points sur l’axe des abscisses et de 40 points sur l’axe des ordonnées.  
+-   Convertit la matrice de 50 points sur l’axe des x et 40 points sur l’axe des ordonnées.  
   
 -   Répertorie les éléments de la matrice convertie à l’écran.  
   
--   Dessine qu'un rectangle est dessiné à l’écran avant d’appliquer la matrice de transformation (rectangle bleu).  
+-   Dessine qu'un rectangle est dessiné à l’écran avant d’appliquer la transformation de matrice (rectangle bleu).  
   
 -   Applique la transformation au rectangle.  
   
@@ -633,6 +671,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -664,6 +704,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -686,13 +728,13 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
   
 -   Dessine un rectangle à l’écran avant d’appliquer une transformation de rotation (rectangle bleu).  
   
--   Crée une matrice et fait pivoter de 45 degrés.  
+-   Crée une matrice et faire pivoter de 45 degrés.  
   
--   Applique cette matrice de transformation au rectangle.  
+-   S’applique à cette matrice de transformation au rectangle.  
   
 -   Dessine le rectangle transformé à l’écran (rectangle rouge).  
   
- Notez que le rectangle rouge a subi une rotation autour de la valeur 0, 0 coordonnées d’écran.  
+ Notez que le rectangle rouge a subi une rotation autour du 0, 0 coordonnées d’écran.  
   
  [!code-cpp[System.Drawing.Drawing2D.ClassicMatrixExamples#3](~/samples/snippets/cpp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CPP/form1.cpp#3)]
  [!code-csharp[System.Drawing.Drawing2D.ClassicMatrixExamples#3](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CS/form1.cs#3)]
@@ -721,6 +763,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -739,7 +783,7 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- L’exemple de code suivant montre comment utiliser un <xref:System.Drawing.Drawing2D.Matrix> et <xref:System.Drawing.Drawing2D.GraphicsPath.Transform%2A> méthode pour faire pivoter une chaîne. Cet exemple est conçu pour être utilisé avec Windows Forms. Créer un formulaire et collez le code suivant. Appelez le `DrawVerticalStringFromBottomUp` méthode sous de la forme <xref:System.Windows.Forms.Control.Paint> Gestionnaire d’événements, en passant `e` comme <xref:System.Windows.Forms.PaintEventArgs>.  
+ L’exemple de code suivant montre comment utiliser un <xref:System.Drawing.Drawing2D.Matrix> et <xref:System.Drawing.Drawing2D.GraphicsPath.Transform%2A> méthode pour faire pivoter une chaîne. Cet exemple est conçu pour être utilisé avec Windows Forms. Créer un formulaire et collez-y le code suivant. Appelez le `DrawVerticalStringFromBottomUp` méthode sous la forme <xref:System.Windows.Forms.Control.Paint> Gestionnaire d’événements, en passant `e` comme <xref:System.Windows.Forms.PaintEventArgs>.  
   
  [!code-cpp[System.Drawing.MiscExamples#5](~/samples/snippets/cpp/VS_Snippets_Winforms/System.Drawing.MiscExamples/CPP/form1.cpp#5)]
  [!code-csharp[System.Drawing.MiscExamples#5](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Drawing.MiscExamples/CS/form1.cs#5)]
@@ -759,6 +803,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -784,9 +830,9 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
   
 -   Dessine un rectangle à l’écran avant d’appliquer une transformation de rotation (rectangle bleu).  
   
--   Crée une matrice et fait pivoter de 45 degrés autour d’un point spécifié.  
+-   Crée une matrice et faire pivoter de 45 degrés autour d’un point spécifié.  
   
--   Applique cette matrice de transformation est le rectangle.  
+-   S’applique cette matrice de transformation est le rectangle.  
   
 -   Dessine le rectangle transformé à l’écran (rectangle rouge).  
   
@@ -819,6 +865,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -852,6 +900,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -876,13 +926,13 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
   
 -   Dessine un rectangle à l’écran avant d’appliquer une transformation de mise à l’échelle (rectangle bleu).  
   
--   Crée une matrice et le facteur d’échelle par 3 sur l’axe x et de 2 sur l’axe y.  
+-   Crée une matrice et l’adapte à 3 dans l’axe des abscisses et 2 de l’axe des ordonnées.  
   
--   Applique cette matrice de transformation au rectangle.  
+-   S’applique à cette matrice de transformation au rectangle.  
   
 -   Dessine le rectangle transformé à l’écran (rectangle rouge).  
   
- Notez que le rectangle rouge a été mis à l’échelle par un facteur de 3 sur l’axe des x et de 2 sur l’axe des ordonnées, y compris l’angle supérieur gauche du rectangle (le point de début du rectangle).  
+ Notez que le rectangle rouge a été mis à l’échelle par un facteur de 3 sur l’axe des x et de 2 sur l’axe des ordonnées, y compris le coin supérieur gauche du rectangle (le point de début du rectangle).  
   
  [!code-cpp[System.Drawing.Drawing2D.ClassicMatrixExamples#5](~/samples/snippets/cpp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CPP/form1.cpp#5)]
  [!code-csharp[System.Drawing.Drawing2D.ClassicMatrixExamples#5](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CS/form1.cs#5)]
@@ -911,6 +961,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -928,12 +980,12 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La transformation appliquée dans cette méthode est une inclinaison pure uniquement si l’un des paramètres est 0. Appliquée à un rectangle à l’origine, lorsque le `shearY` facteur est 0, la transformation déplace le bord inférieur horizontalement par `shearX` fois la hauteur du rectangle. Lorsque le `shearX` facteur est 0, il déplace le bord droit verticalement de `shearY` fois la largeur du rectangle. Attention est dans l’ordre lorsque les deux paramètres sont différents de zéro, car les résultats sont difficiles à prévoir. Par exemple, si les deux facteurs est 1, la transformation est au singulier (par conséquent, noninvertible), compression de l’ensemble du plan en une seule ligne.  
+ La transformation appliquée dans cette méthode est une inclinaison pure uniquement si l’un des paramètres est 0. Appliqué à un rectangle à l’origine, lorsque le `shearY` facteur est 0, la transformation déplace le bord inférieur horizontalement par `shearX` fois la hauteur du rectangle. Lorsque le `shearX` facteur est 0, il déplace le bord droit verticalement de `shearY` fois la largeur du rectangle. Attention est dans l’ordre lorsque les deux paramètres sont différents de zéro, car les résultats sont difficiles à prédire. Par exemple, si les deux facteurs est 1, la transformation est au singulier (par conséquent, noninvertible), se faire une place l’ensemble du plan en une seule ligne.  
   
    
   
 ## Examples  
- L’exemple de code suivant est conçu pour une utilisation avec Windows Forms et nécessite <xref:System.Windows.Forms.PaintEventArgs> `e`, un <xref:System.Windows.Forms.Control.Paint> objet d’événement. Le code exécute les actions suivantes :  
+ L’exemple de code suivant est conçu pour une utilisation avec Windows Forms et nécessite <xref:System.Windows.Forms.PaintEventArgs> `e`, un <xref:System.Windows.Forms.Control.Paint> objet d’événement. Le code exécute l’action suivante :  
   
 -   Dessine un rectangle à l’écran, à l’aide d’un stylet vert, avant d’appliquer une transformation de mise à l’échelle.  
   
@@ -943,7 +995,7 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
   
 -   Dessine une ellipse à l’aide d’un stylet bleu.  
   
- Le résultat est un rectangle vert, un parallélogramme rouge et une ellipse transformée bleue. Notez que le rectangle vert (dessiné avant la définition de la transformation) utilise directement les coordonnées fournies dans le <xref:System.Drawing.Graphics.DrawRectangle%2A> appeler. Les deux autres figures sont transformées avant le dessin. Le rectangle est transformé en parallélogramme (rouge), et les points de suspension (bleu) est transformé pour s’ajuster dans un parallélogramme transformé. Notez que le bas du rectangle est déplacé (incliné) sur l’axe des x selon un facteur de deux fois la hauteur du rectangle, formant ainsi parallélogramme.  
+ Le résultat est un rectangle vert, un parallélogramme rouge et une ellipse transformée bleue. Notez que le rectangle vert (dessiné avant la définition de la transformation) utilise directement les coordonnées fournies dans le <xref:System.Drawing.Graphics.DrawRectangle%2A> appeler. Les deux autres figures sont transformés avant le dessin. Le rectangle est transformé en parallélogramme (rouge) et l’ellipse (bleu) est transformé pour s’ajuster dans un parallélogramme transformé. Notez que le bas du rectangle est déplacé (incliné) sur l’axe des x d’un facteur de deux fois la hauteur du rectangle, formant ainsi parallélogramme.  
   
  [!code-cpp[System.Drawing.Drawing2D.ClassicMatrixExamples#6](~/samples/snippets/cpp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CPP/form1.cpp#6)]
  [!code-csharp[System.Drawing.Drawing2D.ClassicMatrixExamples#6](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CS/form1.cs#6)]
@@ -963,6 +1015,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -983,7 +1037,7 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La transformation appliquée dans cette méthode est une inclinaison pure uniquement si l’un des paramètres est 0. Appliquée à un rectangle à l’origine, lorsque le `shearY` facteur est 0, la transformation déplace le bord inférieur horizontalement par `shearX` fois la hauteur du rectangle. Lorsque le `shearX` facteur est 0, il déplace le bord droit verticalement de `shearY` fois la largeur du rectangle. Attention est dans l’ordre lorsque les deux paramètres sont différents de zéro, car les résultats sont difficiles à prévoir. Par exemple, si les deux facteurs est 1, la transformation est au singulier (par conséquent, noninvertible), compression de l’ensemble du plan en une seule ligne.  
+ La transformation appliquée dans cette méthode est une inclinaison pure uniquement si l’un des paramètres est 0. Appliqué à un rectangle à l’origine, lorsque le `shearY` facteur est 0, la transformation déplace le bord inférieur horizontalement par `shearX` fois la hauteur du rectangle. Lorsque le `shearX` facteur est 0, il déplace le bord droit verticalement de `shearY` fois la largeur du rectangle. Attention est dans l’ordre lorsque les deux paramètres sont différents de zéro, car les résultats sont difficiles à prédire. Par exemple, si les deux facteurs est 1, la transformation est au singulier (par conséquent, noninvertible), se faire une place l’ensemble du plan en une seule ligne.  
   
    
   
@@ -1013,6 +1067,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1034,13 +1090,13 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
   
 -   Dessine ce tableau de points (à l’écran avant d’appliquer une transformation de mise à l’échelle (rectangle bleu).  
   
--   Crée une matrice et le facteur d’échelle par 3 sur l’axe x et de 2 sur l’axe y.  
+-   Crée une matrice et l’adapte à 3 dans l’axe des abscisses et 2 de l’axe des ordonnées.  
   
 -   S’applique à cette matrice de transformation pour le tableau de points.  
   
 -   Dessine le tableau transformé à l’écran (rectangle rouge).  
   
- Notez que le rectangle rouge a été mis à l’échelle par un facteur de 3 sur l’axe des x et de 2 sur l’axe des ordonnées, y compris l’angle supérieur gauche du rectangle (le point de début du rectangle).  
+ Notez que le rectangle rouge a été mis à l’échelle par un facteur de 3 sur l’axe des x et de 2 sur l’axe des ordonnées, y compris le coin supérieur gauche du rectangle (le point de début du rectangle).  
   
  [!code-cpp[System.Drawing.Drawing2D.ClassicMatrixExamples#7](~/samples/snippets/cpp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CPP/form1.cpp#7)]
  [!code-csharp[System.Drawing.Drawing2D.ClassicMatrixExamples#7](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CS/form1.cs#7)]
@@ -1060,6 +1116,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1100,6 +1158,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1121,7 +1181,7 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
   
 -   Dessine ce tableau de points à l’écran avant d’appliquer une transformation de mise à l’échelle (rectangle bleu).  
   
--   Crée une matrice de facteur d’échelle par 3 sur l’axe x et de 2 sur l’axe y et il se traduit par 100 sur les deux axes.  
+-   Crée une matrice et l’adapte à 3 dans l’axe des abscisses et 2 de l’axe des ordonnées et convertit de 100 dans les deux axes.  
   
 -   Répertorie les éléments de la matrice à l’écran.  
   
@@ -1129,7 +1189,7 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
   
 -   Dessine le tableau transformé à l’écran (rectangle rouge).  
   
- Notez que le rectangle rouge a été mis à l’échelle par un facteur de 3 sur l’axe des x et de 2 sur l’axe des ordonnées, y compris l’angle supérieur gauche du rectangle (le point de début du rectangle), mais le vecteur de translation (les deux derniers éléments de la matrice) est ignoré.  
+ Notez que le rectangle rouge a été mis à l’échelle par un facteur de 3 sur l’axe des x et de 2 sur l’axe des ordonnées, y compris le coin supérieur gauche du rectangle (le point de début du rectangle), mais le vecteur de translation (les deux derniers éléments de la matrice) est ignoré.  
   
  [!code-cpp[System.Drawing.Drawing2D.ClassicMatrixExamples#8](~/samples/snippets/cpp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CPP/form1.cpp#8)]
  [!code-csharp[System.Drawing.Drawing2D.ClassicMatrixExamples#8](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CS/form1.cs#8)]
@@ -1149,6 +1209,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1189,6 +1251,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1222,6 +1286,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1244,15 +1310,15 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
 ## Examples  
  L’exemple de code suivant est conçu pour une utilisation avec Windows Forms et nécessite <xref:System.Windows.Forms.PaintEventArgs> `e`, un <xref:System.Windows.Forms.Control.Paint> objet d’événement. Le code exécute les actions suivantes :  
   
--   Dessine un rectangle à l’écran avant d’appliquer la conversion (rectangle bleu).  
+-   Dessine un rectangle à l’écran avant d’appliquer une transformation de traduction (le rectangle bleu).  
   
--   Crée une matrice et le traduit par 100 sur les deux axes.  
+-   Crée une matrice et le traduit par 100 dans les deux axes.  
   
 -   S’applique cette matrice de transformation au rectangle  
   
 -   Dessine le rectangle transformé à l’écran (rectangle rouge).  
   
- Notez que le début du rectangle rouge est situés 100 points sur les deux axes à partir du début du triangle bleu.  
+ Notez que le début du rectangle rouge est trouvés 100 points sur les deux axes à partir du début du triangle bleu.  
   
  [!code-cpp[System.Drawing.Drawing2D.ClassicMatrixExamples#9](~/samples/snippets/cpp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CPP/form1.cpp#9)]
  [!code-csharp[System.Drawing.Drawing2D.ClassicMatrixExamples#9](~/samples/snippets/csharp/VS_Snippets_Winforms/System.Drawing.Drawing2D.ClassicMatrixExamples/CS/form1.cs#9)]
@@ -1272,6 +1338,8 @@ Matrix myMatrix = new Matrix(3, 5, 1, 2, 2, 4);
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Drawing</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>

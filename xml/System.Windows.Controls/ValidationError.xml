@@ -1,11 +1,11 @@
 <Type Name="ValidationError" FullName="System.Windows.Controls.ValidationError">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="0b49a8d350a9103902db35f96a98bebb5c043f21" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="0b2996cf2a2e1602f33bcff31c18b03120fa756a" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36365017" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37579669" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ValidationError" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ValidationError extends System.Object" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ValidationError = class" />
   <AssemblyInfo>
     <AssemblyName>PresentationFramework</AssemblyName>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -27,24 +28,24 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] modèle de liaison de données vous permet d’associer des règles de validation avec votre <xref:System.Windows.Data.Binding> objet. La validation se produit pendant le transfert de la valeur de la cible vers source avant que le convertisseur est appelé. La section suivante décrit le processus de validation.  
+ Le [!INCLUDE[TLA2#tla_winclient](~/includes/tla2sharptla-winclient-md.md)] modèle de liaison de données vous permet d’associer des règles de validation avec votre <xref:System.Windows.Data.Binding> objet. La validation se produit pendant le transfert de la valeur de la source-cible avant que le convertisseur est appelé. La section suivante décrit le processus de validation.  
   
-1.  Lorsqu’une valeur est transférée de la propriété cible à la propriété source, le moteur de liaison de données supprime d’abord toute <xref:System.Windows.Controls.ValidationError> qui ont peut-être été ajoutés à la <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> jointe de propriété de l’élément lié. Il vérifie ensuite si les règles de validation personnalisées sont définies pour ce <xref:System.Windows.Data.Binding>, auquel cas il appelle la <xref:System.Windows.Controls.ValidationRule.Validate%2A> méthode sur chaque <xref:System.Windows.Controls.ValidationRule> jusqu'à ce qu’une d’elles échoue ou jusqu'à ce que tous les transmettre.  
+1.  Lorsqu’une valeur est transférée à partir de la propriété cible à la propriété source, le moteur de liaison de données supprime d’abord toute <xref:System.Windows.Controls.ValidationError> qui ont peut-être été ajoutés à la <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> propriété jointe de l’élément lié. Elle vérifie ensuite si les règles de validation personnalisées sont définies pour que <xref:System.Windows.Data.Binding>, auquel cas il appelle la <xref:System.Windows.Controls.ValidationRule.Validate%2A> méthode sur chaque <xref:System.Windows.Controls.ValidationRule> jusqu'à ce qu’un d'entre eux échoue ou jusqu'à ce que tous les transmettre.  
   
-2.  Une fois qu’il existe une règle personnalisée qui ne passe pas, le moteur de liaison crée un <xref:System.Windows.Controls.ValidationError> de l’objet et l’ajoute à la <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> collection de l’élément lié. Lorsque <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> n’est pas vide, le <xref:System.Windows.Controls.Validation.HasError%2A?displayProperty=nameWithType> a la valeur de la propriété jointe de l’élément `true`. En outre, si le <xref:System.Windows.Data.Binding.NotifyOnValidationError%2A> propriété de la <xref:System.Windows.Data.Binding> a la valeur `true`, le moteur de liaison déclenche le <xref:System.Windows.Controls.Validation.Error?displayProperty=nameWithType> événement sur l’élément attaché.  
+2.  Une fois qu’il existe une règle personnalisée qui ne réussit pas, le moteur de liaison crée un <xref:System.Windows.Controls.ValidationError> de l’objet et l’ajoute à la <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> collection de l’élément lié. Lorsque <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> n’est pas vide, le <xref:System.Windows.Controls.Validation.HasError%2A?displayProperty=nameWithType> a la valeur de propriété jointe de l’élément `true`. En outre, si le <xref:System.Windows.Data.Binding.NotifyOnValidationError%2A> propriété de la <xref:System.Windows.Data.Binding> a la valeur `true`, le moteur de liaison déclenche le <xref:System.Windows.Controls.Validation.Error?displayProperty=nameWithType> joint des événements sur l’élément.  
   
 3.  Si toutes les règles passent, le moteur de liaison appelle ensuite le convertisseur, s’il en existe.  
   
-4.  Si le convertisseur réussit, le moteur de liaison appelle l’accesseur Set de la propriété source.  
+4.  Si le convertisseur réussit, le moteur de liaison appelle la méthode setter de la propriété source.  
   
-5.  Si la liaison a un <xref:System.Windows.Controls.ExceptionValidationRule> associé et une exception est levée au cours de l’étape 3 ou 4, le moteur de liaison vérifie s’il existe un <xref:System.Windows.Data.Binding.UpdateSourceExceptionFilter%2A>. Vous pouvez utiliser la <xref:System.Windows.Data.Binding.UpdateSourceExceptionFilter%2A> rappel pour fournir un gestionnaire personnalisé pour gérer les exceptions. Si un <xref:System.Windows.Data.Binding.UpdateSourceExceptionFilter%2A> n’est pas spécifié sur la <xref:System.Windows.Data.Binding>, le moteur de liaison crée un <xref:System.Windows.Controls.ValidationError> avec l’exception et l’ajoute à la <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> collection de l’élément lié.  
+5.  Si la liaison a un <xref:System.Windows.Controls.ExceptionValidationRule> associé et une exception est levée pendant l’étape 3 ou 4, le moteur de liaison vérifie s’il existe un <xref:System.Windows.Data.Binding.UpdateSourceExceptionFilter%2A>. Vous pouvez utiliser le <xref:System.Windows.Data.Binding.UpdateSourceExceptionFilter%2A> rappel à fournir un gestionnaire personnalisé pour gérer les exceptions. Si un <xref:System.Windows.Data.Binding.UpdateSourceExceptionFilter%2A> n’est pas spécifié sur le <xref:System.Windows.Data.Binding>, le moteur de liaison crée un <xref:System.Windows.Controls.ValidationError> avec l’exception et l’ajoute à la <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> collection de l’élément lié.  
   
- Un transfert de valeur valide dans les deux sens (cible vers source ou de la source à la cible) effacera le <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> propriété jointe.  
+ Un transfert de valeur valide dans les deux directions (cible vers source ou source vers cible) efface le <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> propriété jointe.  
   
    
   
 ## Examples  
- L’exemple suivant montre un déclencheur de style qui crée un <xref:System.Windows.Controls.ToolTip> qui signale un message d’erreur de validation. Le <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> propriété attachée retourne une collection de <xref:System.Windows.Controls.ValidationError> objets sur l’élément lié.  
+ L’exemple suivant montre un déclencheur de style qui crée un <xref:System.Windows.Controls.ToolTip> qui signale un message d’erreur de validation. Le <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> propriété jointe retourne une collection de <xref:System.Windows.Controls.ValidationError> objets sur l’élément lié.  
   
  [!code-xaml[DataBindingLab#14](~/samples/snippets/csharp/VS_Snippets_Wpf/DataBindingLab/CSharp/DataBindingLabApp.xaml#14)]  
   
@@ -74,6 +75,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -96,6 +98,7 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -123,6 +126,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -144,6 +148,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -164,7 +169,7 @@
    
   
 ## Examples  
- L’exemple suivant montre un déclencheur de style qui crée un <xref:System.Windows.Controls.ToolTip> qui signale un message d’erreur de validation. Le <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> propriété attachée retourne une collection de <xref:System.Windows.Controls.ValidationError> objets sur l’élément lié.  
+ L’exemple suivant montre un déclencheur de style qui crée un <xref:System.Windows.Controls.ToolTip> qui signale un message d’erreur de validation. Le <xref:System.Windows.Controls.Validation.Errors%2A?displayProperty=nameWithType> propriété jointe retourne une collection de <xref:System.Windows.Controls.ValidationError> objets sur l’élément lié.  
   
  [!code-xaml[DataBindingLab#14](~/samples/snippets/csharp/VS_Snippets_Wpf/DataBindingLab/CSharp/DataBindingLabApp.xaml#14)]  
   
@@ -182,6 +187,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -203,6 +209,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>PresentationFramework</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
