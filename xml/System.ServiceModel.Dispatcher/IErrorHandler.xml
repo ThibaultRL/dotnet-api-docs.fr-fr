@@ -1,11 +1,11 @@
 <Type Name="IErrorHandler" FullName="System.ServiceModel.Dispatcher.IErrorHandler">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c6875bb344d39be8b1764c86266f459a6d4971bb" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="41128fffa174639782f95028f498996c755285af" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36614744" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37615954" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IErrorHandler" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IErrorHandler" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type IErrorHandler = interface" />
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
@@ -24,7 +25,7 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Pour contrôler explicitement le comportement de l’application lorsqu’une exception est levée, vous devez implémenter la <xref:System.ServiceModel.Dispatcher.IErrorHandler> de l’interface et l’ajouter à la <xref:System.ServiceModel.Dispatcher.ChannelDispatcher>de <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A> propriété. <xref:System.ServiceModel.Dispatcher.IErrorHandler> vous permet de contrôler explicitement l'erreur SOAP générée, de décider de la retourner ou non au client et d'exécuter les tâches associées, comme l'enregistrement dans le journal. Les gestionnaires d'erreurs sont appelés dans l'ordre dans lequel ils sont ajoutés à la propriété <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A>.  
+ Pour contrôler explicitement le comportement de l’application lorsqu’une exception est levée, implémentez le <xref:System.ServiceModel.Dispatcher.IErrorHandler> d’interface et l’ajouter à la <xref:System.ServiceModel.Dispatcher.ChannelDispatcher>de <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A> propriété. <xref:System.ServiceModel.Dispatcher.IErrorHandler> vous permet de contrôler explicitement l'erreur SOAP générée, de décider de la retourner ou non au client et d'exécuter les tâches associées, comme l'enregistrement dans le journal. Les gestionnaires d'erreurs sont appelés dans l'ordre dans lequel ils sont ajoutés à la propriété <xref:System.ServiceModel.Dispatcher.ChannelDispatcher.ErrorHandlers%2A>.  
   
  Implémentez la méthode <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> pour contrôler le message d'erreur retourné au client.  
   
@@ -36,7 +37,7 @@
  Toutes les implémentations <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> sont appelées en premier, avant d'envoyer un message de réponse. Lorsque toutes les implémentations <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> ont été appelées et retournent, et si `fault` n'a pas la valeur `null`, elle est renvoyée au client selon les termes du contrat d'opération. Si `fault` a la valeur `null` une fois que toutes les implémentations ont été appelées, le message de réponse est contrôlé par la valeur de propriété <xref:System.ServiceModel.ServiceBehaviorAttribute.IncludeExceptionDetailInFaults%2A?displayProperty=nameWithType>.  
   
 > [!NOTE]
->  Les exceptions peuvent se produire une fois que toutes les implémentations <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> ont été appelées et qu'un message de réponse est transmis au canal. Si une exception de canal se produit (par exemple, des difficultés à sérialiser le message) <xref:System.ServiceModel.Dispatcher.IErrorHandler> de notification des objets. Dans ce cas, vous devez quand même vous assurer que votre environnement de développement intercepte et affiche ces exceptions vous ou utilise le suivi pour détecter le problème. Pour plus d’informations sur le traçage, consultez [à l’aide de suivi pour résoudre les problèmes de votre Application](~/docs/framework/wcf/diagnostics/tracing/using-tracing-to-troubleshoot-your-application.md).  
+>  Les exceptions peuvent se produire une fois que toutes les implémentations <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> ont été appelées et qu'un message de réponse est transmis au canal. Si une exception de canal se produit (par exemple, des difficultés de la sérialisation du message) <xref:System.ServiceModel.Dispatcher.IErrorHandler> objets sont avertis. Dans ce cas, vous devez toujours vous assurer que votre environnement de développement intercepte et affiche de telles exceptions ou utilise le traçage pour découvrir le problème. Pour plus d’informations sur le suivi, consultez [à l’aide de suivi pour résoudre les problèmes de votre Application](~/docs/framework/wcf/diagnostics/tracing/using-tracing-to-troubleshoot-your-application.md).  
   
  Une fois que le message de réponse a été envoyé, toutes les implémentations <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> sont appelées dans le même ordre.  
   
@@ -44,7 +45,7 @@
   
  Vous pouvez ajouter le <xref:System.ServiceModel.Dispatcher.IErrorHandler> à l'exécution en implémentant un comportement (objet <xref:System.ServiceModel.Description.IServiceBehavior?displayProperty=nameWithType>, <xref:System.ServiceModel.Description.IEndpointBehavior?displayProperty=nameWithType>, <xref:System.ServiceModel.Description.IContractBehavior?displayProperty=nameWithType>ou <xref:System.ServiceModel.Description.IOperationBehavior?displayProperty=nameWithType> ) et utiliser le comportement par programme, à partir d'un fichier de configuration ou avec un attribut personnalisé pour attacher votre <xref:System.ServiceModel.Dispatcher.IErrorHandler>.  
   
- Pour plus d’informations sur l’utilisation de comportements pour modifier l’exécution, consultez [configuration et l’extension de l’exécution des comportements](~/docs/framework/wcf/extending/configuring-and-extending-the-runtime-with-behaviors.md).  
+ Pour plus d’informations sur l’utilisation des comportements pour modifier l’exécution, consultez [configuration et extension de l’exécution des comportements](~/docs/framework/wcf/extending/configuring-and-extending-the-runtime-with-behaviors.md).  
   
    
   
@@ -68,25 +69,26 @@
   </Docs>
   <Members>
     <Member MemberName="HandleError">
-      <MemberSignature Language="C#" Value="public bool HandleError (Exception error);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool HandleError(class System.Exception error) cil managed" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
+      <MemberSignature Language="C#" Value="public bool HandleError (Exception error);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool HandleError(class System.Exception error) cil managed" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0" />
       <MemberSignature Language="VB.NET" Value="Public Function HandleError (error As Exception) As Boolean" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool HandleError(Exception ^ error);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; bool HandleError(Exception ^ error);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0" />
       <MemberSignature Language="C#" Value="public bool HandleError (Exception exception);" FrameworkAlternate="xamarinmac-3.0" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance bool HandleError(class System.Exception exception) cil managed" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)" FrameworkAlternate="xamarinmac-3.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.IErrorHandler.HandleError(System.Exception)" FrameworkAlternate="xamarinmac-3.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool HandleError(Exception ^ exception);" FrameworkAlternate="xamarinmac-3.0" />
       <MemberSignature Language="F#" Value="abstract member HandleError : Exception -&gt; bool" Usage="iErrorHandler.HandleError exception" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="error" Type="System.Exception" Index="0" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
+        <Parameter Name="error" Type="System.Exception" Index="0" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0" />
         <Parameter Name="exception" Type="System.Exception" Index="0" FrameworkAlternate="xamarinmac-3.0" />
       </Parameters>
       <Docs>
@@ -106,7 +108,7 @@
   
  Toutes les implémentations <xref:System.ServiceModel.Dispatcher.IErrorHandler> sont appelées. Par défaut, si une exception est rencontrée et que la valeur de retour correspond à `false`, le répartiteur abandonne toute session ainsi que <xref:System.ServiceModel.InstanceContext> si <xref:System.ServiceModel.InstanceContextMode> ne correspond pas à <xref:System.ServiceModel.InstanceContextMode.Single>.  L'exception est alors considérée comme non gérée et tout état est jugé corrompu.  
   
- Forcez le retour de la valeur `true` de <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> pour empêcher ce comportement par défaut. Si un gestionnaire d’erreur renvoie `true` il fait en sorte que WCF qu’il est prudent de continuer l’état associé à la requête ayant échoué.  
+ Forcez le retour de la valeur `true` de <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A> pour empêcher ce comportement par défaut. Si le Gestionnaire d’erreurs quelconque retourne `true` il indique à WCF qu’il est prudent de continuer l’état associé à la demande a échoué.  
   
  Si aucun gestionnaire d'erreurs ne retourne `true` de la méthode <xref:System.ServiceModel.Dispatcher.IErrorHandler.HandleError%2A>, l'exception est considérée comme non gérée et la réponse par défaut s'applique alors, pouvant provoquer l'abandon d'un objet <xref:System.ServiceModel.InstanceContext?displayProperty=nameWithType> et d'un canal lorsque la communication se fait sur un canal de session ou si la propriété <xref:System.ServiceModel.ServiceBehaviorAttribute.InstanceContextMode%2A?displayProperty=nameWithType> présente une valeur autre que <xref:System.ServiceModel.InstanceContextMode.Single?displayProperty=nameWithType>.  
   
@@ -134,25 +136,26 @@
       </Docs>
     </Member>
     <Member MemberName="ProvideFault">
-      <MemberSignature Language="C#" Value="public void ProvideFault (Exception error, System.ServiceModel.Channels.MessageVersion version, ref System.ServiceModel.Channels.Message fault);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ProvideFault(class System.Exception error, class System.ServiceModel.Channels.MessageVersion version, class System.ServiceModel.Channels.Message&amp; fault) cil managed" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
+      <MemberSignature Language="C#" Value="public void ProvideFault (Exception error, System.ServiceModel.Channels.MessageVersion version, ref System.ServiceModel.Channels.Message fault);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ProvideFault(class System.Exception error, class System.ServiceModel.Channels.MessageVersion version, class System.ServiceModel.Channels.Message&amp; fault) cil managed" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0" />
       <MemberSignature Language="VB.NET" Value="Public Sub ProvideFault (error As Exception, version As MessageVersion, ByRef fault As Message)" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ProvideFault(Exception ^ error, System::ServiceModel::Channels::MessageVersion ^ version, System::ServiceModel::Channels::Message ^ % fault);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void ProvideFault(Exception ^ error, System::ServiceModel::Channels::MessageVersion ^ version, System::ServiceModel::Channels::Message ^ % fault);" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0" />
       <MemberSignature Language="C#" Value="public void ProvideFault (Exception exception, System.ServiceModel.Channels.MessageVersion version, ref System.ServiceModel.Channels.Message fault);" FrameworkAlternate="xamarinmac-3.0" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void ProvideFault(class System.Exception exception, class System.ServiceModel.Channels.MessageVersion version, class System.ServiceModel.Channels.Message&amp; fault) cil managed" FrameworkAlternate="xamarinmac-3.0" />
-      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)" FrameworkAlternate="xamarinmac-3.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
+      <MemberSignature Language="DocId" Value="M:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault(System.Exception,System.ServiceModel.Channels.MessageVersion,System.ServiceModel.Channels.Message@)" FrameworkAlternate="xamarinmac-3.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void ProvideFault(Exception ^ exception, System::ServiceModel::Channels::MessageVersion ^ version, System::ServiceModel::Channels::Message ^ % fault);" FrameworkAlternate="xamarinmac-3.0" />
       <MemberSignature Language="F#" Value="abstract member ProvideFault : Exception * System.ServiceModel.Channels.MessageVersion *  -&gt; unit" Usage="iErrorHandler.ProvideFault (exception, version, fault)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="error" Type="System.Exception" Index="0" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2" />
+        <Parameter Name="error" Type="System.Exception" Index="0" FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-3.0;netframework-3.5;netframework-4.0" />
         <Parameter Name="exception" Type="System.Exception" Index="0" FrameworkAlternate="xamarinmac-3.0" />
         <Parameter Name="version" Type="System.ServiceModel.Channels.MessageVersion" Index="1" />
         <Parameter Name="fault" Type="System.ServiceModel.Channels.Message&amp;" RefType="ref" Index="2" />
@@ -167,7 +170,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Implémentez la méthode <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> pour créer un message d'erreur personnalisé retourné au client.  Le <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> méthode est toujours appelée pour les exceptions qui laissent les opérations, sauf lorsque le runtime WCF reconnaît l’exception comme particulièrement irrécupérable et lève à nouveau l’exception elle-même. Lorsque toutes les implémentations <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> ont été appelées, le message d'erreur est retourné au client (si `fault` n'a pas la valeur `null`). Si le `fault` paramètre est `null` l’erreur par défaut est envoyé au client.  
+ Implémentez la méthode <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> pour créer un message d'erreur personnalisé retourné au client.  Le <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> méthode sera toujours appelée pour les exceptions qui laissent des opérations, sauf lorsque le runtime WCF reconnaît l’exception comme particulièrement irrécupérable et lève à nouveau l’exception proprement dite. Lorsque toutes les implémentations <xref:System.ServiceModel.Dispatcher.IErrorHandler.ProvideFault%2A> ont été appelées, le message d'erreur est retourné au client (si `fault` n'a pas la valeur `null`). Si le `fault` paramètre est `null` l’erreur par défaut est envoyé au client.  
   
 > [!NOTE]
 >  Le message entrant qui a provoqué l'erreur de traitement est disponible au cours de cette méthode à partir de la propriété <xref:System.ServiceModel.OperationContext.RequestContext%2A?displayProperty=nameWithType>.  
