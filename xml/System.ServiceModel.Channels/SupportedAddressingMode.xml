@@ -1,11 +1,11 @@
 <Type Name="SupportedAddressingMode" FullName="System.ServiceModel.Channels.SupportedAddressingMode">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="1543cde8dbf5d2afa103db8cd8285b3cfad2e0dd" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="1ae63748c67f545e380dccbb2d4ab05c995bd875" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36620399" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37460095" />
   </Metadata>
   <TypeSignature Language="C#" Value="public enum SupportedAddressingMode" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed SupportedAddressingMode extends System.Enum" />
@@ -16,6 +16,7 @@
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -33,11 +34,11 @@
   
  Dans le cas le plus élémentaire, lorsque deux parties échangent des messages entre elles seulement, il n'est pas nécessaire de spécifier ces adresses séparément. Mais du fait que des échanges peuvent impliquer d'autres destinations de message, vous devez être en mesure de spécifier quand des adresses doivent être fournies explicitement. Y compris entre deux parties seulement, cette fonctionnalité est parfois requise, comme c'est le cas, par exemple, avec le protocole double HTTP, qui implique que le serveur crée sa propre requête HTTP. Les types de relations suivants sont définis par l'énumération <xref:System.ServiceModel.Channels.SupportedAddressingMode> pour capturer ces modèles de messagerie:  
   
--   Les adresses anonymes sont la forme la plus simple d’adressage. L’adressage anonyme est utilisé lorsqu’il existe un chemin par défaut pour une réponse. TCP est un protocole de transport de communication bidirectionnelle et la réponse à un message TCP peut être renvoyée à l'autre côté du socket qui a envoyé le message d'origine. De la même façon, le modèle de requête-réponse HTTP envoie des réponses par le biais du canal de réponse HTTP. Ni l'une ni l'autre de ces réponses ne requiert la spécification de la destination des messages de réponse. Lorsqu’un serveur requiert des réponses anonymes du client, il utilise la valeur anonyme de l’énumération. WCF fournie par le système <xref:System.ServiceModel.NetTcpBinding>, <xref:System.ServiceModel.BasicHttpBinding> et <xref:System.ServiceModel.WSHttpBinding> liaisons utilisent toujours des adresses anonymes.  
+-   Les adresses anonymes sont la forme la plus basique d’adressage. L’adressage anonyme est utilisé lorsqu’il existe un chemin par défaut pour une réponse. TCP est un protocole de transport de communication bidirectionnelle et la réponse à un message TCP peut être renvoyée à l'autre côté du socket qui a envoyé le message d'origine. De la même façon, le modèle de requête-réponse HTTP envoie des réponses par le biais du canal de réponse HTTP. Ni l'une ni l'autre de ces réponses ne requiert la spécification de la destination des messages de réponse. Lorsqu’un serveur requiert des réponses anonymes du client, il utilise la valeur anonyme de l’énumération. WCF fournie par le système <xref:System.ServiceModel.NetTcpBinding>, <xref:System.ServiceModel.BasicHttpBinding> et <xref:System.ServiceModel.WSHttpBinding> liaisons utilisent toujours des adresses anonymes.  
   
--   Adresses non anonymes sont utilisées lors de l’envoi de la réponse requiert la création d’un nouveau canal de communication. WCF fournie par le système <xref:System.ServiceModel.WSDualHttpBinding> liaison utilise une adresse non anonymes. Avec HTTP double, le client crée une requête HTTP pour envoyer un message, puis le serveur doit créer sa propre requête HTTP pour envoyer une réponse. Du fait que le serveur initialise l'envoi, il doit avoir un point de terminaison spécifique pour établir la connexion. Vous devez fournir au serveur l'adresse d'un point de terminaison pour sa réponse. De même, si un service doit répondre à un message unidirectionnel qu’il a reçue, elle requiert également un non adresse car aucun canal arrière n’est disponible pour la communication. Si le serveur renvoie un message, une opération complètement distincte de celle utilisée pour envoyer le premier message est requise.  
+-   Les adresses non anonymes sont utilisées lors de l’envoi de la réponse requiert la création d’un nouveau canal de communication. WCF fournie par le système <xref:System.ServiceModel.WSDualHttpBinding> liaison utilise une adresse non anonymes. Avec HTTP double, le client crée une requête HTTP pour envoyer un message, puis le serveur doit créer sa propre requête HTTP pour envoyer une réponse. Du fait que le serveur initialise l'envoi, il doit avoir un point de terminaison spécifique pour établir la connexion. Vous devez fournir au serveur l'adresse d'un point de terminaison pour sa réponse. De même, si un service doit répondre à un message unidirectionnel qu’il a reçue, elle requiert également un non adresse, car aucun canal arrière n’est disponible pour la communication. Si le serveur renvoie un message, une opération complètement distincte de celle utilisée pour envoyer le premier message est requise.  
   
--   Mixte est la troisième forme d’adressage qui combine des adresses anonymes et non selon le message est envoyé. Un exemple typique d'adressage en mode mixte consiste en l'utilisation d'un ordinateur dédié pour traiter les messages d'erreur ou d'accusé de réception. Si la séquence d’échange standard pour les réponses est HTTP ou TCP, les réponses utilisent l’adressage anonyme, mais les erreurs utilisent l’adressage non anonyme. Bien que WCF ne fournisse pas mixte traite des fonctionnalités dans un de ses liaisons standard, il est possible d’écrire un canal qui permet au service d’envoyer des réponses directement sur le canal arrière (lorsque l’adresse de réponse est anonyme) ou sur un canal distinct (lorsque l’adresse de réponse est non). Dans ce cas, l’élément de liaison du canal est utilisée pour définir <xref:System.ServiceModel.Channels.SupportedAddressingMode> mixte.  
+-   Mixte est la troisième forme d’adressage qui combine les adresses anonymes et non en fonction du message est envoyé. Un exemple typique d'adressage en mode mixte consiste en l'utilisation d'un ordinateur dédié pour traiter les messages d'erreur ou d'accusé de réception. Si la séquence d’exchange standard pour les réponses est HTTP ou TCP, les réponses utilisent l’adressage anonyme, mais les erreurs utilisent l’adressage non anonyme. Bien que WCF ne fournisse pas mixte fonctionnalité dans un de ses liaisons standards d’adressage, il est possible d’écrire un canal qui permet au service d’envoyer des réponses directement sur le canal arrière (lorsque l’adresse de réponse est anonyme) ou sur un canal distinct (lorsque l’adresse de réponse est non). Dans ce cas, l’élément de liaison du canal est utilisé pour définir <xref:System.ServiceModel.Channels.SupportedAddressingMode> Mixed.  
   
  ]]></format>
     </remarks>
@@ -54,6 +55,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -75,6 +77,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -96,6 +99,7 @@
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
