@@ -1,11 +1,11 @@
 <Type Name="ReaderWriterLock" FullName="System.Threading.ReaderWriterLock">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ed9a740eab700d16f5778c2b6c1ce675521e870e" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="eceaf936001c4e98e1bf97071c933f2a511a4a69" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36605888" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37754691" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class ReaderWriterLock : System.Runtime.ConstrainedExecution.CriticalFinalizerObject" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ReaderWriterLock extends System.Runtime.ConstrainedExecution.CriticalFinalizerObject" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type ReaderWriterLock = class&#xA;    inherit CriticalFinalizerObject" />
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -29,6 +31,7 @@
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Runtime.ConstrainedExecution.CriticalFinalizerObject</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.Object</BaseTypeName>
   </Base>
   <Interfaces />
   <Attributes>
@@ -46,22 +49,22 @@
 > [!IMPORTANT]
 >  Le [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] a deux verrous de lecteur-writer, à savoir <xref:System.Threading.ReaderWriterLockSlim> et <xref:System.Threading.ReaderWriterLock>. <xref:System.Threading.ReaderWriterLockSlim> est recommandé pour tout nouveau développement. <xref:System.Threading.ReaderWriterLockSlim> est similaire à <xref:System.Threading.ReaderWriterLock>, mais a des règles simplifiées pour la récursivité ainsi que la mise à niveau et la rétrogradation de l’état de verrou. <xref:System.Threading.ReaderWriterLockSlim> évite de nombreux cas d’interblocage potentiel. En outre, les performances de <xref:System.Threading.ReaderWriterLockSlim> sont considérablement meilleures que celles de <xref:System.Threading.ReaderWriterLock>.  
   
- <xref:System.Threading.ReaderWriterLock> est utilisé pour synchroniser l’accès à une ressource. À un moment donné, il permet un accès en lecture simultané de plusieurs threads, ou un accès en écriture pour un seul thread. Dans une situation où une ressource est rarement modifiée, un `ReaderWriterLock` fournit de meilleurs résultats que d’un verrou une-à la fois simple, tel que <xref:System.Threading.Monitor>.  
+ <xref:System.Threading.ReaderWriterLock> est utilisé pour synchroniser l’accès à une ressource. À un moment donné, il permet un accès en lecture simultané de plusieurs threads, ou un accès en écriture pour un seul thread. Dans une situation où une ressource est rarement modifiée, un `ReaderWriterLock` fournit une productivité supérieure à un verrou d’un-à-à la fois simple, tel que <xref:System.Threading.Monitor>.  
   
- `ReaderWriterLock` fonctionne mieux lorsqu’il accède à la plupart des lectures, n’est en écriture sont rares et de courte durée. Les lecteurs multiples alternent avec les writers uniques afin que les lecteurs, ni enregistreurs sont bloquées pendant de longues périodes.  
+ `ReaderWriterLock` fonctionne mieux lorsque la plupart des accès sont des lectures, en écriture sont rares et de courte durée. Les lecteurs multiples alternent avec les writers uniques, afin que ni les lectures ni enregistreurs sont bloquées pendant de longues périodes.  
   
 > [!NOTE]
->  Maintenir des verrous de lecteur ou de writer pendant de longues périodes retarde l’exécution d’autres threads. Pour de meilleures performances, envisagez de restructurer votre application afin de réduire la durée des écritures.  
+>  Détention de verrous de lecteur ou de writer pendant de longues périodes retarde l’exécution d’autres threads. Pour de meilleures performances, envisager de restructurer votre application afin de réduire la durée des écritures.  
   
- Un thread peut contenir un lecteur de verrou ou un verrou de writer, mais pas les deux en même temps. Au lieu de libérer un verrou de lecteur pour acquérir le verrou de writer, vous pouvez utiliser <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> et <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A>.  
+ Un thread ne peut contenir un lecteur de verrou ou un verrou en écriture, mais pas les deux en même temps. Au lieu de libérer un verrou de lecteur pour acquérir le verrou de writer, vous pouvez utiliser <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> et <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A>.  
   
- Demandes de verrou récursives augmentent le nombre de verrous sur un verrou.  
+ Demandes de verrou récursives augmenter le nombre de verrous sur un verrou.  
   
- Lecteurs et writers sont en file d’attente séparément. Lorsqu’un thread libère le verrou de writer, tous les threads en attente dans la file d’attente de lecteur à cet instant bénéficient de verrous de lecteur. Lorsque tous ces verrous de lecteur ont été publiées, l’attente du thread suivant dans l’enregistreur de file d’attente, si elle existe, est accordé le verrou de writer et ainsi de suite. En d’autres termes, `ReaderWriterLock` alterne entre une collection de lecteurs et un writer.  
+ Lecteurs et writers sont en file d’attente séparément. Lorsqu’un thread libère le verrou de writer, tous les threads en attente dans la file d’attente de lecteur à cet instant sont accordées les verrous de lecteur. Lorsque tous ces verrous de lecteur ont été publiées, l’attente de thread suivant dans le writer de file d’attente, si un, est accordé le verrou de writer et ainsi de suite. En d’autres termes, `ReaderWriterLock` alterne entre une collection de lecteurs et un seul writer.  
   
- Lorsqu’un thread dans la file d’attente de l’enregistreur est en attente de libération de verrous lecteur actif, threads demandant de nouveaux verrous de lecteur s’accumulent dans la file d’attente du lecteur. Leurs demandes ne sont pas accordées, même s’ils peuvent partager un accès simultané avec titulaires de verrou de lecteur ; Cela permet de protéger des enregistreurs par rapport à un blocage indéfini par les lecteurs.  
+ Pendant un thread dans la file d’attente de l’enregistreur est en attente pour les verrous de lecteur actif doit être publié, threads qui demandent de nouveaux verrous de lecteur s’accumulent dans la file d’attente de lecteur. Leurs demandes ne sont pas accordées, même s’ils peuvent partager un accès simultané avec titulaires de verrou de lecteur ; Cela permet de protéger les rédacteurs pour blocage indéfini par les lecteurs.  
   
- La plupart des méthodes d’acquisition de verrous sur une `ReaderWriterLock` accepte les valeurs de délai d’attente. Délais d’attente permet d’éviter les blocages dans votre application. Par exemple, un thread peut acquérir le verrou de writer sur une ressource et ensuite demander un verrou de lecteur sur un deuxième ressource ; entre-temps, un autre thread peut acquérir le verrou de writer sur la deuxième ressource et demande un verrou de lecteur sur le premier. Sauf si les délais d’attente sont utilisés, le blocage des threads.  
+ La plupart des méthodes pour acquérir des verrous sur une `ReaderWriterLock` accepte les valeurs de délai d’attente. Utiliser des délais d’expiration pour éviter les blocages dans votre application. Par exemple, un thread peut acquérir le verrou de writer sur une ressource et ensuite demander un verrou de lecteur sur une deuxième ressource ; en attendant, un autre thread peut acquérir le verrou de writer sur la seconde ressource et demande un verrou de lecteur sur le premier. À moins que les délais d’expiration sont utilisés, le blocage des threads.  
   
  Si l’intervalle de délai d’attente expire et que la demande de verrou n’a pas été accordée, la méthode retourne le contrôle au thread appelant en levant une <xref:System.ApplicationException>. Un thread peut intercepter cette exception et déterminer l’action à entreprendre.  
   
@@ -69,16 +72,16 @@
   
 |Value|Description |  
 |-----------|-----------------|  
-|-1|Le thread attend jusqu'à ce que le verrou est acquis, quelle que soit la durée. Pour les méthodes qui spécifient des délais d’expiration entiers, la constante <xref:System.Threading.Timeout.Infinite> peut être utilisé.|  
-|0|Le thread n’attend pas acquérir le verrou. Si le verrou ne peut pas être acquis immédiatement, la méthode retourne.|  
+|-1|Le thread attend jusqu'à ce que le verrou est acquis, quelle que soit la durée. Pour les méthodes qui spécifient les délais d’expiration entiers, la constante <xref:System.Threading.Timeout.Infinite> peut être utilisé.|  
+|0|Le thread n’attend pas d’acquisition du verrou. Si le verrou ne peut pas être acquis immédiatement, la méthode retourne.|  
 |>0|Nombre de millisecondes à attendre.|  
   
- À l’exception de -1, les délais d’attente négatifs ne sont pas autorisés. Si vous spécifiez un entier négatif autre que -1, une valeur égale à zéro est utilisée à la place. (Autrement dit, la méthode retourne sans attendre, si le verrou ne peut pas être acquis immédiatement.) Si vous spécifiez un <xref:System.TimeSpan> qui représente un nombre négatif de millisecondes autre que -1, <xref:System.ArgumentOutOfRangeException> est levée.  
+ À l’exception de -1, les valeurs de délai d’attente négatif ne sont pas autorisées. Si vous spécifiez un entier négatif autre que -1, une valeur égale à zéro est utilisée à la place. (Autrement dit, la méthode retourne sans attendre, si le verrou ne peut pas être acquis immédiatement.) Si vous spécifiez un <xref:System.TimeSpan> qui représente un nombre négatif de millisecondes autre que -1, <xref:System.ArgumentOutOfRangeException> est levée.  
   
    
   
 ## Examples  
- L’exemple suivant montre comment utiliser un <xref:System.Threading.ReaderWriterLock> pour protéger une ressource partagée, un entier nommé `resource`, qui est lue simultanément et est écrite exclusivement par plusieurs threads. Notez que le <xref:System.Threading.ReaderWriterLock> est déclarée au niveau de la classe afin qu’il soit visible pour tous les threads.  
+ L’exemple suivant montre comment utiliser un <xref:System.Threading.ReaderWriterLock> pour protéger une ressource partagée, une valeur entière nommée `resource`, qui est lue simultanément et est écrite exclusivement par plusieurs threads. Notez que le <xref:System.Threading.ReaderWriterLock> est déclaré au niveau de la classe afin qu’il soit visible par tous les threads.  
   
  [!code-cpp[System.Threading.ReaderWriterLock#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ReaderWriterLock#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock/CS/source.cs#1)]
@@ -98,6 +101,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -152,6 +157,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -177,14 +184,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> bloque si un autre thread détient le verrou de writer ou si au moins un thread est en attente pour le verrou de writer.  
+ <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> bloque si un autre thread détient le verrou de writer ou si au moins un thread attend le verrou de writer.  
   
 > [!NOTE]
->  Si le thread actuel a déjà le verrou de writer, aucun verrou de lecteur n’est acquis. Au lieu de cela, le nombre de verrous sur le verrou de writer est incrémenté. Cela empêche un thread de se bloquer sur son propre verrou de writer. Le résultat est exactement le même que l’appel <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>et un appel supplémentaire à <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> est requise lors de la libération du verrou de writer.  
+>  Si le thread actuel a déjà le verrou de writer, aucun verrou de lecteur n’est acquis. Au lieu de cela, le nombre de verrous sur le verrou de writer est incrémenté. Cela empêche un thread de blocage sur son propre verrou de writer. Le résultat est exactement le même que si vous appelez <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>et un appel supplémentaire à <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> est requise lors de la libération du verrou de writer.  
   
- `AcquireReaderLock` prend en charge les demandes de verrou de lecteur récursives. Autrement dit, un thread peut appeler AcquireReaderLock plusieurs fois, ce qui augmente le nombre de verrous chaque fois. Vous devez appeler <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> une fois pour chaque fois que vous appelez `AcquireReaderLock`. Vous pouvez également appeler <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> afin de réduire le nombre de verrous immédiatement à zéro.  
+ `AcquireReaderLock` prend en charge les demandes de verrou de lecteur récursives. Autrement dit, un thread peut appeler AcquireReaderLock plusieurs fois, ce qui incrémente le nombre de verrous chaque fois. Vous devez appeler <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> une fois pour chaque fois que vous appelez `AcquireReaderLock`. Vous pouvez également appeler <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> afin de réduire le nombre de verrous immédiatement à zéro.  
   
- Demandes de verrou récursives sont toujours accordées immédiatement sans placer le thread de demande dans la file d’attente du lecteur. Utilisez les verrous récursifs avec précaution, pour éviter de bloquer les demandes de verrou de writer pendant de longues périodes.  
+ Demandes de verrou récursives sont toujours accordées immédiatement sans placer le thread de demande dans la file d’attente de lecteur. Utilisez les verrous récursifs avec précaution, pour éviter de bloquer les demandes de verrou de writer pendant de longues périodes.  
   
  Pour les valeurs de délai d’attente valides, consultez <xref:System.Threading.ReaderWriterLock>.  
   
@@ -221,6 +228,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -247,14 +256,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> bloque si un autre thread détient le verrou de writer ou si au moins un thread est en attente pour le verrou de writer.  
+ <xref:System.Threading.ReaderWriterLock.AcquireReaderLock%2A> bloque si un autre thread détient le verrou de writer ou si au moins un thread attend le verrou de writer.  
   
 > [!NOTE]
->  Si le thread actuel a déjà le verrou de writer, aucun verrou de lecteur n’est acquis. Au lieu de cela, le nombre de verrous sur le verrou de writer est incrémenté. Cela empêche un thread de se bloquer sur son propre verrou de writer. Le résultat est exactement le même que l’appel <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>et un appel supplémentaire à <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> est requise lors de la libération du verrou de writer.  
+>  Si le thread actuel a déjà le verrou de writer, aucun verrou de lecteur n’est acquis. Au lieu de cela, le nombre de verrous sur le verrou de writer est incrémenté. Cela empêche un thread de blocage sur son propre verrou de writer. Le résultat est exactement le même que si vous appelez <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>et un appel supplémentaire à <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> est requise lors de la libération du verrou de writer.  
   
- `AcquireReaderLock` prend en charge les demandes de verrou de lecteur récursives. Autrement dit, un thread peut appeler AcquireReaderLock plusieurs fois, ce qui augmente le nombre de verrous chaque fois. Vous devez appeler <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> une fois pour chaque fois que vous appelez `AcquireReaderLock`. Vous pouvez également appeler <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> afin de réduire le nombre de verrous immédiatement à zéro.  
+ `AcquireReaderLock` prend en charge les demandes de verrou de lecteur récursives. Autrement dit, un thread peut appeler AcquireReaderLock plusieurs fois, ce qui incrémente le nombre de verrous chaque fois. Vous devez appeler <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> une fois pour chaque fois que vous appelez `AcquireReaderLock`. Vous pouvez également appeler <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> afin de réduire le nombre de verrous immédiatement à zéro.  
   
- Demandes de verrou récursives sont toujours accordées immédiatement sans placer le thread de demande dans la file d’attente du lecteur. Utilisez les verrous récursifs avec précaution, pour éviter de bloquer les demandes de verrou de writer pendant de longues périodes.  
+ Demandes de verrou récursives sont toujours accordées immédiatement sans placer le thread de demande dans la file d’attente de lecteur. Utilisez les verrous récursifs avec précaution, pour éviter de bloquer les demandes de verrou de writer pendant de longues périodes.  
   
  Pour les valeurs de délai d’attente valides, consultez <xref:System.Threading.ReaderWriterLock>.  
   
@@ -286,6 +295,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -311,14 +322,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est bloquée si un autre thread a un verrou de lecteur ou un verrou de writer. Pour obtenir une description de la façon dont le verrou de writer alterne avec plusieurs verrous de lecteurs simultanés, consultez la <xref:System.Threading.ReaderWriterLock> classe.  
+ Cette méthode se bloque si un autre thread a un verrou de lecteur ou un verrou de writer. Pour obtenir une description de la façon dont le verrou de writer alterne avec plusieurs verrous de lecteurs simultanés, consultez la <xref:System.Threading.ReaderWriterLock> classe.  
   
  Un thread qui a déjà un verrou de lecteur peut acquérir le verrou de writer de deux façons : en libérant le verrou de lecteur avant d’appeler <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, ou en appelant <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
   
 > [!CAUTION]
->  Si un thread appelle `AcquireWriterLock` alors qu’il détient toujours un verrou de lecteur, il se bloque sur son propre verrou de lecteur ; si un délai d’attente infini est spécifié, le thread de blocage. Pour éviter ces blocages, utilisez <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> pour déterminer si le thread actuel a déjà un verrou de lecteur.  
+>  Si un thread appelle `AcquireWriterLock` pendant qu’il a toujours un verrou de lecteur, il se bloque sur son propre verrou de lecteur ; si un délai d’attente infini est spécifié, le thread se bloquera. Pour éviter ces blocages, utilisez <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> pour déterminer si le thread actuel a déjà un verrou de lecteur.  
   
- `AcquireWriterLock` prend en charge les demandes de verrou de writer récursives. Autrement dit, un thread peut appeler `AcquireWriterLock` plusieurs fois, ce qui augmente le nombre de verrous chaque fois. Vous devez appeler <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> une fois pour chaque fois que vous appelez `AcquireWriterLock`. Vous pouvez également appeler <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> afin de réduire le nombre de verrous immédiatement à zéro.  
+ `AcquireWriterLock` prend en charge les demandes de verrou de writer récursives. Autrement dit, un thread peut appeler `AcquireWriterLock` plusieurs fois, ce qui incrémente le nombre de verrous chaque fois. Vous devez appeler <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> une fois pour chaque fois que vous appelez `AcquireWriterLock`. Vous pouvez également appeler <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> afin de réduire le nombre de verrous immédiatement à zéro.  
   
  Demandes de verrou récursives sont toujours accordées immédiatement sans placer le thread de demande dans la file d’attente de l’enregistreur.  
   
@@ -357,6 +368,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -383,14 +396,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est bloquée si un autre thread a un verrou de lecteur ou un verrou de writer. Pour obtenir une description de la façon dont le verrou de writer alterne avec plusieurs verrous de lecteurs simultanés, consultez la <xref:System.Threading.ReaderWriterLock> classe.  
+ Cette méthode se bloque si un autre thread a un verrou de lecteur ou un verrou de writer. Pour obtenir une description de la façon dont le verrou de writer alterne avec plusieurs verrous de lecteurs simultanés, consultez la <xref:System.Threading.ReaderWriterLock> classe.  
   
  Un thread qui a déjà un verrou de lecteur peut acquérir le verrou de writer de deux façons : en libérant le verrou de lecteur avant d’appeler <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>, ou en appelant <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
   
 > [!CAUTION]
->  Si un thread appelle `AcquireWriterLock` alors qu’il détient toujours un verrou de lecteur, il se bloque sur son propre verrou de lecteur ; si un délai d’attente infini est spécifié, le thread de blocage. Pour éviter ces blocages, utilisez <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> pour déterminer si le thread actuel a déjà un verrou de lecteur.  
+>  Si un thread appelle `AcquireWriterLock` pendant qu’il a toujours un verrou de lecteur, il se bloque sur son propre verrou de lecteur ; si un délai d’attente infini est spécifié, le thread se bloquera. Pour éviter ces blocages, utilisez <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> pour déterminer si le thread actuel a déjà un verrou de lecteur.  
   
- `AcquireWriterLock` prend en charge les demandes de verrou de writer récursives. Autrement dit, un thread peut appeler `AcquireWriterLock` plusieurs fois, ce qui augmente le nombre de verrous chaque fois. Vous devez appeler <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> une fois pour chaque fois que vous appelez `AcquireWriterLock`. Vous pouvez également appeler <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> afin de réduire le nombre de verrous immédiatement à zéro.  
+ `AcquireWriterLock` prend en charge les demandes de verrou de writer récursives. Autrement dit, un thread peut appeler `AcquireWriterLock` plusieurs fois, ce qui incrémente le nombre de verrous chaque fois. Vous devez appeler <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> une fois pour chaque fois que vous appelez `AcquireWriterLock`. Vous pouvez également appeler <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> afin de réduire le nombre de verrous immédiatement à zéro.  
   
  Demandes de verrou récursives sont toujours accordées immédiatement sans placer le thread de demande dans la file d’attente de l’enregistreur.  
   
@@ -414,6 +427,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -441,14 +456,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Vous pouvez utiliser <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> et `AnyWritersSince` pour améliorer les performances de l’application. Par exemple, un thread peut mettre en cache les informations obtenues pendant la détention d’un verrou de lecteur. Après avoir libéré puis acquis à nouveau le verrou, le thread peut utiliser `AnyWritersSince` pour déterminer si d’autres threads ont écrit à la ressource dans l’intervalle ; sinon, les informations mises en cache peuvent être utilisées. Cette technique est utile lorsque la lecture des informations protégées par le verrou est coûteuse. par exemple, exécuter une requête de base de données.  
+ Vous pouvez utiliser <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> et `AnyWritersSince` pour améliorer les performances de l’application. Par exemple, un thread peut mettre en cache les informations obtenues pendant qu’il maintient un verrou de lecteur. Après avoir libéré puis acquis à nouveau le verrou, le thread peut utiliser `AnyWritersSince` pour déterminer si d’autres threads ont écrit à la ressource en attendant ; le cas contraire, les informations mises en cache peuvent être utilisées. Cette technique est utile où la lecture des informations protégées par le verrou est coûteuse ; par exemple, exécuter une requête de base de données.  
   
- L’appelant doit contenir un verrou de lecteur ou un verrou de writer dans l’ordre pour le numéro de séquence être utile.  
+ L’appelant doit être détient un verrou de lecteur ou un verrou de writer dans afin que le numéro de séquence être utile.  
   
    
   
 ## Examples  
- L’exemple de code suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> (méthode) et le <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> propriété pour déterminer si un autre thread a acquis le verrou de writer sur la ressource protégée depuis que le thread actuel a détenu le verrou de writer.  
+ L’exemple de code suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> (méthode) et le <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> propriété afin de déterminer si un autre thread a acquis le verrou de writer sur la ressource protégée depuis le thread actuel a détenu le verrou de writer.  
   
  Ce code fait partie d’un exemple plus complet fourni pour la <xref:System.Threading.ReaderWriterLock> classe.  
   
@@ -476,6 +491,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -507,12 +524,12 @@
 > [!NOTE]
 >  `DowngradeFromWriterLock` accepte un <xref:System.Threading.LockCookie> obtenu en appelant <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>. N’utilisez pas un `LockCookie` retourné par <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>.  
   
- Un thread ne bloque pas lors de la mise à niveau de verrou de writer, même si d’autres threads sont en attente pour le verrou de writer, étant donné que toutes les demandes de verrou de lecteur sont accordées lorsque le verrou de writer est libéré.  
+ Un thread ne bloque pas lorsque vous rétrogradez à partir du verrou de writer, même si d’autres threads en attente pour le verrou de writer, étant donné que toutes les demandes de verrou de lecteur sont accordées lorsque le verrou de writer est libéré.  
   
    
   
 ## Examples  
- L’exemple de code suivant montre comment demander un verrou de lecteur, mettre à niveau le verrou de lecteur vers un verrou de writer et rétrograder à nouveau vers un verrou de lecteur.  
+ L’exemple de code suivant montre comment demander un verrou de lecteur, mettre à niveau le verrou de lecteur vers un verrou de writer et passer à un verrou de lecteur à nouveau.  
   
  Ce code fait partie d’un exemple plus complet fourni pour la <xref:System.Threading.ReaderWriterLock> classe.  
   
@@ -542,6 +559,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -576,6 +594,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -624,6 +644,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -652,7 +674,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- L’exemple de code suivant montre que lorsqu’une tentative est faite pour acquérir un verrou de lecteur sur un thread qui dispose un verrou de writer `ReaderWriterLock` n’accorde pas le verrou de lecteur et incrémente le nombre de verrous sur le verrou de writer.  
+ L’exemple de code suivant montre que lorsqu’une tentative est faite pour acquérir un verrou de lecteur sur un thread qui dispose un verrou de writer, `ReaderWriterLock` n’accorde pas le verrou de lecteur et incrémente le nombre de verrous sur le verrou de writer.  
   
  [!code-cpp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.ReaderWriterLock.IsWriterLockHeld#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLock.IsWriterLockHeld/CS/source.cs#1)]
@@ -672,6 +694,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -700,7 +724,7 @@
    
   
 ## Examples  
- L’exemple de code suivant montre comment utiliser la <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> méthode pour libérer le verrou, quel que soit le nombre de fois qu’il a été acquis par le thread et la façon de restaurer l’état du verrou plus tard.  
+ L’exemple de code suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> méthode pour libérer le verrou, quel que soit le nombre de fois où elle a été acquis par le thread et comment restaurer l’état du verrou plus tard.  
   
  Ce code fait partie d’un exemple plus complet fourni pour la <xref:System.Threading.ReaderWriterLock> classe.  
   
@@ -728,6 +752,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -758,7 +784,7 @@
  <xref:System.Threading.ReaderWriterLock.ReleaseReaderLock%2A> Décrémente le nombre de verrous. Lorsque le décompte atteint zéro, le verrou est libéré.  
   
 > [!NOTE]
->  Si un thread possède le verrou de writer, l’appel `ReleaseReaderLock` a le même effet que l’appel <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A>. Si un thread n’a aucun verrou, l’appel `ReleaseReaderLock` lève une <xref:System.ApplicationException>.  
+>  Si un thread possède le verrou de writer, l’appel `ReleaseReaderLock` a le même effet que si vous appelez <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A>. Si un thread n’a aucun verrou, l’appel `ReleaseReaderLock` lève une <xref:System.ApplicationException>.  
   
    
   
@@ -792,6 +818,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -822,7 +850,7 @@
  <xref:System.Threading.ReaderWriterLock.ReleaseWriterLock%2A> Décrémente le verrou de writer nombre. Lorsque le décompte atteint zéro, le verrou de writer est libéré.  
   
 > [!NOTE]
->  Si un thread a un verrou de lecteur ou aucun verrou, l’appel `ReleaseWriterLock` lève une <xref:System.ApplicationException>.  
+>  Si un thread possède un verrou de lecteur ou aucun verrou, l’appel `ReleaseWriterLock` lève une <xref:System.ApplicationException>.  
   
    
   
@@ -856,6 +884,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -884,17 +914,17 @@
 ## Remarks  
  L’état restauré par `RestoreLock` inclut le nombre de verrous récursifs.  
   
- Un thread se bloque si elle tente de restaurer un verrou de lecteur après qu’un autre thread a acquis le verrou de writer ou si elle tente de restaurer le verrou de writer après qu’un autre thread a acquis un verrou de lecteur ou un verrou de writer. Étant donné que `RestoreLock` n’accepte pas un délai d’attente, vous devez veiller à éviter les blocages possibles.  
+ Un thread se bloque si elle tente de restaurer un verrou de lecteur après qu’un autre thread a acquis le verrou de writer ou si elle tente de restaurer le verrou de writer après qu’un autre thread a acquis un verrou de lecteur ou un verrou de writer. Étant donné que `RestoreLock` n’accepte pas un délai d’attente, vous devez prendre soin d’éviter les blocages possibles.  
   
 > [!CAUTION]
 >  Avant d’appeler `RestoreLock`, assurez-vous que vous avez libéré tous les verrous acquis depuis l’appel à <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A>. Par exemple, un thread se bloque s’il acquiert un verrou de lecteur, puis tente de restaurer un verrou de writer précédent. Utilisez <xref:System.Threading.ReaderWriterLock.IsReaderLockHeld%2A> et <xref:System.Threading.ReaderWriterLock.IsWriterLockHeld%2A> pour détecter ces verrous supplémentaires.  
   
- N’utilisez pas un <xref:System.Threading.LockCookie> retourné par <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
+ N’utilisez pas un <xref:System.Threading.LockCookie> retourné à partir de <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A>.  
   
    
   
 ## Examples  
- L’exemple de code suivant montre comment utiliser la <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> méthode pour libérer le verrou, quel que soit le nombre de fois qu’il a été acquis par le thread et la façon de restaurer l’état du verrou plus tard.  
+ L’exemple de code suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLock.ReleaseLock%2A> méthode pour libérer le verrou, quel que soit le nombre de fois où elle a été acquis par le thread et comment restaurer l’état du verrou plus tard.  
   
  Ce code fait partie d’un exemple plus complet fourni pour la <xref:System.Threading.ReaderWriterLock> classe.  
   
@@ -933,6 +963,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -962,18 +994,18 @@
  Lorsqu’un thread appelle `UpgradeToWriterLock` le verrou de lecteur est libéré, quel que soit le nombre de verrous, et le thread se place à la fin de la file d’attente pour le verrou de writer. Par conséquent, les autres threads peuvent écrire dans la ressource avant que le thread qui a demandé que la mise à niveau est accordé le verrou de writer.  
   
 > [!IMPORTANT]
->  L’exception de délai d’attente n’est pas levée tant que le thread qui a appelé le <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> méthode peut acquérir le verrou de lecteur. S’il n’y a pas d’autres threads qui attendent le verrou de writer, cela se produit immédiatement. Toutefois, si un autre thread est en attente pour le verrou de writer, le thread qui a appelé le <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> méthode ne peut pas acquérir le verrou de lecteur tant que tous les lecteurs actuels ont libéré leurs verrous, et un thread a acquis et libéré le verrou de writer. Cela est vrai même si l’autre thread qui a demandé le verrou de writer a demandé une fois que le thread actuel a appelé le <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> (méthode).  
+>  L’exception de délai d’attente n’est pas levée jusqu'à ce que le thread qui a appelé le <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> méthode peut acquérir le verrou de lecteur. S’il n’existe aucun autre thread n’attend le verrou de writer, cela se produit immédiatement. Toutefois, si un autre thread est en attente pour le verrou de writer, le thread qui a appelé le <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> méthode ne peut pas acquérir le verrou de lecteur tant que tous les lecteurs en cours ont libéré leurs verrous, et un thread a acquis et libéré le verrou de writer. Cela est vrai même si l’autre thread qui a demandé le verrou de writer a demandé une fois que le thread actuel a appelé le <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> (méthode).  
   
  Pour restaurer l’état du verrou, appelez <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> à l’aide de la <xref:System.Threading.LockCookie> retourné par `UpgradeToWriterLock`. N’utilisez pas cette `LockCookie` avec <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
   
- Lorsqu’un thread n’a aucun verrou de lecteur, n’utilisez pas `UpgradeToWriterLock`. Utilisez plutôt <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>.  
+ Quand un thread n’a aucun verrou de lecteur, n’utilisez pas `UpgradeToWriterLock`. Utilisez plutôt <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>.  
   
  Pour les valeurs de délai d’attente valides, consultez <xref:System.Threading.ReaderWriterLock>.  
   
    
   
 ## Examples  
- L’exemple de code suivant montre comment demander un verrou de lecteur, mettre à niveau le verrou de lecteur vers un verrou de writer et rétrograder à nouveau vers un verrou de lecteur.  
+ L’exemple de code suivant montre comment demander un verrou de lecteur, mettre à niveau le verrou de lecteur vers un verrou de writer et passer à un verrou de lecteur à nouveau.  
   
  Ce code fait partie d’un exemple plus complet fourni pour la <xref:System.Threading.ReaderWriterLock> classe.  
   
@@ -1003,6 +1035,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1033,11 +1067,11 @@
  Lorsqu’un thread appelle `UpgradeToWriterLock` le verrou de lecteur est libéré, quel que soit le nombre de verrous, et le thread se place à la fin de la file d’attente pour le verrou de writer. Par conséquent, les autres threads peuvent écrire dans la ressource avant que le thread qui a demandé que la mise à niveau est accordé le verrou de writer.  
   
 > [!IMPORTANT]
->  L’exception de délai d’attente n’est pas levée tant que le thread qui a appelé le <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> méthode peut acquérir le verrou de lecteur. S’il n’y a pas d’autres threads qui attendent le verrou de writer, cela se produit immédiatement. Toutefois, si un autre thread est en attente pour le verrou de writer, le thread qui a appelé le <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> méthode ne peut pas acquérir le verrou de lecteur tant que tous les lecteurs actuels ont libéré leurs verrous, et un thread a acquis et libéré le verrou de writer. Cela est vrai même si l’autre thread qui a demandé le verrou de writer a demandé une fois que le thread actuel a appelé le <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> (méthode).  
+>  L’exception de délai d’attente n’est pas levée jusqu'à ce que le thread qui a appelé le <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> méthode peut acquérir le verrou de lecteur. S’il n’existe aucun autre thread n’attend le verrou de writer, cela se produit immédiatement. Toutefois, si un autre thread est en attente pour le verrou de writer, le thread qui a appelé le <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> méthode ne peut pas acquérir le verrou de lecteur tant que tous les lecteurs en cours ont libéré leurs verrous, et un thread a acquis et libéré le verrou de writer. Cela est vrai même si l’autre thread qui a demandé le verrou de writer a demandé une fois que le thread actuel a appelé le <xref:System.Threading.ReaderWriterLock.UpgradeToWriterLock%2A> (méthode).  
   
  Pour restaurer l’état du verrou, appelez <xref:System.Threading.ReaderWriterLock.DowngradeFromWriterLock%2A> à l’aide de la <xref:System.Threading.LockCookie> retourné par `UpgradeToWriterLock`. N’utilisez pas cette `LockCookie` avec <xref:System.Threading.ReaderWriterLock.RestoreLock%2A>.  
   
- Lorsqu’un thread n’a aucun verrou de lecteur, n’utilisez pas `UpgradeToWriterLock`. Utilisez plutôt <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>.  
+ Quand un thread n’a aucun verrou de lecteur, n’utilisez pas `UpgradeToWriterLock`. Utilisez plutôt <xref:System.Threading.ReaderWriterLock.AcquireWriterLock%2A>.  
   
  Pour les valeurs de délai d’attente valides, consultez <xref:System.Threading.ReaderWriterLock>.  
   
@@ -1059,6 +1093,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1081,16 +1117,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le numéro de séquence augmente chaque fois qu’un thread acquiert le verrou de writer. Vous pouvez enregistrer le numéro de séquence et le passer à <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> ultérieurement, si vous souhaitez déterminer si d’autres threads ont acquis le verrou de writer dans l’intervalle.  
+ Le numéro de séquence augmente chaque fois qu’un thread acquiert le verrou de writer. Vous pouvez enregistrer le numéro de séquence et transmettez-le à <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> ultérieurement, si vous souhaitez déterminer si d’autres threads ont acquis le verrou de writer dans l’intervalle.  
   
- Vous pouvez utiliser `WriterSeqNum` pour améliorer les performances de l’application. Par exemple, un thread peut mettre en cache les informations obtenues pendant la détention d’un verrou de lecteur. Après avoir libéré puis acquis à nouveau le verrou, le thread peut déterminer si les autres threads ont écrit dans la ressource en appelant `AnyWritersSince`; si non, les informations mises en cache peuvent être utilisées. Cette technique est utile lors de la lecture des informations protégées par le verrou est coûteuse. par exemple, exécuter une requête de base de données.  
+ Vous pouvez utiliser `WriterSeqNum` pour améliorer les performances de l’application. Par exemple, un thread peut mettre en cache les informations obtenues pendant qu’il maintient un verrou de lecteur. Après avoir libéré puis acquis à nouveau le verrou, le thread peut déterminer si d’autres threads ont écrit à la ressource en appelant `AnyWritersSince`; si non, les informations mises en cache peuvent être utilisées. Cette technique est utile lors de la lecture des informations protégées par le verrou est coûteuse ; par exemple, exécuter une requête de base de données.  
   
- L’appelant doit contenir un verrou de lecteur ou un verrou de writer dans l’ordre pour le numéro de séquence être utile.  
+ L’appelant doit être détient un verrou de lecteur ou un verrou de writer dans afin que le numéro de séquence être utile.  
   
    
   
 ## Examples  
- L’exemple de code suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> propriété et la <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> méthode pour déterminer si un autre thread a acquis le verrou de writer sur la ressource protégée depuis que le thread actuel a détenu le verrou de writer.  
+ L’exemple de code suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLock.WriterSeqNum%2A> propriété et la <xref:System.Threading.ReaderWriterLock.AnyWritersSince%2A> méthode pour déterminer si un autre thread a acquis le verrou de writer sur la ressource protégée depuis le thread actuel a détenu le verrou de writer.  
   
  Ce code fait partie d’un exemple plus complet fourni pour la <xref:System.Threading.ReaderWriterLock> classe.  
   
