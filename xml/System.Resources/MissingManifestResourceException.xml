@@ -1,11 +1,11 @@
 <Type Name="MissingManifestResourceException" FullName="System.Resources.MissingManifestResourceException">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="cb9af705e3549c5540634fa8ca0f4c7b3b9a539e" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="ecb2b3810ccff94aa1963581009c25e6dd02ced7" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36638024" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37472367" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class MissingManifestResourceException : SystemException" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable beforefieldinit MissingManifestResourceException extends System.SystemException" />
@@ -21,6 +21,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -46,39 +48,39 @@
 ## Remarks  
   
 ## <a name="desktop-apps"></a>Applications de bureau  
- Applications de bureau, <xref:System.Resources.MissingManifestResourceException> est levée lorsque la tentative de récupération d’une ressource échoue car la ressource définie pour la culture neutre n’a pas pu être chargée à partir d’un assembly particulier. Bien que l’exception est levée lorsque vous essayez de récupérer une ressource particulière, elle est due à l’échec du chargement de l’ensemble de ressources, plutôt que l’échec de la ressource.  
+ Applications de bureau, <xref:System.Resources.MissingManifestResourceException> est levée lorsque la tentative d’extraction d’une ressource échoue parce que le jeu de ressources pour la culture neutre n’a pas pu être chargé à partir d’un assembly particulier. Bien que l’exception est levée lorsque vous tentez de récupérer une ressource particulière, elle est provoquée par l’échec du chargement de l’ensemble de ressources, plutôt que l’échec de la ressource.  
   
 > [!NOTE]
->  Pour plus d’informations, consultez la section « Gestion d’un Exception MissingManifestResourceException » dans la <xref:System.Resources.ResourceManager> rubrique de la classe.  
+>  Pour plus d’informations, consultez la section « Gestion d’un MissingManifestResourceException (Exception) » dans le <xref:System.Resources.ResourceManager> rubrique de la classe.  
   
  Les principales causes de l’exception sont les suivantes :  
   
--   Le jeu de ressources n’est pas identifié par son nom complet. Par exemple, si le `baseName` paramètre dans l’appel à la <xref:System.Resources.ResourceManager.%23ctor%28System.String%2CSystem.Reflection.Assembly%29?displayProperty=nameWithType> méthode spécifie le nom de la ressource définie sans espace de noms racine, mais le jeu de ressources est attribué à un espace de noms lorsqu’elle est stockée dans son ensemble, l’appel à la <xref:System.Resources.ResourceManager.GetString%2A?displayProperty=nameWithType> (méthode) lève cette exception.  
+-   Le jeu de ressources n’est pas identifié par son nom qualifié complet. Par exemple, si le `baseName` paramètre dans l’appel à la <xref:System.Resources.ResourceManager.%23ctor%28System.String%2CSystem.Reflection.Assembly%29?displayProperty=nameWithType> méthode spécifie le nom de la racine de l’ensemble sans espace de noms de ressources, mais le jeu de ressources est affecté à un espace de noms lorsqu’elle est stockée dans son assembly, l’appel à la <xref:System.Resources.ResourceManager.GetString%2A?displayProperty=nameWithType> (méthode) lève cette exception.  
   
-     Si vous avez incorporé du fichier .resources qui contient des ressources de la culture par défaut dans votre fichier exécutable et de votre application lève une <xref:System.Resources.MissingManifestResourceException>, vous pouvez utiliser un outil de réflexion tel que pour déterminer le nom qualifié complet de la ressource. Dans l’outil ILDasm, double-cliquez sur le fichier exécutable **manifeste** étiquette pour ouvrir la **manifeste** fenêtre. Ressources s’affichent en tant que `.mresource` éléments et sont répertoriés après les références d’assembly externe et les attributs de niveau assembly personnalisés. Vous pouvez aussi compiler l’utilitaire simple suivant, qui répertorie les noms complets des ressources incorporées dans l’assembly dont le nom est passé comme un paramètre de ligne de commande.  
+     Si vous avez incorporé le fichier .resources qui contient des ressources de la culture par défaut dans votre fichier exécutable et que votre application lève une <xref:System.Resources.MissingManifestResourceException>, vous pouvez utiliser un outil de réflexion tel que pour déterminer le nom qualifié complet de la ressource. Dans l’outil ILDasm, double-cliquez sur l’exécutable **manifeste** étiquette pour ouvrir le **manifeste** fenêtre. Ressources apparaissent sous la forme `.mresource` éléments et sont répertoriés après les références d’assembly externe et des attributs personnalisés de niveau assembly. Vous pouvez également compiler l’utilitaire simple suivante, qui répertorie les noms qualifiés complets des ressources incorporées dans l’assembly dont le nom est passé comme paramètre de ligne de commande.  
   
      [!code-csharp[System.Resources.ResourceManager.Class#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.resources.resourcemanager.class/cs/resourcenames.cs#4)]
      [!code-vb[System.Resources.ResourceManager.Class#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.resources.resourcemanager.class/vb/resourcenames.vb#4)]  
   
--   Vous identifiez la ressource définie par son nom de fichier de ressources (ainsi que son espace de noms facultatif) et son extension de fichier, plutôt que par son nom de fichier racine et espace de noms autonome. Par exemple, cette exception est levée si le jeu de ressources de la culture neutre est nommé `GlobalResources` et que vous fournissez une valeur de `GlobalResources.resources` (au lieu de `GlobalResources`) pour le `baseName` paramètre de la <xref:System.Resources.ResourceManager.%23ctor%28System.String%2CSystem.Reflection.Assembly%29?displayProperty=nameWithType> constructeur.  
+-   Vous identifiez la ressource définie par son nom de fichier de ressources (ainsi que son espace de noms facultatif) et son extension de fichier plutôt que par son nom de fichier racine et espace de noms autonome. Par exemple, cette exception est levée si le jeu de ressources de la culture neutre est nommé `GlobalResources` et vous fournissez une valeur `GlobalResources.resources` (au lieu de `GlobalResources`) pour le `baseName` paramètre de la <xref:System.Resources.ResourceManager.%23ctor%28System.String%2CSystem.Reflection.Assembly%29?displayProperty=nameWithType> constructeur.  
   
--   Impossible de trouver le jeu de ressources spécifiques à la culture qui est identifié dans un appel de méthode et le jeu de ressources de secours ne peut pas être chargé. Par exemple, si vous créez des assemblys satellites pour l’anglais (États-Unis) et cultures (russe) de Russie, mais vous ne pouvez pas fournir une jeu de ressource pour la culture neutre, cette exception est levée si la culture actuelle de votre application est anglais (Royaume-Uni).  
+-   Impossible de trouver le jeu de ressources spécifiques à une culture qui est identifié dans un appel de méthode, et le jeu de ressources de secours ne peut pas être chargé. Par exemple, si vous créez des assemblys satellites pour l’anglais (États-Unis) et les cultures (russe) Russie, mais vous ne fournissez pas un ensemble de ressources pour la culture neutre, cette exception est levée si la culture actuelle de votre application est anglais (Grande-Bretagne).  
   
- <xref:System.Resources.MissingManifestResourceException> utilise le HRESULT COR_E_MISSINGMANIFESTRESOURCE dont la valeur est 0 x 80131532.  
+ <xref:System.Resources.MissingManifestResourceException> utilise le HRESULT COR_E_MISSINGMANIFESTRESOURCE, dont la valeur est 0 x 80131532.  
   
- <xref:System.Resources.MissingManifestResourceException> utilise la valeur par défaut <xref:System.Object.Equals%2A> implémentation, qui prend en charge l’égalité des références.  
+ <xref:System.Resources.MissingManifestResourceException> utilise la valeur par défaut <xref:System.Object.Equals%2A> implémentation, qui prend en charge l’égalité de référence.  
   
- Pour obtenir la liste de valeurs de propriété initiales d’une instance de <xref:System.Resources.MissingManifestResourceException>, consultez la <xref:System.Resources.MissingManifestResourceException.%23ctor%2A> constructeurs.  
+ Pour obtenir la liste des valeurs initiales des propriétés d’une instance de <xref:System.Resources.MissingManifestResourceException>, consultez le <xref:System.Resources.MissingManifestResourceException.%23ctor%2A> constructeurs.  
   
 > [!NOTE]
->  Nous vous conseillons d’inclure un ensemble de ressources neutres dans votre assembly principal, afin de votre application n’échoue pas si un assembly satellite n’est pas disponible.  
+>  Nous vous conseillons d’inclure un ensemble de ressources neutres dans votre assembly principal, afin de votre application n’échouera pas si un assembly satellite n’est pas disponible.  
   
 ## <a name="includewin8appnamelongincludeswin8-appname-long-mdmd-apps"></a>Applications [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)]  
- Contrairement aux applications de bureau, déploiement des ressources localisées dans des assemblys satellites et stockent généralement les ressources de la culture neutre dans l’assembly principal, [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] applications déploiement des ressources pour plusieurs cultures, y compris la culture neutre, dans un seul fichier d’index (.pri) des ressources du package. Par conséquent, dans un [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] application, si les ressources de la culture par défaut est introuvable, la <xref:System.Resources.MissingManifestResourceException> est levée dans une des conditions suivantes :  
+ Contrairement aux applications de bureau, lequel déploiement des ressources localisées dans des assemblys satellites et stockent généralement les ressources de la culture neutre dans l’assembly principal, [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] applications déploiement des ressources pour plusieurs cultures, y compris la culture neutre, dans un seul fichier d’index (.pri) des ressources du package. Par conséquent, dans un [!INCLUDE[win8_appname_long](~/includes/win8-appname-long-md.md)] application, si les ressources de la culture par défaut est introuvable, le <xref:System.Resources.MissingManifestResourceException> est levée dans une des conditions suivantes :  
   
 -   L’application n’inclut pas un fichier .pri ou le fichier .pri n’a pas pu être ouvert.  
   
--   Fichier .pri de l’application ne contient pas une ressource définie pour le nom de racine donné.  
+-   Fichier .pri de l’application ne contient pas d’un ensemble de ressources pour le nom de la racine donnée.  
   
  ]]></format>
     </remarks>
@@ -111,6 +113,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -152,6 +156,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -190,6 +196,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -236,6 +244,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
