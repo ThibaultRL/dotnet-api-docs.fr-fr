@@ -1,11 +1,11 @@
 <Type Name="TaskScheduler" FullName="System.Threading.Tasks.TaskScheduler">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="4d9adf13c8a7e851e5512c4b8b0e6ada78afa563" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="9101875b3c768590b23db0c0c08ee17d09fc5e38" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407618" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37609220" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class TaskScheduler" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit TaskScheduler extends System.Object" />
@@ -54,11 +54,11 @@
   
  Le planificateur de tâches par défaut est basé sur le pool de threads .NET Framework 4, qui fournit le vol de travail pour l'équilibrage de charge, l'injection/retrait du thread  pour un débit maximal et une bonne performance globale. Ce doit être suffisant pour la plupart des scénarios.  
   
- La <xref:System.Threading.Tasks.TaskScheduler> classe sert également de point d’extension pour toute logique de planification personnalisable.  Cela inclut des mécanismes tels que la planification d’une tâche pour l’exécution et les tâches planifiées comment doit être exposée aux débogueurs. Si vous avez besoin des fonctionnalités spéciales, vous pouvez créer un planificateur personnalisé et l’activer pour les requêtes ou des tâches spécifiques.  
+ Le <xref:System.Threading.Tasks.TaskScheduler> classe sert également le point d’extension pour toute logique de planification personnalisable.  Cela inclut des mécanismes tels que comment planifier une tâche pour l’exécution et les tâches planifiées comment doit être exposée aux débogueurs. Si vous avez besoin des fonctionnalités spéciales, vous pouvez créer un planificateur personnalisé et l’activer pour des tâches spécifiques ou des requêtes.  
   
  Dans cette rubrique :  
 [Le Planificateur de tâches par défaut et le pool de threads](#Default)  
- [La file d’attente globale et files d’attente locales](#Queues)  
+ [La file d’attente globale et les files d’attente locales](#Queues)  
  [Vol de travail](#Stealing)  
  [Tâches longues](#LongRunning)  
  [Incorporation de tâche](#Inlining)  
@@ -69,16 +69,16 @@
  Le planificateur par défaut pour la bibliothèque parallèle de tâches et PLINQ utilise le pool de threads .NET Framework, qui est représenté par le <xref:System.Threading.ThreadPool> (classe), à la file d’attente et les exécuter. Le pool de threads utilise les informations fournies par le <xref:System.Threading.Tasks.Task> type à prendre en charge efficacement le parallélisme affiné (unités éphémères de travail) et les tâches parallèles requêtes souvent représentent.  
   
 <a name="Queues"></a>   
-### <a name="the-global-queue-vs-local-queues"></a>La file d’attente globale et files d’attente locales  
- Le pool de threads gère une globale FIFO (premier entré, premier sorti) fonctionnent de la file d’attente pour les threads dans chaque domaine d’application. Chaque fois qu’un programme appelle la <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A?displayProperty=nameWithType> (ou <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A?displayProperty=nameWithType>) méthode, le travail est placé sur cette file d’attente partagée et finalement annuler en file d’attente vers le thread suivant qui devient disponible. À compter de .NET Framework 4, cette file d’attente a été améliorée pour utiliser un algorithme sans verrou qui ressemble à la <xref:System.Collections.Concurrent.ConcurrentQueue%601> classe. À l’aide de cette implémentation sans verrou, le pool de threads passe moins de temps lorsqu’il met et sort file d’attente des éléments de travail. Ce gain de performances est disponible pour tous les programmes qui utilisent le pool de threads.  
+### <a name="the-global-queue-vs-local-queues"></a>La file d’attente globale et les files d’attente locales  
+ Le pool de threads gère une globale premier entré, premier sorti (FIFO) fonctionnent de la file d’attente pour les threads dans chaque domaine d’application. Chaque fois qu’un programme appelle la <xref:System.Threading.ThreadPool.QueueUserWorkItem%2A?displayProperty=nameWithType> (ou <xref:System.Threading.ThreadPool.UnsafeQueueUserWorkItem%2A?displayProperty=nameWithType>) (méthode), le travail est dans cette file d’attente partagée et finalement retirer en file d’attente vers le thread suivant qui devient disponible. À compter de .NET Framework 4, cette file d’attente a été améliorée pour utiliser un algorithme sans verrou qui ressemble à la <xref:System.Collections.Concurrent.ConcurrentQueue%601> classe. À l’aide de cette implémentation sans verrou, le pool de threads passe moins de temps quand il met et enlève les éléments de travail. Ce gain de performances est disponible pour tous les programmes qui utilisent le pool de threads.  
   
- Les tâches de niveau supérieur, qui ne sont pas créées dans le contexte d’une autre tâche, sont mises en file d’attente globale comme tout autre élément de travail. Toutefois, les tâches imbriquées ou enfants, créées dans le contexte d'une autre tâche, sont gérées tout à fait différemment. Une tâche enfant ou imbriquée est placée dans une file d'attente locale qui est spécifique au thread sur lequel s'exécute la tâche parente. La tâche parente peut être une tâche de niveau supérieur ou l'enfant d'une autre tâche. Quand ce thread est prêt pour exécuter davantage de travail, il regarde en premier dans la file d'attente locale. Les éléments de travail qui s’y trouvent éventuellement peuvent être récupérés rapidement. Les files d’attente locales sont accessibles par ordre dernier entré, entré premier sorti (LIFO) pour conserver la localité du cache et de réduire la contention. Pour plus d’informations sur les tâches enfants et imbriquées, consultez [détaché tâches enfants attachées et](~/docs/standard/parallel-programming/attached-and-detached-child-tasks.md).  
+ Les tâches de niveau supérieur, qui ne sont pas créées dans le contexte d’une autre tâche, sont mises en file d’attente globale comme tout autre élément de travail. Toutefois, les tâches imbriquées ou enfants, créées dans le contexte d'une autre tâche, sont gérées tout à fait différemment. Une tâche enfant ou imbriquée est placée dans une file d'attente locale qui est spécifique au thread sur lequel s'exécute la tâche parente. La tâche parente peut être une tâche de niveau supérieur ou l'enfant d'une autre tâche. Quand ce thread est prêt pour exécuter davantage de travail, il regarde en premier dans la file d'attente locale. Les éléments de travail qui s’y trouvent éventuellement peuvent être récupérés rapidement. Les files d’attente locales sont accessibles par ordre dernier entré, premier sorti (LIFO) pour conserver la localité de cache et de réduire la contention. Pour plus d’informations sur les tâches enfants et imbriquées, consultez [détachée tâches enfants attachées et](~/docs/standard/parallel-programming/attached-and-detached-child-tasks.md).  
   
- L’utilisation de files d’attente locales non seulement réduit la pression sur la file d’attente globale, mais également tire parti de la localité des données. Éléments de travail locaux file d’attente fréquemment des structures de données de référence qui sont physiquement près d’un autre dans la mémoire. Dans ces cas, les données sont déjà dans le cache après que la première tâche s’est exécutée et sont accessibles rapidement. Les deux [Parallel LINQ (PLINQ)](~/docs/standard/parallel-programming/parallel-linq-plinq.md) et <xref:System.Threading.Tasks.Parallel> largement de classe utilisent des tâches imbriquées et tâches enfants et accomplissent des accélérations significatives à l’aide de files d’attente de travail locales.  
+ L’utilisation de files d’attente locales non seulement réduit la pression sur la file d’attente globale, mais tire également parti de la localité des données. Éléments de travail local de file d’attente fréquemment des structures de données de référence qui sont physiquement près d’eux en mémoire. Dans ce cas, les données sont déjà dans le cache après que la première tâche a exécuté et sont accessibles rapidement. Les deux [Parallel LINQ (PLINQ)](~/docs/standard/parallel-programming/parallel-linq-plinq.md) et <xref:System.Threading.Tasks.Parallel> largement de classe utilisent des tâches imbriquées et tâches enfants et accomplissent des accélérations significatives à l’aide de files d’attente de travail locale.  
   
 <a name="Stealing"></a>   
 ### <a name="work-stealing"></a>Vol de travail  
- À compter de .NET Framework 4, le pool de threads propose également un algorithme de vol de travail pour vous assurer qu’aucun thread ne soit inactif alors que d’autres ont du travail dans leurs files d’attente. Quand un thread de pool de threads est prêt à effectuer davantage de travail, il regarde successivement en tête de sa file d'attente locale, dans la file d'attente globale, puis dans les files d'attente locales d'autres threads. S’il trouve un élément de travail dans la file d’attente locale d’un autre thread, il applique d’abord des méthodes heuristiques pour s’assurer qu’il peut exécuter le travail efficacement. Si c’est possible, il sort file d’attente l’élément de travail à partir de la fin (dans l’ordre FIFO). Cela réduit les conflits sur chaque file d'attente locale et permet de conserver la localité des données. Cette architecture permet le thread pool équilibrer la charge de travail plus efficacement que les versions antérieures.  
+ À compter de .NET Framework 4, le pool de threads propose également un algorithme de vol de travail pour s’assurer qu’aucun thread ne soit inactif alors que d’autres ont du travail dans leurs files d’attente. Quand un thread de pool de threads est prêt à effectuer davantage de travail, il regarde successivement en tête de sa file d'attente locale, dans la file d'attente globale, puis dans les files d'attente locales d'autres threads. S’il trouve un élément de travail dans la file d’attente locale d’un autre thread, il applique d’abord des méthodes heuristiques pour s’assurer qu’il peut exécuter le travail efficacement. Si possible, il enlève l’élément de travail à partir de la fin (dans l’ordre FIFO). Cela réduit les conflits sur chaque file d'attente locale et permet de conserver la localité des données. Cette architecture permet le thread pool équilibrer la charge de travailler de manière plus efficace que dans les versions précédentes.  
   
 <a name="LongRunning"></a>   
 ### <a name="long-running-tasks"></a>Tâches longues  
@@ -86,35 +86,35 @@
   
 <a name="Inlining"></a>   
 ### <a name="task-inlining"></a>Incorporation de tâche  
- Dans certains cas, quand un <xref:System.Threading.Tasks.Task> est attendue, elle peut être exécutée de façon synchrone sur le thread qui effectue l’opération d’attente. Cela améliore les performances en empêchant la nécessité d’un thread supplémentaire et à la place à l’aide du thread existant, ce qui se serait bloqué dans le cas contraire. Pour éviter les erreurs dues à la réentrance, incorporation de tâche se produit uniquement lorsque la cible d’attente se trouve dans la file d’attente de locale du thread pertinent.  
+ Dans certains cas, quand un <xref:System.Threading.Tasks.Task> est attendue, elle peut être exécutée de façon synchrone sur le thread qui effectue l’opération d’attente. Cela améliore les performances en éliminant la nécessité d’un thread supplémentaire et à la place à l’aide du thread existant, qui aurait sinon bloqués. Pour éviter les erreurs dues à la réentrance, incorporation de tâche se produit uniquement lorsque la cible d’attente se trouve dans la file d’attente locale du thread pertinent.  
   
 <a name="Sync"></a>   
 ## <a name="specifying-a-synchronization-context"></a>Spécification d’un contexte de synchronisation  
  Vous pouvez utiliser la méthode <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> pour spécifier qu'une tâche doit être planifiée pour fonctionner sur un thread particulier. Cela s'avère utile dans les infrastructures telles que Windows Forms et Windows Presentation Foundation où l'accès aux objets d'interface utilisateur est souvent restreint au code qui s'exécute sur le thread sur lequel l'objet d'interface utilisateur a été créé.  
   
- L’exemple suivant utilise la <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> méthode dans une application Windows Presentation Foundation (WPF) pour planifier une tâche sur le même thread que le contrôle d’interface utilisateur utilisateur a été créé.   L’exemple crée une mosaïque d’images qui sont sélectionnées au hasard à partir d’un répertoire spécifié. Les objets WPF sont utilisés pour charger et redimensionner les images. Les pixels bruts sont ensuite passées à une tâche qui utilise un <xref:System.Threading.Tasks.Parallel.For%2A> boucle pour écrire les données de pixel dans un grand tableau sur un octet. Aucune synchronisation n’est requise, car aucun deux vignettes n’occupent les mêmes éléments de tableau. Les vignettes peuvent également être écrites dans n’importe quel ordre, car leur position est calculée indépendamment de toute autre mosaïque. Le tableau de grande taille est ensuite transmis à une tâche qui s’exécute sur le thread d’interface utilisateur, où les données de pixel sont chargées dans un contrôle Image.  
+ L’exemple suivant utilise la <xref:System.Threading.Tasks.TaskScheduler.FromCurrentSynchronizationContext%2A?displayProperty=nameWithType> méthode dans une application Windows Presentation Foundation (WPF) pour planifier une tâche sur le même thread que le contrôle d’interface utilisateur utilisateur a été créé.   L’exemple crée une mosaïque d’images qui sont sélectionnées au hasard à partir d’un répertoire spécifié. Les objets WPF sont utilisés pour charger et redimensionner les images. Les pixels bruts sont ensuite transmis à une tâche qui utilise un <xref:System.Threading.Tasks.Parallel.For%2A> boucle pour écrire les données de pixels dans un grand tableau d’un octet. Aucune synchronisation n’est requise car aucun deux vignettes n’occupent les mêmes éléments de tableau. Les vignettes peuvent également être écrits dans n’importe quel ordre, car leur position est calculée indépendamment de toute autre vignette. Le grand tableau est ensuite transmis à une tâche qui s’exécute sur le thread d’interface utilisateur, dans lequel les données de pixels sont chargées dans un contrôle Image.  
   
- L’exemple déplace les données du thread d’interface utilisateur, il modifie à l’aide de boucles parallèles et <xref:System.Threading.Tasks.Task> objets, puis le transmet à une tâche qui s’exécute sur le thread d’interface utilisateur. Cette approche est utile lorsque vous devez utiliser la bibliothèque parallèle de tâches pour effectuer des opérations qui ne sont pas pris en charge par l’API WPF, ou qui ne sont pas suffisamment rapides. Une autre façon de créer une mosaïque d’images dans WPF consiste à utiliser un <xref:System.Windows.Controls.WrapPanel?displayProperty=nameWithType> contrôler et ajouter des images. Le <xref:System.Windows.Controls.WrapPanel> gère les tâches de positionnement des mosaïques. Toutefois, ce travail peut uniquement être effectué sur le thread d’interface utilisateur.  
+ L’exemple déplace les données du thread d’interface utilisateur, il modifie à l’aide de boucles parallèles et <xref:System.Threading.Tasks.Task> objets et il repasse ensuite à une tâche qui s’exécute sur le thread d’interface utilisateur. Cette approche est utile lorsque vous devez utiliser la bibliothèque parallèle de tâches pour effectuer des opérations qui ne sont pas pris en charge par l’API WPF, ou ne sont pas suffisamment rapides. Une autre façon de créer une mosaïque d’images dans WPF consiste à utiliser un <xref:System.Windows.Controls.WrapPanel?displayProperty=nameWithType> contrôler et ajouter des images. Le <xref:System.Windows.Controls.WrapPanel> gère le travail de positionnement des mosaïques. Toutefois, ce travail peut uniquement être effectué sur le thread d’interface utilisateur.  
   
  [!code-csharp[TPL_SyncContext#01](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_synccontext/cs/mainwindow.xaml.cs#01)]
  [!code-vb[TPL_SyncContext#01](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_synccontext/vb/MainWindow.xaml.vb#01)]  
   
- Pour créer l’exemple, créez un projet d’application WPF dans Visual Studio et lui attribuer un nom de votre choix. Procédez comme suit :  
+ Pour créer l’exemple, créez un projet d’application WPF dans Visual Studio et attribuez-lui un nom de votre choix. Procédez comme suit :  
   
 1.  En mode conception, faites glisser un <xref:System.Windows.Controls.Image> contrôle depuis la **boîte à outils** à l’aire de conception. Dans la vue XAML, spécifiez l’alignement horizontal comme « Left ». La taille n’a pas d’importance, car le contrôle est redimensionné dynamiquement au moment de l’exécution. Acceptez le nom par défaut, « image ».  
   
-2.  Faites glisser un <xref:System.Windows.Controls.Button> contrôle depuis la **boîte à outils** à la partie inférieure gauche de la fenêtre d’application. Double-cliquez sur le bouton pour ajouter un <xref:System.Windows.Controls.Primitives.ButtonBase.Click> Gestionnaire d’événements. Dans la vue XAML, spécifiez la <xref:System.Windows.Controls.ContentControl.Content%2A> propriété du bouton comme « une mosaïque » et spécifiez son alignement horizontal comme « Left ». Acceptez le nom par défaut, « bouton ».  
+2.  Faites glisser un <xref:System.Windows.Controls.Button> contrôle depuis la **boîte à outils** à la partie inférieure gauche de la fenêtre d’application. Double-cliquez sur le bouton pour ajouter un <xref:System.Windows.Controls.Primitives.ButtonBase.Click> Gestionnaire d’événements. Dans la vue XAML, spécifiez la <xref:System.Windows.Controls.ContentControl.Content%2A> propriété du bouton comme « Make a Mosaic » et spécifiez son alignement horizontal comme « Left ». Acceptez le nom par défaut, « bouton ».  
   
-3.  Remplacez le contenu entier du fichier MainWindow.xaml.cs ou MainWindow.xaml.vb par le code de cet exemple. Assurez-vous que le nom de l’espace de travail correspond au nom du projet.  
+3.  Remplacez tout le contenu du fichier MainWindow.xaml.cs ou MainWindow.xaml.vb par le code à partir de cet exemple. Assurez-vous que le nom de l’espace de travail correspond au nom de projet.  
   
 4.  L’exemple lit les images JPEG à partir d’un répertoire nommé C:\Users\Public\Pictures\Sample images\\. Créer le répertoire et placer des images qu’il contient ou modifier le chemin d’accès pour faire référence à un autre annuaire qui contient des images.  
   
- Cet exemple présente certaines limitations. Par exemple, les images d’uniquement 32-bits par pixel sont prises en charge ; images dans d’autres formats sont endommagées par le <xref:System.Windows.Media.Imaging.BitmapImage> l’objet au cours de l’opération de redimensionnement. En outre, les images de la source doivent tous être supérieure à la taille de la vignette. En guise d’exercice supplémentaire, vous pouvez ajouter la fonctionnalité permettant de gérer plusieurs formats de pixel et les tailles des fichiers.  
+ Cet exemple présente certaines limitations. Par exemple, les images de seulement 32-bits par pixel sont prises en charge ; les images dans d’autres formats sont endommagées par le <xref:System.Windows.Media.Imaging.BitmapImage> l’objet au cours de l’opération de redimensionnement. En outre, les images de la source doivent tous être supérieure à la taille de vignette. En guise d’exercice supplémentaire, vous pouvez ajouter la fonctionnalité permettant de gérer plusieurs formats de pixels et tailles de fichiers.  
   
    
   
 ## Examples  
- L’exemple suivant provient de la [exemples de programmation parallèle avec .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717) sur le site Web MSDN Code Gallery.  Il crée un planificateur de tâches qui limite le nombre de threads utilisés par l’application. Ensuite, il lance deux ensembles de tâches et affiche des informations sur la tâche et le thread sur lequel la tâche s’exécute.  
+ L’exemple suivant provient de la [exemples de programmation parallèle avec .NET Framework 4](http://go.microsoft.com/fwlink/?LinkID=165717) sur le site Web MSDN Code Gallery.  Il crée un planificateur de tâches personnalisée qui limite le nombre de threads utilisés par l’application. Ensuite, il lance les deux ensembles de tâches et affiche des informations sur la tâche et le thread sur lequel la tâche s’exécute.  
   
  [!code-csharp[TPL_Schedulers#02](~/samples/snippets/csharp/VS_Snippets_Misc/tpl_schedulers/cs/limitex1.cs#02)]
  [!code-vb[TPL_Schedulers#02](~/samples/snippets/visualbasic/VS_Snippets_Misc/tpl_schedulers/vb/module2.vb#02)]  
@@ -123,7 +123,7 @@
   
  ]]></format>
     </remarks>
-    <threadsafe>Tous les membres du résumé <see cref="T:System.Threading.Tasks.TaskScheduler" /> type sont thread-safe et peuvent être utilisés à partir de plusieurs threads simultanément.</threadsafe>
+    <threadsafe>Tous les membres de l’abstraite <see cref="T:System.Threading.Tasks.TaskScheduler" /> type sont thread-safe et peuvent être utilisés à partir de plusieurs threads simultanément.</threadsafe>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -195,7 +195,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Lorsque ne pas appelée à partir d’une tâche, <xref:System.Threading.Tasks.TaskScheduler.Current%2A> retournera le <xref:System.Threading.Tasks.TaskScheduler.Default%2A> planificateur.  
+ Lorsque ne pas appelé à partir d’une tâche, <xref:System.Threading.Tasks.TaskScheduler.Current%2A> retournera le <xref:System.Threading.Tasks.TaskScheduler.Default%2A> planificateur.  
   
  Pour plus d'informations, consultez <xref:System.Threading.Tasks.TaskScheduler>.  
   
@@ -240,10 +240,31 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Pour plus d’informations, consultez [des planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Pour plus d’informations, consultez [planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Finalize">
+      <MemberSignature Language="C#" Value="~TaskScheduler ();" />
+      <MemberSignature Language="ILAsm" Value=".method familyhidebysig virtual instance void Finalize() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.Threading.Tasks.TaskScheduler.Finalize" />
+      <MemberSignature Language="VB.NET" Value="Finalize ()" />
+      <MemberSignature Language="C++ CLI" Value="!TaskScheduler ()" />
+      <MemberSignature Language="F#" Value="override this.Finalize : unit -&gt; unit" Usage="taskScheduler.Finalize " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>4.0.0.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
+        <summary>To be added.</summary>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="FromCurrentSynchronizationContext">
@@ -285,9 +306,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Tous les <xref:System.Threading.Tasks.Task> instances en attente pour retourné planificateur est exécuté via un appel à la <xref:System.Threading.SynchronizationContext.Post%2A> méthode sur ce contexte.  
+ Tous les <xref:System.Threading.Tasks.Task> en file d’attente des instances à retourné planificateur est exécuté via un appel à la <xref:System.Threading.SynchronizationContext.Post%2A> méthode sur ce contexte.  
   
- Pour plus d’informations, consultez [des planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Pour plus d’informations, consultez [planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
@@ -337,9 +358,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Une classe dérivée de <xref:System.Threading.Tasks.TaskScheduler> implémente cette méthode pour prendre en charge l’intégration avec les débogueurs. Cette méthode sera uniquement être appelée par le .NET Framework lorsque le débogueur demande l’accès aux données. Les énumérables retournés seront parcourus par des utilitaires de débogage pour accéder aux tâches actuellement en attente pour ce planificateur, l’activation du débogueur fournir une représentation de ces informations dans l’interface utilisateur.  
+ Une classe dérivée de <xref:System.Threading.Tasks.TaskScheduler> implémente cette méthode pour prendre en charge l’intégration avec les débogueurs. Cette méthode est uniquement être appelée par le .NET Framework lorsque le débogueur demande l’accès aux données. L’énumérable renvoyé seront parcourus par des utilitaires de débogage pour accéder aux tâches actuellement en file d’attente sur ce planificateur, l’activation du débogueur fournir une représentation de ces informations dans l’interface utilisateur.  
   
- Il est important de noter que, lorsque cette méthode est appelée, tous les autres threads dans le processus seront figés. Par conséquent, il est important d’éviter la synchronisation avec les autres threads qui peuvent mener au blocage. Si la synchronisation est nécessaire, et vous ne parvenez pas à acquérir le verrou dans cette méthode, vous devez lever une exception afin que le débogueur ne soit pas bloquée. L’exemple suivant présente une approche possible en c# :  
+ Il est important de noter que, lorsque cette méthode est appelée, tous les autres threads dans le processus seront figées. Par conséquent, il est important d’éviter la synchronisation avec d’autres threads qui peuvent mener au blocage. Si la synchronisation est nécessaire, et vous ne pouvez pas acquérir le verrou dans cette méthode, vous devez lever une exception afin que le débogueur ne se bloque pas. L’exemple suivant montre une approche possible en c# :  
   
 ```  
 protected override IEnumerable<Task> GetScheduledTasks()  
@@ -360,11 +381,11 @@ protected override IEnumerable<Task> GetScheduledTasks()
     }}  
 ```  
   
- En outre, cette méthode et l’énumérable retourné ne doit pas modifier aucun état globalement visible.  
+ En outre, cette méthode et l’énumérable retourné ne devez modifier n’importe quel état visible globalement.  
   
- L’énumérable retourné ne doit jamais être null. S’il n’y a aucune tâche en file d’attente, un énumérable vide doit être retourné à la place.  
+ L’énumérable retourné ne doit jamais être null. S’il n’y a actuellement aucune tâche en file d’attente, un énumérable vide doit être retourné à la place.  
   
- Les développeurs qui implémentent des débogueurs personnalisés ne doivent pas appeler cette méthode directement, mais doit utiliser la méthode de wrapper interne `GetScheduledTasksForDebugger` à la place : `internal Task[] GetScheduledTasksForDebugger()`. Cette méthode de wrapper retourne un tableau de tâches au lieu d’une collection énumérable. Pour récupérer une liste de planificateurs actifs, utilisez la méthode interne `internal static TaskScheduler[] GetTaskSchedulersForDebugger()`. Cette méthode statique retourne un tableau de tous les actifs <xref:System.Threading.Tasks.TaskScheduler> instances. Vous pouvez ensuite utiliser `GetScheduledTasksForDebugger` sur chaque instance du planificateur pour récupérer la liste des tâches planifiées.  
+ Les développeurs qui implémentent des débogueurs personnalisés ne doivent pas appeler cette méthode directement, mais devez utiliser la méthode de wrapper interne `GetScheduledTasksForDebugger` à la place : `internal Task[] GetScheduledTasksForDebugger()`. Cette méthode de wrapper retourne un tableau de tâches au lieu d’une collection énumérable. Pour récupérer une liste de planificateurs actifs, utilisez la méthode interne `internal static TaskScheduler[] GetTaskSchedulersForDebugger()`. Cette méthode statique retourne un tableau de toutes les actives <xref:System.Threading.Tasks.TaskScheduler> instances. Vous pouvez ensuite utiliser `GetScheduledTasksForDebugger` sur chaque instance du planificateur pour récupérer sa liste de tâches planifiées.  
   
  ]]></format>
         </remarks>
@@ -408,7 +429,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Pour plus d’informations, consultez [des planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Pour plus d’informations, consultez [planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
@@ -451,7 +472,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Pour plus d’informations, consultez [des planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Pour plus d’informations, consultez [planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
@@ -504,7 +525,7 @@ protected override IEnumerable<Task> GetScheduledTasks()
 ## Remarks  
  Une classe dérivée de <xref:System.Threading.Tasks.TaskScheduler> implémente cette méthode pour accepter les tâches planifiées sur le planificateur.  
   
- Une implémentation classique stocke la tâche dans une structure de données interne, gérée par des threads qui seraient d’exécuter ces tâches à un moment donné dans le futur.  
+ Une implémentation classique stockerait la tâche dans une structure de données interne, gérée par des threads qui s’exécuteraient ces tâches à un moment dans le futur.  
   
  Cette méthode est uniquement destinée à être appelé par le .NET Framework et ne doit pas être appelée directement par la classe dérivée. Cela est nécessaire pour conserver la cohérence du système.  
   
@@ -559,9 +580,9 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Pour plus d’informations, consultez [des planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Pour plus d’informations, consultez [planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
- Cette méthode peut s’exécuter dans un bloc finally. Par conséquent, elle doit retourner aussi rapidement que possible afin que des ressources telles que <xref:System.Threading.CancellationTokenRegistration> objets puissent être supprimées en temps voulu.  
+ Cette méthode peut s’exécuter dans un bloc finally ; Par conséquent, elle doit retourner aussi rapidement que possible afin que des ressources telles que <xref:System.Threading.CancellationTokenRegistration> objets puissent être supprimées en temps voulu.  
   
  ]]></format>
         </remarks>
@@ -613,9 +634,9 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Les implémentations de planificateur sont fournies avec <xref:System.Threading.Tasks.Task> instances doit être exécuté par le biais du <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> (méthode) ou <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline%2A> (méthode). Lorsque le planificateur juge approprié d’exécuter la tâche fournie, <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> doit être utilisé pour le faire. TryExecuteTask gère tous les aspects de l’exécution d’une tâche, y compris l’invocation d’action, la gestion des exceptions, la gestion d’état et contrôle du cycle de vie.  
+ Les implémentations de planificateur sont fournies avec <xref:System.Threading.Tasks.Task> instances à exécuter via la <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> méthode ou le <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTaskInline%2A> (méthode). Lorsque le planificateur juge approprié d’exécuter la tâche fournie, <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> doit être utilisé pour le faire. TryExecuteTask gère tous les aspects de l’exécution d’une tâche, y compris l’invocation d’action, la gestion des exceptions, la gestion d’état et contrôle du cycle de vie.  
   
- <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> doit être utilisé uniquement pour les tâches fournies à ce planificateur par l’infrastructure .NET Framework. Il ne doit pas être utilisé pour exécuter des tâches arbitraires obtenues via des mécanismes personnalisés.  
+ <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> doit uniquement être utilisé pour les tâches fournies à ce planificateur par l’infrastructure .NET Framework. Il ne doit pas être utilisé pour exécuter des tâches arbitraires obtenues via des mécanismes personnalisés.  
   
  ]]></format>
         </remarks>
@@ -671,13 +692,13 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Une classe dérivée de <xref:System.Threading.Tasks.TaskScheduler> implémente cette fonction pour prendre en charge l’exécution inline d’une tâche sur un thread qui initialise une attente sur cet objet de tâche. L’exécution inline est facultative, et la demande peut être rejetée en retournant la valeur false. Toutefois, les autres tâches qui peuvent être incorporés, plus le Planificateur de mise à l’échelle. En fait, un planificateur qui incorporations trop peu peut-être risque d’interblocage. Une implémentation appropriée doit assurer qu’une demande s’exécutant sous les stratégies garanties par le planificateur peut fonctionner inline. Par exemple, si un planificateur utilise un thread dédié pour exécuter des tâches, toutes les demandes d’incorporation (inlining) à partir de ce thread doivent réussir.  
+ Une classe dérivée de <xref:System.Threading.Tasks.TaskScheduler> implémente cette fonction pour prendre en charge l’exécution inline d’une tâche sur un thread qui initialise une attente sur cet objet de tâche. L’exécution inline est facultative, et la demande peut être rejetée en retournant la valeur false. Toutefois, les plus de tâches pouvant être inline, plus le Planificateur de mise à l’échelle. En fait, un planificateur qui inlines trop peu peuvent être sujettes à des blocages. Une implémentation appropriée doit assurer qu’une demande s’exécutant sous les stratégies garanties par le planificateur peut fonctionner inline. Par exemple, si un planificateur utilise un thread dédié pour exécuter des tâches, toutes les demandes incorporation (inlining) à partir de ce thread doivent réussir.  
   
- Si un planificateur décide de procéder à l’exécution inline, il doit le faire en appelant le TaskScheduler de base <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> méthode avec l’objet de tâche fourni, la propagation de la valeur de retour. Il peut également être appropriée pour le planificateur supprimer une tâche inline à partir de ses structures de données internes s’il décide d’honorer la demande d’incorporation (inlining). Notez, toutefois, que dans certaines circonstances un planificateur peut être invité à inline qui n’a pas été fournie précédemment à l’aide d’une tâche de la <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> (méthode).  
+ Si un planificateur décide de procéder à l’exécution inline, il doit le faire en appelant le TaskScheduler base <xref:System.Threading.Tasks.TaskScheduler.TryExecuteTask%2A> méthode avec l’objet de tâche fourni, en propageant la valeur de retour. Il peut également être appropriée pour le planificateur supprimer une tâche inline de ses structures de données internes s’il est décidé d’honorer la requête d’incorporation (inlining). Toutefois, notez que dans certaines circonstances un peut être demandé au planificateur inline une tâche qui n’a pas été fournie précédemment à l’aide du <xref:System.Threading.Tasks.TaskScheduler.QueueTask%2A> (méthode).  
   
- Le planificateur dérivé est chargé de s’assurer que le thread appelant est approprié pour l’exécution de la tâche donnée si sa propre planification et stratégies d’exécution sont concernés.  
+ Le planificateur dérivé est chargé de s’assurer que le thread appelant est approprié pour l’exécution de la tâche donnée en ce qui concerne sa propre planification et ce qui concerne les stratégies d’exécution.  
   
- Pour plus d’informations, consultez [des planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
+ Pour plus d’informations, consultez [planificateurs de tâches](http://msdn.microsoft.com/library/638f8ea5-21db-47a2-a934-86e1e961bf65).  
   
  ]]></format>
         </remarks>
@@ -730,9 +751,9 @@ protected override IEnumerable<Task> GetScheduledTasks()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cet événement à l’échelle du domaine d’application fournit un mécanisme pour empêcher la stratégie d’escalade de verrous exception (qui, par défaut, met fin au processus) à partir de déclenchement.  
+ Cet événement de l’échelle du domaine d’application fournit un mécanisme pour empêcher la stratégie de promotion d’exception (qui, par défaut, arrête le processus) à partir de déclenchement.  
   
- Pour le rendre plus facile pour les développeurs d’écrire du code asynchrone basé sur les tâches, les [!INCLUDE[net_v45](~/includes/net-v45-md.md)] modifie le comportement des exceptions par défaut pour les exceptions non prise en charge. Bien que les exceptions non prise en charge toujours génèrent le <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> exception, le processus n’arrête pas par défaut. Au lieu de cela, l’exception est gérée par l’exécution une fois que l’événement est déclenché, indépendamment de si un gestionnaire d’événements observe l’exception. Ce comportement peut être configuré. En commençant par le [!INCLUDE[net_v45](~/includes/net-v45-md.md)], vous pouvez utiliser l’élément de configuration pour rétablir le comportement de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] et mettre fin au processus :  
+ Pour le rendre plus facile pour les développeurs d’écrire du code asynchrone basé sur les tâches, le [!INCLUDE[net_v45](~/includes/net-v45-md.md)] modifie le comportement d’exception par défaut pour les exceptions non prise en charge. Bien que les exceptions non prise en charge toujours déclenchent le <xref:System.Threading.Tasks.TaskScheduler.UnobservedTaskException> exception, le processus ne se termine pas par défaut. Au lieu de cela, l’exception est gérée par l’exécution une fois que l’événement est déclenché, indépendamment de si un gestionnaire d’événements observe l’exception. Ce comportement peut être configuré. En commençant par le [!INCLUDE[net_v45](~/includes/net-v45-md.md)], vous pouvez utiliser l’élément de configuration pour rétablir le comportement de la [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)] et terminer le processus :  
   
 ```xml  
 <configuration>   

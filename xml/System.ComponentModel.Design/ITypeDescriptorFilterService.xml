@@ -1,11 +1,11 @@
 <Type Name="ITypeDescriptorFilterService" FullName="System.ComponentModel.Design.ITypeDescriptorFilterService">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="92756848b5b61c9983d7fef32dfd95381b9ff4b4" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="91e76a0ebf51b9ceb3ce9ae815d36bd43863f483" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36705715" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37695645" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface ITypeDescriptorFilterService" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract ITypeDescriptorFilterService" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type ITypeDescriptorFilterService = interface" />
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -34,28 +36,28 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.ComponentModel.Design.ITypeDescriptorFilterService> fournit une interface qui autorise la modification des propriétés, des événements et des attributs de niveau de la classe d’un composant au moment du design. Cette modification se produit via le jeu de descripteurs qu’un composant fournit par le biais d’un <xref:System.ComponentModel.TypeDescriptor>. Le descripteur de type interroge le site d’un composant pour le <xref:System.ComponentModel.Design.ITypeDescriptorFilterService> de service et, si elle existe, le descripteur de type passe toutes les métadonnées qu’il a collectées à ce service. Le service pouvez alors modifier les métadonnées en ajoutant, en supprimant et en changeant les caractéristiques existantes du composant.  
+ Le <xref:System.ComponentModel.Design.ITypeDescriptorFilterService> fournit une interface qui autorise la modification des propriétés, des événements et des attributs de niveau de la classe d’un composant au moment du design. Cette modification se produit via l’ensemble de descripteurs qu’un composant fournit par le biais d’un <xref:System.ComponentModel.TypeDescriptor>. Le descripteur de type interroge le site d’un composant pour le <xref:System.ComponentModel.Design.ITypeDescriptorFilterService> de service et, si elle existe, le descripteur de type passe toutes les métadonnées qu’il a collectées à ce service. Le service peut ensuite modifier les métadonnées en ajout, suppression et modification des caractéristiques existantes du composant.  
   
  Par exemple, les propriétés d’un composant peuvent être modifiées via un appel à la <xref:System.ComponentModel.Design.ITypeDescriptorFilterService.FilterProperties%2A> (méthode). Le service de filtre Obtient un dictionnaire qui contient les noms de propriétés et leurs descripteurs de propriété de type <xref:System.ComponentModel.PropertyDescriptor>. Les modifications sont implémentées à l’aide de la logique suivante.  
   
 |Modification|Implémentation|  
 |------------------|--------------------|  
-|Suppression|Supprimez l’entrée correspondante dans le dictionnaire.|  
+|Suppression|Supprimer l’entrée correspondante dans le dictionnaire.|  
 |Addition|Ajoutez l’entrée appropriée au dictionnaire.|  
 |Modification|Appeler les méthodes de descripteur de propriété existant, remplacez l’entrée du descripteur de propriété associée ou remplacez la paire clé/valeur de propriété entière dans le dictionnaire.|  
   
- La valeur de retour de <xref:System.ComponentModel.Design.ITypeDescriptorFilterService.FilterProperties%2A> détermine si ce jeu de propriétés est fixe. Si cette méthode retourne `true`, le <xref:System.ComponentModel.TypeDescriptor> pour ce composant peut mettre en cache les résultats. Ce cache est conservé jusqu'à ce que le composant soit le garbage collecté ou <xref:System.ComponentModel.TypeDescriptor.Refresh%2A> est appelé méthode du descripteur de type.  
+ La valeur de retour de <xref:System.ComponentModel.Design.ITypeDescriptorFilterService.FilterProperties%2A> détermine si ce jeu de propriétés est fixe. Si cette méthode retourne `true`, le <xref:System.ComponentModel.TypeDescriptor> pour ce composant peut mettre en cache les résultats. Ce cache est conservé jusqu'à ce que le composant soit récupéré par garbage collecté ou le <xref:System.ComponentModel.TypeDescriptor.Refresh%2A> méthode du descripteur de type est appelée.  
   
    
   
 ## Examples  
- L’exemple de code suivant illustre un concepteur qui utilise le <xref:System.ComponentModel.Design.ITypeDescriptorFilterService> pour filtrer la collection d’attributs de toute nouvelle ou existante <xref:System.Windows.Forms.Button> pour ajouter un attribut de concepteur pour un nouveau concepteur avant de charger ou de recharger le concepteur du bouton.  
+ L’exemple de code suivant illustre un concepteur qui utilise le <xref:System.ComponentModel.Design.ITypeDescriptorFilterService> pour filtrer la collection d’attributs de toute nouvelle ou existante <xref:System.Windows.Forms.Button> pour ajouter un attribut de concepteur pour un nouveau concepteur avant de charger ou de recharger le concepteur pour le bouton.  
   
  Pour utiliser l’exemple, ajoutez le code à un projet Windows Forms et charger les composants à partir de la bibliothèque de classes dans la boîte à outils.  
   
  Consultez également [procédure pas à pas : remplissage automatique de la boîte à outils avec des composants personnalisés](http://msdn.microsoft.com/library/fw694kde\(v=vs.110\).aspx).  
   
- Ajouter des boutons à votre formulaire. Ajouter un `ButtonDesignerFilterComponent` à votre formulaire, et elle apparaîtra dans la barre d’état du composant. Le `ButtonDesignerFilterComponent` ajoutera un `ButtonDesignerFilterService`, qui implémente <xref:System.ComponentModel.Design.ITypeDescriptorFilterService>, comme un fournisseur de services en mode design. Existante ou nouvelle <xref:System.Windows.Forms.Button> objets sur le formulaire commencera couleur selon un cycle après le `ButtonDesignerFilterService` remplace le concepteur pour chaque bouton nouveaux et existant avec un `ColorCycleButtonDesigner`. Les boutons changent de couleur cycle lorsque vous déplacez le pointeur de la souris au-dessus d’eux et vous pouvez également cliquer continuez le cycle ou réinitialisez les couleurs de premier plan et d’arrière-plan sur `MouseLeave` événements. Nouvelle <xref:System.Windows.Forms.Button> objets a la `ColorCycleButtonDesigner` via la <xref:System.ComponentModel.Design.ITypeDescriptorFilterService.FilterAttributes%2A> méthode de la `ButtonDesignerFilterService` qui a été chargé, jusqu'à ce que le `ButtonDesignerFilterComponent` soit supprimé et remplace la version d’origine <xref:System.ComponentModel.Design.ITypeDescriptorFilterService>. Le `ColorCycleButton` classe dans cet exemple est un <xref:System.Windows.Forms.Button> associé à un `ColorCycleButtonDesigner`.  
+ Ajouter des boutons à votre formulaire. Ajouter un `ButtonDesignerFilterComponent` à votre formulaire, et il apparaîtra dans la barre d’état du composant. Le `ButtonDesignerFilterComponent` ajoutera un `ButtonDesignerFilterService`, qui implémente <xref:System.ComponentModel.Design.ITypeDescriptorFilterService>, comme un fournisseur de services en mode conception. Nouvelle ou existante <xref:System.Windows.Forms.Button> objets sur le formulaire commencera couleur selon un cycle après le `ButtonDesignerFilterService` remplace le concepteur pour chaque bouton nouveaux et existant avec un `ColorCycleButtonDesigner`. Les boutons changent de couleur cycle lorsque vous déplacez le pointeur de la souris au-dessus d’eux et vous pouvez également continuez le cycle ou réinitialisez les couleurs d’arrière-plan et de premier plan sur `MouseLeave` événements. Nouvelle <xref:System.Windows.Forms.Button> recevra des objets le `ColorCycleButtonDesigner` via la <xref:System.ComponentModel.Design.ITypeDescriptorFilterService.FilterAttributes%2A> méthode de la `ButtonDesignerFilterService` qui a été chargé, jusqu'à ce que le `ButtonDesignerFilterComponent` est supprimé et remplace la version d’origine <xref:System.ComponentModel.Design.ITypeDescriptorFilterService>. Le `ColorCycleButton` classe dans cet exemple est un <xref:System.Windows.Forms.Button> associé à un `ColorCycleButtonDesigner`.  
   
  [!code-cpp[ITypeDescriptorFilterService#1](~/samples/snippets/cpp/VS_Snippets_Winforms/ITypeDescriptorFilterService/CPP/source.cpp#1)]
  [!code-csharp[ITypeDescriptorFilterService#1](~/samples/snippets/csharp/VS_Snippets_Winforms/ITypeDescriptorFilterService/CS/source.cs#1)]
@@ -64,7 +66,7 @@
  ]]></format>
     </remarks>
     <block subset="none" type="overrides">
-      <para>Pour filtrer les descripteurs membres exposés par un <see cref="T:System.ComponentModel.TypeDescriptor" />, implémentez cette interface sur un composant et remplacez le <see cref="M:System.ComponentModel.Design.ITypeDescriptorFilterService.FilterAttributes(System.ComponentModel.IComponent,System.Collections.IDictionary)" />, <see cref="M:System.ComponentModel.Design.ITypeDescriptorFilterService.FilterEvents(System.ComponentModel.IComponent,System.Collections.IDictionary)" />, ou <see cref="M:System.ComponentModel.Design.ITypeDescriptorFilterService.FilterProperties(System.ComponentModel.IComponent,System.Collections.IDictionary)" /> méthodes de cette classe pour filtrer des attributs, des événements ou des propriétés, respectivement.</para>
+      <para>Pour filtrer les descripteurs membres exposés par un <see cref="T:System.ComponentModel.TypeDescriptor" />, implémentez cette interface sur un composant et remplacez le <see cref="M:System.ComponentModel.Design.ITypeDescriptorFilterService.FilterAttributes(System.ComponentModel.IComponent,System.Collections.IDictionary)" />, <see cref="M:System.ComponentModel.Design.ITypeDescriptorFilterService.FilterEvents(System.ComponentModel.IComponent,System.Collections.IDictionary)" />, ou <see cref="M:System.ComponentModel.Design.ITypeDescriptorFilterService.FilterProperties(System.ComponentModel.IComponent,System.Collections.IDictionary)" /> méthodes de cette classe pour filtrer les attributs, des événements ou des propriétés, respectivement.</para>
     </block>
     <altmember cref="T:System.ComponentModel.TypeDescriptor" />
     <altmember cref="T:System.ComponentModel.EventDescriptor" />
@@ -83,6 +85,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -112,7 +116,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est appelée lorsqu’un utilisateur demande un ensemble d’attributs pour un composant. Les attributs sont ajoutés au dictionnaire avec l’attribut <xref:System.Attribute.TypeId%2A> en tant que les clés et l’attribut réel en tant que la valeur. Les implémenteurs de ce service peuvent ajouter, supprimer ou modifier les entrées d’attribut existant dans le dictionnaire.  
+ Cette méthode est appelée lorsqu’un utilisateur demande un ensemble d’attributs pour un composant. Les attributs sont ajoutés au dictionnaire avec l’attribut <xref:System.Attribute.TypeId%2A> en tant que les clés et l’attribut réel en tant que la valeur. Les implémenteurs de ce service peuvent ajouter, supprimer ou modifier des entrées d’attribut existantes dans le dictionnaire.  
   
  ]]></format>
         </remarks>
@@ -134,6 +138,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -163,7 +169,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est appelée lorsqu’un utilisateur demande un ensemble d’événements pour un composant. Les événements sont ajoutés au dictionnaire avec les noms d’événements, ainsi que les clés correspondantes <xref:System.ComponentModel.EventDescriptor> objets comme valeurs. Les implémenteurs de ce service peuvent ajouter, supprimer ou modifier les entrées d’événements dans le dictionnaire.  
+ Cette méthode est appelée lorsqu’un utilisateur demande un ensemble d’événements pour un composant. Les événements sont ajoutés au dictionnaire avec les noms d’événements, ainsi que les clés correspondantes <xref:System.ComponentModel.EventDescriptor> objets en tant que les valeurs. Les implémenteurs de ce service peuvent ajouter, supprimer ou modifier des entrées d’événement dans le dictionnaire.  
   
  ]]></format>
         </remarks>
@@ -184,6 +190,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -213,7 +221,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est appelée lorsqu’un utilisateur demande un ensemble de propriétés pour un composant. Les propriétés sont ajoutées au dictionnaire avec les noms de propriété, ainsi que les clés correspondantes <xref:System.ComponentModel.PropertyDescriptor> objets comme valeurs. Les implémenteurs de ce service peuvent ajouter, supprimer ou modifier les entrées de propriété dans le dictionnaire.  
+ Cette méthode est appelée lorsqu’un utilisateur demande un ensemble de propriétés pour un composant. Les propriétés sont ajoutées au dictionnaire avec les noms de propriété ainsi que les clés correspondantes <xref:System.ComponentModel.PropertyDescriptor> objets en tant que les valeurs. Les implémenteurs de ce service peuvent ajouter, supprimer ou modifier les entrées de propriété dans le dictionnaire.  
   
  ]]></format>
         </remarks>
