@@ -1,11 +1,11 @@
 <Type Name="Monitor" FullName="System.Threading.Monitor">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="04c73d8d6d8c0205db70235fd1bb85ce866c6212" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="90a2111b4e95ea3ea80a469c06f7334a9e6eac2b" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36606687" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37549128" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class Monitor" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Monitor extends System.Object" />
@@ -22,6 +22,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -44,15 +46,15 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Threading.Monitor> classe vous permet de synchroniser l’accès à une région de code en prenant et en libérant un verrou sur un objet particulier en appelant le <xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.TryEnter%2A?displayProperty=nameWithType>, et <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> méthodes. Les verrous d’objets permettent de restreindre l’accès à un bloc de code, communément appelé une section critique. Lors d’un thread possède le verrou d’un objet, aucun autre thread ne peut acquérir ce verrou. Vous pouvez également utiliser le <xref:System.Threading.Monitor> pour vous assurer qu’aucun autre thread est autorisé à accéder à une section de l’application code de la classe en cours d’exécution par le propriétaire du verrou, sauf si l’autre thread exécute le code à l’aide d’un objet verrouillé différent.  
+ Le <xref:System.Threading.Monitor> classe permet de synchroniser l’accès à une région de code en prenant et en libérant un verrou sur un objet particulier en appelant le <xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.TryEnter%2A?displayProperty=nameWithType>, et <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> méthodes. Les verrous d’objets permettent de restreindre l’accès à un bloc de code, généralement appelé une section critique. Pendant un thread possède le verrou d’un objet, aucun autre thread ne peut acquérir ce verrou. Vous pouvez également utiliser le <xref:System.Threading.Monitor> classe pour vous assurer qu’aucun autre thread n’est autorisé à accéder à une section de l’application de code en cours d’exécution par le propriétaire du verrou, sauf si l’autre thread exécute le code à l’aide d’un autre objet verrouillé.  
   
  Dans cet article :  
   
  [La classe Monitor : une vue d’ensemble](#Overview)   
  [L’objet de verrouillage](#Lock)   
  [La section critique](#CriticalSection)   
- [Attente Pulse et PulseAll](#Pulse)   
- [Analyses et les handles d’attente](#WaitHandles)  
+ [Wait, Pulse et PulseAll](#Pulse)   
+ [Moniteurs et les handles d’attente](#WaitHandles)  
   
 <a name="Overview"></a>   
 ## <a name="the-monitor-class-an-overview"></a>La classe Monitor : une vue d’ensemble  
@@ -60,33 +62,33 @@
   
 -   Il est associé à un objet à la demande.  
   
--   Il est indépendant, ce qui signifie qu’il peut être appelée directement à partir de n’importe quel contexte.  
+-   Il est indépendant, ce qui signifie qu’elle peut être appelée directement à partir de n’importe quel contexte.  
   
--   Une instance de la <xref:System.Threading.Monitor> classe ne peut pas être créée ; les méthodes de la <xref:System.Threading.Monitor> classe sont tous statiques. Chaque méthode est passé à l’objet de synchronisation qui contrôle l’accès à la section critique.  
+-   Une instance de la <xref:System.Threading.Monitor> classe ne peut pas être créée ; les méthodes de la <xref:System.Threading.Monitor> classe sont tous statiques. Chaque méthode est passée à l’objet synchronisé qui contrôle l’accès à la section critique.  
   
 > [!NOTE]
->  Utilisez le <xref:System.Threading.Monitor> classe pour verrouiller des objets autres que des chaînes (autrement dit, les types référence autres que <xref:System.String>), pas des types valeur. Pour plus d’informations, consultez les surcharges de la <xref:System.Threading.Monitor.Enter%2A> (méthode) et [l’objet verrou](#Lock) section plus loin dans cet article.  
+>  Utilisez le <xref:System.Threading.Monitor> classe pour verrouiller les objets autres que des chaînes (autrement dit, les types référence autres que <xref:System.String>), pas des types valeur. Pour plus d’informations, consultez les surcharges de la <xref:System.Threading.Monitor.Enter%2A> (méthode) et [l’objet verrou](#Lock) section plus loin dans cet article.  
   
- Le tableau suivant décrit les actions pouvant être consommées par les threads qui accèdent à des objets synchronisés :  
+ Le tableau suivant décrit les actions qui peuvent être effectuées par les threads qui accèdent à des objets synchronisés :  
   
 |Action|Description |  
 |------------|-----------------|  
-|<xref:System.Threading.Monitor.Enter%2A>, <xref:System.Threading.Monitor.TryEnter%2A>|Acquiert un verrou d’un objet. Cette action marque également le début d’une section critique. Aucun autre thread ne peut entrer la section critique, sauf si elle exécute les instructions dans la section critique à l’aide d’un objet verrouillé différent.|  
-|<xref:System.Threading.Monitor.Wait%2A>|Libère le verrou sur un objet afin d’autoriser d’autres threads pour verrouiller et accéder à l’objet. Le thread appelant attend qu’un autre thread accède à l’objet. Signaux d’impulsion sont utilisés pour signaler des threads en attente sur les modifications apportées à l’état d’un objet.|  
-|<xref:System.Threading.Monitor.Pulse%2A> (signal), <xref:System.Threading.Monitor.PulseAll%2A>|Envoie un signal à un ou plusieurs threads en attente. Ce signal avertit un thread en attente que l’état de l’objet verrouillé a changé, et le propriétaire du verrou est prêt à libérer le verrou. Le thread en attente est placé dans la file d’attente opérationnelle de l’objet afin qu’il peut recevoir le verrou pour l’objet. Une fois que le thread a le verrou, il peut vérifier le nouvel état de l’objet pour voir si l’état requis a été atteint.|  
+|<xref:System.Threading.Monitor.Enter%2A>, <xref:System.Threading.Monitor.TryEnter%2A>|Acquiert un verrou pour un objet. Cette action marque également le début d’une section critique. Aucun autre thread ne peut entrer la section critique, sauf si elle s’exécute les instructions dans la section critique à l’aide d’un autre objet verrouillé.|  
+|<xref:System.Threading.Monitor.Wait%2A>|Libère le verrou sur un objet afin de permettre d’autres threads pour verrouiller et accéder à l’objet. Le thread appelant attend qu’un autre thread accède à l’objet. Signaux d’impulsion sont utilisés pour informer les threads en attente sur les modifications apportées à un état d’objet.|  
+|<xref:System.Threading.Monitor.Pulse%2A> (signal), <xref:System.Threading.Monitor.PulseAll%2A>|Envoie un signal à un ou plusieurs threads en attente. Le signal avertit un thread en attente que l’état de l’objet verrouillé a changé, et le propriétaire du verrou est prêt à libérer le verrou. Le thread en attente est placé dans la file d’attente opérationnelle de l’objet afin qu’il peut finir par recevoir le verrou pour l’objet. Une fois que le thread dispose le verrou, il peut vérifier le nouvel état de l’objet pour voir si l’état requis a été atteint.|  
 |<xref:System.Threading.Monitor.Exit%2A>|Libère le verrou sur un objet. Cette action marque également la fin d’une section critique protégée par l’objet verrouillé.|  
   
- Compter les [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], il existe deux jeux de surcharges pour la <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.TryEnter%2A> méthodes. Un ensemble de surcharges a un `ref` (en c#) ou `ByRef` (en Visual Basic) <xref:System.Boolean> paramètre qui est automatiquement défini sur `true` si le verrou est acquis, même si une exception est levée lors de l’acquisition du verrou. Utilisez ces surcharges s’il est essentiel pour libérer le verrou dans tous les cas, même lorsque les ressources que protège le verrou ne peuvent pas être dans un état cohérent.  
+ Compter les [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], il existe deux ensembles de surcharges pour les <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.TryEnter%2A> méthodes. Un ensemble de surcharges a un `ref` (en c#) ou `ByRef` (en Visual Basic) <xref:System.Boolean> paramètre qui est défini atomiquement sur `true` si le verrou est acquis, même si une exception est levée lors de l’acquisition du verrou. Utilisez ces surcharges s’il est essentiel pour libérer le verrou dans tous les cas, même lorsque les ressources que protège le verrou ne peuvent pas être dans un état cohérent.  
   
 <a name="Lock"></a>   
 ## <a name="the-lock-object"></a>L’objet de verrouillage  
- La classe Monitor se compose de `static` (en c#) ou `Shared` (en Visual Basic) les méthodes qui fonctionnent sur un objet qui contrôle l’accès à la section critique.  Les informations suivantes sont conservées pour chaque objet synchronisé :  
+ La classe Monitor se compose de `static` (en c#) ou `Shared` (en Visual Basic) méthodes qui opèrent sur un objet qui contrôle l’accès à la section critique.  Les informations suivantes sont conservées pour chaque objet synchronisé :  
   
 -   Une référence au thread qui détient actuellement le verrou.  
   
 -   Une référence à une file d’attente opérationnelle, qui contient les threads prêts à obtenir le verrou.  
   
--   Une référence à une file d’attente, qui contient les threads en attente de notification de modification dans l’état de l’objet verrouillé.  
+-   Une référence à une file d’attente, qui contient les threads qui attendent pour la notification d’un changement de l’état de l’objet verrouillé.  
   
  <xref:System.Threading.Monitor> verrouille des objets (c'est-à-dire des types référence), mais pas des types valeur. Il est possible de passer un type valeur à <xref:System.Threading.Monitor.Enter%2A> et à <xref:System.Threading.Monitor.Exit%2A>, mais il est converti (boxed) séparément pour chaque appel. Étant donné que chaque appel crée un objet distinct, <xref:System.Threading.Monitor.Enter%2A> n'est jamais bloqué, et le code qu'il est censé protéger n'est pas correctement synchronisé. Comme l'objet passé à <xref:System.Threading.Monitor.Exit%2A> est en plus différent de l'objet passé à <xref:System.Threading.Monitor.Enter%2A>, <xref:System.Threading.Monitor> lève l'exception <xref:System.Threading.SynchronizationLockException> avec le message suivant : « La méthode de synchronisation de l'objet a été appelée à partir d'un bloc de code non synchronisé ».  
   
@@ -102,7 +104,7 @@
  [!code-csharp[Conceptual.Monitors#3](~/samples/snippets/csharp/VS_Snippets_CLR/conceptual.monitors/cs/badbox1.cs#3)]
  [!code-vb[Conceptual.Monitors#3](~/samples/snippets/visualbasic/VS_Snippets_CLR/conceptual.monitors/vb/badbox1.vb#3)]  
   
- Lorsque vous sélectionnez un objet sur lequel effectuer la synchronisation, vous devez verrouiller uniquement sur les objets privés ou internes. Verrouillage d’objets externes peut entraîner des blocages, étant donné que le code non lié peut choisir les mêmes objets à verrouiller à des fins différentes.  
+ Lorsque vous sélectionnez un objet sur lequel effectuer la synchronisation, vous devez verrouiller l’uniquement sur les objets privés ou internes. Verrouillage d’objets externes peut entraîner des blocages, étant donné que le code non lié peut choisir les mêmes verrouiller objets à des fins différentes.  
   
  Notez que vous pouvez synchroniser sur un objet dans plusieurs domaines d’application si l’objet utilisé comme verrou dérive <xref:System.MarshalByRefObject>.  
   
@@ -111,62 +113,62 @@
  Utilisez le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes pour marquer le début et la fin d’une section critique.  
   
 > [!NOTE]
->  Les fonctionnalités fournies par le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes est identique à celle fournie par le [verrou](~/docs/csharp/language-reference/keywords/lock-statement.md) instruction en c# et la [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instruction en Visual Basic, à ceci près que le constructions de langage de type wrap le <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29?displayProperty=nameWithType> surcharge de méthode et la <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> méthode dans un `try`...`finally` bloc pour garantir que le moniteur est libéré.  
+>  La fonctionnalité fournie par le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes est identique à celle fournie par le [verrou](~/docs/csharp/language-reference/keywords/lock-statement.md) instruction en langage c# et le [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instruction en Visual Basic, à ceci près que le constructions de langage de type wrap le <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29?displayProperty=nameWithType> surcharge de méthode et la <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> méthode dans un `try`...`finally` bloc pour garantir que la libération du moniteur.  
   
- Si la section critique est un jeu d’instructions contiguës, puis le verrou acquis par la <xref:System.Threading.Monitor.Enter%2A> méthode ne garantit qu’un seul thread peut exécuter le code avec l’objet verrouillé. Dans ce cas, nous vous recommandons de placer ce code dans un `try` bloquer et de placer l’appel de la <xref:System.Threading.Monitor.Exit%2A> méthode dans un `finally` bloc. Cela garantit la libération du verrou même si une exception se produit. Le fragment de code suivant illustre ce modèle.  
+ Si la section critique est un ensemble d’instructions contiguës, puis le verrou acquis par la <xref:System.Threading.Monitor.Enter%2A> méthode ne garantit qu’un seul thread peut exécuter le code délimité avec l’objet verrouillé. Dans ce cas, nous vous recommandons de placer ce code dans un `try` bloquer et placer l’appel à la <xref:System.Threading.Monitor.Exit%2A> méthode dans un `finally` bloc. Cela garantit la libération du verrou même si une exception se produit. Le fragment de code suivant illustre ce modèle.  
   
  [!code-csharp[System.Threading.Monitor.Class#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/Pattern2.cs#2)]
  [!code-vb[System.Threading.Monitor.Class#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/Pattern2.vb#2)]  
   
  Cette fonctionnalité est généralement utilisée pour synchroniser l’accès à un mappage statique ou méthode d’instance d’une classe.  
   
- Si une section critique s’étend sur la totalité de la méthode, l’outil de verrouillage peut être obtenue en plaçant le <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType> sur la méthode et en spécifiant le <xref:System.Runtime.CompilerServices.MethodImplOptions.Synchronized> valeur dans le constructeur de <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType>. Lorsque vous utilisez cet attribut, le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> les appels de méthode ne sont pas nécessaires. Le fragment de code suivant illustre ce modèle :  
+ Si une section critique s’étend sur l’ensemble d’une méthode, l’outil de verrouillage peut être obtenue en plaçant le <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType> sur la méthode et en spécifiant le <xref:System.Runtime.CompilerServices.MethodImplOptions.Synchronized> valeur dans le constructeur de <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType>. Lorsque vous utilisez cet attribut, le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> les appels de méthode ne sont pas nécessaires. Le fragment de code suivant illustre ce modèle :  
   
  [!code-csharp[System.Threading.Monitor.Class#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/Pattern2.cs#3)]
  [!code-vb[System.Threading.Monitor.Class#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/Pattern2.vb#3)]  
   
  Notez que l’attribut oblige le thread actuel détient le verrou jusqu'à ce que la méthode est retournée ; Si le verrou peut être libéré plus tôt, utilisez la <xref:System.Threading.Monitor> classe c# [verrou](~/docs/csharp/language-reference/keywords/lock-statement.md) instruction ou Visual Basic [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instruction à l’intérieur de la méthode au lieu de l’attribut.  
   
- S’il est possible pour le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> les instructions qui verrouillent et libèrent un objet donné à l’intersection des membres ou des limites de classes ou les deux, cette pratique n’est pas recommandée.  
+ S’il est possible pour le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> les instructions qui verrouillent et libèrent un objet donné à l’intersection des membres ou les limites de classe ou les deux, cette pratique n’est pas recommandée.  
   
 <a name="Pulse"></a>   
-## <a name="pulse-pulseall-and-wait"></a>Attente Pulse et PulseAll  
- Une fois qu’un thread possède le verrou et a entré le verrou protège la section critique, elle peut appeler le <xref:System.Threading.Monitor.Wait%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType>, et <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> méthodes.  
+## <a name="pulse-pulseall-and-wait"></a>Wait, Pulse et PulseAll  
+ Une fois un thread possède le verrou et a entré dans la section critique qui protège le verrou, elle peut appeler le <xref:System.Threading.Monitor.Wait%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType>, et <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> méthodes.  
   
- <xref:System.Threading.Monitor.Wait%2A> Libère le verrou est maintenu, permet à un thread en attente ou threads pour obtenir le verrou et entrer dans la section critique et attend d’être averti par un appel à la <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType> ou <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> (méthode). Quand la méthode <xref:System.Threading.Monitor.Wait%2A> reçoit la notification, elle retourne le verrou, puis le reprend.  
+ <xref:System.Threading.Monitor.Wait%2A> Libère le verrou si celui-ci est maintenu, permet à un thread en attente ou threads pour obtenir le verrou et entrez la section critique et attend d’être averti par un appel à la <xref:System.Threading.Monitor.Pulse%2A?displayProperty=nameWithType> ou <xref:System.Threading.Monitor.PulseAll%2A?displayProperty=nameWithType> (méthode). Quand la méthode <xref:System.Threading.Monitor.Wait%2A> reçoit la notification, elle retourne le verrou, puis le reprend.  
   
  <xref:System.Threading.Monitor.Pulse%2A> et <xref:System.Threading.Monitor.PulseAll%2A> envoient le signal d'exécution du thread suivant dans la file d'attente.  
   
 <a name="WaitHandles"></a>   
-## <a name="monitors-and-wait-handles"></a>Analyses et les handles d’attente  
+## <a name="monitors-and-wait-handles"></a>Moniteurs et les handles d’attente  
  Il est important de noter la distinction entre l’utilisation de la <xref:System.Threading.Monitor> classe et <xref:System.Threading.WaitHandle> objets.  
   
--   La <xref:System.Threading.Monitor> classe est purement managés et entièrement portables et peut être plus efficace en termes de besoins en ressources de système d’exploitation.  
+-   Le <xref:System.Threading.Monitor> classe est purement managés, entièrement portables et peuvent être plus efficace en termes de besoins en ressources de système d’exploitation.  
   
 -   Les objets <xref:System.Threading.WaitHandle> représentent des objets d'attente de système d'exploitation et sont utiles pour la synchronisation entre le code managé et le code non managé. Ils exposent certaines fonctionnalités avancées de système d'exploitation, comme la possibilité d'attendre plusieurs objets à la fois.  
   
    
   
 ## Examples  
- L’exemple suivant utilise le <xref:System.Threading.Monitor> classe pour synchroniser l’accès à une seule instance d’un générateur de nombres aléatoire représenté par la <xref:System.Random> classe. L’exemple crée dix tâches, chacun d’eux exécute de façon asynchrone sur un thread de pool de threads. Chaque tâche génère des nombres aléatoires 10 000, calcule leur moyenne et met à jour les deux variables de niveau de la procédure permettant de maintenir le total en cours d’exécution, le nombre de nombres aléatoires et leur somme. Une fois que toutes les tâches ont été exécutées, ces deux valeurs sont ensuite utilisés pour calculer la moyenne globale.  
+ L’exemple suivant utilise le <xref:System.Threading.Monitor> classe pour synchroniser l’accès à une seule instance d’un générateur de nombres aléatoire représenté par la <xref:System.Random> classe. L’exemple crée dix tâches, chacun d’eux exécute de façon asynchrone sur un thread de pool de threads. Chaque tâche génère des nombres aléatoires 10 000, calcule leur moyenne et met à jour les deux variables de niveau de la procédure permettant de maintenir un total en cours d’exécution du nombre de nombres aléatoires et leur somme. Une fois que toutes les tâches ont été exécutées, ces deux valeurs sont ensuite utilisées pour calculer la moyenne globale.  
   
  [!code-csharp[System.Threading.Monitor.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/example1.cs#1)]
  [!code-vb[System.Threading.Monitor.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/example1.vb#1)]  
   
- Car ils sont accessibles à partir de n’importe quelle tâche en cours d’exécution sur un thread de pool de threads, accéder aux variables `total` et `n` doivent également être synchronisées. Le <xref:System.Threading.Interlocked.Add%2A?displayProperty=nameWithType> méthode est utilisée à cet effet.  
+ Car ils sont accessibles à partir de n’importe quelle tâche en cours d’exécution sur un thread de pool de threads, accéder aux variables `total` et `n` doivent également être synchronisés. Le <xref:System.Threading.Interlocked.Add%2A?displayProperty=nameWithType> méthode est utilisée à cet effet.  
   
- L’exemple suivant illustre l’utilisation combinée de la <xref:System.Threading.Monitor> classe (implémentée avec les `lock` ou `SyncLock` construction de langage), le <xref:System.Threading.Interlocked> (classe) et la <xref:System.Threading.AutoResetEvent> classe. Il définit deux `internal` (en c#) ou `Friend` (en Visual Basic), les classes `SyncResource` et `UnSyncResource`, qui fournissent respectivement un accès synchronisé et non synchronisé à une ressource. Pour garantir que l’exemple illustre la différence entre l’accès synchronisé et non synchronisé (ce qui est peut-être le cas si chaque appel de méthode se termine rapidement), la méthode inclut un délai aléatoire : pour les threads dont <xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType> propriété est pair, la appels de méthode <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> pour introduire un délai de 2 000 millisecondes. Notez que, étant donné que la `SyncResource` classe n’est pas public, le code client acquiert un verrou sur la ressource synchronisée ; la classe interne proprement dite est acquiert le verrou. Cela empêche que du code malveillant acquière un verrou sur un objet public.  
+ L’exemple suivant illustre l’utilisation combinée de la <xref:System.Threading.Monitor> classe (implémentée avec le `lock` ou `SyncLock` construction de langage), le <xref:System.Threading.Interlocked> (classe) et le <xref:System.Threading.AutoResetEvent> classe. Il définit deux `internal` (en c#) ou `Friend` (en Visual Basic), les classes `SyncResource` et `UnSyncResource`, qui fournissent respectivement un accès synchronisé et non synchronisé à une ressource. Pour vous assurer que l’exemple illustre la différence entre l’accès synchronisé et non synchronisé (ce qui serait le cas si chaque appel de méthode se termine rapidement), la méthode inclut un délai aléatoire : pour les threads dont <xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType> propriété est pair, le appels de méthode <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> pour introduire un délai de 2 000 millisecondes. Notez que, étant donné que la `SyncResource` classe n’est pas publique, le code client acquiert un verrou sur la ressource synchronisée ; la classe interne proprement dite qui acquiert le verrou. Cela empêche que du code malveillant acquière un verrou sur un objet public.  
   
  [!code-csharp[Conceptual.Monitors#1](~/samples/snippets/csharp/VS_Snippets_CLR/conceptual.monitors/cs/source.cs#1)]
  [!code-vb[Conceptual.Monitors#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/conceptual.monitors/vb/source.vb#1)]  
   
- L’exemple définit une variable, `numOps`, qui définit le nombre de threads qui tente d’accéder à la ressource. Le thread d’application appelle la <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> méthode pour synchronisé et non synchronisé à cinq reprises accès chacun. Le <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> méthode ayant un seul paramètre, un délégué qui n’accepte aucun paramètre et ne retourne aucune valeur. Pour l’accès synchronisé, elle appelle la `SyncUpdateResource` méthode ; pour l’accès non synchronisé, elle appelle la `UnSyncUpdateResource` (méthode). Après chaque ensemble d’appels de méthode, le thread de l’application appelle la [AutoResetEvent.WaitOne](xref:System.Threading.WaitHandle.WaitOne*) méthode afin qu’elle se bloque jusqu'à ce que le <xref:System.Threading.AutoResetEvent> instance est signalée.  
+ L’exemple définit une variable, `numOps`, qui définit le nombre de threads qui tentera d’accéder à la ressource. Le thread d’application appelle le <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> méthode pour synchronisé et non synchronisé accéder à cinq fois chacune. Le <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> méthode possède un seul paramètre, un délégué qui n’accepte aucun paramètre et ne retourne aucune valeur. Pour l’accès synchronisé, elle appelle le `SyncUpdateResource` méthode ; pour l’accès non synchronisé, elle appelle le `UnSyncUpdateResource` (méthode). Après chaque ensemble d’appels de méthode, le thread d’application appelle le [AutoResetEvent.WaitOne](xref:System.Threading.WaitHandle.WaitOne*) méthode afin qu’elle se bloque jusqu'à ce que le <xref:System.Threading.AutoResetEvent> instance est signalée.  
   
- Chaque appel à la `SyncUpdateResource` appels de méthode interne `SyncResource.Access` (méthode), puis appelle la <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> méthode décrémente le `numOps` compteur. Le <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> méthode est utilisée pour décrémenter le compteur, car sinon vous ne peut pas être certain qu’un deuxième thread accéder à la valeur décrémentée d’un premier thread avant de la valeur a été stockée dans la variable. Lorsque le dernier travail thread synchronisé décrémente le compteur à zéro, indiquant que tous les threads synchronisés ont terminé d’accéder à la ressource, le `SyncUpdateResource` les appels de méthode le <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> (méthode), qui indique le thread principal pour continuer exécution.  
+ Chaque appel à la `SyncUpdateResource` méthode appelle en interne `SyncResource.Access` (méthode), puis appelle la <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> méthode pour décrémenter le `numOps` compteur. Le <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> méthode est utilisée pour décrémenter le compteur, car sinon vous ne pouvez pas être certain qu’un deuxième thread accéder à la valeur avant du d’un thread de premier décrémenté valeur ayant été stockée dans la variable. Lors de la dernière synchronisation décrémente de thread de travail le compteur à zéro, indiquant que tous les threads synchronisés ont terminé d’accéder à la ressource, le `SyncUpdateResource` les appels de méthode le <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> (méthode), qui signale au thread principal de continuer exécution.  
   
- Chaque appel à la `UnSyncUpdateResource` appels de méthode interne `UnSyncResource.Access` (méthode), puis appelle la <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> méthode décrémente le `numOps` compteur. Une fois encore, la <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> méthode est utilisée pour décrémenter le compteur pour vous assurer qu’un deuxième thread n’accède pas à la valeur avant valeur décrémentée d’un premier thread ait été attribuée à la variable. Lors de la dernière non synchronisé décrémente de thread de travail le compteur à zéro, indiquant que plus aucun non synchronisé threads doivent accéder à la ressource, le `UnSyncUpdateResource` les appels de méthode le <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> (méthode), qui indique au thread principal de poursuivre l’exécution .  
+ Chaque appel à la `UnSyncUpdateResource` méthode appelle en interne `UnSyncResource.Access` (méthode), puis appelle la <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> méthode pour décrémenter le `numOps` compteur. Une fois encore, le <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> méthode est utilisée pour décrémenter le compteur pour vous assurer qu’un deuxième thread n’accède pas à la valeur avant valeur décrémentée d’un premier thread ait été attribuée à la variable. Lors de la dernière non synchronisé décrémente de thread de travail le compteur à zéro, indiquant qu’aucun autre non synchronisé threads doivent accéder à la ressource, le `UnSyncUpdateResource` les appels de méthode le <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> (méthode), qui signale le thread principal pour continuer l’exécution .  
   
- Comme le montre la sortie de l’exemple, l’accès synchronisé garantit que le thread appelant quitte la ressource protégée avant qu’un autre thread puisse y accéder ; chaque thread attend son prédécesseur. En revanche, sans verrou la `UnSyncResource.Access` méthode est appelée dans l’ordre dans lequel les threads l’atteignent.  
+ Comme le montre la sortie de l’exemple, l’accès synchronisé garantit que le thread appelant quitte la ressource protégée avant qu’un autre thread puisse y accéder ; chaque thread attend son prédécesseur. En revanche, sans verrou, le `UnSyncResource.Access` méthode est appelée dans l’ordre dans lequel les threads l’atteignent.  
   
  ]]></format>
     </remarks>
@@ -202,6 +204,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -227,13 +231,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilisez `Enter` pour acquérir le <xref:System.Threading.Monitor> sur l’objet passé comme paramètre. Si un autre thread a exécuté une `Enter` sur l’objet mais n’a ne pas encore exécutée correspondant <xref:System.Threading.Monitor.Exit%2A>, bloque le thread actuel jusqu'à ce que l’autre thread libère l’objet. Il est autorisé pour le même thread à appeler `Enter` plusieurs fois sans se bloquer ; Toutefois, un nombre égal de `Exit` appels doivent être appelés que les autres threads en attente sur l’objet seront débloquent.  
+ Utilisez `Enter` pour acquérir le <xref:System.Threading.Monitor> sur l’objet passé comme paramètre. Si un autre thread a exécuté une `Enter` sur l’objet, mais le n'a pas encore exécuté correspondant <xref:System.Threading.Monitor.Exit%2A>, bloque le thread actuel jusqu'à ce que l’autre thread libère l’objet. Il est autorisé pour le même thread appeler `Enter` plusieurs fois sans se bloquer ; Toutefois, un nombre égal de `Exit` appels doivent être appelées avant que les autres threads en attente sur l’objet débloque.  
   
- Utilisez <xref:System.Threading.Monitor> pour verrouiller des objets (autrement dit, les types référence), pas des types valeur. Lorsque vous passez une variable de type valeur à `Enter`, elle est convertie (boxed) en tant qu’objet. Si vous passez à la même variable à `Enter` , elle est convertie (boxed) en tant qu’objet distinct et le thread ne bloque pas. Dans ce cas, le code qui `Monitor` est censé protéger n’est pas protégé. En outre, lorsque vous passez la variable à `Exit`, toujours à un autre objet distinct est créé. Étant donné que l’objet passé à `Exit` est différent de l’objet passé à `Enter`, `Monitor` lève <xref:System.Threading.SynchronizationLockException>. Pour plus d’informations, consultez la rubrique conceptuelle [analyses](xref:System.Threading.Monitor).  
+ Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Lorsque vous passez une variable de type valeur à `Enter`, il est converti (boxed) en tant qu’objet. Si vous transmettez la même variable à `Enter` là encore, il est converti (boxed) en tant qu’objet distinct et le thread ne bloque pas. Dans ce cas, le code qui `Monitor` est censé protéger n’est pas protégé. En outre, lorsque vous passez la variable à `Exit`, toujours à un autre objet distinct est créé. Étant donné que l’objet passé à `Exit` est différent de l’objet passé à `Enter`, `Monitor` lève <xref:System.Threading.SynchronizationLockException>. Pour plus d’informations, consultez la rubrique conceptuelle [moniteurs](xref:System.Threading.Monitor).  
   
  <xref:System.Threading.Thread.Interrupt%2A> peut interrompre des threads qui attendent pour entrer un `Monitor` sur un objet. Un <xref:System.Threading.ThreadInterruptedException> sera levée.  
   
- Utiliser le langage c# `try`...`finally` bloc (`Try`...`Finally` en Visual Basic) pour garantir que vous libérez le moniteur ou si vous utilisez c# `lock` instruction (`SyncLock` instruction en Visual Basic), qui encapsule le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes dans un `try`...`finally` bloc.  
+ Utiliser C# `try`...`finally` bloc (`Try`...`Finally` en Visual Basic) pour vous assurer que vous le moniteur de mise en production, ou utilisez le c# `lock` instruction (`SyncLock` instruction en Visual Basic), qui encapsule le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes dans un `try`...`finally` bloc.  
   
    
   
@@ -289,18 +293,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilisez `Enter` pour acquérir le <xref:System.Threading.Monitor> sur l’objet passé en tant que le `obj` paramètre. Si un autre thread a exécuté une `Enter` sur l’objet mais n’a ne pas encore exécutée correspondant <xref:System.Threading.Monitor.Exit%2A>, bloque le thread actuel jusqu'à ce que l’autre thread libère l’objet. Il est autorisé pour le même thread à appeler `Enter` plusieurs fois sans se bloquer ; Toutefois, un nombre égal de `Exit` appels doivent être appelés que les autres threads en attente sur l’objet seront débloquent.  
+ Utilisez `Enter` pour acquérir le <xref:System.Threading.Monitor> sur l’objet passé comme le `obj` paramètre. Si un autre thread a exécuté une `Enter` sur l’objet, mais le n'a pas encore exécuté correspondant <xref:System.Threading.Monitor.Exit%2A>, bloque le thread actuel jusqu'à ce que l’autre thread libère l’objet. Il est autorisé pour le même thread appeler `Enter` plusieurs fois sans se bloquer ; Toutefois, un nombre égal de `Exit` appels doivent être appelées avant que les autres threads en attente sur l’objet débloque.  
   
- Si le verrou n’a pas été appliqué, car une exception a été levée, la variable spécifiée pour le `lockTaken` paramètre est `false` après la fin de cette méthode. Cela permet au programme de déterminer, dans tous les cas, s’il est nécessaire libérer le verrou. Si cette méthode est retournée sans lever d’exception, la variable spécifiée pour le `lockTaken` paramètre est toujours `true`, et il n’est pas nécessaire pour le tester.  
+ Si le verrou n’a pas été appliqué, car une exception a été levée, la variable spécifiée pour le `lockTaken` paramètre est `false` après la fin de cette méthode. Cela permet au programme déterminer, dans tous les cas, s’il est nécessaire libérer le verrou. Si cette méthode retourne sans lever d’exception, la variable spécifiée pour le `lockTaken` paramètre est toujours `true`, et il n’est pas nécessaire pour le tester.  
   
- Utilisez <xref:System.Threading.Monitor> pour verrouiller des objets (autrement dit, les types référence), pas des types valeur. Lorsque vous passez une variable de type valeur à `Enter`, elle est convertie (boxed) en tant qu’objet. Si vous passez à la même variable à `Enter` , elle est convertie (boxed) en tant qu’objet distinct et le thread ne bloque pas. Dans ce cas, le code qui `Monitor` est censé protéger n’est pas protégé. En outre, lorsque vous passez la variable à `Exit`, un autre objet distinct est créé. Étant donné que l’objet passé à `Exit` est différent de l’objet passé à `Enter`, `Monitor` lève <xref:System.Threading.SynchronizationLockException>. Pour plus d’informations, consultez la rubrique conceptuelle [analyses](xref:System.Threading.Monitor).  
+ Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Lorsque vous passez une variable de type valeur à `Enter`, il est converti (boxed) en tant qu’objet. Si vous transmettez la même variable à `Enter` là encore, il est converti (boxed) en tant qu’objet distinct et le thread ne bloque pas. Dans ce cas, le code qui `Monitor` est censé protéger n’est pas protégé. En outre, lorsque vous passez la variable à `Exit`, un autre objet distinct est créé. Étant donné que l’objet passé à `Exit` est différent de l’objet passé à `Enter`, `Monitor` lève <xref:System.Threading.SynchronizationLockException>. Pour plus d’informations, consultez la rubrique conceptuelle [moniteurs](xref:System.Threading.Monitor).  
   
  <xref:System.Threading.Thread.Interrupt%2A> peut interrompre des threads qui attendent pour entrer un `Monitor` sur un objet. Un <xref:System.Threading.ThreadInterruptedException> sera levée.  
   
    
   
 ## Examples  
- Le code suivant illustre le modèle de base pour l’utilisation de la <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29> la surcharge de méthode. Cette surcharge définit toujours la valeur de la variable est passée à la `ref` paramètre (`ByRef` en Visual Basic) `lockTaken`, même si la méthode lève une exception, la valeur de la variable est une méthode fiable pour déterminer si le verrou doit être publié.  
+ Le code suivant montre le modèle de base pour l’utilisation de la <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29> surcharge de méthode. Cette surcharge définit toujours la valeur de la variable est passée à la `ref` paramètre (`ByRef` en Visual Basic) `lockTaken`, même si la méthode lève une exception, afin que la valeur de la variable de façon fiable pour déterminer si le verrou doit être publié.  
   
  [!code-csharp[System.Threading.Monitor.Enter#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.enter/cs/example.cs#2)]
  [!code-vb[System.Threading.Monitor.Enter#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.enter/vb/example.vb#2)]  
@@ -328,6 +332,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -356,9 +362,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le thread appelant doit posséder le verrou sur le `obj` paramètre. Si le thread appelant possède le verrou sur l’objet spécifié et a effectué un nombre égal de `Exit` et <xref:System.Threading.Monitor.Enter%2A> appelle pour l’objet, puis la libération du verrou. Si le thread appelant n’a pas été appelé `Exit` autant de fois en tant que `Enter`, le verrou n’est pas libéré.  
+ Le thread appelant doit posséder le verrou sur le `obj` paramètre. Si le thread appelant possède le verrou sur l’objet spécifié et a effectué un nombre égal de `Exit` et <xref:System.Threading.Monitor.Enter%2A> appelle pour l’objet, puis le verrou est libéré. Si le thread appelant n’a pas appelé `Exit` autant de fois en tant que `Enter`, le verrou n’est pas libéré.  
   
- Si le verrou est libéré et les autres threads se trouvent dans la file d’attente opérationnelle de l’objet, un des threads acquiert le verrou. Si d’autres threads attendent dans la file d’attente en attendant d’acquérir le verrou, ils ne sont pas déplacés automatiquement vers la file d’attente opérationnelle lorsque le propriétaire du verrou appelle `Exit`. Pour déplacer un ou plusieurs threads en attente dans la file d’attente opérationnelle, appelez <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> avant d’appeler `Exit`.  
+ Si le verrou est libéré et d’autres threads se trouvent dans la file d’attente prêt pour l’objet, un des threads acquiert le verrou. Si d’autres threads se trouvent dans la file d’attente attend pour acquérir le verrou, ils ne sont pas déplacés automatiquement vers la file d’attente opérationnelle lorsque le propriétaire du verrou appelle `Exit`. Pour déplacer un ou plusieurs threads en attente dans la file d’attente opérationnelle, appelez <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> avant d’appeler `Exit`.  
   
    
   
@@ -420,9 +426,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode fonctionne uniquement pour les verrous acquis à l’aide des méthodes de la <xref:System.Threading.Monitor> classe ou à l’aide du langage c# `lock` instruction ou Visual Basic `SyncLock` instruction, qui sont implémentées avec <xref:System.Threading.Monitor>.  
+ Cette méthode fonctionne uniquement pour les verrous acquis en utilisant les méthodes de la <xref:System.Threading.Monitor> classe, ou en utilisant c# `lock` instruction ou Visual Basic `SyncLock` instruction, qui sont implémentées avec <xref:System.Threading.Monitor>.  
   
- Utilisez cette méthode avec les outils de diagnostic, tels que les <xref:System.Diagnostics.Debug.Assert%2A> (méthode) et le <xref:System.Diagnostics.Contracts.Contract> (classe), pour déboguer les problèmes de verrouillage qui impliquent la <xref:System.Threading.Monitor> classe.  
+ Utilisez cette méthode avec les outils de diagnostic, comme le <xref:System.Diagnostics.Debug.Assert%2A> (méthode) et le <xref:System.Diagnostics.Contracts.Contract> (classe), pour déboguer les problèmes de verrouillage qui impliquent la <xref:System.Threading.Monitor> classe.  
   
  ]]></format>
         </remarks>
@@ -447,6 +453,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -474,16 +482,16 @@
 ## Remarks  
  Seul le propriétaire actuel du verrou peut signaler un objet en attente à l’aide `Pulse`.  
   
- Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode pour signaler au thread suivant dans la ligne pour le verrou. Lors de la réception de l’impulsion, le thread en attente est déplacé vers la file d’attente opérationnelle. Lorsque le thread qui a appelé `Pulse` libère le verrou, le thread suivant dans la file d’attente opérationnelle (qui n’est pas nécessairement le thread qui a été impulsions) acquiert le verrou.  
+ Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode pour signaler au thread suivant dans la ligne du verrou. Lors de la réception de l’impulsion, le thread en attente est déplacé vers la file d’attente opérationnelle. Lorsque le thread qui a appelé `Pulse` libère le verrou, le thread suivant dans la file d’attente opérationnelle (qui n’est pas nécessairement le thread qui a été impulsions) acquiert le verrou.  
   
 > [!IMPORTANT]
->  Le <xref:System.Threading.Monitor> classe ne conserve pas l’état indiquant que la <xref:System.Threading.Monitor.Pulse%2A> méthode a été appelée. Par conséquent, si vous appelez <xref:System.Threading.Monitor.Pulse%2A> lorsque aucun thread n’attend, le thread suivant qui appelle <xref:System.Threading.Monitor.Wait%2A> blocs comme si <xref:System.Threading.Monitor.Pulse%2A> n’avait jamais été appelée. Si vous utilisent deux threads <xref:System.Threading.Monitor.Pulse%2A> et <xref:System.Threading.Monitor.Wait%2A> pour interagir, cela peut provoquer un interblocage. Ceci contraste avec le comportement de la <xref:System.Threading.AutoResetEvent> classe : Si vous signalez un <xref:System.Threading.AutoResetEvent> en appelant son <xref:System.Threading.EventWaitHandle.Set%2A> (méthode) et il n’existe aucun thread en attente, le <xref:System.Threading.AutoResetEvent> reste dans un état signalé jusqu'à ce qu’un thread appelle <xref:System.Threading.WaitHandle.WaitOne%2A>, <xref:System.Threading.WaitHandle.WaitAny%2A>, ou <xref:System.Threading.WaitHandle.WaitAll%2A>. Le <xref:System.Threading.AutoResetEvent> libère ce thread et retourne à l’état non signalé.  
+>  Le <xref:System.Threading.Monitor> classe ne conserve pas l’état indiquant que le <xref:System.Threading.Monitor.Pulse%2A> méthode a été appelée. Par conséquent, si vous appelez <xref:System.Threading.Monitor.Pulse%2A> lorsque aucun thread n’attend, le thread suivant qui appelle <xref:System.Threading.Monitor.Wait%2A> blocs comme si <xref:System.Threading.Monitor.Pulse%2A> n’avait jamais été appelée. Si deux threads utilisent <xref:System.Threading.Monitor.Pulse%2A> et <xref:System.Threading.Monitor.Wait%2A> pour interagir, cela peut provoquer un interblocage. Comparez ceci avec le comportement de la <xref:System.Threading.AutoResetEvent> classe : Si vous signalez un <xref:System.Threading.AutoResetEvent> en appelant son <xref:System.Threading.EventWaitHandle.Set%2A> (méthode) et il n’y aucun thread n’attend, le <xref:System.Threading.AutoResetEvent> reste dans un état signalé jusqu'à ce qu’un thread appelle <xref:System.Threading.WaitHandle.WaitOne%2A>, <xref:System.Threading.WaitHandle.WaitAny%2A>, ou <xref:System.Threading.WaitHandle.WaitAll%2A>. Le <xref:System.Threading.AutoResetEvent> libère ce thread et retourne à l’état non signalé.  
   
  Notez qu’un objet synchronisé comprend plusieurs références, y compris une référence au thread qui détient actuellement le verrou, une référence à la file d’attente opérationnelle, qui contient les threads prêts à obtenir le verrou, et une référence à la file d’attente, qui contient les threads qui attendent pour la notification d’un changement d’état de l’objet.  
   
  Le `Pulse`, <xref:System.Threading.Monitor.PulseAll%2A>, et <xref:System.Threading.Monitor.Wait%2A> méthodes doivent être appelées à partir d’un bloc de code synchronisé.  
   
- Pour signaler à plusieurs threads, utilisez la <xref:System.Threading.Monitor.PulseAll%2A> (méthode).  
+ Pour signaler plusieurs threads, utilisez le <xref:System.Threading.Monitor.PulseAll%2A> (méthode).  
   
  ]]></format>
         </remarks>
@@ -509,6 +517,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -534,13 +544,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode pour signaler tous les threads en attente d’acquérir le verrou sur l’objet. Une fois que le signal est envoyé, les threads en attente sont déplacés vers la file d’attente opérationnelle. Lorsque le thread qui a appelé `PulseAll` libère le verrou, le thread suivant dans la file d’attente opérationnelle acquiert le verrou.  
+ Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode pour signaler tous les threads attendant d’acquérir le verrou sur l’objet. Une fois que le signal est envoyé, les threads en attente sont déplacés vers la file d’attente opérationnelle. Lorsque le thread qui a appelé `PulseAll` libère le verrou, le thread suivant dans la file d’attente opérationnelle acquiert le verrou.  
   
  Notez qu’un objet synchronisé comprend plusieurs références, y compris une référence au thread qui détient actuellement le verrou, une référence à la file d’attente opérationnelle, qui contient les threads prêts à obtenir le verrou, et une référence à la file d’attente, qui contient les threads qui attendent pour la notification d’un changement d’état de l’objet.  
   
  Le <xref:System.Threading.Monitor.Pulse%2A>, `PulseAll`, et <xref:System.Threading.Monitor.Wait%2A> méthodes doivent être appelées à partir d’un bloc de code synchronisé.  
   
- La section Notes pour le <xref:System.Threading.Monitor.Pulse%2A> méthode expliquent ce qui se passe si <xref:System.Threading.Monitor.Pulse%2A> est appelé lorsque aucun thread en attente.  
+ Les notes relatives à la <xref:System.Threading.Monitor.Pulse%2A> méthode expliquent ce qui se passe si <xref:System.Threading.Monitor.Pulse%2A> est appelé lorsque aucun thread n’attend.  
   
  Pour signaler un thread unique, utilisez le `Pulse` (méthode).  
   
@@ -579,6 +589,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -601,14 +613,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si succès, cette méthode acquiert un verrou exclusif sur la `obj` paramètre. Cette méthode retourne immédiatement, que le verrou soit disponible ou non.  
+ Si réussie, cette méthode acquiert un verrou exclusif sur la `obj` paramètre. Cette méthode retourne immédiatement, si le verrou est disponible ou non.  
   
- Cette méthode est similaire à <xref:System.Threading.Monitor.Enter%2A>, mais il ne sera jamais bloque le thread actuel. Si le thread ne peut pas entrer sans se bloquer, la méthode retourne `false,`.  
+ Cette méthode est similaire à <xref:System.Threading.Monitor.Enter%2A>, mais il ne se bloque jamais le thread actuel. Si le thread ne peut pas entrer sans se bloquer, la méthode retourne `false,`.  
   
 > [!NOTE]
->  Utilisez <xref:System.Threading.Monitor> pour verrouiller des objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> l’article.  
+>  Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> article.  
   
- Pour vous assurer que le thread n’entre pas la section critique, vous devez examiner la valeur de retour et d’exécuter du code dans la section critique uniquement si sa valeur de retour est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour garantir que le thread appelant libère son verrou sur la section critique si une exception se produit.  
+ Pour vous assurer que le thread n’entre pas de la section critique, vous devez examiner la valeur de retour et exécuter du code dans la section critique uniquement si sa valeur de retour est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour vous assurer que le thread appelant libère son verrou sur la section critique si une exception se produit.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#1)]
  [!code-vb[System.Threading.Monitor.TryEnter#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#1)]  
@@ -667,16 +679,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si succès, cette méthode acquiert un verrou exclusif sur la `obj` paramètre. Cette méthode retourne immédiatement, que le verrou soit disponible ou non.  
+ Si réussie, cette méthode acquiert un verrou exclusif sur la `obj` paramètre. Cette méthode retourne immédiatement, si le verrou est disponible ou non.  
   
- Si le verrou n’a pas été appliqué, car une exception a été levée, la variable spécifiée pour le `lockTaken` paramètre est `false` après la fin de cette méthode. Cela permet au programme de déterminer, dans tous les cas, s’il est nécessaire libérer le verrou.  
+ Si le verrou n’a pas été appliqué, car une exception a été levée, la variable spécifiée pour le `lockTaken` paramètre est `false` après la fin de cette méthode. Cela permet au programme déterminer, dans tous les cas, s’il est nécessaire libérer le verrou.  
   
- Cette méthode est similaire à <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29>, mais il ne sera jamais bloque le thread actuel. Si le thread ne peut pas entrer sans se bloquer, le `lockTaken` argument a la valeur `false` lorsque la méthode est retournée.  
+ Cette méthode est similaire à <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29>, mais il ne se bloque jamais le thread actuel. Si le thread ne peut pas entrer sans se bloquer, le `lockTaken` argument a la valeur `false` lorsque la méthode est retournée.  
   
 > [!NOTE]
->  Utilisez <xref:System.Threading.Monitor> pour verrouiller des objets (autrement dit, les types référence), pas des types valeur. Pour plus d'informations, voir l'article <xref:System.Threading.Monitor>.  
+>  Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Pour plus d'informations, voir l'article <xref:System.Threading.Monitor>.  
   
- Pour vous assurer que le thread n’entre pas la section critique, vous devez examiner la valeur de `lockTaken` et exécuter du code dans la section critique uniquement si sa valeur est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour garantir que le thread appelant libère son verrou sur la section critique si une exception se produit.  
+ Pour vous assurer que le thread n’entre pas de la section critique, vous devez examiner la valeur de `lockTaken` et exécuter du code dans la section critique uniquement si sa valeur est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour vous assurer que le thread appelant libère son verrou sur la section critique si une exception se produit.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#2)]
  [!code-vb[System.Threading.Monitor.TryEnter#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#2)]  
@@ -684,7 +696,7 @@
    
   
 ## Examples  
- Le code suivant illustre le modèle de base pour l’utilisation de la <xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29> la surcharge de méthode. Cette surcharge définit toujours la valeur de la variable est passée à la `ref` paramètre (`ByRef` en Visual Basic) `lockTaken`, même si la méthode lève une exception, la valeur de la variable est une méthode fiable pour déterminer si le verrou doit être publié.  
+ Le code suivant montre le modèle de base pour l’utilisation de la <xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29> surcharge de méthode. Cette surcharge définit toujours la valeur de la variable est passée à la `ref` paramètre (`ByRef` en Visual Basic) `lockTaken`, même si la méthode lève une exception, afin que la valeur de la variable de façon fiable pour déterminer si le verrou doit être publié.  
   
  [!code-csharp[System.Threading.Monitor.Enter#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.enter/cs/example.cs#3)]
  [!code-vb[System.Threading.Monitor.Enter#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.enter/vb/example.vb#3)]  
@@ -712,6 +724,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -736,12 +750,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si le `millisecondsTimeout` paramètre est égal à <xref:System.Threading.Timeout.Infinite>, cette méthode est équivalente à <xref:System.Threading.Monitor.Enter%2A>. Si `millisecondsTimeout` est égal à 0, cette méthode équivaut à <xref:System.Threading.Monitor.TryEnter%2A>.  
+ Si le `millisecondsTimeout` paramètre est égal à <xref:System.Threading.Timeout.Infinite>, cette méthode équivaut à <xref:System.Threading.Monitor.Enter%2A>. Si `millisecondsTimeout` est égal à 0, cette méthode équivaut à <xref:System.Threading.Monitor.TryEnter%2A>.  
   
 > [!NOTE]
->  Utilisez <xref:System.Threading.Monitor> pour verrouiller des objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> l’article.  
+>  Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> article.  
   
- Pour vous assurer que le thread n’entre pas la section critique, vous devez examiner la valeur de retour et d’exécuter du code dans la section critique uniquement si sa valeur de retour est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour garantir que le thread appelant libère son verrou sur la section critique si une exception se produit.  
+ Pour vous assurer que le thread n’entre pas de la section critique, vous devez examiner la valeur de retour et exécuter du code dans la section critique uniquement si sa valeur de retour est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour vous assurer que le thread appelant libère son verrou sur la section critique si une exception se produit.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#3)]
  [!code-vb[System.Threading.Monitor.TryEnter#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#3)]  
@@ -771,6 +785,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -796,12 +812,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si la valeur de la `timeout` paramètre converti en millisecondes est égale à – 1, cette méthode équivaut à <xref:System.Threading.Monitor.Enter%2A>. Si la valeur de `timeout` est égal à 0, cette méthode équivaut à <xref:System.Threading.Monitor.TryEnter%2A>.  
+ Si la valeur de la `timeout` paramètre convertie en millisecondes est égale à – 1, cette méthode équivaut à <xref:System.Threading.Monitor.Enter%2A>. Si la valeur de `timeout` est égal à 0, cette méthode équivaut à <xref:System.Threading.Monitor.TryEnter%2A>.  
   
 > [!NOTE]
->  Utilisez <xref:System.Threading.Monitor> pour verrouiller des objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> rubrique de la classe.  
+>  Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> rubrique de la classe.  
   
- Pour vous assurer que le thread n’entre pas la section critique, vous devez examiner la valeur de retour et d’exécuter du code dans la section critique uniquement si sa valeur de retour est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour garantir que le thread appelant libère son verrou sur la section critique si une exception se produit.  
+ Pour vous assurer que le thread n’entre pas de la section critique, vous devez examiner la valeur de retour et exécuter du code dans la section critique uniquement si sa valeur de retour est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour vous assurer que le thread appelant libère son verrou sur la section critique si une exception se produit.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#5)]
  [!code-vb[System.Threading.Monitor.TryEnter#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#5)]  
@@ -854,14 +870,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si le `millisecondsTimeout` paramètre est égal à <xref:System.Threading.Timeout.Infinite>, cette méthode est équivalente à <xref:System.Threading.Monitor.Enter%28System.Object%29>. Si `millisecondsTimeout` est égal à 0, cette méthode équivaut à <xref:System.Threading.Monitor.TryEnter%28System.Object%29>.  
+ Si le `millisecondsTimeout` paramètre est égal à <xref:System.Threading.Timeout.Infinite>, cette méthode équivaut à <xref:System.Threading.Monitor.Enter%28System.Object%29>. Si `millisecondsTimeout` est égal à 0, cette méthode équivaut à <xref:System.Threading.Monitor.TryEnter%28System.Object%29>.  
   
- Si le verrou n’a pas été appliqué, car une exception a été levée, la variable spécifiée pour le `lockTaken` paramètre est `false` après la fin de cette méthode. Cela permet au programme de déterminer, dans tous les cas, s’il est nécessaire libérer le verrou.  
+ Si le verrou n’a pas été appliqué, car une exception a été levée, la variable spécifiée pour le `lockTaken` paramètre est `false` après la fin de cette méthode. Cela permet au programme déterminer, dans tous les cas, s’il est nécessaire libérer le verrou.  
   
 > [!NOTE]
->  Utilisez <xref:System.Threading.Monitor> pour verrouiller des objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> rubrique de la classe.  
+>  Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> rubrique de la classe.  
   
- Pour vous assurer que le thread n’entre pas la section critique, vous devez examiner la valeur de `lockTaken` et exécuter du code dans la section critique uniquement si sa valeur est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour garantir que le thread appelant libère son verrou sur la section critique si une exception se produit.  
+ Pour vous assurer que le thread n’entre pas de la section critique, vous devez examiner la valeur de `lockTaken` et exécuter du code dans la section critique uniquement si sa valeur est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour vous assurer que le thread appelant libère son verrou sur la section critique si une exception se produit.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#4)]
  [!code-vb[System.Threading.Monitor.TryEnter#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#4)]  
@@ -869,7 +885,7 @@
    
   
 ## Examples  
- Le code suivant illustre le modèle de base pour l’utilisation de la <xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29> la surcharge de méthode. Cette surcharge définit toujours la valeur de la variable est passée à la `ref` paramètre (`ByRef` en Visual Basic) `lockTaken`, même si la méthode lève une exception, la valeur de la variable est une méthode fiable pour déterminer si le verrou doit être publié.  
+ Le code suivant montre le modèle de base pour l’utilisation de la <xref:System.Threading.Monitor.TryEnter%28System.Object%2CSystem.Boolean%40%29> surcharge de méthode. Cette surcharge définit toujours la valeur de la variable est passée à la `ref` paramètre (`ByRef` en Visual Basic) `lockTaken`, même si la méthode lève une exception, afin que la valeur de la variable de façon fiable pour déterminer si le verrou doit être publié.  
   
  [!code-csharp[System.Threading.Monitor.Enter#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.enter/cs/example.cs#4)]
  [!code-vb[System.Threading.Monitor.Enter#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.enter/vb/example.vb#4)]  
@@ -923,14 +939,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si la valeur de la `timeout` paramètre converti en millisecondes est égale à – 1, cette méthode équivaut à <xref:System.Threading.Monitor.Enter%28System.Object%29>. Si la valeur de `timeout` est égal à 0, cette méthode équivaut à <xref:System.Threading.Monitor.TryEnter%28System.Object%29>.  
+ Si la valeur de la `timeout` paramètre convertie en millisecondes est égale à – 1, cette méthode équivaut à <xref:System.Threading.Monitor.Enter%28System.Object%29>. Si la valeur de `timeout` est égal à 0, cette méthode équivaut à <xref:System.Threading.Monitor.TryEnter%28System.Object%29>.  
   
- Si le verrou n’a pas été appliqué, car une exception a été levée, la variable spécifiée pour le `lockTaken` paramètre est `false` après la fin de cette méthode. Cela permet au programme de déterminer, dans tous les cas, s’il est nécessaire libérer le verrou.  
+ Si le verrou n’a pas été appliqué, car une exception a été levée, la variable spécifiée pour le `lockTaken` paramètre est `false` après la fin de cette méthode. Cela permet au programme déterminer, dans tous les cas, s’il est nécessaire libérer le verrou.  
   
 > [!NOTE]
->  Utilisez <xref:System.Threading.Monitor> pour verrouiller des objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> rubrique de la classe.  
+>  Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> rubrique de la classe.  
   
- Pour vous assurer que le thread n’entre pas la section critique, vous devez examiner la valeur de `lockTaken` et exécuter du code dans la section critique uniquement si sa valeur est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour garantir que le thread appelant libère son verrou sur la section critique si une exception se produit.  
+ Pour vous assurer que le thread n’entre pas de la section critique, vous devez examiner la valeur de `lockTaken` et exécuter du code dans la section critique uniquement si sa valeur est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour vous assurer que le thread appelant libère son verrou sur la section critique si une exception se produit.  
   
  [!code-csharp[System.Threading.Monitor.TryEnter#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/cs/pattern1.cs#6)]
  [!code-vb[System.Threading.Monitor.TryEnter#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Monitor.TryEnter/vb/pattern1.vb#6)]  
@@ -971,6 +987,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -993,19 +1011,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode pour libérer l’objet afin qu’un autre thread peut y accéder. L’appelant est bloqué en attendant l’acquérir à nouveau le verrou. Cette méthode est appelée lorsque l’appelant doit attendre un changement d’état qui se produit suite à des opérations d’un autre thread.  
+ Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode afin de libérer l’objet afin qu’un autre thread peut y accéder. L’appelant est bloqué en attendant d’acquérir le verrou. Cette méthode est appelée lorsque l’appelant doit attendre un changement d’état qui se produit suite à des opérations d’un autre thread.  
   
- Lorsqu’un thread appelle `Wait`, il libère le verrou sur l’objet et le passe à la file d’attente de l’objet. Le thread suivant dans la file d’attente opérationnelle de l’objet (si elle existe) acquiert le verrou et a l’usage exclusif de l’objet. Tous les threads qui appellent `Wait` restent dans la file d’attente jusqu'à ce qu’ils reçoivent un signal de <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>, envoyé par le propriétaire du verrou. Si `Pulse` est envoyé, seul le thread en tête de la file d’attente est affecté. Si `PulseAll` est envoyé, tous les threads en attente de l’objet sont concernés. Lorsque le signal est reçu, un ou plusieurs threads restent dans la file d’attente et la file d’attente opérationnelle. Un thread dans la file d’attente opérationnelle est autorisé à acquérir le verrou.  
+ Lorsqu’un thread appelle `Wait`, il libère le verrou sur l’objet et passe la file d’attente de l’objet. Le thread suivant dans la file d’attente opérationnelle de l’objet (le cas échéant) acquiert le verrou et a l’usage exclusif de l’objet. Tous les threads qui appellent `Wait` restent dans la file d’attente jusqu'à ce qu’ils reçoivent un signal de <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>, envoyé par le propriétaire du verrou. Si `Pulse` est envoyé, seul le thread à la tête de la file d’attente est affecté. Si `PulseAll` est envoyé, tous les threads qui attendent l’objet sont affectées. Lorsque le signal est reçu, un ou plusieurs threads laisser la file d’attente et la file d’attente opérationnelle. Un thread dans la file d’attente opérationnelle est autorisé à réacquérir le verrou.  
   
- Cette méthode retourne quand le thread appelant acquière à nouveau le verrou sur l’objet. Notez que cette méthode se bloque indéfiniment si le conteneur du verrou n’appelle pas `Pulse` ou `PulseAll`.  
+ Cette méthode est retournée lorsque le thread appelant acquiert le verrou sur l’objet à nouveau. Notez que cette méthode se bloque indéfiniment si le détenteur du verrou n’appelle pas `Pulse` ou `PulseAll`.  
   
- L’appelant exécute `Wait` une seule fois, quel que soit le nombre de fois <xref:System.Threading.Monitor.Enter%2A> a été appelée pour l’objet spécifié. Point de vue conceptuel, le `Wait` méthode stocke le nombre de fois que l’appelant appelé `Enter` sur l’objet et appelle `Exit` autant de fois que nécessaire pour libérer complètement l’objet verrouillé. L’appelant se bloque en attendant l’acquérir à nouveau l’objet. Lorsque l’appelant acquiert de nouveau le verrou, le système appelle `Enter` autant de fois que nécessaire pour restaurer les `Enter` nombre pour l’appelant. Appel de `Wait` libère le verrou pour l’objet spécifié uniquement ; si l’appelant est le propriétaire de verrous sur d’autres objets, ces verrous sont libérés pas.  
+ L’appelant exécute `Wait` une seule fois, quel que soit le nombre de fois <xref:System.Threading.Monitor.Enter%2A> a été appelée pour l’objet spécifié. Conceptuellement, la `Wait` méthode stocke le nombre de fois que l’appelant appelé `Enter` sur l’objet et appelle `Exit` autant de fois que nécessaire pour libérer complètement l’objet verrouillé. L’appelant se bloque en attendant d’acquérir de nouveau l’objet. Lorsque l’appelant acquiert le verrou à nouveau, le système appelle `Enter` autant de fois que nécessaire pour restaurer l’enregistré `Enter` nombre pour l’appelant. Appel `Wait` libère le verrou pour l’objet spécifié uniquement ; si l’appelant est le propriétaire de verrous sur d’autres objets, ces verrous sont libérés pas.  
   
  Notez qu’un objet synchronisé comprend plusieurs références, y compris une référence au thread qui détient actuellement le verrou, une référence à la file d’attente opérationnelle, qui contient les threads prêts à obtenir le verrou, et une référence à la file d’attente, qui contient les threads qui attendent pour la notification d’un changement d’état de l’objet.  
   
  Le <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, et `Wait` méthodes doivent être appelées à partir d’un bloc de code synchronisé.  
   
- La section Notes pour le <xref:System.Threading.Monitor.Pulse%2A> méthode expliquent ce qui se passe si <xref:System.Threading.Monitor.Pulse%2A> est appelé lorsque aucun thread en attente.  
+ Les notes relatives à la <xref:System.Threading.Monitor.Pulse%2A> méthode expliquent ce qui se passe si <xref:System.Threading.Monitor.Pulse%2A> est appelé lorsque aucun thread n’attend.  
   
  ]]></format>
         </remarks>
@@ -1032,6 +1050,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1058,23 +1078,23 @@
 ## Remarks  
  Cette méthode ne retourne pas jusqu'à ce qu’il acquière à nouveau un verrou exclusif sur la `obj` paramètre.  
   
- Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode pour libérer l’objet afin qu’un autre thread peut y accéder. L’appelant est bloqué en attendant l’acquérir à nouveau le verrou. Cette méthode est appelée lorsque l’appelant doit attendre un changement d’état qui se produit suite à des opérations d’un autre thread.  
+ Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode afin de libérer l’objet afin qu’un autre thread peut y accéder. L’appelant est bloqué en attendant d’acquérir le verrou. Cette méthode est appelée lorsque l’appelant doit attendre un changement d’état qui se produit suite à des opérations d’un autre thread.  
   
- Le délai d’attente garantit que le thread actuel ne se bloque pas indéfiniment si un autre thread libère le verrou sans appeler d’abord la <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode). Il déplace également le thread à la file d’attente opérationnelle, en ignorant les autres threads sont en avance dans la file d’attente, afin qu’il peut acquérir à nouveau le verrou plus tôt. Le thread peut tester la valeur de retour de la <xref:System.Threading.Monitor.Wait%2A> méthode pour déterminer si elle a de nouveau acquis le verrou avant le délai d’attente. Le thread peut évaluer les conditions qui a causé l’attente, et si nécessaire, appeler le <xref:System.Threading.Monitor.Wait%2A> méthode à nouveau.  
+ Le délai d’expiration garantit que le thread actuel ne se bloque pas indéfiniment si un autre thread libère le verrou sans appeler d’abord la <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode). Il déplace également le thread à la file d’attente opérationnelle, en contournant les autres threads en avance dans la file d’attente, afin que d’acquérir à nouveau le verrou plus tôt. Le thread peut tester la valeur de retour de la <xref:System.Threading.Monitor.Wait%2A> méthode pour déterminer si elle a de nouveau acquis le verrou avant le délai d’expiration. Le thread peut évaluer les conditions qui a causé l’attente, et si nécessaire, appeler le <xref:System.Threading.Monitor.Wait%2A> méthode à nouveau.  
   
- Lorsqu’un thread appelle `Wait`, il libère le verrou sur l’objet et le passe à la file d’attente de l’objet. Le thread suivant dans la file d’attente opérationnelle de l’objet (si elle existe) acquiert le verrou et a l’usage exclusif de l’objet. Le thread qui a appelé `Wait` reste dans la file d’attente jusqu'à ce qu’un thread qui détient le verrou appelle <xref:System.Threading.Monitor.PulseAll%2A>, ou il est le suivant dans la file d’attente et un thread qui détient le verrou appelle <xref:System.Threading.Monitor.Pulse%2A>. Toutefois, si `millisecondsTimeout` s’écoule avant qu’un autre thread appelle l’objet <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode), le thread d’origine est déplacé vers la file d’attente opérationnelle pour récupérer le verrou.  
+ Lorsqu’un thread appelle `Wait`, il libère le verrou sur l’objet et passe la file d’attente de l’objet. Le thread suivant dans la file d’attente opérationnelle de l’objet (le cas échéant) acquiert le verrou et a l’usage exclusif de l’objet. Le thread qui a appelé `Wait` appelle d’un thread qui détient le verrou reste dans la file d’attente jusqu'à ce que <xref:System.Threading.Monitor.PulseAll%2A>, ou il est le suivant dans la file d’attente et un thread qui détient le verrou appelle <xref:System.Threading.Monitor.Pulse%2A>. Toutefois, si `millisecondsTimeout` s’écoule avant qu’un autre thread appelle de cet objet <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode), le thread d’origine est déplacé vers la file d’attente opérationnelle pour récupérer le verrou.  
   
 > [!NOTE]
->  Si <xref:System.Threading.Timeout.Infinite> est spécifié pour le `millisecondsTimeout` paramètre, cette méthode bloque indéfiniment, sauf si le détenteur du verrou appelle <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Si `millisecondsTimeout` est égal à 0, le thread qui appelle `Wait` libère le verrou et intègre immédiatement la file d’attente opérationnelle pour récupérer le verrou.  
+>  Si <xref:System.Threading.Timeout.Infinite> est spécifié pour le `millisecondsTimeout` paramètre, cette méthode se bloque indéfiniment, sauf si le détenteur du verrou appelle <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Si `millisecondsTimeout` est égal à 0, le thread qui appelle `Wait` libère le verrou et intègre immédiatement la file d’attente opérationnelle pour récupérer le verrou.  
   
- L’appelant exécute `Wait` une seule fois, quel que soit le nombre de fois <xref:System.Threading.Monitor.Enter%2A> a été appelée pour l’objet spécifié. Point de vue conceptuel, le `Wait` méthode stocke le nombre de fois que l’appelant appelé <xref:System.Threading.Monitor.Enter%2A> sur l’objet et appelle <xref:System.Threading.Monitor.Exit%2A> autant de fois que nécessaire pour libérer complètement l’objet verrouillé. L’appelant se bloque en attendant l’acquérir à nouveau l’objet. Lorsque l’appelant acquiert de nouveau le verrou, le système appelle <xref:System.Threading.Monitor.Enter%2A> autant de fois que nécessaire pour restaurer les <xref:System.Threading.Monitor.Enter%2A> nombre pour l’appelant. Appel de `Wait` libère le verrou pour l’objet spécifié uniquement ; si l’appelant est le propriétaire de verrous sur d’autres objets, ces verrous sont libérés pas.  
+ L’appelant exécute `Wait` une seule fois, quel que soit le nombre de fois <xref:System.Threading.Monitor.Enter%2A> a été appelée pour l’objet spécifié. Conceptuellement, la `Wait` méthode stocke le nombre de fois que l’appelant appelé <xref:System.Threading.Monitor.Enter%2A> sur l’objet et appelle <xref:System.Threading.Monitor.Exit%2A> autant de fois que nécessaire pour libérer complètement l’objet verrouillé. L’appelant se bloque en attendant d’acquérir de nouveau l’objet. Lorsque l’appelant acquiert le verrou à nouveau, le système appelle <xref:System.Threading.Monitor.Enter%2A> autant de fois que nécessaire pour restaurer l’enregistré <xref:System.Threading.Monitor.Enter%2A> nombre pour l’appelant. Appel `Wait` libère le verrou pour l’objet spécifié uniquement ; si l’appelant est le propriétaire de verrous sur d’autres objets, ces verrous sont libérés pas.  
   
 > [!NOTE]
 >  Un objet synchronisé comprend plusieurs références, y compris une référence au thread qui détient actuellement le verrou, une référence à la file d’attente opérationnelle, qui contient les threads prêts à obtenir le verrou, et une référence à la file d’attente, qui contient le threads qui attendent pour la notification d’un changement d’état de l’objet.  
   
  Le <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, et `Wait` méthodes doivent être appelées à partir d’un bloc de code synchronisé.  
   
- La section Notes pour le <xref:System.Threading.Monitor.Pulse%2A> méthode expliquent ce qui se passe si <xref:System.Threading.Monitor.Pulse%2A> est appelé lorsque aucun thread en attente.  
+ Les notes relatives à la <xref:System.Threading.Monitor.Pulse%2A> méthode expliquent ce qui se passe si <xref:System.Threading.Monitor.Pulse%2A> est appelé lorsque aucun thread n’attend.  
   
  ]]></format>
         </remarks>
@@ -1102,6 +1122,8 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1129,23 +1151,23 @@
 ## Remarks  
  Cette méthode ne retourne pas jusqu'à ce qu’il acquière à nouveau un verrou exclusif sur la `obj` paramètre.  
   
- Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode pour libérer l’objet afin qu’un autre thread peut y accéder. L’appelant est bloqué en attendant l’acquérir à nouveau le verrou. Cette méthode est appelée lorsque l’appelant doit attendre un changement d’état qui se produit suite à des opérations d’un autre thread.  
+ Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode afin de libérer l’objet afin qu’un autre thread peut y accéder. L’appelant est bloqué en attendant d’acquérir le verrou. Cette méthode est appelée lorsque l’appelant doit attendre un changement d’état qui se produit suite à des opérations d’un autre thread.  
   
- Le délai d’attente garantit que le thread actuel ne se bloque pas indéfiniment si un autre thread libère le verrou sans appeler d’abord la <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode). Il déplace également le thread à la file d’attente opérationnelle, en ignorant les autres threads sont en avance dans la file d’attente, afin qu’il peut acquérir à nouveau le verrou plus tôt. Le thread peut tester la valeur de retour de la <xref:System.Threading.Monitor.Wait%2A> méthode pour déterminer si elle a de nouveau acquis le verrou avant le délai d’attente. Le thread peut évaluer les conditions qui a causé l’attente, et si nécessaire, appeler le <xref:System.Threading.Monitor.Wait%2A> méthode à nouveau.  
+ Le délai d’expiration garantit que le thread actuel ne se bloque pas indéfiniment si un autre thread libère le verrou sans appeler d’abord la <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode). Il déplace également le thread à la file d’attente opérationnelle, en contournant les autres threads en avance dans la file d’attente, afin que d’acquérir à nouveau le verrou plus tôt. Le thread peut tester la valeur de retour de la <xref:System.Threading.Monitor.Wait%2A> méthode pour déterminer si elle a de nouveau acquis le verrou avant le délai d’expiration. Le thread peut évaluer les conditions qui a causé l’attente, et si nécessaire, appeler le <xref:System.Threading.Monitor.Wait%2A> méthode à nouveau.  
   
- Lorsqu’un thread appelle `Wait`, il libère le verrou sur l’objet et le passe à la file d’attente de l’objet. Le thread suivant dans la file d’attente opérationnelle de l’objet (si elle existe) acquiert le verrou et a l’usage exclusif de l’objet. Le thread qui a appelé `Wait` reste dans la file d’attente jusqu'à ce qu’un thread qui détient le verrou appelle <xref:System.Threading.Monitor.PulseAll%2A>, ou il est le suivant dans la file d’attente et un thread qui détient le verrou appelle <xref:System.Threading.Monitor.Pulse%2A>. Toutefois, si `timeout` s’écoule avant qu’un autre thread appelle l’objet <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode), le thread d’origine est déplacé vers la file d’attente opérationnelle pour récupérer le verrou.  
+ Lorsqu’un thread appelle `Wait`, il libère le verrou sur l’objet et passe la file d’attente de l’objet. Le thread suivant dans la file d’attente opérationnelle de l’objet (le cas échéant) acquiert le verrou et a l’usage exclusif de l’objet. Le thread qui a appelé `Wait` appelle d’un thread qui détient le verrou reste dans la file d’attente jusqu'à ce que <xref:System.Threading.Monitor.PulseAll%2A>, ou il est le suivant dans la file d’attente et un thread qui détient le verrou appelle <xref:System.Threading.Monitor.Pulse%2A>. Toutefois, si `timeout` s’écoule avant qu’un autre thread appelle de cet objet <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode), le thread d’origine est déplacé vers la file d’attente opérationnelle pour récupérer le verrou.  
   
 > [!NOTE]
->  Si un <xref:System.TimeSpan> représentant – 1 milliseconde est spécifié pour le `timeout` paramètre, cette méthode bloque indéfiniment, sauf si le détenteur du verrou appelle <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Si `timeout` est 0 milliseconde, le thread qui appelle `Wait` libère le verrou et intègre immédiatement la file d’attente opérationnelle pour récupérer le verrou.  
+>  Si un <xref:System.TimeSpan> représentant – 1 milliseconde est spécifié pour le `timeout` paramètre, cette méthode se bloque indéfiniment, sauf si le détenteur du verrou appelle <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Si `timeout` est 0 milliseconde, le thread qui appelle `Wait` libère le verrou et intègre immédiatement la file d’attente opérationnelle pour récupérer le verrou.  
   
- L’appelant exécute `Wait` une seule fois, quel que soit le nombre de fois <xref:System.Threading.Monitor.Enter%2A> a été appelée pour l’objet spécifié. Point de vue conceptuel, le `Wait` méthode stocke le nombre de fois que l’appelant appelé <xref:System.Threading.Monitor.Enter%2A> sur l’objet et appelle <xref:System.Threading.Monitor.Exit%2A> autant de fois que nécessaire pour libérer complètement l’objet verrouillé. L’appelant se bloque en attendant l’acquérir à nouveau l’objet. Lorsque l’appelant acquiert de nouveau le verrou, le système appelle <xref:System.Threading.Monitor.Enter%2A> autant de fois que nécessaire pour restaurer les <xref:System.Threading.Monitor.Enter%2A> nombre pour l’appelant. Appel de `Wait` libère le verrou pour l’objet spécifié uniquement ; si l’appelant est le propriétaire de verrous sur d’autres objets, ces verrous sont libérés pas.  
+ L’appelant exécute `Wait` une seule fois, quel que soit le nombre de fois <xref:System.Threading.Monitor.Enter%2A> a été appelée pour l’objet spécifié. Conceptuellement, la `Wait` méthode stocke le nombre de fois que l’appelant appelé <xref:System.Threading.Monitor.Enter%2A> sur l’objet et appelle <xref:System.Threading.Monitor.Exit%2A> autant de fois que nécessaire pour libérer complètement l’objet verrouillé. L’appelant se bloque en attendant d’acquérir de nouveau l’objet. Lorsque l’appelant acquiert le verrou à nouveau, le système appelle <xref:System.Threading.Monitor.Enter%2A> autant de fois que nécessaire pour restaurer l’enregistré <xref:System.Threading.Monitor.Enter%2A> nombre pour l’appelant. Appel `Wait` libère le verrou pour l’objet spécifié uniquement ; si l’appelant est le propriétaire de verrous sur d’autres objets, ces verrous sont libérés pas.  
   
 > [!NOTE]
 >  Un objet synchronisé comprend plusieurs références, y compris une référence au thread qui détient actuellement le verrou, une référence à la file d’attente opérationnelle, qui contient les threads prêts à obtenir le verrou, et une référence à la file d’attente, qui contient le threads qui attendent pour la notification d’un changement d’état de l’objet.  
   
  Le <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, et `Wait` méthodes doivent être appelées à partir d’un bloc de code synchronisé.  
   
- La section Notes pour le <xref:System.Threading.Monitor.Pulse%2A> méthode expliquent ce qui se passe si <xref:System.Threading.Monitor.Pulse%2A> est appelé lorsque aucun thread en attente.  
+ Les notes relatives à la <xref:System.Threading.Monitor.Pulse%2A> méthode expliquent ce qui se passe si <xref:System.Threading.Monitor.Pulse%2A> est appelé lorsque aucun thread n’attend.  
   
  ]]></format>
         </remarks>
@@ -1166,6 +1188,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1205,30 +1229,30 @@
 ## Remarks  
  Cette méthode ne retourne pas jusqu'à ce qu’il acquière à nouveau un verrou exclusif sur la `obj` paramètre.  
   
- Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode pour libérer l’objet afin qu’un autre thread peut y accéder. L’appelant est bloqué en attendant l’acquérir à nouveau le verrou. Cette méthode est appelée lorsque l’appelant doit attendre un changement d’état qui se produit suite à des opérations d’un autre thread.  
+ Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode afin de libérer l’objet afin qu’un autre thread peut y accéder. L’appelant est bloqué en attendant d’acquérir le verrou. Cette méthode est appelée lorsque l’appelant doit attendre un changement d’état qui se produit suite à des opérations d’un autre thread.  
   
- Le délai d’attente garantit que le thread actuel ne se bloque pas indéfiniment si un autre thread libère le verrou sans appeler d’abord la <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode). Il déplace également le thread à la file d’attente opérationnelle, en ignorant les autres threads sont en avance dans la file d’attente, afin qu’il peut acquérir à nouveau le verrou plus tôt. Le thread peut tester la valeur de retour de la <xref:System.Threading.Monitor.Wait%2A> méthode pour déterminer si elle a de nouveau acquis le verrou avant le délai d’attente. Le thread peut évaluer les conditions qui a causé l’attente, et si nécessaire, appeler le <xref:System.Threading.Monitor.Wait%2A> méthode à nouveau.  
+ Le délai d’expiration garantit que le thread actuel ne se bloque pas indéfiniment si un autre thread libère le verrou sans appeler d’abord la <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode). Il déplace également le thread à la file d’attente opérationnelle, en contournant les autres threads en avance dans la file d’attente, afin que d’acquérir à nouveau le verrou plus tôt. Le thread peut tester la valeur de retour de la <xref:System.Threading.Monitor.Wait%2A> méthode pour déterminer si elle a de nouveau acquis le verrou avant le délai d’expiration. Le thread peut évaluer les conditions qui a causé l’attente, et si nécessaire, appeler le <xref:System.Threading.Monitor.Wait%2A> méthode à nouveau.  
   
- Lorsqu’un thread appelle `Wait`, il libère le verrou et passe à la file d’attente. À ce stade, le thread suivant dans la file d’attente opérationnelle (le cas échéant) est autorisé à prendre le contrôle du verrou. Le thread qui a appelé `Wait` reste dans la file d’attente jusqu'à ce qu’un thread qui détient le verrou appelle <xref:System.Threading.Monitor.PulseAll%2A>, ou il est le suivant dans la file d’attente et un thread qui détient le verrou appelle <xref:System.Threading.Monitor.Pulse%2A>. Toutefois, si `millisecondsTimeout` s’écoule avant qu’un autre thread appelle l’objet <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode), le thread d’origine est déplacé vers la file d’attente opérationnelle pour récupérer le verrou.  
+ Lorsqu’un thread appelle `Wait`, il libère le verrou et intègre la file d’attente en attente. À ce stade, le thread suivant dans la file d’attente opérationnelle (le cas échéant) est autorisé à prendre le contrôle du verrou. Le thread qui a appelé `Wait` appelle d’un thread qui détient le verrou reste dans la file d’attente jusqu'à ce que <xref:System.Threading.Monitor.PulseAll%2A>, ou il est le suivant dans la file d’attente et un thread qui détient le verrou appelle <xref:System.Threading.Monitor.Pulse%2A>. Toutefois, si `millisecondsTimeout` s’écoule avant qu’un autre thread appelle de cet objet <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode), le thread d’origine est déplacé vers la file d’attente opérationnelle pour récupérer le verrou.  
   
 > [!NOTE]
->  Si <xref:System.Threading.Timeout.Infinite> est spécifié pour le `millisecondsTimeout` paramètre, cette méthode bloque indéfiniment, sauf si le détenteur du verrou appelle <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Si `millisecondsTimeout` est égal à 0, le thread qui appelle `Wait` libère le verrou et intègre immédiatement la file d’attente opérationnelle pour récupérer le verrou.  
+>  Si <xref:System.Threading.Timeout.Infinite> est spécifié pour le `millisecondsTimeout` paramètre, cette méthode se bloque indéfiniment, sauf si le détenteur du verrou appelle <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Si `millisecondsTimeout` est égal à 0, le thread qui appelle `Wait` libère le verrou et intègre immédiatement la file d’attente opérationnelle pour récupérer le verrou.  
   
- L’appelant exécute `Wait` une seule fois, quel que soit le nombre de fois <xref:System.Threading.Monitor.Enter%2A> a été appelée pour l’objet spécifié. Point de vue conceptuel, le `Wait` méthode stocke le nombre de fois que l’appelant appelé <xref:System.Threading.Monitor.Enter%2A> sur l’objet et appelle <xref:System.Threading.Monitor.Exit%2A> autant de fois que nécessaire pour libérer complètement l’objet verrouillé. L’appelant se bloque en attendant l’acquérir à nouveau l’objet. Lorsque l’appelant acquiert de nouveau le verrou, le système appelle <xref:System.Threading.Monitor.Enter%2A> autant de fois que nécessaire pour restaurer les <xref:System.Threading.Monitor.Enter%2A> nombre pour l’appelant. Appel de `Wait` libère le verrou pour l’objet spécifié uniquement ; si l’appelant est le propriétaire de verrous sur d’autres objets, ces verrous sont libérés pas.  
+ L’appelant exécute `Wait` une seule fois, quel que soit le nombre de fois <xref:System.Threading.Monitor.Enter%2A> a été appelée pour l’objet spécifié. Conceptuellement, la `Wait` méthode stocke le nombre de fois que l’appelant appelé <xref:System.Threading.Monitor.Enter%2A> sur l’objet et appelle <xref:System.Threading.Monitor.Exit%2A> autant de fois que nécessaire pour libérer complètement l’objet verrouillé. L’appelant se bloque en attendant d’acquérir de nouveau l’objet. Lorsque l’appelant acquiert le verrou à nouveau, le système appelle <xref:System.Threading.Monitor.Enter%2A> autant de fois que nécessaire pour restaurer l’enregistré <xref:System.Threading.Monitor.Enter%2A> nombre pour l’appelant. Appel `Wait` libère le verrou pour l’objet spécifié uniquement ; si l’appelant est le propriétaire de verrous sur d’autres objets, ces verrous sont libérés pas.  
   
 > [!NOTE]
 >  Un objet synchronisé comprend plusieurs références, y compris une référence au thread qui détient actuellement le verrou, une référence à la file d’attente opérationnelle, qui contient les threads prêts à obtenir le verrou, et une référence à la file d’attente, qui contient le threads qui attendent pour la notification d’un changement d’état de l’objet.  
   
  Le <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, et `Wait` méthodes doivent être appelées à partir d’un bloc de code synchronisé.  
   
- La section Notes pour le <xref:System.Threading.Monitor.Pulse%2A> méthode expliquent ce qui se passe si <xref:System.Threading.Monitor.Pulse%2A> est appelé lorsque aucun thread en attente.  
+ Les notes relatives à la <xref:System.Threading.Monitor.Pulse%2A> méthode expliquent ce qui se passe si <xref:System.Threading.Monitor.Pulse%2A> est appelé lorsque aucun thread n’attend.  
   
 ## <a name="notes-on-exiting-the-context"></a>Remarques sur la sortie de contexte  
- Le`exitContext` paramètre n’a aucun effet à moins que le <xref:System.Threading.Monitor.Wait%2A> méthode appelée à partir d’un contexte managé non défini par défaut. Cela peut se produire si votre thread se trouve à l’intérieur d’un appel à une instance d’une classe dérivée de <xref:System.ContextBoundObject>. Même si vous exécutez actuellement une méthode sur une classe qui n’est pas dérivée <xref:System.ContextBoundObject>, comme <xref:System.String>, vous pouvez être dans un contexte non défini par défaut si un <xref:System.ContextBoundObject> se trouve sur votre pile dans le domaine d’application actuel.  
+ Le`exitContext` paramètre n’a aucun effet à moins que le <xref:System.Threading.Monitor.Wait%2A> méthode est appelée à partir d’un contexte managé non défini par défaut. Cela peut se produire si votre thread se trouve à l’intérieur d’un appel à une instance d’une classe dérivée de <xref:System.ContextBoundObject>. Même si vous exécutez actuellement une méthode sur une classe qui n’est pas dérivée <xref:System.ContextBoundObject>, comme <xref:System.String>, vous pouvez être dans un contexte non défini par défaut si un <xref:System.ContextBoundObject> se trouve sur votre pile dans le domaine d’application actuel.  
   
- Lorsque votre code s’exécute dans un contexte non défini par défaut, en spécifiant `true` pour `exitContext` oblige le thread quitter le contexte managé non défini par défaut (autrement dit, pour effectuer la transition vers le contexte par défaut) avant d’exécuter le <xref:System.Threading.Monitor.Wait%2A> (méthode). Il retourne au contexte par défaut d’origine après l’appel à la <xref:System.Threading.Monitor.Wait%2A> méthode se termine.  
+ Lorsque votre code s’exécute dans un contexte non défini par défaut, en spécifiant `true` pour `exitContext` oblige le thread quitter le contexte managé non défini par défaut (autrement dit, pour effectuer la transition vers le contexte par défaut) avant d’exécuter le <xref:System.Threading.Monitor.Wait%2A> (méthode). Il retourne au contexte d’origine non défini par défaut après l’appel à la <xref:System.Threading.Monitor.Wait%2A> méthode se termine.  
   
- Cela peut être utile lorsque la classe liée au contexte comporte la <xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute> attribut appliqué. Dans ce cas, tous les appels aux membres de la classe sont automatiquement synchronisés, et le domaine de synchronisation est le corps de code pour la classe. Si le code dans la pile des appels d’un membre appelle la <xref:System.Threading.Monitor.Wait%2A> (méthode) et spécifie `true` pour `exitContext`, le thread quitte le domaine de synchronisation, ce qui permet un thread qui est bloqué sur un appel à n’importe quel membre de l’objet pour continuer. Lorsque la <xref:System.Threading.Monitor.Wait%2A> méthode est retournée, le thread qui a effectué l’appel doit attendre pour rentrer dans le domaine de synchronisation.  
+ Cela peut être utile lorsque la classe liée au contexte comporte la <xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute> attribut appliqué. Dans ce cas, tous les appels aux membres de la classe sont automatiquement synchronisés, et le domaine de synchronisation est le corps de code pour la classe. Si le code dans la pile des appels d’un membre appelle le <xref:System.Threading.Monitor.Wait%2A> (méthode) et spécifie `true` pour `exitContext`, le thread quitte le domaine de synchronisation, permettant à un thread est bloqué sur un appel à n’importe quel membre de l’objet pour continuer. Lorsque le <xref:System.Threading.Monitor.Wait%2A> méthode est retournée, le thread qui a effectué l’appel doit attendre pour rentrer dans le domaine de synchronisation.  
   
  ]]></format>
         </remarks>
@@ -1250,6 +1274,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1285,30 +1311,30 @@
 ## Remarks  
  Cette méthode ne retourne pas jusqu'à ce qu’il acquière à nouveau un verrou exclusif sur la `obj` paramètre.  
   
- Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode pour libérer l’objet afin qu’un autre thread peut y accéder. L’appelant est bloqué en attendant l’acquérir à nouveau le verrou. Cette méthode est appelée lorsque l’appelant doit attendre un changement d’état qui se produit suite à des opérations d’un autre thread.  
+ Le thread qui possède actuellement le verrou sur l’objet spécifié appelle cette méthode afin de libérer l’objet afin qu’un autre thread peut y accéder. L’appelant est bloqué en attendant d’acquérir le verrou. Cette méthode est appelée lorsque l’appelant doit attendre un changement d’état qui se produit suite à des opérations d’un autre thread.  
   
- Le délai d’attente garantit que le thread actuel ne se bloque pas indéfiniment si un autre thread libère le verrou sans appeler d’abord la <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode). Il déplace également le thread à la file d’attente opérationnelle, en ignorant les autres threads sont en avance dans la file d’attente, afin qu’il peut acquérir à nouveau le verrou plus tôt. Le thread peut tester la valeur de retour de la <xref:System.Threading.Monitor.Wait%2A> méthode pour déterminer si elle a de nouveau acquis le verrou avant le délai d’attente. Le thread peut évaluer les conditions qui a causé l’attente, et si nécessaire, appeler le <xref:System.Threading.Monitor.Wait%2A> méthode à nouveau.  
+ Le délai d’expiration garantit que le thread actuel ne se bloque pas indéfiniment si un autre thread libère le verrou sans appeler d’abord la <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode). Il déplace également le thread à la file d’attente opérationnelle, en contournant les autres threads en avance dans la file d’attente, afin que d’acquérir à nouveau le verrou plus tôt. Le thread peut tester la valeur de retour de la <xref:System.Threading.Monitor.Wait%2A> méthode pour déterminer si elle a de nouveau acquis le verrou avant le délai d’expiration. Le thread peut évaluer les conditions qui a causé l’attente, et si nécessaire, appeler le <xref:System.Threading.Monitor.Wait%2A> méthode à nouveau.  
   
- Lorsqu’un thread appelle `Wait`, il libère le verrou et passe à la file d’attente. À ce stade, le thread suivant dans la file d’attente opérationnelle (le cas échéant) est autorisé à prendre le contrôle du verrou. Le thread qui a appelé `Wait` reste dans la file d’attente jusqu'à ce qu’un thread qui détient le verrou appelle <xref:System.Threading.Monitor.PulseAll%2A>, ou il est le suivant dans la file d’attente et un thread qui détient le verrou appelle <xref:System.Threading.Monitor.Pulse%2A>. Toutefois, si `timeout` millisecondes écoulent avant un autre thread appelle l’objet <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode), le thread d’origine est déplacé vers la file d’attente opérationnelle pour récupérer le verrou.  
+ Lorsqu’un thread appelle `Wait`, il libère le verrou et intègre la file d’attente en attente. À ce stade, le thread suivant dans la file d’attente opérationnelle (le cas échéant) est autorisé à prendre le contrôle du verrou. Le thread qui a appelé `Wait` appelle d’un thread qui détient le verrou reste dans la file d’attente jusqu'à ce que <xref:System.Threading.Monitor.PulseAll%2A>, ou il est le suivant dans la file d’attente et un thread qui détient le verrou appelle <xref:System.Threading.Monitor.Pulse%2A>. Toutefois, si `timeout` millisecondes écoulent avant un autre thread appelle de cet objet <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A> (méthode), le thread d’origine est déplacé vers la file d’attente opérationnelle pour récupérer le verrou.  
   
 > [!NOTE]
->  Si un <xref:System.TimeSpan> représentant-1 milliseconde est spécifié pour le `timeout` paramètre, cette méthode bloque indéfiniment, sauf si le détenteur du verrou appelle <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Si `timeout` est 0 milliseconde, le thread qui appelle `Wait` libère le verrou et intègre immédiatement la file d’attente opérationnelle pour récupérer le verrou.  
+>  Si un <xref:System.TimeSpan> représentant-1 milliseconde est spécifié pour le `timeout` paramètre, cette méthode se bloque indéfiniment, sauf si le détenteur du verrou appelle <xref:System.Threading.Monitor.Pulse%2A> ou <xref:System.Threading.Monitor.PulseAll%2A>. Si `timeout` est 0 milliseconde, le thread qui appelle `Wait` libère le verrou et intègre immédiatement la file d’attente opérationnelle pour récupérer le verrou.  
   
- L’appelant exécute `Wait` une seule fois, quel que soit le nombre de fois <xref:System.Threading.Monitor.Enter%2A> a été appelée pour l’objet spécifié. Point de vue conceptuel, le `Wait` méthode stocke le nombre de fois que l’appelant appelé <xref:System.Threading.Monitor.Enter%2A> sur l’objet et appelle <xref:System.Threading.Monitor.Exit%2A> autant de fois que nécessaire pour libérer complètement l’objet verrouillé. L’appelant se bloque en attendant l’acquérir à nouveau l’objet. Lorsque l’appelant acquiert de nouveau le verrou, le système appelle <xref:System.Threading.Monitor.Enter%2A> autant de fois que nécessaire pour restaurer les <xref:System.Threading.Monitor.Enter%2A> nombre pour l’appelant. Appel de `Wait` libère le verrou pour l’objet spécifié uniquement ; si l’appelant est le propriétaire de verrous sur d’autres objets, ces verrous sont libérés pas.  
+ L’appelant exécute `Wait` une seule fois, quel que soit le nombre de fois <xref:System.Threading.Monitor.Enter%2A> a été appelée pour l’objet spécifié. Conceptuellement, la `Wait` méthode stocke le nombre de fois que l’appelant appelé <xref:System.Threading.Monitor.Enter%2A> sur l’objet et appelle <xref:System.Threading.Monitor.Exit%2A> autant de fois que nécessaire pour libérer complètement l’objet verrouillé. L’appelant se bloque en attendant d’acquérir de nouveau l’objet. Lorsque l’appelant acquiert le verrou à nouveau, le système appelle <xref:System.Threading.Monitor.Enter%2A> autant de fois que nécessaire pour restaurer l’enregistré <xref:System.Threading.Monitor.Enter%2A> nombre pour l’appelant. Appel `Wait` libère le verrou pour l’objet spécifié uniquement ; si l’appelant est le propriétaire de verrous sur d’autres objets, ces verrous sont libérés pas.  
   
 > [!NOTE]
 >  Un objet synchronisé comprend plusieurs références, y compris une référence au thread qui détient actuellement le verrou, une référence à la file d’attente opérationnelle, qui contient les threads prêts à obtenir le verrou, et une référence à la file d’attente, qui contient le threads qui attendent pour la notification d’un changement d’état de l’objet.  
   
  Le <xref:System.Threading.Monitor.Pulse%2A>, <xref:System.Threading.Monitor.PulseAll%2A>, et `Wait` méthodes doivent être appelées à partir d’un bloc de code synchronisé.  
   
- La section Notes pour le <xref:System.Threading.Monitor.Pulse%2A> méthode expliquent ce qui se passe si <xref:System.Threading.Monitor.Pulse%2A> est appelé lorsque aucun thread en attente.  
+ Les notes relatives à la <xref:System.Threading.Monitor.Pulse%2A> méthode expliquent ce qui se passe si <xref:System.Threading.Monitor.Pulse%2A> est appelé lorsque aucun thread n’attend.  
   
 ## <a name="notes-on-exiting-the-context"></a>Remarques sur la sortie de contexte  
- Le`exitContext` paramètre n’a aucun effet à moins que le <xref:System.Threading.Monitor.Wait%2A> méthode appelée à partir d’un contexte managé non défini par défaut. Cela peut se produire si votre thread se trouve à l’intérieur d’un appel à une instance d’une classe dérivée de <xref:System.ContextBoundObject>. Même si vous exécutez actuellement une méthode sur une classe qui n’est pas dérivée <xref:System.ContextBoundObject>, comme <xref:System.String>, vous pouvez être dans un contexte non défini par défaut si un <xref:System.ContextBoundObject> se trouve sur votre pile dans le domaine d’application actuel.  
+ Le`exitContext` paramètre n’a aucun effet à moins que le <xref:System.Threading.Monitor.Wait%2A> méthode est appelée à partir d’un contexte managé non défini par défaut. Cela peut se produire si votre thread se trouve à l’intérieur d’un appel à une instance d’une classe dérivée de <xref:System.ContextBoundObject>. Même si vous exécutez actuellement une méthode sur une classe qui n’est pas dérivée <xref:System.ContextBoundObject>, comme <xref:System.String>, vous pouvez être dans un contexte non défini par défaut si un <xref:System.ContextBoundObject> se trouve sur votre pile dans le domaine d’application actuel.  
   
- Lorsque votre code s’exécute dans un contexte non défini par défaut, en spécifiant `true` pour `exitContext` oblige le thread quitter le contexte managé non défini par défaut (autrement dit, pour effectuer la transition vers le contexte par défaut) avant d’exécuter le <xref:System.Threading.Monitor.Wait%2A> (méthode). Il retourne au contexte par défaut d’origine après l’appel à la <xref:System.Threading.Monitor.Wait%2A> méthode se termine.  
+ Lorsque votre code s’exécute dans un contexte non défini par défaut, en spécifiant `true` pour `exitContext` oblige le thread quitter le contexte managé non défini par défaut (autrement dit, pour effectuer la transition vers le contexte par défaut) avant d’exécuter le <xref:System.Threading.Monitor.Wait%2A> (méthode). Il retourne au contexte d’origine non défini par défaut après l’appel à la <xref:System.Threading.Monitor.Wait%2A> méthode se termine.  
   
- Cela peut être utile lorsque la classe liée au contexte comporte la <xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute> attribut appliqué. Dans ce cas, tous les appels aux membres de la classe sont automatiquement synchronisés, et le domaine de synchronisation est le corps de code pour la classe. Si le code dans la pile des appels d’un membre appelle la <xref:System.Threading.Monitor.Wait%2A> (méthode) et spécifie `true` pour `exitContext`, le thread quitte le domaine de synchronisation, ce qui permet un thread qui est bloqué sur un appel à n’importe quel membre de l’objet pour continuer. Lorsque la <xref:System.Threading.Monitor.Wait%2A> méthode est retournée, le thread qui a effectué l’appel doit attendre pour rentrer dans le domaine de synchronisation.  
+ Cela peut être utile lorsque la classe liée au contexte comporte la <xref:System.Runtime.Remoting.Contexts.SynchronizationAttribute> attribut appliqué. Dans ce cas, tous les appels aux membres de la classe sont automatiquement synchronisés, et le domaine de synchronisation est le corps de code pour la classe. Si le code dans la pile des appels d’un membre appelle le <xref:System.Threading.Monitor.Wait%2A> (méthode) et spécifie `true` pour `exitContext`, le thread quitte le domaine de synchronisation, permettant à un thread est bloqué sur un appel à n’importe quel membre de l’objet pour continuer. Lorsque le <xref:System.Threading.Monitor.Wait%2A> méthode est retournée, le thread qui a effectué l’appel doit attendre pour rentrer dans le domaine de synchronisation.  
   
  ]]></format>
         </remarks>

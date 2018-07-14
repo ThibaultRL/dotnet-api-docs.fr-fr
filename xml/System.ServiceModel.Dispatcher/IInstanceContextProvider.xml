@@ -1,11 +1,11 @@
 <Type Name="IInstanceContextProvider" FullName="System.ServiceModel.Dispatcher.IInstanceContextProvider">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="74ddd1b866deac2e31e9a08c889b21d2876273b8" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="ff4b074b6c966da50efdc237896ab0ef6b460927" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36415405" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37455194" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IInstanceContextProvider" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IInstanceContextProvider" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type IInstanceContextProvider = interface" />
   <AssemblyInfo>
     <AssemblyName>System.ServiceModel</AssemblyName>
+    <AssemblyVersion>3.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
@@ -29,7 +30,7 @@
  Par exemple, pour implémenter le partage, insérez un <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider> personnalisé pour décider quelle session ou appel d'un client est associé à quel objet <xref:System.ServiceModel.InstanceContext>. Pour obtenir un exemple qui illustre le partage de contextes d’instance, consultez [InstanceContextSharing](http://msdn.microsoft.com/library/4a6a46d7-b7d7-4bb5-a0dd-03ffa3cbc230).  
   
 > [!NOTE]
->  Lorsqu’un <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider> est inséré dans Windows Communication Foundation (WCF), la propriété normale qui contrôle la création de <xref:System.ServiceModel.InstanceContext> objets (les <xref:System.ServiceModel.ServiceBehaviorAttribute.InstanceContextMode%2A?displayProperty=nameWithType> propriété) n’est plus vérifiée et n’a aucun effet.  
+>  Quand un <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider> est inséré dans Windows Communication Foundation (WCF), la propriété normale qui contrôle la création de <xref:System.ServiceModel.InstanceContext> objets (la <xref:System.ServiceModel.ServiceBehaviorAttribute.InstanceContextMode%2A?displayProperty=nameWithType> propriété) n’est plus vérifiée et n’a aucun effet.  
   
  Un mécanisme plus générique grâce auquel vous pouvez initialiser des objets <xref:System.ServiceModel.InstanceContext> une fois créés (par exemple, pour attacher des extensions personnalisées à chaque <xref:System.ServiceModel.InstanceContext>) est <xref:System.ServiceModel.Dispatcher.IInstanceContextInitializer?displayProperty=nameWithType>.  
   
@@ -46,6 +47,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -64,7 +66,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La méthode <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.GetExistingInstanceContext%2A> est appelée à la réception d'un message. Retournez l'objet <xref:System.ServiceModel.InstanceContext> que vous souhaitez pour traiter le message, ou `null`. Dans le cas de `null`, WCF crée un <xref:System.ServiceModel.InstanceContext> objet pour le message, puis appelle la <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.InitializeInstanceContext%2A> (méthode).  
+ La méthode <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.GetExistingInstanceContext%2A> est appelée à la réception d'un message. Retournez l'objet <xref:System.ServiceModel.InstanceContext> que vous souhaitez pour traiter le message, ou `null`. Dans le cas de `null`, WCF crée un nouveau <xref:System.ServiceModel.InstanceContext> objet pour le message, puis appelle le <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.InitializeInstanceContext%2A> (méthode).  
   
  Si vous retournez `null`, le nouvel objet <xref:System.ServiceModel.InstanceContext> parcoure le système de limitation et incrémente le compte de <xref:System.ServiceModel.Dispatcher.ServiceThrottle.MaxConcurrentInstances%2A?displayProperty=nameWithType>.  
   
@@ -81,6 +83,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -115,6 +118,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -132,7 +136,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.IsIdle%2A> est appelé lorsque WCF est sur le point de fermer et recycler inactif <xref:System.ServiceModel.InstanceContext> afin que vous puissiez informer l’exécution s’il faut poursuivre l’opération de l’objet.  
+ <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.IsIdle%2A> est appelé lorsque WCF va fermer et recycler inactif <xref:System.ServiceModel.InstanceContext> objet afin que vous puissiez informer l’exécution s’il faut continuer ainsi.  
   
  Pour obtenir un exemple qui illustre le partage de contextes d’instance, consultez [InstanceContextSharing](http://msdn.microsoft.com/library/4a6a46d7-b7d7-4bb5-a0dd-03ffa3cbc230).  
   
@@ -149,6 +153,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.ServiceModel</AssemblyName>
+        <AssemblyVersion>3.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -167,7 +172,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.NotifyIdle%2A> méthode est appelée lorsque le <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.IsIdle%2A> méthode retourne `false` pour vous permettre de fournir de WCF avec un <xref:System.ServiceModel.Dispatcher.InstanceContextIdleCallback?displayProperty=nameWithType> que vous utilisez pour informer l’exécution de l’objet qui le <xref:System.ServiceModel.InstanceContext> a fini son travail. Lorsque le <xref:System.ServiceModel.Dispatcher.InstanceContextIdleCallback?displayProperty=nameWithType> objet notifie l’exécution qui le <xref:System.ServiceModel.InstanceContext> a terminé son travail, les appels de WCF <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.IsIdle%2A> à nouveau. Ce cycle se poursuit jusqu'à ce que <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.IsIdle%2A> retourne `true` et que le contexte soit fermé et recyclé.  
+ Le <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.NotifyIdle%2A> méthode est appelée lorsque le <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.IsIdle%2A> retourne de la méthode `false` afin de pouvoir fournir WCF avec un <xref:System.ServiceModel.Dispatcher.InstanceContextIdleCallback?displayProperty=nameWithType> que vous utilisez pour informer le runtime de l’objet qui le <xref:System.ServiceModel.InstanceContext> a fini son travail. Lorsque le <xref:System.ServiceModel.Dispatcher.InstanceContextIdleCallback?displayProperty=nameWithType> objet notifie l’exécution qui le <xref:System.ServiceModel.InstanceContext> a terminé son travail, les appels WCF <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.IsIdle%2A> une fois encore. Ce cycle se poursuit jusqu'à ce que <xref:System.ServiceModel.Dispatcher.IInstanceContextProvider.IsIdle%2A> retourne `true` et que le contexte soit fermé et recyclé.  
   
  ]]></format>
         </remarks>
