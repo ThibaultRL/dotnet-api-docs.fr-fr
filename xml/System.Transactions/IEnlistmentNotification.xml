@@ -1,11 +1,11 @@
 <Type Name="IEnlistmentNotification" FullName="System.Transactions.IEnlistmentNotification">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="ce7c186bfa7974506e6f23870b923c6bfab1a333" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="7256756ee2810fe0aa45f03eee75996fac132199" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36406445" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37754197" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IEnlistmentNotification" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IEnlistmentNotification" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type IEnlistmentNotification = interface" />
   <AssemblyInfo>
     <AssemblyName>System.Transactions</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -34,21 +35,21 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Dans l’ordre pour un gestionnaire de ressources devant être inclus dans une transaction, il doit s’inscrire dans la transaction via le Gestionnaire de transactions. La classe <xref:System.Transactions.Transaction> définit un jeu de méthodes, dont les noms commencent par `Enlist`, qui fournit cette fonctionnalité. Les différents `Enlist` méthodes correspondent aux différents types d’inscriptions qu’un gestionnaire de ressources peut avoir.  
+ Dans l’ordre pour un gestionnaire de ressources de participer à une transaction, elle doit être inscrite dans la transaction via le Gestionnaire de transactions. La classe <xref:System.Transactions.Transaction> définit un jeu de méthodes, dont les noms commencent par `Enlist`, qui fournit cette fonctionnalité. Les différentes `Enlist` méthodes correspondent aux différents types d’inscription dont un gestionnaire de ressources peut avoir.  
   
- Cette classe décrit une interface qu’un gestionnaire de ressources doit implémenter pour fournir des rappels de notification de validation à deux phases pour le Gestionnaire de transactions lors de l’inscription pour la participation. Pour l’implémentation de chaque gestionnaire de ressources de le <xref:System.Transactions.IEnlistmentNotification> interface, vous devez les inscrire à l’aide de la <xref:System.Transactions.Transaction.EnlistVolatile%2A> (méthode) ou le <xref:System.Transactions.Transaction.EnlistDurable%2A> méthode de la <xref:System.Transactions.Transaction> (classe), selon que votre ressource est volatile ou durable. Pour plus d’informations sur l’inscription et 2PC, consultez [l’inscription des ressources en tant que Participants dans une Transaction](~/docs/framework/data/transactions/enlisting-resources-as-participants-in-a-transaction.md) et [valide la Transaction en une seule phase et à plusieurs phases](~/docs/framework/data/transactions/committing-a-transaction-in-single-phase-and-multi-phase.md) respectivement.  
+ Cette classe décrit une interface qu’un gestionnaire de ressources doit implémenter pour fournir des rappels de notification de validation à deux phases pour le Gestionnaire de transactions lors de l’inscription pour participation. Pour l’implémentation de chaque gestionnaire de ressources de la <xref:System.Transactions.IEnlistmentNotification> interface, vous devez les inscrire à l’aide de la <xref:System.Transactions.Transaction.EnlistVolatile%2A> méthode ou le <xref:System.Transactions.Transaction.EnlistDurable%2A> méthode de la <xref:System.Transactions.Transaction> (classe), selon que votre ressource est volatile ou durable. Pour plus d’informations sur l’inscription et 2PC, consultez [l’inscription de ressources comme Participants à une Transaction](~/docs/framework/data/transactions/enlisting-resources-as-participants-in-a-transaction.md) et [validation d’une Transaction dans une phase unique et en plusieurs phases](~/docs/framework/data/transactions/committing-a-transaction-in-single-phase-and-multi-phase.md) respectivement.  
   
- Le Gestionnaire de transactions avertit l’objet inscrit à différentes phases du protocole de validation Phase deux par les méthodes suivantes.  
+ Le Gestionnaire de transactions avertit l’objet inscrit à différentes phases du protocole de validation de deux phases via les méthodes suivantes.  
   
 |Méthode|Description |  
 |------------|-----------------|  
 |<xref:System.Transactions.IEnlistmentNotification.Prepare%2A>|Cette méthode d’un objet inscrit est utilisée comme un rappel par le Gestionnaire de transactions pendant la première phase d’une transaction, lorsque le Gestionnaire de transactions demande aux participants s’ils peuvent valider la transaction.|  
 |<xref:System.Transactions.IEnlistmentNotification.Commit%2A>|Cette méthode d’un objet inscrit est utilisée comme un rappel par le Gestionnaire de transactions pendant la deuxième phase d’une transaction si la transaction est validée.|  
-|<xref:System.Transactions.IEnlistmentNotification.Rollback%2A>|Cette méthode d’un objet inscrit est utilisée comme un rappel par le Gestionnaire de transactions pendant la deuxième phase d’une transaction si la transaction est abandonnée (c'est-à-dire restaurée).|  
-|<xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>|Cette méthode d’un objet inscrit est utilisée comme un rappel par le Gestionnaire de transactions pendant la deuxième phase d’une transaction si la transaction est douteux.|  
+|<xref:System.Transactions.IEnlistmentNotification.Rollback%2A>|Cette méthode d’un objet inscrit est utilisée comme un rappel par le Gestionnaire de transactions pendant la deuxième phase d’une transaction si la transaction est abandonnée (qui est, de restauration).|  
+|<xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>|Cette méthode d’un objet inscrit est utilisée comme un rappel par le Gestionnaire de transactions pendant la deuxième phase d’une transaction si la transaction est incertaine.|  
   
 > [!NOTE]
->  Il se peut que vous devez être conscient que les notifications ne peuvent pas être envoyées dans l’ordre ou dans un ordre particulier.  
+>  Soyez conscient que notifications ne peuvent pas être envoyées séquentiellement ou dans un ordre particulier.  
   
    
   
@@ -72,6 +73,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -101,7 +103,7 @@
   
  Le Gestionnaire de ressources doit effectuer tout le travail nécessaire pour terminer la transaction, puis informer le Gestionnaire de transactions qu’il a fini en appelant le <xref:System.Transactions.Enlistment.Done%2A> méthode sur le `enlistment` paramètre.  
   
- Si le Gestionnaire de ressources est inscrit durablement mais ne répond pas en appelant <xref:System.Transactions.Enlistment.Done%2A> consiste, le Gestionnaire de transactions ne sait pas que le Gestionnaire de ressources a reçu le <xref:System.Transactions.IEnlistmentNotification.Commit%2A> appeler. Par conséquent, le Gestionnaire de transactions continue à attendre une réponse et conserve les informations relatives à cette transaction.  Si <xref:System.Transactions.Enlistment.Done%2A> est jamais appelée, cette information est conservée indéfiniment en mémoire ou dans une ressource à l’échelle du système. Cela entraîne des ressources n’est pas à être récupéré. Dans le cas d’une transaction distribuée, cela pourrait éventuellement remplir le journal MSDTC qui arrête le processus MSDTC. Dans le cas d’une transaction gérée par <xref:System.Transactions>, cela entraîne une augmentation graduelle et continue de la consommation de mémoire de processus du Gestionnaire de ressources. Par conséquent, il est essentiel que vous appelez le <xref:System.Transactions.Enlistment.Done%2A> méthode une fois que votre gestionnaire de ressources a terminé votre travail de préparation.  
+ Si le Gestionnaire de ressources est inscrit durablement mais ne répond pas en appelant <xref:System.Transactions.Enlistment.Done%2A> (méthode), le Gestionnaire de transactions n’est pas sûr que le Gestionnaire de ressources a reçu la <xref:System.Transactions.IEnlistmentNotification.Commit%2A> appeler. Par conséquent, le Gestionnaire de transactions continue à attendre une réponse et conserve les informations relatives à cette transaction.  Si <xref:System.Transactions.Enlistment.Done%2A> est jamais appelée, cette information est conservée indéfiniment en mémoire ou dans une ressource de l’échelle du système. Ainsi, les ressources d’être récupérée. Dans le cas d’une transaction distribuée, cela pourrait éventuellement remplir le journal MSDTC qui arrête le processus MSDTC. Dans le cas d’une transaction managée par <xref:System.Transactions>, cela entraîne une augmentation graduelle et continue de la consommation de mémoire de processus du Gestionnaire de ressources. Par conséquent, il est essentiel que vous appelez le <xref:System.Transactions.Enlistment.Done%2A> méthode une fois que votre gestionnaire de ressources a terminé votre travail de préparation.  
   
  ]]></format>
         </remarks>
@@ -116,6 +118,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -141,14 +144,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est appelée pour les ressources volatiles lorsque le Gestionnaire de transactions a appelé une opération de validation en une seule phase à une seule ressource durable, et ensuite la connexion à la ressource durable a été perdue avant d’obtenir le résultat de la transaction. À ce stade, le résultat de la transaction ne peut pas être déterminé en toute sécurité.  
+ Cette méthode est appelée pour les ressources volatiles lorsque le Gestionnaire de transactions a appelé une opération de validation de phase unique à une ressource durable unique, et puis la connexion à la ressource durable a été perdue avant d’obtenir le résultat de la transaction. À ce stade, le résultat de la transaction ne peut pas être déterminé en toute sécurité.  
   
- En tant que <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> est considérée comme un état final pour une transaction, vous ne devez pas appeler <xref:System.Transactions.IEnlistmentNotification.Commit%2A> ou <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> après l’appel <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>.  
+ En tant que <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> est considérée comme un état final pour une transaction, vous ne devez pas appeler <xref:System.Transactions.IEnlistmentNotification.Commit%2A> ou <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> après avoir appelé <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A>.  
   
 > [!NOTE]
 >  Votre implémentation de cette méthode pour la ressource volatile doit effectuer toute opération de récupération ou de la relation contenant-contenu qu’il comprend sur les données affectées.  Il doit également appeler le <xref:System.Transactions.Enlistment.Done%2A> méthode sur le sur le `enlistment` paramètre lorsqu’il a fini son travail.  
   
- Si le Gestionnaire de ressources est inscrit durablement mais ne répond pas en appelant <xref:System.Transactions.Enlistment.Done%2A> consiste, le Gestionnaire de transactions ne sait pas que le Gestionnaire de ressources a reçu le <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> appeler. Par conséquent, le Gestionnaire de transactions continue à attendre une réponse et conserve les informations relatives à cette transaction.  Si <xref:System.Transactions.Enlistment.Done%2A> est jamais appelée, cette information est conservée indéfiniment en mémoire ou dans une ressource à l’échelle du système. Cela entraîne des ressources n’est pas à être récupéré. Dans le cas d’une transaction distribuée, cela pourrait éventuellement remplir le journal MSDTC qui arrête le processus MSDTC. Dans le cas d’une transaction gérée par <xref:System.Transactions>, cela entraîne une augmentation graduelle et continue de la consommation de mémoire de processus du Gestionnaire de ressources. Par conséquent, il est essentiel que vous appelez le <xref:System.Transactions.Enlistment.Done%2A> méthode une fois que votre gestionnaire de ressources a terminé votre travail de préparation.  
+ Si le Gestionnaire de ressources est inscrit durablement mais ne répond pas en appelant <xref:System.Transactions.Enlistment.Done%2A> (méthode), le Gestionnaire de transactions n’est pas sûr que le Gestionnaire de ressources a reçu la <xref:System.Transactions.IEnlistmentNotification.InDoubt%2A> appeler. Par conséquent, le Gestionnaire de transactions continue à attendre une réponse et conserve les informations relatives à cette transaction.  Si <xref:System.Transactions.Enlistment.Done%2A> est jamais appelée, cette information est conservée indéfiniment en mémoire ou dans une ressource de l’échelle du système. Ainsi, les ressources d’être récupérée. Dans le cas d’une transaction distribuée, cela pourrait éventuellement remplir le journal MSDTC qui arrête le processus MSDTC. Dans le cas d’une transaction managée par <xref:System.Transactions>, cela entraîne une augmentation graduelle et continue de la consommation de mémoire de processus du Gestionnaire de ressources. Par conséquent, il est essentiel que vous appelez le <xref:System.Transactions.Enlistment.Done%2A> méthode une fois que votre gestionnaire de ressources a terminé votre travail de préparation.  
   
  ]]></format>
         </remarks>
@@ -163,6 +166,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -188,13 +192,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le Gestionnaire de transactions appelle cette méthode d’une ressource inscrite manager pendant la phase 1 d’une validation lorsqu’il demande aux participants s’ils peuvent valider la transaction.  
+ Le Gestionnaire de transactions appelle cette méthode d’une ressource inscrite manager pendant la phase 1 d’un engagement, lorsqu’il demande aux participants s’ils peuvent valider la transaction.  
   
- Lorsque vous implémentez un gestionnaire de ressources durable, vous devez vous connecter votre enregistrement de préparation pendant cette phase. L’enregistrement doit contenir toutes les informations nécessaires pour effectuer une récupération. Cela inclut la <xref:System.Transactions.PreparingEnlistment.RecoveryInformation%2A> propriété, qui est passée au Gestionnaire de transactions dans le <xref:System.Transactions.TransactionManager.Reenlist%2A> méthode lors de la récupération. Pour plus d’informations sur la récupération, consultez [effectuer une récupération](http://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691).  
+ Lorsque vous implémentez un gestionnaire de ressources durables, vous devez enregistrer votre enregistrement de préparation pendant cette phase. L’enregistrement doit contenir toutes les informations nécessaires pour effectuer une récupération. Cela inclut la <xref:System.Transactions.PreparingEnlistment.RecoveryInformation%2A> propriété, qui est passée au Gestionnaire de transactions dans le <xref:System.Transactions.TransactionManager.Reenlist%2A> méthode lors de la récupération. Pour plus d’informations sur la récupération, consultez [exécution de la récupération](http://msdn.microsoft.com/library/d342c5c7-da64-4a4c-8e63-b52f4fbf2691).  
   
- Votre gestionnaire de ressources doit se terminer tout le travail qui doit être terminé avant d’appeler le <xref:System.Transactions.PreparingEnlistment.Prepared%2A> méthode de le `preparingEnlistment` pour indiquer son vote pour la validation. Vous devez vous assurer que cela est effectué avant la réception de notification de phase 2 telle que la validation, de restauration ou incertaine. C’est parce que les notifications de phase 2 peuvent se produire en ligne sur le même thread que celui qui a appelé le <xref:System.Transactions.PreparingEnlistment.Prepared%2A> méthode dans la phase 1. Par conséquent, vous ne devez effectuer aucun travail après l'appel <xref:System.Transactions.PreparingEnlistment.Prepared%2A> (par exemple, libérer des verrous) que vous devez avoir terminé avant de recevoir les notifications de phase 2.  
+ Votre gestionnaire de ressources doit se terminer tout le travail qui doit être terminé avant d’appeler le <xref:System.Transactions.PreparingEnlistment.Prepared%2A> méthode de le `preparingEnlistment` paramètre pour indiquer son vote pour la validation. Il se peut que vous devez vous assurer que cela est effectué avant la réception de notification de phase 2 telle que la validation, restauration ou incertaine. Il s’agit, car les notifications de phase 2 peuvent survenir en ligne sur le même thread qui a appelé le <xref:System.Transactions.PreparingEnlistment.Prepared%2A> méthode dans la phase 1. Par conséquent, vous ne devez effectuer aucun travail après l'appel <xref:System.Transactions.PreparingEnlistment.Prepared%2A> (par exemple, libérer des verrous) que vous devez avoir terminé avant de recevoir les notifications de phase 2.  
   
- Vous pouvez également appeler la méthode de le `preparingEnlistment` pour indiquer un vote pour la restauration.  
+ Vous pouvez également appeler la méthode de le `preparingEnlistment` paramètre pour indiquer un vote pour la restauration.  
   
  Si vous souhaitez que l’objet à observer et réagisse simplement à la progression de la transaction, sans participer, votre implémentation de cette méthode doit appeler la <xref:System.Transactions.Enlistment.Done%2A> méthode de le `preparingEnlistment` paramètre lorsqu’il a fini son travail. En procédant ainsi, votre gestionnaire de ressources ne doit pas recevoir de notification de phase 2.  
   
@@ -211,6 +215,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -236,11 +241,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le Gestionnaire de transactions appelle cette méthode d’un objet inscrit lorsque la transaction est en cours de restauration (abandonnée) en raison de l’incapacité d’un ou plusieurs participants de la transaction à valider la transaction.  
+ Le Gestionnaire de transactions appelle cette méthode d’un objet inscrit lorsque la transaction est en cours de restauration (abandonnée) en raison de l’incapacité d’un ou plusieurs participants de transaction à valider la transaction.  
   
  Le Gestionnaire de ressources doit effectuer tout le travail nécessaire pour terminer la transaction, puis informer le Gestionnaire de transactions qu’il a fini en appelant le <xref:System.Transactions.Enlistment.Done%2A> méthode sur le `enlistment` paramètre.  
   
- Si le Gestionnaire de ressources est inscrit durablement mais ne répond pas en appelant <xref:System.Transactions.Enlistment.Done%2A> consiste, le Gestionnaire de transactions ne sait pas que le Gestionnaire de ressources a reçu le <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> appeler. Par conséquent, le Gestionnaire de transactions continue à attendre une réponse et conserve les informations relatives à cette transaction.  Si <xref:System.Transactions.Enlistment.Done%2A> est jamais appelée, cette information est conservée indéfiniment en mémoire ou dans une ressource à l’échelle du système. Cela entraîne des ressources n’est pas à être récupéré. Dans le cas d’une transaction distribuée, cela pourrait éventuellement remplir le journal MSDTC qui arrête le processus MSDTC. Dans le cas d’une transaction gérée par <xref:System.Transactions>, cela entraîne une augmentation graduelle et continue de la consommation de mémoire de processus du Gestionnaire de ressources. Par conséquent, il est essentiel que vous appelez le <xref:System.Transactions.Enlistment.Done%2A> méthode une fois que votre gestionnaire de ressources a terminé votre travail de préparation.  
+ Si le Gestionnaire de ressources est inscrit durablement mais ne répond pas en appelant <xref:System.Transactions.Enlistment.Done%2A> (méthode), le Gestionnaire de transactions n’est pas sûr que le Gestionnaire de ressources a reçu la <xref:System.Transactions.IEnlistmentNotification.Rollback%2A> appeler. Par conséquent, le Gestionnaire de transactions continue à attendre une réponse et conserve les informations relatives à cette transaction.  Si <xref:System.Transactions.Enlistment.Done%2A> est jamais appelée, cette information est conservée indéfiniment en mémoire ou dans une ressource de l’échelle du système. Ainsi, les ressources d’être récupérée. Dans le cas d’une transaction distribuée, cela pourrait éventuellement remplir le journal MSDTC qui arrête le processus MSDTC. Dans le cas d’une transaction managée par <xref:System.Transactions>, cela entraîne une augmentation graduelle et continue de la consommation de mémoire de processus du Gestionnaire de ressources. Par conséquent, il est essentiel que vous appelez le <xref:System.Transactions.Enlistment.Done%2A> méthode une fois que votre gestionnaire de ressources a terminé votre travail de préparation.  
   
  ]]></format>
         </remarks>

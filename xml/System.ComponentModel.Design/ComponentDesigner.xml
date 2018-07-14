@@ -1,11 +1,11 @@
 <Type Name="ComponentDesigner" FullName="System.ComponentModel.Design.ComponentDesigner">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="f167a4a6bd3caa5523f9f9dc81c18f3af7cad863" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="197e69c0eb1e346d860b91a95c6c48cd6cb60295" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36707899" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37697244" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ComponentDesigner : IDisposable, System.ComponentModel.Design.IComponentInitializer, System.ComponentModel.Design.IDesigner, System.ComponentModel.Design.IDesignerFilter, System.ComponentModel.Design.ITreeDesigner" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ComponentDesigner extends System.Object implements class System.ComponentModel.Design.IComponentInitializer, class System.ComponentModel.Design.IDesigner, class System.ComponentModel.Design.IDesignerFilter, class System.ComponentModel.Design.ITreeDesigner, class System.IDisposable" />
@@ -15,6 +15,8 @@
   <TypeSignature Language="F#" Value="type ComponentDesigner = class&#xA;    interface ITreeDesigner&#xA;    interface IDesigner&#xA;    interface IDisposable&#xA;    interface IDesignerFilter&#xA;    interface IComponentInitializer" />
   <AssemblyInfo>
     <AssemblyName>System.Design</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -43,24 +45,24 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.ComponentModel.Design.ComponentDesigner> classe de Concepteur de base fournit un concepteur simple capable d’étendre le comportement d’un composant associé en mode Création.  
+ Le <xref:System.ComponentModel.Design.ComponentDesigner> classe de Concepteur de base fournit un concepteur simple qui peut étendre le comportement d’un composant associé en mode design.  
   
  <xref:System.ComponentModel.Design.ComponentDesigner> Fournit une chaîne vide <xref:System.ComponentModel.Design.IDesignerFilter> implémentation, dont les méthodes peuvent être substituées pour ajuster les attributs, les propriétés et les événements du composant associé au moment du design de l’interface.  
   
- Vous pouvez associer un concepteur avec un type en utilisant un <xref:System.ComponentModel.DesignerAttribute>. Pour une vue d’ensemble de la personnalisation du comportement au moment du design, consultez [étendre la prise en charge au moment du Design](http://msdn.microsoft.com/library/d6ac8a6a-42fd-4bc8-bf33-b212811297e2).  
+ Vous pouvez associer un concepteur à un type en utilisant un <xref:System.ComponentModel.DesignerAttribute>. Pour une vue d’ensemble de la personnalisation du comportement au moment du design, consultez [Extending Design-Time Support](http://msdn.microsoft.com/library/d6ac8a6a-42fd-4bc8-bf33-b212811297e2).  
   
- La <xref:System.ComponentModel.Design.ComponentDesigner> classe implémente un comportement spécial pour les descripteurs de propriété de composants hérités. Un type interne nommé `InheritedPropertyDescriptor` est utilisé par la valeur par défaut <xref:System.ComponentModel.Design.ComponentDesigner> implémentation pour remplacer les propriétés qui sont héritées d’une classe de base. Il existe deux cas dans lequel ces descripteurs de propriété sont ajoutés.  
+ Le <xref:System.ComponentModel.Design.ComponentDesigner> classe implémente un comportement spécial pour les descripteurs de propriété de composants hérités. Un type interne nommé `InheritedPropertyDescriptor` est utilisé par la valeur par défaut <xref:System.ComponentModel.Design.ComponentDesigner> implémentation pour remplacer les propriétés qui sont héritées d’une classe de base. Il existe deux cas dans lequel ces descripteurs de propriété sont ajoutés.  
   
 1.  À l’objet racine lui-même, qui est retourné par la <xref:System.ComponentModel.Design.IDesignerHost.RootComponent%2A?displayProperty=nameWithType> propriété, car vous héritez de sa classe de base.  
   
-2.  Aux champs trouvés dans la classe de base de l’objet racine. Les champs publics et protégés de la classe de base sont ajoutés au concepteur afin qu’ils peuvent être manipulées par l’utilisateur.  
+2.  Pour les champs trouvés dans la classe de base de l’objet racine. Les champs publics et protégés de la classe de base sont ajoutés au concepteur afin qu’ils peuvent être manipulés par l’utilisateur.  
   
- La `InheritedPropertyDescriptor` classe modifie la valeur par défaut d’une propriété, afin que la valeur par défaut est la valeur actuelle à l’instanciation de l’objet. Il s’agit, car la propriété est héritée d’une autre instance. Le concepteur définit la réinitialisation de la valeur de propriété comme paramètre à la valeur qui a été définie par la classe héritée. Cette valeur peut différer de la valeur par défaut stockée dans les métadonnées.  
+ Le `InheritedPropertyDescriptor` classe modifie la valeur par défaut d’une propriété, afin que la valeur par défaut est la valeur actuelle à l’instanciation d’objet. Il s’agit, car la propriété est héritée d’une autre instance. Le concepteur définit la réinitialisation de la valeur de propriété comme paramètre à la valeur qui n’est défini par la classe héritée. Cette valeur peut différer de la valeur par défaut stockée dans les métadonnées.  
   
    
   
 ## Examples  
- L’exemple de code suivant fournit un exemple <xref:System.ComponentModel.Design.ComponentDesigner> mise en œuvre et un exemple de composant associé au concepteur. Le concepteur implémente une substitution de la <xref:System.ComponentModel.Design.ComponentDesigner.Initialize%2A> méthode qui appelle la base de `Initialize` d’une méthode, une substitution de la <xref:System.ComponentModel.Design.ComponentDesigner.DoDefaultAction%2A> méthode qui affiche un <xref:System.Windows.Forms.MessageBox> lorsque l’utilisateur double-clique sur le composant et d’une substitution de la <xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A> accesseur de propriété qui fournit une personnalisée <xref:System.ComponentModel.Design.DesignerVerb> commande de menu au menu contextuel pour le composant.  
+ L’exemple de code suivant fournit un exemple <xref:System.ComponentModel.Design.ComponentDesigner> implémentation et un exemple de composant associé au concepteur. Le concepteur implémente une substitution de la <xref:System.ComponentModel.Design.ComponentDesigner.Initialize%2A> méthode qui appelle la base de `Initialize` (méthode), une substitution de la <xref:System.ComponentModel.Design.ComponentDesigner.DoDefaultAction%2A> méthode qui affiche un <xref:System.Windows.Forms.MessageBox> lorsque l’utilisateur double-clique sur le composant et une substitution de la <xref:System.ComponentModel.Design.ComponentDesigner.Verbs%2A> accesseur de propriété qui fournit un personnalisé <xref:System.ComponentModel.Design.DesignerVerb> commande de menu au menu contextuel pour le composant.  
   
  [!code-cpp[ComponentDesignerExample#1](~/samples/snippets/cpp/VS_Snippets_Winforms/ComponentDesignerExample/CPP/examplecomponent.cpp#1)]
  [!code-csharp[ComponentDesignerExample#1](~/samples/snippets/csharp/VS_Snippets_Winforms/ComponentDesignerExample/CS/examplecomponent.cs#1)]
@@ -82,6 +84,8 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -100,6 +104,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -121,6 +126,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -137,7 +144,7 @@
   
  Si cette collection contient des références à d’autres composants dans le document en mode design en cours, ces composants seront copiés en même temps que le composant géré par le concepteur durant une opération de copie.  
   
- Lorsque le composant géré par le concepteur est sélectionné, cette collection est remplie avec tous les contrôles imbriqués. Cette collection peut également inclure d’autres composants, tels que les boutons des barres d’outils.  
+ Lorsque le composant géré par le concepteur est sélectionné, cette collection est remplie avec tous les contrôles imbriqués. Cette collection peut également inclure d’autres composants, tels que les boutons d’une barre d’outils.  
   
  ]]></format>
         </remarks>
@@ -153,6 +160,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -165,10 +174,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.ComponentModel.Design.ComponentDesigner.Initialize%2A> méthode <xref:System.ComponentModel.Design.ComponentDesigner> définit cette propriété.  
+ Le <xref:System.ComponentModel.Design.ComponentDesigner.Initialize%2A> méthode de <xref:System.ComponentModel.Design.ComponentDesigner> définit cette propriété.  
   
 > [!NOTE]
->  Lors de la substitution du <xref:System.ComponentModel.Design.ComponentDesigner.Initialize%2A> (méthode), veillez à appeler la classe de base <xref:System.ComponentModel.Design.ComponentDesigner.Initialize%2A> méthode avant d’utiliser cette propriété.  
+>  Lors du remplacement de la <xref:System.ComponentModel.Design.ComponentDesigner.Initialize%2A> (méthode), veillez à appeler la classe de base <xref:System.ComponentModel.Design.ComponentDesigner.Initialize%2A> méthode avant d’utiliser cette propriété.  
   
  ]]></format>
         </remarks>
@@ -198,6 +207,8 @@
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -210,7 +221,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Appelez la méthode <xref:System.ComponentModel.Design.ComponentDesigner.Dispose%2A> une fois que vous avez terminé d'utiliser <xref:System.ComponentModel.Design.ComponentDesigner>. La méthode <xref:System.ComponentModel.Design.ComponentDesigner.Dispose%2A> rend le <xref:System.ComponentModel.Design.ComponentDesigner> inutilisable. Après avoir appelé <xref:System.ComponentModel.Design.ComponentDesigner.Dispose%2A>, vous devez libérer toutes les références à la <xref:System.ComponentModel.Design.ComponentDesigner> pour que le garbage collector puisse récupérer la mémoire qui le <xref:System.ComponentModel.Design.ComponentDesigner> occupée. Pour plus d’informations, consultez [de nettoyage des ressources non managées](~/docs/standard/garbage-collection/unmanaged.md) et [implémentant une méthode de suppression](~/docs/standard/garbage-collection/implementing-dispose.md).  
+ Appelez la méthode <xref:System.ComponentModel.Design.ComponentDesigner.Dispose%2A> une fois que vous avez terminé d'utiliser <xref:System.ComponentModel.Design.ComponentDesigner>. La méthode <xref:System.ComponentModel.Design.ComponentDesigner.Dispose%2A> rend le <xref:System.ComponentModel.Design.ComponentDesigner> inutilisable. Après avoir appelé <xref:System.ComponentModel.Design.ComponentDesigner.Dispose%2A>, vous devez libérer toutes les références à la <xref:System.ComponentModel.Design.ComponentDesigner> pour que le garbage collector puisse récupérer la mémoire qui le <xref:System.ComponentModel.Design.ComponentDesigner> occupée. Pour plus d’informations, consultez [de nettoyage des ressources non managées](~/docs/standard/garbage-collection/unmanaged.md) et [implémentation d’une méthode Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
   
 > [!NOTE]
 >  Appelez toujours <xref:System.ComponentModel.Design.ComponentDesigner.Dispose%2A> avant de libérer votre dernière référence à <xref:System.ComponentModel.Design.ComponentDesigner>. Sinon, les ressources utilisées ne seront pas libérées tant que le garbage collector n'aura pas appelé la méthode <xref:System.ComponentModel.Design.ComponentDesigner> de l'objet `Finalize`.  
@@ -229,6 +240,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -245,15 +258,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est appelée par le public `Dispose()` (méthode) et le <xref:System.Object.Finalize%2A> (méthode). `Dispose()` appelle la méthode protégée `Dispose(Boolean)` méthode avec la `disposing` paramètre la valeur `true`. <xref:System.Object.Finalize%2A> appelle `Dispose` avec `disposing` la valeur `false`.  
+ Cette méthode est appelée par le public `Dispose()` (méthode) et le <xref:System.Object.Finalize%2A> (méthode). `Dispose()` appelle la méthode protégée `Dispose(Boolean)` méthode avec le `disposing` paramètre défini sur `true`. <xref:System.Object.Finalize%2A> appelle `Dispose` avec `disposing` défini sur `false`.  
   
- Lorsque le `disposing` paramètre a la valeur true, cette méthode libère toutes les ressources détenues par les objets managés référencés par ce <xref:System.ComponentModel.Design.ComponentDesigner> références. Cette méthode appelle la méthode `Dispose()` de chaque objet référencé.  
+ Lorsque le `disposing` paramètre est true, cette méthode libère toutes les ressources détenues par les objets managés par ce <xref:System.ComponentModel.Design.ComponentDesigner> références. Cette méthode appelle la méthode `Dispose()` de chaque objet référencé.  
   
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
           <para>
-            <see langword="Dispose" /> peut être appelée plusieurs fois par d’autres objets. Lors de la substitution <see langword="Dispose(Boolean)" /> veillez à ne pas référencer des objets qui ont été supprimés lors d’un appel précédent à <see langword="Dispose" />. Pour plus d’informations sur l’implémentation <see langword="Dispose(Boolean)" />, consultez [implémentation d’un Method](~/docs/standard/garbage-collection/implementing-dispose.md) de suppression.  Pour plus d’informations sur <see langword="Dispose" /> et <see cref="M:System.Object.Finalize" />, voir [nettoyage des Resources](~/docs/standard/garbage-collection/unmanaged.md) non managé et [substitution de la méthode Finalize] (http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</para>
+            <see langword="Dispose" /> peut être appelée plusieurs fois par d’autres objets. Lors de la substitution <see langword="Dispose(Boolean)" /> veillez à ne pas référencer des objets qui ont été supprimés lors d’un appel précédent à <see langword="Dispose" />. Pour plus d’informations sur l’implémentation <see langword="Dispose(Boolean)" />, consultez [implémentation d’un Method](~/docs/standard/garbage-collection/implementing-dispose.md) Dispose.  Pour plus d’informations sur <see langword="Dispose" /> et <see cref="M:System.Object.Finalize" />, consultez [nettoyage des Resources](~/docs/standard/garbage-collection/unmanaged.md) non managé et [substitution de la méthode Finalize] (http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</para>
         </block>
       </Docs>
     </Member>
@@ -267,6 +280,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -279,7 +294,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Dans les concepteurs Windows Forms et les Web Forms, cette méthode est appelée quand un utilisateur double-clique sur un composant.  
+ Dans les concepteurs Windows Forms et Web Forms, cette méthode est appelée lorsqu’un utilisateur double-clique sur un composant.  
   
  ]]></format>
         </remarks>
@@ -297,6 +312,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -309,7 +326,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode substitue <xref:System.Object.Finalize%2A?displayProperty=nameWithType> et nettoie les ressources en appelant `Dispose(false)`. Substitue `Dispose(Boolean)` pour personnaliser le nettoyage.  
+ Cette méthode remplace <xref:System.Object.Finalize%2A?displayProperty=nameWithType> et nettoie les ressources en appelant `Dispose(false)`. Substitue `Dispose(Boolean)` pour personnaliser le nettoyage.  
   
  Code d’application ne doit pas appeler cette méthode ; d’un objet `Finalize` méthode est appelée automatiquement lors du garbage collection, à moins que la finalisation par le garbage collector a été désactivée par un appel à la <xref:System.GC.SuppressFinalize%2A?displayProperty=nameWithType> (méthode).  
   
@@ -329,6 +346,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -369,6 +388,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -391,6 +412,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -413,6 +436,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -428,7 +453,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- L’hôte de concepteur appelle cette méthode lorsqu’il est prêt à utiliser le concepteur.  
+ L’hôte du concepteur appelle cette méthode lorsqu’il est prêt à utiliser le concepteur.  
   
  ]]></format>
         </remarks>
@@ -446,6 +471,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -463,7 +489,7 @@
 ## Remarks  
  Le <xref:System.ComponentModel.Design.ComponentDesigner.InitializeExistingComponent%2A> méthode est appelée lorsqu’un composant existant est réinitialisé. Par exemple, cela peut se produire une fois que l’utilisateur fait glisser un composant vers un autre conteneur.  
   
- Vous pouvez utiliser la `defaultValues` dictionnaire à appliquer par défaut recommandés aux propriétés ; Toutefois, vous ne devez modifier les propriétés du composant à l’exception de ceux stockés dans le dictionnaire, car ce composant est peut-être déjà propriétés définies.  
+ Vous pouvez utiliser le `defaultValues` dictionnaire à appliquer par défaut recommandés aux propriétés ; Toutefois, vous ne devez modifier les propriétés du composant à part ceux stockés dans le dictionnaire, étant donné que ce composant peut déjà les propriétés sont définies sur ce dernier.  
   
  L’implémentation par défaut de cette méthode ne fait rien.  
   
@@ -481,6 +507,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -496,9 +523,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.ComponentModel.Design.ComponentDesigner.InitializeNewComponent%2A> méthode est appelée lors de la première initialisation d’un composant, en général après avoir été d’abord ajoutée à une aire de conception.  
+ Le <xref:System.ComponentModel.Design.ComponentDesigner.InitializeNewComponent%2A> méthode est appelée lorsqu’un composant est tout d’abord initialisé, généralement après tout d’abord ajouté à une aire de conception.  
   
- Vous pouvez effectuer toute initialisation nécessaire de ce composant, et vous pouvez ignorer le `defaultValues` dictionnaire complètement.  
+ Vous pouvez effectuer toute initialisation nécessaire de ce composant, et vous pouvez ignorer la `defaultValues` dictionnaire complètement.  
   
  L’implémentation par défaut de cette méthode ne fait rien.  
   
@@ -516,6 +543,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -533,7 +562,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est appelée lorsque le concepteur est associé à un contrôle qui n’est pas dans son état par défaut, par exemple un contrôle que vous collez ou déplacez avec une opération de glisser-déplacer sur le concepteur. Cette méthode fournit une opportunité pour les implémenteurs à modifier ou occulter les propriétés du composant plutôt qu’à initialiser les propriétés du composant à leurs valeurs par défaut. Cette méthode est appelée après les autres fonctions d’initialisation.  
+ Cette méthode est appelée lorsque le concepteur est associé à un contrôle qui n’est pas dans son état par défaut, tel qu’un contrôle que vous collez ou se déplacez avec une opération de glisser-déplacer sur le concepteur. Cette méthode fournit une opportunité pour les implémenteurs à modifier ou masquer les propriétés du composant plutôt qu’à initialiser les propriétés du composant pour leurs valeurs par défaut. Cette méthode est appelée après les autres fonctions d’initialisation.  
   
  ]]></format>
         </remarks>
@@ -549,6 +578,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -577,6 +608,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -594,11 +627,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.ComponentModel.Design.ComponentDesigner.OnSetComponentDefaults%2A> est appelée lorsque le concepteur est initialisé. Ainsi, le concepteur fournir des valeurs par défaut pour le composant de base.  
+ <xref:System.ComponentModel.Design.ComponentDesigner.OnSetComponentDefaults%2A> est appelée lorsque le concepteur est initialisé. Cela permet au concepteur fournir des valeurs par défaut pour le composant de base.  
   
  Cette méthode est appelée une seule fois : lorsque vous créez le composant en le faisant glisser à partir de la boîte à outils vers l’aire de conception. Les initialisations suivantes du concepteur n’appellent pas cette méthode.  
   
- L’implémentation par défaut de cette méthode définit la propriété par défaut du composant pour le nom du composant, si la propriété par défaut est une chaîne et de la propriété n’est pas déjà définie. Cette méthode peut être implémentée dans une classe dérivée pour personnaliser l’initialisation du composant qui est créé par ce concepteur.  
+ L’implémentation par défaut de cette méthode définit la propriété par défaut du composant pour le nom du composant, si la propriété par défaut est une chaîne et la propriété n’est pas déjà définie. Cette méthode peut être implémentée dans une classe dérivée pour personnaliser l’initialisation du composant qui est créé par ce concepteur.  
   
  ]]></format>
         </remarks>
@@ -614,6 +647,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -626,7 +660,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette propriété fournit un mécanisme générique pour découvrir des relations parentes des concepteurs et est utilisée par le <xref:System.ComponentModel.Design.ComponentDesigner> l’objet <xref:System.ComponentModel.Design.ITreeDesigner> implémentation de l’interface. Cette propriété doit retourner uniquement `null` lorsque ce concepteur est le composant racine. L’implémentation par défaut de cette propriété retourne le composant racine pour tous les composants qui ne sont pas le composant racine et retourne `null` pour le composant racine.  
+ Cette propriété fournit un mécanisme générique pour découvrir des relations parentes des concepteurs et est utilisée par le <xref:System.ComponentModel.Design.ComponentDesigner> l’objet <xref:System.ComponentModel.Design.ITreeDesigner> implémentation d’interface. Cette propriété doit retourner uniquement `null` lorsque ce concepteur est le composant racine. L’implémentation par défaut de cette propriété retourne le composant racine pour tous les composants qui ne sont pas le composant racine, et elle retourne `null` pour le composant racine.  
   
  ]]></format>
         </remarks>
@@ -642,6 +676,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -657,14 +693,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode fournit un moyen pour modifier ou supprimer des éléments au sein du dictionnaire d’attributs qui sont exposées par un <xref:System.ComponentModel.TypeDescriptor>.  
+ Cette méthode fournit un moyen pour modifier ou supprimer des éléments au sein du dictionnaire d’attributs qui sont exposées via un <xref:System.ComponentModel.TypeDescriptor>.  
   
  Les clés du dictionnaire d’attributs sont les identificateurs de type des attributs, comme spécifié par la valeur de leur <xref:System.Attribute.TypeId%2A> propriété. Les objets sont de type <xref:System.ComponentModel.PropertyDescriptor>. Cette méthode est appelée immédiatement après le <xref:System.ComponentModel.Design.ComponentDesigner.PreFilterAttributes%2A> (méthode).  
   
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Vous pouvez directement filtrer le dictionnaire qui est accessible via la <paramref name="attributes" /> paramètre, ou vous pouvez la laisser inchangée. Si vous substituez cette méthode, appelez l’implémentation de base après avoir effectué votre propre filtrage. En outre, vous ne devez pas supprimer les éléments dans le <see cref="M:System.ComponentModel.Design.ComponentDesigner.PostFilterAttributes(System.Collections.IDictionary)" /> (méthode). Au lieu de cela, modifiez les attributs pour masquer des éléments. Vous pouvez également supprimer des éléments dans le <see cref="M:System.ComponentModel.Design.ComponentDesigner.PreFilterAttributes(System.Collections.IDictionary)" /> (méthode).</para>
+          <para>Vous pouvez filtrer directement le dictionnaire qui est accessible via la <paramref name="attributes" /> paramètre, ou vous pouvez la laisser inchangée. Si vous substituez cette méthode, appelez l’implémentation de base après avoir effectué votre propre filtrage. En outre, vous ne devez pas supprimer les éléments dans le <see cref="M:System.ComponentModel.Design.ComponentDesigner.PostFilterAttributes(System.Collections.IDictionary)" /> (méthode). Au lieu de cela, modifiez les attributs pour masquer des éléments. Vous pouvez également supprimer des éléments dans le <see cref="M:System.ComponentModel.Design.ComponentDesigner.PreFilterAttributes(System.Collections.IDictionary)" /> (méthode).</para>
         </block>
         <altmember cref="T:System.ComponentModel.TypeDescriptor" />
         <altmember cref="T:System.ComponentModel.Design.IDesignerFilter" />
@@ -680,6 +716,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -695,14 +733,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode fournit un moyen pour modifier ou supprimer des éléments au sein du dictionnaire d’événements qui sont exposées par un <xref:System.ComponentModel.TypeDescriptor>.  
+ Cette méthode fournit un moyen de modifier ou supprimer des éléments au sein du dictionnaire d’événements qui sont exposés par le biais une <xref:System.ComponentModel.TypeDescriptor>.  
   
  Les clés du dictionnaire d’événements sont les noms des événements. Les objets sont de type <xref:System.ComponentModel.PropertyDescriptor>. Cette méthode est appelée immédiatement après le <xref:System.ComponentModel.Design.ComponentDesigner.PreFilterEvents%2A> (méthode).  
   
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Vous pouvez directement filtrer le dictionnaire qui est accessible via la <paramref name="events" /> paramètre, ou vous pouvez la laisser inchangée. Si vous substituez cette méthode, appelez l’implémentation de base après avoir effectué votre propre filtrage. En outre, vous ne devez pas supprimer les éléments dans le <see cref="M:System.ComponentModel.Design.ComponentDesigner.PostFilterEvents(System.Collections.IDictionary)" /> (méthode). Au lieu de cela, modifiez les attributs pour masquer des éléments. Vous pouvez également supprimer des éléments dans le <see cref="M:System.ComponentModel.Design.ComponentDesigner.PreFilterEvents(System.Collections.IDictionary)" /> (méthode).</para>
+          <para>Vous pouvez filtrer directement le dictionnaire qui est accessible via la <paramref name="events" /> paramètre, ou vous pouvez la laisser inchangée. Si vous substituez cette méthode, appelez l’implémentation de base après avoir effectué votre propre filtrage. En outre, vous ne devez pas supprimer les éléments dans le <see cref="M:System.ComponentModel.Design.ComponentDesigner.PostFilterEvents(System.Collections.IDictionary)" /> (méthode). Au lieu de cela, modifiez les attributs pour masquer des éléments. Vous pouvez également supprimer des éléments dans le <see cref="M:System.ComponentModel.Design.ComponentDesigner.PreFilterEvents(System.Collections.IDictionary)" /> (méthode).</para>
         </block>
         <altmember cref="T:System.ComponentModel.TypeDescriptor" />
         <altmember cref="T:System.ComponentModel.Design.IDesignerFilter" />
@@ -718,6 +756,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -733,14 +773,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode fournit un moyen pour modifier ou supprimer des éléments au sein du dictionnaire de propriétés qui sont exposées par un <xref:System.ComponentModel.TypeDescriptor>.  
+ Cette méthode fournit un moyen pour modifier ou supprimer des éléments au sein du dictionnaire de propriétés qui sont exposées via un <xref:System.ComponentModel.TypeDescriptor>.  
   
  Les clés dans le dictionnaire de propriétés sont les noms des propriétés. Les objets sont de type <xref:System.ComponentModel.PropertyDescriptor>. Cette méthode est appelée immédiatement après le <xref:System.ComponentModel.Design.ComponentDesigner.PreFilterProperties%2A> (méthode).  
   
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Vous pouvez directement filtrer le dictionnaire qui est accessible via la <paramref name="properties" /> paramètre, ou vous pouvez la laisser inchangée. Si vous substituez cette méthode, appelez l’implémentation de base après avoir effectué votre propre filtrage. En outre, vous ne devez pas supprimer les éléments dans le <see cref="M:System.ComponentModel.Design.ComponentDesigner.PostFilterProperties(System.Collections.IDictionary)" /> (méthode). Au lieu de cela, modifiez les attributs pour masquer des éléments. Vous pouvez également supprimer des éléments dans le <see cref="M:System.ComponentModel.Design.ComponentDesigner.PreFilterProperties(System.Collections.IDictionary)" /> (méthode).</para>
+          <para>Vous pouvez filtrer directement le dictionnaire qui est accessible via la <paramref name="properties" /> paramètre, ou vous pouvez la laisser inchangée. Si vous substituez cette méthode, appelez l’implémentation de base après avoir effectué votre propre filtrage. En outre, vous ne devez pas supprimer les éléments dans le <see cref="M:System.ComponentModel.Design.ComponentDesigner.PostFilterProperties(System.Collections.IDictionary)" /> (méthode). Au lieu de cela, modifiez les attributs pour masquer des éléments. Vous pouvez également supprimer des éléments dans le <see cref="M:System.ComponentModel.Design.ComponentDesigner.PreFilterProperties(System.Collections.IDictionary)" /> (méthode).</para>
         </block>
         <altmember cref="T:System.ComponentModel.TypeDescriptor" />
         <altmember cref="T:System.ComponentModel.Design.IDesignerFilter" />
@@ -757,6 +797,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -772,7 +814,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode fournit un moyen pour ajouter des éléments au dictionnaire d’attributs qu’un concepteur expose via une <xref:System.ComponentModel.TypeDescriptor>.  
+ Cette méthode fournit un moyen d’ajouter des éléments au dictionnaire d’attributs qu’un concepteur expose via une <xref:System.ComponentModel.TypeDescriptor>.  
   
  Les clés du dictionnaire d’attributs sont les identificateurs de type des attributs, comme spécifié par la valeur de leur <xref:System.Attribute.TypeId%2A> propriété. Les objets sont de type <xref:System.ComponentModel.PropertyDescriptor>. Cette méthode est appelée immédiatement avant le <xref:System.ComponentModel.Design.ComponentDesigner.PostFilterAttributes%2A> (méthode).  
   
@@ -795,6 +837,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -810,7 +854,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode fournit un moyen pour ajouter des éléments au dictionnaire d’événements qu’un concepteur expose via une <xref:System.ComponentModel.TypeDescriptor>.  
+ Cette méthode fournit un moyen d’ajouter des éléments au dictionnaire d’événements qu’un concepteur expose via une <xref:System.ComponentModel.TypeDescriptor>.  
   
  Les clés du dictionnaire d’événements sont les noms des événements. Les objets sont de type <xref:System.ComponentModel.PropertyDescriptor>. Cette méthode est appelée immédiatement avant le <xref:System.ComponentModel.Design.ComponentDesigner.PostFilterEvents%2A> (méthode).  
   
@@ -833,6 +877,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -848,7 +894,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode fournit un moyen pour ajouter des éléments au dictionnaire de propriétés qu’un concepteur expose via une <xref:System.ComponentModel.TypeDescriptor>.  
+ Cette méthode fournit un moyen d’ajouter des éléments au dictionnaire de propriétés qu’un concepteur expose via une <xref:System.ComponentModel.TypeDescriptor>.  
   
  Les clés dans le dictionnaire de propriétés sont les noms des propriétés. Les objets sont de type <xref:System.ComponentModel.PropertyDescriptor>. Cette méthode est appelée immédiatement avant le <xref:System.ComponentModel.Design.ComponentDesigner.PostFilterProperties%2A> (méthode).  
   
@@ -871,6 +917,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -909,6 +957,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -943,6 +993,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -964,6 +1016,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -994,6 +1048,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1024,6 +1080,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1054,6 +1112,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1084,6 +1144,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1114,6 +1176,8 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1145,6 +1209,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1174,6 +1239,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1203,6 +1269,8 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Design</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1218,7 +1286,7 @@
 ## Remarks  
  Cette méthode retourne `null` si le composant ne possède pas de verbe au moment du design.  
   
- L’environnement au moment du design affiche généralement les verbes retournés par cette méthode dans un menu contextuel (clic droit). Lorsqu’un utilisateur sélectionne un des verbes, la <xref:System.ComponentModel.Design.MenuCommand.Invoke%2A> méthode correspondantes <xref:System.ComponentModel.Design.DesignerVerb> est appelé.  
+ L’environnement au moment du design affiche généralement les verbes retournées par cette méthode dans un menu contextuel (clic droit). Lorsqu’un utilisateur sélectionne un des verbes, le <xref:System.ComponentModel.Design.MenuCommand.Invoke%2A> méthode correspondante <xref:System.ComponentModel.Design.DesignerVerb> est appelé.  
   
 > [!NOTE]
 >  Un environnement au moment du design fournit généralement une **propriétés** commande sur le menu contextuel d’un composant. Par conséquent, n’incluez pas d’une telle entrée dans la collection de verbes de concepteur spécifié.  

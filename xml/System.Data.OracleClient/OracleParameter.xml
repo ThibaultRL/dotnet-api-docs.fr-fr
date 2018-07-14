@@ -1,11 +1,11 @@
 <Type Name="OracleParameter" FullName="System.Data.OracleClient.OracleParameter">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="f796a4475deaead7a2428664a98e9a3d581ce28a" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="0e2d12625d7d89f4077488b99aeb51f0becf2c3c" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36683777" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37676057" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class OracleParameter : System.Data.Common.DbParameter, ICloneable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit OracleParameter extends System.Data.Common.DbParameter implements class System.Data.IDataParameter, class System.Data.IDbDataParameter, class System.ICloneable" />
@@ -15,10 +15,13 @@
   <TypeSignature Language="F#" Value="type OracleParameter = class&#xA;    inherit DbParameter&#xA;    interface ICloneable&#xA;    interface IDbDataParameter&#xA;    interface IDataParameter" />
   <AssemblyInfo>
     <AssemblyName>System.Data.OracleClient</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Data.Common.DbParameter</BaseTypeName>
+    <BaseTypeName FrameworkAlternate="netframework-1.1">System.MarshalByRefObject</BaseTypeName>
   </Base>
   <Interfaces>
     <Interface>
@@ -36,9 +39,9 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Les noms de paramètres ne respectent pas la casse.  
+ Noms de paramètres ne respectent pas la casse.  
   
- Lorsque vous interrogez une base de données Oracle à l’aide du fournisseur Microsoft OLE DB pour Oracle (MSDAORA) et du fournisseur de données.NET Framework, à l’aide du `LIKE` clause pour interroger les valeurs des champs de longueur fixe ne peut pas retourner toutes les correspondances attendues. La raison est que, lorsque Oracle correspond aux valeurs des champs de longueur fixe dans un `LIKE` clause, il correspond à toute la longueur de la chaîne, y compris les espaces de remplissage. Par exemple, si une table dans une base de données Oracle contient un champ nommé « Field1 » qui est défini en tant que `char(3)`, et que vous entrez la valeur « a » dans une ligne de la table, le code suivant ne retournera pas la ligne.  
+ Lorsque vous interrogez une base de données Oracle à l’aide du fournisseur Microsoft OLE DB pour Oracle (MSDAORA) et du fournisseur de données.NET Framework, à l’aide du `LIKE` clause pour interroger les valeurs des champs de longueur fixe peut ne pas retourne toutes les correspondances attendues. La raison est que, lorsque Oracle correspond aux valeurs des champs de longueur fixe dans un `LIKE` clause, il correspond à toute la durée de la chaîne, y compris le remplissage des espaces de fin. Par exemple, si une table dans une base de données Oracle contient un champ nommé « Field1 » qui est défini comme `char(3)`, et que vous entrez la valeur « a » dans une ligne de la table, le code suivant ne retournera pas la ligne.  
   
 ```vb  
 Dim queryString As String = "SELECT * FROM Table1 WHERE Field1 LIKE ?"  
@@ -54,14 +57,14 @@ command.Parameters.Add("@p1", OleDbType.Char, 3).Value = "a";
 OleDbDataReader reader = command.ExecuteReader();  
 ```  
   
- Effet, Oracle stocke la valeur de la colonne « a » (marge intérieure « a », avec des espaces de fin, à la longueur de champ fixe de 3), lequel Oracle ne traite pas comme une correspondance pour la valeur du paramètre de « a » dans le cas d’un `LIKE` comparaison de champs de longueur fixe.  
+ Il s’agit, car Oracle stocke la valeur de colonne en tant que « a » (remplissage « a », avec des espaces de fin, à la longueur de champ fixe de 3), qui Oracle ne traite pas comme une correspondance pour la valeur du paramètre de « a » dans le cas d’un `LIKE` comparaison de champs de longueur fixe.  
   
- Pour résoudre ce problème, ajoutez un caractère générique de pourcentage (« % ») à la valeur de paramètre (`"a%"`), ou utilisez SQL `=` comparaison à la place.  
+ Pour résoudre ce problème, ajoutez un caractère générique de pourcentage (« % ») à la valeur de paramètre (`"a%"`), ou utiliser une SQL `=` comparaison à la place.  
   
    
   
 ## Examples  
- L’exemple suivant crée plusieurs instances de <xref:System.Data.OracleClient.OracleParameter> via la <xref:System.Data.OracleClient.OracleParameterCollection> dans le <xref:System.Data.OracleClient.OracleDataAdapter>. Ces paramètres sont utilisés pour sélectionner des données dans la base de données et les placer dans le <xref:System.Data.DataSet>. Cet exemple suppose qu’un <xref:System.Data.DataSet> et <xref:System.Data.OracleClient.OracleDataAdapter> ont déjà été créés à l’aide de la connexion, les commandes et le schéma approprié.  
+ L’exemple suivant crée plusieurs instances de <xref:System.Data.OracleClient.OracleParameter> via la <xref:System.Data.OracleClient.OracleParameterCollection> au sein de la <xref:System.Data.OracleClient.OracleDataAdapter>. Ces paramètres sont utilisés pour sélectionner des données dans la base de données et les placer dans le <xref:System.Data.DataSet>. Cet exemple suppose qu’un <xref:System.Data.DataSet> et un <xref:System.Data.OracleClient.OracleDataAdapter> ont déjà été créés à l’aide de la connexion, les commandes et le schéma approprié.  
   
  [!code-csharp[Classic WebData OracleParameter#1](~/samples/snippets/csharp/VS_Snippets_ADO.NET/Classic WebData OracleParameter/CS/source.cs#1)]
  [!code-vb[Classic WebData OracleParameter#1](~/samples/snippets/visualbasic/VS_Snippets_ADO.NET/Classic WebData OracleParameter/VB/source.vb#1)]  
@@ -88,6 +91,8 @@ OleDbDataReader reader = command.ExecuteReader();
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
@@ -105,6 +110,8 @@ OleDbDataReader reader = command.ExecuteReader();
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -139,6 +146,8 @@ OleDbDataReader reader = command.ExecuteReader();
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -153,9 +162,9 @@ OleDbDataReader reader = command.ExecuteReader();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Lorsque vous spécifiez une <xref:System.Object> dans les `value` paramètre, le <xref:System.Data.DbType> est déduit du type Microsoft .NET Framework de la <xref:System.Object>.  
+ Lorsque vous spécifiez un <xref:System.Object> dans le `value` paramètre, le <xref:System.Data.DbType> est déduit du type Microsoft .NET Framework de la <xref:System.Object>.  
   
- Soyez prudent lorsque vous utilisez cette surcharge de la <xref:System.Data.OracleClient.OracleParameter> constructeur. Étant donné que cette surcharge prend un `value` de type <xref:System.Object>, vous devez convertir la valeur intégrale à un <xref:System.Object> de type lorsque la valeur est égale à zéro, comme illustré dans l’exemple Microsoft Visual c# suivant.  
+ Soyez prudent lorsque vous utilisez cette surcharge de la <xref:System.Data.OracleClient.OracleParameter> constructeur. Étant donné que cette surcharge prend un `value` de type <xref:System.Object>, vous devez convertir la valeur intégrale un <xref:System.Object> tapez lorsque la valeur est égale à zéro, comme le montre l’exemple suivant de Microsoft Visual c#.  
   
 ```  
 Parameter = new OracleParameter("pname", Convert.ToInt32(0));  
@@ -176,6 +185,8 @@ Parameter = new OracleParameter("pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -211,6 +222,8 @@ Parameter = new OracleParameter("pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -248,6 +261,7 @@ Parameter = new OracleParameter("pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -285,6 +299,8 @@ Parameter = new OracleParameter("pname", Convert.ToInt32(0));
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters>
@@ -340,6 +356,8 @@ Parameter = new OracleParameter("pname", Convert.ToInt32(0));
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -354,7 +372,7 @@ Parameter = new OracleParameter("pname", Convert.ToInt32(0));
 ## Remarks  
  Le <xref:System.Data.OracleClient.OracleParameter.OracleType%2A> et <xref:System.Data.OracleClient.OracleParameter.DbType%2A> sont liés. Par conséquent, si le <xref:System.Data.OracleClient.OracleParameter.DbType%2A> modifications le <xref:System.Data.OracleClient.OracleParameter.OracleType%2A> vers une prise en charge <xref:System.Data.OracleClient.OracleParameter.OracleType%2A>.  
   
- Le <xref:System.Data.OracleClient.OracleParameter.DbType%2A>, <xref:System.Data.OracleClient.OracleParameter.OracleType%2A>, et <xref:System.Data.OracleClient.OracleParameter.Size%2A> propriétés d’un paramètre peuvent être déduites par le paramètre <xref:System.Data.OracleClient.OracleParameter.Value%2A>. Par conséquent, vous ne sont pas requis pour spécifier les. Toutefois, elles ne sont pas exposées dans <xref:System.Data.OracleClient.OracleParameter> les paramètres de propriété. Par exemple, si la taille du paramètre a été déduite, <xref:System.Data.OracleClient.OracleParameter.Size%2A> ne contient pas de valeur déduite après l’exécution des instructions. Pour `String` les types de données la valeur par défaut est <xref:System.Data.DbType.AnsiString>.  
+ Le <xref:System.Data.OracleClient.OracleParameter.DbType%2A>, <xref:System.Data.OracleClient.OracleParameter.OracleType%2A>, et <xref:System.Data.OracleClient.OracleParameter.Size%2A> propriétés d’un paramètre peuvent être déduites en définissant <xref:System.Data.OracleClient.OracleParameter.Value%2A>. Par conséquent, vous êtes êtes pas obligé de les spécifier. Toutefois, elles ne sont pas exposées dans <xref:System.Data.OracleClient.OracleParameter> paramètres de propriété. Par exemple, si la taille du paramètre a été déduite, <xref:System.Data.OracleClient.OracleParameter.Size%2A> ne contient pas de valeur déduite après l’exécution des instructions. Pour `String` est la valeur par défaut des types de données <xref:System.Data.DbType.AnsiString>.  
   
  Pour obtenir la liste des types de données pris en charge, reportez-vous à la <xref:System.Data.OracleClient.OracleParameter.OracleType%2A> membre. Pour plus d’informations, consultez [paramètres DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md).  
   
@@ -385,6 +403,8 @@ Parameter = new OracleParameter("pname", Convert.ToInt32(0));
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -402,9 +422,9 @@ Parameter = new OracleParameter("pname", Convert.ToInt32(0));
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si le <xref:System.Data.ParameterDirection> est sortie et l’exécution de la <xref:System.Data.OracleClient.OracleCommand> ne retourne pas de valeur, le <xref:System.Data.OracleClient.OracleParameter> contient une valeur null.  
+ Si le <xref:System.Data.ParameterDirection> est sortie et l’exécution d’associé <xref:System.Data.OracleClient.OracleCommand> ne retourne pas de valeur, le <xref:System.Data.OracleClient.OracleParameter> contient une valeur null.  
   
- `Output`, `InputOut`, et `ReturnValue` paramètres retournés en appelant <xref:System.Data.OracleClient.OracleCommand.ExecuteReader%2A> ne sont pas accessibles jusqu'à ce que vous appeliez <xref:System.Data.OracleClient.OracleDataReader.Close%2A> sur la <xref:System.Data.OracleClient.OracleDataReader>.  
+ `Output`, `InputOut`, et `ReturnValue` paramètres retournés en appelant <xref:System.Data.OracleClient.OracleCommand.ExecuteReader%2A> est inaccessible jusqu'à ce que vous appeliez <xref:System.Data.OracleClient.OracleDataReader.Close%2A> sur le <xref:System.Data.OracleClient.OracleDataReader>.  
   
    
   
@@ -447,6 +467,8 @@ public void CreateOracleDbParameter()
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -498,6 +520,8 @@ public void CreateOracleParameter()
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -505,7 +529,7 @@ public void CreateOracleParameter()
           <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Advanced)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
@@ -518,9 +542,9 @@ public void CreateOracleParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le `Offset` propriété est utilisée pour la fragmentation côté client des données binaires et de chaîne. Par exemple, pour insérer 10 Mo de texte dans une colonne sur un serveur, un utilisateur peut effectuer 10 insertions paramétrées de segments de 1 Mo, un décalage de la valeur de `Offset` sur chaque itération 1 Mo.  
+ Le `Offset` propriété est utilisée pour la segmentation côté client des données binaires et de chaîne. Par exemple, pour insérer 10 Mo de texte dans une colonne sur un serveur, un utilisateur peut effectuer 10 insertions paramétrées de segments de 1 Mo, le décalage de la valeur de `Offset` sur chaque itération 1 Mo.  
   
- `Offset` Spécifie le nombre d’octets pour les types binaires et le nombre de caractères des chaînes. Le nombre de chaînes n’inclut pas le caractère de fin.  
+ `Offset` Spécifie le nombre d’octets pour les types binaires et le nombre de caractères pour les chaînes. Le nombre de chaînes n’inclut pas le caractère de fin.  
   
    
   
@@ -558,6 +582,8 @@ public void CreateOracleParameter()
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -583,7 +609,7 @@ public void CreateOracleParameter()
 ## Remarks  
  Le <xref:System.Data.OracleClient.OracleParameter.OracleType%2A> et <xref:System.Data.OracleClient.OracleParameter.DbType%2A> sont liés. Par conséquent, si le <xref:System.Data.OracleClient.OracleParameter.DbType%2A> modifications le <xref:System.Data.OracleClient.OracleParameter.OracleType%2A> vers une prise en charge <xref:System.Data.OracleClient.OracleType>.  
   
- Le <xref:System.Data.OracleClient.OracleParameter.DbType%2A>, <xref:System.Data.OracleClient.OracleParameter.OracleType%2A>, et <xref:System.Data.OracleClient.OracleParameter.Size%2A> propriétés d’un paramètre peuvent être déduites par le paramètre <xref:System.Data.OracleClient.OracleParameter.Value%2A>. Par conséquent, vous ne sont pas requis pour spécifier les. Toutefois, elles ne sont pas exposées dans <xref:System.Data.OracleClient.OracleParameter> les paramètres de propriété. Par exemple, si la taille du paramètre a été déduite, <xref:System.Data.OracleClient.OracleParameter.Size%2A> ne contient pas de valeur déduite après l’exécution des instructions. Pour `String` les types de données la valeur par défaut est <xref:System.Data.OracleClient.OracleType.VarChar>.  
+ Le <xref:System.Data.OracleClient.OracleParameter.DbType%2A>, <xref:System.Data.OracleClient.OracleParameter.OracleType%2A>, et <xref:System.Data.OracleClient.OracleParameter.Size%2A> propriétés d’un paramètre peuvent être déduites en définissant <xref:System.Data.OracleClient.OracleParameter.Value%2A>. Par conséquent, vous êtes êtes pas obligé de les spécifier. Toutefois, elles ne sont pas exposées dans <xref:System.Data.OracleClient.OracleParameter> paramètres de propriété. Par exemple, si la taille du paramètre a été déduite, <xref:System.Data.OracleClient.OracleParameter.Size%2A> ne contient pas de valeur déduite après l’exécution des instructions. Pour `String` est la valeur par défaut des types de données <xref:System.Data.OracleClient.OracleType.VarChar>.  
   
  Pour obtenir la liste des types de données pris en charge, reportez-vous à la <xref:System.Data.OracleClient.OracleType> membre. Pour plus d’informations, consultez [paramètres DataAdapter](~/docs/framework/data/adonet/dataadapter-parameters.md).  
   
@@ -604,6 +630,8 @@ public void CreateOracleParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -661,6 +689,8 @@ public void CreateOracleDbParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -668,7 +698,7 @@ public void CreateOracleDbParameter()
           <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
         <Attribute>
           <AttributeName>System.Obsolete("Precision has been deprecated.  Use the Math classes to explicitly set the precision of a decimal.  http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
@@ -700,6 +730,7 @@ public void CreateOracleDbParameter()
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -731,6 +762,7 @@ public void CreateOracleDbParameter()
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -765,6 +797,8 @@ public void CreateOracleDbParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -772,7 +806,7 @@ public void CreateOracleDbParameter()
           <AttributeName>System.ComponentModel.Browsable(false)</AttributeName>
         </Attribute>
         <Attribute>
-          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+          <AttributeName>System.ComponentModel.EditorBrowsable</AttributeName>
         </Attribute>
         <Attribute>
           <AttributeName>System.Obsolete("Scale has been deprecated.  Use the Math classes to explicitly set the scale of a decimal.  http://go.microsoft.com/fwlink/?linkid=14202")</AttributeName>
@@ -807,6 +841,8 @@ public void CreateOracleDbParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -823,15 +859,15 @@ public void CreateOracleDbParameter()
   
  Le <xref:System.Data.OracleClient.OracleParameter.Size%2A> propriété est utilisée pour les types binaire et chaîne.  
   
- Pour les données de chaîne ANSI et les types de données qui le <xref:System.Data.OracleClient.OracleParameter.Size%2A> propriété fait référence au nombre d’octets. Pour les données de chaîne Unicode, <xref:System.Data.OracleClient.OracleParameter.Size%2A> fait référence au nombre de caractères. Le nombre de chaînes n’inclut pas le caractère de fin.  
+ Pour les types de données sans chaînes et ANSI données string, le <xref:System.Data.OracleClient.OracleParameter.Size%2A> propriété fait référence au nombre d’octets. Pour les données de chaîne Unicode, <xref:System.Data.OracleClient.OracleParameter.Size%2A> fait référence au nombre de caractères. Le nombre de chaînes n’inclut pas le caractère de fin.  
   
- Pour les types de données de longueur variable, <xref:System.Data.OracleClient.OracleParameter.Size%2A> décrit la quantité maximale de données à transmettre au serveur. Par exemple, pour une valeur de chaîne Unicode, <xref:System.Data.OracleClient.OracleParameter.Size%2A> peut être utilisé pour limiter la quantité de données envoyées au serveur aux cent premiers caractères.  
+ Pour les types de données de longueur variable, <xref:System.Data.OracleClient.OracleParameter.Size%2A> décrit la quantité maximale de données à transmettre au serveur. Par exemple, pour une valeur de chaîne Unicode, <xref:System.Data.OracleClient.OracleParameter.Size%2A> peut servir à limiter la quantité de données envoyées au serveur aux cent premiers caractères.  
   
- Pour les valeurs de retournés et paramètres bidirectionnels et de sortie, vous devez définir la valeur de taille. Cela n’est pas obligatoire pour les paramètres d’entrée, et si ne sont pas explicitement définie, la valeur d’est déduite de la taille réelle du paramètre spécifié lorsqu’une instruction paramétrée est exécutée.  
+ Pour les paramètres bidirectionnels et de sortie et les valeurs de retour, vous devez définir la valeur de taille. Ce n’est pas requis pour les paramètres d’entrée, et si pas explicitement définie, la valeur d’est déduite à partir de la taille réelle du paramètre spécifié lorsqu’une instruction paramétrable est exécutée.  
   
- Le <xref:System.Data.OracleClient.OracleParameter.DbType%2A>, <xref:System.Data.OracleClient.OracleParameter.OracleType%2A>, et <xref:System.Data.OracleClient.OracleParameter.Size%2A> propriétés d’un paramètre peuvent être déduites par le paramètre <xref:System.Data.OracleClient.OracleParameter.Value%2A>. Par conséquent, vous ne sont pas requis pour spécifier les. Toutefois, elles ne sont pas exposées dans <xref:System.Data.OracleClient.OracleParameter> les paramètres de propriété. Par exemple, si la taille du paramètre a été déduite, <xref:System.Data.OracleClient.OracleParameter.Size%2A> ne contient pas de valeur déduite après l’exécution des instructions.  
+ Le <xref:System.Data.OracleClient.OracleParameter.DbType%2A>, <xref:System.Data.OracleClient.OracleParameter.OracleType%2A>, et <xref:System.Data.OracleClient.OracleParameter.Size%2A> propriétés d’un paramètre peuvent être déduites en définissant <xref:System.Data.OracleClient.OracleParameter.Value%2A>. Par conséquent, vous êtes êtes pas obligé de les spécifier. Toutefois, elles ne sont pas exposées dans <xref:System.Data.OracleClient.OracleParameter> paramètres de propriété. Par exemple, si la taille du paramètre a été déduite, <xref:System.Data.OracleClient.OracleParameter.Size%2A> ne contient pas de valeur déduite après l’exécution des instructions.  
   
- Pour des types de données, la valeur de longueur fixe <xref:System.Data.OracleClient.OracleParameter.Size%2A> est ignoré. Il peut être récupéré à titre d’information et retourne la quantité maximale d’octets utilisés par le fournisseur lors de la transmission de la valeur du paramètre au serveur.  
+ Pour des types de données, la valeur de longueur fixe <xref:System.Data.OracleClient.OracleParameter.Size%2A> est ignoré. Il peut être récupéré à titre d’information et retourne la quantité maximale d’octets que le fournisseur utilise lors de la transmission de la valeur du paramètre au serveur.  
   
    
   
@@ -874,6 +910,8 @@ public void CreateOracleParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -928,6 +966,7 @@ public void CreateOracleDbParameter()
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -941,22 +980,22 @@ public void CreateOracleDbParameter()
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Data.OracleClient.OracleParameter.SourceColumnNullMapping%2A> est utilisé par le <xref:System.Data.OracleClient.OracleCommandBuilder> générer correctement des commandes de mise à jour lorsque vous traitez des colonnes acceptant les valeurs NULL. En règle générale, utilisez des <xref:System.Data.OracleClient.OracleParameter.SourceColumnNullMapping%2A> est limitée aux développeurs qui héritent <xref:System.Data.OracleClient.OracleCommandBuilder>.  
+ <xref:System.Data.OracleClient.OracleParameter.SourceColumnNullMapping%2A> est utilisé par le <xref:System.Data.OracleClient.OracleCommandBuilder> pour générer correctement des commandes de mise à jour lors du traitement de colonnes nullables. En règle générale, utilisez des <xref:System.Data.OracleClient.OracleParameter.SourceColumnNullMapping%2A> est limitée aux développeurs qui héritent <xref:System.Data.OracleClient.OracleCommandBuilder>.  
   
- <xref:System.Data.Common.DbCommandBuilder> utilise cette propriété pour déterminer si la colonne source accepte la valeur null et définit cette propriété sur `true` si elle est nullable et `false` si elle n’est pas. Lorsque <xref:System.Data.OracleClient.OracleCommandBuilder> est génère son instruction Update, il examine les <xref:System.Data.OracleClient.OracleParameter.SourceColumnNullMapping%2A> pour chaque paramètre. Si la propriété est `true`, <xref:System.Data.OracleClient.OracleCommandBuilder> génère une clause WHERE comme suit (dans cette expression de requête « FieldName » représente le nom du champ) :  
+ <xref:System.Data.Common.DbCommandBuilder> utilise cette propriété pour déterminer si la colonne source accepte la valeur null et définit cette propriété sur `true` si elle est nullable et `false` si elle n’est pas. Lorsque <xref:System.Data.OracleClient.OracleCommandBuilder> est génère son instruction de mise à jour, il examine le <xref:System.Data.OracleClient.OracleParameter.SourceColumnNullMapping%2A> pour chaque paramètre. Si la propriété est `true`, <xref:System.Data.OracleClient.OracleCommandBuilder> génère une clause WHERE comme suit (dans cette expression de requête, « FieldName » représente le nom du champ) :  
   
 ```  
 ((@IsNull_FieldName = 1 AND FieldName IS NULL) OR   
   (FieldName = @Original_FieldName))  
 ```  
   
- Si <xref:System.Data.OracleClient.OracleParameter.SourceColumnNullMapping%2A> pour le champ est false, <xref:System.Data.OracleClient.OracleCommandBuilder> génère la clause WHERE suivante :  
+ Si <xref:System.Data.OracleClient.OracleParameter.SourceColumnNullMapping%2A> pour le champ est défini sur false, <xref:System.Data.OracleClient.OracleCommandBuilder> génère la clause WHERE suivante :  
   
 ```  
 FieldName = @OriginalFieldName  
 ```  
   
- En outre, @IsNull_FieldName contient 1 si le champ source contient la valeur null et 0 si elle n’est pas le cas. Ce mécanisme permet d’optimiser les performances de serveur Oracle et fournit un code commun qui fonctionne sur plusieurs fournisseurs.  
+ En outre, @IsNull_FieldName contient 1 si le champ source contient la valeur null et 0 si elle n’est pas le cas. Ce mécanisme permet une optimisation des performances dans Oracle Server et fournit un code commun qui fonctionne sur plusieurs fournisseurs.  
   
  ]]></format>
         </remarks>
@@ -975,6 +1014,8 @@ FieldName = @OriginalFieldName
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -987,7 +1028,7 @@ FieldName = @OriginalFieldName
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette propriété est utilisée par le <xref:System.Data.OracleClient.OracleDataAdapter.UpdateCommand%2A> pendant la <xref:System.Data.Common.DbDataAdapter.Update%2A?displayProperty=nameWithType> pour déterminer si la valeur d’origine ou actuelle est utilisée pour une valeur de paramètre. Clés primaires vous permet de mettre à jour. Cette propriété est définie à la version de la <xref:System.Data.DataRow> utilisé par le <xref:System.Data.DataRow.Item%2A?displayProperty=nameWithType> propriété (<xref:System.Data.DataRow> indexeur), ou le <xref:System.Data.DataRow.GetChildRows%2A?displayProperty=nameWithType> méthode de la <xref:System.Data.DataRow> objet.  
+ Cette propriété est utilisée par le <xref:System.Data.OracleClient.OracleDataAdapter.UpdateCommand%2A> pendant la <xref:System.Data.Common.DbDataAdapter.Update%2A?displayProperty=nameWithType> pour déterminer si la valeur d’origine ou actuelle est utilisée pour une valeur de paramètre. Cela permet d’être mis à jour clés primaires. Cette propriété est définie à la version de la <xref:System.Data.DataRow> utilisé par le <xref:System.Data.DataRow.Item%2A?displayProperty=nameWithType> propriété (<xref:System.Data.DataRow> indexeur), ou le <xref:System.Data.DataRow.GetChildRows%2A?displayProperty=nameWithType> méthode de la <xref:System.Data.DataRow> objet.  
   
    
   
@@ -1031,6 +1072,8 @@ public void CreateOracleParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1060,6 +1103,8 @@ public void CreateOracleParameter()
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -1085,6 +1130,8 @@ public void CreateOracleParameter()
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Data.OracleClient</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
@@ -1107,15 +1154,15 @@ public void CreateOracleParameter()
 ## Remarks  
  Pour les paramètres d’entrée, la valeur est liée à la <xref:System.Data.OracleClient.OracleCommand> qui est envoyé au serveur. Pour les paramètres de valeur de retour et de sortie, la valeur est définie à la fin de la <xref:System.Data.OracleClient.OracleCommand> et après le <xref:System.Data.OracleClient.OracleDataReader> est fermé.  
   
- Pour un paramètre d’entrée, <xref:System.Data.OracleClient.OracleParameter.Value%2A> peut être définie à un objet d’un type de données Microsoft .NET Framework ou d’un type de données Oracle (par exemple, un <xref:System.Data.OracleClient.OracleNumber> ou <xref:System.Data.OracleClient.OracleString>).  
+ Pour un paramètre d’entrée, <xref:System.Data.OracleClient.OracleParameter.Value%2A> peut être définie sur un objet d’un type de données Microsoft .NET Framework ou un type de données Oracle (par exemple, un <xref:System.Data.OracleClient.OracleNumber> ou <xref:System.Data.OracleClient.OracleString>).  
   
- Lorsque vous envoyez une valeur de paramètre null au serveur, vous devez spécifier DBNull, et non null. Une valeur null dans le système est un objet vide qui n’a aucune valeur. DBNull est utilisé pour représenter des valeurs null.  
+ Lorsque vous envoyez une valeur de paramètre null au serveur, vous devez spécifier DBNull, et non null. Une valeur null dans le système est un objet vide qui n’a aucune valeur. DBNull est utilisé pour représenter les valeurs null.  
   
- Si l’application spécifie le type de base de données, la valeur liée est convertie en ce type lorsque le fournisseur envoie les données au serveur. Le fournisseur tente de convertir tout type de valeur s’il prend en charge la <xref:System.IConvertible> interface. Erreurs de conversion peuvent survenir si le type spécifié n’est pas compatible avec la valeur.  
+ Si l’application spécifie le type de base de données, la valeur liée est convertie en ce type lorsque le fournisseur envoie les données au serveur. Le fournisseur essaie de convertir tout type de valeur s’il prend en charge la <xref:System.IConvertible> interface. Erreurs de conversion peuvent survenir si le type spécifié n’est pas compatible avec la valeur.  
   
- Le <xref:System.Data.OracleClient.OracleParameter.DbType%2A>, <xref:System.Data.OracleClient.OracleParameter.OracleType%2A>, et <xref:System.Data.OracleClient.OracleParameter.Size%2A> propriétés d’un paramètre peuvent être déduites en définissant la valeur. Par conséquent, vous ne sont pas requis pour spécifier les. Toutefois, elles ne sont pas exposées dans <xref:System.Data.OracleClient.OracleParameter> les paramètres de propriété. Par exemple, si la taille du paramètre a été déduite, taille ne contient pas la valeur déduite après l’exécution d’instruction.  
+ Le <xref:System.Data.OracleClient.OracleParameter.DbType%2A>, <xref:System.Data.OracleClient.OracleParameter.OracleType%2A>, et <xref:System.Data.OracleClient.OracleParameter.Size%2A> propriétés d’un paramètre peuvent être déduites en définissant la valeur. Par conséquent, vous êtes êtes pas obligé de les spécifier. Toutefois, elles ne sont pas exposées dans <xref:System.Data.OracleClient.OracleParameter> paramètres de propriété. Par exemple, si la taille du paramètre a été déduite, taille ne contient pas la valeur déduite après l’exécution des instructions.  
   
- Le `InputOutput`, `Output`, et `ReturnValue` <xref:System.Data.ParameterDirection> valeurs utilisées par la propriété Value seront les types de données Microsoft .NET Framework, sauf si la valeur d’entrée est un type de données Oracle (par exemple, <xref:System.Data.OracleClient.OracleNumber> ou <xref:System.Data.OracleClient.OracleString>). Cela ne s’appliquent aux REF CURSOR, BFILE, ni les types de données LOB.  
+ Le `InputOutput`, `Output`, et `ReturnValue` <xref:System.Data.ParameterDirection> valeurs utilisées par la propriété Value seront les types de données Microsoft .NET Framework, à moins que la valeur d’entrée a un type de données Oracle (par exemple, <xref:System.Data.OracleClient.OracleNumber> ou <xref:System.Data.OracleClient.OracleString>). Cela ne s’appliquent aux REF CURSOR, BFILE, ni les types de données LOB.  
   
  Le <xref:System.Data.OracleClient.OracleParameter.Value%2A> propriété est remplacée par la **mise à jour** (méthode).  
   

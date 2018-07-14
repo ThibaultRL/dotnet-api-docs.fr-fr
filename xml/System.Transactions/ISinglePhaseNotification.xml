@@ -1,11 +1,11 @@
 <Type Name="ISinglePhaseNotification" FullName="System.Transactions.ISinglePhaseNotification">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="93e84c76de1b5f1e9f1ebae936445903569d5441" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="b68f852419e6c9edb29e501f50f7e935516381f0" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36605212" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37754377" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface ISinglePhaseNotification : System.Transactions.IEnlistmentNotification" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract ISinglePhaseNotification implements class System.Transactions.IEnlistmentNotification" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type ISinglePhaseNotification = interface&#xA;    interface IEnlistmentNotification" />
   <AssemblyInfo>
     <AssemblyName>System.Transactions</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -38,13 +39,13 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Notez que même lorsque votre gestionnaire de ressources implémente cette interface pour prendre en charge d’optimisation de la validation à phase unique, il n’est pas garanti qu’il reçoit une validation à phase unique. Le Gestionnaire de transactions peut toujours envoyer les notifications de la validation à deux phases à la place.  
+ Vous devez noter que même lorsque votre gestionnaire de ressources implémente cette interface pour prendre en charge d’optimisation de validation à phase unique, il n’est pas garanti qu’il reçoit une validation à phase unique. Le Gestionnaire de transactions peut toujours envoyer des notifications de validation à phase deux à la place.  
   
- Pour inscrire votre gestionnaire de ressources en tant que participant dans une transaction, appelez le <xref:System.Transactions.Transaction.EnlistVolatile%2A> méthode ou la <xref:System.Transactions.Transaction.EnlistDurable%2A> méthode de la <xref:System.Transactions.Transaction> classe. Plus précisément, le `EnlistmentOptions` doit être égal au paramètre <xref:System.Transactions.EnlistmentOptions.None> pour vous assurer qu’une seule phase validation est exécutée. Si elle est définie par erreur <xref:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired>, aucune unique phase de validation se produit.  
+ Pour inscrire votre gestionnaire de ressources en tant que participant dans une transaction, appelez le <xref:System.Transactions.Transaction.EnlistVolatile%2A> méthode ou le <xref:System.Transactions.Transaction.EnlistDurable%2A> méthode de la <xref:System.Transactions.Transaction> classe. Plus précisément, le `EnlistmentOptions` paramètre doit être égal à <xref:System.Transactions.EnlistmentOptions.None> pour vous assurer qu’une validation à phase unique est effectuée. Si elle est définie par inadvertance <xref:System.Transactions.EnlistmentOptions.EnlistDuringPrepareRequired>, aucune seule phase de validation se produit.  
   
- Étant donné que la <xref:System.Transactions.ISinglePhaseNotification> interface dérive le <xref:System.Transactions.IEnlistmentNotification> interface, le Gestionnaire de ressources doit également implémenter toutes les méthodes de ce dernier pour les notifications de validation à deux phases.  Il s’agit de choix du Gestionnaire de transactions que si deux phases de la validation ou l’optimisation de la validation à phase unique est utilisée avec ce gestionnaire de ressources.  Toutefois, qui implémente cette interface permet au Gestionnaire de ressources pour tirer parti de l’optimisation lorsqu’elle est disponible.  
+ Dans la mesure où le <xref:System.Transactions.ISinglePhaseNotification> interface dérive le <xref:System.Transactions.IEnlistmentNotification> interface, le Gestionnaire de ressources doit également implémenter toutes les méthodes de ce dernier pour les notifications de validation à deux phases.  Il s’agit des choix de gestionnaire de transactions quant à la validation si à deux phases ou l’optimisation de la validation en une seule phase est utilisée avec ce gestionnaire de ressources.  Toutefois, qui implémente cette interface permet le Gestionnaire de ressources pour tirer parti de l’optimisation lorsqu’il est disponible.  
   
- Si l’optimisation est utilisée et que le Gestionnaire de transactions appelle la <xref:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit%2A> méthode de la ressource inscrite, le Gestionnaire de ressources doit répondre à cet appel en utilisant différentes méthodes de la <xref:System.Transactions.SinglePhaseEnlistment> classe pour informer le Gestionnaire de transactions si le transaction doit être validée ou restaurée.  
+ Si l’optimisation est utilisée et que le Gestionnaire de transactions appelle la <xref:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit%2A> méthode de la ressource inscrite, le Gestionnaire de ressources doit répondre à cet appel à l’aide de diverses méthodes de la <xref:System.Transactions.SinglePhaseEnlistment> classe pour informer le Gestionnaire de transactions si le transaction doit être validée ou restaurée.  
   
  ]]></format>
     </remarks>
@@ -52,19 +53,20 @@
   </Docs>
   <Members>
     <Member MemberName="SinglePhaseCommit">
-      <MemberSignature Language="C#" Value="public void SinglePhaseCommit (System.Transactions.SinglePhaseEnlistment singlePhaseEnlistment);" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2" />
-      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SinglePhaseCommit(class System.Transactions.SinglePhaseEnlistment singlePhaseEnlistment) cil managed" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2" />
-      <MemberSignature Language="DocId" Value="M:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit(System.Transactions.SinglePhaseEnlistment)" FrameworkAlternate="netcore-2.0;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
-      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SinglePhaseCommit(System::Transactions::SinglePhaseEnlistment ^ singlePhaseEnlistment);" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2" />
+      <MemberSignature Language="C#" Value="public void SinglePhaseCommit (System.Transactions.SinglePhaseEnlistment singlePhaseEnlistment);" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SinglePhaseCommit(class System.Transactions.SinglePhaseEnlistment singlePhaseEnlistment) cil managed" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit(System.Transactions.SinglePhaseEnlistment)" FrameworkAlternate="netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7.1;netstandard-2.0" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; void SinglePhaseCommit(System::Transactions::SinglePhaseEnlistment ^ singlePhaseEnlistment);" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0" />
       <MemberSignature Language="C#" Value="public void SinglePhaseCommit (System.Transactions.SinglePhaseEnlistment enlistment);" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       <MemberSignature Language="ILAsm" Value=".method public hidebysig newslot virtual instance void SinglePhaseCommit(class System.Transactions.SinglePhaseEnlistment enlistment) cil managed" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
-      <MemberSignature Language="DocId" Value="M:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit(System.Transactions.SinglePhaseEnlistment)" FrameworkAlternate="netframework-4.7;netcore-2.1;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7.1;netstandard-2.0" />
+      <MemberSignature Language="DocId" Value="M:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit(System.Transactions.SinglePhaseEnlistment)" FrameworkAlternate="netframework-4.7;netcore-2.0;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       <MemberSignature Language="VB.NET" Value="Public Sub SinglePhaseCommit (enlistment As SinglePhaseEnlistment)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void SinglePhaseCommit(System::Transactions::SinglePhaseEnlistment ^ enlistment);" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       <MemberSignature Language="F#" Value="abstract member SinglePhaseCommit : System.Transactions.SinglePhaseEnlistment -&gt; unit" Usage="iSinglePhaseNotification.SinglePhaseCommit enlistment" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -81,7 +83,7 @@
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="singlePhaseEnlistment" Type="System.Transactions.SinglePhaseEnlistment" Index="0" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2" />
+        <Parameter Name="singlePhaseEnlistment" Type="System.Transactions.SinglePhaseEnlistment" Index="0" FrameworkAlternate="netcore-2.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netstandard-2.0;netcore-2.1;netframework-4.7.2;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0" />
         <Parameter Name="enlistment" Type="System.Transactions.SinglePhaseEnlistment" Index="0" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
@@ -92,13 +94,13 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il s’agit de choix du Gestionnaire de transactions que si deux phases de la validation ou l’optimisation de la validation à phase unique est utilisée avec ce gestionnaire de ressources.  Pour plus d’informations sur la phase unique et la validation à deux phases, consultez [valider une Transaction dans en une seule phase et à plusieurs phases](http://msdn.microsoft.com/library/74b3cfe1-d33a-45b8-91f4-dfd6f6598c4d).  
+ Il s’agit des choix de gestionnaire de transactions quant à la validation si à deux phases ou l’optimisation de la validation en une seule phase est utilisée avec ce gestionnaire de ressources.  Pour plus d’informations sur la phase unique et la validation à deux phases, consultez [valider une Transaction dans une phase unique et en plusieurs phases](http://msdn.microsoft.com/library/74b3cfe1-d33a-45b8-91f4-dfd6f6598c4d).  
   
- Par conséquent, sur cette inscription du Gestionnaire de ressources, soit le <xref:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit%2A> méthode est appelée, ou les deux méthodes de validation définies dans r de phase <xref:System.Transactions.IEnlistmentNotification> interface sont appelées.  
+ Par conséquent, sur cette inscription du Gestionnaire de ressources, soit le <xref:System.Transactions.ISinglePhaseNotification.SinglePhaseCommit%2A> méthode est appelée, ou les deux méthodes de validation définies dans exis la phase <xref:System.Transactions.IEnlistmentNotification> interface sont appelées.  
   
- Votre implémentation de cette méthode doit appeler le <xref:System.Transactions.SinglePhaseEnlistment.Committed%2A> méthode ou le <xref:System.Transactions.SinglePhaseEnlistment.Aborted%2A> méthode de la `singlePhaseEnlistment` pour indiquer si la transaction doit être validée ou restaurée.  
+ Votre implémentation de cette méthode doit appeler la <xref:System.Transactions.SinglePhaseEnlistment.Committed%2A> méthode ou le <xref:System.Transactions.SinglePhaseEnlistment.Aborted%2A> méthode de le `singlePhaseEnlistment` paramètre pour indiquer si la transaction doit être validée ou restaurée.  
   
- Le Gestionnaire de transactions appelle cette méthode lorsqu’il y a qu’une seule inscription volatile qui prend en charge la validation à phase unique, ou lorsqu’il existe zéro ou plusieurs inscriptions volatiles et une inscription durable. Dans ce cas, les inscriptions volatiles reçoivent <xref:System.Transactions.IEnlistmentNotification.Prepare%2A> des notifications pour la validation à deux phases et la seule inscription durable reçoit une notification de validation à phase unique.  
+ Le Gestionnaire de transactions appelle cette méthode lorsqu’il n'existe qu’une seule inscription volatile qui prend en charge la validation à phase unique, ou lorsqu’il y a zéro ou plusieurs inscriptions volatiles et une inscription durable. Dans ce cas, les inscriptions volatiles reçoivent <xref:System.Transactions.IEnlistmentNotification.Prepare%2A> notifications de validation à deux phases et la seule inscription durable reçoit une notification de validation à phase unique.  
   
  ]]></format>
         </remarks>
