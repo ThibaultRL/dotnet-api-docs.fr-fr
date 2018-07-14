@@ -1,11 +1,11 @@
 <Type Name="DependentTransaction" FullName="System.Transactions.DependentTransaction">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="14e78653203d9978eb1016724756f6e0d100a474" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="261b044e57a09e9c2b56f362f048e533fe2f8684" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36605355" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37548352" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class DependentTransaction : System.Transactions.Transaction, System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed beforefieldinit DependentTransaction extends System.Transactions.Transaction implements class System.Runtime.Serialization.ISerializable" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type DependentTransaction = class&#xA;    inherit Transaction&#xA;    interface ISerializable" />
   <AssemblyInfo>
     <AssemblyName>System.Transactions</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -43,9 +44,9 @@
 ## Remarks  
  Le <xref:System.Transactions.DependentTransaction> est un clone d’un <xref:System.Transactions.Transaction> objet créé à l’aide de la <xref:System.Transactions.Transaction.DependentClone%2A> (méthode).  Son seul but est d’autoriser l’application à passer au repos et de garantir que la transaction ne peut pas être validée alors que le travail est toujours effectué sur la transaction (par exemple, sur un thread de travail).  
   
- Lorsque le travail effectué dans la transaction clonée est enfin terminé et prêt à être validée, elle peut informer le créateur de la transaction à l’aide de la <xref:System.Transactions.DependentTransaction.Complete%2A> (méthode). Vous pouvez donc conserver la cohérence et l’exactitude des données.  
+ Lorsque le travail effectué dans la transaction clonée est enfin terminé et prêt à être validée, il peut informer le créateur de la transaction en utilisant le <xref:System.Transactions.DependentTransaction.Complete%2A> (méthode). Vous pouvez donc conserver la cohérence et l’exactitude des données.  
   
- Le <xref:System.Transactions.DependentCloneOption> énumération est utilisée pour déterminer le comportement lors de la validation.  Ce contrôle de comportement permet à une application à passer au repos et fournit la prise en charge d’accès concurrentiel. Pour plus d’informations sur la façon dont cette énumération est utilisée, consultez [Managing Concurrency with DependentTransaction](http://msdn.microsoft.com/library/bdad8468-2a90-4b81-8375-278067120cab).  
+ Le <xref:System.Transactions.DependentCloneOption> énumération est utilisée pour déterminer le comportement lors de la validation.  Ce contrôle de comportement permet à une application de passer au repos, et fournit la prise en charge de l’accès concurrentiel. Pour plus d’informations sur l’utilisation de cette énumération, consultez [la gestion des accès concurrentiel avec DependentTransaction](http://msdn.microsoft.com/library/bdad8468-2a90-4b81-8375-278067120cab).  
   
    
   
@@ -70,6 +71,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Transactions</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -94,9 +96,9 @@
 ## Remarks  
  Appelez cette méthode lorsque le clone dépendant souhaite informer le créateur de la transaction qu’il a fini son travail, et la transaction peut être validée si le parent est également prêt.  
   
- Après que cet appel est effectué, vous ne devez pas essayer aucun travail supplémentaire sur la transaction, ou une exception est levée.  
+ Une fois que cet appel est effectué, vous ne devez pas essayer aucun travail supplémentaire de la transaction, ou une exception est levée.  
   
- Si le domaine d’application s’arrête une fois que cette méthode est appelée et avant la fin de la transaction, la transaction peut être abandonnée.  
+ Si le domaine d’application tombe en panne, une fois que cette méthode est appelée et avant la fin de la transaction, la transaction peut être abandonnée.  
   
  **Remarque** cette méthode doit être appelée qu’une seule fois pendant la durée de vie de la transaction dépendante.  
   
