@@ -1,19 +1,21 @@
 <Type Name="DataLoadOptions" FullName="System.Data.Linq.DataLoadOptions">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="96d0a9b25df23c8e50f076be3f0b33ceaf0820c2" />
-    <Meta Name="ms.sourcegitcommit" Value="d31dc2ede16f6f7bc64e90d9f897ff54c4e3869b" />
+    <Meta Name="ms.openlocfilehash" Value="4d7a1641f923121f7dc6f5ac9f8bc574e9cf05e1" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="04/03/2018" />
-    <Meta Name="ms.locfileid" Value="30389693" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37680934" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class DataLoadOptions" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit DataLoadOptions extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Data.Linq.DataLoadOptions" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class DataLoadOptions" />
   <TypeSignature Language="C++ CLI" Value="public ref class DataLoadOptions sealed" />
+  <TypeSignature Language="F#" Value="type DataLoadOptions = class" />
   <AssemblyInfo>
     <AssemblyName>System.Data.Linq</AssemblyName>
+    <AssemblyVersion>3.5.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -21,7 +23,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>Permet le chargement immédiat et le filtrage de données connexes.</summary>
+    <summary>Provides for immediate loading and filtering of related data.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
@@ -30,14 +32,14 @@
 ## <a name="general"></a>Général  
  Lorsque vous recherchez un objet, vous récupérez en réalité uniquement l'objet que vous avez demandé. Le *connexes* objets ne sont pas automatiquement extraits en même temps. (Pour plus d’informations, consultez [interrogation de relations](~/docs/framework/data/adonet/sql/linq/querying-across-relationships.md).)  
   
- La <xref:System.Data.Linq.DataLoadOptions> classe fournit deux méthodes pour effectuer le chargement immédiat de données connexes spécifiées. Le <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> méthode permet le chargement immédiat de données associées à la cible principale. Le <xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A> méthode permet le filtrage d’objets connexes.  
+ Le <xref:System.Data.Linq.DataLoadOptions> classe fournit deux méthodes pour effectuer le chargement immédiat de données connexes spécifiées. Le <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> méthode permet le chargement immédiat des données associées à la cible principale. Le <xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A> méthode permet le filtrage d’objets connexes.  
   
 ## <a name="rules"></a>Règles  
- Les règles suivantes s’appliquent concernant <xref:System.Data.Linq.DataLoadOptions> utilisation :  
+ Notez les règles suivantes concernant <xref:System.Data.Linq.DataLoadOptions> utilisation :  
   
 -   Affectation d’un <xref:System.Data.Linq.DataLoadOptions> à un <xref:System.Data.Linq.DataContext> après l’exécution de la première requête génère une exception.  
   
--   Modifier un <xref:System.Data.Linq.DataLoadOptions> une fois qu’il a été affecté à un <xref:System.Data.Linq.DataContext> génère une exception  
+-   Modifier un <xref:System.Data.Linq.DataLoadOptions> après lui ait été assignée à un <xref:System.Data.Linq.DataContext> génère une exception  
   
 ## <a name="cycle-handling"></a>Gestion de cycle  
  <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> et <xref:System.Data.Linq.DataLoadOptions.AssociateWith%2A> directives ne doivent pas créer de cycles. Les éléments suivants représentent des exemples de tels graphiques :  
@@ -52,9 +54,9 @@
   
     -   `dlo.LoadWith <Order>(o => o.Customer);`  
   
--   Exemple 3 : Les cycles plus  
+-   Exemple 3 : Des cycles plus de temps  
   
-     Bien que cela ne doit pas se produire dans un modèle bien normalisé, il est possible.  
+     Bien que cela ne doit pas avoir lieu dans un modèle bien normalisé, il est possible.  
   
     -   `dlo.LoadWith <A>(a => a.Bs);`  
   
@@ -72,13 +74,13 @@
   
     -   `dlo.AssociateWith<B>(b=>b.As.Where(a=>a.Id==3));`  
   
- Voici quelques règles générales pour vous aider à comprennent ce qui se produit dans ces scénarios.  
+ Voici quelques règles générales qui vous aident à comprennent ce qui se produit dans ces scénarios.  
   
- **LoadWith** chaque appel à <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> vérifie si des cycles ont été introduits dans le graphique. S’il existe, comme dans les exemples 1, 2 et 3, une exception est levée.  
+ **LoadWith** chaque appel à <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> vérifie si les cycles ont été introduits dans le graphique. S’il existe, comme dans les exemples 1, 2 et 3, une exception est levée.  
   
  **AssociateWith** moteur au moment de l’exécution ne s’applique pas les clauses de sous-requête existantes à la relation à l’intérieur de l’expression.  
   
--   Dans l’exemple 4, le `Where` clause est exécutée sur tous les `A`, pas seulement ceux inférieur filtré par l’expression de sous-requête elle-même (parce que cela serait récursif)  
+-   Dans l’exemple 4, le `Where` clause est exécutée sur toutes les `A`, pas seulement ceux sous-composant filtrés par l’expression de sous-requête elle-même (parce que cela serait récursif)  
   
 -   Dans l’exemple 5, la première `Where` clause est appliquée à tous les `B`s, bien qu’il existe des sous-requêtes sur `B`. La seconde `Where` clause est appliquée à tous les `A`bien qu’il existe des sous-requêtes sur `A`.  
   
@@ -100,11 +102,12 @@
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.Linq</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>Initialise une nouvelle instance de la classe <see cref="T:System.Data.Linq.DataLoadOptions" />.</summary>
+        <summary>Initializes a new instance of the <see cref="T:System.Data.Linq.DataLoadOptions" /> class.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -114,9 +117,11 @@
       <MemberSignature Language="DocId" Value="M:System.Data.Linq.DataLoadOptions.AssociateWith(System.Linq.Expressions.LambdaExpression)" />
       <MemberSignature Language="VB.NET" Value="Public Sub AssociateWith (expression As LambdaExpression)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void AssociateWith(System::Linq::Expressions::LambdaExpression ^ expression);" />
+      <MemberSignature Language="F#" Value="member this.AssociateWith : System.Linq.Expressions.LambdaExpression -&gt; unit" Usage="dataLoadOptions.AssociateWith expression" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.Linq</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -126,24 +131,8 @@
         <Parameter Name="expression" Type="System.Linq.Expressions.LambdaExpression" />
       </Parameters>
       <Docs>
-        <param name="expression">Identifie la requête à utiliser sur une propriété ou un champ particulier un-à-plusieurs. Notez les points suivants :  
-  
- Si l'expression ne commence pas par un champ ou une propriété qui représente une relation un-à-plusieurs, une exception est levée.  
-  
- Si un opérateur autre qu'un opérateur valide apparaît dans l'expression, une exception est levée. Les opérateurs valides sont les suivants :  
-  
- Où  
-  
- OrderBy  
-  
- ThenBy  
-  
- OrderByDescending  
-  
- ThenByDescending  
-  
- Take</param>
-        <summary>Filtre les objets récupérés pour une relation particulière.</summary>
+        <param name="expression">Identifies the query to be used on a particular one-to-many field or property. Note the following:  If the expression does not start with a field or property that represents a one-to-many relationship, an exception is thrown.  If an operator other than a valid operator appears in the expression, an exception is thrown. Valid operators are as follows:  Where  OrderBy  ThenBy  OrderByDescending  ThenByDescending  Take</param>
+        <summary>Filters the objects retrieved for a particular relationship.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -166,9 +155,11 @@
       <MemberSignature Language="DocId" Value="M:System.Data.Linq.DataLoadOptions.AssociateWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})" />
       <MemberSignature Language="VB.NET" Value="Public Sub AssociateWith(Of T) (expression As Expression(Of Func(Of T, Object)))" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename T&gt;&#xA; void AssociateWith(System::Linq::Expressions::Expression&lt;Func&lt;T, System::Object ^&gt; ^&gt; ^ expression);" />
+      <MemberSignature Language="F#" Value="member this.AssociateWith : System.Linq.Expressions.Expression&lt;Func&lt;'T, obj&gt;&gt; -&gt; unit" Usage="dataLoadOptions.AssociateWith expression" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.Linq</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -181,27 +172,9 @@
         <Parameter Name="expression" Type="System.Linq.Expressions.Expression&lt;System.Func&lt;T,System.Object&gt;&gt;" />
       </Parameters>
       <Docs>
-        <typeparam name="T">Type sur lequel est envoyée la requête.  
-  
- Si le type est non mappé, une exception est levée.</typeparam>
-        <param name="expression">Identifie la requête à utiliser sur une propriété ou un champ particulier un-à-plusieurs. Notez les points suivants :  
-  
- Si l'expression ne commence pas par un champ ou une propriété qui représente une relation un-à-plusieurs, une exception est levée.  
-  
- Si un opérateur autre qu'un opérateur valide apparaît dans l'expression, une exception est levée. Les opérateurs valides sont les suivants :  
-  
- Où  
-  
- OrderBy  
-  
- ThenBy  
-  
- OrderByDescending  
-  
- ThenByDescending  
-  
- Take</param>
-        <summary>Filtre des objets récupérés pour une relation particulière.</summary>
+        <typeparam name="T">Type qui est interrogé.  Si le type est non mappé, une exception est levée.</typeparam>
+        <param name="expression">Identifies the query to be used on a particular one-to-many field or property. Note the following:  If the expression does not start with a field or property that represents a one-to-many relationship, an exception is thrown.  If an operator other than a valid operator appears in the expression, an exception is thrown. Valid operators are as follows:  Where  OrderBy  ThenBy  OrderByDescending  ThenByDescending  Take</param>
+        <summary>Filters objects retrieved for a particular relationship.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -225,6 +198,7 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool GetAssociationCriteria(class System.Reflection.MemberInfo memberInfo, [out] class System.Linq.Expressions.LambdaExpression&amp; associationCriteria) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Data.Linq.DataLoadOptions.GetAssociationCriteria(System.Reflection.MemberInfo,System.Linq.Expressions.LambdaExpression@)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool GetAssociationCriteria(System::Reflection::MemberInfo ^ memberInfo, [Runtime::InteropServices::Out] System::Linq::Expressions::LambdaExpression ^ % associationCriteria);" />
+      <MemberSignature Language="F#" Value="member this.GetAssociationCriteria : System.Reflection.MemberInfo *  -&gt; bool" Usage="dataLoadOptions.GetAssociationCriteria (memberInfo, associationCriteria)" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.Linq</AssemblyName>
@@ -250,6 +224,7 @@
       <MemberSignature Language="ILAsm" Value=".method public hidebysig instance bool IsImmediate(class System.Reflection.MemberInfo memberInfo) cil managed" />
       <MemberSignature Language="DocId" Value="M:System.Data.Linq.DataLoadOptions.IsImmediate(System.Reflection.MemberInfo)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; bool IsImmediate(System::Reflection::MemberInfo ^ memberInfo);" />
+      <MemberSignature Language="F#" Value="member this.IsImmediate : System.Reflection.MemberInfo -&gt; bool" Usage="dataLoadOptions.IsImmediate memberInfo" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.Linq</AssemblyName>
@@ -274,9 +249,11 @@
       <MemberSignature Language="DocId" Value="M:System.Data.Linq.DataLoadOptions.LoadWith(System.Linq.Expressions.LambdaExpression)" />
       <MemberSignature Language="VB.NET" Value="Public Sub LoadWith (expression As LambdaExpression)" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; void LoadWith(System::Linq::Expressions::LambdaExpression ^ expression);" />
+      <MemberSignature Language="F#" Value="member this.LoadWith : System.Linq.Expressions.LambdaExpression -&gt; unit" Usage="dataLoadOptions.LoadWith expression" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.Linq</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -286,8 +263,8 @@
         <Parameter Name="expression" Type="System.Linq.Expressions.LambdaExpression" />
       </Parameters>
       <Docs>
-        <param name="expression">Expression lambda identifiant les éléments associés.</param>
-        <summary>Récupère des données spécifiées associées à la cible principale à l'aide d'une expression lambda.</summary>
+        <param name="expression">A lambda expression that identifies the related material.</param>
+        <summary>Retrieves specified data related to the main target by using a lambda expression.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -310,9 +287,11 @@
       <MemberSignature Language="DocId" Value="M:System.Data.Linq.DataLoadOptions.LoadWith``1(System.Linq.Expressions.Expression{System.Func{``0,System.Object}})" />
       <MemberSignature Language="VB.NET" Value="Public Sub LoadWith(Of T) (expression As Expression(Of Func(Of T, Object)))" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA;generic &lt;typename T&gt;&#xA; void LoadWith(System::Linq::Expressions::Expression&lt;Func&lt;T, System::Object ^&gt; ^&gt; ^ expression);" />
+      <MemberSignature Language="F#" Value="member this.LoadWith : System.Linq.Expressions.Expression&lt;Func&lt;'T, obj&gt;&gt; -&gt; unit" Usage="dataLoadOptions.LoadWith expression" />
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System.Data.Linq</AssemblyName>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -325,18 +304,14 @@
         <Parameter Name="expression" Type="System.Linq.Expressions.Expression&lt;System.Func&lt;T,System.Object&gt;&gt;" />
       </Parameters>
       <Docs>
-        <typeparam name="T">Type sur lequel est envoyée la requête.  
-  
- Si ce type est non mappé, une exception est levée.</typeparam>
-        <param name="expression">Identifie le champ ou la propriété à récupérer.  
-  
- Si l'expression n'identifie pas un champ ou une propriété qui représente une relation un-à-un ou un-à-plusieurs, une exception est levée.</param>
-        <summary>Spécifie quels sont les sous-objets à récupérer lorsqu'une requête est soumise pour un objet de type T.</summary>
+        <typeparam name="T">Type qui est interrogée.  Si ce type est non mappé, une exception est levée.</typeparam>
+        <param name="expression">Identifies the field or property to be retrieved.  If the expression does not identify a field or property that represents a one-to-one or one-to-many relationship, an exception is thrown.</param>
+        <summary>Specifies which sub-objects to retrieve when a query is submitted for an object of type T.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Vous ne pouvez pas spécifier le chargement de deux niveaux de relations (par exemple, `Orders.OrderDetails`). Dans ces scénarios, vous devez spécifier deux <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> méthodes.  
+ Vous ne pouvez pas spécifier le chargement de deux niveaux de relations (par exemple, `Orders.OrderDetails`). Dans ces scénarios, vous devez spécifier deux distinct <xref:System.Data.Linq.DataLoadOptions.LoadWith%2A> méthodes.  
   
  Pour éviter les cycles, consultez la section Notes section <xref:System.Data.Linq.DataLoadOptions>.  
   
