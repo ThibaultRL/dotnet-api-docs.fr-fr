@@ -1,11 +1,11 @@
 <Type Name="TraceSource" FullName="System.Diagnostics.TraceSource">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="fab066643666c5a5bea1336ceae217a86b35cc34" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="be6d38fbcadfe3867a44a1d2e2b7b1979abf071e" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36674225" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37662755" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class TraceSource" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit TraceSource extends System.Object" />
@@ -21,6 +21,7 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>System</AssemblyName>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -38,7 +39,7 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La classe <xref:System.Diagnostics.TraceSource> est utilisée par les applications pour produire des traces qui peuvent être associées à l'application. <xref:System.Diagnostics.TraceSource> fournit des méthodes de traçage qui vous permettent de tracer facilement des événements et des données, ainsi que de fournir des traces d'information. Sortie de trace <xref:System.Diagnostics.TraceSource> peut être contrôlée par le fichier de configuration. Le fichier de configuration se trouve dans le dossier de l’exécutable d’application et possède le nom de l’application avec l’extension de nom de fichier .config ajoutée. Par exemple, le nom du fichier de configuration pour TraceSourceSample.exe est TraceSourceSample.exe.config. Le fichier de configuration peut être utilisé pour déterminer où les informations de trace désignant être envoyée et quels niveaux d’activité doivent être suivis. L’exemple suivant montre le contenu d’un fichier de configuration d’application exemple.  
+ La classe <xref:System.Diagnostics.TraceSource> est utilisée par les applications pour produire des traces qui peuvent être associées à l'application. <xref:System.Diagnostics.TraceSource> fournit des méthodes de traçage qui vous permettent de tracer facilement des événements et des données, ainsi que de fournir des traces d'information. Sortie de trace <xref:System.Diagnostics.TraceSource> peut être contrôlé par les paramètres de fichier de configuration. Le fichier de configuration se trouve dans le dossier avec l’application exécutable et porte le nom de l’application avec l’extension de nom de fichier .config ajoutée. Par exemple, le nom du fichier de configuration pour TraceSourceSample.exe est TraceSourceSample.exe.config. Le fichier de configuration peut être utilisé pour déterminer où les informations de trace désignant être envoyée et quelles sont les niveaux d’activité à tracer. L’exemple suivant montre le contenu d’un fichier de configuration d’application exemple.  
   
 ```xml  
 <configuration>  
@@ -72,28 +73,28 @@
 </configuration>  
 ```  
   
- La <xref:System.Diagnostics.TraceSource> classe est identifié par le nom d’une source, en général le nom de l’application.  Les messages de trace provenant d’un composant particulier peuvent être initiés par une source de trace particulière, ce qui permet de tous les messages en provenance de ce composant soient facilement identifiables.  
+ Le <xref:System.Diagnostics.TraceSource> classe est identifiée par le nom d’une source, en général le nom de l’application.  Les messages de trace provenant d’un composant particulier peuvent être initiés par une source de suivi particulier, ce qui permet de tous les messages en provenance de ce composant être facilement identifié.  
   
- <xref:System.Diagnostics.TraceSource> définit les méthodes de traçage, mais ne fournit pas réellement de mécanisme spécifique pour la création et le stockage des données de suivi. Les données de suivi sont générées par les écouteurs de suivi, qui sont des plug-ins qui peut être chargées par les sources de trace.  
-  
-> [!NOTE]
->  Vous ne devez pas appeler les méthodes de traçage pendant la finalisation. Cela peut entraîner une <xref:System.ObjectDisposedException> levée.  
-  
- Vous pouvez personnaliser la cible de la sortie du traçage en ajoutant ou supprimant <xref:System.Diagnostics.TraceListener> instances vers ou à partir de la collection stockée dans le <xref:System.Diagnostics.TraceSource.Listeners%2A?displayProperty=nameWithType> propriété. Par défaut, le résultat de trace est généré à l’aide d’une instance de la <xref:System.Diagnostics.DefaultTraceListener> classe. L’exemple de fichier de configuration précédent illustre la suppression du <xref:System.Diagnostics.DefaultTraceListener> et en ajoutant un <xref:System.Diagnostics.ConsoleTraceListener> pour produire la sortie de trace pour la source de trace. Pour plus d’informations, consultez [ &lt;écouteurs&gt; ](~/docs/framework/configure-apps/file-schema/trace-debug/listeners-element-for-source.md) et [ &lt;sharedListeners&gt;](~/docs/framework/configure-apps/file-schema/trace-debug/sharedlisteners-element.md).  
+ <xref:System.Diagnostics.TraceSource> définit les méthodes de traçage, mais ne fournit pas réellement de n’importe quel mécanisme spécifique pour générer et de stocker les données de suivi. Les données de suivi sont générées par les écouteurs de trace, qui sont des plug-ins qui peuvent être chargées par les sources de trace.  
   
 > [!NOTE]
->  Ajout d’un écouteur de trace à le <xref:System.Diagnostics.TraceSource.Listeners%2A> collection peut provoquer une exception levée lors du traçage, si une ressource utilisée par l’écouteur de suivi n’est pas disponible. Les conditions et l’exception levée dépendent de l’écouteur de suivi et ne peut pas être énumérés dans cette rubrique. Il peut être utile de placer des appels à la <xref:System.Diagnostics.TraceSource> méthodes dans `try` / `catch` blocs pour détecter et gérer toutes les exceptions dans les écouteurs de la trace.  
+>  Vous ne devez pas appeler les méthodes de traçage lors de la finalisation. Cela peut entraîner un <xref:System.ObjectDisposedException> levée.  
   
- La <xref:System.Diagnostics.SourceSwitch> classe fournit les moyens permettant de contrôler de manière dynamique la sortie de traçage. L’exemple de fichier de configuration précédent montre comment vous pouvez désactiver le suivi à partir d’une source de suivi et le contrôle le niveau où le traçage se produit.  Vous pouvez modifier la valeur du commutateur source sans avoir à recompiler votre application. Pour plus d’informations sur l’utilisation du fichier de configuration pour définir un commutateur, consultez <xref:System.Diagnostics.Switch> et [Comment : créer, initialiser et configurer des commutateurs de Trace](~/docs/framework/debug-trace-profile/how-to-create-initialize-and-configure-trace-switches.md).  
+ Vous pouvez personnaliser la cible de la sortie du traçage en ajoutant ou supprimant <xref:System.Diagnostics.TraceListener> instances vers ou à partir de la collection stockée dans le <xref:System.Diagnostics.TraceSource.Listeners%2A?displayProperty=nameWithType> propriété. Par défaut, le résultat du suivi est généré à l’aide d’une instance de la <xref:System.Diagnostics.DefaultTraceListener> classe. L’exemple de fichier de configuration précédent illustre la suppression du <xref:System.Diagnostics.DefaultTraceListener> et en ajoutant un <xref:System.Diagnostics.ConsoleTraceListener> pour produire la sortie de trace pour la source de suivi. Pour plus d’informations, consultez [ &lt;écouteurs&gt; ](~/docs/framework/configure-apps/file-schema/trace-debug/listeners-element-for-source.md) et [ &lt;sharedListeners&gt;](~/docs/framework/configure-apps/file-schema/trace-debug/sharedlisteners-element.md).  
   
 > [!NOTE]
->  Si vous modifiez un fichier de configuration pendant l’exécution d’une application, l’application doit être arrêtée et redémarrée ou la <xref:System.Diagnostics.Trace.Refresh%2A> méthode doit être appelée avant que les nouveaux paramètres prennent effet.  
+>  Ajout d’un écouteur de trace à le <xref:System.Diagnostics.TraceSource.Listeners%2A> collection peut provoquer une exception levée lors du traçage, si une ressource utilisée par l’écouteur de suivi n’est pas disponible. Les conditions et l’exception levée dépendent de l’écouteur de suivi et ne peut pas être énumérés dans cette rubrique. Il peut être utile placer des appels à la <xref:System.Diagnostics.TraceSource> méthodes dans `try` / `catch` blocs pour détecter et gérer toutes les exceptions à partir des écouteurs de suivi.  
   
- Le <xref:System.Diagnostics.TraceEventType> énumération est utilisée pour définir le type d’événement du message de trace. Filtres de trace utilisent le <xref:System.Diagnostics.TraceEventType> pour déterminer si un écouteur de la trace doit produire le message de trace.  
+ Le <xref:System.Diagnostics.SourceSwitch> classe fournit les moyens de contrôler de manière dynamique la sortie de traçage. L’exemple de fichier de configuration précédent montre comment vous pouvez désactiver le suivi à partir d’une source de suivi et le contrôle le niveau où le traçage se produit.  Vous pouvez modifier la valeur du commutateur source sans recompiler votre application. Pour plus d’informations sur l’utilisation du fichier de configuration pour définir un commutateur, consultez <xref:System.Diagnostics.Switch> et [Comment : créer, initialiser et configurer des commutateurs de Trace](~/docs/framework/debug-trace-profile/how-to-create-initialize-and-configure-trace-switches.md).  
   
- Les écouteurs de suivi peuvent éventuellement avoir une couche supplémentaire de filtrage via un filtre de trace.  Si un écouteur de trace possède un filtre associé, l’écouteur appelle la <xref:System.Diagnostics.TraceFilter.ShouldTrace%2A> méthode sur ce filtre pour déterminer ou non générer les informations de trace.  
+> [!NOTE]
+>  Si vous modifiez un fichier de configuration pendant l’exécution d’une application, l’application doit être arrêtée et redémarrée ou le <xref:System.Diagnostics.Trace.Refresh%2A> méthode doit être appelée avant que les nouveaux paramètres prennent effet.  
   
- Écouteurs de la trace utilisent les valeurs de la <xref:System.Diagnostics.Trace> propriétés de classe <xref:System.Diagnostics.Trace.Indent%2A>, <xref:System.Diagnostics.Trace.IndentSize%2A>, et <xref:System.Diagnostics.Trace.AutoFlush%2A> au format de sortie de trace. Vous pouvez utiliser les attributs de fichier de configuration pour définir le <xref:System.Diagnostics.Trace.Indent%2A>, <xref:System.Diagnostics.Trace.IndentSize%2A>, et <xref:System.Diagnostics.Trace.AutoFlush%2A> propriétés. L’exemple suivant définit la <xref:System.Diagnostics.Trace.AutoFlush%2A> propriété `false` et <xref:System.Diagnostics.Trace.IndentSize%2A> 3 à la propriété.  
+ Le <xref:System.Diagnostics.TraceEventType> énumération est utilisée pour définir le type d’événement du message de trace. Filtres de trace utilisent le <xref:System.Diagnostics.TraceEventType> pour déterminer si un écouteur de suivi doit produire le message de suivi.  
+  
+ Les écouteurs de suivi peuvent éventuellement avoir une couche supplémentaire de filtrage via un filtre de trace.  Si un écouteur de trace possède un filtre associé, l’écouteur appelle le <xref:System.Diagnostics.TraceFilter.ShouldTrace%2A> méthode sur ce filtre pour déterminer s’il faut générer les informations de trace.  
+  
+ Les écouteurs de trace utilisent les valeurs de la <xref:System.Diagnostics.Trace> propriétés de classe <xref:System.Diagnostics.Trace.Indent%2A>, <xref:System.Diagnostics.Trace.IndentSize%2A>, et <xref:System.Diagnostics.Trace.AutoFlush%2A> au format de sortie de trace. Vous pouvez utiliser les attributs de fichier de configuration pour définir le <xref:System.Diagnostics.Trace.Indent%2A>, <xref:System.Diagnostics.Trace.IndentSize%2A>, et <xref:System.Diagnostics.Trace.AutoFlush%2A> propriétés. L’exemple suivant définit la <xref:System.Diagnostics.Trace.AutoFlush%2A> propriété `false` et <xref:System.Diagnostics.Trace.IndentSize%2A> 3 à la propriété.  
   
 ```  
 <configuration>  
@@ -143,6 +144,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -160,10 +162,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le nom de la source est utilisé pour identifier des traces. Il est utilisé par un <xref:System.Diagnostics.SourceFilter> pour déterminer si un écouteur de la trace doit produire la trace. La pratique recommandée consiste à utiliser le nom de l’application pour le nom de la source.  
+ Le nom de source est utilisé pour identifier des traces. Il est utilisé par un <xref:System.Diagnostics.SourceFilter> pour déterminer si un écouteur de suivi doit produire la trace. La pratique recommandée consiste à utiliser le nom de l’application pour le nom de la source.  
   
 > [!NOTE]
->  Il n’est pas nécessaire de créer un nouveau <xref:System.Diagnostics.TraceSource> instance pour chaque requête de trace. Créer un <xref:System.Diagnostics.TraceSource> de l’instance et l’utiliser pour toutes les demandes de traçage de l’application.  
+>  Il n’est pas nécessaire de créer un nouveau <xref:System.Diagnostics.TraceSource> instance pour chaque requête de trace. Créer un <xref:System.Diagnostics.TraceSource> de l’instance et l’utiliser pour toutes les demandes de trace pour l’application.  
   
    
   
@@ -197,6 +199,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -216,10 +219,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le nom de la source est utilisé pour identifier des traces. Il peut être utilisé par un <xref:System.Diagnostics.SourceSwitch> pour déterminer si le traçage doit se produire et par un <xref:System.Diagnostics.SourceFilter> pour déterminer s’il faut produire la trace. Niveau de la source par défaut est utilisé par un <xref:System.Diagnostics.EventTypeFilter> pour déterminer si le traçage doit se produire selon le niveau de la source du message à suivre.  
+ Le nom de source est utilisé pour identifier des traces. Il peut être utilisé par un <xref:System.Diagnostics.SourceSwitch> pour déterminer si le traçage doit se produire et par un <xref:System.Diagnostics.SourceFilter> pour déterminer s’il faut produire la trace. Le niveau de la source par défaut est utilisé par un <xref:System.Diagnostics.EventTypeFilter> pour déterminer si le traçage doit se produire en fonction du niveau de la source du message à tracer.  
   
 > [!NOTE]
->  Il n’est pas nécessaire de créer un nouveau <xref:System.Diagnostics.TraceSource> instance pour chaque requête de trace. Créer un <xref:System.Diagnostics.TraceSource> de l’instance et l’utiliser pour toutes les demandes de traçage de l’application.  
+>  Il n’est pas nécessaire de créer un nouveau <xref:System.Diagnostics.TraceSource> instance pour chaque requête de trace. Créer un <xref:System.Diagnostics.TraceSource> de l’instance et l’utiliser pour toutes les demandes de trace pour l’application.  
   
  ]]></format>
         </remarks>
@@ -239,6 +242,7 @@
       <MemberType>Property</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -262,7 +266,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Diagnostics.TraceSource.Attributes%2A> propriété identifie les attributs personnalisés référencés dans le fichier de configuration de l’application. Attributs personnalisés non référencés ne sont pas énumérées. Les classes qui héritent de la <xref:System.Diagnostics.TraceSource> classe peut ajouter des attributs personnalisés en substituant la <xref:System.Diagnostics.Switch.GetSupportedAttributes%2A?displayProperty=nameWithType> (méthode) et en retournant un tableau de chaînes de noms d’attributs personnalisés.  
+ Le <xref:System.Diagnostics.TraceSource.Attributes%2A> propriété identifie les attributs personnalisés référencés dans le fichier de configuration de l’application. Les attributs personnalisés non référencés ne sont pas énumérées. Les classes qui héritent de la <xref:System.Diagnostics.TraceSource> classe peut ajouter des attributs personnalisés en substituant le <xref:System.Diagnostics.Switch.GetSupportedAttributes%2A?displayProperty=nameWithType> (méthode) et en retournant un tableau de chaînes de noms d’attributs personnalisés.  
   
  Voici un exemple d’un élément de source de trace en spécifiant l’attribut personnalisé `SecondTraceSourceAttribute`:  
   
@@ -303,6 +307,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -320,7 +325,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Diagnostics.TraceSource.Close%2A> les appels de méthode le <xref:System.Diagnostics.TraceListener.Close%2A> (méthode) de chaque écouteur de suivi dans le <xref:System.Diagnostics.TraceSource.Listeners%2A> collection.  
+ Le <xref:System.Diagnostics.TraceSource.Close%2A> les appels de méthode le <xref:System.Diagnostics.TraceListener.Close%2A> (méthode) de chaque écouteur de trace dans le <xref:System.Diagnostics.TraceSource.Listeners%2A> collection.  
   
    
   
@@ -351,6 +356,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -368,12 +374,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Diagnostics.TraceSource.Flush%2A> les appels de méthode le <xref:System.Diagnostics.TraceListener.Flush%2A> (méthode) de chaque écouteur de suivi dans le <xref:System.Diagnostics.TraceSource.Listeners%2A> collection.  
+ Le <xref:System.Diagnostics.TraceSource.Flush%2A> les appels de méthode le <xref:System.Diagnostics.TraceListener.Flush%2A> (méthode) de chaque écouteur de trace dans le <xref:System.Diagnostics.TraceSource.Listeners%2A> collection.  
   
    
   
 ## Examples  
- L’exemple de code suivant montre comment vous pouvez utiliser la <xref:System.Diagnostics.TraceSource.Flush%2A> méthode Vider tous les écouteurs dans la collection. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:System.Diagnostics.TraceSource> classe.  
+ L’exemple de code suivant montre comment vous pouvez utiliser la <xref:System.Diagnostics.TraceSource.Flush%2A> méthode pour vider tous les écouteurs dans la collection. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:System.Diagnostics.TraceSource> classe.  
   
  [!code-csharp[System.Diagnostics.TraceSource2#33](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#33)]
  [!code-vb[System.Diagnostics.TraceSource2#33](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#33)]  
@@ -393,6 +399,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -421,7 +428,7 @@
    
   
 ## Examples  
- L’exemple de code suivant illustre une substitution de la <xref:System.Diagnostics.TraceSource.GetSupportedAttributes%2A> méthode pour identifier les attributs personnalisés pour la `MyTraceSource` classe.  
+ L’exemple de code suivant illustre une substitution de la <xref:System.Diagnostics.TraceSource.GetSupportedAttributes%2A> méthode pour identifier les attributs personnalisés pour le `MyTraceSource` classe.  
   
  [!code-csharp[System.Diagnostics.TraceSource#33](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource/CS/program.cs#33)]
  [!code-vb[System.Diagnostics.TraceSource#33](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource/VB/program.vb#33)]  
@@ -429,7 +436,7 @@
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Lorsque vous héritez à partir de la <see cref="T:System.Diagnostics.TraceSource" /> classe ou une classe dérivée, vous pouvez remplacer le <see cref="M:System.Diagnostics.TraceSource.GetSupportedAttributes" /> méthode pour fournir des attributs personnalisés pour votre classe.</para>
+          <para>Lorsque vous héritez le <see cref="T:System.Diagnostics.TraceSource" /> classe ou une classe dérivée, vous pouvez remplacer le <see cref="M:System.Diagnostics.TraceSource.GetSupportedAttributes" /> méthode pour fournir des attributs personnalisés pour votre classe.</para>
         </block>
       </Docs>
     </Member>
@@ -449,6 +456,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -467,7 +475,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilisez cette propriété pour accéder et effectuer des opérations sur les écouteurs de suivi.  
+ Cette propriété permet d’accéder et effectuer des opérations sur les écouteurs de suivi.  
   
  ]]></format>
         </remarks>
@@ -490,6 +498,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -525,7 +534,7 @@
    
   
 ## Examples  
- L’exemple de code suivant montre comment nommer une source de trace dans l’appel de constructeur.  Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:System.Diagnostics.TraceSource> classe.  
+ L’exemple de code suivant montre comment nommer une source de suivi dans l’appel de constructeur.  Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:System.Diagnostics.TraceSource> classe.  
   
  [!code-csharp[System.Diagnostics.TraceSource2#9](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#9)]
  [!code-vb[System.Diagnostics.TraceSource2#9](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#9)]  
@@ -550,6 +559,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -567,9 +577,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Diagnostics.TraceSource.Switch%2A> propriété permet de filtrer les messages avant que la source de trace appelle les écouteurs.  
+ Le <xref:System.Diagnostics.TraceSource.Switch%2A> propriété permet de filtrer les messages avant que la source de suivi appelle les écouteurs.  
   
- Le commutateur est utilisé pour vérifier si les appels de trace doivent être générés ou ignorés. Chaque méthode de traçage appelle la <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> méthode de le <xref:System.Diagnostics.SourceSwitch> pour déterminer s’il faut continuer la trace. Si l’appel retourne `true`, les écouteurs sont appelés.  
+ Le commutateur est utilisé pour vérifier si les appels de trace doivent être générés ou ignorés. Chaque méthode de traçage appelle le <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> méthode de la <xref:System.Diagnostics.SourceSwitch> pour déterminer s’il faut continuer la trace. Si l’appel retourne `true`, les écouteurs sont appelés.  
   
  ]]></format>
         </remarks>
@@ -604,6 +614,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -633,9 +644,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Diagnostics.TraceSource.TraceData%2A> (méthode), comme le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> (méthode), est destinée aux outils automatisés, mais elle permet également de joindre un objet supplémentaire, par exemple une instance d’exception, à la trace.  
+ Le <xref:System.Diagnostics.TraceSource.TraceData%2A> (méthode), comme le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> (méthode), est destiné à des outils automatisés, mais elle permet également de joindre un objet supplémentaire, par exemple une instance d’exception, à la trace.  
   
- Le <xref:System.Diagnostics.TraceSource.TraceData%2A> les appels de méthode le <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A?displayProperty=nameWithType> méthode de la <xref:System.Diagnostics.SourceSwitch> objet retourné par la <xref:System.Diagnostics.TraceSource.Switch%2A> propriété. Si <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> retourne `true`, <xref:System.Diagnostics.TraceSource.TraceData%2A> appelle correspondant <xref:System.Diagnostics.TraceListener.TraceData%2A> méthode sur tous les écouteurs. Dans le cas contraire, <xref:System.Diagnostics.TraceSource.TraceData%2A> retourne sans appeler les méthodes des écouteurs.  
+ Le <xref:System.Diagnostics.TraceSource.TraceData%2A> les appels de méthode le <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A?displayProperty=nameWithType> méthode de la <xref:System.Diagnostics.SourceSwitch> objet retourné par la <xref:System.Diagnostics.TraceSource.Switch%2A> propriété. Si <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> retourne `true`, <xref:System.Diagnostics.TraceSource.TraceData%2A> appelle le correspondantes <xref:System.Diagnostics.TraceListener.TraceData%2A> méthode sur tous les écouteurs. Sinon, <xref:System.Diagnostics.TraceSource.TraceData%2A> retourne sans appeler les méthodes des écouteurs.  
   
 > [!NOTE]
 >  Le <xref:System.Diagnostics.EventLogTraceListener> objet est limité à un maximum `id` valeur 65 535. Si le `id` valeur spécifiée est supérieure à 65 535, le <xref:System.Diagnostics.EventLogTraceListener> object utilise 65 535.  
@@ -669,6 +680,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -704,9 +716,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Diagnostics.TraceSource.TraceData%2A> (méthode), comme le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> (méthode), est destinée aux outils automatisés, mais elle permet également de joindre des objets supplémentaires, comme une instance d’exception et une trace de pile, à la trace.  
+ Le <xref:System.Diagnostics.TraceSource.TraceData%2A> (méthode), comme le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> (méthode), est destinée aux outils automatisés, mais il permet également de joindre des objets supplémentaires, comme une instance d’exception et une trace de pile, à la trace.  
   
- Le <xref:System.Diagnostics.TraceSource.TraceData%2A> les appels de méthode le <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> méthode de la <xref:System.Diagnostics.SourceSwitch> objet retourné par la <xref:System.Diagnostics.TraceSource.Switch%2A> propriété. Si <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> retourne `true`, <xref:System.Diagnostics.TraceSource.TraceData%2A> appelle correspondant <xref:System.Diagnostics.TraceListener.TraceData%2A> méthode sur tous les écouteurs. Dans le cas contraire, <xref:System.Diagnostics.TraceSource.TraceData%2A> retourne sans appeler les méthodes des écouteurs.  
+ Le <xref:System.Diagnostics.TraceSource.TraceData%2A> les appels de méthode le <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> méthode de la <xref:System.Diagnostics.SourceSwitch> objet retourné par la <xref:System.Diagnostics.TraceSource.Switch%2A> propriété. Si <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> retourne `true`, <xref:System.Diagnostics.TraceSource.TraceData%2A> appelle le correspondantes <xref:System.Diagnostics.TraceListener.TraceData%2A> méthode sur tous les écouteurs. Sinon, <xref:System.Diagnostics.TraceSource.TraceData%2A> retourne sans appeler les méthodes des écouteurs.  
   
 > [!NOTE]
 >  Le <xref:System.Diagnostics.EventLogTraceListener> objet est limité à un maximum `id` valeur 65 535. Si le `id` valeur spécifiée est supérieure à 65 535, le <xref:System.Diagnostics.EventLogTraceListener> object utilise 65 535.  
@@ -742,6 +754,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -769,11 +782,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> méthode est conçue pour tracer les événements qui peuvent être traitées automatiquement par les outils. Par exemple, un outil de surveillance peut notifier un administrateur si un événement spécifique est suivi par une source spécifique.  
+ Le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> méthode est destinée à des événements de trace qui peuvent être traitées automatiquement par les outils. Par exemple, un outil de surveillance peut informer un administrateur si un événement spécifique est suivi par une source spécifique.  
   
- Le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> les appels de méthode le <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> méthode de la <xref:System.Diagnostics.SourceSwitch> objet retourné par la <xref:System.Diagnostics.TraceSource.Switch%2A> propriété. Si <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> retourne `true`, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> appelle correspondant <xref:System.Diagnostics.TraceListener.TraceEvent%2A> méthode chaque écouteur. Dans le cas contraire, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> retourne sans appeler les méthodes des écouteurs.  
+ Le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> les appels de méthode le <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> méthode de la <xref:System.Diagnostics.SourceSwitch> objet retourné par la <xref:System.Diagnostics.TraceSource.Switch%2A> propriété. Si <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> retourne `true`, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> appelle le correspondantes <xref:System.Diagnostics.TraceListener.TraceEvent%2A> méthode chaque écouteur. Sinon, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> retourne sans appeler les méthodes des écouteurs.  
   
- Le contenu de trace est spécifique à l’écouteur. Si la méthode n’est pas substituée par l’implémentation d’écouteur, la sortie par défaut est le nom de la source de trace, son identité numérique et le type d’événement.  Contenu de trace supplémentaire dépend de l’écouteur <xref:System.Diagnostics.TraceListener.TraceOutputOptions%2A> valeur de propriété.  
+ Le contenu de la trace est spécifique à l’écouteur. Si la méthode n’est pas substituée par l’implémentation d’écouteur, la sortie par défaut est le nom de la source de trace, son identité numérique et le type d’événement.  Contenu de suivi supplémentaires dépend de l’écouteur <xref:System.Diagnostics.TraceListener.TraceOutputOptions%2A> valeur de propriété.  
   
 > [!NOTE]
 >  Le <xref:System.Diagnostics.EventLogTraceListener> objet est limité à un maximum `id` valeur 65 535. Si le `id` valeur spécifiée est supérieure à 65 535, le <xref:System.Diagnostics.EventLogTraceListener> utilise 65 535.  
@@ -781,7 +794,7 @@
    
   
 ## Examples  
- L’exemple de code suivant illustre l’utilisation de la <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%29> méthode pour passer d’un événement de trace dans les écouteurs. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:System.Diagnostics.TraceSource> classe.  
+ L’exemple de code suivant illustre l’utilisation de la <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%29> méthode pour passer un événement de trace dans les écouteurs. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:System.Diagnostics.TraceSource> classe.  
   
  [!code-csharp[System.Diagnostics.TraceSource2#17](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#17)]
  [!code-vb[System.Diagnostics.TraceSource2#17](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#17)]  
@@ -807,6 +820,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -836,11 +850,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> méthode est conçue pour tracer les événements qui peuvent être traitées automatiquement par les outils. Par exemple, un outil de surveillance peut notifier un administrateur si un événement spécifique est suivi par une source spécifique.  
+ Le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> méthode est destinée à des événements de trace qui peuvent être traitées automatiquement par les outils. Par exemple, un outil de surveillance peut informer un administrateur si un événement spécifique est suivi par une source spécifique.  
   
- Le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> les appels de méthode le <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> méthode de la <xref:System.Diagnostics.SourceSwitch> objet retourné par la <xref:System.Diagnostics.TraceSource.Switch%2A> propriété. Si <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> retourne `true`, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> appelle correspondant <xref:System.Diagnostics.TraceListener.TraceEvent%2A> méthode chaque écouteur. Dans le cas contraire, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> retourne sans appeler les méthodes des écouteurs.  
+ Le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> les appels de méthode le <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> méthode de la <xref:System.Diagnostics.SourceSwitch> objet retourné par la <xref:System.Diagnostics.TraceSource.Switch%2A> propriété. Si <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> retourne `true`, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> appelle le correspondantes <xref:System.Diagnostics.TraceListener.TraceEvent%2A> méthode chaque écouteur. Sinon, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> retourne sans appeler les méthodes des écouteurs.  
   
- Le contenu de trace est spécifique à l’écouteur. Si la méthode n’est pas substituée par l’implémentation d’écouteur, la sortie par défaut est le nom de la source de trace, son identité numérique, le type d’événement et le message.  Contenu de trace supplémentaire dépend de l’écouteur <xref:System.Diagnostics.TraceListener.TraceOutputOptions%2A> valeur de propriété.  
+ Le contenu de la trace est spécifique à l’écouteur. Si la méthode n’est pas substituée par l’implémentation d’écouteur, la sortie par défaut est le nom de la source de trace, son identité numérique, le type d’événement et le message.  Contenu de suivi supplémentaires dépend de l’écouteur <xref:System.Diagnostics.TraceListener.TraceOutputOptions%2A> valeur de propriété.  
   
 > [!NOTE]
 >  Le <xref:System.Diagnostics.EventLogTraceListener> objet est limité à un maximum `id` valeur 65 535. Si le `id` valeur spécifiée est supérieure à 65 535, le <xref:System.Diagnostics.EventLogTraceListener> object utilise 65 535.  
@@ -848,7 +862,7 @@
    
   
 ## Examples  
- L’exemple de code suivant illustre l’utilisation de la <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%29> méthode pour passer d’un événement de trace dans les écouteurs. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:System.Diagnostics.TraceSource> classe.  
+ L’exemple de code suivant illustre l’utilisation de la <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%29> méthode pour passer un événement de trace dans les écouteurs. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:System.Diagnostics.TraceSource> classe.  
   
  [!code-csharp[System.Diagnostics.TraceSource2#18](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#18)]
  [!code-vb[System.Diagnostics.TraceSource2#18](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#18)]  
@@ -874,6 +888,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -913,11 +928,11 @@
 ## Remarks  
  Pour plus d’informations sur la `format` paramètre, consultez [mise en forme Composite](~/docs/standard/base-types/composite-formatting.md).  
   
- Le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> méthode est conçue pour tracer les événements qui peuvent être traitées automatiquement par les outils. Par exemple, un outil de surveillance peut notifier un administrateur si un événement spécifique est suivi par une source spécifique.  
+ Le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> méthode est destinée à des événements de trace qui peuvent être traitées automatiquement par les outils. Par exemple, un outil de surveillance peut informer un administrateur si un événement spécifique est suivi par une source spécifique.  
   
- Le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> les appels de méthode le <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> méthode de la <xref:System.Diagnostics.SourceSwitch> objet retourné par la <xref:System.Diagnostics.TraceSource.Switch%2A> propriété. Si <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> retourne `true`, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> appelle correspondant <xref:System.Diagnostics.TraceListener.TraceEvent%2A> méthode chaque écouteur. Dans le cas contraire, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> retourne sans appeler les méthodes des écouteurs.  
+ Le <xref:System.Diagnostics.TraceSource.TraceEvent%2A> les appels de méthode le <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> méthode de la <xref:System.Diagnostics.SourceSwitch> objet retourné par la <xref:System.Diagnostics.TraceSource.Switch%2A> propriété. Si <xref:System.Diagnostics.SourceSwitch.ShouldTrace%2A> retourne `true`, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> appelle le correspondantes <xref:System.Diagnostics.TraceListener.TraceEvent%2A> méthode chaque écouteur. Sinon, <xref:System.Diagnostics.TraceSource.TraceEvent%2A> retourne sans appeler les méthodes des écouteurs.  
   
- Le contenu de trace est spécifique à l’écouteur. La valeur par défaut <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> méthode écrit le nom de la source, le type d’événement et l’identité numérique dans l’en-tête de la trace, puis appelle la <xref:System.String.Format%28System.IFormatProvider%2CSystem.String%2CSystem.Object%5B%5D%29?displayProperty=nameWithType> méthode, en passant le `format` chaîne et `args` tableau et en utilisant le <xref:System.Globalization.CultureInfo.InvariantCulture?displayProperty=nameWithType> propriété à mettre en forme le chaîne en tant que la sortie de message.  
+ Le contenu de la trace est spécifique à l’écouteur. La valeur par défaut <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> méthode écrit le nom de la source, le type d’événement et l’identité numérique dans l’en-tête de la trace, puis appelle la <xref:System.String.Format%28System.IFormatProvider%2CSystem.String%2CSystem.Object%5B%5D%29?displayProperty=nameWithType> méthode, en passant le `format` chaîne et `args` tableau et en utilisant le <xref:System.Globalization.CultureInfo.InvariantCulture?displayProperty=nameWithType> propriété à mettre en forme le chaîne en tant que la sortie de message.  
   
 > [!NOTE]
 >  Le <xref:System.Diagnostics.EventLogTraceListener> objet est limité à un maximum `id` valeur 65 535. Si le `id` valeur spécifiée est supérieure à 65 535, le <xref:System.Diagnostics.EventLogTraceListener> object utilise 65 535.  
@@ -925,7 +940,7 @@
    
   
 ## Examples  
- L’exemple de code suivant illustre l’utilisation de la <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%29> méthode pour passer d’un événement de trace dans les écouteurs. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:System.Diagnostics.TraceSource> classe.  
+ L’exemple de code suivant illustre l’utilisation de la <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%29> méthode pour passer un événement de trace dans les écouteurs. Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:System.Diagnostics.TraceSource> classe.  
   
  [!code-csharp[System.Diagnostics.TraceSource2#24](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/CS/program.cs#24)]
  [!code-vb[System.Diagnostics.TraceSource2#24](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Diagnostics.TraceSource2/VB/program.vb#24)]  
@@ -965,6 +980,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -990,9 +1006,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Diagnostics.TraceSource.TraceInformation%2A> méthode fournit un message d’information destiné à être lu par les utilisateurs et pas par les outils.  
+ Le <xref:System.Diagnostics.TraceSource.TraceInformation%2A> méthode fournit un message d’information destiné à être lue par les utilisateurs et non par les outils.  
   
- <xref:System.Diagnostics.TraceSource.TraceInformation%28System.String%29> appelle le <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29> méthode, en définissant `eventType` à <xref:System.Diagnostics.TraceEventType.Information?displayProperty=nameWithType> et en passant le message d’information comme chaîne de message. Le <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29> méthode appelle à son tour le <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29> (méthode) de chaque écouteur de suivi.  
+ <xref:System.Diagnostics.TraceSource.TraceInformation%28System.String%29> appelle le <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29> méthode, en affectant `eventType` à <xref:System.Diagnostics.TraceEventType.Information?displayProperty=nameWithType> et en transmettant le message d’information comme chaîne de message. Le <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29> méthode appelle à son tour la <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29> méthode de chaque écouteur de suivi.  
   
  ]]></format>
         </remarks>
@@ -1015,6 +1031,7 @@
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1050,9 +1067,9 @@
 ## Remarks  
  Pour plus d’informations sur la `format` paramètre, consultez [mise en forme Composite](~/docs/standard/base-types/composite-formatting.md).  
   
- Le <xref:System.Diagnostics.TraceSource.TraceInformation%2A> méthode fournit un message d’information destiné à être lu par les utilisateurs et pas par les outils.  
+ Le <xref:System.Diagnostics.TraceSource.TraceInformation%2A> méthode fournit un message d’information destiné à être lue par les utilisateurs et non par les outils.  
   
- <xref:System.Diagnostics.TraceSource.TraceInformation%28System.String%2CSystem.Object%5B%5D%29> appelle le <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> méthode, en définissant `eventType` à <xref:System.Diagnostics.TraceEventType.Information?displayProperty=nameWithType> et en passant le contenu du message en tant que tableau d’objets avec les informations de mise en forme. Le <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> méthode appelle à son tour le <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> (méthode) de chaque écouteur de suivi.  
+ <xref:System.Diagnostics.TraceSource.TraceInformation%28System.String%2CSystem.Object%5B%5D%29> appelle le <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> méthode, en affectant `eventType` à <xref:System.Diagnostics.TraceEventType.Information?displayProperty=nameWithType> et en transmettant le contenu du message en tant que tableau d’objets avec les informations de mise en forme. Le <xref:System.Diagnostics.TraceSource.TraceEvent%28System.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> méthode appelle à son tour la <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%2CSystem.Object%5B%5D%29> méthode de chaque écouteur de suivi.  
   
  ]]></format>
         </remarks>
@@ -1073,6 +1090,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>System</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1107,7 +1125,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Diagnostics.TraceSource.TraceTransfer%2A> les appels de méthode le <xref:System.Diagnostics.TraceListener.TraceTransfer%2A> (méthode) de chaque écouteur de suivi dans le <xref:System.Diagnostics.TraceSource.Listeners%2A> propriété à enregistrer les informations de trace. La valeur par défaut <xref:System.Diagnostics.TraceListener.TraceTransfer%2A> méthode dans la base de <xref:System.Diagnostics.TraceListener> classe appelle la <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29?displayProperty=nameWithType> méthode pour traiter l’appel, en définissant `eventType` à <xref:System.Diagnostics.TraceEventType.Transfer?displayProperty=nameWithType> et en ajoutant une représentation de chaîne de la `relatedActivityId` GUID à `message`.  
+ Le <xref:System.Diagnostics.TraceSource.TraceTransfer%2A> les appels de méthode le <xref:System.Diagnostics.TraceListener.TraceTransfer%2A> (méthode) de chaque écouteur de trace dans le <xref:System.Diagnostics.TraceSource.Listeners%2A> propriété pour laquelle écrire les informations de trace. La valeur par défaut <xref:System.Diagnostics.TraceListener.TraceTransfer%2A> méthode dans la base de <xref:System.Diagnostics.TraceListener> classe appelle le <xref:System.Diagnostics.TraceListener.TraceEvent%28System.Diagnostics.TraceEventCache%2CSystem.String%2CSystem.Diagnostics.TraceEventType%2CSystem.Int32%2CSystem.String%29?displayProperty=nameWithType> méthode pour traiter l’appel, en définissant `eventType` à <xref:System.Diagnostics.TraceEventType.Transfer?displayProperty=nameWithType> et en ajoutant une représentation de chaîne de la `relatedActivityId` GUID à `message`.  
   
  <xref:System.Diagnostics.TraceSource.TraceTransfer%2A> est destiné à être utilisé avec les opérations logiques d’un <xref:System.Diagnostics.CorrelationManager>. Le `relatedActivityId` paramètre est lié à la <xref:System.Diagnostics.CorrelationManager.ActivityId%2A> propriété d’un <xref:System.Diagnostics.CorrelationManager> objet. Si une opération logique commence par une activité et les transfère vers un autre, la deuxième activité enregistre le transfert en appelant le <xref:System.Diagnostics.TraceSource.TraceTransfer%2A> (méthode). Le <xref:System.Diagnostics.TraceSource.TraceTransfer%2A> appel concerne la nouvelle identité de l’activité à l’identité précédente. Le consommateur le plus probable de cette fonctionnalité est une visionneuse de trace qui peut signaler des opérations logiques qui s’étendent sur plusieurs activités.  
   
