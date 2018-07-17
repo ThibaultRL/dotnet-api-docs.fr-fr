@@ -1,11 +1,11 @@
 <Type Name="Exception" FullName="System.Exception">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="2ec562f6edb325afde1f67852f7c9afe4b9d3546" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="f5214b4f64f3fc28d07f7fbecb38f1960567e615" />
+    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36431860" />
+    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
+    <Meta Name="ms.locfileid" Value="37729226" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Exception : System.Runtime.InteropServices._Exception, System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi serializable beforefieldinit Exception extends System.Object implements class System.Runtime.InteropServices._Exception, class System.Runtime.Serialization.ISerializable" />
@@ -24,6 +24,8 @@
   </AssemblyInfo>
   <AssemblyInfo>
     <AssemblyName>mscorlib</AssemblyName>
+    <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+    <AssemblyVersion>2.0.0.0</AssemblyVersion>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
@@ -64,53 +66,53 @@
  Dans cette section :  
   
  [Erreurs et exceptions](#Errors)   
- [Try/catch (blocs)](#TryCatch)   
- [Fonctions de type d’exception](#Features)   
+ [Blocs try/catch](#TryCatch)   
+ [Fonctionnalités de type d’exception](#Features)   
  [Propriétés de classe d’exception](#Properties)   
  [Considérations relatives aux performances](#Performance)   
- [Une exception est levée à nouveau](#Rethrow)   
+ [Lever à nouveau une exception](#Rethrow)   
  [Choix d’exceptions standard](#Standard)   
- [Implémentation des exceptions personnalisées](#Custom)  
+ [Implémentation d’exceptions personnalisées](#Custom)  
   
 <a name="Errors"></a>   
 ## <a name="errors-and-exceptions"></a>Erreurs et exceptions  
- Erreurs d’exécution peuvent se produire pour diverses raisons. Toutefois, toutes les erreurs doivent être traités comme des exceptions dans votre code. Voici certaines catégories d’erreurs qui peuvent se produire au moment de l’exécution et les méthodes appropriées pour y répondre.  
+ Erreurs d’exécution peuvent se produire pour diverses raisons. Toutefois, pas toutes les erreurs doivent être traités comme des exceptions dans votre code. Voici certaines catégories d’erreurs qui peuvent se produire au moment de l’exécution et les méthodes appropriées pour y répondre.  
   
--   **Erreurs d’utilisation.** Une erreur d’utilisation représente une erreur dans le programme qui peut entraîner une exception. Toutefois, l’erreur doit être résolu, mais pas par le biais de la gestion des exceptions en modifiant le code défectueux. Par exemple, la substitution de la <xref:System.Object.Equals%28System.Object%29?displayProperty=nameWithType> méthode dans l’exemple suivant suppose que le `obj` argument doit toujours être non null.  
+-   **Erreurs d’utilisation.** Une erreur d’utilisation représente une erreur dans la logique de programme qui peut entraîner une exception. Toutefois, l’erreur doit être traité, non par le biais de la gestion des exceptions, mais en modifiant le code défectueux. Par exemple, la substitution de la <xref:System.Object.Equals%28System.Object%29?displayProperty=nameWithType> méthode dans l’exemple suivant suppose que le `obj` argument doit toujours être non null.  
   
      [!code-csharp[System.Exception.Class#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.exception.class/cs/usageerrors1.cs#4)]
      [!code-vb[System.Exception.Class#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.exception.class/vb/usageerrors1.vb#4)]  
   
-     Le <xref:System.NullReferenceException> exception qui résulte lorsque `obj` est `null` peuvent être éliminés en modifiant le code source pour tester null avant d’appeler explicitement la <xref:System.Object.Equals%2A?displayProperty=nameWithType> override et puis ré-la compilation. L’exemple suivant contient le code source corrigé qui gère un `null` argument.  
+     Le <xref:System.NullReferenceException> exception qui résulte lorsque `obj` est `null` peuvent être éliminées en modifiant le code source pour tester explicitement les valeurs null avant d’appeler le <xref:System.Object.Equals%2A?displayProperty=nameWithType> override et puis recompilation. L’exemple suivant contient le code source corrigé qui gère un `null` argument.  
   
      [!code-csharp[System.Exception.Class#5](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.exception.class/cs/usageerrors2.cs#5)]
      [!code-vb[System.Exception.Class#5](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.exception.class/vb/usageerrors2.vb#5)]  
   
      Au lieu d’utiliser la gestion des exceptions pour les erreurs d’utilisation, vous pouvez utiliser la <xref:System.Diagnostics.Debug.Assert%2A?displayProperty=nameWithType> méthode pour identifier les erreurs d’utilisation dans les versions debug et le <xref:System.Diagnostics.Trace.Assert%2A?displayProperty=nameWithType> génère de méthode pour identifier les erreurs de l’utilisation de debug et release. Pour plus d’informations, consultez [Assertions dans du Code managé](/visualstudio/debugger/assertions-in-managed-code).  
   
--   **Erreurs du programme.** Une erreur de programme est une erreur d’exécution qui ne peut pas nécessairement être évitée en écrivant du code de bogue.  
+-   **Erreurs du programme.** Une erreur de programme est une erreur d’exécution qui ne peut pas nécessairement être évitée en écrivant du code exempte de bogues.  
   
-     Dans certains cas, une erreur de programme peut-être refléter une condition d’erreur attendu ou de routine. Dans ce cas, vous souhaiterez Évitez d’utiliser la gestion des exceptions pour traiter l’erreur de programme et à la place renouvelez l’opération. Par exemple, si l’utilisateur doit entrer une date dans un format particulier, vous pouvez analyser la chaîne de date en appelant le <xref:System.DateTime.TryParseExact%2A?displayProperty=nameWithType> (méthode), qui retourne un <xref:System.Boolean> valeur qui indique si l’opération d’analyse a réussi, au lieu d’utiliser la <xref:System.DateTime.ParseExact%2A?displayProperty=nameWithType>méthode qui lève un <xref:System.FormatException> exception si la chaîne de date ne peut pas être convertie en un <xref:System.DateTime> valeur. De même, si un utilisateur tente d’ouvrir un fichier qui n’existe pas, vous pouvez commencer par appeler la <xref:System.IO.File.Exists%2A?displayProperty=nameWithType> méthode permettant de vérifier si le fichier existe et, dans ce cas, l’utilisateur si il souhaite créer.  
+     Dans certains cas, une erreur de programme peut refléter une condition d’erreur attendu ou de routine. Dans ce cas, vous souhaiterez éviter à l’aide de la gestion des exceptions à traiter l’erreur de programme et à la place une nouvelle tentative. Par exemple, si l’utilisateur doit entrer une date dans un format particulier, vous pouvez analyser la chaîne de date en appelant le <xref:System.DateTime.TryParseExact%2A?displayProperty=nameWithType> (méthode), qui retourne un <xref:System.Boolean> valeur qui indique si l’opération d’analyse a réussi, au lieu d’utiliser le <xref:System.DateTime.ParseExact%2A?displayProperty=nameWithType>(méthode), qui lève une <xref:System.FormatException> exception si la chaîne de date ne peut pas être convertie en un <xref:System.DateTime> valeur. De même, si un utilisateur tente d’ouvrir un fichier qui n’existe pas, vous pouvez tout d’abord appeler la <xref:System.IO.File.Exists%2A?displayProperty=nameWithType> méthode permettant de vérifier si le fichier existe et, le cas contraire, invite l’utilisateur si il souhaite créer.  
   
-     Dans d’autres cas, une erreur de programme reflète une condition d’erreur qui peut être gérée dans votre code. Par exemple, même si vous avez vérifié pour s’assurer qu’un fichier existe, il peut être supprimé avant que vous pouvez l’ouvrir, ou il peut être endommagé. Dans ce cas, la tentative d’ouverture du fichier en instanciant une <xref:System.IO.StreamReader> objet ou en appelant le <xref:System.IO.File.Open%2A> méthode peut lever un <xref:System.IO.FileNotFoundException> exception. Dans ce cas, vous devez utiliser la gestion des exceptions pour récupérer de l’erreur.  
+     Dans d’autres cas, une erreur de programme reflète une condition d’erreur inattendue qui peut être gérée dans votre code. Par exemple, même si vous avez vérifié pour garantir qu’un fichier existe, il peut être supprimé avant que vous pouvez l’ouvrir, ou il peut être endommagé. Dans ce cas, essayez d’ouvrir le fichier en instanciant un <xref:System.IO.StreamReader> objet ou en appelant le <xref:System.IO.File.Open%2A> méthode peut lever une <xref:System.IO.FileNotFoundException> exception. Dans ce cas, vous devez utiliser des exceptions pour récupérer à partir de l’erreur.  
   
--   **Défaillances du système.** Une défaillance du système est une erreur d’exécution qui ne peuvent pas être gérée par programme de manière explicite. Par exemple, une méthode peut lever une <xref:System.OutOfMemoryException> exception si le common language runtime ne peut pas allouer de mémoire supplémentaire. En règle générale, les défaillances du système ne sont pas gérées à l’aide de la gestion des exceptions. Au lieu de cela, vous pourrez peut-être utiliser un événement comme <xref:System.AppDomain.UnhandledException?displayProperty=nameWithType> et appelez le <xref:System.Environment.FailFast%2A?displayProperty=nameWithType> méthode afin de consigner des informations sur les exceptions et informer l’utilisateur de l’échec avant l’arrêt de l’application.  
+-   **Défaillances du système.** Une défaillance du système est une erreur d’exécution qui ne peuvent pas être gérée par programmation de manière explicite. Par exemple, n’importe quelle méthode peut lever une <xref:System.OutOfMemoryException> exception si le common language runtime ne peut pas allouer de mémoire supplémentaire. En règle générale, les défaillances du système ne sont pas gérées à l’aide de la gestion des exceptions. Au lieu de cela, vous pourrez peut-être utiliser un événement tel que <xref:System.AppDomain.UnhandledException?displayProperty=nameWithType> et appelez le <xref:System.Environment.FailFast%2A?displayProperty=nameWithType> méthode pour enregistrer des informations d’exception et informer l’utilisateur de l’échec avant que l’application se termine.  
   
 <a name="TryCatch"></a>   
-## <a name="trycatch-blocks"></a>Try/catch (blocs)  
- Le common language runtime fournit un modèle de gestion des exceptions qui est basé sur la représentation des exceptions sous forme d’objets et la séparation du code de programme et des exceptions de code dans `try` blocs et `catch` blocs. Il peut y avoir un ou plusieurs `catch` blocs, chacun conçu pour gérer un type particulier d’exception, ou un seul bloc conçu pour intercepter une exception plus spécifique qu’un autre bloc.  
+## <a name="trycatch-blocks"></a>Blocs try/catch  
+ Le common language runtime fournit un modèle de gestion des exceptions est basé sur la représentation des exceptions sous forme d’objets et la séparation de code de programme et des exceptions de code dans `try` blocs et `catch` blocs. Il peut y avoir un ou plusieurs `catch` bloque, chacun étant conçu pour gérer un type particulier d’exception, ou un seul bloc conçu pour intercepter une exception plus spécifique qu’un autre bloc.  
   
- Si une application gère les exceptions qui se produisent pendant l’exécution d’un bloc de code de l’application, le code doit être placé dans un `try` instruction et est appelé un `try` bloc. Code d’application qui gère les exceptions levées par un `try` bloc est placé dans un `catch` instruction et est appelé un `catch` bloc. Zéro ou plusieurs `catch` blocs sont associés un `try` bloc et chaque `catch` bloc inclut un filtre de type qui détermine les types d’exceptions à gérer.  
+ Si une application gère les exceptions qui se produisent pendant l’exécution d’un bloc de code d’application, le code doit être placé dans un `try` instruction et est appelé un `try` bloc. Code d’application qui gère les exceptions levées par un `try` bloc est placé dans un `catch` instruction et est appelé un `catch` bloc. Zéro ou plusieurs `catch` blocs sont associés un `try` bloc et chaque `catch` bloc inclut un filtre de type qui détermine les types d’exceptions à gérer.  
   
- Si une exception se produit dans un `try` bloc, le système recherche associé `catch` blocs dans l’ordre d’apparition dans le code d’application, jusqu'à ce qu’il trouve un `catch` bloc qui gère l’exception. A `catch` bloc gère une exception de type `T` si le filtre de type du bloc catch spécifie `T` ou tout autre type qui `T` dérive. Le système arrête la recherche après avoir trouvé le premier `catch` bloc qui gère l’exception. Pour cette raison, dans le code d’application, un `catch` bloc qui gère un type doit être spécifié avant un `catch` bloc qui gère ses types de base, comme illustré dans l’exemple qui suit cette section. Un bloc catch qui gère les `System.Exception` est spécifié en dernier.  
+ Si une exception se produit dans un `try` bloc, le système recherche associé `catch` blocs dans l’ordre d’apparition dans le code d’application, jusqu'à ce qu’il trouve un `catch` bloc qui gère l’exception. Un `catch` bloc gère une exception de type `T` si le filtre de type du bloc catch spécifie `T` ou tout type pouvant `T` dérive. Le système arrête la recherche après avoir trouvé le premier `catch` bloc qui gère l’exception. Pour cette raison, dans le code d’application, un `catch` bloc qui gère un type doit être spécifié avant un `catch` bloc qui gère ses types de base, comme illustré dans l’exemple qui suit cette section. Un bloc catch qui gère `System.Exception` est spécifiée en dernier.  
   
- Si aucun de la `catch` blocs associés en cours `try` bloc gérer l’exception et en cours `try` bloc est imbriqué dans d’autres `try` blocs dans l’appel en cours, le `catch` blocs associés à la suivante englobant `try` bloc sont recherchés. Si aucun `catch` bloc est trouvé pour l’exception, le système recherche les niveaux d’imbrication précédents dans l’appel actuel. Si aucun `catch` bloquer pour l’exception se trouve dans l’appel en cours, l’exception remonte la pile des appels et le frame de pile précédent est recherché dans un `catch` bloc qui gère l’exception. La recherche de la pile des appels se poursuit jusqu'à ce que l’exception est gérée ou jusqu'à ce que des frames sont présents sur la pile des appels. Si le haut de la pile des appels est atteint sans recherche un `catch` bloc qui gère l’exception, le Gestionnaire d’exceptions par défaut et l’application s’arrête.  
+ Si aucun de la `catch` blocs associés actuel `try` bloc gérer l’exception et en cours `try` bloc est imbriqué dans d’autres `try` bloque dans l’appel actuel, le `catch` blocs associés à la suivante englobant `try` bloc sont recherchés. Si aucun `catch` bloc pour l’exception est trouvé, le système recherche les niveaux d’imbrication précédents dans l’appel actuel. Si aucun `catch` bloquer pour l’exception se trouve dans l’appel en cours, l’exception remonte la pile des appels, et le frame de pile précédent est recherché une `catch` bloc qui gère l’exception. La recherche de la pile des appels se poursuit jusqu'à ce que l’exception est gérée ou jusqu'à ce que des frames sont présents sur la pile des appels. Si le haut de la pile des appels est atteint sans recherche un `catch` bloc qui gère l’exception, le Gestionnaire d’exceptions par défaut et l’application s’arrête.  
   
 <a name="Features"></a>   
-## <a name="exception-type-features"></a>Fonctions de type d’exception  
+## <a name="exception-type-features"></a>Fonctionnalités de type d’exception  
  Types d’exceptions prennent en charge les fonctionnalités suivantes :  
   
--   Texte contrôlable de visu qui décrit l’erreur. Lorsqu’une exception se produit, le runtime fait un message texte disponible pour informer l’utilisateur de la nature de l’erreur et de suggérer des action pour résoudre le problème. Ce message textuel est contenu dans le <xref:System.Exception.Message%2A> propriété de l’objet exception. Lors de la création de l’objet exception, vous pouvez passer une chaîne de texte au constructeur pour décrire les détails de cette exception particulière. Si aucun argument de message d’erreur n’est fourni au constructeur, le message d’erreur par défaut est utilisé. Pour plus d'informations, consultez la propriété <xref:System.Exception.Message%2A>.  
+-   Texte contrôlable de visu qui décrit l’erreur. Lorsqu’une exception se produit, le runtime établit un SMS disponible pour informer l’utilisateur de la nature de l’erreur et de suggérer d’action pour résoudre le problème. Ce message textuel est contenu dans le <xref:System.Exception.Message%2A> propriété de l’objet exception. Lors de la création de l’objet exception, vous pouvez passer une chaîne de texte au constructeur pour décrire les détails de cette exception particulière. Si aucun argument de message d’erreur est fourni au constructeur, le message d’erreur par défaut est utilisé. Pour plus d'informations, consultez la propriété <xref:System.Exception.Message%2A>.  
   
 -   L’état de la pile des appels lorsque l’exception a été levée. Le <xref:System.Exception.StackTrace%2A> propriété conserve une trace de pile qui peut être utilisée pour déterminer où l’erreur se produit dans le code. La trace de pile répertorie toutes les méthodes appelées et les numéros de ligne dans le fichier source où les appels sont effectués.  
   
@@ -118,36 +120,36 @@
 ## <a name="exception-class-properties"></a>Propriétés de classe d’exception  
  Le <xref:System.Exception> classe inclut un nombre de propriétés qui permettent d’identifier l’emplacement du code, le type, le fichier d’aide et la raison de l’exception : <xref:System.Exception.StackTrace%2A>, <xref:System.Exception.InnerException%2A>, <xref:System.Exception.Message%2A>, <xref:System.Exception.HelpLink%2A>, <xref:System.Exception.HResult%2A>, <xref:System.Exception.Source%2A>, <xref:System.Exception.TargetSite%2A>, et <xref:System.Exception.Data%2A>.  
   
- Lors de l’existence d’une relation existe entre deux ou plusieurs exceptions, la <xref:System.Exception.InnerException%2A> propriété conserve ces informations. L’exception externe levée en réponse à l’exception interne. Le code qui gère l’exception externe peut utiliser les informations à partir de l’exception interne antérieure pour gérer l’erreur plus convenablement. Informations supplémentaires sur l’exception peuvent être stockées comme une collection de paires clé/valeur dans le <xref:System.Exception.Data%2A> propriété.  
+ Lors de l’existence d’une relation existe entre deux ou plusieurs exceptions, la <xref:System.Exception.InnerException%2A> propriété conserve ces informations. L’exception externe levée en réponse à cette exception interne. Le code qui gère l’exception externe peut utiliser les informations de l’exception interne précédemment pour gérer l’erreur plus convenablement. Informations supplémentaires sur l’exception peuvent être stockées comme une collection de paires clé/valeur dans le <xref:System.Exception.Data%2A> propriété.  
   
- La chaîne de message d’erreur qui est passée au constructeur lors de la création de l’objet exception doit être localisée et peut être fournie à partir d’un fichier de ressources à l’aide de la <xref:System.Resources.ResourceManager> classe. Pour plus d’informations sur les ressources localisées, consultez le [création d’assemblys satellites](~/docs/framework/resources/creating-satellite-assemblies-for-desktop-apps.md) et [empaquetage et déploiement de ressources](~/docs/framework/resources/packaging-and-deploying-resources-in-desktop-apps.md) rubriques.  
+ La chaîne de message d’erreur qui est passée au constructeur lors de la création de l’objet exception doit être localisée et peuvent être fournie à partir d’un fichier de ressources à l’aide de la <xref:System.Resources.ResourceManager> classe. Pour plus d’informations sur les ressources localisées, consultez le [création d’assemblys satellites](~/docs/framework/resources/creating-satellite-assemblies-for-desktop-apps.md) et [Packaging and Deploying Resources](~/docs/framework/resources/packaging-and-deploying-resources-in-desktop-apps.md) rubriques.  
   
  Pour fournir l’utilisateur avec des informations détaillées sur la raison pour laquelle l’exception s’est produite, le <xref:System.Exception.HelpLink%2A> propriété peut contenir une URL (ou URN) vers un fichier d’aide.  
   
- La <xref:System.Exception> classe utilise HRESULT COR_E_EXCEPTION, dont la valeur est 0 x 80131500.  
+ Le <xref:System.Exception> classe utilise HRESULT COR_E_EXCEPTION, dont la valeur est 0 x 80131500.  
   
- Pour obtenir la liste de valeurs de propriété initiales d’une instance de la <xref:System.Exception> de classe, consultez la <xref:System.Exception.%23ctor%2A> constructeurs.  
+ Pour obtenir la liste des valeurs initiales des propriétés d’une instance de la <xref:System.Exception> de classe, consultez le <xref:System.Exception.%23ctor%2A> constructeurs.  
   
 <a name="Performance"></a>   
 ## <a name="performance-considerations"></a>Considérations sur les performances  
- La levée ou la gestion d’une exception consomme une quantité importante de ressources système et les temps d’exécution. Lever des exceptions que pour gérer des conditions vraiment extraordinaires, afin de ne pas gérer les événements prévisibles ou de contrôle de flux. Par exemple, dans certains cas, par exemple lorsque vous développez une bibliothèque de classes, il est raisonnable de lever une exception si un argument de méthode n’est pas valide, parce que vous comptez votre méthode d’être appelée avec des paramètres valides. Un argument de méthode non valide, si elle n’est pas le résultat d’une erreur d’utilisation, signifie que quelque chose d’anormal s’est produite. Inversement, ne levez pas d’exception si l’entrée d’utilisateur n’est pas valide, car vous pouvez vous attendre les utilisateurs entrent parfois des données non valides. Au lieu de cela, fournissent un mécanisme de nouvelle tentative pour permettre aux utilisateurs d’entrer une entrée valide. Ni doit utiliser des exceptions pour gérer les erreurs d’utilisation. Au lieu de cela, utilisez [assertions](/visualstudio/debugger/assertions-in-managed-code) pour identifier et corriger les erreurs d’utilisation.  
+ Lancer ou de gestion d’une exception consomme une quantité importante de ressources système et la durée d’exécution. Lever des exceptions uniquement pour gérer des conditions vraiment extraordinaires, pas pour gérer les événements prévisibles ou de contrôle de flux. Par exemple, dans certains cas, notamment lorsque vous développez une bibliothèque de classes, il est raisonnable de lever une exception si un argument de méthode n’est pas valide, car vous attendez que votre méthode d’être appelée avec des paramètres valides. Un argument de méthode non valide, si elle n’est pas le résultat d’une erreur d’utilisation, signifie que quelque chose d’anormal s’est produite. Inversement, ne levez pas d’exception si l’entrée d’utilisateur n’est pas valide, car vous pouvez vous attendre les utilisateurs entrent parfois des données non valides. Au lieu de cela, fournissent un mécanisme de nouvelle tentative pour permettre aux utilisateurs d’entrer une entrée valide. Ni doit utiliser des exceptions pour gérer les erreurs d’utilisation. Au lieu de cela, utilisez [assertions](/visualstudio/debugger/assertions-in-managed-code) pour identifier et corriger les erreurs d’utilisation.  
   
- En outre, ne levez pas d’exception lorsqu’un code de retour est suffisant ; ne sont pas convertis d’un code de retour pour une exception ; n’interceptez pas régulièrement une exception, l’ignorer et poursuivre le traitement.  
+ En outre, ne levez pas d’exception lorsqu’un code de retour est suffisant ; ne pas convertir un code de retour à une exception ; n’interceptez pas régulièrement une exception, l’ignorer et continuer le traitement.  
   
 <a name="Rethrow"></a>   
 ## <a name="re-throwing-an-exception"></a>Génération répétée d’une exception  
- Dans de nombreux cas, un gestionnaire d’exceptions veut simplement passer l’exception à l’appelant. Ceci arrive le plus souvent dans :  
+ Dans de nombreux cas, un gestionnaire d’exceptions veut simplement passer l’exception à l’appelant. Ceci se produit souvent dans :  
   
 -   Une bibliothèque de classes qui à son tour encapsule les appels aux méthodes dans la bibliothèque de classes .NET Framework ou d’autres bibliothèques de classes.  
   
--   Une application ou une bibliothèque qui rencontre une erreur fatale. Le Gestionnaire d’exceptions peut enregistrer l’exception et lever à nouveau l’exception.  
+-   Une application ou une bibliothèque qui rencontre une erreur fatale. Le Gestionnaire d’exceptions peut consigner l’exception et lever à nouveau l’exception.  
   
- La méthode recommandée pour lever à nouveau une exception est simplement d’utiliser le [lever](~/docs/csharp/language-reference/keywords/throw.md) instruction en c# et la [lever](~/docs/visual-basic/language-reference/statements/throw-statement.md) instruction en Visual Basic, sans inclure une expression. Cela garantit que toutes les informations de pile des appels sont conservées lorsque l’exception est propagée à l’appelant. L'exemple suivant illustre ce comportement. Une méthode d’extension de chaîne, `FindOccurrences`, inclut un ou plusieurs appels à <xref:System.String.IndexOf%28System.String%2CSystem.Int32%29?displayProperty=nameWithType> sans valider au préalable de ses arguments.  
+ La méthode recommandée pour lever à nouveau une exception consiste à utiliser simplement le [lever](~/docs/csharp/language-reference/keywords/throw.md) instruction en langage c# et le [lever](~/docs/visual-basic/language-reference/statements/throw-statement.md) instruction en Visual Basic sans inclure une expression. Cela garantit la préservation de toutes les informations de pile des appels lorsque l’exception est propagée à l’appelant. L'exemple suivant illustre ce comportement. Une méthode d’extension de chaîne, `FindOccurrences`, encapsule un ou plusieurs appels à <xref:System.String.IndexOf%28System.String%2CSystem.Int32%29?displayProperty=nameWithType> sans valider au préalable de ses arguments.  
   
  [!code-csharp[System.Exception.Class#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.exception.class/cs/rethrow1.cs#6)]
  [!code-vb[System.Exception.Class#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.exception.class/vb/rethrow1.vb#6)]  
   
- Un appelant appelle ensuite `FindOccurrences` à deux reprises. Dans le deuxième appel à `FindOccurrences`, l’appelant passe un `null` comme chaîne de recherche, les cas les <xref:System.String.IndexOf%28System.String%2CSystem.Int32%29?displayProperty=nameWithType> méthode pour lever une <xref:System.ArgumentNullException> exception. Cette exception est gérée par le `FindOccurrences` (méthode) et passé renvoyés à l’appelant. Étant donné que l’instruction throw est utilisée sans expression, la sortie de l’exemple montre que la pile des appels est conservée.  
+ Un appelant appelle ensuite `FindOccurrences` à deux reprises. Dans le deuxième appel à `FindOccurrences`, l’appelant passe un `null` comme chaîne de recherche, les cas de la <xref:System.String.IndexOf%28System.String%2CSystem.Int32%29?displayProperty=nameWithType> méthode lève un <xref:System.ArgumentNullException> exception. Cette exception est gérée par le `FindOccurrences` (méthode) et renvoyée à l’appelant. Étant donné que l’instruction throw est utilisée sans expression, la sortie de l’exemple montre que la pile des appels est conservée.  
   
  [!code-csharp[System.Exception.Class#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.exception.class/cs/rethrow1.cs#7)]
  [!code-vb[System.Exception.Class#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.exception.class/vb/rethrow1.vb#7)]  
@@ -162,7 +164,7 @@ throw e
 Throw e  
 ```  
   
- instruction, la pile des appels n’est pas conservée, et l’exemple génère la sortie suivante :  
+ instruction, la pile des appels complète n’est pas conservée, et l’exemple génère la sortie suivante :  
   
 ```Output  
   
@@ -179,39 +181,39 @@ Stack Trace:
   
 ```  
   
- Une solution légèrement plus lourde consiste à lever une exception et pour conserver les informations de pile des appels de l’exception d’origine de l’exception interne. L’appelant peut ensuite utiliser la nouvelle exception <xref:System.Exception.InnerException%2A> propriété à récupérer le frame de pile et d’autres informations relatives à l’exception d’origine. Dans ce cas, l’instruction throw est :  
+ Une alternative légèrement plus lourde consiste à lever une exception et pour conserver les informations de pile des appels de l’exception d’origine dans une exception interne. L’appelant peut utiliser ensuite la nouvelle exception <xref:System.Exception.InnerException%2A> propriété à récupérer le frame de pile et d’autres informations relatives à l’exception d’origine. Dans ce cas, l’instruction throw est :  
   
  [!code-csharp[System.Exception.Class#8](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.exception.class/cs/rethrow3.cs#8)]
  [!code-vb[System.Exception.Class#8](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.exception.class/vb/rethrow3.vb#8)]  
   
- Le code utilisateur qui gère l’exception est de savoir que le <xref:System.Exception.InnerException%2A> propriété contient des informations sur l’exception d’origine, comme l’illustre le Gestionnaire d’exceptions.  
+ Le code utilisateur qui gère l’exception doit savoir si le <xref:System.Exception.InnerException%2A> propriété contient des informations sur l’exception d’origine, comme l’illustre le Gestionnaire d’exceptions.  
   
  [!code-csharp[System.Exception.Class#9](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.exception.class/cs/rethrow3.cs#9)]
  [!code-vb[System.Exception.Class#9](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.exception.class/vb/rethrow3.vb#9)]  
   
 <a name="Standard"></a>   
 ## <a name="choosing-standard-exceptions"></a>Choix d’exceptions standard  
- Lorsque vous devez lever une exception, vous pouvez souvent utiliser un type d’exception dans le .NET Framework au lieu d’implémenter une exception personnalisée. Vous devez utiliser un type d’exception standard dans ces deux conditions :  
+ Lorsque vous devez lever une exception, vous pouvez souvent utiliser un type d’exception existant dans le .NET Framework au lieu d’implémenter une exception personnalisée. Vous devez utiliser un type d’exception standard dans ces deux conditions :  
   
--   Vous sont lever une exception provoquée par une erreur d’utilisation (autrement dit, par une erreur dans la logique du programme effectuée par le développeur qui appelle votre méthode). En règle générale, vous lèverait une exception comme <xref:System.ArgumentException>, <xref:System.ArgumentNullException>, <xref:System.InvalidOperationException>, ou <xref:System.NotSupportedException>. La chaîne que vous fournissez à un constructeur de l’objet exception lors de l’instanciation de l’objet exception doit décrire l’erreur afin que le développeur peut corriger. Pour plus d'informations, consultez la propriété <xref:System.Exception.Message%2A>.  
+-   Vous lèvent une exception provoquée par une erreur d’utilisation (autrement dit, par une erreur dans la logique de programme effectuée par le développeur qui appelle votre méthode). En règle générale, vous lèverait une exception comme <xref:System.ArgumentException>, <xref:System.ArgumentNullException>, <xref:System.InvalidOperationException>, ou <xref:System.NotSupportedException>. La chaîne que vous fournissez au constructeur de l’objet exception lors de l’instanciation de l’objet exception doit décrire l’erreur afin que le développeur peut résoudre le problème. Pour plus d'informations, consultez la propriété <xref:System.Exception.Message%2A>.  
   
--   Vous gérez une erreur pouvant être communiqué à l’appelant avec une exception .NET Framework existante. Vous devez lever l’exception la plus dérivée possible. Par exemple, si une méthode requiert un argument d’être un membre valide d’un type énumération, vous devez lever une <xref:System.ComponentModel.InvalidEnumArgumentException> (la classe dérivée le meilleur) plutôt qu’une <xref:System.ArgumentException>.  
+-   Vous gérez une erreur qui peut être communiquée à l’appelant avec une exception .NET Framework existante. Vous devez lever l’exception la plus dérivée possible. Par exemple, si une méthode requiert un argument d’être un membre valide d’un type énumération, vous devez lever une <xref:System.ComponentModel.InvalidEnumArgumentException> (la classe dérivée le meilleur) plutôt qu’un <xref:System.ArgumentException>.  
   
- Le tableau suivant répertorie les types d’exception communs et les conditions dans lesquelles vous les lèverait.  
+ Le tableau suivant répertorie les types d’exceptions courantes et les conditions sous lesquelles vous les lèverait.  
   
 |Exception|Condition|  
 |---------------|---------------|  
-|<xref:System.ArgumentException>|Un argument non null est passé à une méthode n’est pas valide.|  
-|<xref:System.ArgumentNullException>|Un argument est passé à une méthode est `null`.|  
+|<xref:System.ArgumentException>|Un argument non null qui est passé à une méthode n’est pas valide.|  
+|<xref:System.ArgumentNullException>|Est un argument qui est passé à une méthode `null`.|  
 |<xref:System.ArgumentOutOfRangeException>|Un argument est en dehors de la plage de valeurs valides.|  
 |<xref:System.IO.DirectoryNotFoundException>|Partie d’un chemin de répertoire n’est pas valide.|  
 |<xref:System.DivideByZeroException>|Le dénominateur dans un entier ou <xref:System.Decimal> opération de division est zéro.|  
 |<xref:System.IO.DriveNotFoundException>|Un lecteur n’est pas disponible ou n’existe pas.|  
 |<xref:System.IO.FileNotFoundException>|Un fichier n’existe pas.|  
-|<xref:System.FormatException>|Une valeur n’est pas dans un format approprié à convertir à partir d’une chaîne par une méthode de conversion telles que `Parse`.|  
+|<xref:System.FormatException>|Une valeur n’est pas dans un format approprié à convertir à partir d’une chaîne par une méthode de conversion comme `Parse`.|  
 |<xref:System.IndexOutOfRangeException>|Un index est en dehors des limites d’un tableau ou une collection.|  
 |<xref:System.InvalidOperationException>|Un appel de méthode n’est pas valide dans l’état actuel d’un objet.|  
-|<xref:System.Collections.Generic.KeyNotFoundException>|Impossible de trouver la clé spécifiée pour l’accès à un membre d’une collection.|  
+|<xref:System.Collections.Generic.KeyNotFoundException>|Impossible de trouver la clé spécifiée pour l’accès à un membre dans une collection.|  
 |<xref:System.NotImplementedException>|Une méthode ou l’opération n’est pas implémentée.|  
 |<xref:System.NotSupportedException>|Une méthode ou l’opération n’est pas pris en charge.|  
 |<xref:System.ObjectDisposedException>|Une opération est effectuée sur un objet qui a été supprimé.|  
@@ -220,58 +222,58 @@ Stack Trace:
 |<xref:System.PlatformNotSupportedException>|L’opération n’est pas pris en charge sur la plateforme actuelle.|  
 |<xref:System.RankException>|Un tableau ayant un nombre incorrect de dimensions est passé à une méthode.|  
 |<xref:System.TimeoutException>|L’intervalle de temps alloué à une opération a expiré.|  
-|<xref:System.UriFormatException>|Un non valide ressource identificateur URI (Uniform) est utilisé.|  
+|<xref:System.UriFormatException>|Un non valide identificateur URI (Uniform Resource) est utilisé.|  
   
 <a name="Custom"></a>   
-## <a name="implementing-custom-exceptions"></a>Implémentation des exceptions personnalisées  
+## <a name="implementing-custom-exceptions"></a>Implémentation d’exceptions personnalisées  
  Dans les cas suivants, à l’aide d’une exception .NET Framework existante pour gérer une condition d’erreur n’est pas suffisante :  
   
--   Lorsque l’exception indique une erreur de programme unique qui ne peut pas être mappée à une exception .NET Framework existante.  
+-   Lorsque l’exception reflète une erreur de programme unique qui ne peut pas être mappée à une exception .NET Framework existante.  
   
--   Lorsque l’exception requiert que la gestion est différente de la gestion appropriée pour une exception .NET Framework existante, ou l’exception doit être de lever l’ambiguïté à partir d’une exception semblable. Par exemple, si vous levez une <xref:System.ArgumentOutOfRangeException> exception lors de l’analyse de la représentation numérique d’une chaîne qui est en dehors de la plage du type intégral cible, vous ne souhaitez pas utiliser la même exception pour une erreur qui résulte de l’appelant ne fournit ne pas la valeurs de contraintes appropriées lors de l’appel de la méthode.  
+-   Lorsque l’exception nécessite que la gestion est différente de la gestion qui convient à une exception .NET Framework existante, ou l’exception doit éviter toute ambiguïté à partir d’une exception semblable. Par exemple, si vous levez une <xref:System.ArgumentOutOfRangeException> exception lors de l’analyse de la représentation numérique d’une chaîne qui est en dehors de la plage du type intégral cible, vous souhaitez pas utiliser la même exception pour une erreur qui résulte de l’appelant ne fournissant ne pas le valeurs de contrainte appropriées lors de l’appel de la méthode.  
   
- Le <xref:System.Exception> est la classe de base de toutes les exceptions dans le .NET Framework. De nombreuses classes dérivées s’appuient sur le comportement hérité des membres de la <xref:System.Exception> classe ; ils ne remplacent pas les membres de <xref:System.Exception>, ni de faire les membres uniques.  
+ Le <xref:System.Exception> est la classe de base de toutes les exceptions dans le .NET Framework. De nombreuses classes dérivées s’appuient sur le comportement hérité des membres de la <xref:System.Exception> classe ; ils ne remplacent pas les membres de <xref:System.Exception>, ni de faire tous les membres uniques.  
   
  Pour définir votre propre classe d’exception :  
   
-1.  Définissez une classe qui hérite de <xref:System.Exception>. Si nécessaire, définissez les membres uniques requis par votre classe pour fournir des informations supplémentaires sur l’exception. Par exemple, le <xref:System.ArgumentException> classe inclut un <xref:System.ArgumentException.ParamName%2A> propriété qui spécifie le nom du paramètre dont l’argument a provoqué l’exception, et le <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> propriété inclut un <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.MatchTimeout%2A> propriété qui indique le délai d’attente.  
+1.  Définissez une classe qui hérite de <xref:System.Exception>. Si nécessaire, définissez tous les membres uniques requis par votre classe pour fournir des informations supplémentaires relatives à l’exception. Par exemple, le <xref:System.ArgumentException> classe inclut un <xref:System.ArgumentException.ParamName%2A> propriété qui spécifie le nom du paramètre dont l’argument a provoqué l’exception, et le <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> propriété inclut un <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.MatchTimeout%2A> propriété qui indique l’intervalle de délai d’attente.  
   
-2.  Si nécessaire, remplacer tous les membres hérités dont vous souhaitez modifier les fonctionnalités. Notez qu’existant de la plupart des classes dérivées de <xref:System.Exception> ne remplacent pas le comportement des membres hérités.  
+2.  Si la méthode qui lève cette exception n’est pas disponible et la trace de pile n’est pas une référence null ( en Visual Basic),  Obtient la méthode à partir de la trace de pile. Le <xref:System.Exception> propriété ne peut pas signaler correctement le nom de la méthode dans laquelle une exception a été levée si le Gestionnaire d’exceptions gère une exception sur les limites du domaine d’application.  
   
-3.  Déterminer si votre objet d’exception personnalisé est sérialisable. Sérialisation vous permet d’enregistrer des informations sur l’exception et autorise les informations sur les exceptions d’être partagées par un serveur et un proxy client dans un contexte de la communication à distance. Pour rendre l’objet exception sérialisable, marquez-le avec le <xref:System.SerializableAttribute> attribut.  
+3.  Le code suivant exemple lève une  intercepte et affiche la méthode d’origine à l’aide du  propriété. Retourne une représentation de l’exception actuelle est destinée à être compréhensible par les utilisateurs. Lorsque l’exception contient des données de la culture, la représentation sous forme de chaîne retournée par <xref:System.SerializableAttribute> est requise pour prendre en compte la culture système actuelle.  
   
-4.  Définir les constructeurs de votre classe d’exception. En règle générale, les classes d’exceptions ont un ou plusieurs des constructeurs suivants :  
+4.  Bien qu’il n’existe aucune configuration requise exacte pour le format de la chaîne retournée, il doit tenter de refléter la valeur de l’objet en tant que perçue par l’utilisateur. L’implémentation par défaut de  Obtient le nom de la classe qui a levé l’exception actuelle, le message, le résultat de l’appel  sur l’exception interne et le résultat de l’appel .  
   
-    -   <xref:System.Exception.%23ctor>, qui utilise les valeurs par défaut pour initialiser les propriétés d’un nouvel objet d’exception.  
+    -   <xref:System.Exception.%23ctor>Si un de ces membres est <xref:System.Exception.%23ctor>, sa valeur n’est pas incluse dans la chaîne retournée.  
   
-    -   <xref:System.Exception.%23ctor%28System.String%29>, qui initialise un nouvel objet d’exception avec un message d’erreur spécifié.  
+    -   <xref:System.Exception.%23ctor%28System.String%29>S’il n’existe aucun message d’erreur ou s’il s’agit d’une chaîne vide (" »), aucun message d’erreur est retournée.  
   
-    -   <xref:System.Exception.%23ctor%28System.String%2CSystem.Exception%29>, qui initialise un nouvel objet d’exception avec une erreur spécifiée message et l’exception interne.  
+    -   <xref:System.Exception.%23ctor%28System.String%2CSystem.Exception%29>Le nom de l’exception interne et la trace de pile sont retournés uniquement s’ils ne sont pas <xref:System.Exception.%23ctor%28System.String%2CSystem.Exception%29>.  
   
-    -   <xref:System.Exception.%23ctor%28System.Runtime.Serialization.SerializationInfo%2CSystem.Runtime.Serialization.StreamingContext%29>, qui est un `protected` constructeur qui initialise un nouvel objet d’exception à partir des données sérialisées. Vous devez implémenter ce constructeur si vous avez choisi de rendre votre objet d’exception sérialisable.  
+    -   <xref:System.Exception.%23ctor%28System.Runtime.Serialization.SerializationInfo%2CSystem.Runtime.Serialization.StreamingContext%29>L’exemple suivant provoque une exception et affiche le résultat de l’appel <xref:System.Exception.%23ctor%28System.Runtime.Serialization.SerializationInfo%2CSystem.Runtime.Serialization.StreamingContext%29> sur cette exception. Notez que le  méthode est appelée implicitement lorsque l’instance de classe d’Exception s’affiche dans la liste d’arguments de la  (méthode).  
   
- L’exemple suivant illustre l’utilisation d’une classe d’exception personnalisée. Il définit un `NotPrimeException` exception qui est levée lorsqu’un client essaie de récupérer d’une séquence de nombres premiers en spécifiant un numéro de départ n’est pas principal. L’exception définit une nouvelle propriété, `NonPrime`, qui retourne la non-nombre premier a provoqué l’exception. Outre l’implémentation d’un constructeur sans paramètre protégé et un constructeur avec <xref:System.Runtime.Serialization.SerializationInfo> et <xref:System.Runtime.Serialization.StreamingContext> paramètres pour la sérialisation, le `NotPrimeException` classe définit trois constructeurs supplémentaires pour prendre en charge le `NonPrime` propriété.  Chaque constructeur appelle un constructeur de classe de base en plus de conserver la valeur des nombres premiers. Le `NotPrimeException` est également marquée avec la <xref:System.SerializableAttribute> attribut.  
+ L’exemple suivant illustre l’utilisation d’une classe d’exception personnalisée. Il définit un `NotPrimeException` exception levée lorsqu’un client tente de récupérer une séquence de nombres premiers en spécifiant un numéro de départ n’est pas privilégiée. L’exception définit une nouvelle propriété, `NonPrime`, qui retourne le non-nombre premier l’ayant provoqué l’exception. Outre l’implémentation d’un constructeur sans paramètre protégé et un constructeur avec <xref:System.Runtime.Serialization.SerializationInfo> et <xref:System.Runtime.Serialization.StreamingContext> paramètres pour la sérialisation, le `NotPrimeException` classe définit trois constructeurs supplémentaires pour prendre en charge le `NonPrime` propriété.  Chaque constructeur appelle un constructeur de classe de base en plus de la préservation de la valeur du nombre premier. Le `NotPrimeException` est également marquée avec le <xref:System.SerializableAttribute> attribut.  
   
  [!code-csharp[System.Exception.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.exception.class/cs/notprimeexception.cs#1)]
  [!code-vb[System.Exception.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.exception.class/vb/notprimeexception.vb#1)]  
   
- La `PrimeNumberGenerator` classe indiqué dans l’exemple suivant utilise le crible d’Ératosthène pour calculer la séquence de nombres premiers de 2 à une limite spécifiée par le client dans l’appel à son constructeur de classe. Le `GetPrimesFrom` méthode retourne tous les nombres premiers qui sont supérieurs ou égaux à la limite inférieure spécifiée, mais lève une `NotPrimeException` si ce seuil n’est pas un nombre premier.  
+ Le `PrimeNumberGenerator` classe illustrée dans l’exemple suivant utilise le crible d’Ératosthène pour calculer la séquence de nombres premiers de 2 à une limite spécifiée par le client dans l’appel à son constructeur de classe. Le `GetPrimesFrom` méthode retourne tous les nombres premiers qui sont supérieurs ou égaux à une limite inférieure spécifiée, mais lève une `NotPrimeException` si cette limite inférieure n’est pas un nombre premier.  
   
  [!code-csharp[System.Exception.Class#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.exception.class/cs/primenumbergenerator.cs#2)]
  [!code-vb[System.Exception.Class#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.exception.class/vb/primenumbergenerator.vb#2)]  
   
- L’exemple suivant effectue deux appels à la `GetPrimesFrom` méthode avec les nombres non premiers, dont dépasse les limites du domaine d’application. Dans les deux cas, l’exception est levée et gérée avec succès dans le code client.  
+ L’exemple suivant effectue deux appels à la `GetPrimesFrom` méthode avec des nombres non premiers, un qui dépasse les limites du domaine d’application. Dans les deux cas, l’exception est levée et gérée correctement dans le code client.  
   
  [!code-csharp[System.Exception.Class#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.exception.class/cs/example.cs#3)]
  [!code-vb[System.Exception.Class#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.exception.class/vb/example.vb#3)]  
   
 ## <a name="windows-runtime-and-includenetv451includesnet-v451-mdmd"></a>Windows Runtime et [!INCLUDE[net_v451](~/includes/net-v451-md.md)]  
- Dans [!INCLUDE[net_win8_profile](~/includes/net-win8-profile-md.md)] pour [!INCLUDE[win8](~/includes/win8-md.md)], certaines informations sur l’exception sont généralement perdues lorsqu’une exception est propagée par le biais des frames de pile non .NET Framework. En commençant par le [!INCLUDE[net_v451](~/includes/net-v451-md.md)] et [!INCLUDE[win81](~/includes/win81-md.md)], le common language runtime continue à utiliser la version d’origine <xref:System.Exception> objet qui a été levée, sauf si cette exception a été modifiée dans un frame de pile non .NET Framework.  
+ Dans [!INCLUDE[net_win8_profile](~/includes/net-win8-profile-md.md)] pour [!INCLUDE[win8](~/includes/win8-md.md)], certaines informations sur l’exception sont généralement perdues lorsqu’une exception est propagée par le biais des frames de pile non .NET Framework. En commençant par le [!INCLUDE[net_v451](~/includes/net-v451-md.md)] et [!INCLUDE[win81](~/includes/win81-md.md)], le common language runtime continue d’utiliser la version d’origine <xref:System.Exception> objet qui a été levée, sauf si cette exception a été modifiée dans un frame de pile non .NET Framework.  
   
    
   
 ## Examples  
- L’exemple suivant montre un `catch` bloc qui est défini pour gérer <xref:System.ArithmeticException> erreurs. Cela `catch` également bloquer les captures <xref:System.DivideByZeroException> erreurs, car <xref:System.DivideByZeroException> dérive <xref:System.ArithmeticException> et qu’il existe aucune `catch` bloc défini explicitement pour <xref:System.DivideByZeroException> erreurs.  
+ L’exemple suivant montre un `catch` bloc qui est défini pour gérer <xref:System.ArithmeticException> erreurs. Cela `catch` bloquer également les captures <xref:System.DivideByZeroException> erreurs, car <xref:System.DivideByZeroException> dérive <xref:System.ArithmeticException> et qu’il existe aucune `catch` bloc défini explicitement pour <xref:System.DivideByZeroException> erreurs.  
   
  [!code-cpp[CatchException#1](~/samples/snippets/cpp/VS_Snippets_CLR/CatchException/CPP/catchexception.cpp#1)]
  [!code-csharp[CatchException#1](~/samples/snippets/csharp/VS_Snippets_CLR/CatchException/CS/catchexception.cs#1)]
@@ -312,6 +314,8 @@ Stack Trace:
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -367,6 +371,8 @@ Stack Trace:
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -384,7 +390,7 @@ Stack Trace:
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ce constructeur initialise la <xref:System.Exception.Message%2A> propriété de la nouvelle instance à l’aide de le `message` paramètre. Si le `message` paramètre est `null`, cela revient à appeler la <xref:System.Exception.%23ctor%2A> constructeur.  
+ Ce constructeur initialise la <xref:System.Exception.Message%2A> propriété de la nouvelle instance à l’aide de le `message` paramètre. Si le `message` paramètre est `null`, ceci est le même que si vous appelez le <xref:System.Exception.%23ctor%2A> constructeur.  
   
  Le tableau suivant montre les valeurs initiales des propriétés d'une instance de <xref:System.Exception>.  
   
@@ -396,7 +402,7 @@ Stack Trace:
    
   
 ## Examples  
- L’exemple de code suivant dérive un `Exception` pour une condition spécifique. Le code illustre l’utilisation du constructeur qui prend un message spécifié par l’appelant comme paramètre pour la classe dérivée et la base de `Exception` classe.  
+ L’exemple de code suivant dérive un `Exception` pour une condition spécifique. Le code illustre l’utilisation du constructeur qui prend un message spécifié par l’appelant en tant que paramètre, pour la classe dérivée et la base de `Exception` classe.  
   
  [!code-cpp[System.Exception.Ctor#2](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Exception.Ctor/CPP/news.cpp#2)]
  [!code-csharp[System.Exception.Ctor#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Exception.Ctor/CS/news.cs#2)]
@@ -416,6 +422,8 @@ Stack Trace:
       <MemberType>Constructor</MemberType>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -452,7 +460,7 @@ Stack Trace:
    
   
 ## Examples  
- L’exemple de code suivant définit une dérivée sérialisable `Exception` classe. Le code impose une erreur de division par 0 et crée ensuite une instance de l’exception dérivée à l’aide du (<xref:System.Runtime.Serialization.SerializationInfo>, <xref:System.Runtime.Serialization.StreamingContext>) constructeur. Le code sérialise l’instance dans un fichier, désérialise le fichier dans une nouvelle exception, qu’il lève, puis intercepte et affiche les données de l’exception.  
+ L’exemple de code suivant définit une dérivée sérialisable `Exception` classe. Le code impose une erreur de division par 0, puis crée une instance de l’exception dérivée à l’aide du (<xref:System.Runtime.Serialization.SerializationInfo>, <xref:System.Runtime.Serialization.StreamingContext>) constructeur. Le code sérialise l’instance dans un fichier, désérialise le fichier dans une nouvelle exception, elle lève, puis intercepte et affiche les données de l’exception.  
   
  [!code-cpp[System.Exception.GetObjectData#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Exception.GetObjectData/CPP/getobjdata.cpp#1)]
  [!code-csharp[System.Exception.GetObjectData#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Exception.GetObjectData/CS/getobjdata.cs#1)]
@@ -485,6 +493,8 @@ Stack Trace:
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -516,7 +526,7 @@ Stack Trace:
    
   
 ## Examples  
- L’exemple de code suivant dérive un `Exception` pour une condition spécifique. Le code illustre l’utilisation du constructeur qui accepte un message et une exception interne comme paramètres pour la classe dérivée et la base de `Exception` classe.  
+ L’exemple de code suivant dérive un `Exception` pour une condition spécifique. Le code illustre l’utilisation du constructeur qui prend un message et une exception interne comme paramètres pour la classe dérivée et la base de `Exception` classe.  
   
  [!code-cpp[System.Exception.Ctor#3](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Exception.Ctor/CPP/newsi.cpp#3)]
  [!code-csharp[System.Exception.Ctor#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Exception.Ctor/CS/newsi.cs#3)]
@@ -545,6 +555,7 @@ Stack Trace:
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -569,23 +580,23 @@ Stack Trace:
 ## Remarks  
  Utilisez le <xref:System.Collections.IDictionary?displayProperty=nameWithType> objet retourné par la <xref:System.Exception.Data%2A> propriété pour stocker et récupérer des informations supplémentaires concernant l’exception. Les informations sont sous la forme d’un nombre arbitraire de paires clé/valeur définies par l’utilisateur. Le composant clé de chaque paire clé/valeur est généralement une chaîne d’identification, tandis que le composant de valeur de la paire peut être tout type d’objet.  
   
-## <a name="keyvalue-pair-security"></a>Sécurité des paires clé/valeur.  
- Les paires clé/valeur stockées dans la collection retournée par la <xref:System.Exception.Data%2A> propriété ne sont pas sécurisées. Si votre application appelle une série imbriquée de routines et que chaque routine contient des gestionnaires d’exceptions, la pile des appels résultante contient une hiérarchie de ces gestionnaires d’exceptions. Si une routine de niveau inférieur lève une exception, un gestionnaire d’exceptions de niveau supérieur dans la hiérarchie de la pile des appels peut lire ou de modifier les paires clé/valeur stockées dans la collection par n’importe quel autre gestionnaire d’exceptions. Cela signifie que vous devez vous assurer que les informations contenues dans les paires clé/valeur ne sont pas confidentielles et que votre application fonctionnera correctement si les informations contenues dans les paires clé/valeur sont endommagés.  
+## <a name="keyvalue-pair-security"></a>Sécurité de paire clé/valeur  
+ Les paires clé/valeur stockées dans la collection retournée par la <xref:System.Exception.Data%2A> propriété ne sont pas sécurisés. Si votre application appelle une série imbriquée de routines et que chaque routine contient des gestionnaires d’exceptions, la pile des appels qui en résulte contient une hiérarchie de ces gestionnaires d’exceptions. Si une routine de niveau inférieur lève une exception, tout gestionnaire d’exceptions de niveau supérieur dans la hiérarchie de la pile des appels peut lire et/ou modifier les paires clé/valeur stockées dans la collection par n’importe quel autre gestionnaire d’exceptions. Cela signifie que vous devez vous assurer que les informations contenues dans les paires clé/valeur ne sont pas confidentielles et que votre application fonctionnera correctement si les informations contenues dans les paires clé/valeur sont endommagés.  
   
 ## <a name="key-conflicts"></a>Conflits de clés  
- Un conflit de clés se produit lorsque les gestionnaires d’exceptions différents spécifient la même clé pour accéder à une paire clé/valeur. Soyez prudent lorsque vous développez votre application, car les conséquences d’un conflit de clés sont que les gestionnaires d’exceptions de niveau inférieur peuvent communiquer par inadvertance avec des gestionnaires d’exceptions plus haut niveau, et cette communication peut provoquer des erreurs de programmation subtiles. Toutefois, si vous êtes prudent, vous pouvez utiliser les conflits de clé pour améliorer votre application.  
+ Un conflit de clés se produit lorsque les gestionnaires d’exceptions différents spécifient la même clé pour accéder à une paire clé/valeur. Soyez prudent lorsque vous développez votre application, car la conséquence d’un conflit de clés est que les gestionnaires d’exceptions de niveau inférieur peuvent communiquer par inadvertance avec des gestionnaires d’exceptions, et cette communication peut provoquer des erreurs de programmation subtiles. Toutefois, si vous êtes prudent, vous pouvez utiliser les conflits de clé pour améliorer votre application.  
   
-## <a name="avoiding-key-conflicts"></a>Éviter les conflits de clés  
+## <a name="avoiding-key-conflicts"></a>Prévention des conflits de clé  
  Éviter les conflits de clés en adoptant une convention d’affectation de noms pour générer des clés uniques pour les paires clé/valeur. Par exemple, une convention d’affectation de noms peut générer une clé qui se compose du nom séparé de votre application, la méthode qui fournit des informations supplémentaires pour la paire et un identificateur unique.  
   
- Supposons que deux applications, nommées produits et fournisseurs, chacun possède une méthode nommée Sales. La méthode ventes dans l’application produits fournit le numéro d’identification (la cote de stockage ou SKU) d’un produit. La méthode ventes dans l’application fournisseurs fournit le numéro d’identification, ou SID, d’un fournisseur. Par conséquent, la convention d’affectation de noms pour cet exemple produit les clés « Produits.ventes.CDs » et « Fournisseurs.ventes.SID ».  
+ Supposons que deux applications, nommées produits et fournisseurs, chacune possède une méthode nommée Sales. La méthode ventes dans l’application produits fournit le numéro d’identification (le stock de stockage ou CDs) d’un produit. La méthode de ventes dans l’application fournisseurs fournit le numéro d’identification, ou SID, d’un fournisseur. Par conséquent, la convention d’affectation de noms pour cet exemple génère les clés, « Produits.ventes.CDs » et « Fournisseurs.ventes.SID ».  
   
-## <a name="exploiting-key-conflicts"></a>Exploitation des conflits de clés  
- Exploiter les conflits de clés à l’aide de la présence d’une ou plusieurs clés spéciales, préétablies pour contrôler le traitement. Supposons, dans un scénario, que le Gestionnaire d’exceptions de niveau le plus élevé dans la hiérarchie de la pile des appels intercepte toutes les exceptions levées par les gestionnaires d’exceptions de niveau inférieur. Si une paire clé/valeur avec une clé spéciale existe, le Gestionnaire d’exceptions de haut niveau met en forme les paires clé/valeur restantes dans le <xref:System.Collections.IDictionary> l’objet d’une certaine façon non standard ; sinon, les paires clé/valeur restantes sont mises en forme de façon normale.  
+## <a name="exploiting-key-conflicts"></a>Exploitant les conflits de clés  
+ Exploiter les conflits de clés à l’aide de la présence d’une ou plusieurs clés spéciales et préétablies pour contrôler le traitement. Supposons que, dans un scénario, le Gestionnaire d’exceptions de niveau le plus élevé dans la hiérarchie de la pile des appels intercepte toutes les exceptions levées par les gestionnaires d’exceptions de niveau inférieur. Si une paire clé/valeur avec une clé spéciale existe, le Gestionnaire d’exceptions de haut niveau met en forme les paires clé/valeur restantes dans le <xref:System.Collections.IDictionary> objet d’une certaine façon non standard ; sinon, les paires clé/valeur restants sont mis en forme de façon normale.  
   
- Supposons à présent, dans un autre scénario, que le Gestionnaire d’exceptions à chaque niveau de la hiérarchie de la pile des appels intercepte l’exception levée par le Gestionnaire d’exceptions de niveau inférieur suivant. De plus, chaque gestionnaire d’exceptions sait que la collection retournée par la <xref:System.Exception.Data%2A> propriété contient un ensemble de paires clé/valeur qui sont accessibles avec un jeu préétablie de clés.  
+ Supposons à présent, dans un autre scénario, que le Gestionnaire d’exceptions à chaque niveau de la hiérarchie de la pile des appels intercepte l’exception levée par le Gestionnaire d’exceptions de niveau inférieur suivant. De plus, chaque gestionnaire d’exceptions sait que la collection retournée par la <xref:System.Exception.Data%2A> propriété contient un ensemble de paires clé/valeur qui est accessible avec un ensemble préétablie de clés.  
   
- Chaque gestionnaire d’exceptions utilise l’ensemble préétablie de clés pour mettre à jour le composant de valeur de la paire clé/valeur correspondante avec des informations propres à ce gestionnaire d’exceptions. Une fois le processus de mise à jour terminé, le Gestionnaire d’exceptions lève l’exception au gestionnaire d’exceptions de niveau supérieur suivant. Enfin, le Gestionnaire d’exceptions de niveau le plus élevé accède aux paires clé/valeur et affiche les informations de mise à jour consolidées à partir de tous les gestionnaires d’exceptions de niveau inférieur.  
+ Chaque gestionnaire d’exceptions utilise l’ensemble préétablie de clés pour mettre à jour le composant de valeur de la paire clé/valeur correspondante avec des informations propres à ce gestionnaire d’exceptions. Une fois le processus de mise à jour terminé, le Gestionnaire d’exceptions lève l’exception au gestionnaire d’exceptions de niveau supérieur suivant. Enfin, le Gestionnaire d’exceptions de niveau le plus élevé accède aux paires clé/valeur et affiche les informations de mise à jour consolidé à partir de tous les gestionnaires d’exceptions de niveau inférieur.  
   
    
   
@@ -623,6 +634,8 @@ Stack Trace:
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -641,16 +654,16 @@ Stack Trace:
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Une chaîne d’exceptions se compose d’un jeu d’exceptions où chaque exception de la chaîne a été levée en conséquence directe d’une exception référencée dans sa `InnerException` propriété. Pour une chaîne donnée, il peut y avoir exactement une exception qui est la cause première de toutes les autres exceptions dans la chaîne. Cette exception est appelée à l’exception de base et ses `InnerException` propriété contient toujours une référence null.  
+ Une chaîne d’exceptions se compose d’un ensemble d’exceptions où chaque exception de la chaîne a été levée en conséquence directe de l’exception référencée dans sa `InnerException` propriété. Pour une chaîne donnée, il peut y avoir exactement une exception qui est la cause racine de toutes les autres exceptions dans la chaîne. Cette exception est appelée à l’exception de base et ses `InnerException` propriété contient toujours une référence null.  
   
  Pour toutes les exceptions dans une chaîne d’exceptions, la `GetBaseException` méthode doit retourner le même objet (l’exception de base).  
   
- Utilisez la `GetBaseException` méthode lorsque vous souhaitez trouver la cause d’une exception mais que vous n’avez pas besoin d’informations sur les exceptions qui se sont produites entre l’exception en cours et la première exception.  
+ Utilisez le `GetBaseException` méthode lorsque vous souhaitez trouver la cause d’une exception mais que vous n’avez pas besoin d’informations sur les exceptions qui se sont produites entre l’exception actuelle et la première exception.  
   
    
   
 ## Examples  
- L’exemple de code suivant définit deux dérivées `Exception` classes. Il force une exception et lève à nouveau avec chacune des classes dérivées. Le code illustre l’utilisation de la `GetBaseException` méthode pour récupérer l’exception d’origine.  
+ L’exemple de code suivant définit deux dérivés `Exception` classes. Il force une exception et lève à nouveau avec chacune des classes dérivées. Le code illustre l’utilisation de la `GetBaseException` méthode pour récupérer l’exception d’origine.  
   
  [!code-cpp[System.Exception.GetBaseException#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Exception.GetBaseException/CPP/getbaseexc.cpp#1)]
  [!code-csharp[System.Exception.GetBaseException#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Exception.GetBaseException/CS/getbaseexc.cs#1)]
@@ -677,6 +690,8 @@ Stack Trace:
       </Implements>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -716,7 +731,7 @@ Stack Trace:
    
   
 ## Examples  
- L’exemple de code suivant définit une dérivée sérialisable `Exception` classe qui implémente `GetObjectData`, ce qui permet des modifications mineures à deux propriétés et puis appelle la classe de base pour effectuer la sérialisation. L’exemple impose une erreur de division par 0, puis crée une instance de l’exception dérivée. Le code sérialise l’instance dans un fichier, désérialise le fichier dans une nouvelle exception, qu’il lève, puis intercepte et affiche les données de l’exception.  
+ L’exemple de code suivant définit une dérivée sérialisable `Exception` classe qui implémente `GetObjectData`, qui apporte des modifications mineures à deux propriétés, et puis appelle la classe de base pour effectuer la sérialisation. L’exemple impose une erreur de division par 0, puis crée une instance de l’exception dérivée. Le code sérialise l’instance dans un fichier, désérialise le fichier dans une nouvelle exception, elle lève, puis intercepte et affiche les données de l’exception.  
   
  [!code-cpp[System.Exception.GetObjectData#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Exception.GetObjectData/CPP/getobjdata.cpp#1)]
  [!code-csharp[System.Exception.GetObjectData#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Exception.GetObjectData/CS/getobjdata.cs#1)]
@@ -725,7 +740,7 @@ Stack Trace:
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">Le paramètre <paramref name="info" /> est une référence null (<see langword="Nothing" /> en Visual Basic).</exception>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">Requiert une confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par le code de confiance partielle ou transparent.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">requiert une confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par le code de confiance partielle ou transparent.</permission>
         <altmember cref="T:System.Runtime.Serialization.SerializationInfo" />
         <altmember cref="T:System.Runtime.Serialization.StreamingContext" />
       </Docs>
@@ -743,6 +758,7 @@ Stack Trace:
       </Implements>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -796,6 +812,8 @@ Stack Trace:
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -813,7 +831,7 @@ Stack Trace:
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La valeur de retour, qui représente un fichier d'aide, est une adresse URN ou URL. Par exemple, le `HelpLink` valeur peut être :  
+ La valeur de retour, qui représente un fichier d'aide, est une adresse URN ou URL. Par exemple, le `HelpLink` valeur pourrait être :  
   
  "file:///C:/Applications/Bazzal/help.html#ErrorNum42"  
   
@@ -849,6 +867,8 @@ Stack Trace:
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -866,9 +886,9 @@ Stack Trace:
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- HRESULT est une valeur 32 bits, divisée en trois champs : un code de gravité, un code de service et un code d’erreur. Le code de gravité indique si la valeur de retour représente plus d’informations, avertissement ou erreur. Le code de fonctionnalité identifie la zone du système responsable de l’erreur. Le code d’erreur est un nombre unique affecté pour représenter une exception. Chaque exception est mappée à une valeur HRESULT distincte. Lorsque le code managé lève une exception, le runtime passe la valeur HRESULT vers le client COM. Code non managé retourne une erreur HRESULT est converti en une exception qui est ensuite levée par le runtime. Pour plus d’informations sur les exceptions .NET Framework correspondantes et les valeurs HRESULT, consultez [Comment : mappage HRESULT et des Exceptions](~/docs/framework/interop/how-to-map-hresults-and-exceptions.md). Consultez [valeurs HRESULT courantes](http://msdn.microsoft.com/library/windows/desktop/aa378137.aspx) dans la documentation de Windows pour obtenir la liste des valeurs que vous êtes susceptible de rencontrer.  
+ HRESULT est une valeur 32 bits, divisée en trois champs : un code de gravité, un code de service et un code d’erreur. Le code de gravité indique si la valeur de retour représente les informations, avertissement ou erreur. Le code de service identifie la zone du système responsable de l’erreur. Le code d’erreur est un nombre unique affecté pour représenter une exception. Chaque exception est mappée à une valeur HRESULT distincte. Lorsque le code managé lève une exception, le runtime passe la valeur HRESULT au client COM. Lorsque le code non managé retourne une erreur, le HRESULT est converti en une exception, qui est ensuite levée par le runtime. Pour plus d’informations sur les valeurs HRESULT et les exceptions de .NET Framework correspondantes, consultez [Comment : Map HRESULTs and Exceptions](~/docs/framework/interop/how-to-map-hresults-and-exceptions.md). Consultez [valeurs HRESULT courantes](http://msdn.microsoft.com/library/windows/desktop/aa378137.aspx) dans la documentation de Windows pour obtenir la liste des valeurs que vous êtes plus susceptible de rencontrer.  
   
- En commençant par le [!INCLUDE[net_v45](~/includes/net-v45-md.md)], le <xref:System.Exception.HResult%2A> setter de la propriété est protégé, tandis que sa méthode getter est public.  Dans les versions précédentes du .NET Framework, les méthodes getter et setter sont protégés.  
+ En commençant par le [!INCLUDE[net_v45](~/includes/net-v45-md.md)], le <xref:System.Exception.HResult%2A> accesseur Set de la propriété est protégé, tandis que sa méthode getter est public.  Dans les versions précédentes du .NET Framework, les méthodes getter et setter sont protégées.  
   
    
   
@@ -905,6 +925,8 @@ Stack Trace:
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -928,14 +950,14 @@ Stack Trace:
   
  Vous pouvez créer une nouvelle exception qui intercepte une exception antérieure. Le code qui gère la deuxième exception peut utiliser les informations supplémentaires à partir de l’exception antérieure pour gérer l’erreur plus convenablement.  
   
- Supposons qu’il existe une fonction qui lit un fichier et met en forme les données à partir de ce fichier. Dans cet exemple, en tant que le code essaie de lire le fichier, un <xref:System.IO.IOException> est levée. La fonction intercepte le <xref:System.IO.IOException> et lève un <xref:System.IO.FileNotFoundException>. Le <xref:System.IO.IOException> peut être enregistré dans le <xref:System.Exception.InnerException%2A> propriété de la <xref:System.IO.FileNotFoundException>, permettre au code qui intercepte les <xref:System.IO.FileNotFoundException> pour examiner la cause de l’erreur initiale.  
+ Supposons qu’une fonction qui lit un fichier et met en forme les données à partir de ce fichier. Dans cet exemple, en tant que le code essaie de lire le fichier, un <xref:System.IO.IOException> est levée. La fonction intercepte la <xref:System.IO.IOException> et lève un <xref:System.IO.FileNotFoundException>. Le <xref:System.IO.IOException> peut être enregistré dans le <xref:System.Exception.InnerException%2A> propriété de la <xref:System.IO.FileNotFoundException>, permettre au code qui intercepte la <xref:System.IO.FileNotFoundException> pour examiner la cause de l’erreur initiale.  
   
- Le <xref:System.Exception.InnerException%2A> propriété, qui conserve une référence à l’exception interne, est définie lors de l’initialisation de l’objet exception.  
+ Le <xref:System.Exception.InnerException%2A> propriété, qui contient une référence à l’exception interne, est définie lors de l’initialisation de l’objet exception.  
   
    
   
 ## Examples  
- L’exemple suivant montre comment lever et intercepter une exception qui fait référence à une exception interne.  
+ L’exemple suivant illustre la levée et l’interception d’une exception qui fait référence à une exception interne.  
   
  [!code-cpp[InnerEx#1](~/samples/snippets/cpp/VS_Snippets_CLR/InnerEx/CPP/innerex.cpp#1)]
  [!code-csharp[InnerEx#1](~/samples/snippets/csharp/VS_Snippets_CLR/InnerEx/CS/innerex.cs#1)]
@@ -967,6 +989,8 @@ Stack Trace:
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -984,20 +1008,20 @@ Stack Trace:
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Messages d’erreur ciblent le développeur qui gère l’exception. Le texte de la <xref:System.Exception.Message%2A> doit décrire complètement l’erreur de propriété et, si possible, également expliquer comment corriger l’erreur. Gestionnaires d’exceptions de niveau supérieur peuvent afficher le message aux utilisateurs finaux, donc vous devez vous assurer qu’il est grammaire correcte et que chaque phrase du message se termine par un point. N’utilisez pas de points d’interrogation ou des points d’exclamation. Si votre application utilise des messages d’exception localisées, vous devez vous assurer qu’ils sont traduits correctement.  
+ Messages d’erreur ciblent le développeur qui gère l’exception. Le texte de la <xref:System.Exception.Message%2A> propriété doit décrire complètement l’erreur et, dans la mesure du possible, doit également comment corriger l’erreur. Gestionnaires d’exceptions de niveau supérieur peuvent afficher le message aux utilisateurs finaux, afin de vous assurer qu’il est grammaticalement correct et que chaque phrase du message se termine par un point. N’utilisez pas de points d’interrogation ou des points d’exclamation. Si votre application utilise des messages d’exception localisé, vous devez vous assurer qu’elles sont traduites correctement.  
   
 > [!IMPORTANT]
->  Ne divulguent pas les informations sensibles dans les messages d’exception sans vérifier les autorisations appropriées.  
+>  Ne pas divulguer des informations sensibles dans les messages d’exception sans vérifier les autorisations appropriées.  
   
  La valeur de la <xref:System.Exception.Message%2A> propriété est incluse dans les informations retournées par <xref:System.Exception.ToString%2A>. Le <xref:System.Exception.Message%2A> propriété est définie uniquement lorsque vous créez un <xref:System.Exception>. Si aucun message n’a été fourni au constructeur pour l’instance actuelle, le système fournit un message par défaut qui est mis en forme à l’aide de la culture système actuelle.  
   
 ## <a name="windows-runtime-and-includenetv451includesnet-v451-mdmd"></a>Windows Runtime et [!INCLUDE[net_v451](~/includes/net-v451-md.md)]  
- En commençant par le [!INCLUDE[net_v451](~/includes/net-v451-md.md)] et [!INCLUDE[win81](~/includes/win81-md.md)], la fidélité des messages d’erreur à partir d’exceptions qui sont propagés à partir des types Windows Runtime et les membres qui ne font pas partie du .NET Framework est améliorée. En particulier, messages d’exception à partir des extensions de composant Visual C++ (C + c++ / CX) sont désormais propagées dans .NET Framework <xref:System.Exception> objets.  
+ En commençant par le [!INCLUDE[net_v451](~/includes/net-v451-md.md)] et [!INCLUDE[win81](~/includes/win81-md.md)], la fidélité des messages d’erreur à partir d’exceptions qui sont propagés à partir des types Windows Runtime et les membres qui ne font pas partie du .NET Framework est améliorée. En particulier, messages d’exception à partir des extensions de composant Visual C++ (C++ / c++ / CX) sont maintenant propagées dans .NET Framework <xref:System.Exception> objets.  
   
    
   
 ## Examples  
- L’exemple de code suivant lève, puis intercepte un <xref:System.Exception> exception et afficher du texte de l’exception du message à l’aide de la <xref:System.Exception.Message%2A> propriété.
+ L’exemple de code suivant lève, puis intercepte un <xref:System.Exception> exception et affiche le texte de l’exception message en utilisant le <xref:System.Exception.Message%2A> propriété.
   
  [!code-cpp[System.Exception.Properties#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Exception.Properties/CPP/properties.cpp#1)]
  [!code-csharp[System.Exception.Properties#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Exception.Properties/CS/properties.cs#1)]
@@ -1006,10 +1030,10 @@ Stack Trace:
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Si vous levez une exception à partir d’une propriété, vous devez faire référence dans le texte de <see cref="P:System.Exception.Message" /> à l’argument de propriété que vous définissez ou obtenez, utilisez « valeur » comme nom de l’argument de la propriété.</para>
+          <para>Si vous levez une exception à partir d’une propriété, et que vous avez besoin faire référence dans le texte de <see cref="P:System.Exception.Message" /> à l’argument de propriété que vous définissez ou obtenez, utilisez « valeur » en tant que le nom de l’argument de la propriété.</para>
         </block>
         <block subset="none" type="overrides">
-          <para>Le <see cref="P:System.Exception.Message" /> est substituée dans les classes qui requièrent un contrôle de contenu de message ou le format. Code de l’application accède généralement à cette propriété lorsqu’il a besoin pour afficher des informations concernant une exception a été interceptée.  Le message d’erreur doit être localisé.</para>
+          <para>Le <see cref="P:System.Exception.Message" /> est substituée dans les classes qui requièrent un contrôle de contenu de message ou le format. Code de l’application accède généralement à cette propriété lorsqu’il a besoin pour afficher des informations sur une exception qui a été interceptée.  Le message d’erreur doit être localisé.</para>
         </block>
       </Docs>
     </Member>
@@ -1046,13 +1070,13 @@ Stack Trace:
 ## Remarks  
  L’objet d’état exception implémente le <xref:System.Runtime.Serialization.ISafeSerializationData> interface.  
   
- Lorsque le <xref:System.Exception.SerializeObjectState> est abonné à l’événement, l’exception est désérialisée et créée en tant qu’une exception vide. Le constructeur d’exception n’est pas exécuté, et l’état d’exception est également désérialisé. Le <xref:System.Runtime.Serialization.ISafeSerializationData.CompleteDeserialization%2A> méthode de rappel de l’objet d’état exception est ensuite notifiée afin qu’il peut pousser des données désérialisées dans l’exception vide.  
+ Lorsque le <xref:System.Exception.SerializeObjectState> est abonné à l’événement, l’exception est désérialisée et créée en tant qu’une exception vide. Le constructeur d’exception n’est pas exécuté, et l’état d’exception est également désérialisé. Le <xref:System.Runtime.Serialization.ISafeSerializationData.CompleteDeserialization%2A> méthode de rappel de l’objet exception d’état est ensuite notifié afin qu’il puisse pousser les données désérialisées dans l’exception vide.  
   
- Le <xref:System.Exception.SerializeObjectState> événement permet aux types d’exception transparents sérialiser et désérialiser des données d’exception. Code transparent peut exécuter des commandes dans les limites du jeu d’autorisations qu’il fonctionne, mais il ne peut pas exécuter, appeler, dériver d’ou contenir du code critique.  
+ Le <xref:System.Exception.SerializeObjectState> événement permet aux types d’exception transparents sérialiser et désérialiser des données d’exception. Le code transparent peut exécuter des commandes dans les limites du jeu d’autorisations qu’il fonctionne, mais ne peut pas exécuter, appeler, dériver à partir d’ou contenir du code critique.  
   
  Si le <xref:System.Exception.SerializeObjectState> n'est pas abonné à l’événement, la désérialisation se produit comme d’habitude à l’aide de la <xref:System.Exception.%23ctor%2A> constructeur.  
   
- En règle générale, un gestionnaire pour le <xref:System.Exception.SerializeObjectState> événement est ajouté dans le constructeur d’exception à fournir pour sa sérialisation. Mais étant donné que le constructeur n’est pas exécutée lorsque la <xref:System.Exception.SerializeObjectState> s’exécute le Gestionnaire d’événements, la sérialisation d’une exception désérialisée peut lever un <xref:System.Runtime.Serialization.SerializationException> exception lorsque vous essayez de désérialiser l’exception. Pour éviter cela, vous devez également ajouter le gestionnaire pour le <xref:System.Exception.SerializeObjectState> événement dans le <xref:System.Runtime.Serialization.ISafeSerializationData.CompleteDeserialization%2A?displayProperty=nameWithType> (méthode). Consultez la section exemples pour obtenir une illustration.  
+ En règle générale, un gestionnaire pour le <xref:System.Exception.SerializeObjectState> événement est ajouté dans le constructeur d’exception à fournir pour sa sérialisation. Mais étant donné que le constructeur n’est pas exécuté lorsque le <xref:System.Exception.SerializeObjectState> Gestionnaire d’événements s’exécute, la sérialisation d’une exception désérialisée peut lever une <xref:System.Runtime.Serialization.SerializationException> exception lorsque vous tentez de désérialiser l’exception. Pour éviter ce problème, vous devez également ajouter le gestionnaire pour le <xref:System.Exception.SerializeObjectState> événement dans le <xref:System.Runtime.Serialization.ISafeSerializationData.CompleteDeserialization%2A?displayProperty=nameWithType> (méthode). Consultez la section exemples pour obtenir une illustration.  
   
    
   
@@ -1062,12 +1086,12 @@ Stack Trace:
  [!code-csharp[System.Exception.SerializeObjectState#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.exception.serializeobjectstate/cs/example2.cs#1)]
  [!code-vb[System.Exception.SerializeObjectState#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.exception.serializeobjectstate/vb/example2.vb#1)]  
   
- Le `BadDivisionException` exception est levée lorsqu’une division à virgule flottante par zéro se produit. Lors de la première division par zéro, l’exemple instancie un `BadDivisionException` sérialise l’objet et lève l’exception. Ultérieures unités de division par zéro se produisent, l’exemple désérialise l’objet sérialisé précédemment, il resérialise et lève l’exception. Pour assurer la sérialisation d’objets, la désérialisation, resérialisation et la désérialisation, l’exemple ajoute le <xref:System.Exception.SerializeObjectState> Gestionnaire d’événements à la fois dans le `BadDivisionException` constructeur de classe et dans le <xref:System.Runtime.Serialization.ISafeSerializationData.CompleteDeserialization%2A?displayProperty=nameWithType> implémentation.  
+ Le `BadDivisionException` exception est levée lorsqu’une division à virgule flottante par zéro se produit. Lors de la première division par zéro, l’exemple instancie un `BadDivisionException` objet, il sérialise et lève l’exception. Lorsque des divisions suivantes par zéro se produisent, l’exemple désérialise l’objet précédemment sérialisé resérialise il et lève l’exception. Pour fournir à la sérialisation des objets, la désérialisation, resérialisation et la désérialisation, l’exemple ajoute le <xref:System.Exception.SerializeObjectState> Gestionnaire d’événements à la fois dans le `BadDivisionException` constructeur de classe et dans le <xref:System.Runtime.Serialization.ISafeSerializationData.CompleteDeserialization%2A?displayProperty=nameWithType> implémentation.  
   
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Si cet événement est abonné à et est utilisé, tous les types dérivés qui se suivent dans la hiérarchie d’héritage doivent implémenter le même mécanisme de sérialisation.</para>
+          <para>Si cet événement est abonné à et utilisé, tous les types dérivés qui se suivent dans la hiérarchie d’héritage doivent implémenter le même mécanisme de sérialisation.</para>
         </block>
       </Docs>
     </Member>
@@ -1093,6 +1117,8 @@ Stack Trace:
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1148,6 +1174,8 @@ Stack Trace:
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1165,13 +1193,13 @@ Stack Trace:
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La pile d'exécution assure le suivi de toutes les méthodes qui sont en cours d'exécution à un moment donné. La trace des appels de méthodes s'appelle la trace de la pile. La liste de trace de pile offre un moyen de suivre la pile des appels au numéro de ligne dans la méthode où l’exception se produit.  
+ La pile d'exécution assure le suivi de toutes les méthodes qui sont en cours d'exécution à un moment donné. La trace des appels de méthodes s'appelle la trace de la pile. La liste de trace de pile fournit un moyen de suivre la pile des appels au numéro de ligne dans la méthode où l’exception se produit.  
   
  Le <xref:System.Exception.StackTrace%2A> propriété retourne les frames de la pile des appels qui proviennent de l’emplacement où l’exception a été levée. Vous pouvez obtenir des informations sur les frames supplémentaires dans la pile des appels en créant une nouvelle instance de la <xref:System.Diagnostics.StackTrace?displayProperty=nameWithType> classe et à l’aide de son <xref:System.Diagnostics.StackTrace.ToString%2A?displayProperty=nameWithType> (méthode).  
   
- Le common language runtime (CLR) met à jour la trace de pile chaque fois qu’une exception est levée dans le code d’application (à l’aide de la `throw` mot clé). Si l’exception a été levée dans une méthode qui est différente de celle où il a été levée à l’origine, la trace de pile contient à la fois l’emplacement dans la méthode où l’exception a été levée initialement et l’emplacement dans la méthode où l’exception a été de nouveau levée. Si l’exception est levée et levée ensuite à nouveau dans la même méthode, la trace de pile contient uniquement l’emplacement où l’exception a été levée et n’inclut pas l’emplacement où l’exception a été levée initialement.  
+ Le common language runtime (CLR) met à jour la trace de pile chaque fois qu’une exception est levée dans le code d’application (à l’aide de la `throw` mot clé). Si l’exception est levée à nouveau dans une méthode qui est différente de celle de la méthode où elle a été levée à l’origine, la trace de pile contient l’emplacement dans la méthode où l’exception a été levée initialement et l’emplacement dans la méthode où l’exception a été à nouveau levée. Si l’exception est levée et levée ensuite à nouveau dans la même méthode, la trace de pile contient uniquement l’emplacement où l’exception a été levée et n’inclut pas l’emplacement où l’exception a été levée initialement.  
   
- Le <xref:System.Exception.StackTrace%2A> propriété peut ne pas rapporter autant d’appels de méthode comme prévu en raison des transformations de code, tel qu’incorporation (inlining), qui se produisent pendant l’optimisation.  
+ Le <xref:System.Exception.StackTrace%2A> propriété peut ne pas signale autant d’appels de méthode comme prévu en raison des transformations de code, tel qu’incorporation, qui se produisent pendant l’optimisation.  
   
    
   
@@ -1185,7 +1213,7 @@ Stack Trace:
  ]]></format>
         </remarks>
         <block subset="none" type="overrides">
-          <para>Le <see langword="StackTrace" /> est substituée dans les classes qui requièrent un contrôle sur le format ou le contenu de trace de pile.  Par défaut, la trace de pile est capturée immédiatement avant un objet d’exception est levé. Utilisez <see cref="P:System.Environment.StackTrace" /> pour obtenir des informations de trace de pile quand aucune exception n’est levée.</para>
+          <para>Le <see langword="StackTrace" /> est substituée dans les classes qui requièrent un contrôle le format ou le contenu de trace de pile.  Par défaut, la trace de pile est capturée immédiatement avant qu’un objet d’exception soit levé. Utilisez <see cref="P:System.Environment.StackTrace" /> pour obtenir des informations de trace de pile quand aucune exception n’est levée.</para>
         </block>
         <altmember cref="P:System.Environment.StackTrace" />
       </Docs>
@@ -1203,6 +1231,8 @@ Stack Trace:
       </Implements>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1231,10 +1261,10 @@ Stack Trace:
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si la méthode qui lève cette exception n’est pas disponible et la trace de pile n’est pas une référence null (`Nothing` en Visual Basic), <xref:System.Exception.TargetSite%2A> Obtient la méthode de la trace de pile. Si la trace de la pile est une référence nulle, <xref:System.Exception.TargetSite%2A> retourne également une référence nulle.  
+ Si la méthode qui lève cette exception n’est pas disponible et la trace de pile n’est pas une référence null (`Nothing` en Visual Basic), <xref:System.Exception.TargetSite%2A> Obtient la méthode à partir de la trace de pile. Si la trace de la pile est une référence nulle, <xref:System.Exception.TargetSite%2A> retourne également une référence nulle.  
   
 > [!NOTE]
->  Le <xref:System.Exception.TargetSite%2A> propriété ne peut pas signaler correctement le nom de la méthode dans laquelle une exception a été levée si le Gestionnaire d’exceptions gère une exception au-delà des limites de domaine application.  
+>  Le <xref:System.Exception.TargetSite%2A> propriété ne peut pas signaler correctement le nom de la méthode dans laquelle une exception a été levée si le Gestionnaire d’exceptions gère une exception sur les limites du domaine d’application.  
   
    
   
@@ -1271,6 +1301,8 @@ Stack Trace:
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>mscorlib</AssemblyName>
+        <AssemblyVersion>1.0.5000.0</AssemblyVersion>
+        <AssemblyVersion>2.0.0.0</AssemblyVersion>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
@@ -1289,18 +1321,18 @@ Stack Trace:
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Exception.ToString%2A> Retourne une représentation de l’exception actuelle est destinée à être compréhensible par les utilisateurs. Lorsque l’exception contient des données sensibles à la culture, la représentation sous forme de chaîne retournée par `ToString` est requis pour prendre en compte la culture système actuelle. Bien qu’il n’existe aucune exigence exacte pour le format de la chaîne retournée, il doit essayer refléter la valeur de l’objet en tant que perçue par l’utilisateur.  
+ <xref:System.Exception.ToString%2A> Retourne une représentation de l’exception actuelle est destinée à être compréhensible par les utilisateurs. Lorsque l’exception contient des données de la culture, la représentation sous forme de chaîne retournée par `ToString` est requise pour prendre en compte la culture système actuelle. Bien qu’il n’existe aucune configuration requise exacte pour le format de la chaîne retournée, il doit tenter de refléter la valeur de l’objet en tant que perçue par l’utilisateur.  
   
- L’implémentation par défaut de <xref:System.Exception.ToString%2A> Obtient le nom de la classe qui a levé l’exception actuelle, le message, le résultat de l’appel de <xref:System.Exception.ToString%2A> sur l’exception interne et le résultat de l’appel de <xref:System.Environment.StackTrace%2A?displayProperty=nameWithType>. Si une de ces membres est `null`, sa valeur n’est pas incluse dans la chaîne retournée.  
+ L’implémentation par défaut de <xref:System.Exception.ToString%2A> Obtient le nom de la classe qui a levé l’exception actuelle, le message, le résultat de l’appel <xref:System.Exception.ToString%2A> sur l’exception interne et le résultat de l’appel <xref:System.Environment.StackTrace%2A?displayProperty=nameWithType>. Si un de ces membres est `null`, sa valeur n’est pas incluse dans la chaîne retournée.  
   
- S’il n’existe aucun message d’erreur ou s’il s’agit d’une chaîne vide (" »), aucun message d’erreur est retourné. Le nom de l’exception interne et la trace de pile sont retournés uniquement si elles ne sont pas `null`.  
+ S’il n’existe aucun message d’erreur ou s’il s’agit d’une chaîne vide (" »), aucun message d’erreur est retournée. Le nom de l’exception interne et la trace de pile sont retournés uniquement s’ils ne sont pas `null`.  
   
  Cette méthode se substitue à <xref:System.Object.ToString%2A?displayProperty=nameWithType>.  
   
    
   
 ## Examples  
- L’exemple suivant provoque une exception et affiche le résultat de l’appel de <xref:System.Exception.ToString%2A> sur cette exception. Notez que la <xref:System.Exception.ToString%2A?displayProperty=nameWithType> méthode est appelée implicitement lorsque l’instance de classe d’Exception apparaît dans la liste d’arguments de la <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> (méthode).  
+ L’exemple suivant provoque une exception et affiche le résultat de l’appel <xref:System.Exception.ToString%2A> sur cette exception. Notez que le <xref:System.Exception.ToString%2A?displayProperty=nameWithType> méthode est appelée implicitement lorsque l’instance de classe d’Exception s’affiche dans la liste d’arguments de la <xref:System.Console.WriteLine%2A?displayProperty=nameWithType> (méthode).  
   
  [!code-cpp[System.Exception.ToString#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.exception.tostring/cpp/ToStringEx1.cpp#1)]
  [!code-csharp[System.Exception.ToString#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.exception.tostring/cs/ToStringEx1.cs#1)]
