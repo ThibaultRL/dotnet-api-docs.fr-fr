@@ -1,11 +1,11 @@
 <Type Name="DataflowBlock" FullName="System.Threading.Tasks.Dataflow.DataflowBlock">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="f558bf9a029763285a5fd334c30a979714b81d23" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="b1681b37f6256a345cba5980d6dd8e36899a63b3" />
+    <Meta Name="ms.sourcegitcommit" Value="44933aff38db926168781f50300446344189a04d" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36606934" />
+    <Meta Name="ms.lasthandoff" Value="07/16/2018" />
+    <Meta Name="ms.locfileid" Value="39064908" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class DataflowBlock" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit DataflowBlock extends System.Object" />
@@ -326,14 +326,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Encapsulate%2A> méthode requiert deux blocs existants : un bloc cible (une instance d’une classe qui implémente <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601>) et un bloc source (une instance d’une classe qui implémente <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601>). <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Encapsulate%2A> Crée une instance d’une classe interne qui se connecte la <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> aux membres de l’interface le `target` paramètre et le <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> aux membres de l’interface le `source` paramètre.  Les deux <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> et <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> dérivent <xref:System.Threading.Tasks.Dataflow.IDataflowBlock>. Achèvement des blocs est explicitement transmis à partir de sources vers les cibles. Par conséquent, le <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Complete%2A> et <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Fault%2A> méthodes sont connectés à la cible lors de la <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Completion%2A> propriété est connectée à la source.  Vous devez vous assurer que quand la cible de la moitié est terminée, la source de la moitié obtient terminé de façon la plus appropriée ; par exemple :  
+ Le <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Encapsulate%2A> méthode requiert deux blocs existants : un bloc cible (une instance d’une classe qui implémente <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601>) et un bloc source (une instance d’une classe qui implémente <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601>). <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Encapsulate%2A> Crée une nouvelle instance d’une classe interne qui se connecte le <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> aux membres de l’interface le `target` paramètre et le <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> aux membres de l’interface le `source` paramètre.  Les deux <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> et <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> dérivent <xref:System.Threading.Tasks.Dataflow.IDataflowBlock>. Achèvement du bloc soit passée explicitement à partir de sources aux cibles. Par conséquent, le <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Complete%2A> et <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Fault%2A> méthodes sont connectés à la cible lors de la <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Completion%2A> propriété est connectée à la source.  Vous devez vous assurer qu’au moment où la cible moitié terminé, la source de moitié obtient terminé de la manière la plus appropriée ; par exemple :  
   
  `target.Completion.ContinueWith(completion => source.Complete());`  
   
- Ou, si vous souhaitez propager le type d’achèvement, vous pouvez utiliser ce code plus sophistiqué :  
+ Ou, si vous souhaitez propager le type de saisie semi-automatique, vous pouvez utiliser ce code plus complexe :  
   
 ```  
-target.Completion.ContinueWith(completion => { if (completion.IsFaulted) 3   
+target.Completion.ContinueWith(completion => { if (completion.IsFaulted)    
   
 ((IDataflowBlock)batchBlock).Fault(completion.Exception);   
 else   
@@ -342,7 +342,7 @@ batchBlock.Complete();
   
 ```  
   
- Vous devez explicitement fournir la propagation de message à partir de la cible à la source. L’avantage de cette connexion explicite est qu’il vous donne la liberté pour exécuter tout traitement sans contrainte entre les deux blocs encapsulés. Vous pouvez le faire soit par l’encodage le traitement nécessaire dans les délégués les blocs (si les blocs de prennent des délégués), soit en incorporant un sous-réseau de blocs entre eux. La plus simple consiste à utiliser un bloc qui prend des délégués ; par exemple, utilisez <xref:System.Threading.Tasks.Dataflow.ActionBlock%601>, <xref:System.Threading.Tasks.Dataflow.TransformBlock%602>, <xref:System.Threading.Tasks.Dataflow.TransformManyBlock%602> (le cas échéant), ou un bloc personnalisé.  
+ Vous devez fournir explicitement la propagation de messages à partir de la cible à la source. L’avantage de cette connexion explicite est qu’il vous donne la liberté d’effectuer tout traitement sans contrainte entre les deux blocs encapsulés. Vous pouvez le faire que par l’encodage du traitement nécessaire dans les délégués des blocs (si les blocs de prennent des délégués), ou en incorporant un sous-réseau de blocs entre eux. Le plus simple consiste à utiliser un bloc qui prend des délégués ; par exemple, utilisez <xref:System.Threading.Tasks.Dataflow.ActionBlock%601>, <xref:System.Threading.Tasks.Dataflow.TransformBlock%602>, <xref:System.Threading.Tasks.Dataflow.TransformManyBlock%602> (le cas échéant), ou un bloc personnalisé.  
   
  ]]></format>
         </remarks>
@@ -601,7 +601,7 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode retourne une fois le bloc cible a décidé d’accepter ou refuser l’élément, mais à moins que sinon dictées par une sémantique spéciale du bloc cible, il n’attend pas de l’élément à être traitée. Par exemple, <xref:System.Threading.Tasks.Dataflow.ActionBlock%601> retournera de <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Post%2A> dès qu’il a stocké l’article publié dans sa file d’attente d’entrée). Du point de vue du traitement du bloc `Post` est asynchrone. Cible bloque cette prise en charge report envoyé de messages ou, pour les blocs qui peuvent effectuer un traitement plus dans leurs `Post` mise en œuvre, envisagez d’utiliser <xref:System.Threading.Tasks.Dataflow.DataflowBlock.SendAsync%2A>, qui est retournée immédiatement et activera la cible reporter le message publié et le consommer ultérieurement après `SendAsync` retourne.  
+ Cette méthode retournera une fois que le bloc cible a décidé d’accepter ou refuser l’élément, mais à moins que sinon dictées par une sémantique spéciale du bloc cible, il n’attend pas de l’élément à être traitée. Par exemple, <xref:System.Threading.Tasks.Dataflow.ActionBlock%601> retournera de <xref:System.Threading.Tasks.Dataflow.DataflowBlock.Post%2A> dès qu’il a stocké l’élément posté dans sa file d’attente d’entrée). Du point de vue du traitement du bloc, `Post` est asynchrone. Pour la cible bloque ce report de la prise en charge de messages proposés ou pour les blocs qui peuvent effectuer un traitement plus dans leur `Post` implémentation, envisagez d’utiliser <xref:System.Threading.Tasks.Dataflow.DataflowBlock.SendAsync%2A>, qui est retournée immédiatement et activera la cible de reporter le message publié et le consommer ultérieurement après `SendAsync` retourne.  
   
  ]]></format>
         </remarks>
@@ -676,7 +676,7 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si la source proposés avec succès un élément qui a été reçu par cette opération, cet élément est retourné même si une demande d’annulation simultanées se produit.  
+ Si la source proposé avec succès un élément qui a été reçu par cette opération, cet élément est retourné même si une demande d’annulation simultanées se produit.  
   
  ]]></format>
         </remarks>
@@ -721,12 +721,12 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si la source proposés avec succès un élément qui a été reçu par cette opération, cet élément est retourné même si un délai d’attente simultanée se produit.  
+ Si la source proposé avec succès un élément qui a été reçu par cette opération, cet élément est retourné même si un délai d’attente simultanée se produit.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="timeout" /> est un nombre négatif autre que -1 milliseconde, qui représente un délai d'attente infini.  - ou - <paramref name="timeout" /> est supérieur à <see cref="F:System.Int32.MaxValue" />.</exception>
+          <paramref name="timeout" /> est un nombre négatif autre que -1 milliseconde, qui représente un délai d'attente infini.  - ou - <paramref name="timeout" /> est supérieur à <see cref="F:System.Int32.MaxValue" />.</exception>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="source" /> est <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">Aucun élément n'a pu être accepté par la source.</exception>
@@ -769,14 +769,14 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si la source proposés avec succès une valeur de l’élément qui a été reçue par cette opération, cette valeur est retournée, même si une demande concurrente de délai d’attente ou l’annulation se produit.  
+ Si la source proposé avec succès une valeur de l’élément qui a été reçue par cette opération, cette valeur est retournée, même en cas d’une demande d’annulation ou de délai d’attente simultanée.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="source" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="timeout" /> est un nombre négatif autre que -1 milliseconde, qui représente un délai d'attente infini.  - ou - <paramref name="timeout" /> est supérieur à <see cref="F:System.Int32.MaxValue" />.</exception>
+          <paramref name="timeout" /> est un nombre négatif autre que -1 milliseconde, qui représente un délai d'attente infini.  - ou - <paramref name="timeout" /> est supérieur à <see cref="F:System.Int32.MaxValue" />.</exception>
         <exception cref="T:System.InvalidOperationException">Aucun élément n'a pu être accepté par la source.</exception>
         <exception cref="T:System.TimeoutException">Le délai d'attente spécifié a expiré avant la réception d'un élément en provenance de la source.</exception>
         <exception cref="T:System.OperationCanceledException">L'opération a été annulée avant la réception d'un élément depuis la source.</exception>
@@ -886,7 +886,7 @@ batchBlock.Complete();
         <exception cref="T:System.ArgumentNullException">
           <paramref name="source" /> est <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="timeout" /> est un nombre négatif autre que -1 milliseconde, qui représente un délai d'attente infini.  - ou - <paramref name="timeout" /> est supérieur à <see cref="F:System.Int32.MaxValue" />.</exception>
+          <paramref name="timeout" /> est un nombre négatif autre que -1 milliseconde, qui représente un délai d'attente infini.  - ou - <paramref name="timeout" /> est supérieur à <see cref="F:System.Int32.MaxValue" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="ReceiveAsync&lt;TOutput&gt;">
@@ -925,7 +925,7 @@ batchBlock.Complete();
         <exception cref="T:System.ArgumentNullException">
           <paramref name="source" /> est <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
-          <paramref name="timeout" /> est un nombre négatif autre que -1 milliseconde, qui représente un délai d'attente infini.  - ou - <paramref name="timeout" /> est supérieur à <see cref="F:System.Int32.MaxValue" />.</exception>
+          <paramref name="timeout" /> est un nombre négatif autre que -1 milliseconde, qui représente un délai d'attente infini.  - ou - <paramref name="timeout" /> est supérieur à <see cref="F:System.Int32.MaxValue" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="SendAsync&lt;TInput&gt;">
@@ -1039,9 +1039,9 @@ batchBlock.Complete();
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode n’attend pas jusqu'à ce que la source d’un élément à fournir.  
+ Cette méthode n’attend pas la source a un élément à fournir.  
   
- Il retourne un élément était disponible ou non.  
+ Elle retournera un élément était disponible ou non.  
   
  ]]></format>
         </remarks>

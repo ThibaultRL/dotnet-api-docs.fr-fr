@@ -1,11 +1,11 @@
 <Type Name="Socket" FullName="System.Net.Sockets.Socket">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="4c9b8ad5848a918ca2056d55d97c296040610b26" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="853f59d82c93a1b22f4873b07aed3315c6946bea" />
+    <Meta Name="ms.sourcegitcommit" Value="01f28caab7b3f23878dd07b402a8dd48b9478c8c" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37480456" />
+    <Meta Name="ms.lasthandoff" Value="07/19/2018" />
+    <Meta Name="ms.locfileid" Value="39142407" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Socket : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi Socket extends System.Object implements class System.IDisposable" />
@@ -477,9 +477,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Net.Sockets.Socket> méthode s’interrompt jusqu'à ce que la déconnexion en attente est terminée. Si vous recevez un  exception, utilisez le  propriété pour obtenir le code d’erreur spécifique. L’exemple de code suivant crée un socket pour la communication asynchrone et envoie des données à un hôte distant.  
+ Si vous utilisez un non bloquant <xref:System.Net.Sockets.Socket>, <xref:System.Net.Sockets.Socket.Available%2A> est un bon moyen pour déterminer si les données sont en file d’attente pour la lecture, avant d’appeler <xref:System.Net.Sockets.Socket.Receive%2A>. Les données disponibles sont que la quantité totale de données en file d’attente dans la mémoire tampon réseau pour la lecture. Si aucune donnée n’est en file d’attente dans la mémoire tampon réseau, <xref:System.Net.Sockets.Socket.Available%2A> retourne 0.  
   
- Lorsque les données ont été envoyées, <xref:System.Net.Sockets.Socket.Available%2A> est appelée pour arrêter l’envoi et l’activité de réception. Si vous recevez un <xref:System.Net.Sockets.SocketException>, utilisez le <xref:System.Net.Sockets.SocketException.ErrorCode%2A?displayProperty=nameWithType> propriété pour obtenir le code d’erreur spécifique. Une fois que vous avez obtenu ce code, reportez-vous à la version de Windows Sockets 2 documentation de code d’erreur API dans la bibliothèque MSDN pour obtenir une description détaillée de l’erreur.  
+ Si l’hôte distant arrête ou ferme la connexion, <xref:System.Net.Sockets.Socket.Available%2A> peut lever une <xref:System.Net.Sockets.SocketException>. Si vous recevez un <xref:System.Net.Sockets.SocketException>, utilisez le <xref:System.Net.Sockets.SocketException.ErrorCode%2A?displayProperty=nameWithType> propriété pour obtenir le code d’erreur spécifique. Une fois que vous avez obtenu ce code, reportez-vous à la version de Windows Sockets 2 documentation de code d’erreur API dans la bibliothèque MSDN pour obtenir une description détaillée de l’erreur.  
   
 > [!NOTE]
 >  Ce membre génère des informations de traçage lorsque vous activez le traçage réseau dans votre application. Pour plus d’informations, consultez [le traçage réseau dans le .NET Framework](~/docs/framework/network-programming/network-tracing.md).  
@@ -487,7 +487,7 @@
    
   
 ## Examples  
- Puis  est appelé pour lancer une demande de déconnexion.  
+ L’exemple de code suivant compare les résultats de l’appel de IOControl avec FIONREAD et la propriété disponible.  
   
  [!code-cpp[NCLSocketIoControl#1](~/samples/snippets/cpp/VS_Snippets_Remoting/NCLSocketIoControl/CPP/iocontrolserver.cpp#1)]
  [!code-csharp[NCLSocketIoControl#1](~/samples/snippets/csharp/VS_Snippets_Remoting/NCLSocketIoControl/CS/iocontrolserver.cs#1)]  
@@ -555,11 +555,11 @@
 ## Remarks  
  Protocoles orientés connexion peuvent utiliser le <xref:System.Net.Sockets.Socket.BeginAccept%2A> tente de méthode pour traiter de manière asynchrone une connexion entrante. Acceptation des connexions de manière asynchrone vous donne la possibilité d’envoyer et recevoir des données dans un thread d’exécution distinct. Avant d’appeler le <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode), vous devez appeler la <xref:System.Net.Sockets.Socket.Listen%2A> méthode pour écouter et file d’attente de demandes de connexion entrantes.  
   
- Vous devez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode). Le système d’exploitation est Windows 2000 ou version antérieure, et cette méthode nécessite Windows XP. Commence à la réception asynchrone de données à partir d’un connecté <xref:System.Net.Sockets.Socket>. Tableau de type <xref:System.Net.Sockets.Socket.BeginAccept%2A> qui est l’emplacement de stockage pour les données reçues.  
+ Vous devez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode). Pour ce faire, au minimum, vous devez passer à l’écoute <xref:System.Net.Sockets.Socket> objet <xref:System.Net.Sockets.Socket.BeginAccept%2A> via la `state` paramètre. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe pour contenir le <xref:System.Net.Sockets.Socket> et les autres informations requises. Passez une instance de cette classe pour le <xref:System.Net.Sockets.Socket.BeginAccept%2A> méthode via la `state` paramètre.  
   
- Un <xref:System.Net.Sockets.Socket.EndAccept%2A> qui fait référence à la lecture asynchrone. Pour annuler un en attente <xref:System.Net.Sockets.Socket.BeginAccept%2A>, appelez le <xref:System.Net.Sockets.Socket.EndAccept%2A> (méthode). <xref:System.Net.Sockets.Socket.EndAccept%2A> Toutes les e/s initié par un thread donné est annulée lors de la sortie du thread. Vous ne pouvez pas utiliser ce retourné <xref:System.Net.Sockets.Socket> pour accepter des connexions supplémentaires à partir de la file d’attente de connexion. Une opération asynchrone en attente peut échouer si le thread se termine avant la fin de l’opération. est une instanciation d’une classe définie par l’utilisateur.  
+ Votre méthode de rappel doit appeler la <xref:System.Net.Sockets.Socket.EndAccept%2A> (méthode). Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginAccept%2A>, le système généralement utilise un thread distinct pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndAccept%2A> jusqu'à ce qu’une connexion en attente est extraite. <xref:System.Net.Sockets.Socket.EndAccept%2A> Retourne un nouveau <xref:System.Net.Sockets.Socket> de l’objet que vous pouvez utiliser pour envoyer et recevoir des données avec l’hôte distant. Vous ne pouvez pas utiliser ce retourné <xref:System.Net.Sockets.Socket> pour accepter des connexions supplémentaires à partir de la file d’attente de connexion. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode), utilisez <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType>. Appelez la méthode Set sur un <xref:System.Threading.ManualResetEvent> dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution.  
   
- a été fermé. Un <xref:System.IAsyncResult.CompletedSynchronously%2A> objet qui stocke l’erreur de socket.  
+ Le système peut également utiliser le thread appelant pour appeler la méthode de rappel. Dans ce cas, le <xref:System.IAsyncResult.CompletedSynchronously%2A> propriété sur retourné <xref:System.IAsyncResult> définira pour indiquer que le <xref:System.Net.Sockets.Socket.BeginAccept%2A> méthode terminé de façon synchrone.  
   
  Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
   
@@ -647,13 +647,13 @@
   
  Avant d’appeler le <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode), vous devez appeler la <xref:System.Net.Sockets.Socket.Listen%2A> méthode pour écouter et file d’attente de demandes de connexion entrantes.  
   
- Vous devez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode). Le système d’exploitation est Windows 2000 ou version antérieure, et cette méthode nécessite Windows XP. Commence à la réception asynchrone de données à partir d’un connecté <xref:System.Net.Sockets.Socket>. Tableau de type <xref:System.Net.Sockets.Socket.BeginAccept%2A> qui est l’emplacement de stockage pour les données reçues.  
+ Vous devez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode). Pour ce faire, au minimum, vous devez passer à l’écoute <xref:System.Net.Sockets.Socket> objet <xref:System.Net.Sockets.Socket.BeginAccept%2A> via la `state` paramètre. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe pour contenir le <xref:System.Net.Sockets.Socket> et les autres informations requises. Passez une instance de cette classe pour le <xref:System.Net.Sockets.Socket.BeginAccept%2A> méthode via la `state` paramètre.  
   
- Un <xref:System.Net.Sockets.Socket.EndAccept%2A> qui fait référence à la lecture asynchrone. Pour annuler un en attente <xref:System.Net.Sockets.Socket.BeginAccept%2A>, appelez le <xref:System.Net.Sockets.Socket.EndAccept%2A> (méthode).  
+ Votre méthode de rappel doit appeler la <xref:System.Net.Sockets.Socket.EndAccept%2A> (méthode). Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginAccept%2A>, le système généralement utilise un thread distinct pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndAccept%2A> jusqu'à ce qu’une connexion en attente est extraite.  
   
- <xref:System.Net.Sockets.Socket.EndAccept%2A> Retourne un nouvel <xref:System.Net.Sockets.Socket> que vous pouvez utiliser pour envoyer et recevoir des données avec l’hôte distant. Vous ne pouvez pas utiliser ce retourné <xref:System.Net.Sockets.Socket> pour accepter des connexions supplémentaires à partir de la file d’attente de connexion. Une opération asynchrone en attente peut échouer si le thread se termine avant la fin de l’opération. est une instanciation d’une classe définie par l’utilisateur.  
+ <xref:System.Net.Sockets.Socket.EndAccept%2A> Retourne un nouvel <xref:System.Net.Sockets.Socket> que vous pouvez utiliser pour envoyer et recevoir des données avec l’hôte distant. Vous ne pouvez pas utiliser ce retourné <xref:System.Net.Sockets.Socket> pour accepter des connexions supplémentaires à partir de la file d’attente de connexion. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode), utilisez <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType>. Appelez la méthode Set sur un <xref:System.Threading.ManualResetEvent> dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution.  
   
- a été fermé. Un <xref:System.IAsyncResult.CompletedSynchronously%2A> objet qui stocke l’erreur de socket.  
+ Le système peut également utiliser le thread appelant pour appeler la méthode de rappel. Dans ce cas, le <xref:System.IAsyncResult.CompletedSynchronously%2A> propriété sur retourné <xref:System.IAsyncResult> définira pour indiquer que le <xref:System.Net.Sockets.Socket.BeginAccept%2A> méthode terminé de façon synchrone.  
   
  Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
   
@@ -741,13 +741,13 @@
   
  Avant d’appeler le <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode), vous devez appeler la <xref:System.Net.Sockets.Socket.Listen%2A> méthode pour écouter et file d’attente de demandes de connexion entrantes.  
   
- Vous devez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode). Le système d’exploitation est Windows 2000 ou version antérieure, et cette méthode nécessite Windows XP. Commence à la réception asynchrone de données à partir d’un connecté <xref:System.Net.Sockets.Socket>. Tableau de type <xref:System.Net.Sockets.Socket.BeginAccept%2A> qui est l’emplacement de stockage pour les données reçues.  
+ Vous devez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode). Pour ce faire, au minimum, vous devez passer à l’écoute <xref:System.Net.Sockets.Socket> objet <xref:System.Net.Sockets.Socket.BeginAccept%2A> via la `state` paramètre. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe pour contenir le <xref:System.Net.Sockets.Socket> et les autres informations requises. Passez une instance de cette classe pour le <xref:System.Net.Sockets.Socket.BeginAccept%2A> méthode via la `state` paramètre.  
   
- Un <xref:System.Net.Sockets.Socket.EndAccept%2A> qui fait référence à la lecture asynchrone. Pour annuler un en attente <xref:System.Net.Sockets.Socket.BeginAccept%2A>, appelez le <xref:System.Net.Sockets.Socket.EndAccept%2A> (méthode).  
+ Votre méthode de rappel doit appeler la <xref:System.Net.Sockets.Socket.EndAccept%2A> (méthode). Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginAccept%2A>, le système généralement utilise un thread distinct pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndAccept%2A> jusqu'à ce qu’une connexion en attente est extraite.  
   
- <xref:System.Net.Sockets.Socket.EndAccept%2A> Retourne un nouvel <xref:System.Net.Sockets.Socket> de l’objet que vous pouvez utiliser pour envoyer et recevoir des données avec l’hôte distant. Vous ne pouvez pas utiliser ce retourné <xref:System.Net.Sockets.Socket> pour accepter des connexions supplémentaires à partir de la file d’attente de connexion. Une opération asynchrone en attente peut échouer si le thread se termine avant la fin de l’opération. est une instanciation d’une classe définie par l’utilisateur.  
+ <xref:System.Net.Sockets.Socket.EndAccept%2A> Retourne un nouvel <xref:System.Net.Sockets.Socket> de l’objet que vous pouvez utiliser pour envoyer et recevoir des données avec l’hôte distant. Vous ne pouvez pas utiliser ce retourné <xref:System.Net.Sockets.Socket> pour accepter des connexions supplémentaires à partir de la file d’attente de connexion. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode), utilisez <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType>. Appelez la méthode Set sur un <xref:System.Threading.ManualResetEvent> dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution.  
   
- a été fermé. Un <xref:System.IAsyncResult.CompletedSynchronously%2A> objet qui stocke l’erreur de socket.  
+ Le système peut également utiliser le thread appelant pour appeler la méthode de rappel. Dans ce cas, le <xref:System.IAsyncResult.CompletedSynchronously%2A> propriété sur retourné <xref:System.IAsyncResult> définira pour indiquer que le <xref:System.Net.Sockets.Socket.BeginAccept%2A> méthode terminé de façon synchrone.  
   
  Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
   
@@ -837,8 +837,10 @@
         <Parameter Name="state" Type="System.Object" Index="2" />
       </Parameters>
       <Docs>
-        <param name="remoteEP">To be added.</param>
-        <param name="end_point">To be added.</param>
+        <param name="remoteEP">
+          <see cref="T:System.Net.EndPoint" /> qui représente l’hôte distant.</param>
+        <param name="end_point">
+          <see cref="T:System.Net.EndPoint" /> qui représente l’hôte distant.</param>
         <param name="callback">Délégué <see cref="T:System.AsyncCallback" />.</param>
         <param name="state">Objet qui contient les informations d’état de cette demande.</param>
         <summary>Démarre une demande asynchrone pour une connexion d'hôte distant.</summary>
@@ -850,9 +852,9 @@
 ## Remarks  
  Si vous utilisez un protocole orienté connexion, le <xref:System.Net.Sockets.Socket.BeginConnect%2A> méthode démarre une demande asynchrone pour une connexion à la `remoteEP` paramètre. Si vous utilisez un protocole sans connexion, <xref:System.Net.Sockets.Socket.BeginConnect%2A> établit un hôte distant par défaut. Connexion ou la définition de façon asynchrone l’hôte distant par défaut vous donne la possibilité d’envoyer et recevoir des données dans un thread d’exécution distinct.  
   
- Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginConnect%2A> (méthode). Au minimum, vous devez passer le <xref:System.Net.Sockets.Socket> à <xref:System.Net.Sockets.Socket.BeginConnect%2A> via la `state` paramètre. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe pour contenir le <xref:System.Net.Sockets.Socket>et les autres informations requises. Tableau de type <xref:System.Net.Sockets.Socket.BeginConnect%2A> qui est l’emplacement de stockage pour les données reçues.  
+ Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginConnect%2A> (méthode). Au minimum, vous devez passer le <xref:System.Net.Sockets.Socket> à <xref:System.Net.Sockets.Socket.BeginConnect%2A> via la `state` paramètre. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe pour contenir le <xref:System.Net.Sockets.Socket>et les autres informations requises. Passez une instance de cette classe pour le <xref:System.Net.Sockets.Socket.BeginConnect%2A> méthode via la `state` paramètre.  
   
- Un <xref:System.Net.Sockets.Socket.EndConnect%2A> qui fait référence à la lecture asynchrone. Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginConnect%2A>, le système utilise un thread séparé pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndConnect%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> se connecte avec succès ou lève une exception. Une opération asynchrone en attente peut échouer si le thread se termine avant la fin de l’opération. est une instanciation d’une classe définie par l’utilisateur. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
+ Votre méthode de rappel doit appeler la <xref:System.Net.Sockets.Socket.EndConnect%2A> (méthode). Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginConnect%2A>, le système utilise un thread séparé pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndConnect%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> se connecte avec succès ou lève une exception. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginConnect%2A> (méthode), utilisez <xref:System.Threading.WaitHandle.WaitOne%2A>. Appelez la méthode Set sur un <xref:System.Threading.ManualResetEvent> dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
   
  Si vous utilisez un protocole sans connexion tel que UDP, vous n’avez pas à appeler <xref:System.Net.Sockets.Socket.BeginConnect%2A> avant d’envoyer et recevoir des données. Vous pouvez utiliser <xref:System.Net.Sockets.Socket.BeginSendTo%2A> et <xref:System.Net.Sockets.Socket.BeginReceiveFrom%2A> pour communiquer avec un hôte distant. Si vous n’appelez pas <xref:System.Net.Sockets.Socket.BeginConnect%2A>, tous les datagrammes provenant d’une adresse autre que la valeur par défaut spécifiée seront ignorées. Si vous souhaitez définir votre hôte distant par défaut à une adresse de diffusion, vous devez d’abord appeler <xref:System.Net.Sockets.Socket.SetSocketOption%2A> et la valeur de la diffusion `true`. Si vous ne pouvez pas, <xref:System.Net.Sockets.Socket.BeginConnect%2A> lèvera une <xref:System.Net.Sockets.SocketException>.  
   
@@ -895,6 +897,9 @@
         <altmember cref="M:System.Net.Sockets.Socket.EndConnect(System.IAsyncResult)" />
         <altmember cref="M:System.Net.Sockets.Socket.BeginSendTo(System.Byte[],System.Int32,System.Int32,System.Net.Sockets.SocketFlags,System.Net.EndPoint,System.AsyncCallback,System.Object)" />
         <altmember cref="M:System.Net.Sockets.Socket.BeginReceiveFrom(System.Byte[],System.Int32,System.Int32,System.Net.Sockets.SocketFlags,System.Net.EndPoint@,System.AsyncCallback,System.Object)" />
+        <related type="Article" href="~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md">Marshaling d’un délégué comme méthode de rappel</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-client-socket-example.md">Exemple de socket client asynchrone</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-server-socket-example.md">Exemple de sockets serveur asynchrones</related>
       </Docs>
     </Member>
     <Member MemberName="BeginConnect">
@@ -938,8 +943,8 @@
       <Docs>
         <param name="address">Élément <see cref="T:System.Net.IPAddress" /> de l'hôte distant.</param>
         <param name="port">Numéro de port de l'hôte distant.</param>
-        <param name="requestCallback">To be added.</param>
-        <param name="callback">To be added.</param>
+        <param name="requestCallback">Délégué <see cref="T:System.AsyncCallback" /> qui fait référence à la méthode à appeler quand l’opération de connexion est terminée.</param>
+        <param name="callback">Délégué <see cref="T:System.AsyncCallback" /> qui fait référence à la méthode à appeler quand l’opération de connexion est terminée.</param>
         <param name="state">Objet défini par l'utilisateur qui contient des informations sur l'opération de connexion. Cet objet est passé au délégué <c>requestCallback</c> quand l’opération est terminée.</param>
         <summary>Démarre une demande asynchrone pour une connexion d'hôte distant. L’hôte est spécifié par <see cref="T:System.Net.IPAddress" /> et un numéro de port.</summary>
         <returns>
@@ -996,6 +1001,9 @@
         <altmember cref="M:System.Net.Sockets.Socket.EndConnect(System.IAsyncResult)" />
         <altmember cref="M:System.Net.Sockets.Socket.BeginSendTo(System.Byte[],System.Int32,System.Int32,System.Net.Sockets.SocketFlags,System.Net.EndPoint,System.AsyncCallback,System.Object)" />
         <altmember cref="M:System.Net.Sockets.Socket.BeginReceiveFrom(System.Byte[],System.Int32,System.Int32,System.Net.Sockets.SocketFlags,System.Net.EndPoint@,System.AsyncCallback,System.Object)" />
+        <related type="Article" href="~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md">Marshaling d’un délégué comme méthode de rappel</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-client-socket-example.md">Exemple de socket client asynchrone</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-server-socket-example.md">Exemple de sockets serveur asynchrones</related>
       </Docs>
     </Member>
     <Member MemberName="BeginConnect">
@@ -1039,8 +1047,8 @@
       <Docs>
         <param name="addresses">Au moins un <see cref="T:System.Net.IPAddress" />, désignant l’hôte distant.</param>
         <param name="port">Numéro de port de l'hôte distant.</param>
-        <param name="requestCallback">To be added.</param>
-        <param name="callback">To be added.</param>
+        <param name="requestCallback">Délégué <see cref="T:System.AsyncCallback" /> qui fait référence à la méthode à appeler quand l’opération de connexion est terminée.</param>
+        <param name="callback">Délégué <see cref="T:System.AsyncCallback" /> qui fait référence à la méthode à appeler quand l’opération de connexion est terminée.</param>
         <param name="state">Objet défini par l'utilisateur qui contient des informations sur l'opération de connexion. Cet objet est passé au délégué <c>requestCallback</c> quand l’opération est terminée.</param>
         <summary>Démarre une demande asynchrone pour une connexion d'hôte distant. L’hôte est spécifié par un tableau <see cref="T:System.Net.IPAddress" /> et un numéro de port.</summary>
         <returns>
@@ -1096,6 +1104,9 @@
         <altmember cref="M:System.Net.Sockets.Socket.EndConnect(System.IAsyncResult)" />
         <altmember cref="M:System.Net.Sockets.Socket.BeginSendTo(System.Byte[],System.Int32,System.Int32,System.Net.Sockets.SocketFlags,System.Net.EndPoint,System.AsyncCallback,System.Object)" />
         <altmember cref="M:System.Net.Sockets.Socket.BeginReceiveFrom(System.Byte[],System.Int32,System.Int32,System.Net.Sockets.SocketFlags,System.Net.EndPoint@,System.AsyncCallback,System.Object)" />
+        <related type="Article" href="~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md">Marshaling d’un délégué comme méthode de rappel</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-client-socket-example.md">Exemple de socket client asynchrone</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-server-socket-example.md">Exemple de sockets serveur asynchrones</related>
       </Docs>
     </Member>
     <Member MemberName="BeginConnect">
@@ -1139,8 +1150,8 @@
       <Docs>
         <param name="host">Nom de l'hôte distant.</param>
         <param name="port">Numéro de port de l'hôte distant.</param>
-        <param name="requestCallback">To be added.</param>
-        <param name="callback">To be added.</param>
+        <param name="requestCallback">Délégué <see cref="T:System.AsyncCallback" /> qui fait référence à la méthode à appeler quand l’opération de connexion est terminée.</param>
+        <param name="callback">Délégué <see cref="T:System.AsyncCallback" /> qui fait référence à la méthode à appeler quand l’opération de connexion est terminée.</param>
         <param name="state">Objet défini par l'utilisateur qui contient des informations sur l'opération de connexion. Cet objet est passé au délégué <c>requestCallback</c> quand l’opération est terminée.</param>
         <summary>Démarre une demande asynchrone pour une connexion d'hôte distant. L’hôte est spécifié par un nom d’hôte et un numéro de port.</summary>
         <returns>
@@ -1194,6 +1205,9 @@
         <altmember cref="M:System.Net.Sockets.Socket.EndConnect(System.IAsyncResult)" />
         <altmember cref="M:System.Net.Sockets.Socket.BeginSendTo(System.Byte[],System.Int32,System.Int32,System.Net.Sockets.SocketFlags,System.Net.EndPoint,System.AsyncCallback,System.Object)" />
         <altmember cref="M:System.Net.Sockets.Socket.BeginReceiveFrom(System.Byte[],System.Int32,System.Int32,System.Net.Sockets.SocketFlags,System.Net.EndPoint@,System.AsyncCallback,System.Object)" />
+        <related type="Article" href="~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md">Marshaling d’un délégué comme méthode de rappel</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-client-socket-example.md">Exemple de socket client asynchrone</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-server-socket-example.md">Exemple de sockets serveur asynchrones</related>
       </Docs>
     </Member>
     <Member MemberName="BeginDisconnect">
@@ -1487,8 +1501,8 @@
         <param name="buffer">Tableau de type <see cref="T:System.Byte" /> qui est l'emplacement de stockage pour les données reçues.</param>
         <param name="offset">Position de base zéro dans le paramètre <c>buffer</c> à laquelle stocker les données reçues.</param>
         <param name="size">Nombre d'octets à recevoir.</param>
-        <param name="socketFlags">To be added.</param>
-        <param name="socket_flags">To be added.</param>
+        <param name="socketFlags">Combinaison d'opérations de bits des valeurs <see cref="T:System.Net.Sockets.SocketFlags" />.</param>
+        <param name="socket_flags">Combinaison d'opérations de bits des valeurs <see cref="T:System.Net.Sockets.SocketFlags" />.</param>
         <param name="callback">Délégué <see cref="T:System.AsyncCallback" /> qui fait référence à la méthode à appeler quand l'opération est terminée.</param>
         <param name="state">Objet défini par l'utilisateur qui comporte des informations sur l'opération de réception. Cet objet est passé au délégué <see cref="M:System.Net.Sockets.Socket.EndReceive(System.IAsyncResult)" /> quand l'opération est terminée.</param>
         <summary>Démarre la réception asynchrone de données à partir d'un <see cref="T:System.Net.Sockets.Socket" /> connecté.</summary>
@@ -1551,6 +1565,9 @@
         <altmember cref="T:System.AsyncCallback" />
         <altmember cref="M:System.Net.Sockets.Socket.Connect(System.Net.EndPoint)" />
         <altmember cref="M:System.Net.Sockets.Socket.BeginReceiveFrom(System.Byte[],System.Int32,System.Int32,System.Net.Sockets.SocketFlags,System.Net.EndPoint@,System.AsyncCallback,System.Object)" />
+        <related type="Article" href="~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md">Marshaling d’un délégué comme méthode de rappel</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-client-socket-example.md">Exemple de socket client asynchrone</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-server-socket-example.md">Exemple de sockets serveur asynchrones</related>
       </Docs>
     </Member>
     <Member MemberName="BeginReceive">
@@ -1598,10 +1615,10 @@
         <param name="buffer">Tableau de type <see cref="T:System.Byte" /> qui est l'emplacement de stockage pour les données reçues.</param>
         <param name="offset">Emplacement dans <c>buffer</c> où stocker les données reçues.</param>
         <param name="size">Nombre d'octets à recevoir.</param>
-        <param name="socketFlags">To be added.</param>
-        <param name="flags">To be added.</param>
-        <param name="errorCode">To be added.</param>
-        <param name="error">To be added.</param>
+        <param name="socketFlags">Combinaison d'opérations de bits des valeurs <see cref="T:System.Net.Sockets.SocketFlags" />.</param>
+        <param name="flags">Combinaison d'opérations de bits des valeurs <see cref="T:System.Net.Sockets.SocketFlags" />.</param>
+        <param name="errorCode">Objet <see cref="T:System.Net.Sockets.SocketError" /> qui stocke l'erreur de socket.</param>
+        <param name="error">Objet <see cref="T:System.Net.Sockets.SocketError" /> qui stocke l'erreur de socket.</param>
         <param name="callback">Délégué <see cref="T:System.AsyncCallback" /> qui fait référence à la méthode à appeler quand l'opération est terminée.</param>
         <param name="state">Objet défini par l'utilisateur qui comporte des informations sur l'opération de réception. Cet objet est passé au délégué <see cref="M:System.Net.Sockets.Socket.EndReceive(System.IAsyncResult)" /> quand l'opération est terminée.</param>
         <summary>Démarre la réception asynchrone de données à partir d'un <see cref="T:System.Net.Sockets.Socket" /> connecté.</summary>
@@ -1647,6 +1664,9 @@
         <altmember cref="T:System.AsyncCallback" />
         <altmember cref="M:System.Net.Sockets.Socket.Connect(System.Net.EndPoint)" />
         <altmember cref="M:System.Net.Sockets.Socket.BeginReceiveFrom(System.Byte[],System.Int32,System.Int32,System.Net.Sockets.SocketFlags,System.Net.EndPoint@,System.AsyncCallback,System.Object)" />
+        <related type="Article" href="~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md">Marshaling d’un délégué comme méthode de rappel</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-client-socket-example.md">Exemple de socket client asynchrone</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-server-socket-example.md">Exemple de sockets serveur asynchrones</related>
       </Docs>
     </Member>
     <Member MemberName="BeginReceiveFrom">
@@ -1695,10 +1715,12 @@
         <param name="buffer">Tableau de type <see cref="T:System.Byte" /> qui est l'emplacement de stockage pour les données reçues.</param>
         <param name="offset">Position de base zéro dans le paramètre <c>buffer</c> à laquelle stocker les données.</param>
         <param name="size">Nombre d'octets à recevoir.</param>
-        <param name="socketFlags">To be added.</param>
-        <param name="socket_flags">To be added.</param>
-        <param name="remoteEP">To be added.</param>
-        <param name="remote_end">To be added.</param>
+        <param name="socketFlags">Combinaison d'opérations de bits des valeurs <see cref="T:System.Net.Sockets.SocketFlags" />.</param>
+        <param name="socket_flags">Combinaison d'opérations de bits des valeurs <see cref="T:System.Net.Sockets.SocketFlags" />.</param>
+        <param name="remoteEP">
+          <see cref="T:System.Net.EndPoint" /> qui représente la source des données.</param>
+        <param name="remote_end">
+          <see cref="T:System.Net.EndPoint" /> qui représente la source des données.</param>
         <param name="callback">Délégué <see cref="T:System.AsyncCallback" />.</param>
         <param name="state">Objet qui contient les informations d’état de cette demande.</param>
         <summary>Démarre la réception asynchrone de données à partir d'un périphérique réseau spécifié.</summary>
@@ -1710,9 +1732,9 @@
 ## Remarks  
  Le <xref:System.Net.Sockets.Socket.BeginReceiveFrom%2A> méthode démarre la lecture asynchrone des datagrammes sans connexion à partir d’un hôte distant. Appel de la <xref:System.Net.Sockets.Socket.BeginReceiveFrom%2A> méthode vous donne la possibilité de recevoir les données dans un thread d’exécution distinct.  
   
- Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginReceiveFrom%2A> (méthode). Pour ce faire, au minimum, votre `state` paramètre doit contenir le service connecté ou par défaut <xref:System.Net.Sockets.Socket> utilisé pour la communication. Commence à la réception asynchrone de données à partir d’un connecté <xref:System.Net.Sockets.Socket>. Tableau de type <xref:System.Net.Sockets.Socket.BeginReceiveFrom%2A> qui est l’emplacement de stockage pour les données reçues.  
+ Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginReceiveFrom%2A> (méthode). Pour ce faire, au minimum, votre `state` paramètre doit contenir le service connecté ou par défaut <xref:System.Net.Sockets.Socket> utilisé pour la communication. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe pour contenir le <xref:System.Net.Sockets.Socket> et les autres informations requises. Passez une instance de cette classe pour le <xref:System.Net.Sockets.Socket.BeginReceiveFrom%2A> méthode via la `state` paramètre.  
   
- Un <xref:System.Net.Sockets.Socket.EndReceiveFrom%2A> qui fait référence à la lecture asynchrone. Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginReceiveFrom%2A>, le système utilisera un thread distinct pour exécuter la méthode de rappel spécifiée et il se bloque sur <xref:System.Net.Sockets.Socket.EndReceiveFrom%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> lit les données ou lève une exception. Une opération asynchrone en attente peut échouer si le thread se termine avant la fin de l’opération. Appelez la méthode Set sur un : System.Threading.ManualResetEvent dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
+ Votre méthode de rappel doit appeler la <xref:System.Net.Sockets.Socket.EndReceiveFrom%2A> (méthode). Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginReceiveFrom%2A>, le système utilisera un thread distinct pour exécuter la méthode de rappel spécifiée et il se bloque sur <xref:System.Net.Sockets.Socket.EndReceiveFrom%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> lit les données ou lève une exception. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginReceiveFrom%2A> (méthode), utilisez <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType>. Appelez la méthode Set sur un : System.Threading.ManualResetEvent dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
   
 > [!NOTE]
 >  Avant d’appeler <xref:System.Net.Sockets.Socket.BeginReceiveFrom%2A>, vous devez lier explicitement le <xref:System.Net.Sockets.Socket> vers un point de terminaison local en utilisant le <xref:System.Net.Sockets.Socket.Bind%2A> (méthode), ou <xref:System.Net.Sockets.Socket.BeginReceiveFrom%2A> lèvera une <xref:System.Net.Sockets.SocketException>.  
@@ -1760,6 +1782,7 @@
         <altmember cref="M:System.Net.Sockets.Socket.Bind(System.Net.EndPoint)" />
         <altmember cref="M:System.Net.Sockets.Socket.Connect(System.Net.EndPoint)" />
         <altmember cref="M:System.Net.Sockets.Socket.Accept" />
+        <related type="Article" href="~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md">Marshaling d’un délégué comme méthode de rappel</related>
       </Docs>
     </Member>
     <Member MemberName="BeginReceiveMessageFrom">
@@ -1903,9 +1926,9 @@
 ## Remarks  
  Le <xref:System.Net.Sockets.Socket.BeginSend%2A> méthode démarre une opération d’envoi asynchrone à l’hôte distant établie dans le <xref:System.Net.Sockets.Socket.Connect%2A>, <xref:System.Net.Sockets.Socket.BeginConnect%2A>, <xref:System.Net.Sockets.Socket.Accept%2A>, ou <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode). <xref:System.Net.Sockets.Socket.BeginSend%2A> lève une exception si vous n’appelez pas tout d’abord <xref:System.Net.Sockets.Socket.Accept%2A>, <xref:System.Net.Sockets.Socket.BeginAccept%2A>, <xref:System.Net.Sockets.Socket.Connect%2A>, ou <xref:System.Net.Sockets.Socket.BeginConnect%2A>. Appel de la <xref:System.Net.Sockets.Socket.BeginSend%2A> méthode vous donne la possibilité d’envoyer des données dans un thread d’exécution distinct.  
   
- Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode). Pour ce faire, au minimum, votre `state` paramètre doit contenir le service connecté ou par défaut <xref:System.Net.Sockets.Socket> utilisé pour la communication. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe ou une structure pour contenir le <xref:System.Net.Sockets.Socket> et les autres informations requises. Tableau de type <xref:System.Net.Sockets.Socket.BeginSend%2A> qui est l’emplacement de stockage pour les données reçues.  
+ Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode). Pour ce faire, au minimum, votre `state` paramètre doit contenir le service connecté ou par défaut <xref:System.Net.Sockets.Socket> utilisé pour la communication. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe ou une structure pour contenir le <xref:System.Net.Sockets.Socket> et les autres informations requises. Passez une instance de cette classe pour le <xref:System.Net.Sockets.Socket.BeginSend%2A> méthode via la `state` paramètre.  
   
- Un <xref:System.Net.Sockets.Socket.EndSend%2A> qui fait référence à la lecture asynchrone. Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginSend%2A>, le système utilise un thread séparé pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndSend%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> envoie le nombre d’octets demandé ou lève une exception. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode), utilisez le <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType> (méthode). Appelez la méthode Set sur un : System.Threading.ManualResetEvent dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
+ Votre méthode de rappel doit appeler la <xref:System.Net.Sockets.Socket.EndSend%2A> (méthode). Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginSend%2A>, le système utilise un thread séparé pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndSend%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> envoie le nombre d’octets demandé ou lève une exception. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode), utilisez le <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType> (méthode). Appelez la méthode Set sur un : System.Threading.ManualResetEvent dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
   
  Bien que destiné à des protocoles orientés connexion, <xref:System.Net.Sockets.Socket.BeginSend%2A> fonctionne également pour les protocoles sans connexion, si vous appelez d’abord la <xref:System.Net.Sockets.Socket.Connect%2A> ou <xref:System.Net.Sockets.Socket.BeginConnect%2A> méthode pour établir un hôte distant par défaut. Si vous utilisez un protocole sans connexion et un plan pour envoyer des données à plusieurs hôtes différents, vous devez utiliser <xref:System.Net.Sockets.Socket.BeginSendTo%2A>. Il s’agit d’OK à utiliser <xref:System.Net.Sockets.Socket.BeginSendTo%2A> même après avoir établi un hôte distant par défaut avec <xref:System.Net.Sockets.Socket.Connect%2A>. Vous pouvez également modifier l’hôte distant par défaut avant d’appeler <xref:System.Net.Sockets.Socket.BeginSend%2A> en effectuant un autre appel à <xref:System.Net.Sockets.Socket.Connect%2A> ou <xref:System.Net.Sockets.Socket.BeginConnect%2A>. Avec les protocoles sans connexion, vous devez être sûr que la taille de votre mémoire tampon ne dépasse pas la taille maximale du paquet du fournisseur de services sous-jacent. Si tel est le cas le datagramme ne sera pas envoyé et <xref:System.Net.Sockets.Socket.BeginSend%2A> lèvera une <xref:System.Net.Sockets.SocketException>.  
   
@@ -1995,9 +2018,9 @@
 ## Remarks  
  Le <xref:System.Net.Sockets.Socket.BeginSend%2A> méthode démarre une opération d’envoi asynchrone à l’hôte distant établie dans le <xref:System.Net.Sockets.Socket.Connect%2A>, <xref:System.Net.Sockets.Socket.BeginConnect%2A>, <xref:System.Net.Sockets.Socket.Accept%2A>, ou <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode). <xref:System.Net.Sockets.Socket.BeginSend%2A> lève une exception si vous n’appelez pas tout d’abord <xref:System.Net.Sockets.Socket.Accept%2A>, <xref:System.Net.Sockets.Socket.BeginAccept%2A>, <xref:System.Net.Sockets.Socket.Connect%2A>, ou <xref:System.Net.Sockets.Socket.BeginConnect%2A>. Appel de la <xref:System.Net.Sockets.Socket.BeginSend%2A> méthode vous donne la possibilité d’envoyer des données dans un thread d’exécution distinct.  
   
- Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode). Pour ce faire, au minimum, votre `state` paramètre doit contenir le service connecté ou par défaut <xref:System.Net.Sockets.Socket> utilisé pour la communication. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe ou une structure pour contenir le <xref:System.Net.Sockets.Socket> et les autres informations requises. Tableau de type <xref:System.Net.Sockets.Socket.BeginSend%2A> qui est l’emplacement de stockage pour les données reçues.  
+ Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode). Pour ce faire, au minimum, votre `state` paramètre doit contenir le service connecté ou par défaut <xref:System.Net.Sockets.Socket> utilisé pour la communication. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe ou une structure pour contenir le <xref:System.Net.Sockets.Socket> et les autres informations requises. Passez une instance de cette classe pour le <xref:System.Net.Sockets.Socket.BeginSend%2A> méthode via la `state` paramètre.  
   
- Un <xref:System.Net.Sockets.Socket.EndSend%2A> qui fait référence à la lecture asynchrone. Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginSend%2A>, le système utilise un thread séparé pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndSend%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> envoie le nombre d’octets demandé ou lève une exception. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode), utilisez le <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType> (méthode). est une instanciation d’une classe définie par l’utilisateur. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
+ Votre méthode de rappel doit appeler la <xref:System.Net.Sockets.Socket.EndSend%2A> (méthode). Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginSend%2A>, le système utilise un thread séparé pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndSend%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> envoie le nombre d’octets demandé ou lève une exception. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode), utilisez le <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType> (méthode). Appelez la méthode Set sur un <xref:System.Threading.ManualResetEvent> dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
   
  Bien que destiné à des protocoles orientés connexion, <xref:System.Net.Sockets.Socket.BeginSend%2A> fonctionne également pour les protocoles sans connexion, si vous appelez d’abord la <xref:System.Net.Sockets.Socket.Connect%2A> ou <xref:System.Net.Sockets.Socket.BeginConnect%2A> méthode pour établir un hôte distant par défaut. Si vous utilisez un protocole sans connexion et un plan pour envoyer des données à plusieurs hôtes différents, vous devez utiliser <xref:System.Net.Sockets.Socket.BeginSendTo%2A>. Il s’agit d’OK à utiliser <xref:System.Net.Sockets.Socket.BeginSendTo%2A> même après avoir établi un hôte distant par défaut avec <xref:System.Net.Sockets.Socket.Connect%2A>. Vous pouvez également modifier l’hôte distant par défaut avant d’appeler <xref:System.Net.Sockets.Socket.BeginSend%2A> en effectuant un autre appel à <xref:System.Net.Sockets.Socket.Connect%2A> ou <xref:System.Net.Sockets.Socket.BeginConnect%2A>. Avec les protocoles sans connexion, vous devez être sûr que la taille de votre mémoire tampon ne dépasse pas la taille maximale du paquet du fournisseur de services sous-jacent. Si tel est le cas le datagramme ne sera pas envoyé et <xref:System.Net.Sockets.Socket.BeginSend%2A> lèvera une <xref:System.Net.Sockets.SocketException>.  
   
@@ -2086,9 +2109,9 @@
 ## Remarks  
  Le <xref:System.Net.Sockets.Socket.BeginSend%2A> méthode démarre une opération d’envoi asynchrone à l’hôte distant établie dans le <xref:System.Net.Sockets.Socket.Connect%2A>, <xref:System.Net.Sockets.Socket.BeginConnect%2A>, <xref:System.Net.Sockets.Socket.Accept%2A>, ou <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode). <xref:System.Net.Sockets.Socket.BeginSend%2A> lève une exception si vous n’appelez pas tout d’abord <xref:System.Net.Sockets.Socket.Accept%2A>, <xref:System.Net.Sockets.Socket.BeginAccept%2A>, <xref:System.Net.Sockets.Socket.Connect%2A>, ou <xref:System.Net.Sockets.Socket.BeginConnect%2A>. Appel de la <xref:System.Net.Sockets.Socket.BeginSend%2A> méthode vous donne la possibilité d’envoyer des données dans un thread d’exécution distinct.  
   
- Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode). Pour ce faire, au minimum, votre `state` paramètre doit contenir le service connecté ou par défaut <xref:System.Net.Sockets.Socket> utilisé pour la communication. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe ou une structure pour contenir le <xref:System.Net.Sockets.Socket> et les autres informations requises. Tableau de type <xref:System.Net.Sockets.Socket.BeginSend%2A> qui est l’emplacement de stockage pour les données reçues.  
+ Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode). Pour ce faire, au minimum, votre `state` paramètre doit contenir le service connecté ou par défaut <xref:System.Net.Sockets.Socket> utilisé pour la communication. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe ou une structure pour contenir le <xref:System.Net.Sockets.Socket> et les autres informations requises. Passez une instance de cette classe pour le <xref:System.Net.Sockets.Socket.BeginSend%2A> méthode via la `state` paramètre.  
   
- Un <xref:System.Net.Sockets.Socket.EndSend%2A> qui fait référence à la lecture asynchrone. Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginSend%2A>, le système utilise un thread séparé pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndSend%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> envoie le nombre d’octets demandé ou lève une exception. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode), utilisez le <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType> (méthode). Appelez la méthode Set sur un : System.Threading.ManualResetEvent dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
+ Votre méthode de rappel doit appeler la <xref:System.Net.Sockets.Socket.EndSend%2A> (méthode). Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginSend%2A>, le système utilise un thread séparé pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndSend%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> envoie le nombre d’octets demandé ou lève une exception. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode), utilisez le <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType> (méthode). Appelez la méthode Set sur un : System.Threading.ManualResetEvent dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
   
  Bien que destiné à des protocoles orientés connexion, <xref:System.Net.Sockets.Socket.BeginSend%2A> fonctionne également pour les protocoles sans connexion, si vous appelez d’abord la <xref:System.Net.Sockets.Socket.Connect%2A> ou <xref:System.Net.Sockets.Socket.BeginConnect%2A> méthode pour établir un hôte distant par défaut. Si vous utilisez un protocole sans connexion et un plan pour envoyer des données à plusieurs hôtes différents, vous devez utiliser <xref:System.Net.Sockets.Socket.BeginSendTo%2A>. Il s’agit d’OK à utiliser <xref:System.Net.Sockets.Socket.BeginSendTo%2A> même après avoir établi un hôte distant par défaut avec <xref:System.Net.Sockets.Socket.Connect%2A>. Vous pouvez également modifier l’hôte distant par défaut avant d’appeler <xref:System.Net.Sockets.Socket.BeginSend%2A> en effectuant un autre appel à <xref:System.Net.Sockets.Socket.Connect%2A> ou <xref:System.Net.Sockets.Socket.BeginConnect%2A>. Avec les protocoles sans connexion, vous devez être sûr que la taille de votre mémoire tampon ne dépasse pas la taille maximale du paquet du fournisseur de services sous-jacent. Si tel est le cas le datagramme ne sera pas envoyé et <xref:System.Net.Sockets.Socket.BeginSend%2A> lèvera une <xref:System.Net.Sockets.SocketException>.  
   
@@ -2170,8 +2193,8 @@
         <param name="buffer">Tableau de type <see cref="T:System.Byte" /> qui contient les données à envoyer.</param>
         <param name="offset">Position de base zéro dans le paramètre <c>buffer</c> à laquelle commencer l’envoi des données.</param>
         <param name="size">Le nombre d’octets à envoyer.</param>
-        <param name="socketFlags">To be added.</param>
-        <param name="socket_flags">To be added.</param>
+        <param name="socketFlags">Combinaison d'opérations de bits des valeurs <see cref="T:System.Net.Sockets.SocketFlags" />.</param>
+        <param name="socket_flags">Combinaison d'opérations de bits des valeurs <see cref="T:System.Net.Sockets.SocketFlags" />.</param>
         <param name="callback">Délégué <see cref="T:System.AsyncCallback" />.</param>
         <param name="state">Objet qui contient les informations d’état de cette demande.</param>
         <summary>Envoie des données de façon asynchrone à un <see cref="T:System.Net.Sockets.Socket" /> connecté.</summary>
@@ -2183,9 +2206,9 @@
 ## Remarks  
  Le <xref:System.Net.Sockets.Socket.BeginSend%2A> méthode démarre une opération d’envoi asynchrone à l’hôte distant établie dans le <xref:System.Net.Sockets.Socket.Connect%2A>, <xref:System.Net.Sockets.Socket.BeginConnect%2A>, <xref:System.Net.Sockets.Socket.Accept%2A>, ou <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode). <xref:System.Net.Sockets.Socket.BeginSend%2A> lève une exception si vous n’appelez pas tout d’abord <xref:System.Net.Sockets.Socket.Accept%2A>, <xref:System.Net.Sockets.Socket.BeginAccept%2A>, <xref:System.Net.Sockets.Socket.Connect%2A>, ou <xref:System.Net.Sockets.Socket.BeginConnect%2A>. Appel de la <xref:System.Net.Sockets.Socket.BeginSend%2A> méthode vous donne la possibilité d’envoyer des données dans un thread d’exécution distinct.  
   
- Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode). Pour ce faire, au minimum, votre `state` paramètre doit contenir le service connecté ou par défaut <xref:System.Net.Sockets.Socket> utilisé pour la communication. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe ou une structure pour contenir le <xref:System.Net.Sockets.Socket> et les autres informations requises. Tableau de type <xref:System.Net.Sockets.Socket.BeginSend%2A> qui est l’emplacement de stockage pour les données reçues.  
+ Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode). Pour ce faire, au minimum, votre `state` paramètre doit contenir le service connecté ou par défaut <xref:System.Net.Sockets.Socket> utilisé pour la communication. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe ou une structure pour contenir le <xref:System.Net.Sockets.Socket> et les autres informations requises. Passez une instance de cette classe pour le <xref:System.Net.Sockets.Socket.BeginSend%2A> méthode via la `state` paramètre.  
   
- Un <xref:System.Net.Sockets.Socket.EndSend%2A> qui fait référence à la lecture asynchrone. Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginSend%2A>, le système utilise un thread séparé pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndSend%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> envoie le nombre d’octets demandé ou lève une exception. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode), utilisez le <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType> (méthode). Appelez la méthode Set sur un : System.Threading.ManualResetEvent dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
+ Votre méthode de rappel doit appeler la <xref:System.Net.Sockets.Socket.EndSend%2A> (méthode). Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginSend%2A>, le système utilise un thread séparé pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndSend%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> envoie le nombre d’octets demandé ou lève une exception. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginSend%2A> (méthode), utilisez le <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType> (méthode). Appelez la méthode Set sur un : System.Threading.ManualResetEvent dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
   
  Bien que destiné à des protocoles orientés connexion, <xref:System.Net.Sockets.Socket.BeginSend%2A> fonctionne également pour les protocoles sans connexion, si vous appelez d’abord la <xref:System.Net.Sockets.Socket.Connect%2A> ou <xref:System.Net.Sockets.Socket.BeginConnect%2A> méthode pour établir un hôte distant par défaut. Si vous utilisez un protocole sans connexion et un plan pour envoyer des données à plusieurs hôtes différents, vous devez utiliser <xref:System.Net.Sockets.Socket.BeginSendTo%2A>. Il s’agit d’OK à utiliser <xref:System.Net.Sockets.Socket.BeginSendTo%2A> même après avoir établi un hôte distant par défaut avec <xref:System.Net.Sockets.Socket.Connect%2A>. Vous pouvez également modifier l’hôte distant par défaut avant d’appeler <xref:System.Net.Sockets.Socket.BeginSend%2A> en effectuant un autre appel à <xref:System.Net.Sockets.Socket.Connect%2A> ou <xref:System.Net.Sockets.Socket.BeginConnect%2A>. Avec les protocoles sans connexion, vous devez être sûr que la taille de votre mémoire tampon ne dépasse pas la taille maximale du paquet du fournisseur de services sous-jacent. Si tel est le cas le datagramme ne sera pas envoyé et <xref:System.Net.Sockets.Socket.BeginSend%2A> lèvera une <xref:System.Net.Sockets.SocketException>.  
   
@@ -2230,6 +2253,9 @@
         <altmember cref="M:System.Net.Sockets.Socket.Connect(System.Net.EndPoint)" />
         <altmember cref="T:System.AsyncCallback" />
         <altmember cref="M:System.Net.Sockets.Socket.EndSend(System.IAsyncResult)" />
+        <related type="Article" href="~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md">Marshaling d’un délégué comme méthode de rappel</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-client-socket-example.md">Exemple de socket client asynchrone</related>
+        <related type="Article" href="~/docs/framework/network-programming/asynchronous-server-socket-example.md">Exemple de sockets serveur asynchrones</related>
       </Docs>
     </Member>
     <MemberGroup MemberName="BeginSendFile">
@@ -2452,10 +2478,12 @@
         <param name="buffer">Tableau de type <see cref="T:System.Byte" /> qui contient les données à envoyer.</param>
         <param name="offset">Position de base zéro dans <c>buffer</c> à laquelle commencer l’envoi des données.</param>
         <param name="size">Le nombre d’octets à envoyer.</param>
-        <param name="socketFlags">To be added.</param>
-        <param name="socket_flags">To be added.</param>
-        <param name="remoteEP">To be added.</param>
-        <param name="remote_end">To be added.</param>
+        <param name="socketFlags">Combinaison d'opérations de bits des valeurs <see cref="T:System.Net.Sockets.SocketFlags" />.</param>
+        <param name="socket_flags">Combinaison d'opérations de bits des valeurs <see cref="T:System.Net.Sockets.SocketFlags" />.</param>
+        <param name="remoteEP">
+          <see cref="T:System.Net.EndPoint" /> qui représente l’appareil distant.</param>
+        <param name="remote_end">
+          <see cref="T:System.Net.EndPoint" /> qui représente l’appareil distant.</param>
         <param name="callback">Délégué <see cref="T:System.AsyncCallback" />.</param>
         <param name="state">Objet qui contient les informations d’état de cette demande.</param>
         <summary>Envoie des données de façon asynchrone à un hôte distant spécifique.</summary>
@@ -2467,9 +2495,9 @@
 ## Remarks  
  Le <xref:System.Net.Sockets.Socket.BeginSendTo%2A> méthode démarre une opération d’envoi asynchrone à l’hôte distant spécifié dans le `remoteEP` paramètre. Appel de la <xref:System.Net.Sockets.Socket.BeginSendTo%2A> méthode vous donne la possibilité d’envoyer des données dans un thread d’exécution distinct. Bien que destiné aux protocoles sans connexion, <xref:System.Net.Sockets.Socket.BeginSendTo%2A> fonctionne avec les protocoles orientés connexion.  
   
- Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginSendTo%2A> (méthode). Pour ce faire, au minimum, votre `state` paramètre doit contenir le service connecté ou par défaut <xref:System.Net.Sockets.Socket> utilisé pour la communication. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe pour contenir le <xref:System.Net.Sockets.Socket>et les autres informations requises. Tableau de type <xref:System.Net.Sockets.Socket.BeginSendTo%2A> qui est l’emplacement de stockage pour les données reçues.  
+ Vous pouvez créer une méthode de rappel qui implémente le <xref:System.AsyncCallback> délégué et passe son nom à la <xref:System.Net.Sockets.Socket.BeginSendTo%2A> (méthode). Pour ce faire, au minimum, votre `state` paramètre doit contenir le service connecté ou par défaut <xref:System.Net.Sockets.Socket> utilisé pour la communication. Si votre rappel a besoin de plus d’informations, vous pouvez créer une petite classe pour contenir le <xref:System.Net.Sockets.Socket>et les autres informations requises. Passez une instance de cette classe pour le <xref:System.Net.Sockets.Socket.BeginSendTo%2A> méthode via la `state` paramètre.  
   
- Un <xref:System.Net.Sockets.Socket.EndSendTo%2A> qui fait référence à la lecture asynchrone. Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginSendTo%2A>, le système utilise un thread séparé pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndSendTo%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> envoie le nombre d’octets demandé ou lève une exception. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginSendTo%2A> (méthode), utilisez le <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType> (méthode). Appelez la méthode Set sur un : System.Threading.ManualResetEvent dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
+ Votre méthode de rappel doit appeler la <xref:System.Net.Sockets.Socket.EndSendTo%2A> (méthode). Lorsque votre application appelle <xref:System.Net.Sockets.Socket.BeginSendTo%2A>, le système utilise un thread séparé pour exécuter la méthode de rappel spécifiée et se bloque sur <xref:System.Net.Sockets.Socket.EndSendTo%2A> jusqu'à ce que le <xref:System.Net.Sockets.Socket> envoie le nombre d’octets demandé ou lève une exception. Si vous souhaitez que le thread d’origine se bloque après avoir appelé la <xref:System.Net.Sockets.Socket.BeginSendTo%2A> (méthode), utilisez le <xref:System.Threading.WaitHandle.WaitOne%2A?displayProperty=nameWithType> (méthode). Appelez la méthode Set sur un : System.Threading.ManualResetEvent dans la méthode de rappel lorsque vous souhaitez que le thread d’origine pour continuer l’exécution. Pour plus d’informations sur l’écriture de méthodes de rappel, consultez [Marshaling d’un délégué comme méthode de rappel](~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md).  
   
  Si vous utilisez un protocole orienté connexion, vous devez d’abord appeler la <xref:System.Net.Sockets.Socket.Connect%2A>, <xref:System.Net.Sockets.Socket.BeginConnect%2A>, <xref:System.Net.Sockets.Socket.Accept%2A>, ou <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode), ou <xref:System.Net.Sockets.Socket.BeginSendTo%2A> lèvera une <xref:System.Net.Sockets.SocketException>. <xref:System.Net.Sockets.Socket.BeginSendTo%2A> ignore le `remoteEP` paramètre et envoie les données à la <xref:System.Net.EndPoint> établie dans le <xref:System.Net.Sockets.Socket.Connect%2A>, <xref:System.Net.Sockets.Socket.BeginConnect%2A>, <xref:System.Net.Sockets.Socket.Accept%2A>, ou <xref:System.Net.Sockets.Socket.BeginAccept%2A> (méthode).  
   
@@ -2513,6 +2541,7 @@
         <altmember cref="P:System.Net.Sockets.Socket.LocalEndPoint" />
         <altmember cref="F:System.Net.Sockets.SocketOptionName.Broadcast" />
         <altmember cref="M:System.Net.Sockets.Socket.SetSocketOption(System.Net.Sockets.SocketOptionLevel,System.Net.Sockets.SocketOptionName,System.Int32)" />
+        <related type="Article" href="~/docs/framework/interop/marshaling-a-delegate-as-a-callback-method.md">Marshaling d’un délégué comme méthode de rappel</related>
       </Docs>
     </Member>
     <Member MemberName="Bind">
@@ -3612,7 +3641,7 @@
         </remarks>
         <block subset="none" type="overrides">
           <para>
-            <see langword="Dispose" /> peut être appelée plusieurs fois par d’autres objets. Lors de la substitution de <see cref="M:System.Net.Sockets.Socket.Dispose(System.Boolean)" />, veillez à ne pas référencer des objets qui ont été préalablement supprimés lors d'un appel précédent à <see langword="Dispose" />. Pour plus d’informations sur l’implémentation <see cref="M:System.Net.Sockets.Socket.Dispose(System.Boolean)" />, consultez [implémentation d’un Method](~/docs/standard/garbage-collection/implementing-dispose.md) Dispose.  Pour plus d’informations sur <see langword="Dispose" /> et <see cref="M:System.Object.Finalize" />, consultez [nettoyage des Resources](~/docs/standard/garbage-collection/unmanaged.md) non managé et [substitution de la méthode Finalize] (http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</para>
+            <see langword="Dispose" /> peut être appelée plusieurs fois par d’autres objets. Lors de la substitution de <see cref="M:System.Net.Sockets.Socket.Dispose(System.Boolean)" />, veillez à ne pas référencer des objets qui ont été préalablement supprimés lors d'un appel précédent à <see langword="Dispose" />. Pour plus d’informations sur l’implémentation <see cref="M:System.Net.Sockets.Socket.Dispose(System.Boolean)" />, consultez [implémentation d’une méthode Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  Pour plus d’informations sur <see langword="Dispose" /> et <see cref="M:System.Object.Finalize" />, consultez [de nettoyage des ressources non managées](~/docs/standard/garbage-collection/unmanaged.md) et [substitution de la méthode Finalize](http://msdn.microsoft.com/library/8026cb68-fe93-43fc-96c1-c09ad7d64cd3).</para>
         </block>
       </Docs>
     </Member>
@@ -3930,8 +3959,10 @@
         <Parameter Name="result" Type="System.IAsyncResult" Index="0" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="asyncResult">To be added.</param>
-        <param name="result">To be added.</param>
+        <param name="asyncResult">
+          <see cref="T:System.IAsyncResult" /> qui stocke des informations d'état pour cette opération asynchrone ainsi que toutes les données définies par l'utilisateur.</param>
+        <param name="result">
+          <see cref="T:System.IAsyncResult" /> qui stocke des informations d'état pour cette opération asynchrone ainsi que toutes les données définies par l'utilisateur.</param>
         <summary>Accepte de manière asynchrone une tentative de connexion entrante et crée un nouveau <see cref="T:System.Net.Sockets.Socket" /> pour gérer les communications de l'hôte distant.</summary>
         <returns>
           <see cref="T:System.Net.Sockets.Socket" /> pour gérer la communication avec l'hôte distant.</returns>
@@ -4086,8 +4117,10 @@
         <Parameter Name="result" Type="System.IAsyncResult" Index="0" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="asyncResult">To be added.</param>
-        <param name="result">To be added.</param>
+        <param name="asyncResult">
+          <see cref="T:System.IAsyncResult" /> qui stocke des informations d'état et toutes les données définies par l'utilisateur pour cette opération asynchrone.</param>
+        <param name="result">
+          <see cref="T:System.IAsyncResult" /> qui stocke des informations d'état et toutes les données définies par l'utilisateur pour cette opération asynchrone.</param>
         <summary>Met fin à une demande de connexion asynchrone en attente.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -4243,8 +4276,10 @@
         <Parameter Name="result" Type="System.IAsyncResult" Index="0" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="asyncResult">To be added.</param>
-        <param name="result">To be added.</param>
+        <param name="asyncResult">
+          <see cref="T:System.IAsyncResult" /> qui stocke des informations d'état et toutes les données définies par l'utilisateur pour cette opération asynchrone.</param>
+        <param name="result">
+          <see cref="T:System.IAsyncResult" /> qui stocke des informations d'état et toutes les données définies par l'utilisateur pour cette opération asynchrone.</param>
         <summary>Met fin à une lecture asynchrone en attente.</summary>
         <returns>Nombre d’octets reçus.</returns>
         <remarks>
@@ -4415,10 +4450,14 @@
         <Parameter Name="end_point" Type="System.Net.EndPoint&amp;" RefType="ref" Index="1" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="asyncResult">To be added.</param>
-        <param name="result">To be added.</param>
-        <param name="endPoint">To be added.</param>
-        <param name="end_point">To be added.</param>
+        <param name="asyncResult">
+          <see cref="T:System.IAsyncResult" /> qui stocke des informations d'état et toutes les données définies par l'utilisateur pour cette opération asynchrone.</param>
+        <param name="result">
+          <see cref="T:System.IAsyncResult" /> qui stocke des informations d'état et toutes les données définies par l'utilisateur pour cette opération asynchrone.</param>
+        <param name="endPoint">
+          <see cref="T:System.Net.EndPoint" /> source.</param>
+        <param name="end_point">
+          <see cref="T:System.Net.EndPoint" /> source.</param>
         <summary>Met fin à une lecture asynchrone en attente à partir d'un point de terminaison spécifique.</summary>
         <returns>En cas de réussite, nombre d'octets reçus. En cas d'échec, retourne 0.</returns>
         <remarks>
@@ -4578,8 +4617,10 @@
         <Parameter Name="result" Type="System.IAsyncResult" Index="0" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="asyncResult">To be added.</param>
-        <param name="result">To be added.</param>
+        <param name="asyncResult">
+          <see cref="T:System.IAsyncResult" /> stockant les informations d'état de cette demande asynchrone.</param>
+        <param name="result">
+          <see cref="T:System.IAsyncResult" /> stockant les informations d'état de cette demande asynchrone.</param>
         <summary>Met fin à un envoi asynchrone en attente.</summary>
         <returns>En cas de réussite, nombre d'octets envoyés à <see cref="T:System.Net.Sockets.Socket" /> ; sinon, erreur de <see cref="T:System.Net.Sockets.Socket" /> non valide.</returns>
         <remarks>
@@ -4823,8 +4864,10 @@
         <Parameter Name="result" Type="System.IAsyncResult" Index="0" FrameworkAlternate="xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
-        <param name="asyncResult">To be added.</param>
-        <param name="result">To be added.</param>
+        <param name="asyncResult">
+          <see cref="T:System.IAsyncResult" /> qui stocke des informations d'état et toutes les données définies par l'utilisateur pour cette opération asynchrone.</param>
+        <param name="result">
+          <see cref="T:System.IAsyncResult" /> qui stocke des informations d'état et toutes les données définies par l'utilisateur pour cette opération asynchrone.</param>
         <summary>Met fin à un envoi asynchrone en attente vers un emplacement spécifique.</summary>
         <returns>En cas de réussite, nombre d'octets envoyés ; sinon, erreur de <see cref="T:System.Net.Sockets.Socket" /> non valide.</returns>
         <remarks>
