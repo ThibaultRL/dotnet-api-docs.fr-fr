@@ -1,11 +1,11 @@
 <Type Name="RequestValidator" FullName="System.Web.Util.RequestValidator">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="e9af6ca1efee30c522e150ec0ff7b42684ff91ce" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="5a1a02ab1b22e8e2744b95cd33f805989c51eedd" />
+    <Meta Name="ms.sourcegitcommit" Value="d877ae76e9e11799bf919379507239e2c4072742" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36574993" />
+    <Meta Name="ms.lasthandoff" Value="08/09/2018" />
+    <Meta Name="ms.locfileid" Value="39813496" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class RequestValidator" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit RequestValidator extends System.Object" />
@@ -29,14 +29,14 @@
 ## Remarks  
  Par défaut, ASP.NET ne valide pas les demandes jusqu'à ce que le code demande explicitement une valeur à partir de la demande. Par exemple, ASP.NET ne valide pas les valeurs de chaîne de requête jusqu'à ce que le code accède à la <xref:System.Web.HttpRequest.QueryString%2A> collection. Par défaut, ASP.NET ne valide pas certains types de données de requête, telles que les valeurs de formulaire, les cookies, les noms des fichiers qui ont été téléchargés à l’aide de HTTP et la valeur de la <xref:System.Web.HttpRequest.RawUrl%2A> propriété.  
   
- Le <xref:System.Web.Util.RequestValidator> est une classe de base que vous pouvez implémenter afin de fournir la validation de requête personnalisée. En implémentant cette classe, vous pouvez déterminer quand la validation se produit et le type de données de demande pour effectuer une validation.  
+ Le <xref:System.Web.Util.RequestValidator> est une classe de base que vous pouvez implémenter afin de fournir la validation de requête personnalisée. En implémentant cette classe, vous pouvez déterminer quand la validation se produit et le type de données de requête pour effectuer la validation sur.  
   
- Par défaut, ASP.NET fournit des vérifications de l’écriture de scripts entre sites (XSS). Toutefois, vous pouvez compléter ou remplacer la logique de validation de demande qui est fournie dans ASP.NET en créant une implémentation personnalisée du XSS. Par exemple, vous pouvez écrire une implémentation de validation de requête personnalisé qui analyse les attaques par injection SQL en plus de rechercher des attaques XSS.  
+ Par défaut, ASP.NET fournit des vérifications par script intersites (XSS). Toutefois, vous pouvez compléter ou remplacer la logique de validation de demande qui est fournie dans ASP.NET en créant une implémentation personnalisée du XSS. Par exemple, vous pouvez écrire une implémentation de validation de demande personnalisé qui analyse les attaques par injection SQL en plus de rechercher des attaques XSS.  
   
  Pour créer la validation de requête personnalisée, vous écrivez une classe personnalisée qui dérive de la <xref:System.Web.Util.RequestValidator> classe de base. Puis, vous configurez ASP.NET pour utiliser le validateur de requête personnalisé dans le fichier Web.config de niveau application. Vous pouvez placer la classe personnalisée dans le dossier App_Code, dans une bibliothèque de classes compilée dans le dossier Bin, ou dans une bibliothèque de classes compilée dans le GAC.  
   
 > [!NOTE]
->  Qu’un seul type de validation de requête personnalisé peut être configuré pour une application. Il n’est pas possible de configurer un type de validation de demande différentes pour les chemins d’accès virtuels individuels ou les pages.  
+>  Qu’un seul type de validation de demande personnalisé peut être configuré pour une application. Il n’est pas possible de configurer un type de validation de demande différentes pour les chemins d’accès virtuels individuels ou les pages.  
   
    
   
@@ -70,6 +70,11 @@
         <AssemblyName>System.Web</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters />
       <Docs>
         <summary>Initialise une nouvelle instance de la classe <see cref="T:System.Web.Util.RequestValidator" />.</summary>
@@ -77,9 +82,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.Web.Util.RequestValidator> classe a un constructeur par défaut. Lorsqu’une nouvelle instance de la classe est initialisée, une méthode interne récupère les détails de validation personnalisée à partir des informations de configuration de l’application. Les détails de configuration sont contenues dans la <xref:System.Web.Configuration.HttpRuntimeSection> section. Pour plus d’informations, consultez [httpRuntime, élément (schéma des paramètres ASP.NET)](http://msdn.microsoft.com/library/e9b81350-8aaf-47cc-9843-5f7d0c59f369) et <xref:System.Web.Configuration.HttpRuntimeSection.RequestValidationType%2A> attribut.  
+ Le <xref:System.Web.Util.RequestValidator> classe a un constructeur par défaut. Lorsqu’une nouvelle instance de la classe est initialisée, une méthode interne récupère les détails de validation personnalisée à partir des informations de configuration de l’application. Les détails de configuration sont contenus dans le <xref:System.Web.Configuration.HttpRuntimeSection> section. Pour plus d’informations, consultez [httpRuntime, élément (schéma des paramètres ASP.NET)](http://msdn.microsoft.com/library/e9b81350-8aaf-47cc-9843-5f7d0c59f369) et <xref:System.Web.Configuration.HttpRuntimeSection.RequestValidationType%2A> attribut.  
   
- Pendant l’initialisation, une seule instance de la <xref:System.Web.Util.RequestValidator> classe est créée, et une référence à l’instance est maintenue dans le <xref:System.Web.Util.RequestValidator.Current%2A> propriété. ASP.NET ne crée pas une nouvelle instance de validateur de requête par requête. Par conséquent, les implémentations personnalisées de la <xref:System.Web.Util.RequestValidator> classe doit être thread-safe.  
+ Pendant l’initialisation, une seule instance de la <xref:System.Web.Util.RequestValidator> classe est créée, et une référence à l’instance est conservée dans le <xref:System.Web.Util.RequestValidator.Current%2A> propriété. ASP.NET ne crée pas une nouvelle instance du programme de validation de demande par demande. Par conséquent, les implémentations personnalisées de la <xref:System.Web.Util.RequestValidator> classe doit être thread-safe.  
   
  ]]></format>
         </remarks>
@@ -109,10 +114,10 @@
 ## Remarks  
  Le <xref:System.Web.Util.RequestValidator.Current%2A> propriété conserve une référence à l’instance unique autorisée de la <xref:System.Web.Util.RequestValidator> classe. Si aucune instance n’existe, un nouveau est créé. Si une instance existe déjà, l’instance actuelle est retournée.  
   
- Pendant l’initialisation, une seule instance de la <xref:System.Web.Util.RequestValidator> classe est créée, et une référence à l’instance est rendue disponible dans le <xref:System.Web.Util.RequestValidator.Current%2A> propriété. ASP.NET ne crée pas une nouvelle instance de validateur de requête par requête. Par conséquent, les implémentations personnalisées de la <xref:System.Web.Util.RequestValidator> classe doit être thread-safe.  
+ Pendant l’initialisation, une seule instance de la <xref:System.Web.Util.RequestValidator> classe est créée, et une référence à l’instance est rendue disponible dans le <xref:System.Web.Util.RequestValidator.Current%2A> propriété. ASP.NET ne crée pas une nouvelle instance du programme de validation de demande par demande. Par conséquent, les implémentations personnalisées de la <xref:System.Web.Util.RequestValidator> classe doit être thread-safe.  
   
 > [!NOTE]
->  Le <xref:System.Web.Util.RequestValidator.Current%2A> propriété n’est pas thread-safe, pendant que la propriété est une référence à le <xref:System.Web.Util.RequestValidator> classe.  
+>  Le <xref:System.Web.Util.RequestValidator.Current%2A> propriété n’est pas thread-safe, tandis que la propriété consiste à définir une référence à le <xref:System.Web.Util.RequestValidator> classe.  
   
  ]]></format>
         </remarks>
@@ -138,7 +143,7 @@
         <Parameter Name="value" Type="System.String" />
         <Parameter Name="requestValidationSource" Type="System.Web.Util.RequestValidationSource" />
         <Parameter Name="collectionKey" Type="System.String" />
-        <Parameter Name="validationFailureIndex" Type="System.Int32&amp;" RefType="out" />
+        <Parameter Name="validationFailureIndex" Type="System.Int32" RefType="out" />
       </Parameters>
       <Docs>
         <param name="context">Le contexte HTTP de la requête.</param>
@@ -165,9 +170,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Web.Util.RequestValidator.InvokeIsValidRequestString%2A> méthode offre un accès public à la méthode protégée <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> (méthode). Cela vous permet de créer une classe wrapper personnalisé pour le <xref:System.Web.Util.RequestValidator> classe et appelez le <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> méthode sans avoir à hériter la <xref:System.Web.Util.RequestValidator> classe.  
+ Le <xref:System.Web.Util.RequestValidator.InvokeIsValidRequestString%2A> méthode fournit un accès public à l’élément protégé <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> (méthode). Cela vous permet de créer une classe wrapper personnalisé pour le <xref:System.Web.Util.RequestValidator> classe et appelez le <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> méthode sans avoir à hériter la <xref:System.Web.Util.RequestValidator> classe.  
   
- Pour plus d’informations sur la validation de la demande, consultez <xref:System.Web.UnvalidatedRequestValues>.  
+ Pour plus d’informations sur la validation de demande, consultez <xref:System.Web.UnvalidatedRequestValues>.  
   
  ]]></format>
         </remarks>
@@ -192,7 +197,7 @@
         <Parameter Name="value" Type="System.String" />
         <Parameter Name="requestValidationSource" Type="System.Web.Util.RequestValidationSource" />
         <Parameter Name="collectionKey" Type="System.String" />
-        <Parameter Name="validationFailureIndex" Type="System.Int32&amp;" RefType="out" />
+        <Parameter Name="validationFailureIndex" Type="System.Int32" RefType="out" />
       </Parameters>
       <Docs>
         <param name="context">Le contexte de la requête actuelle.</param>
@@ -218,13 +223,13 @@
   
  Si la logique de validation personnalisée détecte une erreur, cette méthode doit retourner `false` et fournir une valeur dans `validationFailureIndex` pour indiquer le point de départ du texte qui a provoqué l’erreur. La valeur de `validationFailureIndex` doit être 0 ou un entier positif.  
   
- La logique dans un contrôle de validation de requête se déroule comme suit :  
+ La logique dans un contrôle de validation de demande procède comme suit :  
   
--   La <xref:System.Web.HttpRequest> classe effectue une vérification de la suppression des caractères null sur les données entrantes.  
+-   Le <xref:System.Web.HttpRequest> classe effectue une vérification de la suppression des caractères null sur les données entrantes.  
   
--   Le <xref:System.Web.HttpRequest> classe appelle la <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> (méthode) (l’implémentation par défaut de la méthode de base) ou une version dérivée de la méthode.  
+-   Le <xref:System.Web.HttpRequest> classe appelle le <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> (méthode) (l’implémentation par défaut de la méthode de base) ou une version dérivée de la méthode.  
   
--   Si <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> méthode retourne `false` pour indiquer un échec de validation, ASP.NET construit une chaîne d’erreur (si nécessaire) et lève une <xref:System.Web.HttpRequestValidationException> exception.  
+-   Si <xref:System.Web.Util.RequestValidator.IsValidRequestString%2A> retourne de la méthode `false` pour indiquer un échec de validation, ASP.NET construit une chaîne d’erreur (si nécessaire) et lève une <xref:System.Web.HttpRequestValidationException> exception.  
   
  ]]></format>
         </remarks>

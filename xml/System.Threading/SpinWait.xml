@@ -1,10 +1,10 @@
 <Type Name="SpinWait" FullName="System.Threading.SpinWait">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="f6c385202d641d465586dc3206f02b247b2d6170" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="d0bb31ec8354fa58c62c2a646057eec11d3e2150" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/17/2018" />
     <Meta Name="ms.locfileid" Value="36605797" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct SpinWait" />
@@ -39,9 +39,9 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.Threading.SpinWait> encapsule la logique de spin commune. Sur les ordinateurs à processeur unique, rendements sont toujours utilisés au lieu des attentes, et sur les ordinateurs équipés de processeurs Intel utilisant la technologie Hyper-Threading, il permet d’empêcher la privation de thread matériel. SpinWait encapsule une combinaison de rotation et de véritable blocage.  
+ <xref:System.Threading.SpinWait> encapsule la logique de rotation courants. Sur les ordinateurs à processeur unique, rendements sont toujours utilisés au lieu des attentes occupés, et sur les ordinateurs équipés de processeurs Intel emploient la technologie Hyper-Threading, il permet d’éviter la privation de thread matériel. SpinWait encapsule une combinaison de rotation et de véritable blocage.  
   
- <xref:System.Threading.SpinWait> est un type valeur, ce qui signifie que le code de bas niveau peut utiliser SpinWait sans craindre les traitements d’allocation inutiles. SpinWait n’est pas généralement utile pour les applications ordinaires. Dans la plupart des cas, vous devez utiliser les classes de synchronisation fournies par le .NET Framework, tel que <xref:System.Threading.Monitor>. La plupart des cas où l’attente de sélection numérique est nécessaire, toutefois, le <xref:System.Threading.SpinWait> type doit être préféré sur la <xref:System.Threading.Thread.SpinWait%2A> (méthode).  
+ <xref:System.Threading.SpinWait> est un type valeur, ce qui signifie que le code de bas niveau peut utiliser SpinWait sans craindre les traitements d’allocation inutiles. SpinWait est généralement pas utile pour les applications ordinaires. Dans la plupart des cas, vous devez utiliser les classes de synchronisation fournies par le .NET Framework, tel que <xref:System.Threading.Monitor>. La plupart des cas où l’attente de la toupie (spin) est nécessaire, toutefois, le <xref:System.Threading.SpinWait> type doit être privilégié par rapport le <xref:System.Threading.Thread.SpinWait%2A> (méthode).  
   
    
   
@@ -53,7 +53,7 @@
   
  ]]></format>
     </remarks>
-    <threadsafe>Alors que <see cref="T:System.Threading.SpinWait" /> est conçu pour être utilisé dans plusieurs applications, il n’est pas conçu pour être utilisés à partir de plusieurs threads simultanément. <see cref="T:System.Threading.SpinWait" /> les membres ne sont pas thread-safe. Si plusieurs threads doivent tourner, chacun doit utiliser sa propre instance de <see cref="T:System.Threading.SpinWait" />.</threadsafe>
+    <threadsafe>Bien que <see cref="T:System.Threading.SpinWait" /> est conçue pour être utilisée dans les applications simultanées, il n’est pas conçu pour être utilisés à partir de plusieurs threads simultanément. <see cref="T:System.Threading.SpinWait" /> les membres ne sont pas thread-safe. Si plusieurs threads doivent tourner, chacun doit utiliser sa propre instance de <see cref="T:System.Threading.SpinWait" />.</threadsafe>
   </Docs>
   <Members>
     <Member MemberName="Count">
@@ -123,7 +123,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Sur un ordinateur à processeur unique, <xref:System.Threading.SpinWait.SpinOnce%2A> donne toujours le résultat du processeur. Sur les ordinateurs avec plusieurs unités centrales, <xref:System.Threading.SpinWait.SpinOnce%2A> peut bloquer après un nombre non spécifié d’appels.  
+ Sur un ordinateur à processeur unique, <xref:System.Threading.SpinWait.SpinOnce%2A> donne toujours le résultat du processeur. Sur les ordinateurs multiprocesseurs, <xref:System.Threading.SpinWait.SpinOnce%2A> peut bloquer après un nombre non spécifié d’appels.  
   
  ]]></format>
         </remarks>
@@ -163,12 +163,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cela rend <xref:System.Threading.SpinWait.SpinOnce%2A> et <xref:System.Threading.SpinWait.NextSpinWillYield%2A> se comportent comme si aucun appel à <xref:System.Threading.SpinWait.SpinOnce%2A> n’avait été émis sur cette instance. Si un <xref:System.Threading.SpinWait> instance est réutilisée plusieurs fois, il peut être utile réinitialiser pour éviter de passer la main trop rapidement.  
+ Cela rend <xref:System.Threading.SpinWait.SpinOnce%2A> et <xref:System.Threading.SpinWait.NextSpinWillYield%2A> se comportent comme si aucun appel à <xref:System.Threading.SpinWait.SpinOnce%2A> a été émis sur cette instance. Si un <xref:System.Threading.SpinWait> instance est réutilisée autant de fois, il peut être utile réinitialiser pour éviter de passer la main trop rapidement.  
   
    
   
 ## Examples  
- Voici un exemple d’utilisation de SpinWait dans une implémentation simple de pile sans verrou. (Il s’agit simplement d’un exemple. Si une pile thread-safe efficace est requise, utilisez ConcurrentStack.)  
+ Voici un exemple d’utilisation de SpinWait dans une implémentation simple de pile sans verrou. (Il s’agit simplement d’un exemple. Si une pile de thread-safe efficace est nécessaire, utilisez ConcurrentStack.)  
   
  `// C#`  
   
@@ -346,7 +346,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cela est généralement appelée dans une boucle et peut changer de comportement en fonction du nombre de fois où un <xref:System.Threading.SpinWait.SpinOnce%2A> a été appelée jusqu'à présent sur cette instance. Chaque rotation entraîne la <xref:System.Threading.Thread.SpinWait%2A> méthode appelée. Un nombre est conservé au nombre de fois <xref:System.Threading.SpinWait.SpinOnce%2A> est appelée, et après un nombre de seuil est atteint, le <xref:System.Threading.Thread.Yield%2A> méthode est appelée.  
+ Cela est généralement appelée dans une boucle et peut changer de comportement en fonction du nombre de fois où un <xref:System.Threading.SpinWait.SpinOnce%2A> a été appelée jusqu'à présent sur cette instance. Chaque toupie (spin) entraîne la <xref:System.Threading.Thread.SpinWait%2A> méthode appelée. Un nombre est conservé le nombre de tentatives de <xref:System.Threading.SpinWait.SpinOnce%2A> est appelée, et après un nombre de seuil est atteint, le <xref:System.Threading.Thread.Yield%2A> méthode est appelée.  
   
  ]]></format>
         </remarks>

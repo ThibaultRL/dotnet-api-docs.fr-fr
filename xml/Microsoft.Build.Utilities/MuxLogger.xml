@@ -1,10 +1,10 @@
 <Type Name="MuxLogger" FullName="Microsoft.Build.Utilities.MuxLogger">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="a7f638e1c6b08a849c703c09d7ece293bb979d2a" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="d0bb31ec8354fa58c62c2a646057eec11d3e2150" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/17/2018" />
     <Meta Name="ms.locfileid" Value="36732742" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class MuxLogger : Microsoft.Build.Framework.INodeLogger" />
@@ -26,40 +26,42 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>Représente un journal de multiplexage. L'objectif de ce journal est d'enregistrer et d'annuler l'enregistrement de plusieurs journaux pendant la génération. Prend en charge le scénario IDE Visual Studio dans lequel des journaux sont inscrits ou désinscrits pour la requête de build de chaque système de projet. Une build physique peut avoir plusieurs builds logiques, chacune avec son propre ensemble d'enregistreurs d'événements.  <see langword="MuxLogger" /> s’inscrit lui-même dans le gestionnaire de build en tant que journal central standard de type /l. Il reçoit des messages du gestionnaire de build et les route vers l'enregistreur approprié, en fonction de la build logique d'où le message provient.</summary>
+    <summary>Représente un journal de multiplexage. L'objectif de ce journal est d'enregistrer et d'annuler l'enregistrement de plusieurs journaux pendant la génération. Prend en charge le scénario IDE Visual Studio dans lequel des journaux sont inscrits ou désinscrits pour la requête de build de chaque système de projet. Une build physique peut avoir plusieurs builds logiques, chacune avec son propre ensemble d'enregistreurs d'événements.  
+  
+<see langword="MuxLogger" /> s’inscrit lui-même dans le gestionnaire de build en tant que journal central standard de type /l. Il reçoit des messages du gestionnaire de build et les route vers l'enregistreur approprié, en fonction de la build logique d'où le message provient.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Le `MuxLogger` généralement fonctionne comme suit :  
   
--   Le `MuxLogger` est inscrit au début de la génération du début du Gestionnaire de génération.  
+-   Le `MuxLogger` est inscrit au début de build de début du Gestionnaire de génération.  
   
-     Tous les journaux enregistrés avant le démarrage du Gestionnaire de génération de la build obtiennent l’événement de build a démarré en même temps que le `MuxLogger`.  
+     Tous les journaux inscrits avant le Gestionnaire de génération démarre la build obtiennent l’événement de génération a démarré en même temps que le `MuxLogger`.  
   
-     Tous les journaux enregistrés après la génération d’ouvrir le Gestionnaire de build obtiennent un événement de build a démarré synthétisé. L’événement ne peut pas être mis en cache, car l’horodateur de l’événement de build a démarré est déterminé lors de la création de l’événement, et la mise en cache de l’événement modifierait les durées de génération incorrects dans les enregistreurs d’événements inscrits pour le `MuxLogger`.  
+     Tous les journaux enregistrés après que le Gestionnaire de génération démarre la build obtiennent un événement de génération démarrée synthétisé. L’événement ne peut pas être mis en cache, car l’horodatage de l’événement de génération démarrée est déterminée lorsque l’événement est créé, et la mise en cache de l’événement donnerait des durées de génération incorrects dans les enregistreurs d’événements inscrits pour le `MuxLogger`.  
   
 -   Le `MuxLogger` est initialisé par le Gestionnaire de génération  
   
-     Le `MuxLogger` à l’écoute les événements sur la source d’événements à partir du Gestionnaire de build et achemine correctement les événements dans les journaux enregistrés.  
+     Le `MuxLogger` écoute à tous les événements sur la source d’événements à partir du Gestionnaire de build et achemine correctement les événements dans les journaux enregistrés.  
   
--   Le `MuxLogger` est arrêtée lors de la build est terminée en fin de la build. À ce stade, il annule l’inscription de tous les journaux joints.  
+-   Le `MuxLogger` est arrêtée lorsque la génération est terminée en fin de la build. À ce stade, il annule l’inscription de tous les journaux attachés à ce dernier.  
   
--   Le `MuxLogger` consigne l’événement de build de fin lors de l’événement de fin de projet pour le premier événement a démarré le projet est visible pour chacun d’eux.  
+-   Le `MuxLogger` consigne l’événement terminé de build lors de l’événement de projet terminé pour le premier événement de projet démarré se produit pour chaque enregistreur d’événements.  
   
  Le `MuxLogger` enregistre les enregistreurs d’événements de la façon suivante :  
   
-1.  L’enregistreur d’événements est passé à la `MuxLogger.RegisterLogger` méthode avec un ID de soumission est utilisé pour router un message vers ce journal.  
+1.  L’enregistreur d’événements est passé à la `MuxLogger.RegisterLogger` méthode avec un ID de soumission est utilisé pour router un message vers cet enregistreur d’événements.  
   
-2.  Le `MuxLogger` inscrit l’enregistreur d’événements pour le `MuxLogger` source d’événements.  
+2.  Le `MuxLogger` inscrit l’enregistreur d’événements pour le `MuxLogger` source d’événement.  
   
-3.  Si l’événement de build a démarré a déjà été enregistrée, le `MuxLogger` crée un nouvel événement de build a démarré et l’envoie à la source d’événements de l’enregistreur d’événements.  
+3.  Si l’événement de génération démarrée a déjà été enregistrée, le `MuxLogger` crée un nouvel événement de génération démarrée et l’envoie à la source d’événements de l’enregistreur d’événements.  
   
  Le `MuxLogger` annule l’enregistrement des journaux de la façon suivante :  
   
-1.  Lors de la soumission de la build est terminée, le `MuxLogger.UnregisterLogger` méthode est appelée avec l’ID de la soumission de l’enregistreur d’événements.  
+1.  Lorsqu’une soumission de génération est terminée, le `MuxLogger.UnregisterLogger` méthode est appelée avec l’ID de soumission pour l’enregistreur d’événements.  
   
-2.  Le `MuxLogger` recherche l’état de réussite de l’événement de fin de projet pour l’ID de soumission et consigne un événement de build de fin de l’enregistreur d’événements.  
+2.  Le `MuxLogger` recherche l’état de réussite de l’événement de projet terminé pour l’ID de soumission et consigne un événement de build de fin dans le journal.  
   
 3.  Le `MuxLogger` nettoie la source d’événements.  
   

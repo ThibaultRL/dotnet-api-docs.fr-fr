@@ -1,11 +1,11 @@
 <Type Name="JoinBlock&lt;T1,T2,T3&gt;" FullName="System.Threading.Tasks.Dataflow.JoinBlock&lt;T1,T2,T3&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c33bc367823b4a5053767e5a339bf5521f25ff33" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="157ca73a32b82cc15e2d5b94010f1d8cc0790cdf" />
+    <Meta Name="ms.sourcegitcommit" Value="d877ae76e9e11799bf919379507239e2c4072742" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407329" />
+    <Meta Name="ms.lasthandoff" Value="08/09/2018" />
+    <Meta Name="ms.locfileid" Value="39811344" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class JoinBlock&lt;T1,T2,T3&gt; : System.Threading.Tasks.Dataflow.IReceivableSourceBlock&lt;Tuple&lt;T1,T2,T3&gt;&gt;, System.Threading.Tasks.Dataflow.ISourceBlock&lt;Tuple&lt;T1,T2,T3&gt;&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit JoinBlock`3&lt;T1, T2, T3&gt; extends System.Object implements class System.Threading.Tasks.Dataflow.IDataflowBlock, class System.Threading.Tasks.Dataflow.IReceivableSourceBlock`1&lt;class System.Tuple`3&lt;!T1, !T2, !T3&gt;&gt;, class System.Threading.Tasks.Dataflow.ISourceBlock`1&lt;class System.Tuple`3&lt;!T1, !T2, !T3&gt;&gt;" />
@@ -36,6 +36,14 @@
       <InterfaceName>System.Threading.Tasks.Dataflow.ISourceBlock&lt;System.Tuple&lt;T1,T2,T3&gt;&gt;</InterfaceName>
     </Interface>
   </Interfaces>
+  <Attributes>
+    <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1">
+      <AttributeName>System.Diagnostics.DebuggerDisplay("{DebuggerDisplayContent,nq}")</AttributeName>
+    </Attribute>
+    <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1">
+      <AttributeName>System.Diagnostics.DebuggerTypeProxy(typeof(System.Threading.Tasks.Dataflow.JoinBlock`3/DebugView))</AttributeName>
+    </Attribute>
+  </Attributes>
   <Docs>
     <typeparam name="T1">Spécifie le type de données accepté par la première cible du bloc.</typeparam>
     <typeparam name="T2">Spécifie le type de données accepté par la deuxième cible du bloc.</typeparam>
@@ -126,7 +134,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Une fois <xref:System.Threading.Tasks.Dataflow.JoinBlock%603.Complete%2A> a été appelée sur un bloc de flux de données, ce bloc se termine et son <xref:System.Threading.Tasks.Dataflow.JoinBlock%603.Completion%2A> tâche passe un état final après avoir traité toutes les données précédemment disponibles. <xref:System.Threading.Tasks.Dataflow.JoinBlock%603.Complete%2A> va pas empêcher le délai d’exécution se produit, mais plutôt émettra la demande ; pour attendre la fin se produise, le <xref:System.Threading.Tasks.Dataflow.JoinBlock%603.Completion%2A> tâche peut être utilisée.  
+ Une fois <xref:System.Threading.Tasks.Dataflow.JoinBlock%603.Complete%2A> a été appelée sur un bloc de flux de données, ce bloc se termine et son <xref:System.Threading.Tasks.Dataflow.JoinBlock%603.Completion%2A> tâche passera un état final après avoir traité toutes les données précédemment disponibles. <xref:System.Threading.Tasks.Dataflow.JoinBlock%603.Complete%2A> va pas le bloc attend la fin se produisent, mais au lieu de cela lance la demande ; pour attendre la fin se produisent, le <xref:System.Threading.Tasks.Dataflow.JoinBlock%603.Completion%2A> tâche peut être utilisée.  
   
  ]]></format>
         </remarks>
@@ -160,7 +168,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un bloc de flux de données est considérée comme terminée quand elle n’est pas actuellement traite un message et quand il a la garantie qu’il ne traitera pas plus de messages. Retourné <xref:System.Threading.Tasks.Task> sera la transition vers un état terminé quand le bloc associé s’est terminée. Il adopte le <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.RanToCompletion> sémantique définie par l’état quand le bloc termine son traitement avec succès en fonction du bloc de flux de données. Il adopte le <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.Faulted> état lorsque le bloc de flux de données a terminé le traitement prématurément en raison d’une exception non gérée, et il adopte le <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.Canceled> état lorsque le bloc de flux de données est terminée. le traitement prématurément en raison de la réception d’une demande d’annulation. Si la tâche se termine avec la <xref:System.Threading.Tasks.TaskStatus.Faulted> état, son `Exception` propriété retournera un <xref:System.AggregateException> contenant une ou plusieurs exceptions qui a provoqué l’échec du bloc.  
+ Un bloc de flux de données est considéré comme terminé quand elle n’est pas actuellement traite un message et quand il a la garantie qu’il ne traitera pas plus de messages. Retourné <xref:System.Threading.Tasks.Task> sera la transition vers un état terminé lorsque le bloc associé est terminée. Il adopte le <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.RanToCompletion> sémantique définie par l’état lorsque le bloc termine son traitement avec succès selon le bloc de flux de données. Il adopte le <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.Faulted> état lorsque le bloc de flux de données a terminé le traitement prématurément en raison d’une exception non gérée, et il adopte le <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.Canceled> état lorsque le bloc de flux de données est terminée. traitement prématurément en raison de la réception d’une demande d’annulation. Si la tâche se termine dans le <xref:System.Threading.Tasks.TaskStatus.Faulted> état, son `Exception` propriété retournera un <xref:System.AggregateException> contenant une ou plusieurs exceptions qui a provoqué l’échec du bloc.  
   
  ]]></format>
         </remarks>
@@ -198,7 +206,7 @@
         <returns>Objet supprimable qui annule le lien entre la source et la cible quand sa méthode <see cref="M:System.IDisposable.Dispose" /> est appelée.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="target" /> est <see langword="null" />.  -ou- <paramref name="linkOptions" /> est <see langword="null" />.</exception>
+          <paramref name="target" /> est <see langword="null" />.  - ou - <paramref name="linkOptions" /> a la valeur <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="OutputCount">
@@ -255,7 +263,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Après avoir <xref:System.Threading.Tasks.Dataflow.JoinBlock%603.System%23Threading%23Tasks%23Dataflow%23IDataflowBlock%23Fault%2A> a été appelée sur un bloc de flux de données, ce bloc se termine et son <xref:System.Threading.Tasks.Dataflow.JoinBlock%603.Completion%2A> tâche passe à un état final. Provoquer une erreur dans un bloc, comme avec l’annulation d’un bloc, entraîne mis en mémoire tampon des messages (messages d’entrée non traités ainsi que les messages de sortie unoffered) perdues.  
+ Après avoir <xref:System.Threading.Tasks.Dataflow.JoinBlock%603.System%23Threading%23Tasks%23Dataflow%23IDataflowBlock%23Fault%2A> a été appelée sur un bloc de flux de données, ce bloc se termine et son <xref:System.Threading.Tasks.Dataflow.JoinBlock%603.Completion%2A> tâche passera à un état final. Provoquer une erreur dans un bloc, comme avec l’annulation d’un bloc, entraîne mis en mémoire tampon des messages (messages d’entrée non traités ainsi que les messages de sortie unoffered) perdues.  
   
  ]]></format>
         </remarks>
@@ -271,7 +279,7 @@
       <MemberSignature Language="C++ CLI" Value=" virtual Tuple&lt;T1, T2, T3&gt; ^ System.Threading.Tasks.Dataflow.ISourceBlock&lt;System.Tuple&lt;T1,T2,T3&gt;&gt;.ConsumeMessage(System::Threading::Tasks::Dataflow::DataflowMessageHeader messageHeader, System::Threading::Tasks::Dataflow::ITargetBlock&lt;Tuple&lt;T1, T2, T3&gt; ^&gt; ^ target, [Runtime::InteropServices::Out] bool % messageConsumed) = System::Threading::Tasks::Dataflow::ISourceBlock&lt;Tuple&lt;T1, T2, T3&gt; ^&gt;::ConsumeMessage;" />
       <MemberType>Method</MemberType>
       <Implements>
-        <InterfaceMember>M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)</InterfaceMember>
+        <InterfaceMember>M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean)</InterfaceMember>
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Dataflow</AssemblyName>
@@ -286,7 +294,7 @@
       <Parameters>
         <Parameter Name="messageHeader" Type="System.Threading.Tasks.Dataflow.DataflowMessageHeader" />
         <Parameter Name="target" Type="System.Threading.Tasks.Dataflow.ITargetBlock&lt;System.Tuple&lt;T1,T2,T3&gt;&gt;" />
-        <Parameter Name="messageConsumed" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="messageConsumed" Type="System.Boolean" RefType="out" />
       </Parameters>
       <Docs>
         <param name="messageHeader">To be added.</param>
@@ -458,7 +466,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Hérité de <xref:System.Object> . Utilise le <xref:System.Threading.Tasks.Dataflow.DataflowBlockOptions.NameFormat%2A> option.  
+ Héritée de <xref:System.Object> . Utilise le <xref:System.Threading.Tasks.Dataflow.DataflowBlockOptions.NameFormat%2A> option.  
   
  ]]></format>
         </remarks>
@@ -484,7 +492,7 @@
       </ReturnValue>
       <Parameters>
         <Parameter Name="filter" Type="System.Predicate&lt;System.Tuple&lt;T1,T2,T3&gt;&gt;" />
-        <Parameter Name="item" Type="System.Tuple&lt;T1,T2,T3&gt;&amp;" RefType="out" />
+        <Parameter Name="item" Type="System.Tuple&lt;T1,T2,T3&gt;" RefType="out" />
       </Parameters>
       <Docs>
         <param name="filter">Attribut qu'une valeur doit passer avec succès pour sa réception.  <c>filter</c> peut être <see langword="null" />, auquel cas tous les éléments aboutissent.</param>
@@ -496,9 +504,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode ne bloque pas l’attente de la source pour fournir un élément.  
+ Cette méthode ne bloque pas attendre la source fournir un élément.  
   
- Il retournera après l’archivage d’un élément, un élément était disponible ou non.  
+ Après avoir vérifié pour un élément, est retournée si un élément a été disponible ou non.  
   
  ]]></format>
         </remarks>
@@ -523,7 +531,7 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="items" Type="System.Collections.Generic.IList&lt;System.Tuple&lt;T1,T2,T3&gt;&gt;&amp;" RefType="out" />
+        <Parameter Name="items" Type="System.Collections.Generic.IList&lt;System.Tuple&lt;T1,T2,T3&gt;&gt;" RefType="out" />
       </Parameters>
       <Docs>
         <param name="items">Éléments reçus de la source.</param>
@@ -534,9 +542,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode ne bloque pas l’attente de la source pour fournir un élément.  
+ Cette méthode ne bloque pas attendre la source fournir un élément.  
   
- Il retournera après la vérification des éléments, ou non un élément n’était pas disponible.  
+ Après avoir vérifié les éléments, est retournée si un élément a été disponible ou non.  
   
  ]]></format>
         </remarks>

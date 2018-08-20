@@ -1,10 +1,10 @@
 <Type Name="IDestinationTypeProvider" FullName="System.Xaml.IDestinationTypeProvider">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="9c0902f060cf70a990455e9cd7000558331b3fac" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="d0bb31ec8354fa58c62c2a646057eec11d3e2150" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/17/2018" />
     <Meta Name="ms.locfileid" Value="36444928" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IDestinationTypeProvider" />
@@ -26,17 +26,17 @@
 ## Remarks  
  Le type qui est retourné par <xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A> est résolu à partir de la position actuelle du flux de nœud XAML à l’aide du contexte de schéma XAML actif.  
   
- Si vous utilisez le système de type XAML comme implémenté par les Services XAML .NET Framework et le contexte de service sous ces conditions, l’accès <xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A> retourne le <xref:System.Xaml.XamlType.UnderlyingType%2A> selon les informations de système de type XAML disponibles et le contexte de schéma XAML CLR.  
+ Si vous utilisez le système de type XAML tel qu’implémenté par les Services XAML .NET Framework et le contexte de service sous ces conditions, l’accès <xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A> retourne le <xref:System.Xaml.XamlType.UnderlyingType%2A> selon les informations de système de type XAML disponibles et le contexte de schéma XAML basé sur CLR.  
   
- Ce service est pertinent pour les situations où réflexion pure CLR ou autres mécanismes peut ne pas fournissent suffisamment d’informations sur un type de destination. Voici une liste de quelques scénarios pertinents pour <xref:System.Xaml.IDestinationTypeProvider>:  
+ Ce service s’applique aux situations où réflexion pure CLR ou autres mécanismes peut ne pas fournissent suffisamment d’informations sur un type de destination. Voici une liste de quelques scénarios pertinents pour <xref:System.Xaml.IDestinationTypeProvider>:  
   
--   Le système de type CLR signale un type indirect en raison de la façon dont le CLR définit et utilise des types et que vous souhaitez un type de destination vrai. Par exemple, les API dans les Services XAML .NET Framework utilisent ce service en interne lorsqu’ils traitent des membres d’événement. Les événements sont signalés par réflexion pure CLR comme un <xref:System.Delegate>.  
+-   Le système de type CLR signale un type indirect en raison de la façon dont le CLR définit et utilise des types, et vous souhaitez un type de destination vrai. Par exemple, les API dans les Services XAML .NET Framework utilisent ce service en interne lorsqu’ils traitent des membres de l’événement. Les événements sont signalés par réflexion pure CLR comme un <xref:System.Delegate>.  
   
 -   Vous souhaitez vous assurer que le type de destination de l’utilisation d’un convertisseur de type correspond au type attendu que le convertisseur de type peut produire. Ce scénario est utile lorsque le type de destination est paramétré ou générique.  
   
--   Votre convertisseur de valeurs est appelée à partir d’une utilisation imbriquée dans un autre convertisseur de valeurs. Dans ce cas, <xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A> déroule l’imbrication et retourne le type de destination de la propriété réelle qui est définie, au lieu de retourner le type de sortie de tous les convertisseurs qui interviennent.  
+-   Votre convertisseur de valeurs est appelée à partir d’une utilisation imbriquée dans un autre convertisseur de valeurs. Dans ce cas, <xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A> se déroule l’imbrication et retourne le type de destination de la propriété réelle qui est définie, au lieu de retourner le type de sortie de tous les convertisseurs de valeur intermédiaire.  
   
- Convertisseurs de type et les extensions de balisage peuvent interroger pour <xref:System.Xaml.IDestinationTypeProvider> en tant que service du contexte de service fourni par un writer d’objet XAML, lorsque le writer d’objet XAML appelle le comportement de conversion de valeur. Pour plus d’informations, consultez [convertisseurs de Type et Extensions de balisage pour XAML](~/docs/framework/xaml-services/type-converters-and-markup-extensions-for-xaml.md) et [contextes de services disponibles aux convertisseurs de Type et Extensions de balisage](~/docs/framework/xaml-services/service-contexts-available-to-type-converters-and-markup-extensions.md).  
+ Convertisseurs de type et extensions de balisage peuvent interroger pour <xref:System.Xaml.IDestinationTypeProvider> en tant que service sur le contexte de service qui est fourni par un writer d’objet XAML, lorsque le writer d’objet XAML appelle le comportement de conversion de valeur. Pour plus d’informations, consultez [Type Converters and Markup Extensions for XAML](~/docs/framework/xaml-services/type-converters-and-markup-extensions-for-xaml.md) et [Service Contexts Available to Type Converters and Markup Extensions](~/docs/framework/xaml-services/service-contexts-available-to-type-converters-and-markup-extensions.md).  
   
  ]]></format>
     </remarks>
@@ -66,10 +66,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode n’a aucun paramètre d’entrée. Éléments à retourner (et s’il faut retourner une valeur autre que `null`) est déterminé par la position du nœud actuel dans le flux de nœud XAML.  
+ Cette méthode n’a aucun paramètre d’entrée. Les éléments à retourner (et s’il faut retourner une valeur autre que `null`) est déterminé par la position du nœud actuel dans le flux de nœud XAML.  
   
 ## <a name="service-implementers"></a>Implémenteurs de service  
- Si vous implémentez de nouveau ce service, le <xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A> méthode doit retourner le type qu’un convertisseur de type ou d’extension de balisage s’attend à vérifier par rapport à son type de sortie ou de conversion plus spécifique.  
+ Si vous réimplémentez ce service, le <xref:System.Xaml.IDestinationTypeProvider.GetDestinationType%2A> méthode doit retourner le type qu’un convertisseur de type ou d’extension de balisage s’attend à vérifier par rapport à son type de sortie ou de conversion plus spécifique.  
   
  ]]></format>
         </remarks>

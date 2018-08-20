@@ -1,10 +1,10 @@
 <Type Name="IStopListeningRegisteredObject" FullName="System.Web.Hosting.IStopListeningRegisteredObject">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="b83891f8b976135f8eb51fe5952ac37a4ed59cf6" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="d0bb31ec8354fa58c62c2a646057eec11d3e2150" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/17/2018" />
     <Meta Name="ms.locfileid" Value="36600381" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IStopListeningRegisteredObject : System.Web.Hosting.IRegisteredObject" />
@@ -23,16 +23,17 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>[Pris en charge dans le .NET Framework 4.5.1 et ultérieur]  Écoute les notifications <c>GL_STOP_LISTENING</c> provenant d’IIS.</summary>
+    <summary>[Pris en charge dans le .NET Framework 4.5.1 et versions ultérieures] 
+Écoute les notifications <c>GL_STOP_LISTENING</c> provenant d’IIS.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Vous pouvez implémenter la <xref:System.Web.Hosting.IStopListeningRegisteredObject> interface en passant un objet à le <xref:System.Web.Hosting.HostingEnvironment.RegisterObject%2A> (méthode). L’objet passé écoute `GL_STOP_LISTENING` notifications à partir de IIS. Vous pouvez appeler cette implémentation lorsque ASP.NET reçoit un `GL_STOP_LISTENING` notification depuis IIS, qui signale que IIS écoute n’est plus de nouvelles demandes pour cette application. Le serveur web peut autoriser les demandes qui sont en cours s’exécute jusqu'à achèvement. Si votre processus d’application demandes longues, vous souhaiterez peut-être ont l’application écouter ces notifications IIS de conclure en douceur vers le bas de la demande. Le <xref:System.Web.Hosting.IStopListeningRegisteredObject.StopListening%2A> méthode est comparée à la <xref:System.Web.Hosting.IRegisteredObject.Stop%2A> (méthode), qui signale l’arrêt de l’application immédiate.  
+ Vous pouvez implémenter la <xref:System.Web.Hosting.IStopListeningRegisteredObject> interface en passant un objet à le <xref:System.Web.Hosting.HostingEnvironment.RegisterObject%2A> (méthode). L’objet passé est à l’écoute pour `GL_STOP_LISTENING` notifications à partir d’IIS. Vous pouvez appeler cette implémentation quand ASP.NET reçoit un `GL_STOP_LISTENING` notification à partir d’IIS, qui signale que IIS écoute n’est plus de nouvelles demandes pour cette application. Le serveur web autorise les requêtes qui sont en cours s’exécute jusqu'à achèvement. Si votre processus d’application demandes longues, vous pouvez également placer l’application écouter ces notifications IIS de manière appropriée clore la demande. Le <xref:System.Web.Hosting.IStopListeningRegisteredObject.StopListening%2A> méthode contraste avec le <xref:System.Web.Hosting.IRegisteredObject.Stop%2A> (méthode), qui signale l’arrêt de l’application immédiate.  
   
  ]]></format>
     </remarks>
-    <threadsafe>Membres d’instance de ce type ne sont pas garantis être thread-safe. Le <see cref="M:System.Web.Hosting.IStopListeningRegisteredObject.StopListening" /> méthode peut être appelée à tout moment, y compris lors d’un appel à une autre méthode (tel que <see cref="M:System.Web.Hosting.IRegisteredObject.Stop(System.Boolean)" />) sur ce même objet s’exécute ou pendant des appels aux autres objets <see cref="M:System.Web.Hosting.IStopListeningRegisteredObject.StopListening" /> méthodes en cours d’exécution. Étant donné que l’exécution de ces méthodes est multithread, il existe un intervalle dans lequel la <see cref="M:System.Web.Hosting.IStopListeningRegisteredObject.StopListening" /> méthode peut être appelée même après un appel à <see cref="M:System.Web.Hosting.HostingEnvironment.UnregisterObject(System.Web.Hosting.IRegisteredObject)" /> est terminée.</threadsafe>
+    <threadsafe>Membres d’instance de ce type ne sont pas garantis pour être thread-safe. Le <see cref="M:System.Web.Hosting.IStopListeningRegisteredObject.StopListening" /> méthode peut être appelée à tout moment, y compris lors d’un appel à une autre méthode (tel que <see cref="M:System.Web.Hosting.IRegisteredObject.Stop(System.Boolean)" />) sur ce même objet s’exécute ou pendant les appels à d’autres objets <see cref="M:System.Web.Hosting.IStopListeningRegisteredObject.StopListening" /> méthodes sont exécutent. L’exécution de ces méthodes est multithread, étant donné un intervalle dans lequel la <see cref="M:System.Web.Hosting.IStopListeningRegisteredObject.StopListening" /> méthode peut être appelée même après un appel à <see cref="M:System.Web.Hosting.HostingEnvironment.UnregisterObject(System.Web.Hosting.IRegisteredObject)" /> est terminée.</threadsafe>
   </Docs>
   <Members>
     <Member MemberName="StopListening">
@@ -52,17 +53,18 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>[Pris en charge dans le .NET Framework 4.5.1 et ultérieur]  Arrête d’écouter les nouvelles requêtes.</summary>
+        <summary>[Pris en charge dans le .NET Framework 4.5.1 et versions ultérieures] 
+Cesse d'écouter les nouvelles demandes.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
  Le <xref:System.Web.Hosting.IStopListeningRegisteredObject.StopListening%2A> méthode est prise en charge uniquement lorsque le mode d’exécution dans IIS intégré. Le runtime ASP.NET ne garantit pas que le <xref:System.Web.Hosting.IStopListeningRegisteredObject.StopListening%2A> méthode déclenche jamais.  
   
- Le <xref:System.Web.Hosting.IStopListeningRegisteredObject.StopListening%2A> méthode ne doive pas lever d’exceptions dans le cas contraire le comportement est indéfini et le processus sera probablement terminé. En outre, pour éviter de créer des blocages, les <xref:System.Web.Hosting.IStopListeningRegisteredObject.StopListening%2A> méthode ne doit pas bloquer l’exécution.  
+ Le <xref:System.Web.Hosting.IStopListeningRegisteredObject.StopListening%2A> méthode ne doit pas lever d’exception, sinon le comportement est indéfini et le processus sera probablement terminé. En outre, pour éviter de créer des blocages, les <xref:System.Web.Hosting.IStopListeningRegisteredObject.StopListening%2A> méthode ne doit pas bloquer l’exécution.  
   
 > [!IMPORTANT]
->  Dans de nombreuses applications le <xref:System.Web.Hosting.IStopListeningRegisteredObject.StopListening%2A> méthode peut s’exécuter en même temps que le <xref:System.AppDomain.Unload%2A> (méthode).  Si <xref:System.AppDomain> unload se produit, le <xref:System.Web.Hosting.IStopListeningRegisteredObject.StopListening%2A> méthode pouvant être forcée abandonnée avant la fin de l’exécution.  
+>  Dans de nombreuses applications le <xref:System.Web.Hosting.IStopListeningRegisteredObject.StopListening%2A> méthode puisse s’exécuter en même temps que le <xref:System.AppDomain.Unload%2A> (méthode).  Si <xref:System.AppDomain> unload se produit, le <xref:System.Web.Hosting.IStopListeningRegisteredObject.StopListening%2A> méthode susceptible d’être abandonnée force avant la fin de l’exécution.  
   
  ]]></format>
         </remarks>

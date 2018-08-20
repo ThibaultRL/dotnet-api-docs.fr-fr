@@ -1,11 +1,11 @@
 <Type Name="ManagedToNativeComInteropStubAttribute" FullName="System.Runtime.InteropServices.ManagedToNativeComInteropStubAttribute">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="0e8696c348174e1bbf86926ba30e401107fc3a9e" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="4f0ae4cf12c2d896c1f787892c65580e698fc156" />
+    <Meta Name="ms.sourcegitcommit" Value="d877ae76e9e11799bf919379507239e2c4072742" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36634179" />
+    <Meta Name="ms.lasthandoff" Value="08/09/2018" />
+    <Meta Name="ms.locfileid" Value="39975670" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class ManagedToNativeComInteropStubAttribute : Attribute" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ManagedToNativeComInteropStubAttribute extends System.Attribute" />
@@ -28,11 +28,14 @@
   </Base>
   <Interfaces />
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.AttributeUsage(System.AttributeTargets.Method, AllowMultiple=false, Inherited=false)</AttributeName>
     </Attribute>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+    </Attribute>
+    <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1">
+      <AttributeName>System.AttributeUsage(System.AttributeTargets.Method, Inherited=false)</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -41,38 +44,38 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cet attribut permet aux développeurs d’interopérabilité qui ont des connaissances à propos du marshaling et le fonctionnement interne des appels interop pour effectuer les opérations suivantes :  
+ Cet attribut permet aux développeurs d’interopérabilité qui disposent de connaissances à propos du marshaling et le fonctionnement interne des appels interop effectuer les opérations suivantes :  
   
--   Tirer parti des stubs d’interopérabilité personnalisés au moment de la build au lieu de l’exécution.  
+-   Tirez parti des stubs d’interopérabilité personnalisés au moment de build au lieu de l’exécution.  
   
--   Déboguer les stubs d’interopérabilité personnalisés.  
+-   Déboguer des stubs d’interopérabilité personnalisés.  
   
--   Fournir des fonctions de marshaling dans un stub qui ne fournit pas de l’exécution.  
+-   Fournir des fonctions de marshaling dans un stub que le runtime ne fournit pas.  
   
--   Fournissent des fonctionnalités de répartition de méthode spécifique à l’utilisateur.  
+-   Fournissent des fonctionnalités de dispatch (méthode) spécifiques à l’utilisateur.  
   
  Vous appliquez l’attribut sur une méthode dans une interface pour spécifier une méthode stub correspondante pour COM interop de managé à natif.  
   
- Si cet attribut est rencontré pendant l’exécution, le common language runtime ne génère pas dynamiquement de stub d’interopérabilité. Au lieu de cela, il appelle le stub personnalisé créé au moment de la génération.  
+ Si cet attribut est rencontré pendant l’exécution, le common language runtime ne génère pas dynamiquement un stub d’interopérabilité. Au lieu de cela, il appelle le stub personnalisé créé au moment de la génération.  
   
  Le <xref:System.Runtime.InteropServices.ManagedToNativeComInteropStubAttribute> attribut présente les caractéristiques suivantes :  
   
 -   L’attribut peut être utilisé uniquement sur les méthodes des interfaces marquées `[ComImport]`. Si l’attribut est appliqué aux types d’interface non, il est ignoré par le runtime.  
   
--   L’attribut peut être utilisé qu’une seule fois sur la même méthode dans une interface. S’il est utilisé plusieurs fois, le compilateur génère une erreur d’attribut dupliquée.  
+-   L’attribut peut être utilisé qu’une seule fois sur la même méthode dans une interface. S’il est utilisé plusieurs fois, le compilateur génère une erreur d’attribut en double.  
   
--   L’attribut n’est pas pouvant être héritée à partir d’une interface de base. Interfaces dérivées doivent affecter explicitement l’attribut.  
+-   L’attribut n’est pas héritable à partir d’une interface de base. Interfaces dérivées doivent affecter explicitement l’attribut.  
   
--   L’assembly qui contient la méthode attribuée doit également contenir le stub personnalisé.  
+-   L’assembly qui contient la méthode avec attributs doit également contenir le stub personnalisé.  
   
- Les méthodes stub surchargées sont valides. Bien que vous spécifiez uniquement le type et le nom de la méthode stub, l’exécution découvrira le stub correspondant. Il fait ceci en examinant tous les arguments de la méthode d’interface et puis en effectuant la signature complète correspondant à l’aide d’explicite `this` pointeur.  
+ Les méthodes stub surchargées sont valides. Bien que vous spécifiez uniquement le type et le nom de la méthode stub, le runtime détecte le stub correspondant. Cela se fait en examinant tous les arguments de la méthode d’interface et puis en effectuant la signature complète correspondant à l’aide d’explicite `this` pointeur.  
   
- Il est également possible pour plusieurs méthodes dans une interface de partager la même méthode stub ; Toutefois, vous devez être prudent lorsque vous utilisez des stubs partagés.  
+ Il est également possible de plusieurs méthodes dans une interface de partager la même méthode stub ; Toutefois, vous devez être prudent lorsque vous utilisez des stubs partagés.  
   
 > [!NOTE]
 >  Les méthodes stub doivent être statiques.  
   
- Vous pouvez informer le runtime pour utiliser un stub d’interopérabilité personnalisé au moment de la build au lieu de l’exécution avec le code c# suivant :  
+ Vous pouvez informer le runtime pour utiliser un stub d’interopérabilité personnalisé au moment de la génération au lieu de l’exécution avec le code c# suivant :  
   
 ```  
 [ComImport]  
