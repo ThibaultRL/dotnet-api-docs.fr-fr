@@ -1,10 +1,10 @@
 <Type Name="SessionSecurityTokenHandler" FullName="System.IdentityModel.Tokens.SessionSecurityTokenHandler">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="698670494d510916b922e88a119093c8c15bf740" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36480113" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class SessionSecurityTokenHandler : System.IdentityModel.Tokens.SecurityTokenHandler" />
@@ -28,33 +28,33 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> classe sérialise, désérialise et valide les jetons de session. Les jetons de session sont des jetons de type <xref:System.IdentityModel.Tokens.SessionSecurityToken>. La <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> classe sérialise les jetons vers et depuis le format du cookie. Par défaut, la classe sérialise les jetons en Feb2005 de Conversation WS-Secure ou WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` éléments. Les jetons de session sont utilisées par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule> (WSFAM) et le <xref:System.IdentityModel.Services.SessionAuthenticationModule> (SAM) pour stocker les informations relatives à une session, il s’agit principalement le <xref:System.Security.Claims.ClaimsPrincipal> associé à l’utilisateur authentifié et les heures de début et d’expiration de session.  
+ Le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> classe sérialise, désérialise et valide les jetons de session. Les jetons de session sont des jetons de type <xref:System.IdentityModel.Tokens.SessionSecurityToken>. Le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> classe sérialise les jetons vers et depuis le format du cookie. Par défaut, la classe sérialise les jetons en Feb2005 de Conversation WS-Secure ou WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` éléments. Les jetons de session sont utilisées par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule> (WSFAM) et le <xref:System.IdentityModel.Services.SessionAuthenticationModule> (SAM) pour stocker les informations relatives à une session, il s’agit principalement le <xref:System.Security.Claims.ClaimsPrincipal> associé à l’utilisateur authentifié et les heures de début et d’expiration de session.  
   
- Dans les scénarios passifs, le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule> appelle la <xref:System.IdentityModel.Services.SessionAuthenticationModule> (SAM) depuis le pipeline d’authentification pour créer un jeton de session à partir de la <xref:System.Security.Claims.ClaimsPrincipal> qui représente l’utilisateur authentifié. SAM utilise son configuré <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> pour créer le jeton et de le sérialiser dans un cookie (et pour désérialiser le jeton à partir d’un cookie sur les demandes suivantes). SAM utilise une instance de son configuré <xref:System.IdentityModel.Services.CookieHandler> classe réécrire le cookie dans la réponse HTTP. Ce cookie est ensuite renvoyé au client et sur les demandes suivantes, le client peut présenter le cookie, plutôt que d’effectuer un aller-retour vers le fournisseur d’identité pour ré-obtenir un jeton de sécurité. Pour plus d’informations sur le fonctionnement des sessions avec WIF, consultez [gestion de Session WIF](~/docs/framework/security/wif-session-management.md).  
+ Dans les scénarios passifs, le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule> appelle le <xref:System.IdentityModel.Services.SessionAuthenticationModule> (SAM) dans le pipeline d’authentification pour créer un jeton de session à partir de la <xref:System.Security.Claims.ClaimsPrincipal> qui représente l’utilisateur authentifié. Le module SAM utilise son configuré <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> pour créer le jeton et de le sérialiser dans un cookie (et pour désérialiser le jeton à partir d’un cookie pour les requêtes ultérieures). Le module SAM utilise une instance de son configuré <xref:System.IdentityModel.Services.CookieHandler> classe à écrire le cookie dans la réponse HTTP. Ce cookie est ensuite renvoyé au client et sur les demandes suivantes, le client peut présenter le cookie, plutôt que d’effectuer un aller-retour au fournisseur d’identité pour obtenir un jeton de sécurité à nouveau. Pour plus d’informations sur le fonctionnement des sessions avec WIF, consultez [gestion de Session WIF](~/docs/framework/security/wif-session-management.md).  
   
 > [!NOTE]
->  Le \<securityTokenHandlers > élément de configuration peut être utilisé pour spécifier un <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> qui a la responsabilité pour la sécurisation des sessions de l’application. Les développeurs soyez prudent lorsque vous modifiez ce paramètre de configuration, comme un système de configuration incorrecte peut entraîner de compromission de l’application. Par exemple, en spécifiant un lien hypertexte dérivé «http://msdn.microsoft.com/library/hh193426%28v=vs.110%29.aspx"\t « _blank » <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> et en passant une collection de transformations (CookieTransform) vide à la base, provoquerait l’identité des utilisateurs qui sont sérialisée dans un cookie qui n’était pas protégé. Cela pourrait permettre un attaquant de modifier l’identité et par conséquent les privilèges d’accès.  
+>  Le \<securityTokenHandlers > élément de configuration peut être utilisé pour spécifier un <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> qui a la responsabilité pour la sécurisation des sessions de l’application. Les développeurs doivent utiliser attention lorsque vous modifiez ce paramètre de configuration, comme un système mal configuré peut entraîner de compromission de l’application. Par exemple, en spécifiant un lien hypertexte dérivé «http://msdn.microsoft.com/library/hh193426%28v=vs.110%29.aspx"\t « _blank » <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> et en passant une collection de transformations (CookieTransform) vide à la base, correspond à l’identité des utilisateurs en cours de sérialisation dans un cookie qui n’était pas protégé. Cela pourrait permettre un attaquant de modifier l’identité et par conséquent les privilèges d’accès.  
   
- Si le jeton de session est en mode de référence, autrement dit, son <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propriété `true`, la session, le Gestionnaire de jetons sérialise uniquement les propriétés de jeton de session qui sont nécessaires pour régénérer la clé dans le <xref:System.IdentityModel.Tokens.SessionSecurityTokenCache>. Dans le cas par défaut, le <xref:System.IdentityModel.Tokens.SessionSecurityTokenCacheKey> classe est utilisée pour représenter les clés de cache, et le Gestionnaire de jetons écrit le <xref:System.IdentityModel.Tokens.SessionSecurityToken.ContextId%2A?displayProperty=nameWithType> et <xref:System.IdentityModel.Tokens.SessionSecurityToken.KeyGeneration%2A?displayProperty=nameWithType> propriétés du jeton. Si le jeton de session n’est pas en mode de référence, autrement dit, le <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propriété est `false`, puis, en plus des propriétés mentionnées précédemment, le gestionnaire appelle la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> méthode sur un tableau d’octets à partir duquel les magasins et un jeton sérialisé le valeur de résultat dans le cookie ainsi. Pour plus d’informations sur la façon dont le jeton est sérialisé, consultez le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%28System.Xml.XmlWriter%2CSystem.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> (méthode).  
+ Si le jeton de session est en mode de référence, autrement dit, son <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propriété est `true`, la session de gestionnaire de jetons sérialise uniquement les propriétés de jeton de session qui sont nécessaires pour régénérer la clé dans le <xref:System.IdentityModel.Tokens.SessionSecurityTokenCache>. Dans le cas par défaut, le <xref:System.IdentityModel.Tokens.SessionSecurityTokenCacheKey> classe est utilisée pour représenter les clés de cache, et le Gestionnaire de jetons écrit le <xref:System.IdentityModel.Tokens.SessionSecurityToken.ContextId%2A?displayProperty=nameWithType> et <xref:System.IdentityModel.Tokens.SessionSecurityToken.KeyGeneration%2A?displayProperty=nameWithType> propriétés du jeton. Si le jeton de session n’est pas en mode de référence, autrement dit, le <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propriété est `false`, outre les propriétés mentionnées précédemment, le gestionnaire appelle ensuite la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> méthode sur un tableau d’octets à partir duquel le jeton et les magasins sérialisé le valeur résultante dans le cookie ainsi. Pour plus d’informations sur la façon dont le jeton est sérialisé, consultez le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%28System.Xml.XmlWriter%2CSystem.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> (méthode).  
   
- Le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propriété obtient la liste des transformations qui sont appliqués à la session de jeton dans le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> (méthode). Toutes les transformations dérivent la <xref:System.IdentityModel.CookieTransform> classe. Dans le cas par défaut le <xref:System.IdentityModel.DeflateCookieTransform> et <xref:System.IdentityModel.ProtectedDataCookieTransform> sont appliquées. Le <xref:System.IdentityModel.ProtectedDataCookieTransform> utilise l’API de Protection des données (DPAPI) pour protéger les informations de cookie. DPAPI utilise une clé qui est spécifique à l’ordinateur sur lequel il est en cours d’exécution dans les algorithmes de sa protection. Pour cette raison, le Gestionnaire de jetons de session par défaut n’est pas utilisable dans les scénarios de batterie de serveurs Web car, dans de tels scénarios, jetons écrites sur un ordinateur a besoin de lire sur un autre ordinateur. Vous pouvez utiliser plusieurs stratégies pour contourner ce problème. Par exemple, vous pouvez :  
+ Le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propriété obtient la liste des transformations qui sont appliqués à la session de jeton dans le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> (méthode). Toutes les transformations dérivent la <xref:System.IdentityModel.CookieTransform> classe. Dans le cas par défaut le <xref:System.IdentityModel.DeflateCookieTransform> et <xref:System.IdentityModel.ProtectedDataCookieTransform> sont appliquées. Le <xref:System.IdentityModel.ProtectedDataCookieTransform> utilise l’API de Protection des données (DPAPI) pour protéger le matériel de cookie. DPAPI utilise une clé qui est spécifique à l’ordinateur sur lequel il est en cours d’exécution dans ses algorithmes de protection. Pour cette raison, le Gestionnaire de jetons de session par défaut n’est pas utilisable dans les scénarios de batterie de serveurs Web car, dans de tels scénarios, les jetons écrites sur un ordinateur peuvent devant être lus sur un autre ordinateur. Vous pouvez utiliser plusieurs stratégies pour contourner ce problème. Par exemple, vous pouvez :  
   
--   Remplacez la valeur par défaut <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> avec la <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler>. Le <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler> vous permet de spécifier des clés de signature et de chiffrement sous ASP.NET `<machineKey>` élément dans le fichier de configuration.  
+-   Remplacez la valeur par défaut <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> avec le <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler>. Le <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler> vous permet de spécifier des clés de signature et le chiffrement sous ASP.NET `<machineKey>` élément dans le fichier de configuration.  
   
--   Fournir un gestionnaire pour le <xref:System.IdentityModel.Services.FederatedAuthentication.FederationConfigurationCreated?displayProperty=nameWithType> avec une instance de gestionnaire d’événement dans le fichier global.asax.cs et remplacer la session par défaut du jeton <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> qui a une liste des transformations qui inclut le <xref:System.IdentityModel.RsaSignatureCookieTransform> et <xref:System.IdentityModel.RsaEncryptionCookieTransform>. Vous pouvez créer la nouvelle instance en appelant un des constructeurs qui prend une liste des transformations.  
+-   Fournir un gestionnaire pour le <xref:System.IdentityModel.Services.FederatedAuthentication.FederationConfigurationCreated?displayProperty=nameWithType> événement dans le fichier global.asax.cs et remplacez la session par défaut du gestionnaire avec une instance de jeton <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> qui a une liste des transformations qui inclut le <xref:System.IdentityModel.RsaSignatureCookieTransform> et <xref:System.IdentityModel.RsaEncryptionCookieTransform>. Vous pouvez créer la nouvelle instance en appelant un des constructeurs qui prend une liste des transformations.  
   
 -   Dériver une transformation personnalisée à partir de la <xref:System.IdentityModel.CookieTransform> classe de base et utiliser la méthode ci-dessus pour l’inclure dans la liste des transformations à appliquer.  
   
--   Dériver un gestionnaire de jetons personnalisé à partir de <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> et d’implémenter votre propre mécanisme.  
+-   Dériver à partir d’un gestionnaire de jetons personnalisé <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> et implémenter votre propre mécanisme.  
   
- Pour plus d’informations sur l’utilisation des sessions dans les scénarios de batterie de serveurs Web, consultez [WIF et batteries de serveurs Web](~/docs/framework/security/wif-and-web-farms.md).  
+ Pour plus d’informations sur l’utilisation de sessions dans les scénarios de batterie de serveurs Web, consultez [WIF et batteries de serveurs Web](~/docs/framework/security/wif-and-web-farms.md).  
   
- Le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> est inclus dans la collection de gestionnaire de jetons par défaut ; Toutefois, remplacez par un gestionnaire de jeton de session personnalisé en spécifiant au préalable un [ &lt;supprimer&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/remove.md) élément sous la [ &lt;securityTokenHandlers&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/securitytokenhandlers.md) élément à supprimer le gestionnaire par défaut à partir de la collection et en ajoutant ensuite votre gestionnaire de jetons personnalisé à l’aide de la [ &lt;ajouter&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/add.md) élément. Par défaut, vous pouvez spécifier la durée de vie de jeton par défaut en incluant le [ &lt;sessionTokenRequirement&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/sessiontokenrequirement.md) élément sous le `<add>` élément. Vous pouvez créer un gestionnaire de jetons personnalisé pour prendre des éléments de configuration personnalisés sous le `<add>` élément en remplaçant le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.LoadCustomConfiguration%2A> méthode pour fournir la logique pour les traiter.  
+ Le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> est inclus dans la collection de gestionnaires de jetons par défaut ; Toutefois, remplacez par un gestionnaire de jetons de session personnalisée en spécifiant au préalable un [ &lt;supprimer&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/remove.md) élément sous le [ &lt;securityTokenHandlers&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/securitytokenhandlers.md) élément à supprimer le gestionnaire par défaut à partir de la collection, puis en ajoutant votre gestionnaire de jetons personnalisé à l’aide de la [ &lt;ajouter&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/add.md) élément. Par défaut, vous pouvez spécifier la durée de vie de jeton par défaut en incluant le [ &lt;sessionTokenRequirement&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/sessiontokenrequirement.md) élément sous le `<add>` élément. Vous pouvez concevoir un gestionnaire de jetons personnalisé à des éléments de configuration personnalisée sous la `<add>` élément en substituant le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.LoadCustomConfiguration%2A> méthode pour fournir la logique pour les traiter.  
   
    
   
 ## Examples  
- Le code XML suivant montre comment remplacer le Gestionnaire de jetons de sécurité session de valeur par défaut dans une collection de gestionnaire de jetons avec une instance de la <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler> classe dans la configuration.  
+ Le code XML suivant montre comment remplacer le Gestionnaire de jetons de sécurité session de valeur par défaut dans une collection de gestionnaires de jetons avec une instance de la <xref:System.IdentityModel.Services.Tokens.MachineKeySessionSecurityTokenHandler> classe dans la configuration.  
   
 ```xml  
 <securityTokenHandlers>  
@@ -294,7 +294,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette propriété est utilisée dans les <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%2A> et <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%2A> méthodes permettent de déterminer l’élément sous lequel le matériel de jeton encodé doit être écrit ou lu.  
+ Cette propriété est utilisée dans le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%2A> et <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%2A> méthodes pour déterminer l’élément sous lequel le matériel de jeton encodé doit être écrit ou lu.  
   
  ]]></format>
         </remarks>
@@ -325,7 +325,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette propriété est utilisée dans les <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%2A> et <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%2A> méthodes permettent de déterminer l’espace de noms de l’élément sous lequel le matériel de jeton encodé doit être écrit ou lu.  
+ Cette propriété est utilisée dans le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%2A> et <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%2A> méthodes pour déterminer l’espace de noms de l’élément sous lequel le matériel de jeton encodé doit être écrit ou lu.  
   
  ]]></format>
         </remarks>
@@ -396,7 +396,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Crée et retourne un jeton de sécurité de session dans le descripteur de jeton à l’aide des propriétés suivantes : <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Subject%2A?displayProperty=nameWithType>, et <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Lifetime%2A?displayProperty=nameWithType>. Si le <xref:System.IdentityModel.Tokens.SecurityTokenHandlerConfiguration.SaveBootstrapContext%2A?displayProperty=nameWithType> propriété a la valeur `true` sur la configuration du Gestionnaire de jeton spécifiée par le <xref:System.IdentityModel.Tokens.SecurityTokenHandler.Configuration%2A> propriété, le contexte d’amorçage est créé à partir de la <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Token%2A?displayProperty=nameWithType> propriété et est enregistré dans le jeton de session.  
+ Crée et retourne un jeton de sécurité de session en utilisant les propriétés suivantes dans le descripteur de jeton : <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Subject%2A?displayProperty=nameWithType>, et <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Lifetime%2A?displayProperty=nameWithType>. Si le <xref:System.IdentityModel.Tokens.SecurityTokenHandlerConfiguration.SaveBootstrapContext%2A?displayProperty=nameWithType> propriété a la valeur `true` sur la configuration du Gestionnaire de jeton spécifiée par le <xref:System.IdentityModel.Tokens.SecurityTokenHandler.Configuration%2A> propriété, le contexte de démarrage est créé à partir de la <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Token%2A?displayProperty=nameWithType> propriété et est enregistré dans le jeton de session.  
   
  ]]></format>
         </remarks>
@@ -520,7 +520,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Appelée par l’infrastructure de configuration pour initialiser la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> instance. Initialise le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.TokenLifetime%2A> propriété à partir de la `lifetime` attribut de la [ &lt;sessionTokenRequirement&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/sessiontokenrequirement.md) élément dans le fichier de configuration.  
+ Appelée par l’infrastructure de configuration pour initialiser le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> instance. Initialise le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.TokenLifetime%2A> propriété à partir de la `lifetime` attribut de la [ &lt;sessionTokenRequirement&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/sessiontokenrequirement.md) élément dans le fichier de configuration.  
   
  ]]></format>
         </remarks>
@@ -573,7 +573,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le lecteur doit être positionné sur un Feb2005 WS-Secure de Conversation ou d’un WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` élément.  
+ Le lecteur doit être positionné sur un Feb2005 WS-Secure de Conversation ou un WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` élément.  
   
  L’implémentation par défaut appelle la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ReadToken%28System.Xml.XmlReader%2CSystem.IdentityModel.Selectors.SecurityTokenResolver%29?displayProperty=nameWithType> méthode à l’aide d’un programme de résolution de jeton par défaut.  
   
@@ -648,16 +648,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le lecteur doit être positionné sur un Feb2005 WS-Secure de Conversation ou d’un WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` élément.  
+ Le lecteur doit être positionné sur un Feb2005 WS-Secure de Conversation ou un WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` élément.  
   
- Si le matériel de jeton est mis en cache, il est lu à partir du cache de jeton, qui est une instance de la <xref:System.IdentityModel.Tokens.SessionSecurityTokenCache> classe. Dans le cas contraire, le matériel de jeton est lu à partir de l’élément enfant de le `<wsc:SecurityContextToken>` élément qui est spécifié par le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieElementName%2A> et <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieNamespace%2A> propriétés et le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> méthode est appelée pour décoder le cookie.  
+ Si le matériel de jeton est mis en cache, il est lu à partir du cache de jeton, qui est une instance de la <xref:System.IdentityModel.Tokens.SessionSecurityTokenCache> classe. Sinon, le matériel de jeton est lu à partir de l’élément enfant de le `<wsc:SecurityContextToken>` élément qui est spécifié par le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieElementName%2A> et <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieNamespace%2A> propriétés et le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> méthode est appelée pour décoder le cookie.  
   
- Pour plus d’informations sur la façon dont les jetons de session sont sérialisées dans un `<SecurityContextToken` élément, consultez la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%28System.Xml.XmlWriter%2CSystem.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> (méthode).  
+ Pour plus d’informations sur la façon dont les jetons de session sont sérialisés dans un `<SecurityContextToken` élément, consultez le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.WriteToken%28System.Xml.XmlWriter%2CSystem.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> (méthode).  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="reader" /> est <see langword="null" />.  -ou- <paramref name="tokenResolver" /> est <see langword="null" />.</exception>
+          <paramref name="reader" /> est <see langword="null" />.  
+  
+- ou - 
+ <paramref name="tokenResolver" /> est <see langword="null" />.</exception>
         <exception cref="T:System.IdentityModel.Tokens.SecurityTokenException">Le lecteur n'est pas positionné sur un <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" /> ou <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" /> ne peut pas être lu.</exception>
       </Docs>
     </Member>
@@ -686,7 +689,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Définit la liste des transformations retourné par le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propriété. Transformations seront appliquées dans l’ordre dans lequel elles apparaissent dans la liste lors de l’encodage d’un cookie et dans l’ordre inverse lors du décodage d’un cookie.  
+ Définit la liste des transformations que retourné par la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.Transforms%2A> propriété. Transformations sont appliquées dans l’ordre dans lequel ils apparaissent dans la liste lors de l’encodage d’un cookie et dans l’ordre inverse lors du décodage d’un cookie.  
   
 > [!WARNING]
 >  Si le `transforms` paramètre est `null`, une exception est levée à partir de la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> méthode lorsqu’elle est appelée pour coder ou décoder le cookie.  
@@ -799,7 +802,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le jeton n’est pas valide si son <xref:System.IdentityModel.Tokens.SecurityToken.ValidFrom%2A> est définie sur une valeur qui se situe à <xref:System.DateTime.UtcNow%2A>, ou si son <xref:System.IdentityModel.Tokens.SecurityToken.ValidTo%2A> est définie sur une valeur qui se produit antérieures à <xref:System.DateTime.UtcNow%2A>.  
+ Le jeton n’est pas valide si sa <xref:System.IdentityModel.Tokens.SecurityToken.ValidFrom%2A> propriété est définie sur une valeur qui se produit ultérieurement à <xref:System.DateTime.UtcNow%2A>, ou si son <xref:System.IdentityModel.Tokens.SecurityToken.ValidTo%2A> propriété est définie sur une valeur qui se produit antérieure à <xref:System.DateTime.UtcNow%2A>.  
   
  Appelée à partir de la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ValidateToken%2A> méthodes pour valider la session.  
   
@@ -848,7 +851,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Appelle la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ValidateSession%2A> méthode pour valider le jeton.  
+ Appelle le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ValidateSession%2A> méthode pour valider le jeton.  
   
  ]]></format>
         </remarks>
@@ -888,15 +891,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Effectue une vérification pour vous assurer que le jeton est étendu pour l’ID de point de terminaison spécifié et, si tel est le cas, appelle la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ValidateToken%28System.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> méthode ; sinon, lève un <xref:System.IdentityModel.Tokens.SecurityTokenException>.  
+ Effectue une vérification pour vous assurer que le jeton spécifié est étendu pour l’ID de point de terminaison spécifié et, si tel est le cas, appelle le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ValidateToken%28System.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> méthode ; sinon, lève un <xref:System.IdentityModel.Tokens.SecurityTokenException>.  
   
 > [!IMPORTANT]
->  Les jetons de session qui ont un <xref:System.IdentityModel.Tokens.SessionSecurityToken.EndpointId%2A> propriété `null` ou vides sont considérés être une étendue globale. Cela pose un risque de sécurité potentiel. C’est pourquoi vous devez vous assurer que le <xref:System.IdentityModel.Tokens.SessionSecurityToken.EndpointId%2A> propriété est définie dans les jetons de la session.  
+>  Les jetons de session qui ont un <xref:System.IdentityModel.Tokens.SessionSecurityToken.EndpointId%2A> propriété `null` ou vides sont considérées comme à être une étendue globale. Cela pose un risque de sécurité potentiel. C’est pourquoi vous devez vous assurer que le <xref:System.IdentityModel.Tokens.SessionSecurityToken.EndpointId%2A> propriété est définie dans les jetons de session.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="token" /> est <see langword="null" />.  -ou- <paramref name="endpointId" /> est <see langword="null" />.</exception>
+          <paramref name="token" /> est <see langword="null" />.  
+  
+- ou - 
+ <paramref name="endpointId" /> est <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">
           <paramref name="token" /> ne peut pas être affecté à partir de <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" />.</exception>
         <exception cref="T:System.IdentityModel.Tokens.SecurityTokenException">La propriété <see cref="P:System.IdentityModel.Tokens.SessionSecurityToken.EndpointId" /> du jeton spécifié n'a pas la valeur <see langword="null" /> ou n'est pas vide et sa valeur est différente de celle spécifiée par le paramètre <paramref name="endpointId" />.</exception>
@@ -983,14 +989,20 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- L’implémentation par défaut sérialise le jeton spécifié comme Feb2005 de Conversation WS-Secure ou WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` élément, selon la valeur de la <xref:System.IdentityModel.Tokens.SessionSecurityToken.SecureConversationVersion%2A?displayProperty=nameWithType> propriété. Le <xref:System.IdentityModel.Tokens.SessionSecurityToken.Id%2A?displayProperty=nameWithType> propriété est sérialisée en tant que le `Id` attribut. Le <xref:System.IdentityModel.Tokens.SessionSecurityToken.ContextId%2A?displayProperty=nameWithType> propriété est sérialisée en tant que le `<Identifier>` élément enfant. Si ce n’est pas `null` le <xref:System.IdentityModel.Tokens.SessionSecurityToken.KeyGeneration%2A?displayProperty=nameWithType> propriété est sérialisée comme un `<Instance>` élément. Enfin, si le <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propriété est `false`, le jeton entier est sérialisé en tableau binaire qui est passée à la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> méthode à encoder. Le jeton encodé est ensuite écrites comme une valeur codée en base64 pour l’élément et l’espace de noms spécifié par le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieElementName%2A> et <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieNamespace%2A> propriétés. Si le <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propriété est `true`, le jeton n’est pas sérialisé.  
+ L’implémentation par défaut sérialise le jeton spécifié soit en tant que WS-Secure de Feb2005 de Conversation ou WS-Secure Conversation 1.3 `<wsc:SecurityContextToken>` élément, selon la valeur de la <xref:System.IdentityModel.Tokens.SessionSecurityToken.SecureConversationVersion%2A?displayProperty=nameWithType> propriété. Le <xref:System.IdentityModel.Tokens.SessionSecurityToken.Id%2A?displayProperty=nameWithType> propriété est sérialisée comme le `Id` attribut. Le <xref:System.IdentityModel.Tokens.SessionSecurityToken.ContextId%2A?displayProperty=nameWithType> propriété est sérialisée comme le `<Identifier>` élément enfant. Si ce n’est pas `null` le <xref:System.IdentityModel.Tokens.SessionSecurityToken.KeyGeneration%2A?displayProperty=nameWithType> propriété est sérialisée comme un `<Instance>` élément. Enfin, si le <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propriété est `false`, le jeton entier est sérialisé dans un tableau binaire qui est transmis à la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.ApplyTransforms%2A> méthode à encoder. Le jeton encodé est ensuite écrites comme une valeur codée en base64 pour l’élément et l’espace de noms spécifié par le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieElementName%2A> et <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CookieNamespace%2A> propriétés. Si le <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propriété est `true`, le jeton n’est pas sérialisé.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="writer" /> est <see langword="null" />.  -ou- <paramref name="token" /> est <see langword="null" />.</exception>
+          <paramref name="writer" /> est <see langword="null" />.  
+  
+- ou - 
+ <paramref name="token" /> est <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">
-          <paramref name="token" /> ne peut pas être affecté à partir de <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" />.  - ou - La propriété <see cref="P:System.IdentityModel.Tokens.SessionSecurityToken.SecureConversationVersion" /> du jeton spécifie une version de WS-Secure Conversation qui n’est pas prise en charge par le gestionnaire.</exception>
+          <paramref name="token" /> ne peut pas être affecté à partir de <see cref="T:System.IdentityModel.Tokens.SessionSecurityToken" />.  
+  
+- ou - 
+La propriété <see cref="P:System.IdentityModel.Tokens.SessionSecurityToken.SecureConversationVersion" /> du jeton spécifie une version de WS-Secure Conversation qui n'est pas prise en charge par le gestionnaire.</exception>
         <altmember cref="P:System.IdentityModel.Tokens.SessionSecurityTokenHandler.CanWriteToken" />
       </Docs>
     </Member>

@@ -1,10 +1,10 @@
 <Type Name="IssuerNameRegistry" FullName="System.IdentityModel.Tokens.IssuerNameRegistry">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="3a225e68f793277ffff772b6148f50d2f6f4d235" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36557745" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class IssuerNameRegistry : System.IdentityModel.Configuration.ICustomIdentityConfiguration" />
@@ -31,25 +31,25 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le Registre de nom d’émetteur est utilisé pour associer un nom mnémonique pour le matériel de chiffrement nécessaire pour vérifier les signatures de jetons générés par l’émetteur correspondant. Ce nom est ensuite utilisé pour définir le <xref:System.Security.Claims.Claim.Issuer%2A> ou <xref:System.Security.Claims.Claim.OriginalIssuer%2A> la propriété de la revendication. Les méthodes exposées par la <xref:System.IdentityModel.Tokens.IssuerNameRegistry> classe sont appelées à partir du pipeline par le Gestionnaire de jetons de sécurité qui traite le jeton. Jetons signés par un matériel qui n’est mappé à un Registre de nom d’émetteur sont ignorés non approuvé. Le nom retourné par le Registre de nom de l’émetteur doit être unique dans le contexte d’une application de partie de confiance.  
+ Le Registre des noms d’émetteur est utilisé pour associer un nom mnémonique avec le matériel de chiffrement nécessaire pour vérifier les signatures des jetons produits par l’émetteur correspondant. Ce nom est ensuite utilisé pour définir le <xref:System.Security.Claims.Claim.Issuer%2A> ou <xref:System.Security.Claims.Claim.OriginalIssuer%2A> propriété d’une revendication. Les méthodes exposées par la <xref:System.IdentityModel.Tokens.IssuerNameRegistry> classe sont appelées à partir du pipeline par le Gestionnaire de jetons de sécurité qui traite le jeton. Jetons signés par un matériel qui n’est mappé à un registre des noms d’émetteur sont ignorées comme non approuvé. Le nom retourné par le Registre de nom de l’émetteur doit être unique dans le contexte d’une application de partie de confiance.  
   
  Dans le code, vous pouvez spécifier le Registre de nom d’émetteur à utiliser en définissant le <xref:System.IdentityModel.Tokens.SecurityTokenHandlerConfiguration.IssuerNameRegistry%2A?displayProperty=nameWithType> propriété. Dans un fichier de configuration, le Registre de nom de l’émetteur peut être spécifié en spécifiant le [ &lt;issuerNameRegistry&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/issuernameregistry.md) élément sous le [ &lt;securityTokenHandlerConfiguration &gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/securitytokenhandlerconfiguration.md) élément.  
   
- Windows Identity Foundation (WIF) fournit une implémentation de la <xref:System.IdentityModel.Tokens.IssuerNameRegistry> classe prêtes à l’emploi : le <xref:System.IdentityModel.Tokens.ConfigurationBasedIssuerNameRegistry> classe. Lorsque vous utilisez cette implémentation, vous pouvez spécifier la liste des émetteurs approuvés dans le fichier de configuration de l’application de partie de confiance sous la [ &lt;trustedIssuers&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/trustedissuers.md) élément, qui est un élément enfant de le `<issuerNameRegistry>`élément lorsque la <xref:System.IdentityModel.Tokens.ConfigurationBasedIssuerNameRegistry>.class est référencé dans l’élément `type` attribut. Sous le `<trustedIssuers>` élément, chaque nom de l’émetteur est mappé au certificat X.509 à utiliser pour vérifier sa signature.  
+ Windows Identity Foundation (WIF) fournit une implémentation de la <xref:System.IdentityModel.Tokens.IssuerNameRegistry> classe prêts à l’emploi : le <xref:System.IdentityModel.Tokens.ConfigurationBasedIssuerNameRegistry> classe. Lorsque vous utilisez cette implémentation, vous pouvez spécifier la liste des émetteurs approuvés dans le fichier de configuration de l’application de partie de confiance sous la [ &lt;trustedIssuers&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/trustedissuers.md) élément, qui est un élément enfant de le `<issuerNameRegistry>`élément lorsque la <xref:System.IdentityModel.Tokens.ConfigurationBasedIssuerNameRegistry>.class est référencé dans l’élément `type` attribut. Sous le `<trustedIssuers>` élément, chaque nom de l’émetteur est mappé au certificat X.509 qui doit être utilisé pour vérifier sa signature.  
   
- Pour créer un Registre de nom d’émetteur personnalisé, vous devez substituer la <xref:System.IdentityModel.Tokens.IssuerNameRegistry.GetIssuerName%28System.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> (méthode). Cette méthode retourne le nom de l’émetteur du jeton de sécurité spécifié. Vous pouvez éventuellement substituer la <xref:System.IdentityModel.Tokens.IssuerNameRegistry.GetIssuerName%28System.IdentityModel.Tokens.SecurityToken%2CSystem.String%29?displayProperty=nameWithType> méthode pour fournir un mécanisme affinage lors de la récupération des noms de l’émetteur et le <xref:System.IdentityModel.Tokens.IssuerNameRegistry.GetWindowsIssuerName%2A> méthode si vous souhaitez fournir les jetons de nom d’un émetteur pour Windows qui est différente de <xref:System.Security.Claims.ClaimsIdentity.DefaultIssuer>. Remplacer la <xref:System.IdentityModel.Tokens.IssuerNameRegistry.LoadCustomConfiguration%2A> méthode d’activation de votre Registre de nom d’émetteur à initialiser à partir d’un fichier de configuration.  
+ Pour créer un registre des noms d’émetteur personnalisé, vous devez substituer la <xref:System.IdentityModel.Tokens.IssuerNameRegistry.GetIssuerName%28System.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> (méthode). Cette méthode retourne le nom de l’émetteur de jeton de sécurité spécifié. Vous pouvez éventuellement substituer le <xref:System.IdentityModel.Tokens.IssuerNameRegistry.GetIssuerName%28System.IdentityModel.Tokens.SecurityToken%2CSystem.String%29?displayProperty=nameWithType> méthode pour fournir un mécanisme affinage lors de la récupération des noms de l’émetteur et le <xref:System.IdentityModel.Tokens.IssuerNameRegistry.GetWindowsIssuerName%2A> méthode si vous souhaitez fournir des jetons de nom de l’émetteur pour Windows qui est différente de <xref:System.Security.Claims.ClaimsIdentity.DefaultIssuer>. Remplacer le <xref:System.IdentityModel.Tokens.IssuerNameRegistry.LoadCustomConfiguration%2A> méthode pour permettre à votre Registre de nom d’émetteur à initialiser à partir d’un fichier de configuration.  
   
    
   
 ## Examples  
- Le code suivant illustre une implémentation de la <xref:System.IdentityModel.Tokens.IssuerNameRegistry> classe qui accepte uniquement les émetteurs qui utilisent des certificats avec le sujet « CN = localhost ».  
+ Le code suivant illustre une implémentation de la <xref:System.IdentityModel.Tokens.IssuerNameRegistry> classe qui accepte uniquement les émetteurs qui utilisent des certificats avec l’objet « CN = localhost ».  
   
 > [!WARNING]
->  Le code suivant est à titre d’illustration uniquement. Validation des certificats basés sur le nom de l’objet n’est pas recommandé. Ce code ne doit pas être utilisé comme en production.  
+>  Le code suivant est uniquement à des fins d’illustration. Validation des certificats selon le nom de l’objet n’est pas une bonne pratique. Ce code ne doit pas être utilisé comme mise en production.  
   
  [!code-csharp[WifIssuerNameRegistry#1](~/samples/snippets/csharp/VS_Snippets_Misc/wifissuernameregistry/cs/mvcwepapp/trustedissuernameregistry.cs#1)]  
   
- Le code suivant illustre le code XML nécessaire pour configurer une application avec le Registre de nom d’émetteur approuvé.  
+ Voici le code XML nécessaire pour configurer une application avec le Registre des noms d’émetteurs approuvés.  
   
 ```xml  
 <system.identityModel>  
@@ -93,7 +93,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Appelé dans le pipeline de traitement par le Gestionnaire de jetons de sécurité qui traite le jeton. La méthode doit retourner un nom unique de l’émetteur dans le contexte de l’application de partie de confiance.  
+ Appelée à partir du pipeline de traitement par le Gestionnaire de jetons de sécurité qui traite le jeton. La méthode doit retourner un nom unique pour l’émetteur dans le contexte de l’application de partie de confiance.  
   
  ]]></format>
         </remarks>
@@ -124,9 +124,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Les implémentations doivent retourner une chaîne non null et non vide pour identifier un émetteur reconnu ou une chaîne null pour identifier un émetteur non reconnu.  
+ Les implémentations doivent retourner une chaîne non null et non vide pour identifier un émetteur reconnu, ou une chaîne null pour identifier un émetteur non reconnu.  
   
- Appelé dans le pipeline de traitement par le Gestionnaire de jetons de sécurité qui traite le jeton. La méthode doit retourner un nom unique de l’émetteur dans le contexte de l’application de partie de confiance.  
+ Appelée à partir du pipeline de traitement par le Gestionnaire de jetons de sécurité qui traite le jeton. La méthode doit retourner un nom unique pour l’émetteur dans le contexte de l’application de partie de confiance.  
   
    
   
@@ -134,7 +134,7 @@
  Le code suivant illustre la <xref:System.IdentityModel.Tokens.IssuerNameRegistry.GetIssuerName%2A> méthode pour un Registre de nom de l’émetteur. L’exemple complet est dans le <xref:System.IdentityModel.Tokens.IssuerNameRegistry> rubrique Vue d’ensemble de la classe.  
   
 > [!WARNING]
->  Le code suivant est à titre d’illustration uniquement. Validation des certificats basés sur le nom de l’objet n’est pas recommandé. Ce code ne doit pas être utilisé comme en production.  
+>  Le code suivant est uniquement à des fins d’illustration. Validation des certificats selon le nom de l’objet n’est pas une bonne pratique. Ce code ne doit pas être utilisé comme mise en production.  
   
  [!code-csharp[WifIssuerNameRegistry#2](~/samples/snippets/csharp/VS_Snippets_Misc/wifissuernameregistry/cs/mvcwepapp/trustedissuernameregistry.cs#2)]  
   
@@ -172,7 +172,7 @@
 ## Remarks  
  L’implémentation par défaut ignore le `requestedIssuerName` paramètre et appelle simplement la <xref:System.IdentityModel.Tokens.IssuerNameRegistry.GetIssuerName%28System.IdentityModel.Tokens.SecurityToken%29?displayProperty=nameWithType> (méthode).  
   
- Appelé dans le pipeline de traitement par le Gestionnaire de jetons de sécurité qui traite le jeton. La méthode doit retourner un nom unique de l’émetteur dans le contexte de l’application de partie de confiance.  
+ Appelée à partir du pipeline de traitement par le Gestionnaire de jetons de sécurité qui traite le jeton. La méthode doit retourner un nom unique pour l’émetteur dans le contexte de l’application de partie de confiance.  
   
  ]]></format>
         </remarks>
@@ -204,7 +204,7 @@
 ## Remarks  
  L'implémentation par défaut retourne la valeur <xref:System.Security.Claims.ClaimsIdentity.DefaultIssuer>.  
   
- Appelé dans le pipeline de traitement par le Gestionnaire de jetons de sécurité qui traite le jeton. La méthode doit retourner un nom unique de l’émetteur dans le contexte de l’application de partie de confiance.  
+ Appelée à partir du pipeline de traitement par le Gestionnaire de jetons de sécurité qui traite le jeton. La méthode doit retourner un nom unique pour l’émetteur dans le contexte de l’application de partie de confiance.  
   
  ]]></format>
         </remarks>
@@ -239,9 +239,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.IdentityModel.Tokens.IssuerNameRegistry.LoadCustomConfiguration%2A> méthode est appelée par l’infrastructure de configuration. Lorsque cette méthode est appelée, le `nodelist` contient les éléments enfants de niveau supérieur de la [ &lt;issuerNameRegistry&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/issuernameregistry.md) élément à partir du fichier de configuration. Chacun de ces peut, à son tour, contenir des attributs ou des éléments enfants en fonction du schéma de configuration que vous définissez pour votre classe dérivée.  
+ Le <xref:System.IdentityModel.Tokens.IssuerNameRegistry.LoadCustomConfiguration%2A> méthode est appelée par l’infrastructure de configuration. Lorsque cette méthode est appelée, le `nodelist` contiendra les éléments enfants de niveau supérieur de la [ &lt;issuerNameRegistry&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/issuernameregistry.md) élément à partir du fichier de configuration. Chacun d'entre eux peut, à son tour, contient des attributs ou éléments enfants en fonction du schéma de configuration que vous définissez pour votre classe dérivée.  
   
- L’implémentation par défaut lève une <xref:System.NotImplementedException>. Substituez cette méthode dans votre classe dérivée pour activer l’initialisation de votre Registre de nom d’émetteur à partir d’un fichier de configuration.  
+ L’implémentation par défaut lève un <xref:System.NotImplementedException>. Substituez cette méthode dans votre classe dérivée pour activer l’initialisation de votre Registre de nom d’émetteur à partir d’un fichier de configuration.  
   
  ]]></format>
         </remarks>

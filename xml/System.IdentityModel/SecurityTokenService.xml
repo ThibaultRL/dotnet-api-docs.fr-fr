@@ -1,10 +1,10 @@
 <Type Name="SecurityTokenService" FullName="System.IdentityModel.SecurityTokenService">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="b5c8d93b898d628b70967d33278c8cd9f33a66bf" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36479606" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class SecurityTokenService" />
@@ -27,36 +27,36 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Pour créer un STS, vous devez dériver la <xref:System.IdentityModel.SecurityTokenService> classe. Dans votre classe personnalisée vous devez, au minimum, substituer la <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> et <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> méthodes. Avec ces remplacements, le STS créé à l’aide de l’implémentation par défaut de toutes les méthodes définies dans la classe est capable de délivrer des jetons de sécurité en réponse à la sécurité des demandes de jeton (RST). Autrement dit, la liaison de problème définie dans la spécification WS-Trust est implémentée. Cette liaison est implémentée dans le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode). Aucun des autres liaisons WS-Trust (renouveler, Annuler et valider) sont implémentées dans le cas par défaut et une erreur appropriée est retournée à l’appelant si un RST qui correspond à l’une de ces liaisons est rencontré. Vous pouvez substituer bien sûr, les méthodes appropriées (<xref:System.IdentityModel.SecurityTokenService.Renew%2A>, <xref:System.IdentityModel.SecurityTokenService.Cancel%2A>, et <xref:System.IdentityModel.SecurityTokenService.Validate%2A>) pour implémenter ces liaisons dans votre STS.  
+ Pour créer un STS que vous devez dériver la <xref:System.IdentityModel.SecurityTokenService> classe. Dans votre classe personnalisée vous devez, au minimum, remplacer le <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> et <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> méthodes. Avec ces remplacements, le STS créé à l’aide de l’implémentation par défaut de toutes les autres méthodes définies dans la classe est capable de délivrer des jetons de sécurité en réponse à la sécurité des demandes de jeton (RST). Autrement dit, la liaison de problème définie dans la spécification WS-Trust est implémentée. Cette liaison est implémentée dans le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode). Aucun des autres liaisons WS-Trust (renouveler, Annuler et valider) sont implémentées dans le cas par défaut et une erreur appropriée est retournée à l’appelant si une RST qui correspond à une de ces liaisons ne survient. Vous pouvez, bien sûr, substituer les méthodes appropriées (<xref:System.IdentityModel.SecurityTokenService.Renew%2A>, <xref:System.IdentityModel.SecurityTokenService.Cancel%2A>, et <xref:System.IdentityModel.SecurityTokenService.Validate%2A>) pour implémenter ces liaisons dans votre STS.  
   
 > [!IMPORTANT]
->  Implémentation d’un STS prêt pour la production implique une planification soignée et des ressources considérables pour atténuer les risques de sécurité potentiels inhérents à l’exposition d’un tel service. La plupart des développeurs à l’aide de Windows Identity Foundation (WIF) est développement d’applications externes de gestion des identités à un STS, plutôt que développer un STS lui-même. WIF fournit une extension de Visual Studio, l’outil Identity and Access pour Visual Studio 2012, pour aider les développeurs de solutions de test dans l’environnement de développement. Cet outil inclut un STS, `LocalSTS`, que vous pouvez configurer pour prendre en charge les revendications spécifiques à l’application que vous développez. Pour plus d’informations sur l’outil identité et d’accès, consultez [Identity and Access Tool pour Visual Studio 2012](~/docs/framework/security/identity-and-access-tool-for-vs.md). Dans certains scénarios, `LocalSTS` peut ne pas fournir les fonctionnalités nécessaires pour tester correctement votre application ; par exemple, dans un scénario de développement d’un gestionnaire de jeton personnalisé pour une utilisation par une application. Dans ce cas, vous pouvez dériver de <xref:System.IdentityModel.SecurityTokenService> pour créer un ou plusieurs STS simples qui peut être déployé dans votre environnement de développement et qui peut être utilisé pour tester ces fonctionnalités dans votre application. Le reste de cette section se concentre sur les méthodes exposées par la <xref:System.IdentityModel.SecurityTokenService> classe qui vous permettent d’implémenter un service STS simple et étendre le pipeline d’émission de jeton.  
+>  Implémentation d’un STS prêt pour la production implique une planification soignée et des ressources considérables pour atténuer les risques de sécurité potentiels inhérents à suivre pour exposer un tel service. La plupart des développeurs à l’aide de Windows Identity Foundation (WIF) sera être développement d’applications qui externaliser la gestion des identités vers un service STS, au lieu de développer un service STS lui-même. WIF fournit une extension de Visual Studio, l’outil Identity and Access pour Visual Studio 2012, pour aider les développeurs de tester des solutions dans l’environnement de développement. Cet outil inclut un service STS, `LocalSTS`, que vous pouvez configurer pour servir des revendications spécifiques à l’application que vous développez. Pour plus d’informations sur l’outil identité et d’accès, consultez [Identity and Access Tool pour Visual Studio 2012](~/docs/framework/security/identity-and-access-tool-for-vs.md). Dans certains scénarios, `LocalSTS` peut ne pas fournir les fonctionnalités nécessaires pour tester correctement votre application ; par exemple, dans un scénario qui implique développe un gestionnaire de jetons personnalisé pour une utilisation par une application. Dans ce cas, vous pouvez dériver de <xref:System.IdentityModel.SecurityTokenService> pour créer un ou plusieurs STS simples qui peut être déployé dans votre environnement de développement et qui peut être utilisé pour tester ces fonctionnalités dans votre application. Le reste de cette section se concentre sur les méthodes exposées par la <xref:System.IdentityModel.SecurityTokenService> classe qui vous permettent d’implémenter un STS simple et étendre le pipeline d’émission de jeton.  
   
- La liste suivante fournit une vue d’ensemble des méthodes de première importance au développeur pour une utilisation dans un environnement de test ou de développement.  
+ La liste suivante fournit une vue d’ensemble des méthodes de première importance pour le développeur pour une utilisation dans un environnement de test ou de développement.  
   
 -   Méthode <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> Cette méthode retourne un <xref:System.IdentityModel.Scope> objet qui contient des informations sur la partie de confiance. Cet objet est utilisé dans le reste du pipeline d’émission de jeton et inclut des informations sur la signature et chiffrement des informations d’identification à utiliser dans la réponse, ainsi que le `AppliesTo` et `ReplyTo` (si nécessaire) adresses. Vous devez substituer cette méthode.  
   
 -   Méthode <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> Cette méthode retourne un <xref:System.Security.Claims.ClaimsIdentity> objet qui contient les revendications pour revenir à la partie de confiance. Vous devez substituer cette méthode.  
   
--   Méthode <xref:System.IdentityModel.SecurityTokenService.Issue%2A> Cette méthode implémente le pipeline de demande de jeton, qui traite une entrant demande de jeton de sécurité (RST) et retourne une réponse (RSTR) à l’appelant qui contient un jeton qui peut être utilisé pour s’authentifier auprès d’une partie de confiance. Un grand nombre des autres méthodes définies dans le <xref:System.IdentityModel.SecurityTokenService> classe sont appelées à partir de cette méthode, y compris le <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> et <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> méthodes. Vous n’êtes pas obligé de substituer cette méthode, mais la compréhension du pipeline de demande de jeton qu’il implémente peut s’avérer utile.  
+-   Méthode <xref:System.IdentityModel.SecurityTokenService.Issue%2A> Cette méthode implémente le pipeline de demande de jeton, qui traite une demande entrante sécurité jeton (RST) et retourne une réponse (RSTR) à l’appelant qui contient un jeton qui peut être utilisé pour authentifier avec un fournisseur de ressources. Un grand nombre des autres méthodes définies dans le <xref:System.IdentityModel.SecurityTokenService> classe sont appelées à partir de cette méthode, y compris le <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> et <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> méthodes. Vous n’êtes pas obligé de substituer cette méthode, mais une compréhension du pipeline de demande de jeton qu’il implémente peut-être être utile.  
   
- Un STS est configuré via la <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration> classe.  
+ Un service STS est configuré via la <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration> classe.  
   
    
   
 ## Examples  
- Les exemples de code qui sont utilisés dans les <xref:System.IdentityModel.SecurityTokenService> rubriques sont tirées de la `Custom Token` exemple. Cet exemple fournit des classes personnalisées qui permettent le traitement des jetons SWT (Simple Web) et il inclut une implémentation de STS passif qui est capable de fournir un jeton SWT. Pour obtenir un exemple montrant comment implémenter un service STS active, vous pouvez voir le `Federation Metadata` exemple. Pour plus d’informations sur ces exemples et d’autres exemples disponibles pour WIF et où les télécharger, consultez [exemple d’Index de Code WIF](~/docs/framework/security/wif-code-sample-index.md). Le code suivant montre l’implémentation de STS passif à l’aide de la <xref:System.IdentityModel.SecurityTokenService> classe.  
+ Les exemples de code qui sont utilisés dans le <xref:System.IdentityModel.SecurityTokenService> rubriques sont extraites de la `Custom Token` exemple. Cet exemple fournit des classes personnalisées qui autorisent le traitement des jetons SWT (Simple Web Tokens) et il inclut une implémentation d’un STS passif qui est capable de fournir un jeton SWT. Pour obtenir un exemple montrant comment implémenter un STS actif, vous pouvez voir le `Federation Metadata` exemple. Pour plus d’informations sur ces exemples et d’autres exemples disponibles pour WIF et où les télécharger, consultez [Index exemple de Code WIF](~/docs/framework/security/wif-code-sample-index.md). Le code suivant illustre l’implémentation d’un STS passif à l’aide de la <xref:System.IdentityModel.SecurityTokenService> classe.  
   
  [!code-csharp[WIFCustomTokenSTS#3](~/samples/snippets/csharp/VS_Snippets_Misc/wifcustomtokensts/cs/passivests/customsecuritytokenservice.cs#3)]  
   
- Le code suivant montre comment appeler un STS personnalisé passif pour traiter une demande WS-Federation en appelant le <xref:System.IdentityModel.Services.FederatedPassiveSecurityTokenServiceOperations.ProcessRequest%28System.Web.HttpRequest%2CSystem.Security.Claims.ClaimsPrincipal%2CSystem.IdentityModel.SecurityTokenService%2CSystem.Web.HttpResponse%29?displayProperty=nameWithType> (méthode) à partir du code-behind dans le `default.aspx.cs` fichier.  
+ Le code suivant montre comment appeler un service STS passif pour traiter une demande WS-Federation en appelant le <xref:System.IdentityModel.Services.FederatedPassiveSecurityTokenServiceOperations.ProcessRequest%28System.Web.HttpRequest%2CSystem.Security.Claims.ClaimsPrincipal%2CSystem.IdentityModel.SecurityTokenService%2CSystem.Web.HttpResponse%29?displayProperty=nameWithType> (méthode) à partir du code-behind dans le `default.aspx.cs` fichier.  
   
  [!code-csharp[WIFCustomTokenSTS#1](~/samples/snippets/csharp/VS_Snippets_Misc/wifcustomtokensts/cs/passivests/default.aspx.cs#1)]  
   
  ]]></format>
     </remarks>
     <block subset="none" type="overrides">
-      <para>Vous devez substituer la <see cref="M:System.IdentityModel.SecurityTokenService.GetScope(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken)" /> et <see cref="M:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken,System.IdentityModel.Scope)" /> méthodes.</para>
+      <para>Vous devez substituer les deux le <see cref="M:System.IdentityModel.SecurityTokenService.GetScope(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken)" /> et <see cref="M:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken,System.IdentityModel.Scope)" /> méthodes.</para>
     </block>
     <altmember cref="T:System.IdentityModel.Scope" />
     <altmember cref="T:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration" />
@@ -85,7 +85,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilisez ce constructeur pour initialiser le fournisseur de l’étendue et le certificat de l’émetteur de jeton.  
+ Utilisez ce constructeur pour initialiser le fournisseur d’étendues et de certificat de l’émetteur du jeton.  
   
  ]]></format>
         </remarks>
@@ -407,12 +407,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Appelé lors d’émission de jeton après <xref:System.IdentityModel.SecurityTokenService.GetScope%2A>.  
+ Appelé lors de l’émission de jeton après <xref:System.IdentityModel.SecurityTokenService.GetScope%2A>.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="request" /> est <see langword="null" />.  -ou- <paramref name="scope" /> est <see langword="null" />.</exception>
+          <paramref name="request" /> est <see langword="null" />.  
+  
+- ou - 
+ <paramref name="scope" /> est <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="EndCancel">
@@ -642,9 +645,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est appelée à partir de la valeur par défaut de pipeline d’émission de jeton est implémenté dans le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode).  
+ Cette méthode est appelée à partir de la valeur par défaut pipeline d’émission de jeton est implémenté dans le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode).  
   
- L’implémentation par défaut retourne la <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A> propriété de configuration accédée via le <xref:System.IdentityModel.SecurityTokenService.SecurityTokenServiceConfiguration%2A> propriété.  
+ L’implémentation par défaut retourne la <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.TokenIssuerName%2A> propriété à partir de configuration accédée via le <xref:System.IdentityModel.SecurityTokenService.SecurityTokenServiceConfiguration%2A> propriété.  
   
  ]]></format>
         </remarks>
@@ -684,16 +687,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> méthode est appelée depuis le pipeline d’émission de jeton, qui est implémenté par le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode). Il retourne un <xref:System.Security.Claims.ClaimsIdentity> qui contient les revendications à inclure dans le jeton de sécurité émis selon le demandeur du jeton (le `principal` paramètre), le RST entrant (le `request` paramètre), et la partie de confiance pour laquelle le jeton est destiné à () le `scope` paramètre). La logique de cette méthode est principalement concernée par les questions suivantes :  
+ Le <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> méthode est appelée depuis le pipeline d’émission de jeton, qui est implémenté par le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode). Elle retourne un <xref:System.Security.Claims.ClaimsIdentity> qui contient les revendications à inclure dans le jeton de sécurité émis selon le demandeur du jeton (le `principal` paramètre), le RST entrant (le `request` paramètre), et la partie de confiance pour laquelle le jeton est destiné () le `scope` paramètre). La logique de cette méthode concerne principalement aux questions suivantes :  
   
--   **Types de revendication doit être inclus dans la réponse en fonction de la partie de confiance pour lequel il est prévu ?** En général, ce comportement est déterminé par partie de confiance dans les listes des types de revendication requis pour chaque partie de confiance ou sur une base par demande en examinant le <xref:System.IdentityModel.Protocols.WSTrust.RequestSecurityToken.Claims%2A> propriété de la requête. Toutefois, la logique et les détails pour déterminer les revendications à inclure dans la réponse est complètement à votre implémentation.  
+-   **Types de revendication à laquelle doit figurer dans la réponse en fonction de la partie de confiance pour lequel il est prévu ?** En général, ce comportement est déterminé par partie de confiance dans les listes des types de revendication requis pour chaque partie de confiance ou sur une base par demande en examinant le <xref:System.IdentityModel.Protocols.WSTrust.RequestSecurityToken.Claims%2A> propriété de la demande. Toutefois, la logique et les détails pour déterminer les revendications à inclure dans la réponse dépend entièrement votre implémentation.  
   
--   **Valeurs de revendication doit être assigné aux revendications dans la réponse ?** Pour un fournisseur d’identité (IP-STS) Ceci signifie généralement à l’aide d’une ou plusieurs revendications dans son <xref:System.Security.Claims.ClaimsPrincipal> (fourni par le `principal` paramètre) pour accéder à un magasin (ou toute autre entité) pour retourner des valeurs pour les types de revendications requis. Pour un fournisseur de fédération (R-STS) Ceci signifie généralement effectuer une sorte de traitement sur les revendications entrantes du demandeur pour répondre à la demande ; notamment pour effectuer le filtrage ou transformation sur des revendications présentées par le demandeur, en passant d’autres utilisateurs via non modifié. Bien entendu, comme dans le cas de déterminer les revendications à inclure dans la réponse, les détails et la logique utilisée déterminer les valeurs de ces revendications est à votre implémentation.  
+-   **Valeurs de revendication à laquelle doit être affectée aux revendications dans la réponse ?** Pour un fournisseur d’identité (IP-STS) cela signifie généralement à l’aide d’une ou plusieurs revendications dans le demandeur <xref:System.Security.Claims.ClaimsPrincipal> (fourni par le `principal` paramètre) pour accéder à un magasin (ou autre entité) pour retourner des valeurs pour les types de revendication requis. Pour un fournisseur de fédération (R-STS) cela signifie généralement l’exécution d’une sorte de traitement sur les revendications entrantes du demandeur à répondre à la demande ; notamment pour effectuer le filtrage ou transformation sur des revendications présentées par le demandeur, en passant d’autres utilisateurs via non modifié. Bien entendu, comme dans le cas de la décision sur les revendications à inclure dans la réponse, les détails et la logique utilisée déterminer les valeurs de ces revendications est jusqu'à votre implémentation.  
   
    
   
 ## Examples  
- L’exemple de code qui est utilisé dans cette rubrique est extraite la `Custom Token` exemple. Cet exemple fournit des classes personnalisées qui permettent le traitement des jetons SWT (Simple Web) et il inclut une implémentation de STS passif qui est capable de fournir un jeton SWT. Pour obtenir un exemple montrant comment implémenter un service STS active, vous pouvez voir le `Federation Metadata` exemple. Pour plus d’informations sur ces exemples et d’autres exemples disponibles pour WIF et où les télécharger, consultez [exemple d’Index de Code WIF](~/docs/framework/security/wif-code-sample-index.md). Le code suivant montre comment substituer la <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> méthode pour retourner des revendications pour votre STS. Dans cet exemple, le message de demande de sécurité jeton (RST) est ignoré et une collection de revendications en fonction de l’utilisateur comme authentifié au niveau de STS est retournée.  
+ L’exemple de code qui est utilisé dans cette rubrique provient de la `Custom Token` exemple. Cet exemple fournit des classes personnalisées qui autorisent le traitement des jetons SWT (Simple Web Tokens) et il inclut une implémentation d’un STS passif qui est capable de fournir un jeton SWT. Pour obtenir un exemple montrant comment implémenter un STS actif, vous pouvez voir le `Federation Metadata` exemple. Pour plus d’informations sur ces exemples et d’autres exemples disponibles pour WIF et où les télécharger, consultez [Index exemple de Code WIF](~/docs/framework/security/wif-code-sample-index.md). Le code suivant montre comment substituer la <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> méthode pour retourner des revendications pour votre STS. Dans cet exemple, le message de demande de sécurité jeton (RST) est ignoré et une collection de revendications basées sur l’utilisateur comme étant authentifiés au niveau du STS est retournée.  
   
  [!code-csharp[WIFCustomTokenSTS#6](~/samples/snippets/csharp/VS_Snippets_Misc/wifcustomtokensts/cs/passivests/customsecuritytokenservice.cs#6)]  
   
@@ -735,14 +738,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est appelée à partir de la valeur par défaut de pipeline d’émission de jeton est implémenté dans le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode).  
+ Cette méthode est appelée à partir de la valeur par défaut pipeline d’émission de jeton est implémenté dans le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode).  
   
  L’implémentation par défaut retourne un descripteur de preuve ou lève une exception appropriée.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="request" /> est <see langword="null" />.  -ou- <paramref name="scope" /> est <see langword="null" />.</exception>
+          <paramref name="request" /> est <see langword="null" />.  
+  
+- ou - 
+ <paramref name="scope" /> est <see langword="null" />.</exception>
         <altmember cref="M:System.IdentityModel.SecurityTokenService.Issue(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken)" />
       </Docs>
     </Member>
@@ -775,7 +781,7 @@
 ## Remarks  
  Cette méthode est appelée à partir de la <xref:System.IdentityModel.SecurityTokenService.GetProofToken%2A> (méthode).  
   
- L’implémentation par défaut effectue les opérations suivantes. Retourne `null` s’il n’existe aucun jeton de chiffrement spécifié dans la demande (le <xref:System.IdentityModel.Protocols.WSTrust.RequestSecurityToken.ProofEncryption%2A?displayProperty=nameWithType> propriété `null`). Sinon, si elle peut obtenir le jeton comme une <xref:System.IdentityModel.Tokens.X509SecurityToken>, elle retourne des informations d’identification en fonction de ce jeton. S’il ne peut pas résoudre le jeton comme une <xref:System.IdentityModel.Tokens.X509SecurityToken>, un <xref:System.IdentityModel.RequestFailedException> est levée.  
+ L’implémentation par défaut effectue les opérations suivantes. Retourne `null` s’il n’existe aucun jeton de chiffrement spécifié dans la demande (le <xref:System.IdentityModel.Protocols.WSTrust.RequestSecurityToken.ProofEncryption%2A?displayProperty=nameWithType> propriété est `null`). Sinon, si elle peut obtenir le jeton comme un <xref:System.IdentityModel.Tokens.X509SecurityToken>, elle retourne des informations d’identification en fonction de ce jeton. Si elle ne peut pas résoudre le jeton comme un <xref:System.IdentityModel.Tokens.X509SecurityToken>, un <xref:System.IdentityModel.RequestFailedException> est levée.  
   
  ]]></format>
         </remarks>
@@ -811,9 +817,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.IdentityModel.SecurityTokenService.GetResponse%2A> méthode est appelée en tant que la dernière étape du pipeline d’émission de jeton, qui est implémentée par le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode). Il crée et retourne la réponse (RSTR) à l’aide de la demande entrante d’origine (RST) et le descripteur de jeton qui a été élaboré lors des étapes précédentes dans le pipeline d’émission de jeton.  
+ Le <xref:System.IdentityModel.SecurityTokenService.GetResponse%2A> méthode est appelée en tant que la dernière étape du pipeline d’émission de jeton, qui est implémentée par le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode). Il crée et retourne la réponse (RSTR) à l’aide de la demande entrante d’origine (RST) et le descripteur de jeton qui a été élaboré à l’étape précédente dans le pipeline d’émission de jeton.  
   
- L’implémentation par défaut crée la réponse RSTR en passant le RST spécifié dans le paramètre de requête à la <xref:System.IdentityModel.Protocols.WSTrust.RequestSecurityTokenResponse.%23ctor%28System.IdentityModel.Protocols.WSTrust.WSTrustMessage%29?displayProperty=nameWithType> constructeur, appeler le <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.ApplyTo%2A?displayProperty=nameWithType> méthode sur le descripteur du jeton passé dans <xref:System.IdentityModel.SecurityTokenService.GetResponse%2A> à appliquer ses propriétés pour le qui vient d’être créé RSTR, en définissant le <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.AppliesTo%2A> propriété sur la réponse RSTR à l’aide de la <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.AppliesToAddress%2A> propriété sur le descripteur de jeton et enfin définir le <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.ReplyTo%2A> propriété sur la réponse RSTR conformément au tableau suivant :  
+ L’implémentation par défaut crée la réponse RSTR en passant le RST spécifié dans le paramètre de requête à la <xref:System.IdentityModel.Protocols.WSTrust.RequestSecurityTokenResponse.%23ctor%28System.IdentityModel.Protocols.WSTrust.WSTrustMessage%29?displayProperty=nameWithType> constructeur, appeler le <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.ApplyTo%2A?displayProperty=nameWithType> transmis à la méthode sur le descripteur de jeton dans <xref:System.IdentityModel.SecurityTokenService.GetResponse%2A> à appliquer ses propriétés pour le qui vient d’être créé RSTR, définissant le <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.AppliesTo%2A> propriété sur la réponse RSTR à l’aide de la <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.AppliesToAddress%2A> propriété sur le descripteur de jeton et enfin définir le <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.ReplyTo%2A> propriété sur la réponse RSTR conformément au tableau suivant :  
   
 |Propriété `RST.ReplyTo`|Propriété <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.AppliesToAddress%2A?displayProperty=nameWithType>.|Propriété `RSTR.ReplyTo`|  
 |----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------|  
@@ -858,25 +864,25 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> méthode est appelée depuis le pipeline d’émission de jeton après le <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> (méthode) et doit retourner un <xref:System.IdentityModel.Scope> objet configuré pour la demande entrante. (Le pipeline d’émission de jeton est implémenté dans le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> méthode.) Le <xref:System.IdentityModel.Scope> objet encapsule des informations sur la partie de confiance associé à la demande de jeton de sécurité (RST). Cela inclut des informations sur les informations d’identification de chiffrement et de signatures à utiliser avec la partie de confiance et s’il faut ou non chiffrer les jetons émis et/ou les clés symétriques dans la réponse. Certaines des tâches standard effectuées dans le <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> méthode sont :  
+ Le <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> méthode est appelée depuis le pipeline d’émission de jeton après le <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> (méthode) et doit retourner un <xref:System.IdentityModel.Scope> objet configuré pour la demande entrante. (Le pipeline d’émission de jeton est implémenté dans le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> méthode.) Le <xref:System.IdentityModel.Scope> objet encapsule des informations sur la partie de confiance associé à la demande de jeton de sécurité (RST). Cela inclut des informations sur les informations d’identification de chiffrement et signatures à utiliser avec la partie de confiance et s’il faut chiffrer les jetons émis et/ou les clés symétriques dans la réponse. Certaines tâches standard exécutées dans le <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> méthode sont :  
   
--   Déterminez si la partie de confiance pour laquelle le jeton est prévu est une partie de confiance reconnue. Comment cela dépend de votre implémentation. Si la partie de confiance prévue n’est pas une partie de confiance valide pour ce STS, alors que la méthode doit lever une <xref:System.IdentityModel.Protocols.WSTrust.InvalidRequestException>.  
+-   Déterminer si le fournisseur de ressources auquel est destiné le jeton est une partie de confiance reconnue. Comment cela fonctionne dépend de votre implémentation. Si le fournisseur de ressources prévue n’est pas une partie de confiance valide pour ce STS, puis la méthode doit lever une <xref:System.IdentityModel.Protocols.WSTrust.InvalidRequestException>.  
   
 -   Déterminer la signature des informations d’identification pour être utilisé dans la réponse (RSTR) et définir le <xref:System.IdentityModel.Scope.SigningCredentials%2A> propriété en conséquence.  
   
--   Déterminer si la réponse et/ou de clés symétriques inclus doivent être chiffrées et les informations d’identification à utiliser pour le chiffrement. Définir le <xref:System.IdentityModel.Scope.TokenEncryptionRequired%2A>, <xref:System.IdentityModel.Scope.SymmetricKeyEncryptionRequired%2A>, et <xref:System.IdentityModel.Scope.EncryptingCredentials%2A> propriétés en conséquence.  
+-   Déterminer si la réponse et/ou de toutes les clés symétriques inclus doivent être chiffrées et les informations d’identification à utiliser pour le chiffrement. Définir le <xref:System.IdentityModel.Scope.TokenEncryptionRequired%2A>, <xref:System.IdentityModel.Scope.SymmetricKeyEncryptionRequired%2A>, et <xref:System.IdentityModel.Scope.EncryptingCredentials%2A> propriétés en conséquence.  
   
     > [!IMPORTANT]
-    >  Par défaut, le <xref:System.IdentityModel.Scope.TokenEncryptionRequired%2A> et <xref:System.IdentityModel.Scope.SymmetricKeyEncryptionRequired%2A> propriétés sont définies `true` pour empêcher l’émission de jetons qui ne sont pas sécurisées le STS. Il est recommandé de ne jamais définir ces propriétés `false` dans un environnement de production.  
+    >  Par défaut, le <xref:System.IdentityModel.Scope.TokenEncryptionRequired%2A> et <xref:System.IdentityModel.Scope.SymmetricKeyEncryptionRequired%2A> propriétés sont définies `true` pour empêcher l’émission de jetons qui ne sont pas sûrs de STS. Il est recommandé que ces propriétés jamais être définie sur `false` dans un environnement de production.  
   
--   Déterminer l’adresse à laquelle la réponse doit être retournée. Définir le <xref:System.IdentityModel.Scope.AppliesToAddress%2A> ou <xref:System.IdentityModel.Scope.ReplyToAddress%2A> propriété en conséquence.  
+-   Déterminer l’adresse à laquelle la réponse doit être retournée. Définir soit la <xref:System.IdentityModel.Scope.AppliesToAddress%2A> ou <xref:System.IdentityModel.Scope.ReplyToAddress%2A> propriété en conséquence.  
   
    
   
 ## Examples  
- L’exemple de code qui est utilisé dans cette rubrique est extraite la `Custom Token` exemple. Cet exemple fournit des classes personnalisées qui permettent le traitement des jetons SWT (Simple Web) et il inclut une implémentation de STS passif qui est capable de fournir un jeton SWT. Pour obtenir un exemple montrant comment implémenter un service STS active, vous pouvez voir le `Federation Metadata` exemple. Pour plus d’informations sur ces exemples et d’autres exemples disponibles pour WIF et où les télécharger, consultez [exemple d’Index de Code WIF](~/docs/framework/security/wif-code-sample-index.md).  
+ L’exemple de code qui est utilisé dans cette rubrique provient de la `Custom Token` exemple. Cet exemple fournit des classes personnalisées qui autorisent le traitement des jetons SWT (Simple Web Tokens) et il inclut une implémentation d’un STS passif qui est capable de fournir un jeton SWT. Pour obtenir un exemple montrant comment implémenter un STS actif, vous pouvez voir le `Federation Metadata` exemple. Pour plus d’informations sur ces exemples et d’autres exemples disponibles pour WIF et où les télécharger, consultez [Index exemple de Code WIF](~/docs/framework/security/wif-code-sample-index.md).  
   
- L'exemple de code suivant illustre une implémentation de la méthode <xref:System.IdentityModel.SecurityTokenService.GetScope%2A>. Cette implémentation vérifie que la partie de confiance est reconnu par le STS, valide le <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.ReplyTo%2A> adresse dans la demande et définit le <xref:System.IdentityModel.Scope.ReplyToAddress%2A?displayProperty=nameWithType> propriété en conséquence, et définit la signature et chiffrement des informations d’identification à utiliser avec la partie de confiance basés sur des certificats sont codés en dur dans le fichier.  
+ L'exemple de code suivant illustre une implémentation de la méthode <xref:System.IdentityModel.SecurityTokenService.GetScope%2A>. Cette implémentation vérifie que le fournisseur de ressources est reconnu par le STS, valide le <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.ReplyTo%2A> adresse dans la demande et définit le <xref:System.IdentityModel.Scope.ReplyToAddress%2A?displayProperty=nameWithType> propriété en conséquence, et définit la signature et chiffrement des informations d’identification à utiliser avec le fournisseur de ressources en fonction de certificats requis par sont codées en dur dans le fichier.  
   
  [!code-csharp[WIFCustomTokenSTS#4](~/samples/snippets/csharp/VS_Snippets_Misc/wifcustomtokensts/cs/passivests/customsecuritytokenservice.cs#4)]  
 [!code-csharp[WIFCustomTokenSTS#5](~/samples/snippets/csharp/VS_Snippets_Misc/wifcustomtokensts/cs/passivests/customsecuritytokenservice.cs#5)]  
@@ -918,9 +924,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Dans l’implémentation par défaut si `requestedTokenType` est `null` ou une chaîne vide, la valeur par défaut, le type de jeton à partir de la configuration est utilisé. Cela est spécifié par le <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenType%2A> propriété de l’objet de configuration de SharePoint Team Services accédé via le <xref:System.IdentityModel.SecurityTokenService.SecurityTokenServiceConfiguration%2A> propriété.  
+ Dans l’implémentation par défaut si `requestedTokenType` est `null` ou une chaîne vide, la valeur par défaut, le type de jeton à partir de la configuration est utilisé. Cela est spécifié par le <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenType%2A> propriété de l’objet de configuration de STS accédé via le <xref:System.IdentityModel.SecurityTokenService.SecurityTokenServiceConfiguration%2A> propriété.  
   
- Cette méthode est appelée à partir de la valeur par défaut de pipeline d’émission de jeton est implémenté dans le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode).  
+ Cette méthode est appelée à partir de la valeur par défaut pipeline d’émission de jeton est implémenté dans le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode).  
   
  ]]></format>
         </remarks>
@@ -955,16 +961,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- En principe, cette méthode est appelée avec la durée de vie est arrivé dans le RST. Dans l’implémentation par défaut, la durée de vie de jeton est calculée selon le tableau suivant.  
+ Cette méthode est appelée normalement avec la durée de vie est arrivé dans le RST. Dans l’implémentation par défaut, la durée de vie de jeton est calculée selon le tableau suivant.  
   
-|Créé (en)|Expiration (en)|Créé (en)|Expire (out)|  
+|Créé (en)|Expire (in)|Créé (en)|Expire (out)|  
 |--------------------|--------------------|--------------------|---------------------|  
 |`null`|`null`|<xref:System.DateTime.UtcNow%2A?displayProperty=nameWithType>|<xref:System.DateTime.UtcNow%2A?displayProperty=nameWithType> + <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenLifetime%2A?displayProperty=nameWithType>|  
 |C|`null`|C|C + <xref:System.IdentityModel.Configuration.SecurityTokenServiceConfiguration.DefaultTokenLifetime%2A?displayProperty=nameWithType>|  
 |`null`|E|<xref:System.DateTime.UtcNow%2A?displayProperty=nameWithType>|E|  
 |C|E|C|E|  
   
- Cette méthode est appelée à partir de la valeur par défaut de pipeline d’émission de jeton est implémenté dans le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode).  
+ Cette méthode est appelée à partir de la valeur par défaut pipeline d’émission de jeton est implémenté dans le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> (méthode).  
   
  ]]></format>
         </remarks>
@@ -1002,19 +1008,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode implémente la liaison de problème définie dans la spécification WS-Trust. L’implémentation par défaut de la <xref:System.IdentityModel.SecurityTokenService.Issue%2A> méthode traite la demande entrante (RST) via un pipeline d’émission de jeton (émission de revendications) et retourne une réponse (RSTR) qui contient un jeton de sécurité avec les revendications appropriées pour authentifier le demandeur avec la partie de confiance ou une exception appropriée. Le pipeline d’émission de jeton dans l’implémentation par défaut est composé des appels aux méthodes suivantes (de la <xref:System.IdentityModel.SecurityTokenService> classe).  
+ Cette méthode implémente la liaison de problème définie dans la spécification WS-Trust. L’implémentation par défaut de la <xref:System.IdentityModel.SecurityTokenService.Issue%2A> méthode traite la demande entrante (RST) via un pipeline d’émission de jeton (émission de revendications) et retourne une réponse (RSTR) qui contient un jeton de sécurité avec les revendications appropriées pour authentifier le demandeur avec le fournisseur de ressources ou une exception appropriée. Le pipeline d’émission de jeton dans l’implémentation par défaut est composé des appels aux méthodes suivantes (de la <xref:System.IdentityModel.SecurityTokenService> classe).  
   
 1.  Le <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> méthode pour valider la demande (RST).  
   
-2.  Le <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> méthode pour obtenir un <xref:System.IdentityModel.Scope> objet qui contient des informations sur la partie de confiance (RP) associé à la demande. Vous devez substituer cette méthode. Si <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> retourne `null`, un <xref:System.InvalidOperationException> est levée.  
+2.  Le <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> méthode pour obtenir un <xref:System.IdentityModel.Scope> objet qui contient des informations sur la partie de confiance (RP) associée à la demande. Vous devez substituer cette méthode. Si <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> retourne `null`, un <xref:System.InvalidOperationException> est levée.  
   
-3.  Le <xref:System.IdentityModel.SecurityTokenService.CreateSecurityTokenDescriptor%2A> méthode pour retourner un descripteur d’émission de jeton de sécurité basée sur le RST et <xref:System.IdentityModel.Scope> objet retourné à l’étape précédente. Le descripteur de jeton de sécurité (<xref:System.IdentityModel.Tokens.SecurityTokenDescriptor>) contient des informations sur la demande dans un formulaire qui peut être utilisé par un gestionnaire de jetons. Le <xref:System.IdentityModel.SecurityTokenService.SecurityTokenDescriptor%2A?displayProperty=nameWithType> est définie sur le descripteur retourné par l’appel. Si `null` est retourné ou si le <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.SigningCredentials%2A> propriété du descripteur est `null`, un <xref:System.InvalidOperationException> est levée. L’exception est également levée si le <xref:System.IdentityModel.Scope.TokenEncryptionRequired%2A?displayProperty=nameWithType> propriété `true` mais la <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.EncryptingCredentials%2A> propriété sur le descripteur retourné `null`.  
+3.  Le <xref:System.IdentityModel.SecurityTokenService.CreateSecurityTokenDescriptor%2A> méthode pour retourner un descripteur de jetons de sécurité basée sur le RST et <xref:System.IdentityModel.Scope> objet retourné à l’étape précédente. Le descripteur de jeton de sécurité (<xref:System.IdentityModel.Tokens.SecurityTokenDescriptor>) contient des informations sur la demande dans un formulaire qui peut être utilisé par un gestionnaire de jetons. Le <xref:System.IdentityModel.SecurityTokenService.SecurityTokenDescriptor%2A?displayProperty=nameWithType> propriété est définie sur le descripteur retourné par l’appel. Si `null` est retourné ou si le <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.SigningCredentials%2A> propriété du descripteur est `null`, un <xref:System.InvalidOperationException> est levée. L’exception est également levée si le <xref:System.IdentityModel.Scope.TokenEncryptionRequired%2A?displayProperty=nameWithType> propriété est `true` mais le <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.EncryptingCredentials%2A> propriété sur le descripteur retourné est `null`.  
   
-4.  Le <xref:System.IdentityModel.SecurityTokenService.GetSecurityTokenHandler%2A> méthode pour obtenir le Gestionnaire de jetons approprié en fonction du type de jeton demandé. Si `null` est retournée, un <xref:System.NotImplementedException> est levée.  
+4.  Le <xref:System.IdentityModel.SecurityTokenService.GetSecurityTokenHandler%2A> méthode pour obtenir le Gestionnaire de jetons approprié en fonction du type de jeton demandé. Si `null` est retourné, un <xref:System.NotImplementedException> est levée.  
   
-5.  Le <xref:System.IdentityModel.SecurityTokenService.GetIssuerName%2A> méthode pour obtenir le nom de l’émetteur du jeton. Lève une <xref:System.InvalidOperationException> si le nom est `null` ou vide ; sinon, affecte le <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.TokenIssuerName%2A> le descripteur de propriété.  
+5.  Le <xref:System.IdentityModel.SecurityTokenService.GetIssuerName%2A> méthode pour obtenir le nom de l’émetteur du jeton. Lève une <xref:System.InvalidOperationException> si le nom est `null` ou vide ; sinon, définit le <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.TokenIssuerName%2A> le descripteur de propriété.  
   
-6.  Le <xref:System.IdentityModel.SecurityTokenService.GetTokenLifetime%2A> méthode pour obtenir la durée de vie pour le jeton et les jeux le <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Lifetime%2A> le descripteur de propriété.  
+6.  Le <xref:System.IdentityModel.SecurityTokenService.GetTokenLifetime%2A> méthode pour obtenir la durée de vie du jeton et les jeux les <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Lifetime%2A> le descripteur de propriété.  
   
 7.  Le <xref:System.IdentityModel.SecurityTokenService.GetProofToken%2A> méthode pour obtenir le jeton de preuve à inclure dans le jeton émis et définit le <xref:System.IdentityModel.Tokens.SecurityTokenDescriptor.Proof%2A> le descripteur de propriété.  
   
@@ -1022,7 +1028,7 @@
   
 9. Le <xref:System.IdentityModel.SecurityTokenService.GetResponse%2A> méthode pour créer une réponse (RSTR) qui contient le jeton émis.  
   
- Vous pouvez remplacer le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> méthode pour implémenter un pipeline d’émission de jetons personnalisé ; toutefois il n’est généralement pas nécessaire dans les environnements de développement et de test pour les implémentations plus personnalisées de la <xref:System.IdentityModel.SecurityTokenService> classe sont destinées. Dans de nombreux cas, vous substituez le <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> et <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> méthodes et éventuellement remplacer le <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> méthode pour fournir un service STS utilisable pour votre environnement. Si une personnalisation supplémentaire soit nécessaire vous pouvez souvent le fournir en substituant les méthodes qui implémentent chaque étape du pipeline d’émission de jeton répertorié ci-dessus par défaut.  
+ Vous pouvez remplacer le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> méthode pour implémenter un pipeline d’émission de jeton personnalisé ; toutefois il n’est généralement pas nécessaire dans les environnements de développement et de test pour les implémentations personnalisées plus de la <xref:System.IdentityModel.SecurityTokenService> classe sont destinées. Dans de nombreux cas, vous substituez le <xref:System.IdentityModel.SecurityTokenService.GetOutputClaimsIdentity%2A> et <xref:System.IdentityModel.SecurityTokenService.GetScope%2A> méthodes et éventuellement remplacer le <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> méthode pour fournir une pièce remplaçable par STS pour votre environnement. Si une personnalisation supplémentaire soit nécessaire vous pouvez souvent le fournir en substituant les méthodes qui implémentent chaque étape du pipeline d’émission de jetons répertorié ci-dessus par défaut.  
   
  ]]></format>
         </remarks>
@@ -1238,14 +1244,23 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> méthode est appelée depuis le pipeline d’émission de jeton (le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> méthode) pour valider le RST entrant. Le RST est validé par rapport aux exigences (stratégie) du service STS et une exception appropriée est levée si elle n’est pas valide.  
+ Le <xref:System.IdentityModel.SecurityTokenService.ValidateRequest%2A> méthode est appelée depuis le pipeline d’émission de jeton (le <xref:System.IdentityModel.SecurityTokenService.Issue%2A> méthode) pour valider le RST entrant. Le RST est validé par rapport aux exigences (stratégie) du STS et une exception appropriée est levée s’il n’est pas valide.  
   
- L’implémentation par défaut de la <xref:System.IdentityModel.SecurityTokenService> classe prend en charge seulement le modèle RST-RSTR et seulement la liaison de problème de la spécification WS-Trust (le <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.RequestType%2A> propriété de la demande doit être définie sur <xref:System.IdentityModel.Protocols.WSTrust.RequestTypes.Issue?displayProperty=nameWithType>). L’implémentation par défaut de cette méthode applique ces spécifications (et d’autres personnes indiquées dans la section exceptions). Vous pouvez substituer cette méthode si vous devez appliquer les exigences de validation différent pour votre STS personnalisé.  
+ L’implémentation par défaut de la <xref:System.IdentityModel.SecurityTokenService> classe prend en charge uniquement le modèle RST RSTR et uniquement la liaison de l’Issue de la spécification WS-Trust (le <xref:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.RequestType%2A> propriété de la demande doit être définie sur <xref:System.IdentityModel.Protocols.WSTrust.RequestTypes.Issue?displayProperty=nameWithType>). L’implémentation par défaut de cette méthode applique ces spécifications (et d’autres indiqué dans la section exceptions). Vous pouvez substituer cette méthode si vous devez appliquer les exigences de validation différents pour votre STS personnalisé.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.IdentityModel.Protocols.WSTrust.InvalidRequestException">
-          <paramref name="request" /> est <see langword="null" />.  - ou - La propriété <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.RequestType" /> de la demande n’est pas définie sur <see cref="F:System.IdentityModel.Protocols.WSTrust.RequestTypes.Issue" />.  - ou - La propriété <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.KeyType" /> de la demande n’a pas la valeur <see langword="null" /> ou n’est pas une des constantes définies dans la classe <see cref="T:System.IdentityModel.Protocols.WSTrust.KeyTypes" />.  - ou - Le <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.KeyType" /> de la demande est <see cref="F:System.IdentityModel.Protocols.WSTrust.KeyTypes.Bearer" />, et l’élément <see langword="KeySize" /> est présent, mais sa valeur n’est pas égale à zéro.</exception>
+          <paramref name="request" /> est <see langword="null" />.  
+  
+- ou - 
+La propriété <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.RequestType" /> de la demande n'est pas définie sur <see cref="F:System.IdentityModel.Protocols.WSTrust.RequestTypes.Issue" />.  
+  
+- ou - 
+La propriété <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.KeyType" /> de la requête n'a pas la valeur <see langword="null" /> ou n'est pas l'une des constantes définies dans la classe <see cref="T:System.IdentityModel.Protocols.WSTrust.KeyTypes" />.  
+  
+- ou - 
+Le <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.KeyType" /> de la requête est <see cref="F:System.IdentityModel.Protocols.WSTrust.KeyTypes.Bearer" /> et l'élément <see langword="KeySize" /> est présent, mais sa valeur n'est pas égale à zéro.</exception>
         <exception cref="T:System.IdentityModel.UnsupportedTokenTypeBadRequestException">STS ne prend pas en charge le type de jeton de requête (basé sur la valeur de la propriété <see cref="P:System.IdentityModel.Protocols.WSTrust.WSTrustMessage.TokenType" /> de la requête).</exception>
         <altmember cref="M:System.IdentityModel.SecurityTokenService.Issue(System.Security.Claims.ClaimsPrincipal,System.IdentityModel.Protocols.WSTrust.RequestSecurityToken)" />
       </Docs>

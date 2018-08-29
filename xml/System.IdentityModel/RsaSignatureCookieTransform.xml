@@ -1,10 +1,10 @@
 <Type Name="RsaSignatureCookieTransform" FullName="System.IdentityModel.RsaSignatureCookieTransform">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="28aa1c87c1c338c2018612dfc9de8f883286046e" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36479648" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class RsaSignatureCookieTransform : System.IdentityModel.CookieTransform" />
@@ -27,12 +27,12 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- <xref:System.IdentityModel.RsaSignatureCookieTransform> Ajoute un MAC de RSA pour les données de cookie. Cela fournit l’intégrité, mais pas la confidentialité. Par défaut, le MAC utilise SHA-256, mais SHA-1 peut être demandée.  
+ <xref:System.IdentityModel.RsaSignatureCookieTransform> Ajoute un MAC RSA pour les données de cookie. Ainsi, l’intégrité, mais pas la confidentialité. Par défaut, le MAC utilise SHA-256, mais SHA-1 peut être demandée.  
   
- Les cookies protégés avec ce fichier peuvent être lus par n’importe quel ordinateur qui partage la même clé privée RSA (généralement associé à un X509 certificat).  
+ Les cookies protégées avec cette transformation peuvent être lus par n’importe quel ordinateur qui partage la même clé privée RSA (généralement associé à un X509 certificat).  
   
 > [!IMPORTANT]
->  Lorsque vous utilisez la <xref:System.IdentityModel.RsaSignatureCookieTransform> avec un service, si une clé fournie par une modification du certificat du service doit être redémarré.  
+>  Lorsque vous utilisez le <xref:System.IdentityModel.RsaSignatureCookieTransform> avec un service, si une clé fournie par une modification du certificat du service doit être redémarré.  
   
  ]]></format>
     </remarks>
@@ -70,7 +70,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La propriété <xref:System.IdentityModel.RsaSignatureCookieTransform.SigningKey%2A> est initialisée à `key`. Le <xref:System.IdentityModel.RsaSignatureCookieTransform.VerificationKeys%2A> propriété est initialisée à une collection qui contienne `key` seul élément.  
+ La propriété <xref:System.IdentityModel.RsaSignatureCookieTransform.SigningKey%2A> est initialisée à `key`. Le <xref:System.IdentityModel.RsaSignatureCookieTransform.VerificationKeys%2A> propriété est initialisée avec une collection qui contient `key` seul élément.  
   
  ]]></format>
         </remarks>
@@ -100,14 +100,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.IdentityModel.RsaSignatureCookieTransform.SigningKey%2A> propriété est initialisée avec une clé privée du certificat. Le <xref:System.IdentityModel.RsaSignatureCookieTransform.VerificationKeys%2A> propriété est initialisée à une collection qui contienne la clé privée du certificat comme un seul élément.  
+ Le <xref:System.IdentityModel.RsaSignatureCookieTransform.SigningKey%2A> propriété est initialisée avec une clé privée du certificat. Le <xref:System.IdentityModel.RsaSignatureCookieTransform.VerificationKeys%2A> propriété est initialisée avec une collection qui contient la clé privée du certificat sous son seul élément.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
           <paramref name="certificate" /> est <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="certificate" /> n’a pas de clé privée - ou - La clé privée du <paramref name="certificate" /> n’est pas une clé RSA.</exception>
+          <paramref name="certificate" /> n'a aucune clé privée 
+- ou - 
+La clé privée du <paramref name="certificate" /> n'est pas une clé RSA.</exception>
       </Docs>
     </Member>
     <Member MemberName="Decode">
@@ -136,7 +138,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Toutes les clés dans la collection spécifiée dans le <xref:System.IdentityModel.RsaSignatureCookieTransform.VerificationKeys%2A> propriété sont testés.  
+ Toutes les clés dans la collection spécifiée dans le <xref:System.IdentityModel.RsaSignatureCookieTransform.VerificationKeys%2A> propriété sont tentées.  
   
  ]]></format>
         </remarks>
@@ -178,7 +180,7 @@
 ## Remarks  
  La clé spécifiée par le <xref:System.IdentityModel.RsaSignatureCookieTransform.SigningKey%2A> propriété doit inclure la clé privée pour signer les données.  
   
- Données signées peuvent être vérifiées en appelant le <xref:System.IdentityModel.RsaSignatureCookieTransform.Decode%2A> (méthode).  
+ Les données signées peuvent être vérifiées en appelant le <xref:System.IdentityModel.RsaSignatureCookieTransform.Decode%2A> (méthode).  
   
  ]]></format>
         </remarks>
@@ -186,7 +188,13 @@
           <paramref name="value" /> est <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">
           <paramref name="value" /> contient zéro octet.</exception>
-        <exception cref="T:System.InvalidOperationException">La propriété <see cref="P:System.IdentityModel.RsaSignatureCookieTransform.SigningKey" /> a la valeur <see langword="null" />.  - ou - La clé spécifiée par la propriété <see cref="P:System.IdentityModel.RsaSignatureCookieTransform.SigningKey" /> n’est pas affectable comme <see cref="T:System.Security.Cryptography.RSACryptoServiceProvider" />.  - ou - La clé spécifiée par la propriété <see cref="P:System.IdentityModel.RsaSignatureCookieTransform.SigningKey" /> ne contient pas de clé privée.</exception>
+        <exception cref="T:System.InvalidOperationException">La propriété <see cref="P:System.IdentityModel.RsaSignatureCookieTransform.SigningKey" /> a la valeur <see langword="null" />.  
+  
+- ou - 
+La clé spécifiée par la propriété <see cref="P:System.IdentityModel.RsaSignatureCookieTransform.SigningKey" /> n'est pas assignable comme <see cref="T:System.Security.Cryptography.RSACryptoServiceProvider" />.  
+  
+- ou - 
+La clé spécifiée par la propriété <see cref="P:System.IdentityModel.RsaSignatureCookieTransform.SigningKey" /> ne contient pas de clé privée.</exception>
         <exception cref="T:System.NotSupportedException">Le système d'exploitation ne prend pas en charge l'algorithme spécifié.</exception>
       </Docs>
     </Member>
@@ -212,9 +220,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- SHA256 est l’algorithme par défaut. Cette opération peut nécessiter un système d’exploitation minimal de [!INCLUDE[winxpsvr](~/includes/winxpsvr-md.md)] et .NET 3.5 SP1.  
+ SHA256 est l’algorithme par défaut. Cela peut nécessiter un système d’exploitation minimale de [!INCLUDE[winxpsvr](~/includes/winxpsvr-md.md)] et .NET 3.5 SP1.  
   
- Si SHA256 n’est pas pris en charge, définissez la <xref:System.IdentityModel.RsaSignatureCookieTransform.HashName%2A> propriété « SHA1 ».  
+ Si SHA256 n’est pas pris en charge, définissez le <xref:System.IdentityModel.RsaSignatureCookieTransform.HashName%2A> propriété à « SHA1 ».  
   
  ]]></format>
         </remarks>
@@ -257,7 +265,9 @@
         <ReturnType>System.Collections.ObjectModel.ReadOnlyCollection&lt;System.Security.Cryptography.RSA&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient la collection de clés utilisées pour la vérification de signature.  Par défaut, cette propriété retourne une liste qui contient uniquement la clé de signature.</summary>
+        <summary>Obtient la collection de clés utilisées pour la vérification de signature.  
+  
+Par défaut, cette propriété retourne une liste qui contient uniquement la clé de signature.</summary>
         <value>Collection de clés utilisées pour la vérification de signature.</value>
         <remarks>To be added.</remarks>
       </Docs>
