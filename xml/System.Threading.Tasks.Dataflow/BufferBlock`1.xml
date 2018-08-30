@@ -1,11 +1,11 @@
 <Type Name="BufferBlock&lt;T&gt;" FullName="System.Threading.Tasks.Dataflow.BufferBlock&lt;T&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="4d8a82e0914e9cc80246a286d5c5570d15074568" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="9522deb00bd76f7a8b2c32516feb0b93a3183c1d" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407631" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39778357" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class BufferBlock&lt;T&gt; : System.Threading.Tasks.Dataflow.IPropagatorBlock&lt;T,T&gt;, System.Threading.Tasks.Dataflow.IReceivableSourceBlock&lt;T&gt;, System.Threading.Tasks.Dataflow.ISourceBlock&lt;T&gt;, System.Threading.Tasks.Dataflow.ITargetBlock&lt;T&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit BufferBlock`1&lt;T&gt; extends System.Object implements class System.Threading.Tasks.Dataflow.IDataflowBlock, class System.Threading.Tasks.Dataflow.IPropagatorBlock`2&lt;!T, !T&gt;, class System.Threading.Tasks.Dataflow.IReceivableSourceBlock`1&lt;!T&gt;, class System.Threading.Tasks.Dataflow.ISourceBlock`1&lt;!T&gt;, class System.Threading.Tasks.Dataflow.ITargetBlock`1&lt;!T&gt;" />
@@ -40,6 +40,14 @@
       <InterfaceName>System.Threading.Tasks.Dataflow.ITargetBlock&lt;T&gt;</InterfaceName>
     </Interface>
   </Interfaces>
+  <Attributes>
+    <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1">
+      <AttributeName>System.Diagnostics.DebuggerDisplay("{DebuggerDisplayContent,nq}")</AttributeName>
+    </Attribute>
+    <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1">
+      <AttributeName>System.Diagnostics.DebuggerTypeProxy(typeof(System.Threading.Tasks.Dataflow.BufferBlock`1/DebugView))</AttributeName>
+    </Attribute>
+  </Attributes>
   <Docs>
     <typeparam name="T">Spécifie le type des données mises en mémoire tampon par ce bloc de flux de données.</typeparam>
     <summary>Fournit une mémoire tampon pour stocker des données.</summary>
@@ -127,7 +135,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Une fois <xref:System.Threading.Tasks.Dataflow.BufferBlock%601.Complete%2A> a été appelée sur un bloc de flux de données, ce bloc se termine et son <xref:System.Threading.Tasks.Dataflow.BufferBlock%601.Completion%2A> tâche passe un état final après avoir traité toutes les données précédemment disponibles. <xref:System.Threading.Tasks.Dataflow.BufferBlock%601.Complete%2A> va pas empêcher le délai d’exécution se produit, mais plutôt émettra la demande ; pour attendre la fin se produise, le <xref:System.Threading.Tasks.Dataflow.BufferBlock%601.Completion%2A> tâche peut être utilisée.  
+ Une fois <xref:System.Threading.Tasks.Dataflow.BufferBlock%601.Complete%2A> a été appelée sur un bloc de flux de données, ce bloc se termine et son <xref:System.Threading.Tasks.Dataflow.BufferBlock%601.Completion%2A> tâche passera un état final après avoir traité toutes les données précédemment disponibles. <xref:System.Threading.Tasks.Dataflow.BufferBlock%601.Complete%2A> va pas le bloc attend la fin se produisent, mais au lieu de cela lance la demande ; pour attendre la fin se produisent, le <xref:System.Threading.Tasks.Dataflow.BufferBlock%601.Completion%2A> tâche peut être utilisée.  
   
  ]]></format>
         </remarks>
@@ -161,7 +169,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un bloc de flux de données est considérée comme terminée quand elle n’est pas actuellement traite un message et quand il a la garantie qu’il ne traitera pas plus de messages. Retourné <xref:System.Threading.Tasks.Task> sera la transition vers un état terminé quand le bloc associé s’est terminée. Il adopte le <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.RanToCompletion> sémantique définie par l’état quand le bloc termine son traitement avec succès en fonction du bloc de flux de données. Il adopte le <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.Faulted> état lorsque le bloc de flux de données a terminé le traitement prématurément en raison d’une exception non gérée, et il adopte le <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.Canceled> état lorsque le bloc de flux de données est terminée. le traitement prématurément en raison de la réception d’une demande d’annulation. Si la tâche se termine avec la <xref:System.Threading.Tasks.TaskStatus.Faulted> état, son `Exception` propriété retournera un <xref:System.AggregateException> contenant une ou plusieurs exceptions qui a provoqué l’échec du bloc.  
+ Un bloc de flux de données est considéré comme terminé quand elle n’est pas actuellement traite un message et quand il a la garantie qu’il ne traitera pas plus de messages. Retourné <xref:System.Threading.Tasks.Task> sera la transition vers un état terminé lorsque le bloc associé est terminée. Il adopte le <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.RanToCompletion> sémantique définie par l’état lorsque le bloc termine son traitement avec succès selon le bloc de flux de données. Il adopte le <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.Faulted> état lorsque le bloc de flux de données a terminé le traitement prématurément en raison d’une exception non gérée, et il adopte le <xref:System.Threading.Tasks.TaskStatus> <xref:System.Threading.Tasks.TaskStatus.Canceled> état lorsque le bloc de flux de données est terminée. traitement prématurément en raison de la réception d’une demande d’annulation. Si la tâche se termine dans le <xref:System.Threading.Tasks.TaskStatus.Faulted> état, son `Exception` propriété retournera un <xref:System.AggregateException> contenant une ou plusieurs exceptions qui a provoqué l’échec du bloc.  
   
  ]]></format>
         </remarks>
@@ -257,7 +265,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Après avoir <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Fault%2A> a été appelée sur un bloc de flux de données, ce bloc se termine et son <xref:System.Threading.Tasks.Dataflow.BufferBlock%601.Completion%2A> tâche passe à un état final. Provoquer une erreur dans un bloc, comme avec l’annulation d’un bloc, entraîne mis en mémoire tampon des messages (messages d’entrée non traités ainsi que les messages de sortie unoffered) perdues.  
+ Après avoir <xref:System.Threading.Tasks.Dataflow.IDataflowBlock.Fault%2A> a été appelée sur un bloc de flux de données, ce bloc se termine et son <xref:System.Threading.Tasks.Dataflow.BufferBlock%601.Completion%2A> tâche passera à un état final. Provoquer une erreur dans un bloc, comme avec l’annulation d’un bloc, entraîne mis en mémoire tampon des messages (messages d’entrée non traités ainsi que les messages de sortie unoffered) perdues.  
   
  ]]></format>
         </remarks>
@@ -273,7 +281,7 @@
       <MemberSignature Language="C++ CLI" Value=" virtual T System.Threading.Tasks.Dataflow.ISourceBlock&lt;T&gt;.ConsumeMessage(System::Threading::Tasks::Dataflow::DataflowMessageHeader messageHeader, System::Threading::Tasks::Dataflow::ITargetBlock&lt;T&gt; ^ target, [Runtime::InteropServices::Out] bool % messageConsumed) = System::Threading::Tasks::Dataflow::ISourceBlock&lt;T&gt;::ConsumeMessage;" />
       <MemberType>Method</MemberType>
       <Implements>
-        <InterfaceMember>M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)</InterfaceMember>
+        <InterfaceMember>M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean)</InterfaceMember>
       </Implements>
       <AssemblyInfo>
         <AssemblyName>System.Threading.Tasks.Dataflow</AssemblyName>
@@ -288,7 +296,7 @@
       <Parameters>
         <Parameter Name="messageHeader" Type="System.Threading.Tasks.Dataflow.DataflowMessageHeader" />
         <Parameter Name="target" Type="System.Threading.Tasks.Dataflow.ITargetBlock&lt;T&gt;" />
-        <Parameter Name="messageConsumed" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="messageConsumed" Type="System.Boolean" RefType="out" />
       </Parameters>
       <Docs>
         <param name="messageHeader">
@@ -298,12 +306,14 @@
         <param name="messageConsumed">
           <see langword="true" /> si le message a été consommé avec succès ; sinon <see langword="false" />.</param>
         <summary>Appelé par un <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> lié pour recevoir et utiliser un <see cref="T:System.Threading.Tasks.Dataflow.DataflowMessageHeader" /> précédemment proposé par ce <see cref="T:System.Threading.Tasks.Dataflow.ISourceBlock`1" />.</summary>
-        <returns>Valeur du message consommé. Cela peut correspondre à une instance de <see cref="T:System.Threading.Tasks.Dataflow.DataflowMessageHeader" /> différente de celle qui a été précédemment réservée et transmise comme <paramref name="messageHeader" /> à <see cref="M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)" />. Le <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> consommateur doit utiliser la valeur retournée au lieu de la valeur passée comme <paramref name="messageValue" /> via <see cref="M:System.Threading.Tasks.Dataflow.ITargetBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)" />.  Si le message demandé n'est pas disponible, la valeur de retour est <see langword="null" />.</returns>
+        <returns>Valeur du message consommé. Cela peut correspondre à une instance de <see cref="T:System.Threading.Tasks.Dataflow.DataflowMessageHeader" /> différente de celle qui a été précédemment réservée et transmise comme <paramref name="messageHeader" /> à <see cref="M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)" />. Le <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> consommateur doit utiliser la valeur retournée au lieu de la valeur passée comme <paramref name="messageValue" /> via <see cref="M:System.Threading.Tasks.Dataflow.ITargetBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)" />.  
+  
+Si le message demandé n'est pas disponible, la valeur de retour est <see langword="null" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Uniquement <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> les instances liées à ce <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> instance peut utiliser <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ConsumeMessage%2A>, et il doit être utilisé uniquement pour consommer <xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader> instances précédemment offert par cette source à la cible.  
+ Uniquement <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> instances liées à ce <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> instance peut utiliser <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ConsumeMessage%2A>, et il doit uniquement servir à consommer <xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader> instances précédemment proposé par cette source à la cible.  
   
  ]]></format>
         </remarks>
@@ -347,7 +357,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Uniquement <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> les instances liées à ce <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> instance peut utiliser `ReleaseReservation`, et il doit être utilisé uniquement pour la version <xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader> instances précédemment et a été réservés par la cible.  
+ Uniquement <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> instances liées à ce <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> instance peut utiliser `ReleaseReservation`, et il doit uniquement être utilisé pour libérer <xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader> instances précédemment et a été réservés par la cible.  
   
  ]]></format>
         </remarks>
@@ -394,11 +404,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Uniquement <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> les instances liées à ce <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> instance peut utiliser <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReserveMessage%2A>, et il doit être utilisé uniquement pour réserver <xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader> instances précédemment offert par cette source à la cible.  
+ Uniquement <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> instances liées à ce <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601> instance peut utiliser <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReserveMessage%2A>, et il doit uniquement servir à réserver <xref:System.Threading.Tasks.Dataflow.DataflowMessageHeader> instances précédemment proposé par cette source à la cible.  
   
- Si `true` est retourné, le <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> doit ensuite appeler <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ConsumeMessage%2A> ou <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReleaseReservation%2A> pour ce message. Cela peut entraîner la source de l’impossibilité de se propager de n’importe quel autre message à ce ou d’autres cibles.  
+ Si `true` est retourné, le <xref:System.Threading.Tasks.Dataflow.ITargetBlock%601> doit appeler par la suite <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ConsumeMessage%2A> ou <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReleaseReservation%2A> pour ce message. Pour ce faire, peut échouer dans la source de l’impossibilité de se propager plus aucun message à celui-ci ou d’autres cibles.  
   
- <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReserveMessage%2A> ne doit pas être appelée pendant que la cible est maintenant tous les verrous internes. Cela violeront la hiérarchie de verrouillage nécessaire pour éviter les blocages dans un réseau de flux de données.  
+ <xref:System.Threading.Tasks.Dataflow.ISourceBlock%601.ReserveMessage%2A> ne doit pas être appelée pendant que la cible est maintenant tous les verrous internes. Cela violeront la hiérarchie des verrous nécessaire pour éviter les blocages dans un réseau de flux de données.  
   
  ]]></format>
         </remarks>
@@ -441,10 +451,18 @@
           <see cref="T:System.Threading.Tasks.Dataflow.ISourceBlock`1" /> qui transmet le message. Celui-ci peut être <see langword="null" />.</param>
         <param name="consumeToAccept">Définit sur true pour indiquer à la cible d’appeler <see cref="M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)" /> de façon synchrone pendant l’appel à <see cref="M:System.Threading.Tasks.Dataflow.ITargetBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)" />, avant de retourner <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Accepted" />, pour consommer le message.</param>
         <summary>Offre un message au <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" />, donnant à la cible la possibilité d'utiliser ou de différer le message.</summary>
-        <returns>État du message proposé. Si le message a été accepté par la cible, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Accepted" /> est retourné, et la source ne doit plus utiliser le message envoyé, car elle est désormais la propriété de la cible. Si le message a été différé par la cible, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Postponed" /> est retournée comme notification que la cible peut ensuite essayer d'utiliser ou de réserver un message ; parallèlement, la source possède le message et peut toujours le proposer à d'autres blocs.  Si la cible avait par contre un message différé mais que la <paramref name="source" /> avait la valeur <see langword="null" />, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" /> serait retourné à la place.  Si la cible a tenté de recevoir le message mais a échoué en raison de la source fournissant un message à une autre cible ou en l'ignorant simplement, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.NotAvailable" /> est retourné.  Si la cible a choisi de ne pas recevoir le message, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" /> est retourné. Si la cible a choisi de ne pas recevoir le message et ne recevra jamais un autre message de cette source, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.DecliningPermanently" /> est retourné.</returns>
+        <returns>État du message proposé. Si le message a été accepté par la cible, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Accepted" /> est retourné, et la source ne doit plus utiliser le message envoyé, car elle est désormais la propriété de la cible. Si le message a été différé par la cible, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Postponed" /> est retournée comme notification que la cible peut ensuite essayer d'utiliser ou de réserver un message ; parallèlement, la source possède le message et peut toujours le proposer à d'autres blocs.  
+  
+Si la cible avait par contre un message différé mais que la <paramref name="source" /> avait la valeur <see langword="null" />, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" /> serait retourné à la place.  
+  
+Si la cible a tenté de recevoir le message mais a échoué en raison de la source fournissant un message à une autre cible ou en l'ignorant simplement, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.NotAvailable" /> est retourné.  
+  
+Si la cible a choisi de ne pas recevoir le message, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" /> est retourné. Si la cible a choisi de ne pas recevoir le message et ne recevra jamais un autre message de cette source, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.DecliningPermanently" /> est retourné.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="messageHeader" /> n’est pas valide.  ou <paramref name="consumeToAccept" /> peut avoir la valeur true uniquement s’il est fourni avec une <paramref name="source" /> non Null.</exception>
+          <paramref name="messageHeader" /> n’est pas valide.  
+  
+ou <paramref name="consumeToAccept" /> peut avoir la valeur true uniquement s’il est fourni avec une <paramref name="source" /> non Null.</exception>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -473,7 +491,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Hérité de <xref:System.Object> . Utilise le <xref:System.Threading.Tasks.Dataflow.DataflowBlockOptions.NameFormat%2A> option.  
+ Héritée de <xref:System.Object> . Utilise le <xref:System.Threading.Tasks.Dataflow.DataflowBlockOptions.NameFormat%2A> option.  
   
  ]]></format>
         </remarks>
@@ -499,7 +517,7 @@
       </ReturnValue>
       <Parameters>
         <Parameter Name="filter" Type="System.Predicate&lt;T&gt;" />
-        <Parameter Name="item" Type="T&amp;" RefType="out" />
+        <Parameter Name="item" Type="T" RefType="out" />
       </Parameters>
       <Docs>
         <param name="filter">Attribut qu'une valeur doit passer avec succès pour sa réception. <c>filter</c> peut être <see langword="null" />, auquel cas tous les éléments aboutissent.</param>
@@ -511,9 +529,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode ne bloque pas l’attente de la source pour fournir un élément.  
+ Cette méthode ne bloque pas attendre la source fournir un élément.  
   
- Il retournera après l’archivage d’un élément, un élément était disponible ou non.  
+ Après avoir vérifié pour un élément, est retournée si un élément a été disponible ou non.  
   
  ]]></format>
         </remarks>
@@ -538,7 +556,7 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="items" Type="System.Collections.Generic.IList&lt;T&gt;&amp;" RefType="out" />
+        <Parameter Name="items" Type="System.Collections.Generic.IList&lt;T&gt;" RefType="out" />
       </Parameters>
       <Docs>
         <param name="items">Éléments reçus de la source.</param>
@@ -549,9 +567,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode ne bloque pas l’attente de la source pour fournir un élément.  
+ Cette méthode ne bloque pas attendre la source fournir un élément.  
   
- Il retournera après la vérification des éléments, ou non un élément n’était pas disponible.  
+ Après avoir vérifié les éléments, est retournée si un élément a été disponible ou non.  
   
  ]]></format>
         </remarks>
