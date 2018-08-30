@@ -1,10 +1,10 @@
 <Type Name="BroadcastBlock&lt;T&gt;" FullName="System.Threading.Tasks.Dataflow.BroadcastBlock&lt;T&gt;">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="668cfb9c5a1215cc037a527651c487e2ab185360" />
-    <Meta Name="ms.sourcegitcommit" Value="d877ae76e9e11799bf919379507239e2c4072742" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="08/09/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
     <Meta Name="ms.locfileid" Value="39811465" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class BroadcastBlock&lt;T&gt; : System.Threading.Tasks.Dataflow.IPropagatorBlock&lt;T,T&gt;, System.Threading.Tasks.Dataflow.IReceivableSourceBlock&lt;T&gt;, System.Threading.Tasks.Dataflow.ISourceBlock&lt;T&gt;, System.Threading.Tasks.Dataflow.ITargetBlock&lt;T&gt;" />
@@ -327,7 +327,9 @@
         <param name="messageConsumed">
           <see langword="true" /> si le message a été consommé avec succès ; sinon <see langword="false" />.</param>
         <summary>Appelé par un <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> lié pour recevoir et utiliser un <see cref="T:System.Threading.Tasks.Dataflow.DataflowMessageHeader" /> précédemment proposé par ce <see cref="T:System.Threading.Tasks.Dataflow.ISourceBlock`1" />.</summary>
-        <returns>Valeur du message consommé. Cela peut correspondre à une instance de <see cref="T:System.Threading.Tasks.Dataflow.DataflowMessageHeader" /> différente de celle qui a été précédemment réservée et transmise comme <paramref name="messageHeader" /> à <see cref="M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)" />. Le <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> consommateur doit utiliser la valeur retournée au lieu de la valeur passée comme <paramref name="messageValue" /> via <see cref="M:System.Threading.Tasks.Dataflow.ITargetBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)" />.  Si le message demandé n'est pas disponible, la valeur de retour est <see langword="null" />.</returns>
+        <returns>Valeur du message consommé. Cela peut correspondre à une instance de <see cref="T:System.Threading.Tasks.Dataflow.DataflowMessageHeader" /> différente de celle qui a été précédemment réservée et transmise comme <paramref name="messageHeader" /> à <see cref="M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)" />. Le <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" /> consommateur doit utiliser la valeur retournée au lieu de la valeur passée comme <paramref name="messageValue" /> via <see cref="M:System.Threading.Tasks.Dataflow.ITargetBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)" />.  
+  
+Si le message demandé n'est pas disponible, la valeur de retour est <see langword="null" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -470,10 +472,18 @@
           <see cref="T:System.Threading.Tasks.Dataflow.ISourceBlock`1" /> qui transmet le message. Il peut s'agir d'une valeur null.</param>
         <param name="consumeToAccept">Définit sur <see langword="true" /> pour indiquer à la cible d'appeler <see cref="M:System.Threading.Tasks.Dataflow.ISourceBlock`1.ConsumeMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,System.Threading.Tasks.Dataflow.ITargetBlock{`0},System.Boolean@)" /> de façon synchrone pendant l'appel à <see cref="M:System.Threading.Tasks.Dataflow.ITargetBlock`1.OfferMessage(System.Threading.Tasks.Dataflow.DataflowMessageHeader,`0,System.Threading.Tasks.Dataflow.ISourceBlock{`0},System.Boolean)" />, avant de renvoyer <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Accepted" /> pour utiliser le message.</param>
         <summary>Offre un message au <see cref="T:System.Threading.Tasks.Dataflow.ITargetBlock`1" />, donnant à la cible la possibilité d'utiliser ou de différer le message.</summary>
-        <returns>État du message proposé. Si le message a été accepté par la cible, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Accepted" /> est retourné, et la source ne doit plus utiliser le message envoyé, car elle est désormais la propriété de la cible. Si le message a été différé par la cible, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Postponed" /> est retournée comme notification que la cible peut ensuite essayer d'utiliser ou de réserver un message ; parallèlement, la source possède le message et peut toujours le proposer à d'autres blocs.  Si la cible avait par contre un message différé mais que la <paramref name="source" /> avait la valeur <see langword="null" />, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" /> serait retourné à la place.  Si la cible a tenté de recevoir le message mais a échoué en raison de la source fournissant un message à une autre cible ou en l'ignorant simplement, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.NotAvailable" /> est retourné.  Si la cible a choisi de ne pas recevoir le message, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" /> est retourné. Si la cible a choisi de ne pas recevoir le message et ne recevra jamais un autre message de cette source, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.DecliningPermanently" /> est retourné.</returns>
+        <returns>État du message proposé. Si le message a été accepté par la cible, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Accepted" /> est retourné, et la source ne doit plus utiliser le message envoyé, car elle est désormais la propriété de la cible. Si le message a été différé par la cible, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Postponed" /> est retournée comme notification que la cible peut ensuite essayer d'utiliser ou de réserver un message ; parallèlement, la source possède le message et peut toujours le proposer à d'autres blocs.  
+  
+Si la cible avait par contre un message différé mais que la <paramref name="source" /> avait la valeur <see langword="null" />, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" /> serait retourné à la place.  
+  
+Si la cible a tenté de recevoir le message mais a échoué en raison de la source fournissant un message à une autre cible ou en l'ignorant simplement, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.NotAvailable" /> est retourné.  
+  
+Si la cible a choisi de ne pas recevoir le message, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.Declined" /> est retourné. Si la cible a choisi de ne pas recevoir le message et ne recevra jamais un autre message de cette source, <see cref="F:System.Threading.Tasks.Dataflow.DataflowMessageStatus.DecliningPermanently" /> est retourné.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="messageHeader" /> n’est pas valide.  ou <paramref name="consumeToAccept" /> peut avoir la valeur true uniquement s’il est fourni avec une <paramref name="source" /> non Null.</exception>
+          <paramref name="messageHeader" /> n’est pas valide.  
+  
+ou <paramref name="consumeToAccept" /> peut avoir la valeur true uniquement s’il est fourni avec une <paramref name="source" /> non Null.</exception>
       </Docs>
     </Member>
     <Member MemberName="ToString">
