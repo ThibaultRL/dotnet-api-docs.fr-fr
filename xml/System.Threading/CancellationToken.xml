@@ -1,11 +1,11 @@
 <Type Name="CancellationToken" FullName="System.Threading.CancellationToken">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="de6f75d4506356775c02922ff31f88f46d43b9c8" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="aff861d633b172c0996e4351071b31629dbba628" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36606419" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39804581" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct CancellationToken" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit CancellationToken extends System.ValueType" />
@@ -37,11 +37,14 @@
   </Base>
   <Interfaces />
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Diagnostics.DebuggerDisplay("IsCancellationRequested = {IsCancellationRequested}")</AttributeName>
     </Attribute>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Runtime.InteropServices.ComVisible(false)</AttributeName>
+    </Attribute>
+    <Attribute FrameworkAlternate="netcore-2.1">
+      <AttributeName>System.Runtime.CompilerServices.IsReadOnly</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -50,23 +53,23 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- A <xref:System.Threading.CancellationToken> permet l’annulation coopérative entre les threads, les éléments de travail du pool de threads, ou <xref:System.Threading.Tasks.Task> objets. Vous créez un jeton d’annulation en instanciant une <xref:System.Threading.CancellationTokenSource> de récupérer l’objet, qui gère les jetons d’annulation à partir de son <xref:System.Threading.CancellationTokenSource.Token%2A?displayProperty=nameWithType> propriété. Vous passez ensuite le jeton d’annulation à n’importe quel nombre de threads, des tâches ou des opérations qui doivent recevoir une notification d’annulation. Le jeton ne peut pas être utilisé pour initialiser l’annulation. Lorsque l’objet propriétaire appelle <xref:System.Threading.CancellationTokenSource.Cancel%2A?displayProperty=nameWithType>, le <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> sur chaque copie du jeton d’annulation est définie sur `true`. Les objets qui reçoivent la notification peuvent répondre de quelque manière appropriée.  
+ Un <xref:System.Threading.CancellationToken> permet l’annulation coopérative entre les threads, les éléments de travail du pool de threads, ou <xref:System.Threading.Tasks.Task> objets. Vous créez un jeton d’annulation en instanciant un <xref:System.Threading.CancellationTokenSource> objet, qui gère les jetons d’annulation récupéré à partir de son <xref:System.Threading.CancellationTokenSource.Token%2A?displayProperty=nameWithType> propriété. Vous transmettez ensuite le jeton d’annulation à n’importe quel nombre de threads, les tâches ou opérations qui doivent être informés de l’annulation. Le jeton ne peut pas être utilisé pour initier l’annulation. Lorsque l’objet propriétaire appelle <xref:System.Threading.CancellationTokenSource.Cancel%2A?displayProperty=nameWithType>, le <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> propriété sur chaque copie du jeton d’annulation est définie sur `true`. Les objets qui reçoivent la notification peuvent répondre de quelque manière appropriée.  
   
- Pour plus d’informations et du code des exemples, consultez [l’annulation dans les Threads managés](~/docs/standard/threading/cancellation-in-managed-threads.md).  
+ Pour plus d’informations et le code des exemples, consultez [l’annulation dans les Threads managés](~/docs/standard/threading/cancellation-in-managed-threads.md).  
   
    
   
 ## Examples  
- L’exemple suivant utilise un générateur de nombres aléatoires pour émuler une application de collecte de données qui lit les valeurs intégrales 10 onze instruments différents. La valeur zéro indique que la mesure a échoué pour un instrument, auquel cas l’opération doit être annulée et aucune globale moyenne doivent être calculées.  
+ L’exemple suivant utilise un générateur de nombres aléatoires pour émuler une application de collecte de données qui lit les 10 valeurs intégrales d’onze instruments différents. La valeur zéro indique que la mesure a échoué pour un instrument, auquel cas l’opération doit être annulée et aucune moyenne globale doivent être calculées.  
   
- Pour gérer l’annulation possible de l’opération, l’exemple instancie un <xref:System.Threading.CancellationTokenSource> objet qui génère un jeton d’annulation qui est passé à un <xref:System.Threading.Tasks.TaskFactory> objet. Le <xref:System.Threading.Tasks.TaskFactory> objet à son tour transmet le jeton d’annulation à chacune des tâches chargée de collecter les lectures d’un instrument particulier. Le <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%60%602%28System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2C%60%601%7D%2CSystem.Threading.CancellationToken%29?displayProperty=nameWithType> méthode est appelée pour vous assurer que la moyenne est calculée uniquement une fois toutes les valeurs ont été collectées avec succès. Si une tâche ne comporte pas, car elle a été annulée, l’appel à la <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%2A?displayProperty=nameWithType> méthode lève une exception.  
+ Pour gérer l’annulation possible de l’opération, l’exemple instancie un <xref:System.Threading.CancellationTokenSource> objet qui génère un jeton d’annulation qui est transmis à un <xref:System.Threading.Tasks.TaskFactory> objet. Le <xref:System.Threading.Tasks.TaskFactory> objet à son tour transmet le jeton d’annulation à chacune des tâches chargée de collecter des relevés d’un instrument particulier. Le <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%60%602%28System.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2CSystem.Func%7BSystem.Threading.Tasks.Task%7B%60%600%7D%5B%5D%2C%60%601%7D%2CSystem.Threading.CancellationToken%29?displayProperty=nameWithType> méthode est appelée pour s’assurer que la moyenne est calculée uniquement une fois que toutes les lectures ont été collectées avec succès. Si une tâche n’a pas, car elle a été annulée, l’appel à la <xref:System.Threading.Tasks.TaskFactory.ContinueWhenAll%2A?displayProperty=nameWithType> méthode lève une exception.  
   
  [!code-csharp[System.Threading.CancellationTokenSource.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.cancellationtokensource.class/cs/cancel1.cs#1)]
  [!code-vb[System.Threading.CancellationTokenSource.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.cancellationtokensource.class/vb/cancel1.vb#1)]  
   
  ]]></format>
     </remarks>
-    <threadsafe>Tous les membres publics et protégés de <see cref="T:System.Threading.CancellationToken" /> sont thread-safe et peuvent être utilisés simultanément à partir de plusieurs threads.</threadsafe>
+    <threadsafe>Tous les membres publics et protégés de <see cref="T:System.Threading.CancellationToken" /> sont thread-safe et peuvent être utilisés simultanément par plusieurs threads.</threadsafe>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -141,6 +144,11 @@
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
@@ -152,9 +160,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si <xref:System.Threading.CancellationToken.CanBeCanceled%2A> retourne `false`, il est garanti que le jeton ne passera jamais dans un état annulé, ce qui signifie que <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> ne retourne jamais `true`. Un jeton d’annulation qui ne peut pas être annulé est retourné par la méthode statique <xref:System.Threading.CancellationToken.None%2A?displayProperty=nameWithType> propriété.  
+ Si <xref:System.Threading.CancellationToken.CanBeCanceled%2A> retourne `false`, il est garanti que le jeton ne passera jamais dans un état annulé, ce qui signifie que <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> ne retournent jamais `true`. Un jeton d’annulation qui ne peut pas être annulé est retourné par la méthode statique <xref:System.Threading.CancellationToken.None%2A?displayProperty=nameWithType> propriété.  
   
- Vous pouvez éventuellement utiliser cette propriété pour déterminer si un jeton d’annulation peut être annulée avant l’examen de le, la valeur de la <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> propriété pour déterminer si elle a été annulée.  
+ Vous pouvez éventuellement utiliser cette propriété pour déterminer si un jeton d’annulation peut être annulée avant l’examen de le, la valeur de la <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> propriété afin de déterminer si elle a été annulée.  
   
  ]]></format>
         </remarks>
@@ -212,13 +220,13 @@
           <format type="text/markdown"><![CDATA[  
 ## Remarks  
 
-Deux jetons d’annulation sont égales si l’une des conditions suivantes est remplie : 
+Deux jetons d’annulation sont égales si l’une des conditions suivantes est vraie : 
 
 - Ils sont associés au même <xref:System.Threading.CancellationTokenSource>.
 
-- Les deux été construits public <xref:System.Threading.CancellationToken> constructeurs, ainsi que leurs <xref:System.Threading.CancellationToken.IsCancellationRequested?displayProperty=nameWithType> valeurs sont égales.
+- Les deux ont été construits à partir de public <xref:System.Threading.CancellationToken> constructeurs, ainsi que leurs <xref:System.Threading.CancellationToken.IsCancellationRequested?displayProperty=nameWithType> valeurs sont égales.
 
-- La valeur de deux jetons d’annulation est <xref:System.Threading.CancellationToken.None?displayProperty=nameWithType>.
+- La valeur de ces deux jetons d’annulation est <xref:System.Threading.CancellationToken.None?displayProperty=nameWithType>.
 
        ]]></format>
         </remarks>
@@ -267,13 +275,13 @@ Deux jetons d’annulation sont égales si l’une des conditions suivantes est 
           <format type="text/markdown"><![CDATA[  
 ## Remarks  
 
-Deux jetons d’annulation sont égales si l’une des conditions suivantes est remplie : 
+Deux jetons d’annulation sont égales si l’une des conditions suivantes est vraie : 
 
 - Ils sont associés au même <xref:System.Threading.CancellationTokenSource>.
 
-- Les deux été construits public <xref:System.Threading.CancellationToken> constructeurs, ainsi que leurs <xref:System.Threading.CancellationToken.IsCancellationRequested?displayProperty=nameWithType> valeurs sont égales.
+- Les deux ont été construits à partir de public <xref:System.Threading.CancellationToken> constructeurs, ainsi que leurs <xref:System.Threading.CancellationToken.IsCancellationRequested?displayProperty=nameWithType> valeurs sont égales.
 
-- La valeur de deux jetons d’annulation est <xref:System.Threading.CancellationToken.None?displayProperty=nameWithType>.
+- La valeur de ces deux jetons d’annulation est <xref:System.Threading.CancellationToken.None?displayProperty=nameWithType>.
 
        ]]></format>
         </remarks>
@@ -343,32 +351,37 @@ Deux jetons d’annulation sont égales si l’une des conditions suivantes est 
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
         <summary>Détermine si l'annulation a été demandée pour ce jeton.</summary>
         <value>
-          <see langword="true" /> Si l’annulation a été demandée pour ce jeton ; dans le cas contraire, <see langword="false" />.</value>
+          <see langword="true" /> Si l’annulation a été demandée pour ce jeton ; Sinon, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette propriété indique si l’annulation a été demandée pour ce jeton, via le jeton initialement construit dans un état annulé ou via l’appel <xref:System.Threading.CancellationTokenSource.Cancel%2A> sur le jeton associé à <xref:System.Threading.CancellationTokenSource>.  
+ Cette propriété indique si l’annulation a été demandée pour ce jeton, via le jeton initialement construit dans un état annulé ou via l’appel <xref:System.Threading.CancellationTokenSource.Cancel%2A> sur le jeton associé au <xref:System.Threading.CancellationTokenSource>.  
   
- Si cette propriété est `true`, elle garantit uniquement que l’annulation a été demandée. Il ne garantit pas que l’exécution de chaque gestionnaire inscrit est terminée, ni que les demandes d’annulation ont été propagées à tous les gestionnaires inscrits. Synchronisation supplémentaire peut être requise, notamment dans des situations où les objets connexes sont annulés simultanément.  
+ Si cette propriété est `true`, elle garantit uniquement que l’annulation a été demandée. Il ne garantit pas que l’exécution de chaque gestionnaire inscrit a terminée, ni que les demandes d’annulation ont été propagées à tous les gestionnaires inscrits. Une synchronisation supplémentaire peut être nécessaire, en particulier dans les situations où les objets connexes sont annulés simultanément.  
   
    
   
 ## Examples  
- Voici un exemple simple qui exécute un processus serveur jusqu'à ce que le <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> propriété renvoie `true`.  
+ Voici un exemple simple qui exécute un processus serveur jusqu'à ce que le <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> retourne de la propriété `true`.  
   
  [!code-csharp[System.Threading.Tasks.CancellationToken.IsCancellationRequested#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.Threading.Tasks.CancellationToken.IsCancellationRequested/cs/cancellation.cs#12)]
  [!code-vb[System.Threading.Tasks.CancellationToken.IsCancellationRequested#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.Threading.Tasks.CancellationToken.IsCancellationRequested/vb/cancelthreads.vb#12)]  
   
- L’exemple instancie un <xref:System.Threading.CancellationTokenSource> objet, qui contrôle l’accès au jeton d’annulation. Il définit ensuite deux procédures de thread. La première est définie comme une expression lambda qui regroupe le clavier et, lorsque la touche « C », appelle <xref:System.Threading.CancellationTokenSource.Cancel%2A?displayProperty=nameWithType> pour définir le jeton d’annulation à l’état annulé. La deuxième est une méthode paramétrable, `ServerClass.StaticMethod`, qui exécute une boucle jusqu'à ce que le <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> propriété est `true`.  
+ L’exemple instancie un <xref:System.Threading.CancellationTokenSource> objet qui contrôle l’accès au jeton d’annulation. Il définit ensuite deux procédures de thread. La première est définie comme une expression lambda qui regroupe le clavier et, lorsque la touche « C », appelle <xref:System.Threading.CancellationTokenSource.Cancel%2A?displayProperty=nameWithType> pour définir le jeton d’annulation à l’état annulé. Le second est une méthode paramétrée, `ServerClass.StaticMethod`, qui exécute une boucle jusqu'à ce que le <xref:System.Threading.CancellationToken.IsCancellationRequested%2A> propriété est `true`.  
   
- Le thread principal démarre ensuite les blocs et deux threads jusqu'à ce que le thread qui exécute le `ServerClass.StaticMethod` méthode se termine.  
+ Le thread principal démarre ensuite les deux threads et les blocs jusqu'à ce que le thread qui exécute le `ServerClass.StaticMethod` méthode se termine.  
   
  ]]></format>
         </remarks>
@@ -401,6 +414,11 @@ Deux jetons d’annulation sont égales si l’une des conditions suivantes est 
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Threading.CancellationToken</ReturnType>
       </ReturnValue>
@@ -415,7 +433,7 @@ Deux jetons d’annulation sont égales si l’une des conditions suivantes est 
   
  Vous pouvez également utiliser le langage c# [default(CancellationToken)](~/docs/csharp/language-reference/keywords/default.md) instruction pour créer un jeton d’annulation vide. 
 
- Deux jetons d’annulation vide sont toujours égales.
+ Deux jetons d’annulation vide sont toujours égaux.
   
  ]]></format>
         </remarks>
@@ -465,13 +483,13 @@ Deux jetons d’annulation sont égales si l’une des conditions suivantes est 
           <format type="text/markdown"><![CDATA[  
 ## Remarks  
 
-Deux jetons d’annulation sont égales si l’une des conditions suivantes est remplie : 
+Deux jetons d’annulation sont égales si l’une des conditions suivantes est vraie : 
 
 - Ils sont associés au même <xref:System.Threading.CancellationTokenSource>.
 
-- Les deux été construits public <xref:System.Threading.CancellationToken> constructeurs, ainsi que leurs <xref:System.Threading.CancellationToken.IsCancellationRequested?displayProperty=nameWithType> valeurs sont égales.
+- Les deux ont été construits à partir de public <xref:System.Threading.CancellationToken> constructeurs, ainsi que leurs <xref:System.Threading.CancellationToken.IsCancellationRequested?displayProperty=nameWithType> valeurs sont égales.
 
-- La valeur de deux jetons d’annulation est <xref:System.Threading.CancellationToken.None?displayProperty=nameWithType>.
+- La valeur de ces deux jetons d’annulation est <xref:System.Threading.CancellationToken.None?displayProperty=nameWithType>.
        ]]></format>
         </remarks>
         <exception cref="T:System.ObjectDisposedException">Une <see cref="T:System.Threading.CancellationTokenSource" /> associée a été supprimée.</exception>
@@ -521,7 +539,7 @@ Deux jetons d’annulation sont égales si l’une des conditions suivantes est 
           <format type="text/markdown"><![CDATA[  
 ## Remarks  
 
-Pour la définition de l’égalité des valeurs, consultez le <xref:System.Threading.CancellationToken.Equals%2A> (méthode). 
+Pour la définition de l’égalité, consultez le <xref:System.Threading.CancellationToken.Equals%2A> (méthode). 
        ]]></format>
         </remarks>
         <exception cref="T:System.ObjectDisposedException">Une <see cref="T:System.Threading.CancellationTokenSource" /> associée a été supprimée.</exception>
@@ -578,11 +596,11 @@ Pour la définition de l’égalité des valeurs, consultez le <xref:System.Thre
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si ce jeton est déjà dans l’état annulé, le délégué est exécuté immédiatement et de manière synchrone. Toute exception que le délégué sera propagée hors de cet appel de méthode.  
+ Si ce jeton est déjà dans l’état annulé, le délégué est exécuté immédiatement et de manière synchrone. Toute exception que génère le délégué sera propagée hors de cet appel de méthode.  
   
- En cours <xref:System.Threading.ExecutionContext> est capturée, ainsi que le délégué et sera utilisé lors de son exécution. 
+ Actuel <xref:System.Threading.ExecutionContext> est capturée en même temps que le délégué et sera utilisé lors de son exécution. 
 
- En cours <xref:System.Threading.SynchronizationContext> n’est pas capturée.
+ Actuel <xref:System.Threading.SynchronizationContext> n’est pas capturée.
  
  ]]></format>
         </remarks>
@@ -634,11 +652,11 @@ Pour la définition de l’égalité des valeurs, consultez le <xref:System.Thre
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si ce jeton est déjà dans l’état annulé, le délégué est exécuté immédiatement et de manière synchrone. Toute exception que le délégué sera propagée hors de cet appel de méthode.  
+ Si ce jeton est déjà dans l’état annulé, le délégué est exécuté immédiatement et de manière synchrone. Toute exception que génère le délégué sera propagée hors de cet appel de méthode.  
   
- En cours <xref:System.Threading.ExecutionContext> est capturée, ainsi que le délégué et sera utilisé lors de son exécution. 
+ Actuel <xref:System.Threading.ExecutionContext> est capturée en même temps que le délégué et sera utilisé lors de son exécution. 
 
- Si `useSynchronizationContext` est `true`, actuel <xref:System.Threading.SynchronizationContext>, s’il en existe, est également capturé avec le délégué et sera utilisé lors de son exécution. Dans le cas contraire, <xref:System.Threading.SynchronizationContext> n’est pas capturée.
+ Si `useSynchronizationContext` est `true`, actuel <xref:System.Threading.SynchronizationContext>, s’il en existe, est également capturé avec le délégué et sera utilisé lors de son exécution. Sinon, <xref:System.Threading.SynchronizationContext> n’est pas capturée.
   
  ]]></format>
         </remarks>
@@ -690,11 +708,11 @@ Pour la définition de l’égalité des valeurs, consultez le <xref:System.Thre
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si ce jeton est déjà dans l’état annulé, le délégué est exécuté immédiatement et de manière synchrone. Toute exception que le délégué sera propagée hors de cet appel de méthode.  
+ Si ce jeton est déjà dans l’état annulé, le délégué est exécuté immédiatement et de manière synchrone. Toute exception que génère le délégué sera propagée hors de cet appel de méthode.  
   
- En cours <xref:System.Threading.ExecutionContext> est capturée, ainsi que le délégué et sera utilisé lors de son exécution. 
+ Actuel <xref:System.Threading.ExecutionContext> est capturée en même temps que le délégué et sera utilisé lors de son exécution. 
 
- En cours <xref:System.Threading.SynchronizationContext> n’est pas capturée.
+ Actuel <xref:System.Threading.SynchronizationContext> n’est pas capturée.
   
  ]]></format>
         </remarks>
@@ -748,11 +766,11 @@ Pour la définition de l’égalité des valeurs, consultez le <xref:System.Thre
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si ce jeton est déjà dans l’état annulé, le délégué est exécuté immédiatement et de manière synchrone. Toute exception que le délégué sera propagée hors de cet appel de méthode.  
+ Si ce jeton est déjà dans l’état annulé, le délégué est exécuté immédiatement et de manière synchrone. Toute exception que génère le délégué sera propagée hors de cet appel de méthode.  
   
- En cours <xref:System.Threading.ExecutionContext> est capturée, ainsi que le délégué et sera utilisé lors de son exécution. 
+ Actuel <xref:System.Threading.ExecutionContext> est capturée en même temps que le délégué et sera utilisé lors de son exécution. 
 
- Si `useSynchronizationContext` est `true`, actuel <xref:System.Threading.SynchronizationContext>, s’il en existe, est également capturé avec le délégué et sera utilisé lors de son exécution. Dans le cas contraire, <xref:System.Threading.SynchronizationContext> n’est pas capturée.
+ Si `useSynchronizationContext` est `true`, actuel <xref:System.Threading.SynchronizationContext>, s’il en existe, est également capturé avec le délégué et sera utilisé lors de son exécution. Sinon, <xref:System.Threading.SynchronizationContext> n’est pas capturée.
   
  ]]></format>
         </remarks>
@@ -788,6 +806,11 @@ Pour la définition de l’égalité des valeurs, consultez le <xref:System.Thre
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.5;netframework-4.5.1;netframework-4.5.2">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -857,7 +880,7 @@ End If
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- L’accès à cette propriété provoque un <xref:System.Threading.WaitHandle> pour être instancié. Il est préférable d’utiliser uniquement cette propriété lorsque cela est nécessaire et supprimer ensuite associé <xref:System.Threading.CancellationTokenSource> instance (en supprimant la source supprimera ce handle alloué) dès que possible. Le handle n’a pas doit être fermé ou supprimé directement.  
+ L’accès à cette propriété provoque une <xref:System.Threading.WaitHandle> à instancier. Il est préférable d’utiliser uniquement cette propriété lorsque cela est nécessaire et supprimer ensuite associé <xref:System.Threading.CancellationTokenSource> instance dès que possible (disposing supprime la source de ce handle alloué). Le handle n’a pas doit être fermé ou supprimé directement.  
   
  ]]></format>
         </remarks>
