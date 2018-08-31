@@ -1,11 +1,11 @@
 <Type Name="LifetimeContext" FullName="System.Composition.Hosting.Core.LifetimeContext">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="bce645109a734925713bd97d7269a5133b83ca02" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="4991b380146d99d422c00f743125823c1462045f" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36699588" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39817406" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class LifetimeContext : System.Composition.CompositionContext, IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit LifetimeContext extends System.Composition.CompositionContext implements class System.IDisposable" />
@@ -32,9 +32,9 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
-Le <xref:System.Composition.Hosting.Core.LifetimeContext> objet est l’unité de partage de fichiers pour les composants partagés. Il contrôle la disposition des parties liées et peut être utilisé pour récupérer des instances, soit dans le cadre d’une opération de composition existante comme base d’une nouvelle opération de composition. Un contexte de la durée de vie individuels peut être marqué pour qu’il contienne les parties qui sont limitées par les limites de partage particuliers.
+Le <xref:System.Composition.Hosting.Core.LifetimeContext> objet est l’unité de partage de fichiers pour les composants partagés. Il contrôle la disposition des parties liées et peut être utilisé pour récupérer des instances, soit dans le cadre d’une opération de composition existante comme base d’une nouvelle opération de composition. Un contexte de durée de vie individuel peut être marqué pour qu’il contienne les parties qui sont conditionnées par les limites de partage particuliers.
 
-Cet objet contienne deux éléments d’un état partagé protégé de façon indépendante : partagé des instances de composant et liée d’instances du composant. Une instance de composant partagé est accessible en lecture, sans verrou et n’entraîne pas de problèmes, s’il est ajouté au cours de suppression. Il est protégé par lui-même verrouillés. Logique d’activation est appelée inévitablement sous ce verrou. Une instance de composant dépendant soit toujours protégée par un verrouillage <see langword="this" />et ne doit jamais être écrite dans après la sortie. Une instance de composant liée est définie sur <see langword="null" /> d’un verrou dans le <xref:System.Composition.Hosting.Core.LifetimeContext.Dispose> (méthode). Si l’écriture est autorisée après la sortie pour une instance de composant dépendant, il entraînerait des parties supprimables ne pas libérés. La méthode dispose sur une partie liée est appelée en dehors du verrou. 
+Cet objet contient deux éléments d’état partagé protégé de façon indépendante : partagé des instances de composant et liée d’instances du composant. Une instance de composant partagé est accessible en lecture, sans verrou et n’entraîne pas de problèmes s’il est ajouté au cours de suppression. Il est protégé par lui-même verrouillés. Logique d’activation est inévitablement appelée sous ce verrou. Une instance de composant liée est toujours protégée par un verrouillage <see langword="this" />et ne doit jamais être écrit pour après élimination. Une instance de la partie liée est définie sur <see langword="null" /> sous un verrou dans le <xref:System.Composition.Hosting.Core.LifetimeContext.Dispose> (méthode). Si l’écriture est autorisée après la disposition pour une instance de composant dépendant, il entraînerait des parties jetables ne pas libérés. La méthode dispose sur une partie liée est appelée en dehors du verrou. 
   
  ]]></format>
     </remarks>
@@ -178,7 +178,7 @@ Cet objet contienne deux éléments d’un état partagé protégé de façon in
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est sans verrou si l’instance de composant existe déjà. Si l’instance de composant doit être créé, un verrou à entreprendre qui sérialise autres écritures qui utilisent cette méthode (lectures simultanées continuera à être sécurisées et sans verrou). Il est important que la composition et par conséquent, l’acquisition de verrou, est strictement feuille racine dans l’arborescence de la durée de vie.  
+ Cette méthode est sans verrou si l’instance de composant existe déjà. Si l’instance de composant doit être créé, un verrou accéderez qui effectuera la sérialisation autres écritures qui utilisent cette méthode (lectures simultanées continueront à être sûres et sans verrou). Il est important que la composition et par conséquent, l’acquisition de verrou, est strictement feuille racine dans l’arborescence de la durée de vie.  
   
  ]]></format>
         </remarks>
@@ -225,7 +225,7 @@ Cet objet contienne deux éléments d’un état partagé protégé de façon in
       </ReturnValue>
       <Parameters>
         <Parameter Name="contract" Type="System.Composition.Hosting.Core.CompositionContract" />
-        <Parameter Name="export" Type="System.Object&amp;" RefType="out" />
+        <Parameter Name="export" Type="System.Object" RefType="out" />
       </Parameters>
       <Docs>
         <param name="contract">Contrat.</param>
