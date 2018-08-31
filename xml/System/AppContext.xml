@@ -1,11 +1,11 @@
 <Type Name="AppContext" FullName="System.AppContext">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="482d52e5b69288b9a8240a5a41deef259168aace" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="22baeef40fafd807844df877ee179199629f82f1" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36433573" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39909628" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class AppContext" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit AppContext extends System.Object" />
@@ -42,29 +42,29 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.AppContext> classe permet aux auteurs de bibliothèque fournir un mécanisme de retrait uniforme des nouvelles fonctionnalités pour les utilisateurs. Elle établit un contrat souple entre les composants pour la communication des demandes de désactivation. Cette fonctionnalité est particulièrement importante quand une modification est apportée aux fonctionnalités existantes. À l'inverse, il existe déjà une activation implicite des nouvelles fonctionnalités.  
+ Le <xref:System.AppContext> classe permet aux auteurs de bibliothèque de fournir un mécanisme d’annulations uniforme des nouvelles fonctionnalités pour les utilisateurs. Elle établit un contrat souple entre les composants pour la communication des demandes de désactivation. Cette fonctionnalité est particulièrement importante quand une modification est apportée aux fonctionnalités existantes. À l'inverse, il existe déjà une activation implicite des nouvelles fonctionnalités.  
   
-## <a name="appcontext-for-library-developers"></a>AppContext pour les développeurs de bibliothèques  
- Bibliothèques utilisent le <xref:System.AppContext> bascule de classe pour définir et exposer la compatibilité, tandis que les utilisateurs de bibliothèque peuvent définir ces commutateurs pour affecter le comportement de la bibliothèque. Par défaut, les bibliothèques fournissent la nouvelle fonctionnalité et ne peuvent la modifier (c'est-à-dire fournir la version antérieure) que si le commutateur est défini.  Cela permet aux bibliothèques fournir un nouveau comportement d’API existantes tout en continuant à prendre en charge les appelants qui varient selon le comportement précédent.  
+## <a name="appcontext-for-library-developers"></a>AppContext pour les développeurs de bibliothèque  
+ Bibliothèques utilisent le <xref:System.AppContext> bascule de classe pour définir et exposer la compatibilité, tandis que les utilisateurs de bibliothèque peuvent définir ces commutateurs pour affecter le comportement de la bibliothèque. Par défaut, les bibliothèques fournissent la nouvelle fonctionnalité et ne peuvent la modifier (c'est-à-dire fournir la version antérieure) que si le commutateur est défini.  Cela permet aux bibliothèques fournir un nouveau comportement pour une API existante tout en continuant à prendre en charge les appelants qui varient selon le comportement précédent.  
   
 ### <a name="defining-the-switch-name"></a>Définir le nom du commutateur  
- La méthode la plus courante pour permettre aux consommateurs de votre bibliothèque de refuser une modification de comportement est pour définir un commutateur nommé.  Son `value` élément est une paire nom/valeur qui se compose du nom d’un commutateur et ses <xref:System.Boolean> valeur.  Par défaut, le commutateur a toujours implicitement `false`, qui fournit le nouveau comportement (et le nouveau comportement opt-in par défaut). Définissant le commutateur avec `true` active, ce qui fournit le comportement hérité. Définir explicitement le commutateur `false` fournit également le nouveau comportement.  
+ La méthode la plus courante pour permettre aux consommateurs de votre bibliothèque de refuser à un changement de comportement consiste à définir un commutateur nommé.  Son `value` élément est une paire nom/valeur qui se compose du nom d’un commutateur et ses <xref:System.Boolean> valeur.  Par défaut, le commutateur est toujours implicitement `false`, qui fournit le nouveau comportement (et rend le nouveau comportement opt-in par défaut). Définissant le commutateur avec `true` lui permet, qui fournit le comportement hérité. Explicitement en définissant le commutateur avec `false` fournit également le nouveau comportement.  
   
- Il est préférable d’utiliser un format cohérent pour les noms de commutateur, car elles sont un contrat formel exposé par une bibliothèque. Voici les deux formats évidents.  
+ Il est préférable d’utiliser un format cohérent pour les noms de commutateur, puisqu’il s’agit d’un contrat formel exposé par une bibliothèque. Voici les deux formats évidents.  
   
 -   *Commutateur*.*espace de noms*.*nom_commutateur*  
   
 -   *Commutateur*.*bibliothèque*.*nom_commutateur*  
   
- Une fois que vous définissez et le commutateur de document, les appelants peuvent l’utiliser à l’aide du Registre, en ajoutant un [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) élément à leur fichier de configuration d’application, ou en appelant le <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> méthode par programmation. Consultez le [AppContext pour les consommateurs de la bibliothèque](#ForConsumers) section pour plus d’informations sur l’utilisent aux appelants et le définir la valeur de <xref:System.AppContext> changements de configuration.  
+ Une fois que vous définissez et documentez le commutateur, les appelants peuvent l’utiliser à l’aide du Registre, en ajoutant un [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) élément dans leur fichier de configuration d’application, ou en appelant le <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> méthode par programmation. Consultez le [AppContext pour les consommateurs de la bibliothèque](#ForConsumers) section pour plus d’informations sur la façon dont les appelants utiliser et définir la valeur de <xref:System.AppContext> changements de configuration.  
   
- Lorsque le common language runtime exécute une application, il lit les paramètres de compatibilité du Registre automatiquement et charge le fichier de configuration d’application afin de remplir l’application <xref:System.AppContext> instance. Étant donné que la <xref:System.AppContext> instance est remplie par programmation à l’appelant ou par le runtime, vous n’avez pas à intervenir, telles que l’appel le <xref:System.AppContext.SetSwitch%2A> (méthode), pour configurer le <xref:System.AppContext> instance.  
+ Lorsque le common language runtime exécute une application, il lit les paramètres de compatibilité du Registre automatiquement et charge le fichier de configuration d’application afin de renseigner l’application <xref:System.AppContext> instance. Étant donné que le <xref:System.AppContext> instance est remplie par programmation à l’appelant ou par le runtime, vous n’avez pas à intervenir, comme l’appel la <xref:System.AppContext.SetSwitch%2A> méthode, pour configurer le <xref:System.AppContext> instance.  
   
-### <a name="checking-the-setting"></a>Vérification du paramètre  
- Vous pouvez ensuite vérifier si un consommateur a déclaré la valeur du commutateur et act de manière appropriée en appelant le <xref:System.AppContext.TryGetSwitch%2A?displayProperty=nameWithType> (méthode). La méthode retourne `true` si le `switchName` argument est trouvé, et lorsque la méthode est retournée, ses `isEnabled` argument indique la valeur du commutateur.  Dans le cas contraire, la méthode retourne `false`.  
+### <a name="checking-the-setting"></a>Le paramètre de vérification de la  
+ Vous pouvez ensuite vérifier si un consommateur a déclaré la valeur du commutateur et act de manière appropriée en appelant le <xref:System.AppContext.TryGetSwitch%2A?displayProperty=nameWithType> (méthode). La méthode retourne `true` si le `switchName` argument se trouve, et lorsque la méthode est retournée, ses `isEnabled` argument indique la valeur du commutateur.  Dans le cas contraire, la méthode retourne `false`.  
   
 ### <a name="an-example"></a>Un exemple  
- L’exemple suivant illustre l’utilisation de la <xref:System.AppContext> classe pour permettre au client de choisir le comportement d’origine d’une méthode de bibliothèque.   Voici la version 1.0 d’une bibliothèque nommée `StringLibrary`. Il définit un `SubstringStartsAt` méthode qui effectue une comparaison ordinale afin de déterminer l’index de départ d’une sous-chaîne dans une chaîne plus grande.  
+ L’exemple suivant illustre l’utilisation de la <xref:System.AppContext> classe pour permettre au client choisir le comportement d’origine d’une méthode de bibliothèque.   Voici la version 1.0 d’une bibliothèque nommée `StringLibrary`. Il définit un `SubstringStartsAt` méthode qui effectue une comparaison ordinale pour déterminer l’index de départ d’une sous-chaîne dans une chaîne plus grande.  
   
  [!code-csharp[System.AppContext.Class#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example4.cs#4)]
  [!code-vb[System.AppContext.Class#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example4.vb#4)]  
@@ -79,12 +79,12 @@
  [!code-csharp[System.AppContext.Class#6](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example6.cs#6)]
  [!code-vb[System.AppContext.Class#6](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example6.vb#6)]  
   
- Lorsque l’application est recompilée à exécuter par rapport à la nouvelle version de la bibliothèque, il signale désormais que la sous-chaîne « archæ » située à l’index 4 dans « L’archaeologist ».  
+ Lorsque l’application est recompilée à exécuter sur la nouvelle version de la bibliothèque, il signale désormais que la sous-chaîne « archæ » située à l’index 4 dans « L’archaeologist ».  
   
  [!code-csharp[System.AppContext.Class#7](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example6.cs#7)]
  [!code-vb[System.AppContext.Class#7](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example6.vb#7)]  
   
- Cette modification peut être évitée de s’arrêter les applications qui dépendent du comportement d’origine en définissant un [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) basculer. Dans ce cas, le commutateur est nommé `StringLibrary.DoNotUseCultureSensitiveComparison`. Sa valeur par défaut, `false`, indique que la bibliothèque doit effectuer sa comparaison dépendante de la culture de la version 2.0. `true` Indique que la bibliothèque doit effectuer la comparaison ordinale de la version 1.0.  Une légère modification du code précédent permet au consommateur de la bibliothèque définir le commutateur pour déterminer le type de comparaison, que la méthode effectue.  
+ Cette modification peut être empêchée de s’arrêter les applications qui reposent sur le comportement d’origine en définissant un [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) basculer. Dans ce cas, le commutateur est nommé `StringLibrary.DoNotUseCultureSensitiveComparison`. Sa valeur par défaut, `false`, indique que la bibliothèque doit effectuer sa comparaison dépendante de la culture de version 2.0. `true` Indique que la bibliothèque doit effectuer sa comparaison ordinale version 1.0.  Une légère modification du code précédent permet au consommateur de la bibliothèque définir le commutateur pour déterminer le type de comparaison, que la méthode effectue.  
   
  [!code-csharp[System.AppContext.Class#8](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/Example8.cs#8)]
  [!code-vb[System.AppContext.Class#8](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/Example8.vb#8)]  
@@ -101,15 +101,15 @@
   
 ```  
   
- Lorsque l’application est exécutée avec la présence du fichier de configuration, il génère la sortie suivante :  
+ Lorsque l’application est exécutée avec le fichier de configuration présents, il génère la sortie suivante :  
   
 ```  
 'archæ' not found in 'The archaeologist'  
 ```  
   
 <a name="ForConsumers"></a>   
-## <a name="appcontext-for-library-consumers"></a>AppContext pour les consommateurs de la bibliothèque  
- Si vous êtes le consommateur d’une bibliothèque, le <xref:System.AppContext> classe vous permet de tirer parti d’une bibliothèque ou le mécanisme de retrait de la méthode de bibliothèque des nouvelles fonctionnalités.   Les méthodes individuelles de la bibliothèque de classes que vous appelez définissent les commutateurs particuliers qui activent ou désactivent un nouveau comportement. La valeur du commutateur est une valeur booléenne. S’il s’agit `false`, qui est généralement la valeur par défaut, le nouveau comportement est activé ; si elle est `true`, le nouveau comportement est désactivé, et le membre se comporte comme il le faisait auparavant.  
+## <a name="appcontext-for-library-consumers"></a>AppContext pour les consommateurs de bibliothèque  
+ Si vous êtes le consommateur d’une bibliothèque, le <xref:System.AppContext> classe vous permet de tirer parti d’une bibliothèque ou mécanisme de désactivation de la méthode bibliothèque des nouvelles fonctionnalités.   Les méthodes individuelles de la bibliothèque de classes que vous appelez définissent les commutateurs particuliers qui activent ou désactivent un nouveau comportement. La valeur du commutateur est une valeur booléenne. S’il s’agit `false`, qui est généralement la valeur par défaut, le nouveau comportement est activé ; si elle est `true`, le nouveau comportement est désactivé, et le membre se comporte comme elle le faisait auparavant.  
   
  Vous pouvez définir la valeur d’un commutateur de trois manières :  
   
@@ -117,7 +117,7 @@
   
      Appel de la <xref:System.AppContext.SetSwitch%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> a une portée de l’application ; autrement dit, elle affecte uniquement l’application.  
   
--   En ajoutant un `<AppContextSwitchOverrides>` élément à la [ \<runtime >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) section de votre fichier app.config. Le commutateur possède un attribut unique, `value`, dont la valeur est une chaîne qui représente une paire clé/valeur contenant le nom du commutateur et sa valeur.  
+-   En ajoutant un `<AppContextSwitchOverrides>` élément à la [ \<runtime >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) section de votre fichier app.config. Le commutateur a un attribut unique, `value`, dont la valeur est une chaîne qui représente une paire clé/valeur contenant le nom du commutateur et sa valeur.  
   
      Pour définir plusieurs commutateurs, séparez la paire clé/valeur de chaque commutateur dans le [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) l’élément `value` attribut par un point-virgule. Dans ce cas, le `<AppContextSwitchOverrides>` élément a le format suivant :  
   
@@ -130,11 +130,11 @@
     > [!NOTE]    
     > Pour plus d’informations sur les commutateurs définis par le .NET Framework, consultez le [ \<AppContextSwitchOverrides > élément](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md).
 
--   En ajoutant une valeur de chaîne dont le nom est le nom du commutateur à le `HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext` clé dans le Registre. Sa valeur doit être la représentation sous forme de chaîne d’un <xref:System.Boolean> qui peut être analysée par le <xref:System.Boolean.Parse%2A?displayProperty=nameWithType> (méthode), autrement dit, il doit être le « True », « true », « False » ou « false ». Si l’exécution rencontre une autre valeur, il ignore le commutateur.  
+-   En ajoutant une valeur de chaîne dont le nom est le nom du commutateur à la `HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext` clé dans le Registre. Sa valeur doit être la représentation sous forme de chaîne d’un <xref:System.Boolean> qui peut être analysé par le <xref:System.Boolean.Parse%2A?displayProperty=nameWithType> méthode ; autrement dit, il doit être le « True », « true », « False » ou « false ». Si l’exécution rencontre une autre valeur, il ignore le commutateur.  
   
-     À l’aide du Registre pour définir un <xref:System.AppContext> switch a une portée de l’ordinateur ; autrement dit, il affecte toutes les applications en cours d’exécution sur l’ordinateur.  
+     À l’aide du Registre pour définir un <xref:System.AppContext> commutateur a la portée de l’ordinateur ; autrement dit, elle affecte toutes les applications en cours d’exécution sur l’ordinateur.  
   
- Si vous définissez le commutateur de plusieurs façons, l’ordre de priorité pour déterminer quel est le paramètre remplace les autres est :  
+ Si vous définissez le même commutateur dans plusieurs façons, l’ordre de priorité pour déterminer quel paramètre remplace les autres est :  
   
 1.  La définition par programmation.  
   
@@ -142,12 +142,12 @@
   
 3.  Le paramètre de Registre.  
   
- Voici une application simple qui transmet un URI de fichier pour le <xref:System.IO.Path.GetDirectoryName%2A?displayProperty=nameWithType> (méthode).  Lors de l’exécution sous le .NET Framework 4.6, elle lève une <xref:System.ArgumentException> car `file://` n’est plus un composant valide d’un chemin de fichier.  
+ Ce qui suit est une application simple qui transmet un URI de fichier pour le <xref:System.IO.Path.GetDirectoryName%2A?displayProperty=nameWithType> (méthode).  Lors de l’exécution sous le .NET Framework 4.6, elle lève une <xref:System.ArgumentException> car `file://` n’est plus une partie d’un chemin de fichier valide.  
   
  [!code-csharp[System.AppContext.Class#10](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/ForConsumers1.cs#10)]
  [!code-vb[System.AppContext.Class#10](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/ForConsumers1.vb#10)]  
   
- Pour restaurer le comportement précédent de la méthode et pour éviter l’exception, vous pouvez ajouter la `Switch.System.IO.UseLegacyPathHandling` basculer vers le fichier de configuration d’application pour l’exemple :  
+ Pour restaurer le comportement précédent de la méthode et empêcher l’exception, vous pouvez ajouter la `Switch.System.IO.UseLegacyPathHandling` basculer vers le fichier de configuration d’application pour l’exemple :  
   
 ```xml  
 <configuration>  
@@ -157,7 +157,7 @@
 </configuration>  
 ```  
 ## <a name="see-also"></a>Voir aussi
-[Commutateur de AppContext](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)
+[Commutateur appcontext la valeur](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md)
 
  ]]></format>
     </remarks>
@@ -200,7 +200,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il s’agit d’une par une propriété de domaine d’application. Sa valeur correspond à la <xref:System.AppDomain.BaseDirectory%2A?displayProperty=nameWithType> propriété du domaine d’application actuel.  
+ Il s’agit d’une par propriété de domaine d’application. Sa valeur correspond à la <xref:System.AppDomain.BaseDirectory%2A?displayProperty=nameWithType> propriété du domaine d’application actuel.  
   
  ]]></format>
         </remarks>
@@ -232,6 +232,11 @@
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netstandard-2.0">
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Object</ReturnType>
       </ReturnValue>
@@ -287,17 +292,17 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.AppContext> classe permet aux auteurs de bibliothèque fournir un mécanisme de retrait uniforme des nouvelles fonctionnalités pour les utilisateurs. Elle établit un contrat souple entre les composants pour la communication des demandes de désactivation. Cette fonctionnalité est particulièrement importante quand une modification est apportée aux fonctionnalités existantes. À l'inverse, il existe déjà une activation implicite des nouvelles fonctionnalités.  
+ Le <xref:System.AppContext> classe permet aux auteurs de bibliothèque de fournir un mécanisme d’annulations uniforme des nouvelles fonctionnalités pour les utilisateurs. Elle établit un contrat souple entre les composants pour la communication des demandes de désactivation. Cette fonctionnalité est particulièrement importante quand une modification est apportée aux fonctionnalités existantes. À l'inverse, il existe déjà une activation implicite des nouvelles fonctionnalités.  
   
- Le <xref:System.AppContext.SetSwitch%2A> méthode est appelée par une application (ou une bibliothèque) pour déclarer la valeur d’un commutateur (qui est toujours un <xref:System.Boolean> valeur) par une bibliothèque dépendante. Le commutateur a toujours implicitement `false`, qui fournit le nouveau comportement. Définissant le commutateur avec `true` active, ce qui fournit le comportement hérité. Définir explicitement le commutateur `false` fournit également le nouveau comportement. La bibliothèque dépendante peut vérifier ensuite la valeur du commutateur en appelant le <xref:System.AppContext.TryGetSwitch%2A> (méthode).  
+ Le <xref:System.AppContext.SetSwitch%2A> méthode est appelée par une application (ou une bibliothèque) pour déclarer la valeur d’un commutateur (qui est toujours un <xref:System.Boolean> valeur) qui définit une bibliothèque dépendante. Le commutateur est toujours implicitement `false`, qui fournit le nouveau comportement. Définissant le commutateur avec `true` lui permet, qui fournit le comportement hérité. Explicitement en définissant le commutateur avec `false` fournit également le nouveau comportement. La bibliothèque dépendante peut vérifier ensuite la valeur du commutateur en appelant le <xref:System.AppContext.TryGetSwitch%2A> (méthode).  
   
 > [!NOTE]
->  Il est préférable d’utiliser un format cohérent pour les noms de commutateur, car elles sont un contrat formel exposé par une bibliothèque. Voici les deux formats évidents.  
+>  Il est préférable d’utiliser un format cohérent pour les noms de commutateur, puisqu’il s’agit d’un contrat formel exposé par une bibliothèque. Voici les deux formats évidents.  
 >   
 >  -   *Commutateur*.*espace de noms*.*nom_commutateur*  
 > -   *Commutateur*.*bibliothèque*.*nom_commutateur*  
   
- Pour les applications en cours d’exécution sur le .NET Framework, en plus de définir la valeur d’un commutateur par programme, il peut également être définie :  
+ Pour les applications exécutées sur le .NET Framework, outre la définition de la valeur d’un commutateur par programme, elle peut également être définie :  
   
 -   En ajoutant le nom du commutateur et la valeur pour le [ \<AppContextSwitchOverrides >](~/docs/framework/configure-apps/file-schema/runtime/appcontextswitchoverrides-element.md) élément dans le [ \<runtime >](~/docs/framework/configure-apps/file-schema/runtime/runtime-element.md) section d’un fichier de configuration d’application. Par exemple, ce qui suit définit un commutateur nommé `Libraries.FPLibrary.UseExactFloatingPointComparison` dont la valeur est `False`.  
   
@@ -311,9 +316,9 @@
   
     ```  
   
--   En ajoutant une valeur de chaîne dont le nom est le nom du commutateur à le `HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext` clé dans le Registre. Sa valeur doit être la représentation sous forme de chaîne d’un <xref:System.Boolean> qui peut être analysée par le <xref:System.Boolean.Parse%2A?displayProperty=nameWithType> (méthode), autrement dit, il doit être le « True », « true », « False » ou « false ».  
+-   En ajoutant une valeur de chaîne dont le nom est le nom du commutateur à la `HKLM\SOFTWARE\Microsoft\.NETFramework\AppContext` clé dans le Registre. Sa valeur doit être la représentation sous forme de chaîne d’un <xref:System.Boolean> qui peut être analysé par le <xref:System.Boolean.Parse%2A?displayProperty=nameWithType> méthode ; autrement dit, il doit être le « True », « true », « False » ou « false ».  
   
- Si `switchName` existe déjà, sa valeur est remplacée par la `isEnabled` argument.  Autrement dit, l’appel le plus récent pour le <xref:System.AppContext.SetSwitch%2A> méthode remplace la valeur définie dans le Registre, dans un fichier de configuration d’application, ou par des appels précédents à la <xref:System.AppContext.SetSwitch%2A> (méthode).  
+ Si `switchName` existe déjà, sa valeur est remplacée par la `isEnabled` argument.  Autrement dit, le dernier appel à la <xref:System.AppContext.SetSwitch%2A> méthode remplace la valeur définie dans le Registre, dans un fichier de configuration d’application, ou par les appels précédents à la <xref:System.AppContext.SetSwitch%2A> (méthode).  
  
  ### <a name="appcontextsetswitch-and-net-core"></a>AppContext.SetSwitch et .NET Core
 
@@ -324,7 +329,7 @@
 |`System.Net.Http.useSocketsHttpHandler` |`true`|`false`|Détermine si la vue mise en réseau telles que les API <xref:System.Net.Http.HttpClient> utiliser <xref:System.Net.Http.SocketsHttpHandler?displayProperty=nameWithType> (`true`) ou <xref:System.Net.Http.HttpClientHandler?displayProperty=nameWithType> (`false`).|   
   
 ## Examples  
- La ligne de code suivante définit un commutateur nommé `Switch.AmazingLib.ThrowOnException` à `true`, ce qui permet un comportement hérité. La bibliothèque pouvez ensuite vérifier si un consommateur de bibliothèque a défini la valeur du commutateur en appelant le <xref:System.AppContext.TryGetSwitch%2A> (méthode).  
+ La ligne de code suivante définit un commutateur nommé `Switch.AmazingLib.ThrowOnException` à `true`, ce qui permet un comportement hérité. La bibliothèque peut ensuite vérifier si un consommateur de bibliothèque a défini la valeur du commutateur en appelant le <xref:System.AppContext.TryGetSwitch%2A> (méthode).  
   
  [!code-csharp[System.AppContext.Class#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/System.AppContext.Class/cs/TestValue1.cs#1)]
  [!code-vb[System.AppContext.Class#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/System.AppContext.Class/vb/TestValue1.vb#1)]  
@@ -364,6 +369,11 @@
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netstandard-2.0">
+          <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
@@ -374,7 +384,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le nom de la version du framework cible correspond à la valeur de la <xref:System.Runtime.Versioning.TargetFrameworkAttribute.FrameworkName%2A?displayProperty=nameWithType> propriété. Pour obtenir la liste des noms de version cible du .NET Framework, consultez le [ &lt;supportedRuntime&gt; élément](~/docs/framework/configure-apps/file-schema/startup/supportedruntime-element.md) élément.  
+ Le nom de la version du framework cible correspond à la valeur de la <xref:System.Runtime.Versioning.TargetFrameworkAttribute.FrameworkName%2A?displayProperty=nameWithType> propriété. Pour obtenir la liste des noms de framework cible pour le .NET Framework, consultez le [ &lt;supportedRuntime&gt; élément](~/docs/framework/configure-apps/file-schema/startup/supportedruntime-element.md) élément.  
   
  ]]></format>
         </remarks>
@@ -414,7 +424,7 @@
       </ReturnValue>
       <Parameters>
         <Parameter Name="switchName" Type="System.String" />
-        <Parameter Name="isEnabled" Type="System.Boolean&amp;" RefType="out" />
+        <Parameter Name="isEnabled" Type="System.Boolean" RefType="out" />
       </Parameters>
       <Docs>
         <param name="switchName">Nom du commutateur.</param>
@@ -426,11 +436,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.AppContext> classe permet aux auteurs de bibliothèque fournir un mécanisme de retrait uniforme des nouvelles fonctionnalités pour les utilisateurs. Elle établit un contrat souple entre les composants pour la communication des demandes de désactivation. Cette fonctionnalité est particulièrement importante quand une modification est apportée aux fonctionnalités existantes. À l'inverse, il existe déjà une activation implicite des nouvelles fonctionnalités.  
+ Le <xref:System.AppContext> classe permet aux auteurs de bibliothèque de fournir un mécanisme d’annulations uniforme des nouvelles fonctionnalités pour les utilisateurs. Elle établit un contrat souple entre les composants pour la communication des demandes de désactivation. Cette fonctionnalité est particulièrement importante quand une modification est apportée aux fonctionnalités existantes. À l'inverse, il existe déjà une activation implicite des nouvelles fonctionnalités.  
   
  Le common language runtime remplit automatiquement les commutateurs affectés à un <xref:System.AppContext> instance en lisant le Registre et le fichier de configuration de l’application. La valeur de ces commutateurs peut ensuite être remplacée et ajouté de nouveaux commutateurs, en appelant le <xref:System.AppContext.SetSwitch%2A> (méthode).  
   
- Une bibliothèque appelle la <xref:System.AppContext.TryGetSwitch%2A> méthode permettant de vérifier si ses consommateurs ont déclaré la valeur du commutateur et de puis agissent en conséquence.  Si le commutateur n’est pas défini, la nouvelle fonctionnalité est activée par défaut... Si le commutateur est défini et sa valeur est `false`, la nouvelle fonctionnalité est également activée. Si sa valeur est `true`, le comportement hérité est activé.  
+ Une bibliothèque appelle le <xref:System.AppContext.TryGetSwitch%2A> méthode pour vérifier si ses consommateurs ont déclaré la valeur du commutateur et ensuite agissent en conséquence.  Par défaut, si le commutateur n’est pas défini, la nouvelle fonctionnalité est activée... Si le commutateur est défini et sa valeur est `false`, la nouvelle fonctionnalité est également activée. Si sa valeur est `true`, le comportement hérité est activé.  
   
    
   
