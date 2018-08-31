@@ -1,11 +1,11 @@
 <Type Name="Exception" FullName="System.Exception">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="f5214b4f64f3fc28d07f7fbecb38f1960567e615" />
-    <Meta Name="ms.sourcegitcommit" Value="5a49536d99d2d0b54e4cb7280870903e043272df" />
+    <Meta Name="ms.openlocfilehash" Value="b6a46021d01fcc2206f04fdf15d59bcb4950f7f0" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="07/03/2018" />
-    <Meta Name="ms.locfileid" Value="37729226" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39917876" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Exception : System.Runtime.InteropServices._Exception, System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi serializable beforefieldinit Exception extends System.Object implements class System.Runtime.InteropServices._Exception, class System.Runtime.Serialization.ISerializable" />
@@ -45,14 +45,17 @@
     </Interface>
   </Interfaces>
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Runtime.InteropServices.ClassInterface(System.Runtime.InteropServices.ClassInterfaceType.None)</AttributeName>
     </Attribute>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Runtime.InteropServices.ComDefaultInterface(typeof(System.Runtime.InteropServices._Exception))</AttributeName>
     </Attribute>
-    <Attribute>
+    <Attribute FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
       <AttributeName>System.Runtime.InteropServices.ComVisible(true)</AttributeName>
+    </Attribute>
+    <Attribute FrameworkAlternate="netframework-1.1">
+      <AttributeName>System.Runtime.InteropServices.ClassInterface(System.Runtime.InteropServices.ClassInterfaceType.AutoDual)</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -238,19 +241,19 @@ Stack Trace:
   
 1.  Définissez une classe qui hérite de <xref:System.Exception>. Si nécessaire, définissez tous les membres uniques requis par votre classe pour fournir des informations supplémentaires relatives à l’exception. Par exemple, le <xref:System.ArgumentException> classe inclut un <xref:System.ArgumentException.ParamName%2A> propriété qui spécifie le nom du paramètre dont l’argument a provoqué l’exception, et le <xref:System.Text.RegularExpressions.RegexMatchTimeoutException> propriété inclut un <xref:System.Text.RegularExpressions.RegexMatchTimeoutException.MatchTimeout%2A> propriété qui indique l’intervalle de délai d’attente.  
   
-2.  Si la méthode qui lève cette exception n’est pas disponible et la trace de pile n’est pas une référence null ( en Visual Basic),  Obtient la méthode à partir de la trace de pile. Le <xref:System.Exception> propriété ne peut pas signaler correctement le nom de la méthode dans laquelle une exception a été levée si le Gestionnaire d’exceptions gère une exception sur les limites du domaine d’application.  
+2.  Si nécessaire, substituer des membres hérités dont vous souhaitez modifier ou de modifier les fonctionnalités. Notez qu’existant de la plupart des classes dérivées de <xref:System.Exception> ne remplacent pas le comportement des membres hérités.  
   
-3.  Le code suivant exemple lève une  intercepte et affiche la méthode d’origine à l’aide du  propriété. Retourne une représentation de l’exception actuelle est destinée à être compréhensible par les utilisateurs. Lorsque l’exception contient des données de la culture, la représentation sous forme de chaîne retournée par <xref:System.SerializableAttribute> est requise pour prendre en compte la culture système actuelle.  
+3.  Déterminer si votre objet d’exception personnalisé est sérialisable. Sérialisation vous permet d’enregistrer des informations sur l’exception et autorise les informations sur les exceptions à être partagés entre un serveur et un proxy client dans un contexte de communication à distance. Pour rendre l’objet exception sérialisable, marquez-le avec le <xref:System.SerializableAttribute> attribut.  
   
-4.  Bien qu’il n’existe aucune configuration requise exacte pour le format de la chaîne retournée, il doit tenter de refléter la valeur de l’objet en tant que perçue par l’utilisateur. L’implémentation par défaut de  Obtient le nom de la classe qui a levé l’exception actuelle, le message, le résultat de l’appel  sur l’exception interne et le résultat de l’appel .  
+4.  Définir les constructeurs de votre classe d’exception. En règle générale, les classes d’exceptions ont un ou plusieurs des constructeurs suivants :  
   
-    -   <xref:System.Exception.%23ctor>Si un de ces membres est <xref:System.Exception.%23ctor>, sa valeur n’est pas incluse dans la chaîne retournée.  
+    -   <xref:System.Exception.%23ctor>, qui utilise les valeurs par défaut pour initialiser les propriétés d’un nouvel objet d’exception.  
   
-    -   <xref:System.Exception.%23ctor%28System.String%29>S’il n’existe aucun message d’erreur ou s’il s’agit d’une chaîne vide (" »), aucun message d’erreur est retournée.  
+    -   <xref:System.Exception.%23ctor%28System.String%29>, qui initialise un nouvel objet d’exception avec un message d’erreur spécifié.  
   
-    -   <xref:System.Exception.%23ctor%28System.String%2CSystem.Exception%29>Le nom de l’exception interne et la trace de pile sont retournés uniquement s’ils ne sont pas <xref:System.Exception.%23ctor%28System.String%2CSystem.Exception%29>.  
+    -   <xref:System.Exception.%23ctor%28System.String%2CSystem.Exception%29>, qui initialise un nouvel objet d’exception avec une erreur spécifiée message et l’exception interne.  
   
-    -   <xref:System.Exception.%23ctor%28System.Runtime.Serialization.SerializationInfo%2CSystem.Runtime.Serialization.StreamingContext%29>L’exemple suivant provoque une exception et affiche le résultat de l’appel <xref:System.Exception.%23ctor%28System.Runtime.Serialization.SerializationInfo%2CSystem.Runtime.Serialization.StreamingContext%29> sur cette exception. Notez que le  méthode est appelée implicitement lorsque l’instance de classe d’Exception s’affiche dans la liste d’arguments de la  (méthode).  
+    -   <xref:System.Exception.%23ctor%28System.Runtime.Serialization.SerializationInfo%2CSystem.Runtime.Serialization.StreamingContext%29>, qui est un `protected` constructeur qui initialise un nouvel objet d’exception à partir des données sérialisées. Vous devez implémenter ce constructeur si vous avez choisi de rendre votre objet d’exception sérialisable.  
   
  L’exemple suivant illustre l’utilisation d’une classe d’exception personnalisée. Il définit un `NotPrimeException` exception levée lorsqu’un client tente de récupérer une séquence de nombres premiers en spécifiant un numéro de départ n’est pas privilégiée. L’exception définit une nouvelle propriété, `NonPrime`, qui retourne le non-nombre premier l’ayant provoqué l’exception. Outre l’implémentation d’un constructeur sans paramètre protégé et un constructeur avec <xref:System.Runtime.Serialization.SerializationInfo> et <xref:System.Runtime.Serialization.StreamingContext> paramètres pour la sérialisation, le `NotPrimeException` classe définit trois constructeurs supplémentaires pour prendre en charge le `NonPrime` propriété.  Chaque constructeur appelle un constructeur de classe de base en plus de la préservation de la valeur du nombre premier. Le `NotPrimeException` est également marquée avec le <xref:System.SerializableAttribute> attribut.  
   
@@ -437,7 +440,7 @@ Stack Trace:
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -564,7 +567,7 @@ Stack Trace:
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -705,7 +708,7 @@ Stack Trace:
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>System.Security.SecurityCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -998,6 +1001,11 @@ Stack Trace:
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
@@ -1126,6 +1134,11 @@ Stack Trace:
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
@@ -1183,6 +1196,11 @@ Stack Trace:
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
@@ -1246,7 +1264,7 @@ Stack Trace:
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0">
           <AttributeName>get: System.Security.SecuritySafeCritical</AttributeName>
         </Attribute>
       </Attributes>
@@ -1310,6 +1328,11 @@ Stack Trace:
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Security.SecuritySafeCritical</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
