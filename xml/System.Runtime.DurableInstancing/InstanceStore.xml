@@ -1,11 +1,11 @@
 <Type Name="InstanceStore" FullName="System.Runtime.DurableInstancing.InstanceStore">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="d14fb4c0552691179d47eb6e214410054e826b0f" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="8972e8c961043629bb8c0c72a45e02d752733a77" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36540124" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39993461" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class InstanceStore" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit InstanceStore extends System.Object" />
@@ -32,7 +32,7 @@
  Les fournisseurs de persistance peuvent appeler InstanceHandle.Free sur les handles passés à TryCommand, même au terme de l'exécution de la commande. Toutefois, les fournisseurs de persistance ne doivent pas contenir de références fortes aux objets InstanceHandle ou InstanceOwner, car ceci peut empêcher la récupération d'InstanceStore par le garbage collector.  
   
 > [!WARNING]
->  Impossible de modifier les définitions de flux de travail des workflows persistants. Si une définition de workflow est modifiée une fois qu’il est rendu persistant, l’exécution du workflow se bloque lorsque le workflow est rechargé.  
+>  Définitions de workflow pour les workflows persistants ne sont pas modifiables. Si une définition de workflow est modifiée après que qu’il est conservé, l’exécution du workflow se bloque lorsque le workflow est rechargé.  
   
  ]]></format>
     </remarks>
@@ -289,6 +289,14 @@
         <AssemblyName>System.Runtime.DurableInstancing</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>set: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Runtime.DurableInstancing.InstanceOwner</ReturnType>
       </ReturnValue>
@@ -434,9 +442,9 @@
  Un hôte appelle la méthode <xref:System.Runtime.DurableInstancing.InstanceStore.Execute%2A> pour exécuter une commande de persistance sur un handle d'instance, que l'hôte obtient en appelant la méthode <xref:System.Runtime.DurableInstancing.InstanceStore.CreateInstanceHandle%2A>. Le handle d'instance peut être lié à des entités qui représentent le contexte et l' objet de la commande, notamment une instance, un propriétaire d'instance ou un verrou d'instance.  Une seule commande à la fois peut être émise sur un handle d'instance.  
   
 > [!WARNING]
->  Si cette méthode est exécutée avec un <xref:System.Activities.DurableInstancing.CreateWorkflowOwnerCommand>, il créera un <xref:System.Runtime.DurableInstancing.InstanceOwner> et la lier à l’instance. Cela signifie qu’aucun autre processus ne pourrez pas accéder à ce flux de travail ; Si le processus se termine, le flux de travail ne peut pas être récupérée ou exécutée. Si ce un flux de travail est exécutée à nouveau, un <xref:System.Runtime.DurableInstancing.InstanceLockedException> sera levée.  
+>  Si cette méthode est exécutée avec un <xref:System.Activities.DurableInstancing.CreateWorkflowOwnerCommand>, il créera un <xref:System.Runtime.DurableInstancing.InstanceOwner> et liez-le à l’instance. Cela signifie qu’aucun autre processus ne sera en mesure d’accéder à ce flux de travail ; Si le processus se termine, le flux de travail ne peut pas être récupérée ou exécutée. Si un tel flux de travail est exécutée à nouveau, un <xref:System.Runtime.DurableInstancing.InstanceLockedException> sera levée.  
 >   
->  Si <xref:System.Activities.DurableInstancing.CreateWorkflowOwnerCommand> est ne pas utilisé, le magasin d’instances créera un fichier temporaire <xref:System.Runtime.DurableInstancing.InstanceOwner> qui sera supprimé à la fin du processus. Toutefois, si le processus se termine avant le point de persistance finale du flux de travail, cette exception est levée, sauf si la période de temps spécifiée dans le **HostLockRenewalPeriod** paramètre a expiré.  
+>  Si <xref:System.Activities.DurableInstancing.CreateWorkflowOwnerCommand> est ne pas utilisé, le magasin d’instances créera une table temporaire <xref:System.Runtime.DurableInstancing.InstanceOwner> qui sera supprimé à la fin du processus. Toutefois, si le processus se termine avant le point de persistance finale du flux de travail, cette exception est levée, sauf si la période de temps spécifiée dans le **HostLockRenewalPeriod** paramètre a expiré.  
   
  ]]></format>
         </remarks>
