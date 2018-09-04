@@ -1,10 +1,10 @@
 <Type Name="WSFederationAuthenticationModule" FullName="System.IdentityModel.Services.WSFederationAuthenticationModule">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="4946a226efb8c22b2cb54ac00bf7e2cedea35d6e" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36558374" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class WSFederationAuthenticationModule : System.IdentityModel.Services.HttpModuleBase" />
@@ -23,73 +23,75 @@
   <Interfaces />
   <Docs>
     <summary>
-      <see cref="T:System.IdentityModel.Services.WSFederationAuthenticationModule" /> est un module HTTP utilisé pour sécuriser une application ASP.NET en appliquant des paramètres d’authentification fédérée aux requêtes entrantes. <see cref="T:System.IdentityModel.Services.WSFederationAuthenticationModule" /> est le module principal prêt à l’emploi proposé par WIF pour gérer l’accès aux identités basées sur les revendications dans les applications ASP.NET.  <see cref="T:System.IdentityModel.Services.WSFederationAuthenticationModule" /> déclenche plusieurs événements, ce qui permet aux développeurs ASP.NET de modifier le comportement par défaut et de contrôler les détails relatifs à l'authentification et au traitement des revendications. La fonctionnalité <see cref="T:System.IdentityModel.Services.WSFederationAuthenticationModule" /> est divisée en méthodes spécifiques aux tâches.</summary>
+      <see cref="T:System.IdentityModel.Services.WSFederationAuthenticationModule" /> est un module HTTP utilisé pour sécuriser une application ASP.NET en appliquant des paramètres d’authentification fédérée aux requêtes entrantes. <see cref="T:System.IdentityModel.Services.WSFederationAuthenticationModule" /> est le module principal prêt à l’emploi proposé par WIF pour gérer l’accès aux identités basées sur les revendications dans les applications ASP.NET.  
+  
+<see cref="T:System.IdentityModel.Services.WSFederationAuthenticationModule" /> déclenche plusieurs événements, ce qui permet aux développeurs ASP.NET de modifier le comportement par défaut et de contrôler les détails relatifs à l'authentification et au traitement des revendications. La fonctionnalité <see cref="T:System.IdentityModel.Services.WSFederationAuthenticationModule" /> est divisée en méthodes spécifiques aux tâches.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La <xref:System.IdentityModel.Services.WSFederationAuthenticationModule> classe implémente un module HTTP connu en tant que le Module d’authentification WS-Federation (WSFAM). Le WSFAM est mis en œuvre la zone par Windows Identity Foundation (WIF). Le WSFAM est ajouté au pipeline ASP.NET en créant une entrée dans le fichier web.config. Elle est dérivée de <xref:System.IdentityModel.Services.HttpModuleBase>, qui implémente <xref:System.Web.IHttpModule>. Il inscrit avec le runtime ASP.NET pour écouter le <xref:System.Web.HttpApplication.EndRequest> et <xref:System.Web.HttpApplication.AuthenticateRequest> les événements. À l’écoute de le <xref:System.Web.HttpApplication.EndRequest> événement, permet la WSFAM de rediriger les clients vers un service de jeton de sécurité (STS) pour obtenir un jeton de sécurité en cas d’échec de l’autorisation sur une ressource demandée. À l’écoute de le <xref:System.Web.HttpApplication.AuthenticateRequest> événement permet le WSFAM surveiller les requêtes HTTP pour une réponse de STS qui contient le jeton demandé. Lorsque ce jeton est présent et valide, il crée une instance de <xref:System.Security.Claims.ClaimsPrincipal> pour l’utilisateur authentifié avec les revendications qui sont présentes dans le jeton.  
+ Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule> classe implémente un module HTTP connu en tant que le Module d’authentification WS-Federation (WSFAM). Le WSFAM est implémenté prêt à l’emploi par Windows Identity Foundation (WIF). Le WSFAM est ajouté au pipeline ASP.NET en créant une entrée dans le fichier web.config. Il dérive <xref:System.IdentityModel.Services.HttpModuleBase>, qui implémente <xref:System.Web.IHttpModule>. Il inscrit avec le runtime ASP.NET pour écouter le <xref:System.Web.HttpApplication.EndRequest> et <xref:System.Web.HttpApplication.AuthenticateRequest> événements. À l’écoute pour le <xref:System.Web.HttpApplication.EndRequest> événement, permet le WSFAM rediriger les clients vers un service de jeton de sécurité (STS) pour obtenir un jeton de sécurité en cas d’échec de l’autorisation sur une ressource demandée. À l’écoute pour le <xref:System.Web.HttpApplication.AuthenticateRequest> événement permet le WSFAM surveiller les requêtes HTTP pour une réponse provenant du STS qui contient le jeton demandé. Lorsque ce jeton est présent et valide, il crée une instance de <xref:System.Security.Claims.ClaimsPrincipal> pour l’utilisateur authentifié à l’aide de revendications qui sont présentes dans le jeton.  
   
- Lorsque vous utilisez la WSFAM, la gestion de session est fournie par un module d’authentification de session (SAM), qui est une instance de la <xref:System.IdentityModel.Services.SessionAuthenticationModule> classe ou une classe dérivée à partir de celui-ci. Le SAM est également ajouté au pipeline ASP.NET dans le fichier de configuration. SAM surveille les demandes pour les cookies d’authentification (session). Lorsque ces cookies sont présentes et correctes, le module extrait le <xref:System.Security.Claims.ClaimsPrincipal> pour l’utilisateur authentifié à partir de la <xref:System.IdentityModel.Tokens.SessionSecurityToken> et définit les <xref:System.Web.HttpContext.User%2A?displayProperty=nameWithType> propriété et le principal thread <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> propriétés.  
+ Lorsque vous utilisez le WSFAM, gestion des sessions est fournie par un module d’authentification de session (SAM), qui est une instance de la <xref:System.IdentityModel.Services.SessionAuthenticationModule> classe ou une classe dérivée de celui-ci. Le module SAM est également ajouté au pipeline ASP.NET dans le fichier de configuration. Le module SAM surveille les demandes pour les cookies d’authentification (session). Lorsque ces cookies sont présents et valides, le module extrait le <xref:System.Security.Claims.ClaimsPrincipal> pour l’utilisateur authentifié à partir de la <xref:System.IdentityModel.Tokens.SessionSecurityToken> et définit le <xref:System.Web.HttpContext.User%2A?displayProperty=nameWithType> propriété et le principal thread <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> propriétés.  
   
  Le WSFAM fournit :  
   
--   La possibilité pour une application ASP.NET pour sous-traiter l’authentification à un service de jeton de sécurité (STS) à l’aide du protocole WS-Federation. Identité peut être fédéré entre un ou plusieurs domaines d’identité et impliquer plusieurs serveurs STS.  
+-   La possibilité pour une application ASP.NET externaliser l’authentification à un service de jeton de sécurité (STS) à l’aide du protocole WS-Federation. Identité peut être fédéré entre un ou plusieurs domaines d’identité et impliquent plusieurs services STS.  
   
--   Identités basée sur les revendications pour les applications ASP.NET. Lors de l’authentification, le WSFAM génère un principal à partir des revendications dans le jeton de sécurité envoyé par le STS et définit ce principal de revendications en tant que le principal thread. Vous pouvez ensuite utiliser cette entité de sécurité pour effectuer d’autres décisions logique sur l’utilisateur, qu'elle représente, présentation et autorisation dans votre code.  
+-   Identité basée sur les revendications pour les applications ASP.NET. Lors de l’authentification, le WSFAM génère un principal à partir des revendications du jeton de sécurité envoyé par le STS et définit ce principal de revendications tant que principal du thread. Vous pouvez ensuite utiliser cette entité de sécurité à effectuer d’autres d’autorisation, la présentation et les décisions de logique relatives à l’utilisateur qu’il représente dans votre code.  
   
- Le WSFAM expose plusieurs propriétés qui fournissent par défaut des paramètres de message à utiliser sur les demandes de connexion et de déconnexion WS-Federation. Ces propriétés sont généralement initialisées à partir du [ &lt;wsFederation&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/wsfederation.md) élément dans un fichier de configuration. La plus importante de ces propriétés est :  
+ Le WSFAM expose plusieurs propriétés qui fournissent par défaut des paramètres de message à utiliser sur les demandes de connexion et de déconnexion WS-Federation. Ces propriétés sont en général initialisées à partir de la [ &lt;wsFederation&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/wsfederation.md) élément dans un fichier de configuration. La plus importante de ces propriétés est :  
   
--   Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété qui spécifie l’adresse du service de jeton de sécurité (STS) auquel vous souhaitez envoyer des demandes de connexion et déconnexion WS-Federation.  
+-   Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété qui spécifie l’adresse du service de jeton de sécurité (STS) auxquelles envoyer les demandes de connexion et de déconnexion WS-Federation.  
   
--   Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm%2A> propriété qui spécifie le paramètre wtrealm à utiliser dans les demandes de connexion WS-Federation. Le paramètre wtrealm identifie le domaine de la sécurité de l’application de confiance de partie de confiance à STS.  
+-   Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm%2A> propriété qui spécifie le paramètre wtrealm à utiliser dans les demandes de connexion WS-Federation. Le paramètre wtrealm identifie le domaine de la sécurité de la partie de confiance (RP) application auprès du STS.  
   
  Paramètres de message de connexion peuvent également être modifiés sur une base par demande en fournissant un délégué de gestionnaire d’événements pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement.  
   
- Deux propriétés contrôlent le comportement du module. Ces deux propriétés sont généralement initialisés à partir du `<wsFederation>` élément de configuration.  
+ Deux propriétés contrôlent le comportement du module. Ces deux propriétés sont également en général initialisés à partir de la `<wsFederation>` élément de configuration.  
   
--   Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.PassiveRedirectEnabled%2A> propriété spécifie si le module doit effectuer les redirections passives à destination du STS pour l’authentification.  
+-   Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.PassiveRedirectEnabled%2A> propriété spécifie si le module doit effectuer passive effectue une redirection vers STS pour l’authentification.  
   
--   Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.PersistentCookiesOnPassiveRedirects%2A> propriété spécifie si les sessions doivent être persistantes. Si cette propriété a la valeur true, le SAM est utilisé pour écrire un cookie de session sur le client. Pour les demandes suivantes à partir du client, le SAM fournit l’authentification en utilisant le jeton rendues persistantes dans le cookie de session.  
+-   Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.PersistentCookiesOnPassiveRedirects%2A> propriété spécifie si les sessions doivent être persistantes. Si cette propriété a la valeur true, le module SAM est utilisé pour écrire un cookie de session sur le client. Pour les demandes suivantes à partir du client, le module SAM fournit l’authentification en utilisant le jeton est conservé dans le cookie de session.  
   
- Le WSFAM déclenche plusieurs événements pendant la connexion et déconnexion, qui permettent aux développeurs d’ASP.NET modifier le comportement par défaut du module et de contrôler les détails de la manière dont le traitement des revendications et l’authentification avoir lieu.  
+ Le WSFAM déclenche plusieurs événements pendant la connexion et déconnexion, permettent aux développeurs ASP.NET modifier le comportement par défaut du module et de contrôler les détails de la façon dont l’authentification et traitement des revendications ont lieu.  
   
- Les événements suivants sont déclenchés avant que la demande de connexion WS-Federation est envoyée vers STS :  
+ Les événements suivants sont déclenchés avant la demande de connexion WS-Federation est envoyée à un service STS :  
   
 -   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.AuthorizationFailed>: Déclenché lors de la redirection passive est activée et l’autorisation échoue sur une ressource demandée.  
   
--   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider>: Déclenché juste avant le WSFAM envoie la demande de connexion WS-Federation vers STS. Vous pouvez utiliser cet événement pour modifier les paramètres dans la demande de connexion.  
+-   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider>: Déclenché juste avant que le WSFAM envoie la demande de connexion WS-Federation au STS. Vous pouvez utiliser cet événement pour modifier les paramètres dans la demande de connexion.  
   
- Les événements suivants sont déclenchés lorsqu’une réponse de connexion (émise le jeton de sécurité) est reçue de STS :  
+ Les événements suivants sont déclenchés lorsqu’une réponse de connexion (émise le jeton de sécurité) est reçue à partir de STS :  
   
 -   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenReceived>: Déclenché juste après que le jeton de sécurité envoyé par le STS est lu à partir de la réponse.  
   
--   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenValidated>: Déclenché juste après que le jeton a été validé. Vous pouvez utiliser cet événement pour filtrer, transformer ou ajouter des revendications au principal de revendications (<xref:System.Security.Claims.ClaimsPrincipal>) créé à partir du jeton de sécurité.  
+-   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenValidated>: Déclenché juste après que le jeton a été validé. Vous pouvez utiliser cet événement à filtrer, transformer ou ajouter des revendications à l’entité de revendications (<xref:System.Security.Claims.ClaimsPrincipal>) créé à partir du jeton de sécurité.  
   
--   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SessionSecurityTokenCreated>: Déclenché juste avant le jeton de session (<xref:System.IdentityModel.Tokens.SessionSecurityToken>) créé à partir de revendications principal est utilisé pour définir le thread principal et de l’utilisateur actuel et est écrit dans le cookie de session. Vous donne la possibilité de modifier le jeton de session ou d’activer ou de désactiver l’écriture de cookie de session.  
+-   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SessionSecurityTokenCreated>: Déclenché juste avant le jeton de session (<xref:System.IdentityModel.Tokens.SessionSecurityToken>) créé à partir de revendications principal est utilisé pour définir le thread principal et de l’utilisateur actuel et est écrit dans le cookie de session. Vous donne la possibilité de modifier le jeton de session ou des activer ou les désactiver écrire le cookie de session.  
   
--   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignedIn>: Déclenché à la fin de l’authentification juste après le thread principal et en cours de l’utilisateur ont été définis.  
+-   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignedIn>: Déclenché à la fin de l’authentification juste après que l’utilisateur du thread principal et en cours ont été définies.  
   
 -   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignInError>: Déclenché si une exception se produit pendant la connexion. Vous pouvez annuler la demande et empêcher l’exception ne soit retournée à l’appelant.  
   
- Lorsque vous vous connectez à une session ou lors du traitement d’une demande de nettoyage déconnexion WS-Federation (wsignoutcleanup1.0), les événements suivants sont déclenchés :  
+ Lorsque vous vous connectez en dehors d’une session ou lors du traitement d’une demande de nettoyage déconnexion WS-Federation (wsignoutcleanup1.0), les événements suivants sont déclenchés :  
   
 -   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SigningOut>: Déclenché juste avant que la session est supprimée pour vous permettre d’effectuer tout nettoyage peut-être dépendre de la session ou d’annuler la déconnexion.  
   
 -   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignedOut>: Déclenché juste après que la session a été supprimée.  
   
--   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOutError>: Déclenché si une exception se produit lors de la déconnexion. Vous pouvez annuler la déconnexion et empêcher l’exception ne soit retournée à l’appelant.  
+-   <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOutError>: Déclenché si une exception se produit pendant la fermeture. Vous pouvez annuler la déconnexion et empêcher l’exception ne soit retournée à l’appelant.  
   
 > [!NOTE]
->  Les événements de déconnexion ne sont pas déclenchés lors de la déconnexion à STS en appelant le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
+>  Les événements de déconnexion ne sont pas déclenchés lors de la déconnexion au niveau du STS en appelant le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
   
- Il existe deux façons de se connecter à un STS à l’aide de WSFAM. Le premier consiste à activer les redirections passives via le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.PassiveRedirectEnabled%2A> propriété. Dans ce cas, lorsque l’autorisation échoue sur une ressource demandée, plutôt que de retourner un `401:Access Denied` réponse au client, WSFAM génère un message de demande de connexion WS-Federation à partir de ses propriétés et redirige le client vers le STS pour récupérer un jeton de sécurité. La seconde consiste à rediriger explicitement le client auprès du STS en appelant le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignIn%2A> méthode à partir d’une page web ou d’un contrôle personnalisé dans votre application. Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignIn%2A> méthode utilise également les propriétés de la WSFAM pour construire la demande de connexion.  
+ Il existe deux façons de la connexion à un STS à l’aide de WSFAM. La première consiste à l’activation de redirections passives via le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.PassiveRedirectEnabled%2A> propriété. Dans ce cas, lorsque l’autorisation a échoué sur une ressource demandée, au lieu de retourner un `401:Access Denied` réponse au client, WSFAM génère un message de demande de connexion WS-Federation à partir de ses propriétés et redirige le client vers le service STS pour récupérer un jeton de sécurité. La deuxième consiste à rediriger explicitement le client auprès du STS en appelant le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignIn%2A> méthode à partir d’une page web ou d’un contrôle personnalisé dans votre application. Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignIn%2A> méthode utilise également les propriétés du WSFAM pour construire la demande de connexion.  
   
- Un des surchargées <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%2A> méthodes peuvent être utilisées pour vous déconnecter de la session. Cette opération supprime le cookie de session sur le client. Il n’envoie pas d’un message de déconnexion WS-Federation (« wsignout1.0 ») à destination du STS. À la déconnexion à STS, vous devez utiliser le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
+ Un des surchargées <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%2A> méthodes peuvent être utilisées pour vous déconnecter de la session. Cette opération supprime le cookie de session sur le client. Il n’envoie pas d’un message de déconnexion WS-Federation (« wsignout1.0 ») à un service STS. De déconnexion au niveau du STS, vous devez utiliser le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
   
- Le WSFAM gère les demandes de nettoyage déconnexion WS-Federation (« wsignoutcleanup1.0 »), en supprimant sa session avec le client. Si le paramètre wreply dans le message de nettoyage de déconnexion n’est pas défini, la WSFAM retourne une image d’une coche verte auprès du STS qui a envoyé le message. Cette fonctionnalité peut être utilisée par un STS comme un accusé de réception que la partie de confiance a terminé sa déconnexion.  
+ Le WSFAM gère les demandes de nettoyage déconnexion WS-Federation (« wsignoutcleanup1.0 »), en supprimant sa session avec le client. Si le paramètre wreply dans le message de nettoyage de déconnexion n’est pas défini, le WSFAM retourne une image d’une coche verte pour le service STS qui a envoyé le message. Cette fonctionnalité peut être utilisée par un STS comme un accusé de réception que le fournisseur de ressources a terminé sa déconnexion.  
   
- Le WSFAM expose ses fonctionnalités--par exemple, son pipeline de traitement de demande--via plusieurs méthodes spécifiques à une tâche. Vous pouvez substituer ces méthodes dans les classes dérivées de modifier le comportement de la WSFAM.  
+ Le WSFAM expose ses fonctionnalités--par exemple, son pipeline de traitement de demande--via plusieurs méthodes spécifiques à une tâche. Vous pouvez substituer ces méthodes dans les classes dérivées de modifier le comportement du WSFAM.  
   
  Pour être utilisé, le module doit être ajouté au pipeline, comme dans le code XML suivant :  
   
@@ -103,7 +105,7 @@
 </configuration>  
 ```  
   
- Une fois configuré, le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule> déclenche des événements à différents stades du traitement d’une demande HTTP. Les développeurs ASP.NET peuvent gérer ces événements dans le fichier global.asax.  
+ Une fois configuré, le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule> déclenche des événements à différents stades de traitement d’une requête HTTP. Les développeurs ASP.NET peuvent gérer ces événements dans le fichier global.asax.  
   
    
   
@@ -153,9 +155,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le paramètre wauth est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.AuthenticationType%2A> est définie sur `null` ou une chaîne vide, le paramètre wauth n’est pas incluse dans la demande de connexion.  
+ Le paramètre wauth est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.AuthenticationType%2A> propriété est définie sur `null` ou une chaîne vide, le paramètre wauth n’est pas incluse dans la demande de connexion.  
   
- Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service d’émission de jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
+ Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service du jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. Le service STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
   
  ]]></format>
         </remarks>
@@ -182,14 +184,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.AuthorizationFailed> événement est déclenché lorsque l’autorisation a échoué pour une requête HTTP. Il est déclenché à partir du <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnEndRequest%2A> délégué de gestionnaire d’événements via un appel à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthorizationFailed%2A> (méthode).  
+ Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.AuthorizationFailed> événement est déclenché lorsque l’autorisation a échoué pour une requête HTTP. Il est déclenché depuis le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnEndRequest%2A> délégué de gestionnaire d’événements via un appel à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthorizationFailed%2A> (méthode).  
   
  Vous pouvez définir le <xref:System.IdentityModel.Services.AuthorizationFailedEventArgs.RedirectToIdentityProvider%2A?displayProperty=nameWithType> propriété pour contrôler si la requête est redirigée vers le fournisseur d’identité. Le framework initialise cette propriété à `false` si l’utilisateur a déjà été authentifié. Dans ce cas, définissez la propriété à `true` peut provoquer une boucle circulaire avec le STS.  
   
 > [!NOTE]
->  Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement peut être utilisé pour modifier l’URL ou d’annuler la redirection.  
+>  Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement peut être utilisé pour modifier l’URL ou annuler la redirection.  
   
- Pour gérer l’événement dans une application ASP.NET, créez une méthode nommée `WSFederationAuthentication_AuthorizationFailed` dans le fichier global.asax.  
+ Pour gérer cet événement dans une application ASP.NET, créez une méthode nommée `WSFederationAuthentication_AuthorizationFailed` dans le fichier global.asax.  
   
    
   
@@ -211,7 +213,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un message de réponse de connexion est envoyé à la partie de confiance (RP) par un service de jeton de sécurité (STS) en réponse à un message de demande de connexion.  
+ Un message de réponse de connexion est envoyé à la partie de confiance (RP) par un service du jeton de sécurité (STS) en réponse à un message de demande de connexion.  
   
  ]]></format>
         </remarks>
@@ -246,7 +248,7 @@
 ## Remarks  
  Cette méthode est appelée depuis le pipeline de traitement de demande pour déterminer si la requête HTTP entrante est une publication de formulaire qui contient un message de réponse de connexion WS-Federation.  
   
- Il appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse%28System.Web.HttpRequestBase%2CSystem.Boolean%29?displayProperty=nameWithType> surcharger avec la `onPage` jeu de paramètres `false` pour indiquer que l’appel ne provenait pas lors du traitement d’une page.  
+ Il appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse%28System.Web.HttpRequestBase%2CSystem.Boolean%29?displayProperty=nameWithType> surcharge avec le `onPage` jeu de paramètres `false` pour indiquer que l’appel n’a pas été généré lors du traitement d’une page.  
   
  ]]></format>
         </remarks>
@@ -286,15 +288,15 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est appelée depuis le pipeline de traitement de la demande via le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse%28System.Web.HttpRequestBase%29?displayProperty=nameWithType> surcharge pour déterminer si la requête HTTP entrante est une publication qui contient un message de réponse de connexion WS-Federation de formulaire.  
+ Cette méthode est appelée depuis le pipeline de traitement de la requête via le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse%28System.Web.HttpRequestBase%29?displayProperty=nameWithType> surcharge pour déterminer si la requête HTTP entrante est un formulaire POST qui contient un message de réponse de connexion WS-Federation.  
   
  L’implémentation par défaut effectue les opérations suivantes :  
   
--   Si la demande entrante est une publication de formulaire, elle appelle la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.IsSignInResponse%2A> méthode pour déterminer si la publication de formulaire contient une réponse de connexion.  
+-   Si la demande entrante est un POST de formulaire, il appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.IsSignInResponse%2A> méthode pour déterminer si le POST de formulaire contient une réponse de connexion.  
   
--   Si la demande entrante n’est pas une publication de formulaire, et que la demande contient une demande de nettoyage déconnexion WS-Federation (le paramètre wa est « wsignoutcleanup1.0 »), déconnexion nettoyage est effectuée. Dans ce cas, le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.Boolean%29?displayProperty=nameWithType> méthode est appelée (avec le paramètre défini sur `true` pour indiquer un nettoyage déconnexion) pour vous déconnecter de la session. Cela entraîne également les événements de déconnexion à signaler.  
+-   Si la demande entrante n’est pas un POST de formulaire, et que la demande contient une demande de nettoyage déconnexion WS-Federation (le paramètre wa a « wsignoutcleanup1.0 »), le nettoyage déconnexion est effectué. Dans ce cas, le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.Boolean%29?displayProperty=nameWithType> méthode est appelée (avec le paramètre défini sur `true` pour indiquer un nettoyage déconnexion) pour vous déconnecter la session. Cela entraîne également les déclenchement d’événements déconnexion.  
   
-     Ensuite, si la demande de nettoyage de déconnexion contient un paramètre de wreply, le client est redirigé vers l’URL retournée par la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSignOutRedirectUrl%2A> méthode ; sinon, une image d’une coche verte est retournée au STS. La réception de cette image peut être utilisée par le STS confirmer que la demande de nettoyage de déconnexion a été reçue et traitée par la partie de confiance.  
+     Ensuite, si la demande de nettoyage de déconnexion contient un paramètre wreply, le client est redirigé vers l’URL retournée par la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSignOutRedirectUrl%2A> méthode ; sinon, une image d’une coche verte est retournée au STS. La réception de cette image peut être utilisée par le STS comme une confirmation que la demande de nettoyage de déconnexion a été reçue et traitée avec succès par le fournisseur de ressources.  
   
  ]]></format>
         </remarks>
@@ -333,27 +335,30 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Crée une demande de connexion WS-Federation qui est représentée par un <xref:System.IdentityModel.Services.SignInRequestMessage> objet. Les propriétés de la nouvelle <xref:System.IdentityModel.Services.SignInRequestMessage> objet sont définies comme suit :  
+ Crée une demande de connexion WS-Federation qui est représentée par un <xref:System.IdentityModel.Services.SignInRequestMessage> objet. Les propriétés du nouveau <xref:System.IdentityModel.Services.SignInRequestMessage> objet sont définies comme suit :  
   
--   Le <xref:System.IdentityModel.Services.WSFederationMessage.Context%2A> (le paramètre wctx) est définie sur une valeur créée à l’aide des paramètres de la méthode.  
+-   Le <xref:System.IdentityModel.Services.WSFederationMessage.Context%2A> propriété (le paramètre wctx) est définie sur une valeur créée en utilisant les paramètres de méthode.  
   
--   Le <xref:System.IdentityModel.Services.SignInRequestMessage.CurrentTime%2A> (le paramètre Wait Chain Traversal) est définie sur l’heure actuelle.  
+-   Le <xref:System.IdentityModel.Services.SignInRequestMessage.CurrentTime%2A> propriété (le paramètre wct) est définie sur l’heure actuelle.  
   
 -   Toutes les autres propriétés sont définies en utilisant les propriétés équivalentes de l’instance actuelle.  
   
- Les paramètres passés à la méthode sont utilisés pour créer le paramètre de message wctx. Il s’agit d’une chaîne au format suivant : `ru=returnUrl&cx=SignInContext&rm=rememberMeSet&id=uniqueId`.  
+ Les paramètres passés à la méthode sont utilisés pour créer le paramètre wctx du message. Il s’agit d’une chaîne au format suivant : `ru=returnUrl&cx=SignInContext&rm=rememberMeSet&id=uniqueId`.  
   
--   Le `ru` a la valeur à la valeur de le `returnUrl` paramètre transmis à la méthode et elle spécifie l’URL que le module doit acheminer le navigateur après l’authentification réussie. Il s’agit de la seule valeur stockée dans la chaîne wctx qui est utilisée par le WSFAM. Les appels de module le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetReturnUrlFromResponse%2A> méthode pour extraire cette valeur à partir du paramètre wctx lors du traitement d’une réponse de connexion WS-Federation. Il ne doit pas être confondu avec le paramètre de message wreply qui est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Reply%2A> propriété et qui fournit l’adresse à la partie de confiance à laquelle le service de jeton de sécurité (STS) doit directement sa réponse.  
+-   Le `ru` a la valeur à la valeur de la `returnUrl` paramètre passé à la méthode et spécifie l’URL que le module doit indiquer au navigateur à l’authentification réussie suivant. Il s’agit de la seule valeur stockée dans la chaîne de wctx qui est utilisée par le WSFAM. Les appels de module le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetReturnUrlFromResponse%2A> méthode pour extraire cette valeur à partir du paramètre wctx lors du traitement d’une réponse de connexion WS-Federation. Il ne faut pas confondre avec le paramètre de message wreply, qui est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Reply%2A> propriété et qui fournit l’adresse à la partie de confiance à laquelle le service de jeton de sécurité (STS) doit transmettre sa réponse.  
   
--   Le `cx` est affectée à la valeur de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignInContext%2A> propriété. Cette propriété est exposée pour vous permettre de définir n’importe quel contexte défini par l’application qui doit être stocké dans la chaîne wctx ; Toutefois, WSFAM n’expose pas une méthode pour extraire cette valeur dans la réponse. Si la valeur est requis par votre application, vous devez fournir le code pour analyser la chaîne wctx et de lire cette valeur lors du traitement de la réponse. Vous pouvez accomplir cela en substituant le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetReturnUrlFromResponse%2A> (méthode).  
+-   Le `cx` paramètre est défini sur la valeur de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignInContext%2A> propriété. Cette propriété est exposée pour permettre de vous permettent de définir n’importe quel contexte défini par l’application qui doit être stocké dans la chaîne de wctx ; Toutefois, le WSFAM n’expose pas une méthode pour extraire cette valeur dans la réponse. Si la valeur est requise par votre application, vous devez fournir le code pour analyser la chaîne de wctx et lisez cette valeur lors du traitement de la réponse. Vous pouvez y parvenir en substituant le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetReturnUrlFromResponse%2A> (méthode).  
   
--   Ni le `rm` valeur, qui est définie à la valeur de la `rememberMeSet` paramètre, ni le `id` paramètre, qui est définie à la valeur de le `uniqueId` paramètre sont utilisés par WSFAM. Ils peuvent être définis pour n’importe quelle valeur.  
+-   Ni le `rm` valeur, qui est défini sur la valeur de la `rememberMeSet` paramètre, ni le `id` paramètre, qui est défini sur la valeur de la `uniqueId` paramètre sont utilisés par le WSFAM. Ils peuvent être définis sur n’importe quelle valeur.  
   
  Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CreateSignInRequest%2A> méthode est appelée à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectToIdentityProvider%2A> (méthode).  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">La propriété <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer" /> a la valeur <see langword="null" /> ou est une chaîne vide.  - ou - La propriété <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm" /> est <see langword="null" /> ou est une chaîne vide.</exception>
+        <exception cref="T:System.InvalidOperationException">La propriété <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer" /> a la valeur <see langword="null" /> ou est une chaîne vide.  
+  
+- ou - 
+La propriété <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm" /> a la valeur <see langword="null" /> ou est une chaîne vide.</exception>
         <altmember cref="M:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectToIdentityProvider(System.String,System.String,System.Boolean)" />
       </Docs>
     </Member>
@@ -384,25 +389,28 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Appelez cette méthode pour envoyer un message de demande de déconnexion WS-Federation vers STS spécifié. Vous pouvez éventuellement fournir une valeur pour le paramètre wreply dans la demande de déconnexion.  
+ Appelez cette méthode pour envoyer un message de demande de déconnexion WS-Federation vers le STS spécifié. Vous pouvez éventuellement fournir une valeur pour le paramètre wreply dans la demande de déconnexion.  
   
  La méthode effectue les opérations suivantes :  
   
 1.  Crée un message de demande de déconnexion WS-Federation en utilisant les paramètres spécifiés.  
   
-2.  Appelle la <xref:System.IdentityModel.Services.SessionAuthenticationModule.DeleteSessionTokenCookie%2A?displayProperty=nameWithType> méthode du SAM pour supprimer le cookie de session.  
+2.  Appelle le <xref:System.IdentityModel.Services.SessionAuthenticationModule.DeleteSessionTokenCookie%2A?displayProperty=nameWithType> méthode sur le module SAM pour supprimer le cookie de session.  
   
 3.  Effectue une redirection vers STS en utilisant le message de demande de déconnexion à partir de la première étape.  
   
- Aucun des événements de déconnexion : <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SigningOut>, <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignedOut>, ou <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOutError> sont déclenchés par cette méthode. Pour supprimer la session sans envoyer un message de demande de déconnexion au STS, appelez l’une des surchargées <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%2A> méthodes.  
+ Aucun des événements de déconnexion : <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SigningOut>, <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignedOut>, ou <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOutError> sont déclenchés par cette méthode. Pour supprimer la session sans envoyer de message de demande de déconnexion au STS, appelez l’une des <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%2A> méthodes.  
   
 > [!NOTE]
->  Pour effectuer la déconnexion de passif à l’aide du jeton de session, le module s’appuie sur une valeur qui a été enregistrée dans le <xref:System.IdentityModel.Tokens.SessionSecurityToken.Context%2A?displayProperty=nameWithType> propriété pendant la connexion, pour plus d’informations, voir la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSessionTokenContext%2A> (méthode).  
+>  Pour effectuer la déconnexion passive en utilisant le jeton de session, le module s’appuie sur une valeur qui a été stockée dans le <xref:System.IdentityModel.Tokens.SessionSecurityToken.Context%2A?displayProperty=nameWithType> propriété pendant la connexion, pour plus d’informations, voir la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSessionTokenContext%2A> (méthode).  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="signOutUrl" /> n'est pas <see langword="null" /> et n'est pas un URI absolu.  - ou - <paramref name="replyUrl" /> n’est pas <see langword="null" /> et n’est pas un URI absolu.</exception>
+          <paramref name="signOutUrl" /> n'est pas <see langword="null" /> et n'est pas un URI absolu.  
+  
+- ou - 
+ <paramref name="replyUrl" /> n'est pas <see langword="null" /> et n'est pas un URI absolu.</exception>
         <exception cref="T:System.InvalidOperationException">
           <paramref name="signOutUrl" /> est <see langword="null" />.</exception>
         <altmember cref="M:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut" />
@@ -431,9 +439,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le paramètre wfresh est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Freshness%2A> est définie sur `null` ou une chaîne vide, le paramètre wfresh n’est pas incluse dans la demande de connexion.  
+ Le paramètre wfresh est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Freshness%2A> propriété est définie sur `null` ou une chaîne vide, le paramètre wfresh n’est pas incluse dans la demande de connexion.  
   
- Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service d’émission de jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
+ Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service du jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. Le service STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
   
  ]]></format>
         </remarks>
@@ -469,7 +477,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Dans l’URL qui est retourné : l’URI a la valeur de base `issuer`; le paramètre wa a la valeur « wsignout1.0 » ; le paramètre wreply est défini sur `signOutReply`; et les paramètres spécifiés dans `signOutQueryString` sont présents en tant que paramètres de chaîne de requête supplémentaires.  
+ Dans l’URL qui est retourné : la base URI est défini sur `issuer`; le paramètre wa a la valeur « wsignout1.0 » ; le paramètre wreply est défini sur `signOutReply`; et les paramètres spécifiés dans `signOutQueryString` sont présents en tant que paramètres de chaîne de requête supplémentaires.  
   
  ]]></format>
         </remarks>
@@ -503,9 +511,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Appelée par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetXmlTokenFromMessage%28System.IdentityModel.Services.SignInResponseMessage%29?displayProperty=nameWithType> méthode à partir de dans le pipeline de traitement pour résoudre l’URL spécifiée dans le paramètre wresultptr dans le message de réponse de connexion reçu à partir d’un service de jeton de sécurité (STS).  
+ Appelé par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetXmlTokenFromMessage%28System.IdentityModel.Services.SignInResponseMessage%29?displayProperty=nameWithType> méthode depuis l’intérieur du pipeline de traitement pour résoudre l’URL spécifiée dans le paramètre wresultptr dans le message de réponse de connexion reçu à partir d’un service de jeton de sécurité (STS).  
   
- Par défaut, cette méthode lève un <xref:System.NotSupportedException>. Substituez cette méthode dans une classe dérivée pour prendre en charge le paramètre wresultptr. L’URL pointe vers le résultat de l’émission, qui doit être un des éléments suivants : un `<wst:RequestSecurityTokenResponse>` élément, un `<wst:RequestSecurityTokenResponseCollection>` élément, une réponse SOAP ou un protocole SOAP `<S:Fault>` élément.  
+ Par défaut, cette méthode lève un <xref:System.NotSupportedException>. Substituez cette méthode dans une classe dérivée pour prendre en charge le paramètre wresultptr. L’URL pointe vers le résultat d’émission, qui doit être une des opérations suivantes : une `<wst:RequestSecurityTokenResponse>` élément, un `<wst:RequestSecurityTokenResponseCollection>` élément, une réponse SOAP ou SOAP `<S:Fault>` élément.  
   
  ]]></format>
         </remarks>
@@ -538,11 +546,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est appelée depuis le pipeline de traitement de la demande (le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthenticateRequest%2A> méthode) pour obtenir l’URL de la page à la partie de confiance (RP) pour indiquer au client après authentification réussie. Il s’agit, en règle générale, l’URL de la ressource de partie de confiance à laquelle le client a demandé l’accès.  
+ Cette méthode est appelée depuis le pipeline de traitement de la demande (le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthenticateRequest%2A> méthode) pour obtenir l’URL de la page à partir de la partie de confiance (RP) pour diriger le client vers une fois la connexion établie. Il s’agit, en règle générale, l’URL de la ressource de partie de confiance auquel le client a demandé accès.  
   
- Par défaut, WSFAM enregistre l’URL de renvoi à l’intérieur du paramètre de message wctx lorsqu’il envoie la demande de connexion WS-Federation pour le service de jeton de sécurité (STS). Conformément à la spécification WS-Federation, le paramètre wctx est conservé entre les entités qui transmet le message et est retournée inchangée dans le message de réponse de connexion WS-Federation qui est envoyé par le STS.  
+ Par défaut, le WSFAM enregistre l’URL de renvoi à l’intérieur du paramètre wctx du message lorsqu’il envoie la demande de connexion WS-Federation pour le service de jeton de sécurité (STS). Conformément à la spécification WS-Federation, le paramètre wctx est conservé entre les entités par le biais duquel le message passe et est retourné inchangé dans le message de réponse de connexion WS-Federation qui est envoyé par le STS.  
   
- L’implémentation par défaut Obtient l’URL de retour à partir du paramètre wctx dans la réponse de connexion. Pour plus d’informations sur le format du paramètre wctx qui est utilisé par WSFAM, consultez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CreateSignInRequest%2A> (méthode).  
+ L’implémentation par défaut Obtient l’URL de retour à partir du paramètre wctx dans la réponse de connexion. Pour plus d’informations sur le format du paramètre wctx qui est utilisé par le WSFAM, consultez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CreateSignInRequest%2A> (méthode).  
   
  ]]></format>
         </remarks>
@@ -587,7 +595,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- L’implémentation par défaut appelle la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetXmlTokenFromMessage%28System.IdentityModel.Services.SignInResponseMessage%2CSystem.IdentityModel.Services.WSFederationSerializer%29?displayProperty=nameWithType> méthode pour obtenir le jeton et le lit en utilisant le gestionnaire approprié dans les gestionnaires de jetons de sécurité configuré.  
+ L’implémentation par défaut appelle la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetXmlTokenFromMessage%28System.IdentityModel.Services.SignInResponseMessage%2CSystem.IdentityModel.Services.WSFederationSerializer%29?displayProperty=nameWithType> méthode pour obtenir le jeton et le lit en utilisant le gestionnaire approprié à partir des gestionnaires de jetons de sécurité configurée.  
   
  ]]></format>
         </remarks>
@@ -621,11 +629,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Appelé dans le pipeline de traitement de demande pour obtenir le message de demande de connexion WS-Federation en tant qu’un <xref:System.IdentityModel.Tokens.SecurityToken> objet.  
+ Appelée à partir du pipeline de traitement de demande pour obtenir le message de demande de connexion WS-Federation comme un <xref:System.IdentityModel.Tokens.SecurityToken> objet.  
   
- L’implémentation par défaut appelle la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSignInResponseMessage%2A> méthode pour obtenir un <xref:System.IdentityModel.Services.SignInResponseMessage> de l’objet, puis appelle la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSecurityToken%28System.IdentityModel.Services.SignInResponseMessage%29?displayProperty=nameWithType> de surcharge.  
+ L’implémentation par défaut appelle la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSignInResponseMessage%2A> méthode pour obtenir un <xref:System.IdentityModel.Services.SignInResponseMessage> de l’objet et appelle ensuite la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSecurityToken%28System.IdentityModel.Services.SignInResponseMessage%29?displayProperty=nameWithType> surcharger.  
   
- Utilisez une classe dérivée pour interpréter un type spécifique de la demande.  
+ Utiliser une classe dérivée pour interpréter un type spécifique de la demande.  
   
  ]]></format>
         </remarks>
@@ -656,9 +664,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSessionTokenContext%2A> méthode est appelée depuis le pipeline de traitement de requête lors du traitement d’un message de réponse de connexion WS-Federation pour obtenir la valeur à stocker dans le <xref:System.IdentityModel.Tokens.SessionSecurityToken.Context%2A?displayProperty=nameWithType> propriété dans le cookie de session.  
+ Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSessionTokenContext%2A> méthode est appelée depuis le pipeline de traitement de demande lors du traitement d’un message de réponse de connexion WS-Federation pour obtenir la valeur à stocker dans le <xref:System.IdentityModel.Tokens.SessionSecurityToken.Context%2A?displayProperty=nameWithType> propriété dans le cookie de session.  
   
- Vous pouvez substituer cette méthode pour fournir une valeur spécifique à l’application à stocker dans le cookie. WSFAM n’expose pas de méthode pour récupérer la valeur à partir du cookie. Vous devez fournir la logique dans votre application pour lire la valeur de retour à partir du cookie s’il est nécessaire.  
+ Vous pouvez remplacer cette méthode pour fournir une valeur spécifique à l’application à stocker dans le cookie. WSFAM n’expose pas toutes les méthodes pour récupérer la valeur du cookie. Vous devez fournir la logique dans votre application pour lire la valeur de retour à partir du cookie s’il est nécessaire.  
   
  ]]></format>
         </remarks>
@@ -692,7 +700,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Appelée à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSecurityToken%28System.Web.HttpRequestBase%29?displayProperty=nameWithType> méthode dans le pipeline de traitement de demande pour obtenir un message de réponse de connexion à partir du formulaire POST contenue dans la requête HTTP.  
+ Appelée à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSecurityToken%28System.Web.HttpRequestBase%29?displayProperty=nameWithType> méthode dans le pipeline de traitement de demande pour obtenir un message de réponse de connexion à partir du formulaire POST contenue dans la demande HTTP.  
   
  ]]></format>
         </remarks>
@@ -727,9 +735,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode est appelée à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse%2A> méthode dans le pipeline de traitement de demande pour déterminer l’URL de redirection après le traitement d’une demande de nettoyage de déconnexion WS-Federation. Il est appelé uniquement si le message a un paramètre de wreply (le `signOutMessage` le paramètre a un <xref:System.IdentityModel.Services.SignOutCleanupRequestMessage.Reply%2A> propriété qui n’est ni `null` ni vide).  
+ Cette méthode est appelée à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse%2A> méthode dans le pipeline de traitement de demande pour déterminer l’URL de redirection après le traitement d’une demande de nettoyage de déconnexion WS-Federation. Il est appelé uniquement si le message a un paramètre wreply (le `signOutMessage` paramètre a un <xref:System.IdentityModel.Services.SignOutCleanupRequestMessage.Reply%2A> propriété qui n’est ni `null` ni vide).  
   
- L’implémentation par défaut valide de l’URL de réponse contenue dans le message (le <xref:System.IdentityModel.Services.SignOutCleanupRequestMessage.Reply%2A?displayProperty=nameWithType> propriété) par rapport à l’adresse de la forme de service de jeton de sécurité (STS) qui est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété. Les conditions suivantes doivent être remplies pour l’URL de réponse soit valide :  
+ L’implémentation par défaut valide l’URL de réponse contenue dans le message (le <xref:System.IdentityModel.Services.SignOutCleanupRequestMessage.Reply%2A?displayProperty=nameWithType> propriété) par rapport à l’adresse de la forme de service de jeton de sécurité (STS) qui est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété. Les conditions suivantes doivent être remplies pour l’URL de réponse soit valide :  
   
 1.  L’URL de réponse est une URL absolue.  
   
@@ -737,11 +745,11 @@
   
 3.  L’URL de réponse a le même port que l’émetteur.  
   
-4.  L’URL de réponse est le même hôte que l’émetteur, soit l’URL de réponse spécifie un sous-domaine de l’émetteur.  
+4.  L’URL de réponse a le même hôte que l’émetteur soit l’URL de réponse spécifie un sous-domaine de l’émetteur.  
   
- Si toutes les conditions suivantes sont remplies, que l’URL de réponse (réponse) est retourné ; Sinon, l’URL spécifiée par la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété est renvoyée.  
+ Si toutes ces conditions sont remplies, que l’URL de réponse (réponse) est retourné ; Sinon, l’URL spécifiée par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété est renvoyée.  
   
- Substituez cette méthode pour fournir la validation supplémentaire pour l’URL de réponse.  
+ Substituez cette méthode pour fournir une validation supplémentaire pour l’URL de réponse.  
   
  ]]></format>
         </remarks>
@@ -786,7 +794,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- S’il n’existe aucun paramètre de paramètre wresult dans le message de réponse de connexion, le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetReferencedResult%2A> méthode est appelée pour essayer d’obtenir le jeton à l’aide du paramètre wresultptr.  
+ S’il n’existe aucun paramètre wresult dans le message de réponse de connexion, le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetReferencedResult%2A> méthode est appelée pour essayer d’obtenir le jeton en utilisant le paramètre wresultptr.  
   
  ]]></format>
         </remarks>
@@ -847,9 +855,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le paramètre whr est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.HomeRealm%2A> est définie sur `null` ou une chaîne vide, le paramètre whr n’est pas incluse dans la demande de connexion.  
+ Le paramètre whr est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.HomeRealm%2A> propriété est définie sur `null` ou une chaîne vide, le paramètre whr n’est pas incluse dans la demande de connexion.  
   
- Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service d’émission de jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
+ Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service du jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. Le service STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
   
  ]]></format>
         </remarks>
@@ -875,12 +883,12 @@
       </Parameters>
       <Docs>
         <param name="context">Objet d'application HTTP qui contient ce module.</param>
-        <summary>Initialise le module et le prépare à gérer les événements provenant de l’objet d’application [!INCLUDE[vstecasp](~/includes/vstecasp-md.md)] du module.</summary>
+        <summary>Initialise le module et le prépare pour gérer les événements à partir de l'objet d'application [!INCLUDE[vstecasp](~/includes/vstecasp-md.md)] du module.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Ajoute des gestionnaires d’événements du pipeline ASP.NET conformément au tableau suivant.  
+ Ajoute des gestionnaires pour les événements de pipeline ASP.NET conformément au tableau suivant.  
   
 |événement|Gestionnaire|  
 |-----------|-------------|  
@@ -889,7 +897,7 @@
 |<xref:System.Web.HttpApplication.PostAuthenticateRequest?displayProperty=nameWithType>|<xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnPostAuthenticateRequest%2A>|  
   
 > [!NOTE]
->  Les propriétés du module, tel que <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> , sont initialisés à partir du <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.InitializePropertiesFromConfiguration%2A> (méthode).  
+>  Les propriétés du module, tel que <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> , sont initialisées à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.InitializePropertiesFromConfiguration%2A> (méthode).  
   
  ]]></format>
         </remarks>
@@ -920,7 +928,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Les propriétés du module sont initialisées à l’aide des propriétés équivalentes de la <xref:System.IdentityModel.Services.Configuration.WsFederationConfiguration> objet spécifié par le <xref:System.IdentityModel.Services.Configuration.FederationConfiguration.WsFederationConfiguration%2A?displayProperty=nameWithType> propriété.  
+ Propriétés du module sont initialisées à l’aide des propriétés équivalentes de la <xref:System.IdentityModel.Services.Configuration.WsFederationConfiguration> objet spécifié par le <xref:System.IdentityModel.Services.Configuration.FederationConfiguration.WsFederationConfiguration%2A?displayProperty=nameWithType> propriété.  
   
  Vous pouvez spécifier des paramètres dans un fichier de configuration via la [ &lt;wsFederation&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/wsfederation.md) élément.  
   
@@ -957,7 +965,7 @@
 ## Remarks  
  Cette méthode est appelée à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse%2A> méthode dans le pipeline de traitement de demande pour déterminer si la requête HTTP entrante est un message de réponse de connexion WS-Federation.  
   
- L’implémentation par défaut retourne `true` si le paramètre wa est « wsignin1.0 » et le wreq et les paramètres wreqptr sont pas définis.  
+ L’implémentation par défaut retourne `true` si le paramètre wa a « wsignin1.0 » et le wreq et les paramètres wreqptr sont pas toutes deux définies.  
   
  Vous pouvez substituer cette méthode dans les classes dérivées pour effectuer une validation supplémentaire.  
   
@@ -989,13 +997,16 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette propriété est obligatoire. Elle doit être définie si les redirections passives sont activées. Elle spécifie l’URL du service de jeton de sécurité (STS) à laquelle les demandes WS-Federation doivent être émis.  
+ Cette propriété est obligatoire. Elle doit être définie si les redirections passives sont activées. Elle spécifie l’URL du service de jeton sécurité (STS) à laquelle les demandes WS-Federation doivent être émis.  
   
- Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service d’émission de jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
+ Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service du jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. Le service STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentException">Il est tenté de définir la propriété sur <see langword="null" /> ou une chaîne vide.  - ou - Une tentative de définition de la propriété sur une valeur qui n’est pas un URI absolu valide se produit.</exception>
+        <exception cref="T:System.ArgumentException">Il est tenté de définir la propriété sur <see langword="null" /> ou une chaîne vide.  
+  
+- ou - 
+Il est tenté de définir la propriété sur une valeur qui n'est pas un URI absolu valide.</exception>
       </Docs>
     </Member>
     <Member MemberName="OnAuthenticateRequest">
@@ -1020,7 +1031,7 @@
       <Docs>
         <param name="sender">Source de l'événement. Il s'agira d'un objet <see cref="T:System.Web.HttpApplication" />.</param>
         <param name="args">Données de l'événement.</param>
-        <summary>Gère l’événement <see cref="E:System.Web.HttpApplication.AuthenticateRequest" /> provenant du pipeline [!INCLUDE[vstecasp](~/includes/vstecasp-md.md)].</summary>
+        <summary>Gère l'événement <see cref="E:System.Web.HttpApplication.AuthenticateRequest" /> du pipeline [!INCLUDE[vstecasp](~/includes/vstecasp-md.md)].</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1029,26 +1040,26 @@
   
  La méthode effectue les opérations suivantes :  
   
-1.  Appelle la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse%28System.Web.HttpRequestBase%29> méthode pour déterminer si un message de réponse de connexion WS-Federation (« wsignin1.0 ») a été reçu. Si la réponse est une demande de nettoyage déconnexion (« wsignoutcleanup1.0 »), WS-Federation <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse%28System.Web.HttpRequestBase%29> traite le message, met fin à la demande et redirige le client en fonction des paramètres dans la demande WS-Federation. Si le message n’est pas une réponse de connexion ou d’une demande de nettoyage de déconnexion, le module renvoie simplement ; dans le cas contraire, il effectue les étapes suivantes pour traiter la réponse de connexion.  
+1.  Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse%28System.Web.HttpRequestBase%29> méthode pour déterminer si un message de réponse de connexion WS-Federation (« wsignin1.0 ») a été reçu. Si la réponse est une demande de nettoyage déconnexion WS-Federation (« wsignoutcleanup1.0 »), <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse%28System.Web.HttpRequestBase%29> traite le message, met fin à la requête et redirige le client en fonction des paramètres dans la demande WS-Federation. Si le message n’est pas une réponse de connexion ou d’une demande de nettoyage de déconnexion, le module renvoie simplement ; dans le cas contraire, il effectue les étapes suivantes pour traiter la réponse de connexion.  
   
-2.  Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSecurityToken%28System.Web.HttpRequestBase%29> méthode pour désérialiser une <xref:System.IdentityModel.Tokens.SecurityToken> objet à partir de la demande.  
+2.  Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetSecurityToken%28System.Web.HttpRequestBase%29> méthode pour désérialiser un <xref:System.IdentityModel.Tokens.SecurityToken> objet à partir de la demande.  
   
-3.  Déclenche l'événement <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenReceived>. Vous pouvez annuler un traitement supplémentaire ou modifier le jeton de sécurité reçu dans un gestionnaire pour cet événement. Un gestionnaire est généralement utilisé pour modifier la <xref:System.IdentityModel.Tokens.SecurityToken.ValidFrom%2A?displayProperty=nameWithType> ou <xref:System.IdentityModel.Tokens.SecurityToken.ValidTo%2A?displayProperty=nameWithType> propriétés.  
+3.  Déclenche l'événement <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenReceived>. Vous pouvez annuler tout traitement ultérieur ou modifier le jeton de sécurité reçu dans un gestionnaire pour cet événement. Un gestionnaire est généralement utilisé pour modifier le <xref:System.IdentityModel.Tokens.SecurityToken.ValidFrom%2A?displayProperty=nameWithType> ou <xref:System.IdentityModel.Tokens.SecurityToken.ValidTo%2A?displayProperty=nameWithType> propriétés.  
   
-4.  Valide le jeton de sécurité et crée un <xref:System.Security.Claims.ClaimsPrincipal> objet à partir des revendications dans le jeton de sécurité.  
+4.  Valide le jeton de sécurité et crée un <xref:System.Security.Claims.ClaimsPrincipal> objet à partir des revendications du jeton de sécurité.  
   
-5.  Déclenche l'événement <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenValidated>. Vous pouvez annuler un traitement supplémentaire ou modifier le principal de revendications dans un gestionnaire pour cet événement.  
+5.  Déclenche l'événement <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenValidated>. Vous pouvez annuler tout traitement ultérieur ou modifier l’entité de revendications dans un gestionnaire pour cet événement.  
   
-6.  Utilise le module d’authentification de session configurée (SAM) pour créer un <xref:System.IdentityModel.Tokens.SessionSecurityToken> objet. (Le SAM configuré est la <xref:System.IdentityModel.Services.SessionAuthenticationModule> objet retourné par la <xref:System.IdentityModel.Services.FederatedAuthentication.SessionAuthenticationModule%2A?displayProperty=nameWithType> propriété.) Le jeton de session est créé à l’aide de la principal de revendications retourné à l’étape 5. Le <xref:System.IdentityModel.Tokens.SessionSecurityToken.ValidFrom%2A?displayProperty=nameWithType> et <xref:System.IdentityModel.Tokens.SessionSecurityToken.ValidTo%2A?displayProperty=nameWithType> propriétés sont définies à l’aide de la <xref:System.IdentityModel.Tokens.SecurityToken.ValidFrom%2A> et <xref:System.IdentityModel.Tokens.SecurityToken.ValidTo%2A> propriétés de la <xref:System.IdentityModel.Tokens.SecurityToken> retourné à l’étape 3 et sont validés par rapport à l’heure actuelle et la durée de vie de jeton spécifié par les deux <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.DefaultTokenLifetime%2A>ou <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.TokenLifetime%2A> propriété de la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> objet dans la collection du Gestionnaire de jetons utilisée par WSFAM. La durée de vie de jeton sur le Gestionnaire de jetons de session peut être spécifiée dans la configuration via la [ &lt;sessionTokenRequirement&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/sessiontokenrequirement.md) élément. Remarque : Le <xref:System.IdentityModel.Services.CookieHandler.PersistentSessionLifetime%2A> propriété sur le Gestionnaire de cookie configuré pour le SAM n’est pas utilisé.  
+6.  Utilise le module d’authentification de session configurée (SAM) pour créer un <xref:System.IdentityModel.Tokens.SessionSecurityToken> objet. (Le SAM configuré est le <xref:System.IdentityModel.Services.SessionAuthenticationModule> objet retourné par la <xref:System.IdentityModel.Services.FederatedAuthentication.SessionAuthenticationModule%2A?displayProperty=nameWithType> propriété.) Le jeton de session est créé à l’aide de l’entité de revendications retournée à l’étape 5. Le <xref:System.IdentityModel.Tokens.SessionSecurityToken.ValidFrom%2A?displayProperty=nameWithType> et <xref:System.IdentityModel.Tokens.SessionSecurityToken.ValidTo%2A?displayProperty=nameWithType> propriétés sont définies à l’aide de la <xref:System.IdentityModel.Tokens.SecurityToken.ValidFrom%2A> et <xref:System.IdentityModel.Tokens.SecurityToken.ValidTo%2A> propriétés de la <xref:System.IdentityModel.Tokens.SecurityToken> retourné à l’étape 3 et sont validées par rapport à l’heure actuelle et la durée de vie de jeton spécifié par les deux <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.DefaultTokenLifetime%2A>ou <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler.TokenLifetime%2A> propriété de la <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> objet dans la collection de gestionnaires de jetons utilisée par le WSFAM. La durée de vie de jeton sur le Gestionnaire de jetons de session peut être spécifiée dans la configuration via la [ &lt;sessionTokenRequirement&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/sessiontokenrequirement.md) élément. Remarque : Le <xref:System.IdentityModel.Services.CookieHandler.PersistentSessionLifetime%2A> propriété sur le Gestionnaire de cookie configuré pour le module SAM n’est pas utilisé.  
   
-7.  Appelle la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SetPrincipalAndWriteSessionToken%2A> méthode avec le jeton de session pour écrire le cookie de session. Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SetPrincipalAndWriteSessionToken%2A> méthode déclenche d’abord le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SessionSecurityTokenCreated> événement. Vous pouvez modifier les propriétés sur le jeton de session ou la modifier si le cookie doit être persistante dans un gestionnaire pour cet événement. Une fois que l’événement est déclenché, la méthode écrit ensuite le cookie à l’aide de SAM.  
+7.  Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SetPrincipalAndWriteSessionToken%2A> méthode avec le jeton de session pour écrire le cookie de session. Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SetPrincipalAndWriteSessionToken%2A> méthode déclenche d’abord le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SessionSecurityTokenCreated> événement. Vous pouvez modifier les propriétés sur le jeton de session ou si le cookie doit être persistante dans un gestionnaire pour cet événement. Une fois que l’événement est déclenché, la méthode écrit ensuite le cookie à l’aide de la SAM.  
   
     > [!NOTE]
-    >  Le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> ensemble dans la configuration n’est pas utilisé pour écrire le cookie.  
+    >  Le <xref:System.IdentityModel.Tokens.SessionSecurityTokenHandler> défini dans configuration n’est pas utilisé pour écrire le cookie.  
   
 8.  Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnSignedIn%2A> méthode pour déclencher le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignedIn> événement.  
   
-9. Appelle la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetReturnUrlFromResponse%2A> méthode pour obtenir la page RP vers laquelle rediriger le client. Par défaut, cette méthode lit l’URL de retour à partir du paramètre wctx dans la réponse de connexion. Pour plus d’informations sur la manière dont WSFAM stocke l’URL de renvoi, consultez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CreateSignInRequest%2A> (méthode).  
+9. Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetReturnUrlFromResponse%2A> méthode pour obtenir la page fournisseur de ressources vers laquelle rediriger le client. Par défaut, cette méthode lit l’URL de retour à partir du paramètre wctx dans la réponse de connexion. Pour plus d’informations sur la façon dont le WSFAM stocke l’URL de renvoi, consultez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CreateSignInRequest%2A> (méthode).  
   
  ]]></format>
         </remarks>
@@ -1081,7 +1092,7 @@
 ## Remarks  
  Appelée à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnEndRequest%2A> délégué de gestionnaire d’événements lors de l’échec de l’autorisation.  
   
- Initialise le <xref:System.IdentityModel.Services.AuthorizationFailedEventArgs.RedirectToIdentityProvider%2A?displayProperty=nameWithType> propriété avant le déclenchement de le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.AuthorizationFailed> événement afin d’empêcher les redirections circulaires si l’utilisateur a déjà été authentifié. Si l’utilisateur est déjà authentifié, la propriété est initialisée à `false` pour empêcher redirige ; sinon, elle est initialisée à `true`.  
+ Initialise le <xref:System.IdentityModel.Services.AuthorizationFailedEventArgs.RedirectToIdentityProvider%2A?displayProperty=nameWithType> propriété avant de déclencher le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.AuthorizationFailed> événement pour empêcher les redirections circulaires si l’utilisateur a déjà été authentifié. Si l’utilisateur est déjà authentifié, la propriété est initialisée à `false` pour empêcher les redirections ; sinon, elle est initialisée à `true`.  
   
  ]]></format>
         </remarks>
@@ -1109,7 +1120,7 @@
       <Docs>
         <param name="sender">Source de l'événement. Il s'agira d'un objet <see cref="T:System.Web.HttpApplication" />.</param>
         <param name="args">Données de l'événement.</param>
-        <summary>Gère l’événement <see cref="E:System.Web.HttpApplication.EndRequest" /> provenant du pipeline [!INCLUDE[vstecasp](~/includes/vstecasp-md.md)].</summary>
+        <summary>Gère l'événement <see cref="E:System.Web.HttpApplication.EndRequest" /> du pipeline [!INCLUDE[vstecasp](~/includes/vstecasp-md.md)].</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1142,7 +1153,7 @@
       <Docs>
         <param name="sender">Source de l'événement. Il s'agira d'un objet <see cref="T:System.Web.HttpApplication" />.</param>
         <param name="e">Données de l'événement.</param>
-        <summary>Gère l’événement <see cref="E:System.Web.HttpApplication.PostAuthenticateRequest" /> provenant du pipeline [!INCLUDE[vstecasp](~/includes/vstecasp-md.md)].</summary>
+        <summary>Gère l'événement <see cref="E:System.Web.HttpApplication.PostAuthenticateRequest" /> du pipeline [!INCLUDE[vstecasp](~/includes/vstecasp-md.md)].</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1368,10 +1379,10 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le module ne va pas lancer les redirections du protocole WS-Federation lorsque ce mode n’est pas activé. Si cette propriété est `true`, le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété doit être définie à l’URL du Service STS (Security Token) à laquelle l’appelant doit être redirigé.  
+ Le module ne lancera pas les redirections du protocole WS-Federation lorsque ce mode n’est pas activé. Si cette propriété est `true`, le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété doit être définie à l’URL du Service STS (Security Token) à laquelle l’appelant doit être redirigé.  
   
 > [!WARNING]
->  Code de l’application peut émettre explicitement des demandes de connexion WS-Federation à l’aide de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignIn%2A> (méthode), quelle que soit la valeur de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.PassiveRedirectEnabled%2A> propriété.  
+>  Code d’application peut émettre explicitement des demandes de connexion WS-Federation à l’aide de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignIn%2A> (méthode), quelle que soit la valeur de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.PassiveRedirectEnabled%2A> propriété.  
   
  ]]></format>
         </remarks>
@@ -1430,9 +1441,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le paramètre wp est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Policy%2A> est définie sur `null` ou une chaîne vide, le paramètre wp n’est pas incluse dans la demande de connexion.  
+ Le paramètre wp est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Policy%2A> propriété est définie sur `null` ou une chaîne vide, le paramètre wp n’est pas incluse dans la demande de connexion.  
   
- Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service d’émission de jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
+ Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service du jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. Le service STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
   
  ]]></format>
         </remarks>
@@ -1460,15 +1471,18 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il s’agit d’une propriété requise pour les demandes de connexion WS-Federation. Elle doit être définie si les redirections passives sont activées. L’URI identifie la partie de confiance pour le STS. (Pour identifier le STS pour la partie de confiance, consultez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété).  
+ Il s’agit d’une propriété requise pour les demandes de connexion WS-Federation. Elle doit être définie si les redirections passives sont activées. L’URI identifie la partie de confiance pour le STS. (Pour identifier le STS pour le fournisseur de ressources, consultez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété).  
   
- La valeur de cette propriété est sérialisée en tant que le paramètre de chaîne de requête wtrealm dans le protocole WS-Federation. Il identifie la partie de confiance pour le STS. Il est utilisé par le STS pour décider quelle stratégie à appliquer pour l’émission de jetons et de redirection de l’utilisateur d’après l’émission du jeton. (Pour identifier le STS pour la partie de confiance, consultez <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A>.)  
+ La valeur de cette propriété est sérialisée en tant que le paramètre de chaîne de requête wtrealm dans le protocole WS-Federation. Il identifie la partie de confiance pour le STS. Il est utilisé par le STS pour décider quelle stratégie à appliquer pour l’émission de jeton et où rediriger l’utilisateur d’après d’émission de jeton. (Pour identifier le STS pour la partie de confiance, consultez <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A>.)  
   
- Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service d’émission de jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
+ Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service du jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. Le service STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentException">Il est tenté de définir la propriété sur <see langword="null" /> ou une chaîne vide.  - ou - Une tentative de définition de la propriété sur une valeur qui n’est pas un URI absolu valide se produit.</exception>
+        <exception cref="T:System.ArgumentException">Il est tenté de définir la propriété sur <see langword="null" /> ou une chaîne vide.  
+  
+- ou - 
+Il est tenté de définir la propriété sur une valeur qui n'est pas un URI absolu valide.</exception>
       </Docs>
     </Member>
     <Member MemberName="RedirectingToIdentityProvider">
@@ -1492,7 +1506,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Vous pouvez accéder et modifier la demande de connexion WS-Federation via le <xref:System.IdentityModel.Services.RedirectingToIdentityProviderEventArgs.SignInRequestMessage%2A?displayProperty=nameWithType> propriété. Par exemple, vous pouvez modifier le <xref:System.IdentityModel.Services.FederationMessage.BaseUri%2A> propriété dans le message de connexion pour modifier le fournisseur d’identité à laquelle la demande s’affichera. Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement est un événement annulable, vous pouvez définir le <xref:System.ComponentModel.CancelEventArgs.Cancel%2A> propriété `true` pour annuler la redirection.  
+ Vous pouvez accéder et modifier la demande de connexion WS-Federation via le <xref:System.IdentityModel.Services.RedirectingToIdentityProviderEventArgs.SignInRequestMessage%2A?displayProperty=nameWithType> propriété. Par exemple, vous pouvez modifier le <xref:System.IdentityModel.Services.FederationMessage.BaseUri%2A> propriété dans le message de connexion pour modifier le fournisseur d’identité à laquelle la demande s’affichera. Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement est un événement annulable et vous pouvez définir le <xref:System.ComponentModel.CancelEventArgs.Cancel%2A> propriété `true` pour annuler la redirection.  
   
  L’événement est déclenché à partir d’à l’intérieur de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectToIdentityProvider%2A> méthode via un appel à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnRedirectingToIdentityProvider%2A> (méthode).  
   
@@ -1501,15 +1515,15 @@
    
   
 ## Examples  
- Le code suivant montre comment ajouter un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement dans le `Application_Init` événement dans le fichier global.asax. Le code provient de la `FederationForWebApps` exemple. Pour plus d’informations sur cet exemple, consultez [exemple d’Index de Code WIF](~/docs/framework/security/wif-code-sample-index.md).  
+ Le code suivant montre comment ajouter un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement dans le `Application_Init` événement dans le fichier global.asax. Le code provient de la `FederationForWebApps` exemple. Pour plus d’informations sur cet exemple, consultez [Index exemple de Code WIF](~/docs/framework/security/wif-code-sample-index.md).  
   
   
   
- Le code suivant montre le gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement dans le dans le fichier global.asax d’une partie de confiance. Le code vérifie si la requête HTTP entrante contient un paramètre whr et, dans ce cas, il définit ce paramètre sur la demande de connexion WS-Federation qui sera envoyée au STS. Le code provient de la `FederationForWebApps` exemple. Pour plus d’informations sur cet exemple, consultez [exemple d’Index de Code WIF](~/docs/framework/security/wif-code-sample-index.md).  
+ Le code suivant montre le gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement dans le dans le fichier global.asax d’un fournisseur de ressources. Le code vérifie si la requête HTTP entrante contient un paramètre whr et, le cas échéant, il définit ce paramètre sur la demande de connexion WS-Federation qui sera envoyée à un service STS. Le code provient de la `FederationForWebApps` exemple. Pour plus d’informations sur cet exemple, consultez [Index exemple de Code WIF](~/docs/framework/security/wif-code-sample-index.md).  
   
   
   
- Le code suivant montre le gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement dans le dans le fichier global.asax d’un fournisseur de fédération STS. Le code vérifie si la requête HTTP entrante contient un paramètre whr. Si la demande contient le paramètre whr, le client est dirigé vers l’IP-STS pour la connexion ; Si ce n’est pas le cas, le client est dirigé vers une page de découverte du domaine d’accueil pour sélectionner le STS de IP à laquelle se connecter. Le code provient de la `FederationForWebApps` exemple. Pour plus d’informations sur cet exemple, consultez [exemple d’Index de Code WIF](~/docs/framework/security/wif-code-sample-index.md).  
+ Le code suivant montre le gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement dans le dans le fichier global.asax d’un fournisseur de fédération STS. Le code vérifie si la requête HTTP entrante contient un paramètre whr. Si la demande contient le paramètre whr, le client est dirigé vers l’IP-STS pour la connexion ; Si ce n’est pas le cas, le client est dirigé vers une page de découverte du domaine d’accueil pour sélectionner l’IP-STS auquel se connecter. Le code provient de la `FederationForWebApps` exemple. Pour plus d’informations sur cet exemple, consultez [Index exemple de Code WIF](~/docs/framework/security/wif-code-sample-index.md).  
   
   
   
@@ -1546,22 +1560,31 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectToIdentityProvider%2A> méthode est appelée à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignIn%2A> méthode lors de la demande est émise à partir d’une page web présentée par la partie de confiance (RP) ou à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnEndRequest%2A> délégué de gestionnaire d’événements pour effectuer une redirection passive pour le fournisseur d’identité sur Échec d’autorisation.  
+ Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectToIdentityProvider%2A> méthode est appelée à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignIn%2A> méthode lors de la demande est émise à partir d’une page web présentée par la partie de confiance (RP) ou à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnEndRequest%2A> délégué de gestionnaire d’événements pour effectuer une redirection passive pour le fournisseur d’identité sur Échec de l’autorisation.  
   
- Les paramètres passés à la méthode sont utilisés pour créer le paramètre de message wctx. Le seul paramètre est le `returnUrl` paramètre. Spécifie l’URL que la partie de confiance doit acheminer le navigateur après l’authentification réussie. Il ne doit pas être confondu avec le paramètre de message wreply qui est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Reply%2A> propriété et qui fournit l’adresse à la partie de confiance à laquelle le service de jeton de sécurité (STS) doit directement sa réponse.  
+ Les paramètres passés à la méthode sont utilisés pour créer le paramètre wctx du message. Le paramètre significatif uniquement est la `returnUrl` paramètre. Spécifie l’URL que le fournisseur de ressources doit indiquer au navigateur à l’authentification réussie suivant. Il ne faut pas confondre avec le paramètre de message wreply, qui est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Reply%2A> propriété et qui fournit l’adresse à la partie de confiance à laquelle le service de jeton de sécurité (STS) doit transmettre sa réponse.  
   
  La méthode effectue les opérations suivantes :  
   
-1.  Appelle la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.VerifyProperties%2A> méthode pour s’assurer qu’une demande de connexion valide peut être émise par le module.  
+1.  Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.VerifyProperties%2A> méthode pour s’assurer qu’une demande de connexion valide peut être émise par le module.  
   
-2.  Appelle la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CreateSignInRequest%2A> méthode pour créer la demande de connexion à partir des propriétés configurées sur le module.  
+2.  Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CreateSignInRequest%2A> méthode pour créer la demande de connexion à partir des propriétés configurées sur le module.  
   
 3.  Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnRedirectingToIdentityProvider%2A> méthode pour déclencher le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Vous pouvez annuler la redirection ou modifiez le message de demande de connexion dans le Gestionnaire d’événements pour cet événement.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">
-          <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer" /> est soit <see langword="null" /> soit une chaîne vide.  - ou - <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm" /> est <see langword="null" /> ou est une chaîne vide.  - ou - La propriété <see cref="P:System.Web.HttpContext.Current" /> est <see langword="null" /> ou vide.  - ou - La propriété <see cref="P:System.Web.HttpContext.Response" /> du contexte retourné par <see cref="P:System.Web.HttpContext.Current" /> a la valeur <see langword="null" /> ou est vide.</exception>
+          <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer" /> est soit <see langword="null" /> soit une chaîne vide.  
+  
+- ou - 
+ <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm" /> est soit <see langword="null" /> soit une chaîne vide.  
+  
+- ou - 
+La propriété <see cref="P:System.Web.HttpContext.Current" /> est <see langword="null" /> ou vide.  
+  
+- ou - 
+La propriété <see cref="P:System.Web.HttpContext.Response" /> du contexte retourné par <see cref="P:System.Web.HttpContext.Current" /> a la valeur <see langword="null" /> ou est vide.</exception>
       </Docs>
     </Member>
     <Member MemberName="Reply">
@@ -1586,9 +1609,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le paramètre wreply est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Reply%2A> est définie sur `null` ou une chaîne vide, le paramètre wreply n’est pas incluse dans la demande de connexion.  
+ Le paramètre wreply est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Reply%2A> propriété est définie sur `null` ou une chaîne vide, le paramètre wreply n’est pas incluse dans la demande de connexion.  
   
- Le paramètre wreply est utilisé par le STS pour décider de redirection de l’utilisateur d’après l’émission du jeton. Il n’est pas recommandé pour le service STS à l’aveugle utiliser cette adresse pour rediriger l’utilisateur, comme la redirection de ce type a des failles de sécurité. L’adresse de réponse doit être validée par le STS (éventuellement en comparant à un ensemble d’adresses de réponse préconfiguré pour les besoins ou toute autre méthode) pour vous assurer que la réponse est envoyée à compris les emplacement connu et sécurisé.  
+ Le paramètre wreply est utilisé par le STS pour décider où rediriger l’utilisateur d’après d’émission de jeton. Il n’est pas recommandé pour le STS aveuglément utiliser cette adresse pour rediriger l’utilisateur, comme la redirection de ce type présente des failles de sécurité. L’adresse de réponse doit être validée par le STS (éventuellement en comparaison à un ensemble d’adresses de réponse préconfigurée dans le cadre de toute autre méthode) pour vous assurer que la réponse est envoyée à compris emplacement connu et sécurisé.  
   
  ]]></format>
         </remarks>
@@ -1617,9 +1640,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le paramètre wreq est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Request%2A> est définie sur `null` ou une chaîne vide, le paramètre wreq n’est pas incluse dans la demande de connexion.  
+ Le paramètre wreq est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Request%2A> propriété est définie sur `null` ou une chaîne vide, le paramètre wreq n’est pas incluse dans la demande de connexion.  
   
- Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service d’émission de jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
+ Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service du jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. Le service STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
   
  ]]></format>
         </remarks>
@@ -1647,9 +1670,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le paramètre wreqptr est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RequestPtr%2A> est définie sur `null` ou une chaîne vide, le paramètre wreq n’est pas incluse dans la demande de connexion.  
+ Le paramètre wreqptr est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RequestPtr%2A> propriété est définie sur `null` ou une chaîne vide, le paramètre wreq n’est pas incluse dans la demande de connexion.  
   
- Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service d’émission de jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
+ Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service du jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. Le service STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
   
  ]]></format>
         </remarks>
@@ -1700,11 +1723,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le paramètre wtrealm, qui est défini par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm%2A> propriété, doit être utilisée à la place.  
+ Le paramètre wtrealm, qui est défini par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm%2A> propriété, doit être utilisée au lieu de ce paramètre.  
   
- Le paramètre wres est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Resource%2A> est définie sur `null` ou une chaîne vide, le paramètre wres n’est pas incluse dans la demande de connexion.  
+ Le paramètre wres est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Resource%2A> propriété est définie sur `null` ou une chaîne vide, le paramètre wres n’est pas incluse dans la demande de connexion.  
   
- Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service d’émission de jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
+ Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service du jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. Le service STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
   
  ]]></format>
         </remarks>
@@ -1731,9 +1754,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Vous pouvez ajouter un gestionnaire d’événements pour modifier le jeton avant qu’il est validé. Dans l’événement Gestionnaire vous pouvez accéder au jeton de sécurité via le <xref:System.IdentityModel.Services.SecurityTokenReceivedEventArgs.SecurityToken%2A?displayProperty=nameWithType> propriété. Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenReceived> événement est un événement annulable, vous pouvez définir le <xref:System.ComponentModel.CancelEventArgs.Cancel%2A> propriété `true` dans le Gestionnaire d’événements pour terminer le traitement du message de réponse de connexion WS-Federation.  
+ Vous pouvez ajouter un gestionnaire d’événements pour modifier le jeton avant qu’il est validé. Dans l’événement Gestionnaire vous pouvez accéder au jeton de sécurité via le <xref:System.IdentityModel.Services.SecurityTokenReceivedEventArgs.SecurityToken%2A?displayProperty=nameWithType> propriété. Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenReceived> événement est un événement annulable, vous pouvez définir le <xref:System.ComponentModel.CancelEventArgs.Cancel%2A> propriété `true` dans un gestionnaire d’événements pour terminer le traitement du message de réponse de connexion WS-Federation.  
   
- Cet événement est déclenché à partir d’à l’intérieur de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthenticateRequest%2A> délégué de gestionnaire d’événements lors du traitement d’un message de réponse de connexion de WS-Federation (« wsignin1.0 ») reçu par le service de jeton de sécurité (STS). Il est déclenché juste après qu’un jeton de sécurité a été désérialisé à partir du paramètre wresult ou wresultptr paramètre dans le message de réponse de connexion, mais avant que le jeton de sécurité est validé.  
+ Cet événement est déclenché à partir d’à l’intérieur de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthenticateRequest%2A> délégué de gestionnaire d’événements lors du traitement d’un message de réponse de connexion de WS-Federation (« wsignin1.0 ») reçu par le service de jeton de sécurité (STS). Il est déclenché juste après qu’un jeton de sécurité a été désérialisé dans le paramètre wresult ou le paramètre wresultptr dans le message de réponse de connexion, mais avant que le jeton de sécurité est validé.  
   
    
   
@@ -1766,9 +1789,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Vous pouvez ajouter un gestionnaire d’événements pour modifier l’entité de sécurité créée lors du traitement d’un message de réponse de connexion WS-Federation à partir d’un service de jeton de sécurité (STS) avant d’être utilisée pour créer le jeton de session. Dans l’événement gestionnaire, vous pouvez accéder à l’entité de sécurité via le <xref:System.IdentityModel.Services.SecurityTokenValidatedEventArgs.ClaimsPrincipal%2A> propriété. Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenValidated> événement est un événement annulable, vous pouvez définir le <xref:System.ComponentModel.CancelEventArgs.Cancel%2A> propriété `true` dans le Gestionnaire d’événements pour terminer le traitement du message de réponse de connexion WS-Federation.  
+ Vous pouvez ajouter un gestionnaire d’événements pour modifier l’entité de sécurité créée lors du traitement d’un message de réponse de connexion WS-Federation à partir d’un service de jeton de sécurité (STS) avant d’être utilisée pour créer le jeton de session. Dans l’événement gestionnaire, vous pouvez accéder à l’entité de sécurité via le <xref:System.IdentityModel.Services.SecurityTokenValidatedEventArgs.ClaimsPrincipal%2A> propriété. Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SecurityTokenValidated> événement est un événement annulable, vous pouvez définir le <xref:System.ComponentModel.CancelEventArgs.Cancel%2A> propriété `true` dans un gestionnaire d’événements pour terminer le traitement du message de réponse de connexion WS-Federation.  
   
- Cet événement est déclenché à partir d’à l’intérieur de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthenticateRequest%2A> délégué de gestionnaire d’événements lors du traitement d’un message de réponse de connexion de WS-Federation (« wsignin1.0 ») reçu par le service de jeton de sécurité (STS). Il est déclenché juste après le jeton de sécurité qui a été désérialisé à partir du paramètre wresult ou le paramètre wresultptr dans le message de réponse de connexion a été validé, et avant de la sécurité de session le jeton est créé.  
+ Cet événement est déclenché à partir d’à l’intérieur de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthenticateRequest%2A> délégué de gestionnaire d’événements lors du traitement d’un message de réponse de connexion de WS-Federation (« wsignin1.0 ») reçu par le service de jeton de sécurité (STS). Il est déclenché juste après le jeton de sécurité qui a été désérialisé le paramètre wresult ou le paramètre wresultptr dans le message de réponse de connexion a été validé, et avant la sécurité de session le jeton est créé.  
   
    
   
@@ -1800,12 +1823,12 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Vous pouvez ajouter un gestionnaire d’événements pour modifier le jeton de session avant qu’il est utilisé pour définir le principal thread et est écrit dans le cookie de session. Dans l’événement gestionnaire, vous pouvez accéder au jeton de session via le <xref:System.IdentityModel.Services.SessionSecurityTokenCreatedEventArgs.SessionToken%2A?displayProperty=nameWithType> propriété. Vous pouvez spécifier si un cookie de session doit être écrits en définissant le <xref:System.IdentityModel.Services.SessionSecurityTokenCreatedEventArgs.WriteSessionCookie%2A?displayProperty=nameWithType> propriété.  
+ Vous pouvez ajouter un gestionnaire d’événements pour modifier le jeton de session avant de procéder est utilisé pour définir le principal thread et est écrit dans le cookie de session. Dans l’événement gestionnaire, vous pouvez accéder au jeton de session via le <xref:System.IdentityModel.Services.SessionSecurityTokenCreatedEventArgs.SessionToken%2A?displayProperty=nameWithType> propriété. Vous pouvez spécifier si un cookie de session doit être écrite en définissant le <xref:System.IdentityModel.Services.SessionSecurityTokenCreatedEventArgs.WriteSessionCookie%2A?displayProperty=nameWithType> propriété.  
   
- Cet événement est déclenché à partir d’à l’intérieur de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthenticateRequest%2A> délégué de gestionnaire d’événements lors du traitement d’un message de réponse de connexion de WS-Federation (« wsignin1.0 ») reçu par le service de jeton de sécurité (STS). Il est déclenché juste après le jeton de sécurité qui a été désérialisé à partir du paramètre wresult ou wresultptr paramètre dans le message de réponse de connexion a été validé, et avant les revendications principal est défini sur le <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> (et dans le <xref:System.Web.HttpContext.User%2A> propriété de <xref:System.Web.HttpContext.Current%2A?displayProperty=nameWithType>).  
+ Cet événement est déclenché à partir d’à l’intérieur de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthenticateRequest%2A> délégué de gestionnaire d’événements lors du traitement d’un message de réponse de connexion de WS-Federation (« wsignin1.0 ») reçu par le service de jeton de sécurité (STS). Il est déclenché juste après le jeton de sécurité qui a été désérialisé le paramètre wresult ou le paramètre wresultptr dans le message de réponse de connexion a été validé, et avant les revendications principal est défini sur le <xref:System.Threading.Thread.CurrentPrincipal%2A?displayProperty=nameWithType> (puis, dans le <xref:System.Web.HttpContext.User%2A> propriété de <xref:System.Web.HttpContext.Current%2A?displayProperty=nameWithType>).  
   
 > [!IMPORTANT]
->  Pour fonctionner en mode de référence, les sessions Microsoft recommande fournissant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SessionSecurityTokenCreated?displayProperty=nameWithType> événement dans le paramètre et le fichier global.asax.cs le <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propriété sur le jeton passé dans le <xref:System.IdentityModel.Services.SessionSecurityTokenCreatedEventArgs.SessionToken%2A?displayProperty=nameWithType> propriété. Cela permet de garantir que le jeton de session fonctionne en mode de référence pour chaque demande et est favorisé au paramètre simplement le <xref:System.IdentityModel.Services.SessionAuthenticationModule.IsReferenceMode%2A?displayProperty=nameWithType> propriété sur le Module d’authentification de Session.  
+>  Pour fonctionner en mode de référence, les sessions Microsoft recommande de fournir un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SessionSecurityTokenCreated?displayProperty=nameWithType> événement dans le fichier global.asax.cs et le paramètre le <xref:System.IdentityModel.Tokens.SessionSecurityToken.IsReferenceMode%2A?displayProperty=nameWithType> propriété sur le jeton passé dans le <xref:System.IdentityModel.Services.SessionSecurityTokenCreatedEventArgs.SessionToken%2A?displayProperty=nameWithType> propriété. Cela garantit que le jeton de session fonctionne en mode de référence pour chaque demande et est favorisé au paramètre simplement le <xref:System.IdentityModel.Services.SessionAuthenticationModule.IsReferenceMode%2A?displayProperty=nameWithType> propriété sur le Module d’authentification de Session.  
   
    
   
@@ -1846,9 +1869,9 @@
 ## Remarks  
  Appelée à partir de la demande de traitement pipeline implémenté dans le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnAuthenticateRequest%2A> délégué de gestionnaire d’événements. Cette méthode effectue les opérations suivantes :  
   
-1.  Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnSessionSecurityTokenCreated%2A> méthode pour déclencher le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SessionSecurityTokenCreated> événement. Vous pouvez utiliser cet événement pour modifier le jeton de session avant d’être utilisé pour définir le principal thread et écrite dans le cookie de session et spécifier si le cookie de session doit être écrits.  
+1.  Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnSessionSecurityTokenCreated%2A> méthode pour déclencher le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SessionSecurityTokenCreated> événement. Vous pouvez utiliser cet événement pour modifier le jeton de session avant d’être utilisé pour définir le principal thread et écrit dans le cookie de session et spécifier si le cookie de session doit être écrite.  
   
-2.  Appelle le <xref:System.IdentityModel.Services.SessionAuthenticationModule.AuthenticateSessionSecurityToken%2A> méthode sur le module d’authentification de session configurée (<xref:System.IdentityModel.Services.SessionAuthenticationModule>) pour définir le principal thread et éventuellement écrire le cookie de session.  
+2.  Appelle le <xref:System.IdentityModel.Services.SessionAuthenticationModule.AuthenticateSessionSecurityToken%2A> méthode sur le module d’authentification de session configurée (<xref:System.IdentityModel.Services.SessionAuthenticationModule>) pour définir le thread principal et si vous le souhaitez écrire le cookie de session.  
   
  ]]></format>
         </remarks>
@@ -1878,7 +1901,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si la demande est validée dans la page de connexion, un contrôle sur la page déclenche cet événement, pas ce module.  
+ Si la demande est validée dans la page de connexion, un contrôle sur la page déclenche cet événement, pas de ce module.  
   
    
   
@@ -1910,11 +1933,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cet événement est déclenché par un appel à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnSignedOut%2A> méthode à partir d’à l’intérieur du <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.Boolean%29?displayProperty=nameWithType> méthode lors de la déconnexion de la session à la partie de confiance (RP). L’événement n’est pas déclenché lorsque cette opération fédéré déconnexion via le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
+ Cet événement est déclenché par un appel à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnSignedOut%2A> méthode depuis l’intérieur du <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.Boolean%29?displayProperty=nameWithType> méthode lors de la déconnexion de la session à la partie de confiance (RP). L’événement n’est pas déclenché lorsque cette opération fédéré à la déconnexion via le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
   
  Vous pouvez ajouter un gestionnaire d’événements pour effectuer tout traitement supplémentaire qui est requis par votre application une fois que le cookie de session a été supprimé.  
   
- Cet événement n’est pas garanti d’être appelée pour chaque session. Les cookies peuvent être supprimées du côté client, par exemple, cet événement ne serait jamais être déclenché.  
+ Cet événement n’est pas garanti d’être appelée pour chaque session. Les cookies peuvent être supprimées sur le côté client, par exemple, cet événement ne serait jamais déclenché.  
   
  ]]></format>
         </remarks>
@@ -1945,7 +1968,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- L’implémentation par défaut appelle la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectToIdentityProvider%2A> méthode pour effectuer l’authentification.  
+ L’implémentation par défaut appelle la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectToIdentityProvider%2A> méthode pour effectuer l’authentification dans.  
   
  ]]></format>
         </remarks>
@@ -1973,9 +1996,9 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Lorsque le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CreateSignInRequest%2A> méthode est appelée, le message de connexion qui est généré contient un paramètre wctx qui a le format suivant : `ru=returnUrl&cx=SignInContext&rm=rememberMeSet&id=uniqueId`. La valeur de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignInContext%2A> est stocké dans le `cx` paramètre. <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CreateSignInRequest%2A> peut être appelée directement depuis votre code. Il est également appelé lorsque le WSFAM effectuer les redirections passives et également lorsque soit la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignIn%2A> (méthode) ou le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectToIdentityProvider%2A> méthode est appelée par le code d’application.  
+ Lorsque le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CreateSignInRequest%2A> méthode est appelée, le message de connexion qui est généré contient un paramètre wctx qui a le format suivant : `ru=returnUrl&cx=SignInContext&rm=rememberMeSet&id=uniqueId`. La valeur de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignInContext%2A> est stocké dans le `cx` paramètre. <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CreateSignInRequest%2A> peut être appelée directement depuis votre code. Il est également appelé quand le WSFAM effectue des redirections passives et également lorsque soit la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignIn%2A> méthode ou le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectToIdentityProvider%2A> méthode est appelée par le code d’application.  
   
- Bien que le WSFAM enregistre la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignInContext%2A> valeur dans les messages de demande de connexion, si la valeur est utilisée par votre application pendant le traitement des réponses, vous devez fournir la logique pour l’extraire à partir du paramètre wctx dans le message de réponse de connexion.  
+ Bien que le module WSFAM enregistre la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignInContext%2A> valeur dans les messages de demande de connexion, si la valeur est utilisée par votre application pendant le traitement des réponses, vous devez fournir la logique d’extraction d’à partir du paramètre wctx dans le message de réponse de connexion.  
   
  Pour plus d’informations sur le format et le traitement du paramètre wctx, consultez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CreateSignInRequest%2A> (méthode).  
   
@@ -2005,7 +2028,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si la demande est validée dans la page de connexion, un contrôle sur la page déclenche cet événement, pas ce module.  
+ Si la demande est validée dans la page de connexion, un contrôle sur la page déclenche cet événement, pas de ce module.  
   
  ]]></format>
         </remarks>
@@ -2032,11 +2055,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cet événement est déclenché par un appel à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnSigningOut%2A> méthode à partir d’à l’intérieur du <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.Boolean%29?displayProperty=nameWithType> méthode lors de la déconnexion de la session à la partie de confiance (RP). L’événement n’est pas déclenché lorsque cette opération fédéré déconnexion via le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
+ Cet événement est déclenché par un appel à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnSigningOut%2A> méthode depuis l’intérieur du <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.Boolean%29?displayProperty=nameWithType> méthode lors de la déconnexion de la session à la partie de confiance (RP). L’événement n’est pas déclenché lorsque cette opération fédéré à la déconnexion via le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
   
- Vous pouvez ajouter un gestionnaire d’événements pour effectuer un traitement supplémentaire requis par votre application avant que le cookie de session est supprimé. Vous pouvez lire le <xref:System.IdentityModel.Services.SigningOutEventArgs.IsIPInitiated*> propriété dans le Gestionnaire d’événements pour déterminer si le processus de déconnexion est le résultat de la réception d’un message de demande de nettoyage de déconnexion WS-Federation (« wsignoutcleanup1.0 ») à partir d’un service de jeton de sécurité (STS) ou si elle a été initiée dans la partie de confiance.  
+ Vous pouvez ajouter un gestionnaire d’événements pour effectuer un traitement supplémentaire requis par votre application avant que le cookie de session est supprimé. Vous pouvez lire le <xref:System.IdentityModel.Services.SigningOutEventArgs.IsIPInitiated*> propriété dans le Gestionnaire d’événements pour déterminer si la déconnexion est le résultat de la réception d’un message de demande de nettoyage de déconnexion WS-Federation (« wsignoutcleanup1.0 ») à partir d’un service de jeton de sécurité (STS) ou si elle a été initialisée sur la partie de confiance.  
   
- Cet événement n’est pas garanti d’être appelée pour chaque session. Les cookies peuvent être supprimées du côté client, par exemple, cet événement ne serait jamais être déclenché.  
+ Cet événement n’est pas garanti d’être appelée pour chaque session. Les cookies peuvent être supprimées sur le côté client, par exemple, cet événement ne serait jamais déclenché.  
   
  ]]></format>
         </remarks>
@@ -2066,7 +2089,7 @@
 ## Remarks  
  Vous pouvez utiliser cette propriété pour envoyer des paramètres supplémentaires dans une demande de connexion. Il s’agit des paramètres spécifiques à l’application qui ne sont pas l’un des paramètres qui sont spécifiés par le protocole WS-Federation. Pour supprimer des paramètres supplémentaires à partir de la demande de définie la propriété à une chaîne vide.  
   
- Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service d’émission de jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
+ Vous pouvez remplacer ce paramètre sur chaque requête HTTP en ajoutant un gestionnaire pour le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.RedirectingToIdentityProvider> événement. Cet événement est déclenché juste avant que le module redirige vers le service du jeton de sécurité (STS) avec un message de demande de connexion WS-Federation. Le service STS est spécifié par le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer%2A> propriété.  
   
  ]]></format>
         </remarks>
@@ -2086,7 +2109,7 @@
 ## Remarks  
  Supprime la session active.  
   
- Aucun message de demande de déconnexion (« wsignout1.0 ») est envoyé pour le service de jeton de sécurité (STS). À la déconnexion à STS à l’aide du protocole WS-Federation, utilisez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
+ Aucun message de demande de déconnexion (« wsignout1.0 ») n’est envoyé pour le service de jeton de sécurité (STS). De déconnexion au niveau du STS à l’aide du protocole WS-Federation, utilisez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
   
  ]]></format>
         </remarks>
@@ -2114,11 +2137,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Supprime la session en cours et redirige le navigateur vers l’URL spécifiée dans la requête HTTP actuelle.  
+ Supprime la session active et redirige le navigateur vers l’URL spécifiée dans la requête HTTP actuelle.  
   
- Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.String%29?displayProperty=nameWithType> méthode avec le `redirectUrl` paramètre défini à l’URL de la requête actuelle.  
+ Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.String%29?displayProperty=nameWithType> méthode avec le `redirectUrl` paramètre défini sur l’URL de la requête actuelle.  
   
- Aucun message de demande de déconnexion (« wsignout1.0 ») est envoyé pour le service de jeton de sécurité (STS). À la déconnexion à STS à l’aide du protocole WS-Federation, utilisez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
+ Aucun message de demande de déconnexion (« wsignout1.0 ») n’est envoyé pour le service de jeton de sécurité (STS). De déconnexion au niveau du STS à l’aide du protocole WS-Federation, utilisez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
   
  ]]></format>
         </remarks>
@@ -2150,19 +2173,19 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode effectue le travail réel de la session en cours de suppression et de déclencher les événements de déconnexion appropriés. La méthode effectue les opérations suivantes :  
+ Cette méthode effectue le travail réel de la suppression de la session active et déclencher les événements de déconnexion appropriés. La méthode effectue les opérations suivantes :  
   
 1.  Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnSigningOut%2A> méthode pour déclencher le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SigningOut> événement. Un gestionnaire d’événements peut fournir tout traitement nécessaire avant que la session est supprimée. Le <xref:System.IdentityModel.Services.SigningOutEventArgs.IsIPInitiated%2A?displayProperty=nameWithType> propriété est définie en fonction de la `isIPRequest` paramètre.  
   
-2.  Appelle la <xref:System.IdentityModel.Services.SessionAuthenticationModule.DeleteSessionTokenCookie%2A?displayProperty=nameWithType> méthode sur le Gestionnaire d’authentification de session en cours pour supprimer le cookie de session.  
+2.  Appelle le <xref:System.IdentityModel.Services.SessionAuthenticationModule.DeleteSessionTokenCookie%2A?displayProperty=nameWithType> méthode sur le Gestionnaire d’authentification de session en cours pour supprimer le cookie de session.  
   
      Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnSignedOut%2A> méthode pour déclencher le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignedOut> événement.  
   
 3.  Si une erreur se produit pendant le traitement de déconnexion, appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnSignOutError%2A> méthode pour déclencher le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOutError> événement. Un gestionnaire d’événements peut annuler le traitement et éviter qu’une exception ne soit retournée à l’appelant de <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%2A>  
   
- Vous pouvez appeler la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%2A?displayProperty=nameWithType> méthode avec la `isIPRequest` jeu de paramètres `false` vous déconnecter d’une session sans effectuer une redirection. La méthode est finalement appelée par tous les autres surchargées <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%2A> méthodes (avec la `isIPRequest` paramètre `false`) pour effectuer le traitement de déconnexion. La méthode est appelée à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse%28System.Web.HttpRequestBase%2CSystem.Boolean%29?displayProperty=nameWithType> méthode avec la `isIPRequest` jeu de paramètres `true` pour vous déconnecter de la session lorsqu’il traite un message de nettoyage déconnexion WS-Federation (« wsignoutcleanup1.0 »).  
+ Vous pouvez appeler la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%2A?displayProperty=nameWithType> méthode avec le `isIPRequest` jeu de paramètres `false` pour vous déconnecter une session sans effectuer de redirection. La méthode est appelée au final par tous les autres surchargées <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%2A> méthodes (avec le `isIPRequest` paramètre défini sur `false`) pour effectuer le traitement de déconnexion. La méthode est appelée à partir de la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.CanReadSignInResponse%28System.Web.HttpRequestBase%2CSystem.Boolean%29?displayProperty=nameWithType> méthode avec le `isIPRequest` jeu de paramètres `true` se déconnecter de la session quand il traite un message de nettoyage de déconnexion WS-Federation (« wsignoutcleanup1.0 »).  
   
- Aucun message de demande de déconnexion (« wsignout1.0 ») est envoyé pour le service de jeton de sécurité (STS). À la déconnexion à STS à l’aide du protocole WS-Federation, utilisez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
+ Aucun message de demande de déconnexion (« wsignout1.0 ») n’est envoyé pour le service de jeton de sécurité (STS). De déconnexion au niveau du STS à l’aide du protocole WS-Federation, utilisez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
   
  ]]></format>
         </remarks>
@@ -2193,11 +2216,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Supprime la session en cours et redirige le navigateur vers l’URL spécifiée.  
+ Supprime la session active et redirige le navigateur vers l’URL spécifiée.  
   
- Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> méthode avec la `redirectUrl` paramètre et avec le `initiateSignoutCleanup` définir `false`.  
+ Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.String%2CSystem.Boolean%29?displayProperty=nameWithType> méthode avec le `redirectUrl` paramètre et avec le `initiateSignoutCleanup` définir `false`.  
   
- Aucun message de demande de déconnexion (« wsignout1.0 ») est envoyé pour le service de jeton de sécurité (STS). À la déconnexion à STS à l’aide du protocole WS-Federation, utilisez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
+ Aucun message de demande de déconnexion (« wsignout1.0 ») n’est envoyé pour le service de jeton de sécurité (STS). De déconnexion au niveau du STS à l’aide du protocole WS-Federation, utilisez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
   
  ]]></format>
         </remarks>
@@ -2232,11 +2255,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Supprime la session en cours et redirige le navigateur vers l’URL spécifiée.  
+ Supprime la session active et redirige le navigateur vers l’URL spécifiée.  
   
- Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.Boolean%29?displayProperty=nameWithType> méthode avec la `initiateSignoutCleanup` jeu de paramètres `false`.  
+ Appelle le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.Boolean%29?displayProperty=nameWithType> méthode avec le `initiateSignoutCleanup` jeu de paramètres `false`.  
   
- Aucun message de demande de déconnexion (« wsignout1.0 ») est envoyé pour le service de jeton de sécurité (STS). À la déconnexion à STS à l’aide du protocole WS-Federation, utilisez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
+ Aucun message de demande de déconnexion (« wsignout1.0 ») n’est envoyé pour le service de jeton de sécurité (STS). De déconnexion au niveau du STS à l’aide du protocole WS-Federation, utilisez le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
   
  ]]></format>
         </remarks>
@@ -2266,7 +2289,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cet événement est déclenché par un appel à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnSignOutError%2A> méthode à partir d’à l’intérieur du <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.Boolean%29?displayProperty=nameWithType> méthode lors de la déconnexion de la session à la partie de confiance (RP). L’événement n’est pas déclenché lorsque cette opération fédéré déconnexion via le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
+ Cet événement est déclenché par un appel à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.OnSignOutError%2A> méthode depuis l’intérieur du <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOut%28System.Boolean%29?displayProperty=nameWithType> méthode lors de la déconnexion de la session à la partie de confiance (RP). L’événement n’est pas déclenché lorsque cette opération fédéré à la déconnexion via le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> (méthode).  
   
  Le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOutError> événement est un événement annulable. Vous pouvez définir le <xref:System.ComponentModel.CancelEventArgs.Cancel%2A> propriété dans un gestionnaire d’événements afin d’éviter l’exception qui a provoqué l’erreur ne soit retournée à l’initiateur de la déconnexion.  
   
@@ -2296,7 +2319,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Par défaut, cette propriété est initialisée à partir de la `signOutQueryString` attribut de la [ &lt;wsFederation&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/wsfederation.md) élément dans le fichier de configuration. Il est destiné à contenir tous les paramètres spécifiques à l’application à envoyer dans une demande de déconnexion WS-Federation. Pour supprimer ces paramètres, vous pouvez définir la propriété à une chaîne vide.  
+ Par défaut, cette propriété est initialisée à partir de la `signOutQueryString` attribut de la [ &lt;wsFederation&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/wsfederation.md) élément dans le fichier de configuration. Il est destiné à contenir tous les paramètres spécifiques à l’application à être envoyées dans une demande de déconnexion WS-Federation. Pour supprimer ces paramètres, vous pouvez définir la propriété à une chaîne vide.  
   
  Le WSFAM n’utilise pas cette propriété directement. Toutefois, vous pouvez passer à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetFederationPassiveSignOutUrl%2A> méthode pour créer une URL de déconnexion WS-Federation complète qui peut ensuite être utilisée par votre code.  
   
@@ -2327,11 +2350,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Par défaut, cette propriété est initialisée à partir de la `signOutReply` attribut de la [ &lt;wsFederation&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/wsfederation.md) élément dans le fichier de configuration. Elle est destinée à représenter le paramètre wreply dans une demande de déconnexion WS-Federation.  
+ Par défaut, cette propriété est initialisée à partir de la `signOutReply` attribut de la [ &lt;wsFederation&gt; ](~/docs/framework/configure-apps/file-schema/windows-identity-foundation/wsfederation.md) élément dans le fichier de configuration. Il est destiné à représenter le paramètre wreply dans une demande de déconnexion WS-Federation.  
   
- Le paramètre wreply est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOutReply%2A> est définie sur `null` ou une chaîne vide, le paramètre wreply n’est pas incluse dans la demande de déconnexion.  
+ Le paramètre wreply est facultatif. Si le <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.SignOutReply%2A> propriété est définie sur `null` ou une chaîne vide, le paramètre wreply n’est pas incluse dans la demande de déconnexion.  
   
- Le WSFAM n’utilise pas cette propriété directement. Toutefois, vous pouvez passer à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> méthode lors de l’exécution de déconnexion WS-Federation à partir de votre code ou que vous pouvez passer à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetFederationPassiveSignOutUrl%2A> méthode pour créer une URL de déconnexion WS-Federation complète.  
+ Le WSFAM n’utilise pas cette propriété directement. Toutefois, vous pouvez passer à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.FederatedSignOut%2A> méthode lors de l’exécution de déconnexion WS-Federation à partir de votre code, ou vous pouvez passer à la <xref:System.IdentityModel.Services.WSFederationAuthenticationModule.GetFederationPassiveSignOutUrl%2A> méthode pour créer une URL de déconnexion WS-Federation complète.  
   
  ]]></format>
         </remarks>
@@ -2357,7 +2380,16 @@
         <summary>Vérifie que les propriétés <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer" /> et <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm" /> ne sont pas vides, et, que, si la propriété <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.RequireHttps" /> est <see langword="true" />, que les URI spécifiés pour <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer" /> et <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm" /> sont conformes Https..</summary>
         <remarks>To be added.</remarks>
         <exception cref="T:System.InvalidOperationException">
-          <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer" /> est soit <see langword="null" /> soit une chaîne vide.  - ou - <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm" /> est <see langword="null" /> ou est une chaîne vide.  - ou - <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.RequireHttps" /> est <see langword="true" /> et <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer" /> n’est pas conforme à HTTPS.  - ou - <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.RequireHttps" /> est <see langword="true" /> et <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm" /> n’est pas conforme à HTTPS.</exception>
+          <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer" /> est soit <see langword="null" /> soit une chaîne vide.  
+  
+- ou - 
+ <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm" /> est soit <see langword="null" /> soit une chaîne vide.  
+  
+- ou - 
+ <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.RequireHttps" /> est <see langword="true" /> et <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Issuer" /> n'est pas conforme Https.  
+  
+- ou - 
+ <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.RequireHttps" /> est <see langword="true" /> et <see cref="P:System.IdentityModel.Services.WSFederationAuthenticationModule.Realm" /> n'est pas conforme Https.</exception>
       </Docs>
     </Member>
     <Member MemberName="XmlDictionaryReaderQuotas">
