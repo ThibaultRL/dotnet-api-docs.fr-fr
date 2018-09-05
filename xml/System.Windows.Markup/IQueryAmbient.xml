@@ -1,10 +1,10 @@
 <Type Name="IQueryAmbient" FullName="System.Windows.Markup.IQueryAmbient">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="5b1419b6b996eab65fbdcda1f6ed9782df12197d" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="36502762" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IQueryAmbient" />
@@ -24,14 +24,14 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un mécanisme de propriété ambiante vise à améliorer les temps d’analyse en informant un writer d’objet XAML pour éviter d’instancier certains objets, dans le cas où il est connu que les objets sont des valeurs qui sont temporaires et inutiles pour une durée d’exécution par défaut application. Normalement, les recherches XAML ou traitement XAML d’un accesseur get de propriété doit instancier de tels objets pour remplir la représentation graphique d’objet avec des valeurs de prêt à l’emploi.  
+ Un mécanisme de propriété ambiante vise à améliorer les temps d’analyse en informant un writer d’objet XAML pour éviter l’instanciation de certains objets, dans le cas où il est connu que les objets sont les valeurs qui sont temporaires et inutiles pour un temps d’exécution standard application. En règle générale, les recherches XAML ou traitement XAML d’un accesseur get de propriété devez instancier ces objets pour remplir la représentation graphique d’objet avec les valeurs de prêts à l’emploi.  
   
- <xref:System.Windows.Markup.IQueryAmbient> possède un seul membre : <xref:System.Windows.Markup.IQueryAmbient.IsAmbientPropertyAvailable%2A>.  
+ <xref:System.Windows.Markup.IQueryAmbient> a un seul membre : <xref:System.Windows.Markup.IQueryAmbient.IsAmbientPropertyAvailable%2A>.  
   
- <xref:System.Windows.Markup.IQueryAmbient> est un mécanisme parallèle à <xref:System.Windows.Markup.AmbientAttribute>. <xref:System.Windows.Markup.IQueryAmbient> est le mécanisme spécialisé qui évite d’utiliser la réflexion pour déterminer les informations et peut également agir en fonction de la situation (un objet donné peut choisir de rapport `true` ou `false` pour <xref:System.Windows.Markup.IQueryAmbient.IsAmbientPropertyAvailable%2A>), alors que l’attribut est essentiellement statique (analyse). <xref:System.Windows.Markup.AmbientAttribute> est le mécanisme général qui peut être utilisé par les writers d’objet XAML et qui correspond généralement aux propriétés du système de type XAML dédiées <xref:System.Xaml.XamlMember.IsAmbient%2A> et <xref:System.Xaml.XamlType.IsAmbient%2A>.  
+ <xref:System.Windows.Markup.IQueryAmbient> est un mécanisme parallèle à <xref:System.Windows.Markup.AmbientAttribute>. <xref:System.Windows.Markup.IQueryAmbient> est le mécanisme spécialisé qui évite à l’aide de la réflexion pour déterminer les informations et peut également agir en fonction de la situation (un objet donné pourrait choisir d’indiquer `true` ou `false` pour <xref:System.Windows.Markup.IQueryAmbient.IsAmbientPropertyAvailable%2A>), tandis que l’attribut est essentiellement statique analyse). <xref:System.Windows.Markup.AmbientAttribute> est le mécanisme général qui peut être utilisé par les writers d’objet XAML et qui correspond généralement aux propriétés de système de type XAML dédiées <xref:System.Xaml.XamlMember.IsAmbient%2A> et <xref:System.Xaml.XamlType.IsAmbient%2A>.  
   
-## <a name="wpf-implementations-of-iqueryambient"></a>Implémentations WPF de IQueryAmbient  
- Dans WPF, <xref:System.Windows.Markup.IQueryAmbient> est utilisé pour le processus de recherche de dictionnaire de ressources. Le processus de recherche obtient successif `Resources` valeurs tout au long de l’arborescence logique WPF progresse vers la racine de l’étendue de la ressource jusqu'à ce qu’une clé est trouvée, ou est déterminée que la clé n’existe ne pas dans la portée. Normalement, cela nécessiterait l’instanciation d’un <xref:System.Windows.ResourceDictionary> chaque fois pour recevoir les résultats. Déclaration du contenu de `Resources` comme ambiant tant que `Resources` existe permet d’optimiser ce processus de recherche. Dans WPF, cette interface est implémentée dans les cas suivants :  
+## <a name="wpf-implementations-of-iqueryambient"></a>Implémentations WPF d’IQueryAmbient  
+ Dans WPF, <xref:System.Windows.Markup.IQueryAmbient> est utilisé pour le processus de recherche de dictionnaire de ressources. Le processus de recherche obtient successif `Resources` valeurs tout au long de l’arborescence logique WPF progresse vers la racine de l’étendue de la ressource jusqu'à ce qu’une clé est trouvée ou la clé est déterminée à n’existe ne pas dans la portée. Normalement, cela nécessiterait l’instanciation d’un <xref:System.Windows.ResourceDictionary> chaque fois pour recevoir les résultats. Déclaration du contenu de `Resources` comme ambiant tant que `Resources` existe optimise ce processus de recherche. Dans WPF, cette interface est implémentée dans les cas suivants :  
   
 -   <xref:System.Windows.FrameworkElement> implémente <xref:System.Windows.FrameworkElement.System%23Windows%23Markup%23IQueryAmbient%23IsAmbientPropertyAvailable%2A> pour retourner `true` pour tous les noms de propriété s’il contient un existant <xref:System.Windows.ResourceDictionary> pour <xref:System.Windows.FrameworkElement.Resources%2A>, et tant que la requête n’est pas pour le <xref:System.Windows.FrameworkElement.Resources%2A> propriété proprement dite.  
   
@@ -41,9 +41,9 @@
   
 -   <xref:System.Windows.FrameworkContentElement> implémente le même modèle pour son <xref:System.Windows.FrameworkContentElement.Resources%2A>.  
   
--   <xref:System.Windows.FrameworkTemplate> implémente le même modèle pour son <xref:System.Windows.FrameworkTemplate.Resources%2A>. Il signale également <xref:System.Windows.FrameworkTemplate.Template%2A> comme ambiant mais retourne la valeur de contenu `false` si l’interrogation de <xref:System.Windows.FrameworkTemplate.Template%2A> lui-même.  
+-   <xref:System.Windows.FrameworkTemplate> implémente le même modèle pour son <xref:System.Windows.FrameworkTemplate.Resources%2A>. Il signale également <xref:System.Windows.FrameworkTemplate.Template%2A> comme ambiant mais retourne la valeur de contenu `false` si recherchant <xref:System.Windows.FrameworkTemplate.Template%2A> lui-même.  
   
--   Dans chacun de ces cas, les `Resources` propriété (et <xref:System.Windows.FrameworkTemplate.Template%2A>) sont attribuées en tant que <xref:System.Windows.Markup.AmbientAttribute>. L’utilisation typique consiste à interroger les propriétés qui ne sont pas le <xref:System.Windows.Markup.AmbientAttribute> attribué les propriétés de l’objet qui définit l’interface. En d’autres termes, tant qu’il existe un dictionnaire de ressources afin de fournir la valeur au moment de l’exécution potentielle lorsque le graphique d’objet est créé, toute autre propriété en dehors du conteneur de propriété du dictionnaire de ressources peut être traitée comme ambiant.  
+-   Dans chacun de ces cas, les données pertinentes `Resources` propriété (et <xref:System.Windows.FrameworkTemplate.Template%2A>) sont attribuées en tant que <xref:System.Windows.Markup.AmbientAttribute>. L’utilisation classique consiste à rechercher les propriétés qui ne sont pas le <xref:System.Windows.Markup.AmbientAttribute> attribué les propriétés de l’objet qui définit l’interface. En d’autres termes, tant qu’il existe un dictionnaire de ressources afin de fournir la valeur au moment de l’exécution potentielle lorsque le graphique d’objet est créé, toute autre propriété en dehors du conteneur de propriété du dictionnaire de ressources peut être traitée comme ambiant.  
   
  ]]></format>
     </remarks>

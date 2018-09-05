@@ -1,10 +1,10 @@
 <Namespace Name="System.Diagnostics.PerformanceData">
   <Metadata>
     <Meta Name="ms.openlocfilehash" Value="8813c8ce03149b4c97305ad0ee10d1cdd88ce604" />
-    <Meta Name="ms.sourcegitcommit" Value="3907f9a5780957d9c85af2e54c0a5bc2a5bf19ab" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/14/2018" />
+    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
     <Meta Name="ms.locfileid" Value="34173735" />
   </Metadata>
   <Docs>
@@ -13,11 +13,11 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Les classes de cet espace de noms prend en charge la nouvelle architecture (version 2.0) pour les compteurs de performances qui a été introduite dans Windows Vista. Dans la nouvelle architecture, le fournisseur ne répond plus aux demandes de consommateur directement, mais au lieu de cela, il vous suffit conserve les données de compteur. Le système injecte un thread dans le processus du fournisseur lorsque le fournisseur crée une instance de l’ensemble de compteurs ; le thread est responsable du traitement des demandes de consommateur.  
+ Les classes de cet espace de noms prennent en charge la nouvelle architecture (version 2.0) pour les compteurs de performances qui a été introduite dans Windows Vista. Dans la nouvelle architecture, le fournisseur ne répond plus aux demandes de consommateur directement, mais au lieu de cela gère simplement les données du compteur. Le système injecte un thread dans le processus du fournisseur lorsque le fournisseur crée une instance de l’ensemble de compteurs ; le thread est responsable du traitement des demandes de consommateur.  
   
  Les étapes suivantes montrent le processus d’écriture d’un fournisseur de compteurs.  
   
-1.  Les compteurs pour le fournisseur fournit est défini dans un manifeste XML. Les compteurs sont regroupés logiquement dans des ensembles de compteurs. Les compteurs dans un ensemble de compteurs sont identifiés par un identificateur numérique qui est unique dans l’ensemble de compteurs. Un fournisseur peut définir un ou plusieurs ensembles de compteurs. Un ensemble de compteurs est identifié par un Guid qui est unique pour un fournisseur. Notez que si vous utilisez ces classes pour écrire votre fournisseur :  
+1.  Les compteurs qui fournit le fournisseur est défini dans un manifeste basé sur XML. Les compteurs sont regroupés logiquement dans des ensembles de compteurs. Les compteurs dans un ensemble de compteurs sont identifiés par un identificateur numérique unique au sein de l’ensemble de compteurs. Un fournisseur peut définir un ou plusieurs ensembles de compteurs. Un ensemble de compteurs est identifié par un Guid unique à un fournisseur. Notez que si vous utilisez ces classes pour écrire votre fournisseur :  
   
     -   L’attribut de rappel de l’élément de fournisseur est ignoré.  
   
@@ -25,40 +25,40 @@
   
      Pour plus d’informations sur l’écriture du manifeste, consultez [schéma des compteurs de performances](https://msdn.microsoft.com/library/windows/desktop/aa373092\(v=vs.85\).aspx).  
   
-2.  Après avoir écrit votre manifeste, utilisez la [CTRPP](https://msdn.microsoft.com/library/windows/desktop/aa372128\(v=vs.85\).aspx) outil pour compiler le manifeste (ctrpp provider.man). L’outil génère quatre fichiers : .h, .c, .rc et * _r.h. Vous pouvez ignorer les fichiers .h et .c. Le fichier .rc contient les chaînes localisées définies dans votre manifeste. Les fichiers .rc et * _r.h vous permet de créer le fichier de ressources compilé (.res) que vous incluez dans votre projet. L’appel suivant montre comment compiler le fichier de ressources :  
+2.  Après avoir écrit votre manifeste, utilisez la [CTRPP](https://msdn.microsoft.com/library/windows/desktop/aa372128\(v=vs.85\).aspx) outil pour compiler le manifeste (ctrpp provider.man). L’outil génère quatre fichiers : .h, .c, .rc et * _r.h. Vous pouvez ignorer les fichiers .c et .h. Le fichier .rc contient les chaînes localisées définies dans votre manifeste. Vous utilisez les fichiers .rc et * _r.h pour créer le fichier de ressources compilé (.res) que vous incluez dans votre projet. L’appel suivant montre comment compiler le fichier de ressources :  
   
     ```console  
     rc /r /i "c:\Program Files\Microsoft SDKs\Windows\v6.0\Include" provider.rc  
     ```  
   
-     Si vous obtenez une erreur qui référence sal.h, copiez le fichier sal.h votre Microsoft Visual Studio, Visual C# inclure dans le répertoire que vous spécifiez pour le commutateur /i.  
+     Si vous obtenez une erreur qui référence sal.h, copiez le fichier sal.h à partir de Microsoft Visual Studio, Visual C inclure dans le répertoire que vous spécifiez pour le commutateur /i.  
   
-     Ajoutez un chemin d’accès au fichier de ressources compilé (.res) à la page de propriétés d’Application de votre projet.  
+     Ajouter un chemin d’accès au fichier de ressources compilé (.res) à la page de propriétés d’Application de votre projet.  
   
-3.  Écrivez votre fournisseur. Les étapes suivantes montrent les appels effectués par un fournisseur :  
+3.  Écrire votre fournisseur. Les étapes suivantes montrent les appels effectués par un fournisseur :  
   
     1.  Appelez le <xref:System.Diagnostics.PerformanceData.CounterSet.%23ctor%2A?displayProperty=nameWithType> constructeur pour définir l’ensemble de compteurs. Appelez cette méthode pour chaque ensemble de compteurs défini dans le manifeste.  
   
-    2.  Pour chaque ensemble de compteurs, appelez l’une de le <xref:System.Diagnostics.PerformanceData.CounterSet.AddCounter%2A?displayProperty=nameWithType> méthodes pour ajouter les compteurs à l’ensemble. Appelez cette méthode pour chaque compteur défini dans l’ensemble de compteurs.  
+    2.  Pour chaque ensemble de compteurs, appelez une de la <xref:System.Diagnostics.PerformanceData.CounterSet.AddCounter%2A?displayProperty=nameWithType> méthodes pour ajouter les compteurs à l’ensemble. Appelez cette méthode pour chaque compteur défini dans l’ensemble de compteurs.  
   
-    3.  Appelez le <xref:System.Diagnostics.PerformanceData.CounterSet.CreateCounterSetInstance%2A?displayProperty=nameWithType> méthode pour créer une instance de l’ensemble de compteurs (une instance contient les données de compteur). Pour les ensembles de compteurs d’instance unique, appelez cette méthode une seule fois. Pour plusieurs ensembles de compteurs d’instance, appelez cette méthode pour chaque instance pour laquelle vous devez fournir des données de compteur (utilisez un nom unique pour chaque instance).  
+    3.  Appelez le <xref:System.Diagnostics.PerformanceData.CounterSet.CreateCounterSetInstance%2A?displayProperty=nameWithType> méthode pour créer une instance de l’ensemble de compteurs (une instance contient les données de compteur). Pour les ensembles de compteurs d’instance unique, appelez cette méthode une seule fois. Pour plusieurs ensembles de compteurs d’instance, appelez cette méthode pour chaque instance pour laquelle vous avez besoin fournir des données de compteur (utilisez un nom unique pour chaque instance).  
   
-    4.  Utilisez le <xref:System.Diagnostics.PerformanceData.CounterSetInstance.Counters%2A?displayProperty=nameWithType> propriété accéder à et définir les données de compteur du compteur.  
+    4.  Utilisez le <xref:System.Diagnostics.PerformanceData.CounterSetInstance.Counters%2A?displayProperty=nameWithType> propriété pour accéder à et définir les données du compteur pour le compteur.  
   
-4.  Une fois que vous avez terminé votre fournisseur, utilisez l’outil LodCtr pour enregistrer les compteurs sur l’ordinateur. Par exemple :  
+4.  Une fois que vous avez terminé votre fournisseur, utilisez l’outil LodCtr pour inscrire les compteurs sur l’ordinateur. Par exemple :  
   
     ```console  
     lodctr /m:provider.man  
     ```  
   
-     L’exemple suppose que le manifeste et le fichier exécutable se trouvent dans le répertoire actif. Pour plus d’informations sur l’utilisation du LodCtr, consultez [Microsoft Technet](Http://Go.Microsoft.Com/FWLink/?LinkId=84000).  
+     L’exemple part du principe que le manifeste et le fichier exécutable se trouvent dans le répertoire actif. Pour plus d’informations sur l’utilisation du LodCtr, consultez [Microsoft Technet](Http://Go.Microsoft.Com/FWLink/?LinkId=84000).  
   
- Vous pouvez utiliser les classes dans cet espace de noms sur les ordinateurs qui exécutent Windows Vista et systèmes d’exploitation ultérieurs.  
+ Vous pouvez utiliser les classes dans cet espace de noms sur les ordinateurs qui exécutent le Windows Vista et les systèmes d’exploitation ultérieurs.  
   
    
   
 ## Examples  
- Le code suivant illustre un manifeste simple :  
+ L’exemple suivant montre un manifeste simple :  
   
 ```xml  
 <!-- <?xml version="1.0" encoding="UTF-16"?> -->  
@@ -160,7 +160,7 @@
 </instrumentationManifest>  
 ```  
   
- Le code suivant illustre une implémentation de fournisseur simple pour le manifeste :  
+ Ce qui suit illustre une implémentation de fournisseur simple pour le manifeste :  
   
 ```cs  
 using System.Diagnostics.PerformanceData;  
