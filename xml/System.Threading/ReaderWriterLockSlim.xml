@@ -1,11 +1,11 @@
 <Type Name="ReaderWriterLockSlim" FullName="System.Threading.ReaderWriterLockSlim">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c054992aa5b458c405c83dbc79a506889a9ffc87" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="48493860686ba3e73ed0b66dc031975b80866a90" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36407186" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="42709129" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class ReaderWriterLockSlim : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit ReaderWriterLockSlim extends System.Object implements class System.IDisposable" />
@@ -23,6 +23,7 @@
   <AssemblyInfo>
     <AssemblyName>System.Core</AssemblyName>
     <AssemblyVersion>2.0.5.0</AssemblyVersion>
+    <AssemblyVersion>3.5.0.0</AssemblyVersion>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <AssemblyInfo>
@@ -38,24 +39,24 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <summary>Represents a lock that is used to manage access to a resource, allowing multiple threads for reading or exclusive access for writing.</summary>
+    <summary>Représente un verrou utilisé pour gérer l'accès à une ressource, en autorisant plusieurs threads pour la lecture ou un accès exclusif en écriture.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilisez <xref:System.Threading.ReaderWriterLockSlim> pour protéger une ressource qui est lu par plusieurs threads et écrite par un seul thread à la fois. <xref:System.Threading.ReaderWriterLockSlim> permet à plusieurs threads être en mode lecture, un thread d’être en mode écriture avec la propriété exclusive du verrou et permet à un thread qui a accès en lecture dans la mise à niveau en mode lecture, à partir de laquelle le thread peut mettre à niveau en mode écriture sans devoir annuler il s l’accès en lecture à la ressource.  
+ Utilisez <xref:System.Threading.ReaderWriterLockSlim> pour protéger une ressource qui est lue par plusieurs threads et écrite par un seul thread à la fois. <xref:System.Threading.ReaderWriterLockSlim> permet à plusieurs threads être en mode lecture, un thread d’être en mode écriture avec la propriété exclusive du verrou et autorise un seul thread qui a accès en lecture à être en mode lecture mise à niveau, à partir de laquelle le thread peut mettre à niveau en mode écriture sans devoir annuler il s accès en lecture à la ressource.  
   
 > [!NOTE]
 >  <xref:System.Threading.ReaderWriterLockSlim> est similaire à <xref:System.Threading.ReaderWriterLock>, mais a des règles simplifiées pour la récursivité ainsi que la mise à niveau et la rétrogradation de l’état de verrou. <xref:System.Threading.ReaderWriterLockSlim> évite de nombreux cas d’interblocage potentiel. En outre, les performances de <xref:System.Threading.ReaderWriterLockSlim> sont considérablement meilleures que celles de <xref:System.Threading.ReaderWriterLock>. <xref:System.Threading.ReaderWriterLockSlim> est recommandé pour tout nouveau développement.  
   
- Par défaut, les nouvelles instances de <xref:System.Threading.ReaderWriterLockSlim> sont créés avec le <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> indicateur et ne permettent pas de récursivité. Cette stratégie par défaut est recommandée pour tout nouveau développement, étant donné que la récurrence introduit des complications inutiles et rend votre code risque d’interblocage. Pour simplifier la migration à partir d’existante des projets qui utilisent <xref:System.Threading.Monitor> ou <xref:System.Threading.ReaderWriterLock>, vous pouvez utiliser la <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> indicateur permettant de créer des instances de <xref:System.Threading.ReaderWriterLockSlim> qui autorise la récurrence.  
+ Par défaut, les nouvelles instances de <xref:System.Threading.ReaderWriterLockSlim> sont créés avec le <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> indicateur et ne permettent pas de récursivité. Cette stratégie par défaut est recommandée pour tout nouveau développement, car la récurrence introduit des complications inutiles et rend votre code risque d’interblocage. Pour simplifier la migration à partir des projets qui utilisent <xref:System.Threading.Monitor> ou <xref:System.Threading.ReaderWriterLock>, vous pouvez utiliser la <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> indicateur permettant de créer des instances de <xref:System.Threading.ReaderWriterLockSlim> qui autorise la récurrence.  
   
- Un thread peut entrer le verrou en trois modes : verrou en mode lecture, mode écriture et mode de lecture. (Dans le reste de cette rubrique, « verrou en mode lecture » est appelé « mode de mise à niveau » et l’expression « entrez `x` mode » est utilisée, plutôt que l’expression complète « entrer le verrou en `x` mode ».)  
+ Un thread peut entrer le verrou en trois modes : lecture mode, mode écriture et verrou en mode lecture. (Dans le reste de cette rubrique, « verrou en mode lecture » est appelé « mode de mise à niveau » et de la phrase « entrez `x` mode » est utilisée de préférence l’expression complète « entrer le verrou dans `x` mode ».)  
   
- Quelle que soit la stratégie de récurrence, un seul thread peut être en mode écriture à tout moment. Lorsqu’un thread est en mode écriture, aucun autre thread ne peut entrer le verrou dans n’importe quel mode. Un seul thread peut être en mode de mise à niveau à tout moment. N’importe quel nombre de threads peut être en mode lecture, et il peut y avoir un thread en mode de mise à niveau alors que les autres threads sont en mode lecture.  
+ Quelle que soit la stratégie de récurrence, un seul thread peut être en mode écriture à tout moment. Lorsqu’un thread est en mode écriture, aucun autre thread ne peut entrer le verrou dans un mode quelconque. Un seul thread peut être en mode de mise à niveau à tout moment. N’importe quel nombre de threads peut être en mode lecture, et il peut y avoir un thread en mode de mise à niveau alors que les autres threads sont en mode lecture.  
   
 > [!IMPORTANT]
->  Ce type implémente le <xref:System.IDisposable> interface. Lorsque vous avez fini d’utiliser le type, vous devez la supprimer directement ou indirectement. Pour supprimer le type directement, vous devez appeler sa <xref:System.IDisposable.Dispose%2A> méthode dans un `try` / `catch` bloc. Pour la supprimer indirectement, utiliser une construction de langage telles que `using` (en c#) ou `Using` (en Visual Basic). Pour plus d’informations, consultez la section « Utilisant un objet qui implémente IDisposable » dans la <xref:System.IDisposable> rubrique de l’interface.  
+>  Ce type implémente le <xref:System.IDisposable> interface. Lorsque vous avez fini d’utiliser le type, vous devez supprimer il directement ou indirectement. Pour supprimer le type directement, appelez sa <xref:System.IDisposable.Dispose%2A> méthode dans un `try` / `catch` bloc. Pour supprimer indirectement, utiliser une construction de langage tel que `using` (en c#) ou `Using` (en Visual Basic). Pour plus d’informations, consultez la section « À l’aide un objet qui implémente IDisposable » dans le <xref:System.IDisposable> rubrique de l’interface.  
   
  <xref:System.Threading.ReaderWriterLockSlim> a géré l’affinité de thread ; Autrement dit, chaque <xref:System.Threading.Thread> objet doit appeler sa propre méthode pour entrer et sortir des modes de verrouillage. Aucun thread ne peut modifier le mode d’un autre thread.  
   
@@ -64,51 +65,51 @@
 -   Un thread qui essaie d’entrer en mode lecture bloque si des threads attendent pour entrer en mode écriture ou si un thread unique est en mode écriture.  
   
     > [!NOTE]
-    >  Bloquer les nouveaux lecteurs writers sont en file d’attente est une stratégie de respect de verrou qui favorise les écritures. La stratégie équité équilibre équité pour les lecteurs et writers, pour favoriser le débit dans les scénarios les plus courants. Les versions ultérieures de la [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] peut introduire de nouvelles stratégies d’équité.  
+    >  Bloquer les nouveaux lecteurs writers sont en file d’attente est une stratégie d’équité de verrou qui favorise les écritures. La stratégie d’équité actuelle équilibre équité pour les lecteurs et writers, pour promouvoir le débit dans les scénarios les plus courants. Les versions futures de la [!INCLUDE[dnprdnshort](~/includes/dnprdnshort-md.md)] peut introduire de nouvelles stratégies d’équité.  
   
--   Un thread qui essaie d’entrer des blocs de verrou en mode s’il existe déjà un thread en mode de mise à niveau, s’il existe des threads qui attendent pour entrer en mode écriture, ou s’il existe un thread unique en mode écriture.  
+-   Un thread qui essaie d’entrer des blocs de verrou en mode s’il existe déjà un thread en mode de mise à niveau, si des threads attendent pour entrer en mode écriture, ou s’il existe un thread unique en mode écriture.  
   
 -   Un thread qui essaie d’entrer en mode écriture bloque si un autre thread est dans un des trois modes.  
   
 ## <a name="upgrading-and-downgrading-locks"></a>La mise à niveau et la rétrogradation des verrous  
- Mode de mise à niveau est prévu pour les cas où un thread lit habituellement à partir de la ressource protégée, mais vous devrez peut-être en écriture si une condition est remplie. Un thread a entré un <xref:System.Threading.ReaderWriterLockSlim> en mode de mise à niveau dispose d’un accès en lecture à la ressource protégée et peut mettre à niveau en mode écriture en appelant le <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> ou <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> méthodes. Étant donné que peut contenir qu’un seul thread en mode de mise à niveau à la fois, la mise à niveau en mode écriture ne peut pas se bloquer mutuellement lors la récursivité n’est pas autorisée, qui est la stratégie par défaut.  
+ Mode de mise à niveau est destiné aux cas où un thread lit généralement à partir de la ressource protégée, mais vous devrez peut-être écrire dedans si une condition est remplie. Un thread a entré un <xref:System.Threading.ReaderWriterLockSlim> en mode de mise à niveau a un accès en lecture à la ressource protégée et peut mettre à niveau en mode écriture en appelant le <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> ou <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> méthodes. La mise à niveau en mode écriture ne peut pas se bloquer, car il peut y avoir qu’un seul thread en mode de mise à niveau à la fois, lors de la récursivité n’est pas autorisée, qui est la stratégie par défaut.  
   
 > [!IMPORTANT]
->  Quelle que soit la stratégie de récurrence, un thread entré à l’origine de lecture mode n’est pas autorisé à mettre à niveau vers le verrou en mode ou en mode écriture, car ce modèle crée une forte probabilité de blocages. Par exemple, si deux threads en mode lecture qu'essaient d’entrer en mode écrivent, ils se bloqueront. Mode de mise à niveau est conçu pour éviter ces blocages.  
+>  Quelle que soit la stratégie de récurrence, un thread a entré à lire en mode n’est pas autorisé à mettre à niveau vers le verrou en mode ou en mode écriture, car ce modèle crée une forte probabilité de blocages. Par exemple, si deux threads en mode lecture qu'essaient d’entrer en mode écriture, ils se bloqueront. Mode de mise à niveau est conçu pour éviter ces blocages.  
   
- S’il existe des autres threads en mode lecture, le thread qui est la mise à niveau des blocs. Pendant que le thread est bloqué, les autres threads qui essaient d’entrer en mode lecture sont bloqués. Lorsque tous les threads ont quitté le mode lecture, le thread de mise à niveau bloqué entre en mode écriture. S’il existe d’autres threads qui attendent pour entrer en mode écriture, ils restent bloqués, car le thread unique qui est en mode de mise à niveau les empêche d’obtenir l’accès exclusif à la ressource.  
+ S’il existe des autres threads en mode lecture, le thread qui est la mise à niveau des blocs. Pendant que le thread est bloqué, les autres threads qui essaient d’entrer en mode lecture sont bloquées. Lorsque tous les threads ont quitté le mode lecture, le thread de mise à niveau bloqué entre en mode écriture. S’il existe d’autres threads qui attendent pour entrer en mode écrivent, qu'ils restent bloqués, car le thread unique qui est en mode de mise à niveau les empêche d’obtenir un accès exclusif à la ressource.  
   
- Lorsque le thread en mode de mise à niveau quitte le mode écriture, d’autres threads qui attendent pour entrer en mode lecture peuvent faire, sauf si des threads attendent pour entrer en mode écrivent. Le thread en mode de mise à niveau peut mettre à niveau et rétrograder indéfiniment, tant que c’est le seul thread qui écrit dans la ressource protégée.  
+ Lorsque le thread en mode de mise à niveau quitte le mode écriture, d’autres threads qui attendent pour entrer en mode lecture peuvent le faire, sauf si des threads attendent pour entrer en mode écrivent. Le thread en mode de mise à niveau peut mettre à niveau et rétrograder indéfiniment, tant qu’il est le seul thread qui écrit dans la ressource protégée.  
   
 > [!IMPORTANT]
->  Si vous permettez à plusieurs threads d’entrer le mode écriture ou en mode de mise à niveau, que vous ne devez pas autoriser un thread à monopoliser le verrou en mode. Sinon, les threads qui essaient d’entrer écrivent mode directement sera bloqué indéfiniment, et pendant qu’ils sont bloqués, les autres threads ne pourront pas entrer en mode lecture.  
+>  Si vous permettez à plusieurs threads à entrer mode écriture ou en mode de mise à niveau, que vous ne devez pas autoriser un thread à monopoliser le verrou en mode. Sinon, les threads qui essaient d’entrer écrivent mode directement sera bloqué indéfiniment, et pendant qu’ils sont bloqués, les autres threads ne pourront pas entrer en mode lecture.  
   
- Un thread en mode de mise à niveau peut rétrograder en mode lecture en appelant d’abord la <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> (méthode), puis en appelant le <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> (méthode). Ce modèle de rétrogradation est autorisé pour toutes les stratégies de récurrence du verrou, même <xref:System.Threading.LockRecursionPolicy.NoRecursion>.  
+ Un thread en mode de mise à niveau peut passer en mode lecture en appelant d’abord la <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> (méthode), puis en appelant le <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> (méthode). Ce modèle de rétrogradation est autorisé pour toutes les stratégies de récurrence du verrou, même <xref:System.Threading.LockRecursionPolicy.NoRecursion>.  
   
- Après avoir rétrogradé en mode lecture, un thread ne peut pas entrer le verrou en mode jusqu'à ce qu’il a quitté le mode lecture.  
+ Après avoir rétrogradé en mode lecture, un thread ne peut pas entrer de nouveau verrou en mode jusqu'à ce qu’il a quitté le mode lecture.  
   
-## <a name="entering-the-lock-recursively"></a>Entrer le verrou de manière récursive  
- Vous pouvez créer un <xref:System.Threading.ReaderWriterLockSlim> qui prend en charge l’entrée récursive de verrou à l’aide de la <xref:System.Threading.ReaderWriterLockSlim.%23ctor%28System.Threading.LockRecursionPolicy%29> constructeur qui spécifie la stratégie de verrou et en spécifiant <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType>.  
+## <a name="entering-the-lock-recursively"></a>Entrée récursive du verrou  
+ Vous pouvez créer un <xref:System.Threading.ReaderWriterLockSlim> qui prend en charge l’entrée récursive de verrou à l’aide de la <xref:System.Threading.ReaderWriterLockSlim.%23ctor%28System.Threading.LockRecursionPolicy%29> constructeur qui spécifie la stratégie du verrou et en spécifiant <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType>.  
   
 > [!NOTE]
->  L’utilisation de la récursivité n’est pas recommandée pour tout nouveau développement, car elle introduit des complications inutiles et rend votre code risque d’interblocage.  
+>  L’utilisation de la récursivité n’est pas recommandée pour tout nouveau développement, car elle ajoute des complications inutiles et rend votre code risque d’interblocage.  
   
- Pour un <xref:System.Threading.ReaderWriterLockSlim> qui autorise la récurrence, ce qui suit peut être désignée sur les modes d’un thread peut entrer :  
+ Pour un <xref:System.Threading.ReaderWriterLockSlim> qui autorise la récurrence, les éléments suivants peuvent être dites concernant les modes d’un thread peut entrer :  
   
--   Un thread en mode lecture peut entrer en mode lecture de manière récursive, mais ne peut pas entrer en mode écriture ou en mode de mise à niveau. Si elle tente de pour ce faire, un <xref:System.Threading.LockRecursionException> est levée. Saisie de lecture mode et entrer en mode écrivent ou en mode de mise à niveau est un modèle avec une forte probabilité de blocages, donc il n’est pas autorisée. Comme indiqué précédemment, le verrou en mode est fournie pour les cas où il n’est nécessaire mettre à niveau un verrou.  
+-   Un thread en mode lecture permettre entrer en mode lecture de manière récursive, mais ne pouvez pas entrer en mode écriture ou en mode de mise à niveau. Si elle tente de le faire, un <xref:System.Threading.LockRecursionException> est levée. Saisie de lire le mode, puis en entrant en mode écrivent ou en mode de mise à niveau est un modèle avec une forte probabilité de blocages, donc il n’est pas autorisée. Comme indiqué précédemment, le verrou en mode est fourni pour les cas où il est nécessaire de mettre à niveau un verrou.  
   
--   Un thread en mode de mise à niveau peut entrer en mode écriture et/ou en mode lecture et pouvez entrer des trois modes de manière récursive. Toutefois, une tentative d’entrer en mode écriture bloque s’il existe des autres threads en mode lecture.  
+-   Un thread en mode de mise à niveau peut entrer en mode écriture et/ou en mode lecture et pouvez entrer les les trois modes de manière récursive. Toutefois, une tentative d’entrer en mode écriture bloque si d’autres threads sont en mode lecture.  
   
--   Un thread en mode écriture peut entrer en mode lecture et/ou en mode de mise à niveau et pouvez entrer des trois modes de manière récursive.  
+-   Un thread en mode écriture peut entrer en mode lecture et/ou en mode de mise à niveau et pouvez entrer les les trois modes de manière récursive.  
   
--   Un thread qui n’a pas entré le verrou peut entrer n’importe quel mode. Cette tentative peut bloquer pour les mêmes raisons qu’une tentative d’entrer un verrou non récursive.  
+-   Un thread qui n’a pas entré le verrou peut entrer n’importe quel mode. Cette tentative peut bloquer pour les mêmes raisons qu’une tentative d’entrer un verrou non récursif.  
   
- Un thread peut quitter les modes qu’il a entré dans n’importe quel ordre, tant qu’il quitte chaque mode exactement autant de fois qu’elle entrée que le mode. Si un thread essaie de quitter un mode trop de fois, ou de quitter un mode, il n’a pas été entrée, un <xref:System.Threading.SynchronizationLockException> est levée.  
+ Un thread peut quitter les modes qu'il a entré dans n’importe quel ordre, tant que sa fermeture chaque mode exactement autant de fois qu’elle entrée que le mode. Si un thread essaie de quitter un mode trop de fois, ou pour quitter un mode n’a pas entré, un <xref:System.Threading.SynchronizationLockException> est levée.  
   
 ## <a name="lock-states"></a>États de verrou  
- Vous pouvez s’avérer utile de considérer le verrou en termes de ses États. Un <xref:System.Threading.ReaderWriterLockSlim> peut être l’un des quatre états : non entré, lecture, mise à niveau et d’écriture.  
+ Il peut s’avérer utile de considérer le verrou en termes de ses États. Un <xref:System.Threading.ReaderWriterLockSlim> peut être l’un des quatre états : ne pas entré, lire, mettre à niveau et écriture.  
   
--   Ne pas d’entrée : dans cet état, aucun thread n’a entré le verrou (ou tous les threads ont quitté le verrou).  
+-   Ne pas entré : dans cet état, aucun thread n’a entré le verrou (ou tous les threads ont quitté le verrou).  
   
 -   Lecture : Un ou plusieurs threads ont entré le verrou pour l’accès en lecture à la ressource protégée.  
   
@@ -117,51 +118,51 @@
   
 -   Mise à niveau : Dans cet état, un thread a entré le verrou pour l’accès en lecture avec l’option de mise à niveau pour l’accès en écriture (autrement dit, en verrou en mode), et zéro ou plusieurs threads ont entré le verrou pour l’accès en lecture. Pas plus d’un thread à la fois peut entrer le verrou avec l’option de mise à niveau ; autres threads qui essaient d’entrer en mode de mise à niveau sont bloquées.  
   
--   Écriture : Un thread a entré le verrou pour l’accès en écriture à la ressource protégée. Ce thread a la propriété exclusive du verrou. Aucun autre thread qui essaie d’entrer le verrou pour une raison quelconque est bloqué.  
+-   Écriture : Un thread a entré le verrou pour l’accès en écriture à la ressource protégée. Que thread a la propriété exclusive du verrou. N’importe quel autre thread qui essaie d’entrer le verrou pour une raison quelconque est bloqué.  
   
- Le tableau suivant décrit les transitions entre États de verrou, pour les verrous qui n’autorisent pas la récurrence, lorsqu’un thread `t` exécute l’action décrite dans la colonne de gauche. Au moment où il entreprend les mesures, `t` n’a aucun mode. (Le cas spécial où `t` est en mode de mise à niveau est décrit dans les notes de la table.) La ligne supérieure décrit l’état initial du verrou. Les cellules décrivent ce qui se passe au thread et affichent les modifications apportées à l’état du verrou entre parenthèses.  
+ Le tableau suivant décrit les transitions entre États de verrou, pour les verrous qui n’autorisent pas la récurrence, lorsqu’un thread `t` exécute l’action décrite dans la colonne de gauche. Au moment où il effectue l’action, `t` n’a aucun mode. (Le cas particulier où `t` est en mode de mise à niveau est décrit dans les notes de fin de la table.) La ligne du haut décrit l’état initial du verrou. Les cellules décrivent ce qui se passe au thread et affichent les modifications apportées à l’état du verrou entre parenthèses.  
   
 ||Non entré (N)|Read (R)|Mise à niveau (U)|Écriture (W)|  
 |-|-----------------------|----------------|-------------------|-----------------|  
-|`t` passe en mode lecture|`t` entre (R).|`t` bloque si les threads sont en attente pour le mode écriture ; dans le cas contraire, `t` passe.|`t` bloque si les threads sont en attente pour le mode écriture ; dans le cas contraire, `t` saisit.<sup> 1</sup>|`t` blocs.|  
-|`t` passe en mode de mise à niveau|`t` entre (U).|`t` bloque si les threads attendent le mode écriture ou en mode de mise à niveau ; dans le cas contraire, `t` entre (U).|`t` blocs.|`t` blocs.|  
-|`t` entre en mode écriture|`t` Insère (W).|`t` blocs.|`t` blocs. <sup>2</sup>|`t` blocs.|  
+|`t` entre en mode lecture|`t` entre (R).|`t` bloque si les threads en attente pour mode écriture ; Sinon, `t` passe.|`t` bloque si les threads en attente pour mode écriture ; Sinon, `t` saisit.<sup> 1</sup>|`t` blocs.|  
+|`t` passe en mode de mise à niveau|`t` entre (U).|`t` bloque si les threads en attente pour mode écriture ou le mode de mise à niveau ; Sinon, `t` entre (U).|`t` blocs.|`t` blocs.|  
+|`t` entre en mode écriture|`t` entrée (W).|`t` blocs.|`t` blocs. <sup>2</sup>|`t` blocs.|  
   
- <sup>1</sup> si `t` démarre arrière en mode de mise à niveau, il entre en mode lecture. Cette action ne bloque jamais. L’état du verrou ne change pas. (Le thread peut ensuite terminer une rétrogradation vers le mode lecture en quittant le mode de mise à niveau.)  
+ <sup>1</sup> si `t` démarre arrière en mode de mise à niveau, il entre en mode lecture. Cette action ne bloque jamais. L’état du verrou ne change pas. (Le thread peut ensuite terminer une rétrogradation vers le mode lecture en quittant le verrou en mode.)  
   
- <sup>2</sup> si `t` démarre en mode de mise à niveau, elle demeure bloquée s’il existe des threads en mode lecture. Sinon, il met à niveau en mode écriture. Les modifications d’état de verrou à écriture (W). Si `t` se bloque, car il existe des threads en mode lecture, il entre en mode écriture dès que le dernier thread quitte le mode lecture, même si les threads qui attendent pour entrer en mode écrivent.  
+ <sup>2</sup> si `t` démarre en mode de mise à niveau, il bloque s’il existe des threads en mode lecture. Sinon, il est mis à niveau en mode écriture. Les modifications d’état de verrou pour écriture (W). Si `t` bloque, car il existe des threads en mode lecture, il entre en mode écriture dès que le dernier thread quitte le mode lecture, même si des threads qui attendent pour entrer en mode écriture.  
   
  Lorsqu’un changement d’état se produit, car un thread quitte le verrou, le thread suivant à être mis en éveil est sélectionné comme suit :  
   
--   Tout d’abord, un thread qui attend de mode écriture et est déjà en mode de mise à niveau (il peut y avoir au plus un seul).  
+-   Tout d’abord, un thread est en attente pour mode écriture et est déjà en mode de mise à niveau (il peut y avoir au plus un tel thread).  
   
--   Cas d’échec, un thread est en attente pour le mode écriture.  
+-   Cas d’échec, un thread est en attente pour mode écriture.  
   
 -   Cas d’échec, un thread est en attente pour le mode de mise à niveau.  
   
--   Cas d’échec, tous les threads qui sont en attente pour le mode lecture.  
+-   Cas d’échec, tous les threads qui attendent pour le mode lecture.  
   
- L’état suivant du verrou est toujours écriture (W) dans les deux premiers cas et mise à niveau (U) dans le troisième cas, quelle que soit l’état du verrou lorsque le thread sortant a déclenché la modification d’état. Dans le dernier cas, l’état du verrou est mise à niveau (U) si un thread en mode de mise à niveau après le changement d’état et Read (R) dans le cas contraire, quel que soit l’état antérieur.  
+ L’état suivant du verrou est toujours écriture (W) dans les deux premiers cas et mise à niveau (U) dans le troisième cas, quel que soit l’état du verrou lorsque le thread sortant a déclenché la modification d’état. Dans le dernier cas, l’état du verrou est mise à niveau (U) si un thread en mode de mise à niveau après le changement d’état et Read (R) dans le cas contraire, quel que soit l’état antérieur.  
   
    
   
 ## Examples  
  L’exemple suivant montre un cache synchronisé simple qui stocke des chaînes avec des clés de type entier. Une instance de <xref:System.Threading.ReaderWriterLockSlim> est utilisé pour synchroniser l’accès à la <xref:System.Collections.Generic.Dictionary%602> qui sert de cache interne.  
   
- L’exemple inclut des méthodes simples pour ajouter au cache, supprimer du cache et lire à partir du cache. Pour illustrer les délais d’expiration, l’exemple inclut une méthode qui ajoute au cache uniquement si elle peut le faire dans un délai d’attente spécifié.  
+ L’exemple inclut des méthodes simples pour ajouter au cache, supprimer du cache et lire à partir du cache. Pour illustrer les délais d’attente, l’exemple inclut une méthode qui ajoute au cache uniquement si elle peut le faire dans un délai d’attente spécifié.  
   
- Pour démontrer le mode de mise à niveau, l’exemple inclut une méthode qui Récupère la valeur associée à une clé et la compare avec une nouvelle valeur. Si la valeur est inchangée, la méthode retourne un état qui indique aucune modification. Il aucune valeur n’est trouvée pour la clé, la paire clé/valeur est insérée. Si la valeur a changé, elle est mise à jour. Mode de mise à niveau permet au thread mettre à niveau à partir de l’accès en lecture à l’accès en écriture si nécessaire, sans risque d’interblocage.  
+ Pour démontrer le mode de mise à niveau, l’exemple inclut une méthode qui Récupère la valeur associée à une clé et la compare avec une nouvelle valeur. Si la valeur est inchangée, la méthode retourne un état qui indique aucune modification. Si aucune valeur n’est trouvée pour la clé, la paire clé/valeur est insérée. Si la valeur a changé, il est mis à jour. Verrou en mode permet au thread de mettre à niveau à partir d’un accès en lecture pour l’accès en écriture en fonction des besoins, sans courir le risque d’interblocages.  
   
- L’exemple inclut une énumération imbriquée qui spécifie les valeurs de retour pour la méthode qui montre le mode de mise à niveau.  
+ L’exemple inclut une énumération imbriquée qui spécifie les valeurs de retour pour la méthode qui illustre le mode de mise à niveau.  
   
- L’exemple utilise le constructeur par défaut pour créer le verrou, donc la récurrence n’est pas autorisée. Programmation du <xref:System.Threading.ReaderWriterLockSlim> est plus simple et moins sujet aux erreurs lorsque le verrou n’autorise pas la récursivité.  
+ L’exemple utilise le constructeur par défaut pour créer le verrou, donc la récurrence n’est pas autorisée. Programmation du <xref:System.Threading.ReaderWriterLockSlim> est plus simple et moins sujet aux erreurs lorsque le verrou n’autorise pas de récursivité.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
 [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#12)]
 [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#12)]  
   
- Le code suivant utilise ensuite le `SynchronizedCache` objet pour stocker un dictionnaire de noms légumes. Il crée trois tâches. La première écrit les noms de légumes stockées dans un tableau à un `SynchronizedCache` instance. La deuxième et troisième tâche affiche les noms des légumes, le premier dans l’ordre croissant (de faible indice à index élevé), la seconde dans l’ordre décroissant. La dernière tâche recherche la chaîne « concombre » et, lorsqu’il en trouve, il appelle la <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> méthode pour remplacer la chaîne « bean vert ».  
+ Le code suivant utilise ensuite le `SynchronizedCache` objet à stocker un dictionnaire de noms légumes. Il crée trois tâches. La première écrit les noms de légumes stockés dans un tableau à un `SynchronizedCache` instance. La deuxième et troisième tâche Afficher les noms des légumes, le premier dans l’ordre croissant (à partir de l’index faible à l’index élevé), la seconde dans l’ordre décroissant. La dernière tâche recherche la chaîne « cucumber » et, lorsqu’il la trouve, appelle le <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> méthode pour remplacer la chaîne « bean vert ».  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
@@ -181,7 +182,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class.</summary>
+        <summary>Initialise une nouvelle instance de la classe <see cref="T:System.Threading.ReaderWriterLockSlim" />.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName=".ctor">
@@ -201,20 +202,26 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <Parameters />
       <Docs>
-        <summary>Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class with default property values.</summary>
+        <summary>Initialise une nouvelle instance de la classe <see cref="T:System.Threading.ReaderWriterLockSlim" /> avec des valeurs de propriété par défaut.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Un <xref:System.Threading.ReaderWriterLockSlim> qui est initialisé avec ce constructeur n’autorise pas la récursivité. Autrement dit, la propriété <xref:System.Threading.ReaderWriterLockSlim.RecursionPolicy%2A> retourne <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>.  
+ Un <xref:System.Threading.ReaderWriterLockSlim> qui est initialisé avec ce constructeur n’autorise pas la récurrence. Autrement dit, la propriété <xref:System.Threading.ReaderWriterLockSlim.RecursionPolicy%2A> retourne <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>.  
   
  Pour plus d’informations sur la stratégie de récurrence et ses effets, consultez le <xref:System.Threading.LockRecursionPolicy> énumération et la <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
@@ -223,20 +230,20 @@
 ## Examples  
  L’exemple suivant montre un cache synchronisé simple qui stocke des chaînes avec des clés de type entier. Une instance de <xref:System.Threading.ReaderWriterLockSlim> est utilisé pour synchroniser l’accès à la <xref:System.Collections.Generic.Dictionary%602> qui sert de cache interne. Le constructeur sans paramètre est utilisé pour créer le verrou.  
   
- L’exemple inclut des méthodes simples pour ajouter au cache, supprimer du cache et lire à partir du cache. Pour illustrer les délais d’expiration, l’exemple inclut une méthode qui ajoute au cache uniquement si elle peut le faire dans un délai d’attente spécifié.  
+ L’exemple inclut des méthodes simples pour ajouter au cache, supprimer du cache et lire à partir du cache. Pour illustrer les délais d’attente, l’exemple inclut une méthode qui ajoute au cache uniquement si elle peut le faire dans un délai d’attente spécifié.  
   
- Pour démontrer le mode de mise à niveau, l’exemple inclut une méthode qui Récupère la valeur associée à une clé et la compare avec une nouvelle valeur. Si la valeur est inchangée, la méthode retourne un état qui indique aucune modification. Il aucune valeur n’est trouvée pour la clé, la paire clé/valeur est insérée. Si la valeur a changé, elle est mise à jour. Mode de mise à niveau permet au thread mettre à niveau à partir de l’accès en lecture à l’accès en écriture si nécessaire, sans risque d’interblocage.  
+ Pour démontrer le mode de mise à niveau, l’exemple inclut une méthode qui Récupère la valeur associée à une clé et la compare avec une nouvelle valeur. Si la valeur est inchangée, la méthode retourne un état qui indique aucune modification. Il aucune valeur n’est trouvée pour la clé, la paire clé/valeur est insérée. Si la valeur a changé, il est mis à jour. Verrou en mode permet au thread de mettre à niveau à partir d’un accès en lecture pour l’accès en écriture en fonction des besoins, sans courir le risque d’interblocages.  
   
- L’exemple inclut une énumération imbriquée qui spécifie les valeurs de retour pour la méthode qui montre le mode de mise à niveau.  
+ L’exemple inclut une énumération imbriquée qui spécifie les valeurs de retour pour la méthode qui illustre le mode de mise à niveau.  
   
- L’exemple utilise le constructeur par défaut pour créer le verrou, donc la récurrence n’est pas autorisée. Programmation du <xref:System.Threading.ReaderWriterLockSlim> est plus simple et moins sujet aux erreurs lorsque le verrou n’autorise pas la récursivité.  
+ L’exemple utilise le constructeur par défaut pour créer le verrou, donc la récurrence n’est pas autorisée. Programmation du <xref:System.Threading.ReaderWriterLockSlim> est plus simple et moins sujet aux erreurs lorsque le verrou n’autorise pas de récursivité.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
 [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#12)]
 [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#12)]  
   
- Le code suivant utilise ensuite le `SynchronizedCache` objet pour stocker un dictionnaire de noms légumes. Il crée trois tâches. La première écrit les noms de légumes stockées dans un tableau à un `SynchronizedCache` instance. La deuxième et troisième tâche affiche les noms des légumes, le premier dans l’ordre croissant (de faible indice à index élevé), la seconde dans l’ordre décroissant. La dernière tâche recherche la chaîne « concombre » et, lorsqu’il en trouve, il appelle la <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> méthode pour remplacer la chaîne « bean vert ».  
+ Le code suivant utilise ensuite le `SynchronizedCache` objet à stocker un dictionnaire de noms légumes. Il crée trois tâches. La première écrit les noms de légumes stockés dans un tableau à un `SynchronizedCache` instance. La deuxième et troisième tâche Afficher les noms des légumes, le premier dans l’ordre croissant (à partir de l’index faible à l’index élevé), la seconde dans l’ordre décroissant. La dernière tâche recherche la chaîne « cucumber » et, lorsqu’il la trouve, appelle le <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> méthode pour remplacer la chaîne « bean vert ».  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/cs/classexample1.cs#11)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Shadow#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Shadow/vb/classexample1.vb#11)]  
@@ -266,6 +273,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -276,18 +284,18 @@
         <Parameter Name="recursionPolicy" Type="System.Threading.LockRecursionPolicy" />
       </Parameters>
       <Docs>
-        <param name="recursionPolicy">One of the enumeration values that specifies the lock recursion policy.</param>
-        <summary>Initializes a new instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class, specifying the lock recursion policy.</summary>
+        <param name="recursionPolicy">Une des valeurs d'énumération qui spécifie la stratégie de récurrence du verrou.</param>
+        <summary>Initialise une nouvelle instance de la classe <see cref="T:System.Threading.ReaderWriterLockSlim" />, en spécifiant la stratégie de récurrence du verrou.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La stratégie de récurrence détermine les restrictions sur les threads qui permet d’entrer le verrou plusieurs fois. Par exemple, si un verrou a été créé avec <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> et un thread a entré le verrou en mode lecture, <xref:System.Threading.LockRecursionException> est levée si le thread essaie de réentrer le verrou en mode lecture. De même, si un thread a entré le verrou en mode écriture, <xref:System.Threading.LockRecursionException> est levée si le thread essaie d’entrer à nouveau le verrou dans n’importe quel mode.  
+ Stratégie de récurrence détermine les restrictions sur les threads qui permet d’entrer le verrou plusieurs fois. Par exemple, si un verrou a été créé avec <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> et un thread a entré le verrou en mode lecture, <xref:System.Threading.LockRecursionException> est levée si le thread essaie d’entrer à nouveau le verrou en mode lecture. De même, si un thread a entré le verrou en mode écriture, <xref:System.Threading.LockRecursionException> est levée si le thread essaie d’entrer à nouveau le verrou dans un mode quelconque.  
   
 > [!NOTE]
->  Un thread en mode de mise à niveau peut mettre à niveau en mode écriture ou rétrograder vers le pour mode quelle que soit le paramètre de stratégie de récurrence de verrou de lecture.  
+>  Un thread en mode de mise à niveau peut mettre à niveau en mode écriture ou rétrograder vers le pour mode, quel que soit le paramètre de stratégie de récurrence de verrou de lecture.  
   
- Quelle que soit la stratégie de récurrence, un thread entré à l’origine de lecture mode n’est pas autorisé à mettre à niveau vers le verrou en mode ou en mode écriture, car ce modèle crée une forte probabilité de blocages.  
+ Quelle que soit la stratégie de récurrence, un thread a entré à lire en mode n’est pas autorisé à mettre à niveau vers le verrou en mode ou en mode écriture, car ce modèle crée une forte probabilité de blocages.  
   
  Pour plus d’informations sur la stratégie de récurrence et ses effets, consultez le <xref:System.Threading.LockRecursionPolicy> énumération et la <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
@@ -296,16 +304,16 @@
 ## Examples  
  L’exemple suivant montre deux scénarios d’exception, qui varie selon le <xref:System.Threading.LockRecursionPolicy> paramètre et l’autre pas.  
   
- Dans le premier scénario, le thread entre en mode lecture et puis essaie d’entrer en mode lecture de manière récursive. Si le <xref:System.Threading.ReaderWriterLockSlim> est créé en utilisant le constructeur par défaut, qui définit la stratégie de récurrence sur <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>, une exception est levée. Si <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> est utilisé pour créer le <xref:System.Threading.ReaderWriterLockSlim>, aucune exception n’est levée.  
+ Dans le premier scénario, le thread entre en mode lecture et essaie ensuite d’entrer en mode lecture de manière récursive. Si le <xref:System.Threading.ReaderWriterLockSlim> est créé en utilisant le constructeur par défaut, qui définit la stratégie de récurrence sur <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType>, une exception est levée. Si <xref:System.Threading.LockRecursionPolicy.SupportsRecursion?displayProperty=nameWithType> est utilisé pour créer le <xref:System.Threading.ReaderWriterLockSlim>, aucune exception n’est levée.  
   
- Dans le deuxième scénario, le thread entre en mode lecture, et puis essaie d’entrer en mode écriture. <xref:System.Threading.LockRecursionException> est levée indépendamment de la stratégie de récurrence du verrou.  
+ Dans le second scénario, le thread entre en mode lecture, et puis essaie d’entrer en mode écriture. <xref:System.Threading.LockRecursionException> est levée indépendamment de la stratégie de récurrence du verrou.  
   
 [!code-csharp[System.Threading.LockRecursionPolicy#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/cs/ClassExample1.cs#11)] 
 [!code-vb[System.Threading.LockRecursionPolicy#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/vb/ClassExample1.vb#11)]   
 [!code-csharp[System.Threading.LockRecursionPolicy#12](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/cs/ClassExample1.cs#12)] 
 [!code-vb[System.Threading.LockRecursionPolicy#12](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/vb/ClassExample1.vb#12)]  
   
- Le code suivant utilise ensuite le `SynchronizedCache` objet pour stocker un dictionnaire de noms légumes. Il crée trois tâches. La première écrit les noms de légumes stockées dans un tableau à un `SynchronizedCache` instance. La deuxième et troisième tâche affiche les noms des légumes, le premier dans l’ordre croissant (de faible indice à index élevé), la seconde dans l’ordre décroissant. La dernière tâche recherche la chaîne « concombre » et, lorsqu’il en trouve, il appelle la <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> méthode pour remplacer la chaîne « bean vert ».  
+ Le code suivant utilise ensuite le `SynchronizedCache` objet à stocker un dictionnaire de noms légumes. Il crée trois tâches. La première écrit les noms de légumes stockés dans un tableau à un `SynchronizedCache` instance. La deuxième et troisième tâche Afficher les noms des légumes, le premier dans l’ordre croissant (à partir de l’index faible à l’index élevé), la seconde dans l’ordre décroissant. La dernière tâche recherche la chaîne « cucumber » et, lorsqu’il la trouve, appelle le <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> méthode pour remplacer la chaîne « bean vert ».  
   
 [!code-csharp[System.Threading.LockRecursionPolicy#11](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/cs/ClassExample1.cs#11)] 
 [!code-vb[System.Threading.LockRecursionPolicy#11](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.LockRecursionPolicy/vb/ClassExample1.vb#11)]   
@@ -336,6 +344,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -346,7 +355,7 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the total number of unique threads that have entered the lock in read mode.</summary>
+        <summary>Obtient le nombre total de threads uniques qui ont entré le verrou en mode lecture.</summary>
         <value>Nombre de threads uniques qui ont entré le verrou en mode lecture.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -354,7 +363,7 @@
 ## Remarks  
  Un thread est compté une seule fois, même si le verrou autorise la récurrence et le thread a entré en mode lecture plusieurs fois.  
   
- Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et non pour contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’ils ont été calculés. Par conséquent, il n’est pas possible de prendre des décisions basées sur cette propriété.  
+ Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et pas de contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’elles ont été calculées. Par conséquent, il est déconseillé prendre des décisions basées sur cette propriété.  
   
    
   
@@ -393,31 +402,43 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Releases all resources used by the current instance of the <see cref="T:System.Threading.ReaderWriterLockSlim" /> class.</summary>
+        <summary>Libère toutes les ressources utilisées par l'instance actuelle de la classe <see cref="T:System.Threading.ReaderWriterLockSlim" />.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Appelez la méthode <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> une fois que vous avez terminé d'utiliser <xref:System.Threading.ReaderWriterLockSlim>. La méthode <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> rend le <xref:System.Threading.ReaderWriterLockSlim> inutilisable. Après avoir appelé <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A>, vous devez libérer toutes les références à la <xref:System.Threading.ReaderWriterLockSlim> pour que le garbage collector puisse récupérer la mémoire qui le <xref:System.Threading.ReaderWriterLockSlim> occupée. Pour plus d’informations, consultez [de nettoyage des ressources non managées](~/docs/standard/garbage-collection/unmanaged.md) et [implémentant une méthode de suppression](~/docs/standard/garbage-collection/implementing-dispose.md).  
+ Appelez la méthode <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> une fois que vous avez terminé d'utiliser <xref:System.Threading.ReaderWriterLockSlim>. La méthode <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> rend le <xref:System.Threading.ReaderWriterLockSlim> inutilisable. Après avoir appelé <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A>, vous devez libérer toutes les références à la <xref:System.Threading.ReaderWriterLockSlim> pour que le garbage collector puisse récupérer la mémoire qui le <xref:System.Threading.ReaderWriterLockSlim> occupée. Pour plus d’informations, consultez [de nettoyage des ressources non managées](~/docs/standard/garbage-collection/unmanaged.md) et [implémentation d’une méthode Dispose](~/docs/standard/garbage-collection/implementing-dispose.md).  
   
 > [!NOTE]
->  Appelez toujours <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> avant de libérer votre dernière référence à le <xref:System.Threading.ReaderWriterLockSlim> objet.  
+>  Appelez toujours <xref:System.Threading.ReaderWriterLockSlim.Dispose%2A> avant de libérer votre dernière référence à la <xref:System.Threading.ReaderWriterLockSlim> objet.  
   
  ]]></format>
         </remarks>
         <exception cref="T:System.Threading.SynchronizationLockException">
-          <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingReadCount" /> is greater than zero.  -or-  <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount" /> is greater than zero.  -or-  <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingWriteCount" /> is greater than zero.</exception>
+          <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingReadCount" /> est supérieur à zéro.  
+  
+- ou - 
+ <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount" /> est supérieur à zéro.  
+  
+- ou - 
+ <see cref="P:System.Threading.ReaderWriterLockSlim.WaitingWriteCount" /> est supérieur à zéro.</exception>
       </Docs>
     </Member>
     <Member MemberName="EnterReadLock">
@@ -438,6 +459,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -449,26 +471,26 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Tries to enter the lock in read mode.</summary>
+        <summary>Essaie d'entrer le verrou en mode lecture.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode s’interrompt jusqu'à ce que le thread appelant entre le verrou et par conséquent risque de ne jamais retourne. Utilisez la <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> méthode pour bloquer pendant un intervalle spécifié, puis retourner si le thread appelant n’a pas entré en mode lecture pendant cet intervalle.  
+ Cette méthode se bloque jusqu'à ce que le thread appelant entre le verrou et par conséquent risque de ne jamais retourne. Utilisez le <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> méthode pour bloquer pendant un intervalle spécifié, puis retourner si le thread appelant n’a pas entré en mode lecture pendant cet intervalle.  
   
  Plusieurs threads peuvent entrer en mode lecture en même temps.  
   
- Si un ou plusieurs threads attendent pour entrer en mode écriture, un thread qui appelle la <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> méthode s’interrompt jusqu'à ce que ces threads aient expiré ou est entré en mode écriture et puis s’être arrêté à partir de celui-ci.  
+ Si un ou plusieurs threads attendent pour entrer en mode écriture, un thread qui appelle le <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> méthode s’interrompt jusqu'à ce que ces threads aient expiré ou est entré en mode écriture et puis s’est arrêté à partir de celui-ci.  
   
 > [!NOTE]
->  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode lecture peut entrer en mode lecture de façon récursive, même si d’autres threads attendent pour entrer en mode écriture.  
+>  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode lecture peut entrer en mode lecture de manière récursive, même si d’autres threads attendent pour entrer en mode écriture.  
   
- Au plus un thread peut être en mode de mise à niveau alors que les autres threads sont en mode lecture. Si les autres threads attendent pour entrer en mode de mise à niveau et il n’existe aucun threads qui attendent pour entrer en mode écriture, les threads qui appellent le <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> méthode entrer en mode lecture immédiatement et ne bloquent pas.  
+ Au maximum un seul thread peut être en mode de mise à niveau alors que les autres threads sont en mode lecture. Si des threads supplémentaires sont en attente pour passer en mode de mise à niveau et aucun thread n’attend pour entrer en mode écriture, les threads qui appellent le <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> méthode entrer en mode lecture immédiatement et ne bloquent pas.  
   
    
   
 ## Examples  
- L’exemple suivant montre comment utiliser la <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> méthode pour entrer le verrou en mode lecture. La méthode indiquée dans l’exemple récupère la valeur associée à une clé. Si la clé est introuvable, l’exception levée par interne <xref:System.Collections.Generic.Dictionary%602> est autorisé à mettre fin à la méthode. A `finally` bloc est utilisé pour exécuter le <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> méthode, en garantissant que l’appelant quitte le mode lecture.  
+ L’exemple suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> méthode pour entrer le verrou en mode lecture. La méthode illustrée dans l’exemple récupère la valeur associée à une clé. Si la clé est introuvable, l’exception levée par interne <xref:System.Collections.Generic.Dictionary%602> est autorisé à mettre fin à la méthode. Un `finally` bloc est utilisé pour exécuter le <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> méthode, en garantissant que l’appelant quitte le mode lecture.  
   
  Ce code fait partie d’un exemple plus complet fourni pour la <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
@@ -479,8 +501,14 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The current thread cannot acquire the write lock when it holds the read lock.  -or-  The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />, and the current thread has attempted to acquire the read lock when it already holds the read lock.  -or-  The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" />, and the current thread has attempted to acquire the read lock when it already holds the write lock.  -or-  The recursion number would exceed the capacity of the counter. This limit is so large that applications should never encounter this exception.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propriété <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> est <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> et le thread actuel a tenté d’acquérir le verrou en lecture alors qu’il le détient déjà.  
+  
+- ou - 
+La propriété <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> est <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> et le thread actuel a tenté d’acquérir le verrou en lecture alors qu’il détient déjà le verrou en écriture.  
+  
+- ou - 
+Le nombre de récursivités dépasserait la capacité du compteur. Cette limite est si élevée que les applications ne devraient normalement jamais rencontrer cette exception.</exception>
+        <exception cref="T:System.ObjectDisposedException">L’objet <see cref="T:System.Threading.ReaderWriterLockSlim" /> a été supprimé.</exception>
       </Docs>
     </Member>
     <Member MemberName="EnterUpgradeableReadLock">
@@ -501,6 +529,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -512,30 +541,30 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Tries to enter the lock in upgradeable mode.</summary>
+        <summary>Essaie d'entrer le verrou en mode pouvant être mis à niveau.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode s’interrompt jusqu'à ce que le thread appelant entre le verrou et par conséquent risque de ne jamais retourne. Utilisez la <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> méthode pour bloquer pendant un intervalle spécifié, puis retourner si le thread appelant n’a pas entré de verrou en mode pendant cet intervalle.  
+ Cette méthode se bloque jusqu'à ce que le thread appelant entre le verrou et par conséquent risque de ne jamais retourne. Utilisez le <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> méthode pour bloquer pendant un intervalle spécifié, puis retourner si le thread appelant n’a pas entré de verrou en mode pendant cet intervalle.  
   
- Utiliser le mode de mise à niveau lorsqu’un thread accède habituellement à la ressource protégée par le <xref:System.Threading.ReaderWriterLockSlim> en mode lecture, mais devrez peut-être entrer en mode écriture si certaines conditions sont remplies. Un thread en mode de mise à niveau peut rétrograder en mode lecture ou mise à niveau en mode écriture.  
+ Utilisez le mode de mise à niveau quand un thread accède généralement à la ressource qui est protégée par le <xref:System.Threading.ReaderWriterLockSlim> en mode lecture, mais devrez peut-être entrer en mode écriture si certaines conditions sont remplies. Un thread en mode de mise à niveau peut rétrograder en mode lecture ou mise à niveau en mode écriture.  
   
- Qu’un seul thread peut entrer le verrou en mode à un moment donné. Si un thread est en mode de mise à niveau et il n’existe aucun threads qui attendent pour entrer en mode écriture, un nombre quelconque d’autres threads permettre entrer en mode lecture, même si les threads qui attendent pour entrer en mode de mise à niveau.  
+ Qu’un seul thread peut entrer le verrou en mode à un moment donné. Si un thread est en mode de mise à niveau et aucun thread n’attend pour entrer en mode écriture, n’importe quel nombre d’autres threads permettre entrer en mode lecture, même s’il existe des threads qui attendent pour entrer le verrou en mode.  
   
- Si un ou plusieurs threads attendent pour entrer en mode écriture, un thread qui appelle la <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> méthode s’interrompt jusqu'à ce que ces threads aient expiré ou est entré en mode écriture et puis s’être arrêté à partir de celui-ci.  
+ Si un ou plusieurs threads attendent pour entrer en mode écriture, un thread qui appelle le <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> méthode s’interrompt jusqu'à ce que ces threads aient expiré ou est entré en mode écriture et puis s’est arrêté à partir de celui-ci.  
   
 > [!NOTE]
->  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode de mise à niveau peut entrer en mode de mise à niveau de façon récursive, même si d’autres threads attendent pour entrer en mode écriture.  
+>  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode de mise à niveau peut entrer verrou en mode de manière récursive, même si d’autres threads attendent pour entrer en mode écriture.  
   
    
   
 ## Examples  
- L’exemple suivant montre comment utiliser la <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> méthode pour entrer le verrou en mode de mise à niveau. A `finally` bloc est utilisé pour exécuter le <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> méthode, en garantissant que l’appelant quitte le mode de mise à niveau.  
+ L’exemple suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLockSlim.EnterUpgradeableReadLock%2A> méthode pour entrer le verrou en mode de mise à niveau. Un `finally` bloc est utilisé pour exécuter le <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> méthode, en garantissant que l’appelant quitte le mode de mise à niveau.  
   
- La méthode indiquée dans l’exemple récupère la valeur associée à une clé et la compare avec une nouvelle valeur. Si la valeur est inchangée, la méthode retourne un état qui indique aucune modification. Il aucune valeur n’est trouvée pour la clé, la paire clé/valeur est insérée. Si la valeur a changé, elle est mise à jour. Mode de mise à niveau permet au thread mettre à niveau le verrou en lecture, en fonction des besoins, sans risque d’interblocage.  
+ La méthode illustrée dans l’exemple récupère la valeur associée à une clé et la compare à une nouvelle valeur. Si la valeur est inchangée, la méthode retourne un état qui indique aucune modification. Il aucune valeur n’est trouvée pour la clé, la paire clé/valeur est insérée. Si la valeur a changé, il est mis à jour. Verrou en mode permet au thread de mettre à niveau le verrou en lecture en fonction des besoins, sans risque d’interblocages.  
   
- L’exemple utilise le constructeur par défaut pour créer le verrou, donc la récurrence n’est pas autorisée. Programmation du <xref:System.Threading.ReaderWriterLockSlim> est plus simple et moins sujet aux erreurs lorsque le verrou n’autorise pas la récursivité.  
+ L’exemple utilise le constructeur par défaut pour créer le verrou, donc la récurrence n’est pas autorisée. Programmation du <xref:System.Threading.ReaderWriterLockSlim> est plus simple et moins sujet aux erreurs lorsque le verrou n’autorise pas de récursivité.  
   
  Ce code fait partie d’un exemple plus complet fourni pour la <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
@@ -548,8 +577,14 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock in any mode.  -or-  The current thread has entered read mode, so trying to enter upgradeable mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propriété <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> est <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> et le thread actuel a déjà entré le verrou dans un mode quelconque.  
+  
+- ou - 
+Le thread actuel est entré en mode lecture, et une tentative d'entrer en mode de mise à niveau risquerait de créer un interblocage.  
+  
+- ou - 
+Le nombre de récursivités dépasserait la capacité du compteur. Cette limite est si élevée que les applications ne doivent jamais la rencontrer.</exception>
+        <exception cref="T:System.ObjectDisposedException">L’objet <see cref="T:System.Threading.ReaderWriterLockSlim" /> a été supprimé.</exception>
       </Docs>
     </Member>
     <Member MemberName="EnterWriteLock">
@@ -570,6 +605,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -581,14 +617,14 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Tries to enter the lock in write mode.</summary>
+        <summary>Essaie d'entrer le verrou en mode écriture.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode s’interrompt jusqu'à ce que le thread appelant entre le verrou et par conséquent risque de ne jamais retourne. Utilisez la <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> méthode pour bloquer pendant un intervalle spécifié, puis retourner si le thread appelant n’a pas entré en mode écriture pendant cet intervalle.  
+ Cette méthode se bloque jusqu'à ce que le thread appelant entre le verrou et par conséquent risque de ne jamais retourne. Utilisez le <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> méthode pour bloquer pendant un intervalle spécifié, puis retourner si le thread appelant n’a pas entré en mode écriture pendant cet intervalle.  
   
- Si d’autres threads ont entré le verrou en mode lecture, un thread qui appelle la <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> méthode s’interrompt jusqu'à ce que ces threads ont quitté le mode lecture. Lorsqu’il existe des threads qui attendent pour entrer en mode écriture, autres threads qui essaient d’entrer en mode lecture ou un verrou en mode bloc jusqu'à ce que tous les threads qui attendent pour entrer en mode écriture aient expiré ou est entré en mode écriture et puis s’être arrêté à partir de celui-ci.  
+ Si d’autres threads ont entré le verrou en mode lecture, un thread qui appelle le <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> méthode s’interrompt jusqu'à ce que ces threads ont quitté le mode lecture. Lorsqu’il existe des threads qui attendent pour entrer en mode écriture, autres threads qui essaient d’entrer en mode lecture ou un verrou en mode bloc jusqu'à ce que tous les threads qui attendent pour entrer en mode écriture aient expiré ou est entré en mode écriture et puis s’est arrêté à partir de celui-ci.  
   
 > [!NOTE]
 >  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode écriture peut entrer écriture en mode de façon récursive, même si d’autres threads attendent pour entrer en mode écriture.  
@@ -596,7 +632,7 @@
    
   
 ## Examples  
- L’exemple suivant montre comment utiliser la <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> méthode pour entrer le verrou en mode écriture. La méthode indiquée dans l’exemple ajoute une nouvelle paire clé/valeur au cache synchronisé. Si la clé est déjà dans le cache, l’exception levée par interne <xref:System.Collections.Generic.Dictionary%602> est autorisé à mettre fin à la méthode. A `finally` bloc est utilisé pour exécuter le <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> méthode, en garantissant que l’appelant quitte le mode écriture.  
+ L’exemple suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> méthode pour entrer le verrou en mode écriture. La méthode illustrée dans l’exemple ajoute une nouvelle paire clé/valeur au cache synchronisé. Si la clé est déjà dans le cache, l’exception levée par interne <xref:System.Collections.Generic.Dictionary%602> est autorisé à mettre fin à la méthode. Un `finally` bloc est utilisé pour exécuter le <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> méthode, en garantissant que l’appelant quitte le mode écriture.  
   
  Ce code fait partie d’un exemple plus complet fourni pour la <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
@@ -607,8 +643,14 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock in any mode.  -or-  The current thread has entered read mode, so trying to enter the lock in write mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propriété <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> est <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> et le thread actuel a déjà entré le verrou dans un mode quelconque.  
+  
+- ou - 
+Le thread actuel est entré en mode lecture et n’a pas de verrou en écriture. Une tentative d’entrer le verrou en mode écriture risquerait donc de créer un interblocage.  
+  
+- ou - 
+Le nombre de récursivités dépasserait la capacité du compteur. Cette limite est si élevée que les applications ne doivent jamais la rencontrer.</exception>
+        <exception cref="T:System.ObjectDisposedException">L’objet <see cref="T:System.Threading.ReaderWriterLockSlim" /> a été supprimé.</exception>
       </Docs>
     </Member>
     <Member MemberName="ExitReadLock">
@@ -629,6 +671,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -640,19 +683,19 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Reduces the recursion count for read mode, and exits read mode if the resulting count is 0 (zero).</summary>
+        <summary>Réduit le nombre de récurrences pour le mode lecture, et quitte le mode lecture si le nombre résultant est 0 (zéro).</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode n’est pas sensible à la commande de la récursivité. Par exemple, si un thread entre un verrou en mode de mise à niveau puis entre le verrou en mode lecture, l’ordre dans lequel le thread quitte les deux modes n’a pas d’importance. Si un verrou autorise la récurrence, un thread peut entrer le verrou en mode écriture, puis entrez-la de manière récursive en mode lecture ; l’ordre dans lequel le thread s’arrête en mode lecture et écriture en mode n’a pas d’importance.  
+ Cette méthode n’est pas sensible à la commande de récursivité. Par exemple, si un thread entre un verrou en mode de mise à niveau puis entre le verrou en mode lecture, l’ordre dans lequel le thread quitte les deux modes n’a pas d’importance. Si un verrou autorise la récurrence, un thread peut entrer le verrou en mode écriture, puis entrez-le de manière récursive en mode lecture ; l’ordre dans lequel le thread s’arrête en mode lecture et écriture de mode n’a pas d’importance.  
   
- La fermeture du verrou peut signaler des autres threads en attente.  
+ Fermeture du verrou peut signaler les autres threads en attente.  
   
    
   
 ## Examples  
- L’exemple suivant montre comment utiliser un `finally` exécution du bloc le <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> méthode, en garantissant que l’appelant quitte le mode lecture. La méthode indiquée dans l’exemple récupère la valeur associée à une clé. Si la clé est introuvable, l’exception levée par interne <xref:System.Collections.Generic.Dictionary%602> est autorisé à mettre fin à la méthode. Le <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> méthode est utilisée pour entrer en mode lecture.  
+ L’exemple suivant montre comment utiliser un `finally` exécution du bloc le <xref:System.Threading.ReaderWriterLockSlim.ExitReadLock%2A> méthode, en garantissant que l’appelant quitte le mode lecture. La méthode illustrée dans l’exemple récupère la valeur associée à une clé. Si la clé est introuvable, l’exception levée par interne <xref:System.Collections.Generic.Dictionary%602> est autorisé à mettre fin à la méthode. Le <xref:System.Threading.ReaderWriterLockSlim.EnterReadLock%2A> méthode est utilisée pour entrer en mode lecture.  
   
  Ce code fait partie d’un exemple plus complet fourni pour la <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
@@ -663,7 +706,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.SynchronizationLockException">The current thread has not entered the lock in read mode.</exception>
+        <exception cref="T:System.Threading.SynchronizationLockException">Le thread actuel n'a pas entré le verrou en mode lecture.</exception>
       </Docs>
     </Member>
     <Member MemberName="ExitUpgradeableReadLock">
@@ -684,6 +727,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -695,23 +739,23 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Reduces the recursion count for upgradeable mode, and exits upgradeable mode if the resulting count is 0 (zero).</summary>
+        <summary>Réduit le nombre de récurrences pour le mode pouvant être mis à niveau, et quitte le mode pouvant être mis à niveau si le nombre résultant est 0 (zéro).</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode n’est pas sensible à la commande de la récursivité. Par exemple, si un thread entre un verrou en mode de mise à niveau puis entre le verrou en mode écriture, l’ordre dans lequel le thread quitte les deux modes n’a pas d’importance. Si un verrou autorise la récurrence, un thread peut entrer le verrou en mode écriture, puis entrez-la de manière récursive en mode de mise à niveau ; l’ordre dans lequel le thread quitte le verrou en mode de mode et d’écriture n’a pas d’importance.  
+ Cette méthode n’est pas sensible à la commande de récursivité. Par exemple, si un thread entre un verrou en mode de mise à niveau puis entre le verrou en mode écriture, l’ordre dans lequel le thread quitte les deux modes n’a pas d’importance. Si un verrou autorise la récurrence, un thread peut entrer le verrou en mode écriture, puis entrez-le de manière récursive en mode de mise à niveau ; l’ordre dans lequel le thread quitte le verrou en mode de mode et d’écriture n’a pas d’importance.  
   
- La fermeture du verrou peut signaler des autres threads en attente.  
+ Fermeture du verrou peut signaler les autres threads en attente.  
   
    
   
 ## Examples  
  L’exemple suivant montre comment utiliser un `finally` exécution du bloc le <xref:System.Threading.ReaderWriterLockSlim.ExitUpgradeableReadLock%2A> méthode, en garantissant que l’appelant quitte le mode de mise à niveau.  
   
- La méthode indiquée dans l’exemple récupère la valeur associée à une clé et la compare avec une nouvelle valeur. Si la valeur est inchangée, la méthode retourne un état qui indique aucune modification. Il aucune valeur n’est trouvée pour la clé, la paire clé/valeur est insérée. Si la valeur a changé, elle est mise à jour. Mode de mise à niveau permet au thread mettre à niveau le verrou en lecture, en fonction des besoins, sans risque d’interblocage.  
+ La méthode illustrée dans l’exemple récupère la valeur associée à une clé et la compare à une nouvelle valeur. Si la valeur est inchangée, la méthode retourne un état qui indique aucune modification. Il aucune valeur n’est trouvée pour la clé, la paire clé/valeur est insérée. Si la valeur a changé, il est mis à jour. Verrou en mode permet au thread de mettre à niveau le verrou en lecture en fonction des besoins, sans risque d’interblocages.  
   
- L’exemple utilise le constructeur par défaut pour créer le verrou, donc la récurrence n’est pas autorisée. Programmation du <xref:System.Threading.ReaderWriterLockSlim> est plus simple et moins sujet aux erreurs lorsque le verrou n’autorise pas la récursivité.  
+ L’exemple utilise le constructeur par défaut pour créer le verrou, donc la récurrence n’est pas autorisée. Programmation du <xref:System.Threading.ReaderWriterLockSlim> est plus simple et moins sujet aux erreurs lorsque le verrou n’autorise pas de récursivité.  
   
  Ce code fait partie d’un exemple plus complet fourni pour la <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
@@ -724,7 +768,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.SynchronizationLockException">The current thread has not entered the lock in upgradeable mode.</exception>
+        <exception cref="T:System.Threading.SynchronizationLockException">Le thread actuel n'a pas entré le verrou en mode de mise à niveau.</exception>
       </Docs>
     </Member>
     <Member MemberName="ExitWriteLock">
@@ -745,6 +789,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -756,19 +801,19 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Reduces the recursion count for write mode, and exits write mode if the resulting count is 0 (zero).</summary>
+        <summary>Réduit le nombre de récurrences pour le mode écriture, et quitte le mode écriture si le nombre résultant est 0 (zéro).</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode n’est pas sensible à la commande de la récursivité. Par exemple, si un thread entre un verrou en mode de mise à niveau puis entre le verrou en mode écriture, l’ordre dans lequel le thread quitte les deux modes n’a pas d’importance. Si un verrou autorise la récurrence, un thread peut entrer le verrou en mode écriture, puis entrez-la de manière récursive en mode lecture ; l’ordre dans lequel le thread s’arrête en mode lecture et écriture en mode n’a pas d’importance.  
+ Cette méthode n’est pas sensible à la commande de récursivité. Par exemple, si un thread entre un verrou en mode de mise à niveau puis entre le verrou en mode écriture, l’ordre dans lequel le thread quitte les deux modes n’a pas d’importance. Si un verrou autorise la récurrence, un thread peut entrer le verrou en mode écriture, puis entrez-le de manière récursive en mode lecture ; l’ordre dans lequel le thread s’arrête en mode lecture et écriture de mode n’a pas d’importance.  
   
- La fermeture du verrou peut signaler des autres threads en attente.  
+ Fermeture du verrou peut signaler les autres threads en attente.  
   
    
   
 ## Examples  
- L’exemple suivant montre comment utiliser un `finally` exécution du bloc le <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> méthode, en garantissant que l’appelant quitte le mode écriture. La méthode indiquée dans l’exemple ajoute une nouvelle paire clé/valeur au cache synchronisé. Si la clé est déjà dans le cache, l’exception levée par interne <xref:System.Collections.Generic.Dictionary%602> est autorisé à mettre fin à la méthode. Le <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> méthode est utilisée pour entrer le verrou en mode écriture.  
+ L’exemple suivant montre comment utiliser un `finally` exécution du bloc le <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> méthode, en garantissant que l’appelant quitte le mode écriture. La méthode illustrée dans l’exemple ajoute une nouvelle paire clé/valeur au cache synchronisé. Si la clé est déjà dans le cache, l’exception levée par interne <xref:System.Collections.Generic.Dictionary%602> est autorisé à mettre fin à la méthode. Le <xref:System.Threading.ReaderWriterLockSlim.EnterWriteLock%2A> méthode est utilisée pour entrer le verrou en mode écriture.  
   
  Ce code fait partie d’un exemple plus complet fourni pour la <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
@@ -779,7 +824,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.SynchronizationLockException">The current thread has not entered the lock in write mode.</exception>
+        <exception cref="T:System.Threading.SynchronizationLockException">Le thread actuel n'a pas entré le verrou en mode écriture.</exception>
       </Docs>
     </Member>
     <Member MemberName="IsReadLockHeld">
@@ -800,6 +845,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -810,7 +856,7 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets a value that indicates whether the current thread has entered the lock in read mode.</summary>
+        <summary>Obtient une valeur qui indique si le thread actuel a entré le verrou en mode lecture.</summary>
         <value>
           <see langword="true" /> si le thread actuel a entré le verrou en mode lecture ; sinon, <see langword="false" />.</value>
         <remarks>
@@ -851,6 +897,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -861,9 +908,9 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets a value that indicates whether the current thread has entered the lock in upgradeable mode.</summary>
+        <summary>Obtient une valeur qui indique si le thread actuel a entré le verrou en mode pouvant être mis à niveau.</summary>
         <value>
-          <see langword="true" /> si le thread actuel a entré le verrou en mode pouvant être mis à niveau ; sinon, <see langword="false" />.</value>
+          <see langword="true" /> si le thread actuel a entré le verrou en mode de mise à niveau ; sinon, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -902,6 +949,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -912,7 +960,7 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets a value that indicates whether the current thread has entered the lock in write mode.</summary>
+        <summary>Obtient une valeur qui indique si le thread actuel a entré le verrou en mode écriture.</summary>
         <value>
           <see langword="true" /> si le thread actuel a entré le verrou en mode écriture ; sinon, <see langword="false" />.</value>
         <remarks>
@@ -924,7 +972,7 @@
    
   
 ## Examples  
- L’exemple suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLockSlim.IsWriteLockHeld%2A> propriété pour générer une assertion si le thread actuel a entré en mode écriture de façon inattendue.  
+ L’exemple suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLockSlim.IsWriteLockHeld%2A> propriété pour générer une assertion si le thread actuel est entré en mode écriture de façon inattendue.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -953,6 +1001,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -963,18 +1012,18 @@
         <ReturnType>System.Threading.LockRecursionPolicy</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets a value that indicates the recursion policy for the current <see cref="T:System.Threading.ReaderWriterLockSlim" /> object.</summary>
+        <summary>Obtient une valeur qui indique la stratégie de récurrence pour l'objet <see cref="T:System.Threading.ReaderWriterLockSlim" /> actuel.</summary>
         <value>Une des valeurs d'énumération qui spécifie la stratégie de récurrence du verrou.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- La stratégie de récurrence détermine les restrictions sur les threads qui permet d’entrer le verrou plusieurs fois. Par exemple, si un verrou a été créé avec <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> et un thread a entré le verrou en mode lecture, <xref:System.Threading.LockRecursionException> est levée si le thread essaie de réentrer le verrou en mode lecture.  
+ Stratégie de récurrence détermine les restrictions sur les threads qui permet d’entrer le verrou plusieurs fois. Par exemple, si un verrou a été créé avec <xref:System.Threading.LockRecursionPolicy.NoRecursion?displayProperty=nameWithType> et un thread a entré le verrou en mode lecture, <xref:System.Threading.LockRecursionException> est levée si le thread essaie d’entrer à nouveau le verrou en mode lecture.  
   
 > [!NOTE]
->  Un thread en mode de mise à niveau peut mettre à niveau en mode écriture ou rétrograder vers le pour mode quelle que soit le paramètre de stratégie de récurrence de verrou de lecture.  
+>  Un thread en mode de mise à niveau peut mettre à niveau en mode écriture ou rétrograder vers le pour mode, quel que soit le paramètre de stratégie de récurrence de verrou de lecture.  
   
- Quelle que soit la stratégie de récurrence, un thread entré à l’origine de lecture mode n’est pas autorisé à mettre à niveau vers le verrou en mode ou en mode écriture, car ce modèle crée une forte probabilité de blocages.  
+ Quelle que soit la stratégie de récurrence, un thread a entré à lire en mode n’est pas autorisé à mettre à niveau vers le verrou en mode ou en mode écriture, car ce modèle crée une forte probabilité de blocages.  
   
  Pour plus d’informations sur la stratégie de récurrence et ses effets, consultez le <xref:System.Threading.LockRecursionPolicy> énumération et la <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
@@ -1001,6 +1050,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1011,13 +1061,13 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the number of times the current thread has entered the lock in read mode, as an indication of recursion.</summary>
-        <value>0 (zéro) si le thread actuel n’a pas entré en mode lecture, 1 si le thread a entré en mode lecture mais n’a pas elle de façon récursive, ou * n * Si le thread a entré le verrou de manière récursive * n * - 1 fois.</value>
+        <summary>Obtient le nombre de fois où le thread actuel a entré le verrou en mode lecture, comme une indication de récurrence.</summary>
+        <value>0 (zéro) si le thread actuel n’a pas entré en mode lecture, 1 si le thread a entré en mode lecture mais n’a pas saisi de façon récursive, ou *n* si le thread a entré le verrou de manière récursive *n* - 1 fois.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et non pour contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’ils ont été calculés. Par conséquent, il n’est pas possible de prendre des décisions basées sur cette propriété.  
+ Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et pas de contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’elles ont été calculées. Par conséquent, il est déconseillé prendre des décisions basées sur cette propriété.  
   
  ]]></format>
         </remarks>
@@ -1041,6 +1091,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1051,13 +1102,13 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the number of times the current thread has entered the lock in upgradeable mode, as an indication of recursion.</summary>
-        <value>0 si le thread actuel n’a pas entré en mode de mise à niveau, 1 si le thread a entré en mode de mise à niveau, mais n’a pas entré elle de façon récursive, ou * n * Si le thread a entré le verrou en mode de manière récursive * n * - 1 fois.</value>
+        <summary>Obtient le nombre de fois où le thread actuel a entré le verrou en mode pouvant être mis à niveau, comme une indication de récurrence.</summary>
+        <value>0 si le thread actuel n’a pas entré en mode de mise à niveau, 1 si le thread est entré en mode de mise à niveau, mais n’a pas entré il de façon récursive, ou *n* si le thread a entré le verrou en mode de manière récursive *n* - 1 heures.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et non pour contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’ils ont été calculés. Par conséquent, il n’est pas possible de prendre des décisions basées sur cette propriété.  
+ Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et pas de contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’elles ont été calculées. Par conséquent, il est déconseillé prendre des décisions basées sur cette propriété.  
   
  ]]></format>
         </remarks>
@@ -1081,6 +1132,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1091,13 +1143,13 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the number of times the current thread has entered the lock in write mode, as an indication of recursion.</summary>
-        <value>0 si le thread actuel n’a pas entré en mode, écriture 1 si le thread a entré en mode écriture, mais n’a pas entré elle de façon récursive, ou * n * Si le thread a entré l’écriture de façon récursive mode * n * - 1 fois.</value>
+        <summary>Obtient le nombre de fois où le thread actuel a entré le verrou en mode écriture, comme une indication de récurrence.</summary>
+        <value>0 si le thread actuel n’a pas entré en mode écriture, 1 si le thread est entré en mode écriture mais n’a pas de façon récursive, ou *n* si le thread a entré écriture mode *n* - 1 fois.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et non pour contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’ils ont été calculés. Par conséquent, il n’est pas possible de prendre des décisions basées sur cette propriété.  
+ Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et pas de contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’elles ont été calculées. Par conséquent, il est déconseillé prendre des décisions basées sur cette propriété.  
   
  ]]></format>
         </remarks>
@@ -1111,7 +1163,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Tries to enter the lock in read mode, with an optional time-out.</summary>
+        <summary>Essaie d'entrer le verrou en mode lecture, avec un délai d'attente facultatif.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="TryEnterReadLock">
@@ -1132,6 +1184,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1145,30 +1198,33 @@
         <Parameter Name="millisecondsTimeout" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">The number of milliseconds to wait, or -1 (<see cref="F:System.Threading.Timeout.Infinite" />) to wait indefinitely.</param>
-        <summary>Tries to enter the lock in read mode, with an optional integer time-out.</summary>
+        <param name="millisecondsTimeout">Nombre de millisecondes à attendre, ou <see cref="F:System.Threading.Timeout.Infinite" /> (-1) pour un délai d'attente infini.</param>
+        <summary>Essaie d'entrer le verrou en mode lecture, avec un délai d'attente entier facultatif.</summary>
         <returns>
-          <see langword="true" /> if the calling thread entered read mode, otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> si le thread appelant est entré en mode lecture, sinon, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si `millisecondsTimeout` est 0 (zéro), cette méthode vérifie l’état du verrou et retourne `false` immédiatement si l’état souhaité n’est pas disponible.  
+ Si `millisecondsTimeout` est 0 (zéro), cette méthode vérifie l’état de verrou et retourne `false` immédiatement si l’état souhaité n’est pas disponible.  
   
  Plusieurs threads peuvent entrer en mode lecture en même temps.  
   
- Si un ou plusieurs threads attendent pour entrer en mode écriture, un thread qui appelle la <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> méthode est bloquée jusqu'à ce que ces threads ont soit a expiré ou est entré en mode écriture et puis s’être arrêté à partir de celui-ci, ou jusqu'à l’expiration de l’intervalle de délai d’attente du thread appelant.  
+ Si un ou plusieurs threads attendent pour entrer en mode écriture, un thread qui appelle le <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> méthode se bloque jusqu'à ce que ces threads ont soit a expiré ou est entré en mode écriture et puis s’est arrêté à partir de celui-ci, ou jusqu'à l’expiration de l’intervalle de délai d’attente du thread appelant.  
   
 > [!NOTE]
->  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode lecture peut entrer en mode lecture de façon récursive, même si d’autres threads attendent pour entrer en mode écriture.  
+>  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode lecture peut entrer en mode lecture de manière récursive, même si d’autres threads attendent pour entrer en mode écriture.  
   
- Un thread peut être en mode de mise à niveau alors que les autres threads sont en mode lecture. Si les autres threads attendent pour entrer en mode de mise à niveau et il n’existe aucun threads qui attendent pour entrer en mode écriture, les threads qui appellent le <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> méthode entrer en mode lecture immédiatement et ne bloquent pas.  
+ Un seul thread peut être en mode de mise à niveau alors que les autres threads sont en mode lecture. Si des threads supplémentaires sont en attente pour passer en mode de mise à niveau et aucun thread n’attend pour entrer en mode écriture, les threads qui appellent le <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> méthode entrer en mode lecture immédiatement et ne bloquent pas.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="millisecondsTimeout" /> is negative, but it is not equal to <see cref="F:System.Threading.Timeout.Infinite" /> (-1), which is the only negative value allowed.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propriété <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> est <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> et le thread actuel a déjà entré le verrou.  
+  
+- ou - 
+Le nombre de récursivités dépasserait la capacité du compteur. Cette limite est si élevée que les applications ne doivent jamais la rencontrer.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">La valeur de <paramref name="millisecondsTimeout" /> est négative, mais différente de <see cref="F:System.Threading.Timeout.Infinite" /> (-1), qui est la seule valeur négative autorisée.</exception>
+        <exception cref="T:System.ObjectDisposedException">L’objet <see cref="T:System.Threading.ReaderWriterLockSlim" /> a été supprimé.</exception>
       </Docs>
     </Member>
     <Member MemberName="TryEnterReadLock">
@@ -1189,6 +1245,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1202,30 +1259,36 @@
         <Parameter Name="timeout" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="timeout">The interval to wait, or -1 milliseconds to wait indefinitely.</param>
-        <summary>Tries to enter the lock in read mode, with an optional time-out.</summary>
+        <param name="timeout">Intervalle d'attente, ou -1 milliseconde pour un délai d'attente infini.</param>
+        <summary>Essaie d'entrer le verrou en mode lecture, avec un délai d'attente facultatif.</summary>
         <returns>
-          <see langword="true" /> if the calling thread entered read mode, otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> si le thread appelant est entré en mode lecture, sinon, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si `timeout` est 0 (zéro), cette méthode vérifie l’état du verrou et retourne `false` immédiatement si l’état souhaité n’est pas disponible.  
+ Si `timeout` est 0 (zéro), cette méthode vérifie l’état de verrou et retourne `false` immédiatement si l’état souhaité n’est pas disponible.  
   
  Plusieurs threads peuvent entrer le verrou en mode lecture en même temps.  
   
- Si un ou plusieurs threads sont en attente pour entrer en mode écriture, un thread qui appelle la <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> méthode est bloquée jusqu'à ce que ces threads ont soit a expiré ou est entré en mode écriture et puis s’être arrêté à partir de celui-ci, ou jusqu'à l’expiration de l’intervalle de délai d’attente du thread appelant.  
+ Si un ou plusieurs threads en attente d’entrer en mode écriture, un thread qui appelle le <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> méthode se bloque jusqu'à ce que ces threads ont soit a expiré ou est entré en mode écriture et puis s’est arrêté à partir de celui-ci, ou jusqu'à l’expiration de l’intervalle de délai d’attente du thread appelant.  
   
 > [!NOTE]
->  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode lecture peut entrer en mode lecture de façon récursive, même si d’autres threads attendent pour entrer en mode écriture.  
+>  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode lecture peut entrer en mode lecture de manière récursive, même si d’autres threads attendent pour entrer en mode écriture.  
   
- Un thread peut être en mode de mise à niveau alors que les autres threads sont en mode lecture. Si les autres threads attendent pour entrer en mode de mise à niveau et il n’existe aucun threads qui attendent pour entrer en mode écriture, les threads qui appellent le <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> méthode entrer en mode lecture immédiatement et ne bloquent pas.  
+ Un seul thread peut être en mode de mise à niveau alors que les autres threads sont en mode lecture. Si des threads supplémentaires sont en attente pour passer en mode de mise à niveau et aucun thread n’attend pour entrer en mode écriture, les threads qui appellent le <xref:System.Threading.ReaderWriterLockSlim.TryEnterReadLock%2A> méthode entrer en mode lecture immédiatement et ne bloquent pas.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="timeout" /> is negative, but it is not equal to -1 milliseconds, which is the only negative value allowed.  -or-  The value of <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" /> milliseconds.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propriété <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> est <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> et le thread actuel a déjà entré le verrou.  
+  
+- ou - 
+Le nombre de récursivités dépasserait la capacité du compteur. Cette limite est si élevée que les applications ne doivent jamais la rencontrer.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">La valeur de <paramref name="timeout" /> est négative, mais différente de -1 millisecondes, qui est la seule valeur négative autorisée.  
+  
+- ou - 
+La valeur de <paramref name="timeout" /> est supérieure à <see cref="F:System.Int32.MaxValue" /> millisecondes.</exception>
+        <exception cref="T:System.ObjectDisposedException">L’objet <see cref="T:System.Threading.ReaderWriterLockSlim" /> a été supprimé.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="TryEnterUpgradeableReadLock">
@@ -1236,7 +1299,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Tries to enter the lock in upgradeable mode, with an optional time-out.</summary>
+        <summary>Essaie d'entrer le verrou en mode pouvant être mis à niveau, avec un délai d'attente facultatif.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="TryEnterUpgradeableReadLock">
@@ -1257,6 +1320,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1270,30 +1334,36 @@
         <Parameter Name="millisecondsTimeout" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">The number of milliseconds to wait, or -1 (<see cref="F:System.Threading.Timeout.Infinite" />) to wait indefinitely.</param>
-        <summary>Tries to enter the lock in upgradeable mode, with an optional time-out.</summary>
+        <param name="millisecondsTimeout">Nombre de millisecondes à attendre, ou <see cref="F:System.Threading.Timeout.Infinite" /> (-1) pour un délai d'attente infini.</param>
+        <summary>Essaie d'entrer le verrou en mode pouvant être mis à niveau, avec un délai d'attente facultatif.</summary>
         <returns>
-          <see langword="true" /> if the calling thread entered upgradeable mode, otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> si le thread appelant est entré en mode de mise à niveau, sinon, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si `millisecondsTimeout` est 0 (zéro), cette méthode vérifie l’état du verrou et retourne `false` immédiatement si l’état souhaité n’est pas disponible.  
+ Si `millisecondsTimeout` est 0 (zéro), cette méthode vérifie l’état de verrou et retourne `false` immédiatement si l’état souhaité n’est pas disponible.  
   
- Utiliser le mode de mise à niveau lorsqu’un thread accède habituellement à la ressource protégée par le <xref:System.Threading.ReaderWriterLockSlim> en mode lecture, mais devrez peut-être entrer en mode écriture si certaines conditions sont remplies. Un thread en mode de mise à niveau peut mettre à niveau en mode écriture ou rétrograder en mode lecture.  
+ Utilisez le mode de mise à niveau quand un thread accède généralement à la ressource qui est protégée par le <xref:System.Threading.ReaderWriterLockSlim> en mode lecture, mais devrez peut-être entrer en mode écriture si certaines conditions sont remplies. Un thread en mode de mise à niveau peut mettre à niveau en mode écriture ou rétrograder en mode lecture.  
   
- Un seul thread peut entrer un verrou en mode de mise à niveau à un moment donné. Si un thread est en mode de mise à niveau et il n’existe aucun threads qui attendent pour entrer en mode écriture, un nombre quelconque d’autres threads permettre entrer en mode lecture, même si les threads qui attendent pour entrer en mode de mise à niveau.  
+ Qu’un seul thread peut entrer un verrou en mode de mise à niveau à un moment donné. Si un thread est en mode de mise à niveau et aucun thread n’attend pour entrer en mode écriture, n’importe quel nombre d’autres threads permettre entrer en mode lecture, même s’il existe des threads qui attendent pour entrer le verrou en mode.  
   
- Si un ou plusieurs threads attendent pour entrer en mode écriture, un thread qui appelle la <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> méthode est bloquée jusqu'à ce que ces threads ont soit a expiré ou est entré en mode écriture et puis s’être arrêté à partir de celui-ci, ou jusqu'à l’expiration de l’intervalle de délai d’attente du thread appelant.  
+ Si un ou plusieurs threads attendent pour entrer en mode écriture, un thread qui appelle le <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> méthode se bloque jusqu'à ce que ces threads ont soit a expiré ou est entré en mode écriture et puis s’est arrêté à partir de celui-ci, ou jusqu'à l’expiration de l’intervalle de délai d’attente du thread appelant.  
   
 > [!NOTE]
->  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode de mise à niveau peut entrer en mode de mise à niveau de façon récursive, même si d’autres threads attendent pour entrer en mode écriture.  
+>  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode de mise à niveau peut entrer verrou en mode de manière récursive, même si d’autres threads attendent pour entrer en mode écriture.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The current thread initially entered the lock in read mode, and therefore trying to enter upgradeable mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="millisecondsTimeout" /> is negative, but it is not equal to <see cref="F:System.Threading.Timeout.Infinite" /> (-1), which is the only negative value allowed.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propriété <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> est <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> et le thread actuel a déjà entré le verrou.  
+  
+- ou - 
+Le thread actuel a entré à l'origine le verrou en mode lecture et par conséquent, une tentative d'entrer en mode de mise à niveau risquerait de créer un interblocage.  
+  
+- ou - 
+Le nombre de récursivités dépasserait la capacité du compteur. Cette limite est si élevée que les applications ne doivent jamais la rencontrer.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">La valeur de <paramref name="millisecondsTimeout" /> est négative, mais différente de <see cref="F:System.Threading.Timeout.Infinite" /> (-1), qui est la seule valeur négative autorisée.</exception>
+        <exception cref="T:System.ObjectDisposedException">L’objet <see cref="T:System.Threading.ReaderWriterLockSlim" /> a été supprimé.</exception>
       </Docs>
     </Member>
     <Member MemberName="TryEnterUpgradeableReadLock">
@@ -1314,6 +1384,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1327,30 +1398,39 @@
         <Parameter Name="timeout" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="timeout">The interval to wait, or -1 milliseconds to wait indefinitely.</param>
-        <summary>Tries to enter the lock in upgradeable mode, with an optional time-out.</summary>
+        <param name="timeout">Intervalle d'attente, ou -1 milliseconde pour un délai d'attente infini.</param>
+        <summary>Essaie d'entrer le verrou en mode pouvant être mis à niveau, avec un délai d'attente facultatif.</summary>
         <returns>
-          <see langword="true" /> if the calling thread entered upgradeable mode, otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> si le thread appelant est entré en mode de mise à niveau, sinon, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si `timeout` est 0 (zéro), cette méthode vérifie l’état du verrou et retourne `false` immédiatement si l’état souhaité n’est pas disponible.  
+ Si `timeout` est 0 (zéro), cette méthode vérifie l’état de verrou et retourne `false` immédiatement si l’état souhaité n’est pas disponible.  
   
- Utiliser le mode de mise à niveau lorsqu’un thread accède habituellement à la ressource protégée par le <xref:System.Threading.ReaderWriterLockSlim> en mode lecture, mais devrez peut-être entrer en mode écriture si certaines conditions sont remplies. Un thread en mode de mise à niveau peut mettre à niveau en mode écriture ou rétrograder en mode lecture.  
+ Utiliser le mode de mise à niveau lorsqu’un thread accède généralement à la ressource protégée par le <xref:System.Threading.ReaderWriterLockSlim> en mode lecture, mais devrez peut-être entrer en mode écriture si certaines conditions sont remplies. Un thread en mode de mise à niveau peut mettre à niveau en mode écriture ou rétrograder en mode lecture.  
   
- Un seul thread peut entrer un verrou en mode de mise à niveau à un moment donné. Si un thread est en mode de mise à niveau et il n’existe aucun threads qui attendent pour entrer en mode écriture, un nombre quelconque d’autres threads permettre entrer en mode lecture, même si les threads qui attendent pour entrer en mode de mise à niveau.  
+ Qu’un seul thread peut entrer un verrou en mode de mise à niveau à un moment donné. Si un thread est en mode de mise à niveau et aucun thread n’attend pour entrer en mode écriture, n’importe quel nombre d’autres threads permettre entrer en mode lecture, même s’il existe des threads qui attendent pour entrer le verrou en mode.  
   
- Si un ou plusieurs threads attendent pour entrer en mode écriture, un thread qui appelle la <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> méthode est bloquée jusqu'à ce que ces threads ont soit a expiré ou est entré en mode écriture et puis s’être arrêté à partir de celui-ci, ou jusqu'à l’expiration de l’intervalle de délai d’attente du thread appelant.  
+ Si un ou plusieurs threads attendent pour entrer en mode écriture, un thread qui appelle le <xref:System.Threading.ReaderWriterLockSlim.TryEnterUpgradeableReadLock%2A> méthode se bloque jusqu'à ce que ces threads ont soit a expiré ou est entré en mode écriture et puis s’est arrêté à partir de celui-ci, ou jusqu'à l’expiration de l’intervalle de délai d’attente du thread appelant.  
   
 > [!NOTE]
->  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode de mise à niveau peut entrer en mode de mise à niveau de façon récursive, même si d’autres threads attendent pour entrer en mode écriture.  
+>  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode de mise à niveau peut entrer verrou en mode de manière récursive, même si d’autres threads attendent pour entrer en mode écriture.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The current thread initially entered the lock in read mode, and therefore trying to enter upgradeable mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="timeout" /> is negative, but it is not equal to -1 milliseconds, which is the only negative value allowed.  -or-  The value of <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" /> milliseconds.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propriété <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> est <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> et le thread actuel a déjà entré le verrou.  
+  
+- ou - 
+Le thread actuel a entré à l'origine le verrou en mode lecture et par conséquent, une tentative d'entrer en mode de mise à niveau risquerait de créer un interblocage.  
+  
+- ou - 
+Le nombre de récursivités dépasserait la capacité du compteur. Cette limite est si élevée que les applications ne doivent jamais la rencontrer.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">La valeur de <paramref name="timeout" /> est négative, mais différente de -1 millisecondes, qui est la seule valeur négative autorisée.  
+  
+- ou - 
+La valeur de <paramref name="timeout" /> est supérieure à <see cref="F:System.Int32.MaxValue" /> millisecondes.</exception>
+        <exception cref="T:System.ObjectDisposedException">L’objet <see cref="T:System.Threading.ReaderWriterLockSlim" /> a été supprimé.</exception>
       </Docs>
     </Member>
     <MemberGroup MemberName="TryEnterWriteLock">
@@ -1361,7 +1441,7 @@
         <AssemblyVersion>4.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Tries to enter the lock in write mode, with an optional time-out.</summary>
+        <summary>Essaie d'entrer le verrou en mode écriture, avec un délai d'attente facultatif.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="TryEnterWriteLock">
@@ -1382,6 +1462,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1395,17 +1476,17 @@
         <Parameter Name="millisecondsTimeout" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="millisecondsTimeout">The number of milliseconds to wait, or -1 (<see cref="F:System.Threading.Timeout.Infinite" />) to wait indefinitely.</param>
-        <summary>Tries to enter the lock in write mode, with an optional time-out.</summary>
+        <param name="millisecondsTimeout">Nombre de millisecondes à attendre, ou <see cref="F:System.Threading.Timeout.Infinite" /> (-1) pour un délai d'attente infini.</param>
+        <summary>Essaie d'entrer le verrou en mode écriture, avec un délai d'attente facultatif.</summary>
         <returns>
-          <see langword="true" /> if the calling thread entered write mode, otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> si le thread appelant est entré en mode écriture, sinon, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si `millisecondsTimeout` est 0 (zéro), cette méthode vérifie l’état du verrou et retourne `false` immédiatement si l’état souhaité n’est pas disponible.  
+ Si `millisecondsTimeout` est 0 (zéro), cette méthode vérifie l’état de verrou et retourne `false` immédiatement si l’état souhaité n’est pas disponible.  
   
- Si d’autres threads ont entré le verrou en mode lecture, un thread qui appelle la <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> méthode est bloquée jusqu'à ce que ces threads ont quitté le mode lecture ou jusqu'à ce que l’intervalle de délai d’attente est écoulé. Tandis que les threads sont bloqués en attente d’entrer en mode écriture, autres threads qui essaient d’entrer en mode lecture ou verrou en mode bloquent jusqu'à ce que tous les threads qui attendent pour entrer en mode écrivent ont soit a expiré ou est entré en mode écriture et puis s’être arrêté à partir de celui-ci.  
+ Si d’autres threads ont entré le verrou en mode lecture, un thread qui appelle le <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> méthode se bloque jusqu'à ce que ces threads ont quitté le mode lecture ou jusqu'à ce que l’intervalle de délai d’expiration est écoulé. Tandis que les threads sont bloqués en attente d’entrer en mode écriture, les autres threads qui essaient d’entrer en mode lecture ou verrou en mode bloquent jusqu'à ce que tous les threads qui attendent pour entrer en mode écrivent ont soit a expiré ou est entré en mode écriture et puis s’est arrêté à partir de celui-ci.  
   
 > [!NOTE]
 >  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode écriture peut entrer écriture en mode de façon récursive, même si d’autres threads attendent pour entrer en mode écriture.  
@@ -1413,9 +1494,9 @@
    
   
 ## Examples  
- L’exemple suivant montre comment utiliser la <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> méthode pour entrer le verrou en mode écriture, avec un délai d’attente. La méthode indiquée dans l’exemple ajoute une nouvelle paire clé/valeur au cache synchronisé. Si le délai d’attente spécifié est écoulé avant que le thread n’intègre le verrou, la méthode retourne `false`. La méthode retourne `true` si la paire clé/valeur est ajoutée.  
+ L’exemple suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> méthode pour entrer le verrou en mode écriture, avec un délai d’attente. La méthode illustrée dans l’exemple ajoute une nouvelle paire clé/valeur au cache synchronisé. Si l’intervalle de délai d’attente spécifié est écoulé avant que le thread n’intègre le verrou, la méthode retourne `false`. La méthode retourne `true` si la paire clé/valeur est ajoutée.  
   
- Si la clé est déjà dans le cache, l’exception levée par interne <xref:System.Collections.Generic.Dictionary%602> est autorisé à mettre fin à la méthode. A `finally` bloc est utilisé pour exécuter le <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> méthode, en garantissant que l’appelant quitte le verrou.  
+ Si la clé est déjà dans le cache, l’exception levée par interne <xref:System.Collections.Generic.Dictionary%602> est autorisé à mettre fin à la méthode. Un `finally` bloc est utilisé pour exécuter le <xref:System.Threading.ReaderWriterLockSlim.ExitWriteLock%2A> méthode, en garantissant que l’appelant quitte le verrou.  
   
  Ce code fait partie d’un exemple plus complet fourni pour la <xref:System.Threading.ReaderWriterLockSlim> classe.  
   
@@ -1426,9 +1507,15 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The current thread initially entered the lock in read mode, and therefore trying to enter write mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="millisecondsTimeout" /> is negative, but it is not equal to <see cref="F:System.Threading.Timeout.Infinite" /> (-1), which is the only negative value allowed.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propriété <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> est <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> et le thread actuel a déjà entré le verrou.  
+  
+- ou - 
+Le thread actuel a entré à l'origine le verrou en mode lecture et par conséquent, une tentative d'entrer en mode écriture risquerait de créer un interblocage.  
+  
+- ou - 
+Le nombre de récursivités dépasserait la capacité du compteur. Cette limite est si élevée que les applications ne doivent jamais la rencontrer.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">La valeur de <paramref name="millisecondsTimeout" /> est négative, mais différente de <see cref="F:System.Threading.Timeout.Infinite" /> (-1), qui est la seule valeur négative autorisée.</exception>
+        <exception cref="T:System.ObjectDisposedException">L’objet <see cref="T:System.Threading.ReaderWriterLockSlim" /> a été supprimé.</exception>
       </Docs>
     </Member>
     <Member MemberName="TryEnterWriteLock">
@@ -1449,6 +1536,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
@@ -1462,26 +1550,35 @@
         <Parameter Name="timeout" Type="System.TimeSpan" />
       </Parameters>
       <Docs>
-        <param name="timeout">The interval to wait, or -1 milliseconds to wait indefinitely.</param>
-        <summary>Tries to enter the lock in write mode, with an optional time-out.</summary>
+        <param name="timeout">Intervalle d'attente, ou -1 milliseconde pour un délai d'attente infini.</param>
+        <summary>Essaie d'entrer le verrou en mode écriture, avec un délai d'attente facultatif.</summary>
         <returns>
-          <see langword="true" /> if the calling thread entered write mode, otherwise, <see langword="false" />.</returns>
+          <see langword="true" /> si le thread appelant est entré en mode écriture, sinon, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Si `timeout` est 0 (zéro), cette méthode vérifie l’état du verrou et retourne `false` immédiatement si l’état souhaité n’est pas disponible.  
+ Si `timeout` est 0 (zéro), cette méthode vérifie l’état de verrou et retourne `false` immédiatement si l’état souhaité n’est pas disponible.  
   
- Si d’autres threads ont entré le verrou en mode lecture, un thread qui appelle la <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> méthode est bloquée jusqu'à ce que ces threads ont quitté le mode lecture ou jusqu'à ce que l’intervalle de délai d’attente est écoulé. Tandis que les threads sont bloqués en attente d’entrer en mode écriture, autres threads qui essaient d’entrer en mode lecture ou verrou en mode bloquent jusqu'à ce que tous les threads qui attendent pour entrer en mode écrivent ont soit a expiré ou est entré en mode écriture et puis s’être arrêté à partir de celui-ci.  
+ Si d’autres threads ont entré le verrou en mode lecture, un thread qui appelle le <xref:System.Threading.ReaderWriterLockSlim.TryEnterWriteLock%2A> méthode se bloque jusqu'à ce que ces threads ont quitté le mode lecture ou jusqu'à ce que l’intervalle de délai d’expiration est écoulé. Tandis que les threads sont bloqués en attente d’entrer en mode écriture, les autres threads qui essaient d’entrer en mode lecture ou verrou en mode bloquent jusqu'à ce que tous les threads qui attendent pour entrer en mode écrivent ont soit a expiré ou est entré en mode écriture et puis s’est arrêté à partir de celui-ci.  
   
 > [!NOTE]
 >  Si un verrou autorise la récurrence, un thread qui a entré le verrou en mode écriture peut entrer écriture en mode de façon récursive, même si d’autres threads attendent pour entrer en mode écriture.  
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Threading.LockRecursionException">The <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> property is <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> and the current thread has already entered the lock.  -or-  The current thread initially entered the lock in read mode, and therefore trying to enter write mode would create the possibility of a deadlock.  -or-  The recursion number would exceed the capacity of the counter. The limit is so large that applications should never encounter it.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">The value of <paramref name="timeout" /> is negative, but it is not equal to -1 milliseconds, which is the only negative value allowed.  -or-  The value of <paramref name="timeout" /> is greater than <see cref="F:System.Int32.MaxValue" /> milliseconds.</exception>
-        <exception cref="T:System.ObjectDisposedException">The <see cref="T:System.Threading.ReaderWriterLockSlim" /> object has been disposed.</exception>
+        <exception cref="T:System.Threading.LockRecursionException">La propriété <see cref="P:System.Threading.ReaderWriterLockSlim.RecursionPolicy" /> est <see cref="F:System.Threading.LockRecursionPolicy.NoRecursion" /> et le thread actuel a déjà entré le verrou.  
+  
+- ou - 
+Le thread actuel a entré à l'origine le verrou en mode lecture et par conséquent, une tentative d'entrer en mode écriture risquerait de créer un interblocage.  
+  
+- ou - 
+Le nombre de récursivités dépasserait la capacité du compteur. Cette limite est si élevée que les applications ne doivent jamais la rencontrer.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">La valeur de <paramref name="timeout" /> est négative, mais différente de -1 millisecondes, qui est la seule valeur négative autorisée.  
+  
+- ou - 
+La valeur de <paramref name="timeout" /> est supérieure à <see cref="F:System.Int32.MaxValue" /> millisecondes.</exception>
+        <exception cref="T:System.ObjectDisposedException">L’objet <see cref="T:System.Threading.ReaderWriterLockSlim" /> a été supprimé.</exception>
       </Docs>
     </Member>
     <Member MemberName="WaitingReadCount">
@@ -1502,23 +1599,29 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the total number of threads that are waiting to enter the lock in read mode.</summary>
+        <summary>Obtient le nombre total de threads qui attendent pour entrer le verrou en mode lecture.</summary>
         <value>Nombre total de threads qui attendent pour entrer en mode lecture.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et non pour contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’ils ont été calculés. Par conséquent, il n’est pas possible de prendre des décisions basées sur cette propriété.  
+ Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et pas de contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’elles ont été calculées. Par conséquent, il est déconseillé prendre des décisions basées sur cette propriété.  
   
    
   
@@ -1552,28 +1655,34 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the total number of threads that are waiting to enter the lock in upgradeable mode.</summary>
+        <summary>Obtient le nombre total de threads qui attendent pour entrer le verrou en mode pouvant être mis à niveau.</summary>
         <value>Nombre total de threads qui attendent pour entrer en mode pouvant être mis à niveau.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et non pour contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’ils ont été calculés. Par conséquent, il n’est pas possible de prendre des décisions basées sur cette propriété.  
+ Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et pas de contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’elles ont été calculées. Par conséquent, il est déconseillé prendre des décisions basées sur cette propriété.  
   
    
   
 ## Examples  
- L’exemple suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount%2A> propriété pour générer une entrée de journal des événements si le nombre de threads bloqués, en attente d’entrer en mode de mise à niveau, dépasse un seuil.  
+ L’exemple suivant montre comment utiliser le <xref:System.Threading.ReaderWriterLockSlim.WaitingUpgradeCount%2A> propriété pour générer une entrée de journal des événements si le nombre de threads qui sont bloqués, en attente du verrou en mode, dépasse un seuil.  
   
  [!code-csharp[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/cs/source.cs#1)]
  [!code-vb[System.Threading.ReaderWriterLockSlim_Aux#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.Threading.ReaderWriterLockSlim_Aux/vb/source.vb#1)]  
@@ -1602,23 +1711,29 @@
       <AssemblyInfo>
         <AssemblyName>System.Core</AssemblyName>
         <AssemblyVersion>2.0.5.0</AssemblyVersion>
+        <AssemblyVersion>3.5.0.0</AssemblyVersion>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
+      <Attributes>
+        <Attribute FrameworkAlternate="netframework-4.0">
+          <AttributeName>get: System.Runtime.TargetedPatchingOptOut("Performance critical to inline this type of method across NGen image boundaries")</AttributeName>
+        </Attribute>
+      </Attributes>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Gets the total number of threads that are waiting to enter the lock in write mode.</summary>
+        <summary>Obtient le nombre total de threads qui attendent pour entrer le verrou en mode écriture.</summary>
         <value>Nombre total de threads qui attendent pour entrer en mode écriture.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et non pour contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’ils ont été calculés. Par conséquent, il n’est pas possible de prendre des décisions basées sur cette propriété.  
+ Utilisez cette propriété uniquement pour le débogage, profilage et à des fins de journalisation et pas de contrôler le comportement d’un algorithme. Les résultats peuvent changer dès qu’elles ont été calculées. Par conséquent, il est déconseillé prendre des décisions basées sur cette propriété.  
   
    
   

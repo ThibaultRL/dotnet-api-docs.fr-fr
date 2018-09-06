@@ -1,11 +1,11 @@
 <Type Name="ReadOnlySpan&lt;T&gt;" FullName="System.ReadOnlySpan&lt;T&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="7e0feb74debd27988fa190cdd4fc23848bb487d3" />
-    <Meta Name="ms.sourcegitcommit" Value="6a0b904069161bbaec4ffd02aa7d9cf38c61e72e" />
+    <Meta Name="ms.openlocfilehash" Value="12357179192b89232e7d5799ab47b00a99fb8e1d" />
+    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="06/24/2018" />
-    <Meta Name="ms.locfileid" Value="36428532" />
+    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
+    <Meta Name="ms.locfileid" Value="39986308" />
   </Metadata>
   <TypeSignature Language="C#" Value="public struct ReadOnlySpan&lt;T&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit ReadOnlySpan`1&lt;T&gt; extends System.ValueType" />
@@ -29,17 +29,21 @@
   </Base>
   <Interfaces />
   <Attributes>
-    <Attribute>
+    <Attribute FrameworkAlternate="netcore-2.1">
       <AttributeName>System.Runtime.CompilerServices.IsByRefLike</AttributeName>
     </Attribute>
-    <Attribute>
+    <Attribute FrameworkAlternate="netcore-2.1">
       <AttributeName>System.Runtime.CompilerServices.IsReadOnly</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
-    <typeparam name="T">To be added.</typeparam>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <typeparam name="T">Type des éléments dans le <see cref="System.ReadOnlySpan`1" />.</typeparam>
+    <summary>Fournit une représentation de type et de mémoire sécurisés en lecture seule d’une zone contiguë de mémoire arbitraire.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[`ReadOnlySpan<T>` est un [ref struct](~/docs/csharp/reference-semantics-with-value-types.md#ref-struct-type) qui est allouée sur la pile et puissent être échappées jamais vers le tas managé. Types de struct REF ont un nombre de restrictions pour vous assurer qu’ils ne peut pas être promus vers le tas managé, y compris qu’ils ne peuvent pas être convertis, capturées dans les expressions lambda, affectées à des variables de type <xref:System.Object>, attribué à `dynamic` variables, et ils ne peuvent pas implémenter n’importe quel type interface.
+
+Un `ReadOnlySpan<T>` instance est souvent utilisée pour référencer les éléments d’un tableau ou une partie d’un tableau. Contrairement à un tableau, toutefois, un `ReadOnlySpan<T>` instance peut pointer vers la mémoire managée, la mémoire native, ou la mémoire gérée sur la pile.]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -62,9 +66,11 @@
         <Parameter Name="array" Type="T[]" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="array">Tableau à partir duquel créer le <see cref="T:System.ReadOnlySpan`1" />.</param>
+        <summary>Crée un <see cref="T:System.ReadOnlySpan`1" /> sur l’intégralité d’un tableau spécifié.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Si le tableau est null, ce constructeur retourne une valeur null `ReadOnlySpan<T>`.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -83,7 +89,7 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.1">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -92,10 +98,16 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="pointer">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="pointer">Pointeur vers l’adresse de départ d’un nombre spécifié d’objets <paramref name="T" /> en mémoire.</param>
+        <param name="length">Nombre d’objets <paramref name="T" /> à inclure.</param>
+        <summary>Crée un <see cref="T:System.ReadOnlySpan`1" /> à partir d’un nombre spécifié d’octets commençant à une adresse mémoire spécifiée.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Ce constructeur doit être utilisé avec précaution, car elle crée arbitrairement typé `T`s à partir d’un bloc de mémoire.]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="T" /> est un type référence ou contient des références et ne peut donc pas être stocké dans la mémoire non managée.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="length" /> est un nombre négatif.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -115,10 +127,14 @@
         <Parameter Name="start" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="start">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="array">Tableau à partir duquel créer le <see cref="T:System.ReadOnlySpan`1" />.</param>
+        <param name="start">Index de départ à partir duquel commencer l’étendue en lecture seule.</param>
+        <summary>Crée un <see cref="T:System.ReadOnlySpan`1" /> à partir d’un tableau qui commence à l’index spécifié et continue jusqu’à la fin du tableau.</summary>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="start" /> est inférieur à 0 ou est supérieur à la longueur du tableau.</exception>
+        <exception cref="T:System.ArgumentNullException">
+          <paramref name="array" /> a la valeur null.</exception>
       </Docs>
     </Member>
     <Member MemberName=".ctor">
@@ -143,11 +159,15 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <param name="start">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="array">Tableau à partir duquel créer le <see cref="T:System.ReadOnlySpan`1" />.</param>
+        <param name="start">Index du premier élément à inclure.</param>
+        <param name="length">Nombre d’éléments à inclure.</param>
+        <summary>Crée un <see cref="T:System.ReadOnlySpan`1" /> qui inclut un nombre spécifié d’élément à partir d’un tableau commençant à l’index spécifié.</summary>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="array" /> est <see langword="null" />, mais <paramref name="start" /> ou <paramref name="length" /> est différent de zéro.<p />
+– ou –<p /><paramref name="start" /> est en dehors des limites du tableau. <p />
+– ou –<p /><paramref name="start" /> et <paramref name="length" /> dépassent le nombre d’éléments dans le tableau.</exception>
       </Docs>
     </Member>
     <Member MemberName="CopyTo">
@@ -173,9 +193,13 @@
         <Parameter Name="destination" Type="System.Span&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="destination">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="destination">Étendue dans laquelle copier les éléments.</param>
+        <summary>Copie le contenu de ce <see cref="System.ReadOnlySpan`1" /> dans un <see cref="System.Span`1" /> de destination.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Si le `source` et `destination` se chevauchent, l’intégralité de `source` est gérée comme s’il a été copié vers un emplacement temporaire avant d’être copiée vers `destination`.]]></format>
+        </remarks>
+        <exception cref="T:System.ArgumentException">
+          <paramref name="destination" /> est plus court que la le <see cref="System.ReadOnlySpan`1" /> source.</exception>
       </Docs>
     </Member>
     <Member MemberName="DangerousCreate">
@@ -199,16 +223,24 @@
       </ReturnValue>
       <Parameters>
         <Parameter Name="obj" Type="System.Object" />
-        <Parameter Name="objectData" Type="T&amp;" RefType="ref" />
+        <Parameter Name="objectData" Type="T" RefType="ref" />
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <param name="objectData">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">Objet managé qui contient les données que l’étendue couvre.</param>
+        <param name="objectData">Référence aux données au sein de l’objet.</param>
+        <param name="length">Nombre d’éléments <paramref name="T" /> à étendre.</param>
+        <summary>Crée un <see cref="T:System.ReadOnlySpan`1" /> sur une partie d’un objet managé normal.</summary>
+        <returns>
+          <see cref="T:System.ReadOnlySpan`1" />
+        </returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Cette méthode est dangereuse, car il **ne vérifie pas** pour les conditions d’erreur suivant :
+
+- Le paramètre `length` est incorrect.
+- Le paramètre `obj` est null.
+- Les objets `obj` pointe vers peut contenir un pointeur brut.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DangerousGetPinnableReference">
@@ -228,9 +260,13 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Retourne une référence à l’élément de <see cref="T:System.ReadOnlySpan`1" /> à l’index zéro. Si l’étendue en lecture seule est vide, retourne la référence à l’emplacement de mémoire où le premier élément aurait été stocké.</summary>
+        <returns>Référence au premier élément de <see cref="T:System.ReadOnlySpan`1" /> à l’index zéro.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Cette méthode retourne un [ref struct](~/docs/csharp/reference-semantics-with-value-types.md#ref-struct-type). Il peut être utilisé pour l’épinglage un <xref:System.ReadOnlySpan`1> en mémoire. Il est nécessaire pour prendre en charge l’utilisation d’un <xref:System.ReadOnlySpan`1> au sein d’un [fixe](~/docs/csharp/language-reference/keywords/fixed-statement.md) instruction.
+
+Cette référence est utilisée pour l’épinglage et ne doit jamais être déréférencée.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Empty">
@@ -253,8 +289,8 @@
         <ReturnType>System.ReadOnlySpan&lt;T&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Retourne un <see cref="T:System.ReadOnlySpan`1" /> vide.</summary>
+        <value>Retourne un <see cref="T:System.ReadOnlySpan`1" /> vide.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -275,10 +311,10 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1">
           <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1">
           <AttributeName>System.Obsolete("Equals() on ReadOnlySpan will always throw an exception. Use == instead.")</AttributeName>
         </Attribute>
       </Attributes>
@@ -289,10 +325,13 @@
         <Parameter Name="obj" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="obj">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="obj">Non pris en charge.</param>
+        <summary>Non pris en charge. Lève un <see cref="T:System.NotSupportedException" />.</summary>
+        <returns>Non pris en charge.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Non pris en charge.]]></format>
+        </remarks>
+        <exception cref="T:System.NotSupportedException">Toujours levée par cette méthode.</exception>
       </Docs>
     </Member>
     <Member MemberName="GetEnumerator">
@@ -312,9 +351,11 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Retourne un énumérateur pour ce <see cref="T:System.ReadOnlySpan`1" />.</summary>
+        <returns>Énumérateur pour cette étendue en lecture seule.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Au lieu d’appeler le <xref:System.ReadOnlySpan%601.GetEnumerator%2A> (méthode) directement, vous pouvez utiliser le langage c# `foreach` instruction et Visual Basic `For Each`... `Next` construction pour énumérer un <xref:System.ReadOnlySpan%601>.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetHashCode">
@@ -334,10 +375,10 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1">
           <AttributeName>System.ComponentModel.EditorBrowsable(System.ComponentModel.EditorBrowsableState.Never)</AttributeName>
         </Attribute>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1">
           <AttributeName>System.Obsolete("GetHashCode() on ReadOnlySpan will always throw an exception.")</AttributeName>
         </Attribute>
       </Attributes>
@@ -346,9 +387,10 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Non pris en charge. Lève un <see cref="T:System.NotSupportedException" />.</summary>
+        <returns>Non pris en charge.</returns>
+        <remarks>Non pris en charge.</remarks>
+        <exception cref="T:System.NotSupportedException">Toujours levée par cette méthode.</exception>
       </Docs>
     </Member>
     <Member MemberName="GetPinnableReference">
@@ -369,7 +411,7 @@
         </Attribute>
       </Attributes>
       <ReturnValue>
-        <ReturnType>System.T&amp;</ReturnType>
+        <ReturnType>T@</ReturnType>
         <Attributes>
           <Attribute>
             <AttributeName>System.Runtime.CompilerServices.IsReadOnly</AttributeName>
@@ -378,9 +420,13 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Retourne une référence à l’élément de <see cref="T:System.ReadOnlySpan`1" /> à l’index zéro. Si l’étendue en lecture seule est vide, retourne <see langword="null" />.</summary>
+        <returns>Référence à l’élément de <see cref="T:System.ReadOnlySpan`1" /> à l’index zéro ou <see langword="null" />, si <see cref="M:System.ReadOnlySpan`1.IsEmpty" /> est <see langword="true" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Le `GetPinnableReference` méthode retourne un [ref struct](~/docs/csharp/reference-semantics-with-value-types.md#ref-struct-type). Il peut être utilisé pour l’épinglage un <xref:System.ReadOnlySpan%601> en mémoire. Il est nécessaire pour prendre en charge l’utilisation d’un <xref:System.ReadOnlySpan%601> au sein d’un [fixe](~/docs/csharp/language-reference/keywords/fixed-statement.md) instruction.
+
+Cette référence est utilisée pour l’épinglage et ne doit jamais être déréférencée.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="IsEmpty">
@@ -403,14 +449,15 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Retourne une valeur qui indique que l’étendue en lecture seule actuelle est vide.</summary>
+        <value>
+          <see langword="true" /> Lorsque l’étendue actuelle est vide ; sinon <see langword="false" />.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="Item">
       <MemberSignature Language="C#" Value="public T&amp; this[int index] { get; }" />
-      <MemberSignature Language="ILAsm" Value=".property instance class System.T&amp; modreq(System.Runtime.InteropServices.InAttribute) Item(int32)" />
+      <MemberSignature Language="ILAsm" Value=".property instance T&amp; modreq(System.Runtime.InteropServices.InAttribute) Item(int32)" />
       <MemberSignature Language="DocId" Value="P:System.ReadOnlySpan`1.Item(System.Int32)" />
       <MemberSignature Language="VB.NET" Value="Default Public ReadOnly Property Item(index As Integer) As T&amp;" />
       <MemberSignature Language="C++ CLI" Value="public:&#xA; property T&amp; ^ default[int] { T&amp; ^ get(int index); };" />
@@ -425,21 +472,23 @@
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute>
+        <Attribute FrameworkAlternate="netcore-2.1">
           <AttributeName>System.Runtime.CompilerServices.IsReadOnly</AttributeName>
         </Attribute>
       </Attributes>
       <ReturnValue>
-        <ReturnType>System.T&amp;</ReturnType>
+        <ReturnType>T&amp;</ReturnType>
       </ReturnValue>
       <Parameters>
         <Parameter Name="index" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="index">To be added.</param>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <param name="index">Index de base zéro de l'élément à obtenir.</param>
+        <summary>Obtient un élément de l’étendue en lecture seule à l’index de base zéro spécifié.</summary>
+        <value>L’élément à partir de l’étendue en lecture seule.</value>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.IndexOutOfRangeException">
+          <paramref name="index" /> est inférieur à zéro ou supérieur ou égal à <see cref="P:System.ReadOnlySpan`1.Length" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="Length">
@@ -462,8 +511,8 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Nombre d’éléments dans l’étendue en lecture seule.</summary>
+        <value>Nombre d'éléments.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -491,11 +540,14 @@
         <Parameter Name="right" Type="System.ReadOnlySpan&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="left">Première étendue à comparer.</param>
+        <param name="right">Deuxième étendue à comparer.</param>
+        <summary>Retourne une valeur qui indique si deux instances de <see cref="T:System.ReadOnlySpan`1" /> sont égales.</summary>
+        <returns>
+          <see langword="true" /> si les deux instances <see cref="T:System.ReadOnlySpan`1" /> sont égales ; sinon, <see langword="false" /></returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Cela permet de tester si deux <xref:System.ReadOnlySpan`1> instances pointent vers le même emplacement de mémoire de départ et ont les mêmes <xref:System.ReadOnlySpan`1.Length> valeurs. Cela ne compare pas le contenu de deux <xref:System.ReadOnlySpan`1> instances.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="op_Implicit">
@@ -521,9 +573,9 @@
         <Parameter Name="array" Type="T[]" />
       </Parameters>
       <Docs>
-        <param name="array">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="array">Tableau à convertir en <see cref="T:System.ReadOnlySpan`1" />.</param>
+        <summary>Définit une conversion implicite d’un tableau en <see cref="T:System.ReadOnlySpan`1" />.</summary>
+        <returns>Étendue en lecture seule qui correspond à <paramref name="array" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -555,10 +607,10 @@
         <Parameter Name="segment" Type="System.ArraySegment&lt;T&gt;" Index="0" FrameworkAlternate="netcore-2.1" />
       </Parameters>
       <Docs>
-        <param name="arraySegment">To be added.</param>
-        <param name="segment">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="arraySegment">Segment de tableau à convertir en <see cref="T:System.ReadOnlySpan`1" />.</param>
+        <param name="segment">Segment de tableau à convertir en <see cref="T:System.ReadOnlySpan`1" />.</param>
+        <summary>Définit une conversion implicite d’un <see cref="T:System.ArraySegment`1" /> en <see cref="T:System.ReadOnlySpan`1" />.</summary>
+        <returns>Étendue en lecture seule qui correspond au segment de tableau.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -586,11 +638,14 @@
         <Parameter Name="right" Type="System.ReadOnlySpan&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="left">To be added.</param>
-        <param name="right">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="left">Première étendue en lecture seule à comparer.</param>
+        <param name="right">Seconde étendue en lecture seule à comparer.</param>
+        <summary>Retourne une valeur qui indique si deux instances de <see cref="T:System.ReadOnlySpan`1" /> ne sont pas égales.</summary>
+        <returns>
+          <see langword="true" /> si les deux instances <see cref="T:System.ReadOnlySpan`1" /> ne sont pas égales ; sinon <see langword="false" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Deux <xref:System.ReadOnlySpan%601> instances ne sont pas égales si elles ont des longueurs différentes ou si les éléments correspondants de `left` et `right` pointent vers des emplacements de mémoire différentes.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Slice">
@@ -616,10 +671,12 @@
         <Parameter Name="start" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="start">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="start">Index à partir duquel commence la section.</param>
+        <summary>Constitue une section en dehors de l’étendue en lecture seule actuelle qui commence à l’index spécifié.</summary>
+        <returns>Étendue qui comprend tous les éléments de l’étendue actuelle à partir de <paramref name="index" /> jusqu’à la fin de l’étendue.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="start" /> est supérieur au nombre d’éléments dans l’étendue en lecture seule.</exception>
       </Docs>
     </Member>
     <Member MemberName="Slice">
@@ -646,11 +703,13 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="start">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="start">Index auquel commence cette section.</param>
+        <param name="length">Longueur souhaitée de la section.</param>
+        <summary>Constitue une section en dehors de l’étendue en lecture seule actuelle qui commence à un index spécifié pour une longueur spécifiée.</summary>
+        <returns>Étendue en lecture seule constituée d’éléments <paramref name="length" /> de l’étendue actuelle, qui commence à <paramref name="index" />.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="start" /> est inférieur à zéro ou supérieur ou égal à <see cref="T:System.Span`1.Length" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="ToArray">
@@ -674,9 +733,11 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Copie le contenu de cette étendue en lecture seule dans un nouveau tableau.</summary>
+        <returns>Tableau contenant les données dans l’étendue actuelle.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Cette méthode effectue une copie de données d’allocation et de segment de mémoire et doit donc être évitée si possible. Il s’il est parfois nécessaire lors de l’API qui prennent en charge <xref:System.ReadOnlySpan%601> ne sont pas disponibles, mais les API du travail avec des tableaux.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ToString">
@@ -696,9 +757,11 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Retourne la représentation sous forme de chaîne de <see cref="T:System.ReadOnlySpan`1" />.</summary>
+        <returns>Représentation sous forme de chaîne de cette instance.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Pour un `ReadOnlySpan<Char>`, le `ToString` méthode retourne un <xref:System.String> qui contient les caractères désignées par l’étendue. Sinon, elle retourne un <xref:System.String> avec le nom du type et le nombre d’éléments qui contient l’étendue.]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="TryCopyTo">
@@ -724,10 +787,15 @@
         <Parameter Name="destination" Type="System.Span&lt;T&gt;" />
       </Parameters>
       <Docs>
-        <param name="destination">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="destination">Cible de l’opération de copie.</param>
+        <summary>Tente de copier le contenu de ce <see cref="System.ReadOnlySpan`1" /> dans un <see cref="System.Span`1" /> et retourne une valeur pour indiquer si l’opération a réussi.</summary>
+        <returns>
+          <see langword="true" /> si l’opération de copie a abouti ; sinon, <see langword="false" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[Si le `source` et `destination` se chevauchent, l’intégralité de `source` est gérée comme s’il a été copié vers un emplacement temporaire avant d’être copiée vers `destination`.
+
+Si le `destination` est plus courte que `source`, aucun des éléments ne sont copiés et la méthode retourne `false`.]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>
