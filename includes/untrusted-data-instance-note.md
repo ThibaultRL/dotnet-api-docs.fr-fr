@@ -1,0 +1,2 @@
+> [!IMPORTANT]
+> L’utilisation d’une instance de cet objet avec des données non approuvées est un risque de sécurité. Utilisez cet objet avec des données approuvées uniquement. Pour plus d’informations, consultez [Validation des données](https://www.owasp.org/index.php/Data_Validation).

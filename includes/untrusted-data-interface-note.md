@@ -1,0 +1,2 @@
+> [!IMPORTANT]
+> L’appel de méthodes de classes qui implémentent cette interface avec des données non approuvées est un risque de sécurité. Appelez les méthodes de classes qui implémentent cette interface avec des données approuvées uniquement. Pour plus d’informations, consultez [Validation des données](https://www.owasp.org/index.php/Data_Validation).
