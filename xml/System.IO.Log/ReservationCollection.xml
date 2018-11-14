@@ -1,11 +1,11 @@
 <Type Name="ReservationCollection" FullName="System.IO.Log.ReservationCollection">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="5e0abb9e640cc995fa2b1c6aba3d4962d7a4114b" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="3af3e1a742555f90bf2bf9a58d5acc17efc5ab90" />
+    <Meta Name="ms.sourcegitcommit" Value="723b8a6d92667ba86fcda96190bad3b4a03283b3" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="37759035" />
+    <Meta Name="ms.lasthandoff" Value="11/09/2018" />
+    <Meta Name="ms.locfileid" Value="51307958" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class ReservationCollection : System.Collections.Generic.ICollection&lt;long&gt;, System.Collections.Generic.IEnumerable&lt;long&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit ReservationCollection extends System.Object implements class System.Collections.Generic.ICollection`1&lt;int64&gt;, class System.Collections.Generic.IEnumerable`1&lt;int64&gt;, class System.Collections.IEnumerable" />
@@ -27,6 +27,12 @@
     </Interface>
     <Interface>
       <InterfaceName>System.Collections.Generic.IEnumerable&lt;System.Int64&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.Generic.IEnumerable&lt;T&gt;</InterfaceName>
+    </Interface>
+    <Interface>
+      <InterfaceName>System.Collections.IEnumerable</InterfaceName>
     </Interface>
   </Interfaces>
   <Docs>
@@ -55,7 +61,7 @@
    
   
 ## Examples  
- Les réservations peuvent être exécutées de deux manières, comme le montrent les exemples suivants. Vous pouvez adopter ces pratiques dans les exemples pour un traitement fiable. Notez que cette tâche ne peut être effectuée que lors de l'utilisation de la classe <xref:System.IO.Log.LogRecordSequence> basée sur un système CLFS.  
+ Les réservations peuvent être exécutées de deux manières, comme le montrent les exemples suivants. Vous pouvez adopter ces pratiques dans les exemples pour un traitement fiable. Notez que cette tâche ne peut être effectuée que lors de l’utilisation de la classe <xref:System.IO.Log.LogRecordSequence> basée sur un système CLFS.  
   
 ```  
 //Using the ReserveAndAppend Method  
@@ -140,7 +146,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- L'exemple suivant décrit la procédure de réservation manuelle. Notez que cette tâche ne peut être effectuée que lors de l'utilisation de la classe <xref:System.IO.Log.LogRecordSequence> basée sur un système CLFS.  
+ L'exemple suivant décrit la procédure de réservation manuelle. Notez que cette tâche ne peut être effectuée que lors de l’utilisation de la classe <xref:System.IO.Log.LogRecordSequence> basée sur un système CLFS.  
   
 ```  
 ReservationCollection reservations = recordSequence.CreateReservationCollection();  
@@ -317,7 +323,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Permet au <see cref="T:System.IO.Log.ReservationCollection" /> de libérer des ressources avant d'être détruit par le garbage collector.</summary>
+        <summary>Permet au <see cref="T:System.IO.Log.ReservationCollection" /> de libérer des ressources avant d’être détruit par le garbage collector.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -345,7 +351,9 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
         <summary>En cas de substitution dans une classe dérivée, libère une réservation de la taille spécifiée.</summary>
         <remarks>To be added.</remarks>
         <block subset="none" type="overrides">
-          <para>Lorsque vous héritez de <see cref="T:System.IO.Log.ReservationCollection" />, vous devez implémenter cette méthode pour libérer effectivement l’espace dans la séquence d’enregistrement. Vous ne devez pas appeler <see cref="M:System.IO.Log.ReservationCollection.ReservationFreed(System.Int64)" /> à la fin de la méthode ; cette logique est prise en charge pour vous.  Lorsque vous libérez des enregistrements, vous devez libérer les mêmes enregistrements que vous avez réservés ensemble dans un appel précédent à la <see cref="Overload:System.IO.Log.IRecordSequence.ReserveAndAppend" /> (méthode).</para>
+          <para>Lorsque vous héritez de <see cref="T:System.IO.Log.ReservationCollection" />, vous devez implémenter cette méthode pour libérer effectivement l’espace dans la séquence d’enregistrement. Vous ne devez pas appeler <see cref="M:System.IO.Log.ReservationCollection.ReservationFreed(System.Int64)" /> à la fin de la méthode ; cette logique est prise en charge pour vous.  
+  
+Lorsque vous libérez des enregistrements, vous devez libérer les mêmes enregistrements que vous avez réservés ensemble dans un appel précédent à la méthode <see cref="Overload:System.IO.Log.IRecordSequence.ReserveAndAppend" />.</para>
         </block>
       </Docs>
     </Member>
@@ -473,7 +481,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
         <summary>En cas de substitution dans une classe dérivée, alloue une réservation de la taille spécifiée.</summary>
         <remarks>To be added.</remarks>
         <block subset="none" type="overrides">
-          <para>Lorsque vous héritez de <see cref="T:System.IO.Log.ReservationCollection" />, vous devez implémenter cette méthode pour réserver effectivement l’espace dans la séquence d’enregistrement. Vous ne devez pas appeler <see cref="M:System.IO.Log.ReservationCollection.ReservationMade(System.Int64)" /> lorsque cette méthode est terminée ; que la logique est gérée pour vous.</para>
+          <para>Lorsque vous héritez de <see cref="T:System.IO.Log.ReservationCollection" />, vous devez implémenter cette méthode pour réserver effectivement l'espace dans la séquence d'enregistrement. Vous ne devez pas appeler <see cref="M:System.IO.Log.ReservationCollection.ReservationMade(System.Int64)" /> à la fin de la méthode ; cette logique est prise en charge pour vous.</para>
         </block>
       </Docs>
     </Member>
@@ -508,7 +516,7 @@ recordSequence.Append(undoRecordData, userSqn, previousSqn, RecordAppendOptions.
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- L'exemple suivant décrit la procédure de réservation manuelle. Notez que cette tâche ne peut être effectuée que lors de l'utilisation de la classe <xref:System.IO.Log.LogRecordSequence> basée sur un système CLFS.  
+ L'exemple suivant décrit la procédure de réservation manuelle. Notez que cette tâche ne peut être effectuée que lors de l’utilisation de la classe <xref:System.IO.Log.LogRecordSequence> basée sur un système CLFS.  
   
 ```  
 ReservationCollection reservations = recordSequence.CreateReservationCollection();  
