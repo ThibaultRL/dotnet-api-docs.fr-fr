@@ -1,11 +1,11 @@
 <Type Name="IReplyChannel" FullName="System.ServiceModel.Channels.IReplyChannel">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="160c6657f10ed6ec444d5721a21779d9a3ea7b6b" />
-    <Meta Name="ms.sourcegitcommit" Value="1afcc8f9041ff3093fd13fb0afda92ac188878a9" />
+    <Meta Name="ms.openlocfilehash" Value="f29f7baff433903ab6dc8a2000608ecb9aa43223" />
+    <Meta Name="ms.sourcegitcommit" Value="723b8a6d92667ba86fcda96190bad3b4a03283b3" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="09/06/2018" />
-    <Meta Name="ms.locfileid" Value="43850539" />
+    <Meta Name="ms.lasthandoff" Value="11/09/2018" />
+    <Meta Name="ms.locfileid" Value="51319502" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IReplyChannel : System.ServiceModel.Channels.IChannel" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IReplyChannel implements class System.ServiceModel.Channels.IChannel, class System.ServiceModel.ICommunicationObject" />
@@ -22,6 +22,9 @@
     <Interface>
       <InterfaceName>System.ServiceModel.Channels.IChannel</InterfaceName>
     </Interface>
+    <Interface>
+      <InterfaceName>System.ServiceModel.ICommunicationObject</InterfaceName>
+    </Interface>
   </Interfaces>
   <Docs>
     <summary>Définit l'interface qu'un canal doit implémenter pour se trouver du côté réception d'une communication demande-réponse entre des points de terminaison de messagerie.</summary>
@@ -32,7 +35,7 @@
 
 [!INCLUDE [untrusted-data-interface-note](~/includes/untrusted-data-interface-note.md)]
 
- L'interface <xref:System.ServiceModel.Channels.IReplyChannel> inclut des variantes synchrones et asynchrones d'une méthode <xref:System.ServiceModel.Channels.IReplyChannel.ReceiveRequest%2A> qui retourne un <xref:System.ServiceModel.Channels.RequestContext> qui peut être utilisé pour construire des réponses aux demandes reçues.  
+ L’interface <xref:System.ServiceModel.Channels.IReplyChannel> inclut des variantes synchrones et asynchrones d’une méthode <xref:System.ServiceModel.Channels.IReplyChannel.ReceiveRequest%2A> qui retourne un <xref:System.ServiceModel.Channels.RequestContext> qui peut être utilisé pour construire des réponses aux demandes reçues.  
   
  Le contrat inclut des variantes synchrones et asynchrones de fonctionnalités de réception, de tentative de réception et d’attente de message.  
   
@@ -578,9 +581,9 @@
 ## Remarks  
  L'appel de <xref:System.ServiceModel.Channels.IReplyChannel.WaitForRequest%28System.TimeSpan%29> n'entraîne en aucune façon la réception ou le traitement d'un message de demande.  
   
- La méthode <xref:System.ServiceModel.Channels.IReplyChannel.BeginWaitForRequest%28System.TimeSpan%2CSystem.AsyncCallback%2CSystem.Object%29> existe à l'origine pour les scénarios avec transaction où l'utilisateur souhaite recevoir le message à l'aide d'une transaction. Pour ce faire, lorsqu'il n'utilise que <xref:System.ServiceModel.Channels.IReplyChannel.ReceiveRequest%2A> normalement, l'utilisateur doit créer la transaction puis appeler <xref:System.ServiceModel.Channels.IReplyChannel.ReceiveRequest%2A> et espérer que le message arrive avant que la transaction n'expire, ce qui est impossible.  
+ La méthode <xref:System.ServiceModel.Channels.IReplyChannel.BeginWaitForRequest%28System.TimeSpan%2CSystem.AsyncCallback%2CSystem.Object%29> existe à l'origine pour les scénarios avec transaction où l'utilisateur souhaite recevoir le message à l'aide d'une transaction. Pour ce faire, lorsqu’il n’utilise que <xref:System.ServiceModel.Channels.IReplyChannel.ReceiveRequest%2A> normalement, l’utilisateur doit créer la transaction puis appeler <xref:System.ServiceModel.Channels.IReplyChannel.ReceiveRequest%2A> et espérer que le message arrive avant que la transaction n’expire, ce qui est impossible.  
   
- À la place, l'utilisateur peut appeler <xref:System.ServiceModel.Channels.IReplyChannel.WaitForRequest%28System.TimeSpan%29> et spécifier le délai d'attente (même infini), puis lorsqu'un message arrive il peut ouvrir la transaction, appeler <xref:System.ServiceModel.Channels.IReplyChannel.ReceiveRequest%2A> et être certain qu'il peut récupérer le message avant que la transaction n'expire.  
+ À la place, l’utilisateur peut appeler <xref:System.ServiceModel.Channels.IReplyChannel.WaitForRequest%28System.TimeSpan%29> et spécifier le délai d’attente (même infini), puis lorsqu’un message arrive il peut ouvrir la transaction, appeler <xref:System.ServiceModel.Channels.IReplyChannel.ReceiveRequest%2A> et être certain qu’il peut récupérer le message avant que la transaction n’expire.  
   
  Utilisez <xref:System.ServiceModel.Channels.IReplyChannel.WaitForRequest%28System.TimeSpan%29> lorsque le thread en cours peut faire l'objet d'un blocage en attendant l'arrivée d'un message dans la file d'attente. Le thread reste bloqué durant le `timeout` spécifié. Si vous souhaitez que le traitement de l'application se poursuive sans attendre, utilisez la méthode <xref:System.ServiceModel.Channels.IReplyChannel.BeginWaitForRequest%28System.TimeSpan%2CSystem.AsyncCallback%2CSystem.Object%29> asynchrone.  
   
