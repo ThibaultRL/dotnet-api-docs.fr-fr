@@ -1,11 +1,11 @@
 <Type Name="Thread" FullName="System.Threading.Thread">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="7c33ebbf7fda315ea7cdcd851f00c29b10d280bd" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="38eda2875476a401d6a3442e5e40cebc592a4863" />
+    <Meta Name="ms.sourcegitcommit" Value="996ba67625b61917bcf75bfefe6dcb016019c2d8" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48741628" />
+    <Meta Name="ms.lasthandoff" Value="11/02/2018" />
+    <Meta Name="ms.locfileid" Value="50965472" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class Thread : System.Runtime.ConstrainedExecution.CriticalFinalizerObject, System.Runtime.InteropServices._Thread" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit Thread extends System.Runtime.ConstrainedExecution.CriticalFinalizerObject implements class System.Runtime.InteropServices._Thread" />
@@ -142,7 +142,11 @@
 <a name="Culture"></a>   
 ## <a name="culture-and-threads"></a>Culture et des threads  
  Chaque thread possède une culture, représentée par le <xref:System.Threading.Thread.CurrentCulture%2A> propriété et une culture d’interface utilisateur, représentée par le <xref:System.Threading.Thread.CurrentUICulture%2A> propriété.  La culture actuelle prend en charge ces opérations dépendantes de la culture en tant que l’analyse et mise en forme, comparaison de chaînes et le tri et contrôle également le système d’écriture et le calendrier utilisé par un thread. La culture d’interface utilisateur actuelle fournit pour la récupération de la culture des ressources dans les fichiers de ressources.  
-  
+
+> [!IMPORTANT]
+> Le <xref:System.Threading.Thread.CurrentCulture> et <xref:System.Threading.Thread.CurrentUICulture> propriétés ne fonctionnent de façon fiable lorsqu’il est utilisé avec n’importe quel thread autre que le thread actuel. Dans .NET Framework, la lecture de ces propriétés est fiable, bien que la définition de ces propriétés pour un thread autre que le thread actuel n’est pas. Sur .NET Core, un <xref:System.InvalidOperationException> est levée si un thread tente de lire ou écrire ces propriétés sur un thread différent.
+> Nous vous recommandons d’utiliser le <xref:System.Globalization.CultureInfo.CurrentCulture?displayProperty=nameWithType> et <xref:System.Globalization.CultureInfo.CurrentUICulture?displayProperty=nameWithType> propriétés à récupérer et définir la culture actuelle.
+
  Quand un nouveau thread est instancié, sa culture et la culture d’interface utilisateur sont définis par la culture système actuelle et la culture d’interface utilisateur et non par la culture et la culture d’interface utilisateur du thread à partir duquel le nouveau thread est créé. Cela signifie, par exemple, que si la culture système actuelle est anglais (États-Unis) et la culture actuelle du thread d’application principal est le Français (France), la culture d’un nouveau thread créé en appelant le <xref:System.Threading.Thread.%23ctor%28System.Threading.ParameterizedThreadStart%29> constructeur à partir du thread principal est anglais (États-Unis) et pas Français (France). Pour plus d’informations, consultez la section « Culture et threads » de la <xref:System.Globalization.CultureInfo> rubrique de la classe.  
   
 > [!IMPORTANT]
@@ -153,9 +157,9 @@
 -   Vous pouvez passer un <xref:System.Globalization.CultureInfo> objet qui représente cette culture pour le <xref:System.Threading.ParameterizedThreadStart> déléguer ou <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%2CSystem.Object%29?displayProperty=nameWithType> (méthode).  
   
 -   Pour les applications exécutées le [!INCLUDE[net_v45](~/includes/net-v45-md.md)] et versions ultérieures, vous pouvez définir la culture et la culture d’interface utilisateur qui doit être affecté à tous les threads créés dans un domaine d’application en définissant la valeur de la <xref:System.Globalization.CultureInfo.DefaultThreadCurrentCulture%2A?displayProperty=nameWithType> et <xref:System.Globalization.CultureInfo.DefaultThreadCurrentUICulture%2A?displayProperty=nameWithType> propriétés. Notez qu’il s’agit d’un paramètre par domaine d’application.  
-  
- Pour plus d’informations et des exemples, consultez la section « Culture et threads » de la <xref:System.Globalization.CultureInfo> rubrique de la classe.  
-  
+
+ Pour plus d’informations et des exemples, consultez la section « Culture et threads » de la <xref:System.Globalization.CultureInfo> rubrique de la classe.
+
 <a name="Properties"></a>   
 ## <a name="getting-information-about-and-controlling-threads"></a>Obtenir des informations sur et contrôler les threads  
  Vous pouvez récupérer un nombre de valeurs de propriétés qui fournissent des informations sur un thread. Dans certains cas, vous pouvez également définir ces valeurs de propriété pour contrôler le fonctionnement du thread. Ces propriétés de thread sont les suivantes :  
@@ -167,7 +171,7 @@
 -   Un ID de thread. La valeur de la lecture seule <xref:System.Threading.Thread.ManagedThreadId%2A> propriété est attribuée par le runtime et identifie de façon unique un thread au sein de son processus.  
   
     > [!NOTE]
-    >  Un [ThreadId](https://msdn.microsoft.com/library/windows/desktop/ms683233.aspx) de système d’exploitation n’est pas lié de manière fixe à un thread managé, car un hôte non managé peut contrôler la relation entre les threads managés et les threads non managés. Plus précisément, un hôte élaboré peut utiliser le [API d’hébergement CLR](https://msdn.microsoft.com/library/ms404385.aspx) pour planifier de nombreux threads managés sur le même thread de système d’exploitation, ou pour déplacer un thread managé entre les threads de système d’exploitation différent.  
+    >  Un [ID de thread](https://msdn.microsoft.com/library/windows/desktop/ms683233.aspx) de système d'exploitation n'est pas lié de manière fixe à un thread managé, car un hôte non managé peut contrôler la relation entre les threads managés et les threads non managés. Plus précisément, un hôte élaboré peut utiliser le [API d’hébergement CLR](https://msdn.microsoft.com/library/ms404385.aspx) pour planifier de nombreux threads managés sur le même thread de système d’exploitation, ou pour déplacer un thread managé entre les threads de système d’exploitation différent.  
   
 -   L’état du thread actuel. Pendant la durée de son existence, un thread se trouve toujours dans un ou plusieurs des états définis par le <xref:System.Threading.ThreadState> propriété.  
   
@@ -281,7 +285,7 @@ Main thread: ThreadProc.Join has returned.  Press Enter to end program.
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="start" /> est <see langword="null" />.</exception>
+          <paramref name="start" /> a la valeur <see langword="null" />.</exception>
         <altmember cref="T:System.Threading.ParameterizedThreadStart" />
         <altmember cref="Overload:System.Threading.Thread.Start" />
         <altmember cref="T:System.AppDomain" />
@@ -424,7 +428,7 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="start" /> est <see langword="null" />.</exception>
+          <paramref name="start" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="maxStackSize" /> est inférieur à zéro.</exception>
       </Docs>
@@ -497,7 +501,7 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">
-          <paramref name="start" /> est <see langword="null" />.</exception>
+          <paramref name="start" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">
           <paramref name="maxStackSize" /> est inférieur à zéro.</exception>
       </Docs>
@@ -1105,13 +1109,15 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
   
 ## Remarks  
  Le <xref:System.Globalization.CultureInfo> objet qui est retourné par cette propriété, ainsi que ses objets associés, déterminer le format par défaut pour les dates, heures, nombres, les valeurs de devise, l’ordre de tri du texte, conventions de casse et les comparaisons de chaînes. Consultez la <xref:System.Globalization.CultureInfo> classe pour en savoir plus sur les noms de culture et les identificateurs, les différences entre les cultures invariants, neutres et spécifiques, ainsi que les façon dont les informations de culture affectent les domaines d’application et les threads. Consultez le <xref:System.Globalization.CultureInfo.CurrentCulture%2A?displayProperty=nameWithType> propriété pour savoir comment est déterminée la culture par défaut d’un thread, et comment les utilisateurs définir les informations de culture pour leurs ordinateurs.  
-  
+
+> [!IMPORTANT]
+> Le <xref:System.Threading.Thread.CurrentCulture> propriété ne fonctionne de façon fiable lorsqu’il est utilisé avec n’importe quel thread autre que le thread actuel. Dans .NET Framework, la lecture de la propriété est fiable, bien que la définition pour un thread autre que le thread actuel n’est pas. Sur .NET Core, une <xref:System.InvalidOperationException> est levée si un thread tente de lire ou écrire le <xref:System.Threading.Thread.CurrentCulture> propriété sur un thread différent.
+> Nous vous recommandons d’utiliser le <xref:System.Globalization.CultureInfo.CurrentCulture?displayProperty=nameWithType> propriété pour récupérer et définir la culture actuelle.
+
  Compter les [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], vous pouvez définir le <xref:System.Threading.Thread.CurrentCulture%2A> propriété à une culture neutre. Il s’agit, car le comportement de la <xref:System.Globalization.CultureInfo> classe a été modifiée : quand elle représente une culture neutre, ses valeurs de propriété (en particulier, le <xref:System.Globalization.CultureInfo.Calendar%2A>, <xref:System.Globalization.CultureInfo.CompareInfo%2A>, <xref:System.Globalization.CultureInfo.DateTimeFormat%2A>, <xref:System.Globalization.CultureInfo.NumberFormat%2A>, et <xref:System.Globalization.CultureInfo.TextInfo%2A> propriétés) maintenant reflète la culture spécifique associée à la culture neutre. Dans les versions antérieures du .NET Framework, le <xref:System.Threading.Thread.CurrentCulture%2A> propriété a levé une <xref:System.NotSupportedException> exception lorsqu’une culture neutre a été affectée.  
   
-   
-  
 ## Examples  
- L’exemple de code suivant montre l’instruction de thread qui permet à l’interface utilisateur d’un formulaire Windows à afficher dans la culture qui est définie dans le panneau de configuration. Code supplémentaire est nécessaire.  
+ L’exemple suivant montre l’instruction de thread qui permet à l’interface utilisateur d’une application Windows Forms à afficher dans la culture qui est définie dans le panneau de configuration. Code supplémentaire est nécessaire.  
   
  [!code-cpp[System.Threading.Thread.Culture#1](~/samples/snippets/cpp/VS_Snippets_CLR_System/system.Threading.Thread.Culture/CPP/source.cpp#1)]
  [!code-csharp[System.Threading.Thread.Culture#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.Threading.Thread.Culture/CS/source.cs#1)]
@@ -1120,6 +1126,7 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">La propriété est définie sur <see langword="null" />.</exception>
+        <exception cref="T:System.InvalidOperationException">.NET Core uniquement : la lecture ou l’écriture de la culture d’un thread à partir d’un autre thread n’est pas prise en charge.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">Pour définir la propriété. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
       </Docs>
     </Member>
@@ -1283,7 +1290,11 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
   
 ## Remarks  
  La culture d’interface utilisateur spécifie les ressources d’une application doit prendre en charge l’entrée d’utilisateur et de sortie et par défaut est identique à la culture du système d’exploitation. Consultez la <xref:System.Globalization.CultureInfo> classe pour en savoir plus sur les noms de culture et les identificateurs, les différences entre les cultures invariants, neutres et spécifiques, ainsi que les façon dont les informations de culture affectent les domaines d’application et les threads. Consultez le <xref:System.Globalization.CultureInfo.CurrentUICulture%2A?displayProperty=nameWithType> propriété pour en savoir plus de la détermination de la culture d’interface utilisateur d’un thread par défaut.  
-  
+
+> [!IMPORTANT]
+> Le <xref:System.Threading.Thread.CurrentUICulture> propriété ne fonctionne de façon fiable lorsqu’il est utilisé avec n’importe quel thread autre que le thread actuel. Dans .NET Framework, la lecture de la propriété est fiable, bien que la définition pour un thread autre que le thread actuel n’est pas. Sur .NET Core, une <xref:System.InvalidOperationException> est levée si un thread tente de lire ou écrire le <xref:System.Threading.Thread.CurrentUICulture> propriété sur un thread différent.
+> Nous vous recommandons d’utiliser le <xref:System.Globalization.CultureInfo.CurrentUICulture?displayProperty=nameWithType> propriété pour récupérer et définir la culture actuelle.
+
  Le <xref:System.Globalization.CultureInfo> retourné par cette propriété peut être une culture neutre. Cultures neutres ne doivent pas être utilisées avec mise en forme de méthodes telles que <xref:System.String.Format%28System.IFormatProvider%2CSystem.String%2CSystem.Object%5B%5D%29?displayProperty=nameWithType>, <xref:System.DateTime.ToString%28System.String%2CSystem.IFormatProvider%29?displayProperty=nameWithType>, et <xref:System.Convert.ToString%28System.Char%2CSystem.IFormatProvider%29?displayProperty=nameWithType>. Utiliser le <xref:System.Globalization.CultureInfo.CreateSpecificCulture%2A?displayProperty=nameWithType> méthode pour obtenir une culture spécifique, ou utilisez le <xref:System.Threading.Thread.CurrentCulture%2A> propriété.  
   
 > [!NOTE]
@@ -1307,6 +1318,7 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
         </remarks>
         <exception cref="T:System.ArgumentNullException">La propriété est définie sur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">La propriété a la valeur d’un nom de culture qui ne peut pas être utilisé pour localiser un fichier de ressources. Les noms de fichiers des ressources doivent inclure uniquement des lettres, des chiffres, des traits d’union ou des traits de soulignement.</exception>
+        <exception cref="T:System.InvalidOperationException">.NET Core uniquement : la lecture ou l’écriture de la culture d’un thread à partir d’un autre thread n’est pas prise en charge.</exception>
       </Docs>
     </Member>
     <Member MemberName="DisableComObjectEagerCleanup">
@@ -2143,7 +2155,7 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Security.SecurityException">L'appelant n'a pas de <see cref="T:System.Security.Permissions.SecurityPermission" /> appropriée.</exception>
+        <exception cref="T:System.Security.SecurityException">L’appelant ne possède pas le <see cref="T:System.Security.Permissions.SecurityPermission" /> nécessaire.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">pour les opérations avancées sur les threads. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" />.</permission>
         <altmember cref="T:System.Threading.ThreadState" />
         <related type="Article" href="~/docs/standard/threading/pausing-and-resuming-threads.md">Suspension et interruption de threads</related>
@@ -2606,7 +2618,7 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Synchronise l'accès à la mémoire comme suit : le processeur qui exécute le thread actuel ne peut pas réorganiser les instructions de sorte que les accès à la mémoire antérieurs à l'appel de <see cref="M:System.Threading.Thread.MemoryBarrier" /> s'exécutent après les accès à la mémoire postérieurs à l'appel de <see cref="M:System.Threading.Thread.MemoryBarrier" />.</summary>
+        <summary>Synchronise l’accès à la mémoire comme suit : le processeur qui exécute le thread actuel ne peut pas réorganiser les instructions de sorte que les accès à la mémoire antérieurs à l’appel de <see cref="M:System.Threading.Thread.MemoryBarrier" /> s’exécutent après les accès à la mémoire postérieurs à l’appel de <see cref="M:System.Threading.Thread.MemoryBarrier" />.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2744,7 +2756,7 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
  ]]></format>
         </remarks>
         <exception cref="T:System.Threading.ThreadStateException">Le thread a atteint un état final, tel que <see cref="F:System.Threading.ThreadState.Aborted" />.</exception>
-        <exception cref="T:System.ArgumentException">La valeur spécifiée pour une opération ensembliste n'est pas une valeur <see cref="T:System.Threading.ThreadPriority" /> valide.</exception>
+        <exception cref="T:System.ArgumentException">La valeur spécifiée pour une opération set n’est pas une valeur <see cref="T:System.Threading.ThreadPriority" /> valide.</exception>
         <altmember cref="T:System.Threading.ThreadPriority" />
         <related type="Article" href="~/docs/standard/threading/scheduling-threads.md">Planification de threads</related>
       </Docs>
@@ -2798,7 +2810,7 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
         </remarks>
         <exception cref="T:System.PlatformNotSupportedException">.NET Core uniquement : ce membre n’est pas pris en charge.</exception>
         <exception cref="T:System.Threading.ThreadStateException">
-          <see langword="Abort" /> n'a pas été appelé sur le thread en cours.</exception>
+          <see langword="Abort" /> n’a pas été appelé sur le thread actuel.</exception>
         <exception cref="T:System.Security.SecurityException">L’appelant n’a pas l’autorisation de sécurité requise pour le thread actuel.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">pour les opérations avancées sur les threads. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" />.</permission>
         <related type="Article" href="~/docs/standard/threading/destroying-threads.md">Détruire des threads</related>
@@ -2855,7 +2867,7 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
         </remarks>
         <exception cref="T:System.PlatformNotSupportedException">.NET Core uniquement : ce membre n’est pas pris en charge.</exception>
         <exception cref="T:System.Threading.ThreadStateException">Le thread n’a pas été démarré, est inactif ou n’est pas dans l’état interrompu.</exception>
-        <exception cref="T:System.Security.SecurityException">L'appelant n'a pas de <see cref="T:System.Security.Permissions.SecurityPermission" /> appropriée.</exception>
+        <exception cref="T:System.Security.SecurityException">L’appelant ne possède pas le <see cref="T:System.Security.Permissions.SecurityPermission" /> nécessaire.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">pour les opérations avancées sur les threads. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" /></permission>
         <related type="Article" href="~/docs/standard/threading/pausing-and-resuming-threads.md">Suspension et interruption de threads</related>
         <related type="Article" href="~/docs/standard/threading/managed-thread-states.md">États des threads managés</related>
@@ -2924,7 +2936,7 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
         </remarks>
         <exception cref="T:System.PlatformNotSupportedException">.NET Core uniquement : ce membre n’est pas pris en charge sur les plateformes macOS et Linux.</exception>
         <exception cref="T:System.ArgumentException">
-          <paramref name="state" /> n'est pas un état de cloisonnement valide.</exception>
+          <paramref name="state" /> n’est pas un état de cloisonnement valide.</exception>
         <exception cref="T:System.Threading.ThreadStateException">Le thread a déjà été démarré.</exception>
         <exception cref="T:System.InvalidOperationException">L’état de cloisonnement a déjà été initialisé.</exception>
       </Docs>
@@ -3450,7 +3462,7 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
         </remarks>
         <exception cref="T:System.PlatformNotSupportedException">.NET Core uniquement : ce membre n’est pas pris en charge.</exception>
         <exception cref="T:System.Threading.ThreadStateException">Le thread n’a pas été démarré ou est inactif.</exception>
-        <exception cref="T:System.Security.SecurityException">L'appelant n'a pas de <see cref="T:System.Security.Permissions.SecurityPermission" /> appropriée.</exception>
+        <exception cref="T:System.Security.SecurityException">L’appelant ne possède pas le <see cref="T:System.Security.Permissions.SecurityPermission" /> nécessaire.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">pour les opérations avancées sur les threads. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlThread" />.</permission>
         <related type="Article" href="~/docs/standard/threading/pausing-and-resuming-threads.md">Suspension et interruption de threads</related>
         <related type="Article" href="~/docs/standard/threading/managed-thread-states.md">États des threads managés</related>
@@ -3773,7 +3785,7 @@ Important   Pour le code partiellement fiable, <c>maxStackSize</c> est ignoré s
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentException">
-          <paramref name="state" /> n'est pas un état de cloisonnement valide.</exception>
+          <paramref name="state" /> n’est pas un état de cloisonnement valide.</exception>
         <exception cref="T:System.Threading.ThreadStateException">Le thread a déjà été démarré.</exception>
       </Docs>
     </Member>

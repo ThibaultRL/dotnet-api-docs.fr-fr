@@ -1,11 +1,11 @@
 <Type Name="IMemoryOwner&lt;T&gt;" FullName="System.Buffers.IMemoryOwner&lt;T&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="b491445174eaa9f5b6e7e520853b5be5b27ec3f7" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="891577a0c3fb5be4a19d18ed9374211c9ee0c900" />
+    <Meta Name="ms.sourcegitcommit" Value="723b8a6d92667ba86fcda96190bad3b4a03283b3" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
-    <Meta Name="ms.locfileid" Value="36715104" />
+    <Meta Name="ms.lasthandoff" Value="11/09/2018" />
+    <Meta Name="ms.locfileid" Value="51317292" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IMemoryOwner&lt;T&gt; : IDisposable" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IMemoryOwner`1&lt;T&gt; implements class System.IDisposable" />
@@ -17,6 +17,9 @@
     <AssemblyName>System.Runtime</AssemblyName>
     <AssemblyVersion>4.2.1.0</AssemblyVersion>
   </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Memory</AssemblyName>
+  </AssemblyInfo>
   <TypeParameters>
     <TypeParameter Name="T" />
   </TypeParameters>
@@ -26,9 +29,25 @@
     </Interface>
   </Interfaces>
   <Docs>
-    <typeparam name="T">To be added.</typeparam>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <typeparam name="T">Le type d’éléments à stocker dans la mémoire.</typeparam>
+    <summary>Identifie le propriétaire d’un bloc de mémoire, responsable de la suppression de la mémoire sous-jacente.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+
+Le `IMemoryOwner<T>` interface est utilisée pour définir le propriétaire responsable de la gestion de la durée de vie d’un <xref:System.Memory%601> mémoire tampon. Une instance de la `IMemoryOwner<T>` interface est retournée par la méthode < xef:System.Buffers.MemoryPool%601.Rent%2A?displayProperty=nameWithType >. 
+
+Une mémoire tampon peut avoir plusieurs consommateurs, il peut uniquement avoir un seul propriétaire à un moment donné. Le propriétaire peut :
+
+- Créer la mémoire tampon soit directement, soit en appelant une méthode de fabrique.
+
+- Transférer la propriété à un autre consommateur. Dans ce cas, l’ancien propriétaire doit ne plus utiliser la mémoire tampon.
+
+- Détruire la mémoire tampon lorsqu’il n’est plus en cours d’utilisation.
+
+Étant donné que le `IMemoryOwner<T>` objet implémente la <xref:System.IDisposable> interface, vous devez appeler son <xref:System.IDisposable.Dispose%2A> méthode une fois que la mémoire tampon n’est plus nécessaire et vous l’avez détruit. Vous devez *pas* dispose de la `IMemoryOnwer<T>` de l’objet pendant une référence à sa mémoire est disponible. Cela signifie que le type dans lequel `IMemoryOwner<T>` est déclaré ne doit pas avoir un <xref:System.Object.Finalize%2A> (méthode).
+
+   ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="Memory">
@@ -43,12 +62,15 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Obtient la mémoire appartenant à ce propriétaire.</summary>
+        <value>La mémoire appartenant à ce propriétaire.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
