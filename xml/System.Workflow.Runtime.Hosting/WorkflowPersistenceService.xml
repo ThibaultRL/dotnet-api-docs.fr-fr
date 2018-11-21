@@ -1,11 +1,11 @@
 <Type Name="WorkflowPersistenceService" FullName="System.Workflow.Runtime.Hosting.WorkflowPersistenceService">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="39624ad21a7024e1c9543042d7b61f0ac0a05cc9" />
-    <Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" />
+    <Meta Name="ms.openlocfilehash" Value="6cbc9cd683f0346f1532afdb1709c1ce11dec398" />
+    <Meta Name="ms.sourcegitcommit" Value="16d2d159872fd213cae4b8f371d7ae9c8b027c89" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="10/04/2018" />
-    <Meta Name="ms.locfileid" Value="48704214" />
+    <Meta Name="ms.lasthandoff" Value="11/17/2018" />
+    <Meta Name="ms.locfileid" Value="51935415" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class WorkflowPersistenceService : System.Workflow.Runtime.Hosting.WorkflowRuntimeService" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit WorkflowPersistenceService extends System.Workflow.Runtime.Hosting.WorkflowRuntimeService" />
@@ -37,7 +37,7 @@
 > [!NOTE]
 >  [!INCLUDE[DeprecatedContent](~/includes/deprecatedcontent-md.md)]  
   
- Lorsque certaines conditions se produisent pendant que le workflow s'exécute, le moteur d'exécution de workflow rend persistantes les informations d'état relatives à l'instance de workflow. Par exemple, la persistance peut se produire lorsqu'une transaction atomique se termine, que l'instance de workflow devient inactive, que l'hôte appelle la méthode <xref:System.Workflow.Runtime.WorkflowInstance.Unload%2A?displayProperty=nameWithType> sur l'instance de workflow ou qu'une instance de workflow est terminée ou se termine. Lorsque la sémantique du moteur d'exécution de workflow détermine que la persistance doit avoir lieu, le moteur d'exécution de workflow appelle les méthodes fournies par un service de persistance pour enregistrer les informations d'état relatives à l'instance de workflow. De même, lorsque le moteur d'exécution de workflow doit restaurer une instance de workflow rendue persistante auparavant, il appelle les méthodes fournies par le service de persistance pour charger ces informations d'état. Le moteur d'exécution de workflow gère toute la sémantique ayant trait au moment de l'exécution de la persistance. Le service de persistance gère l'enregistrement et le chargement des informations d'état du workflow vers ou à partir d'une banque de données.  
+ Lorsque certaines conditions se produisent pendant que le workflow s'exécute, le moteur d'exécution de workflow rend persistantes les informations d'état relatives à l'instance de workflow. Par exemple, la persistance peut se produire lorsqu’une transaction atomique se termine, que l’instance de workflow devient inactive, que l’hôte appelle la méthode <xref:System.Workflow.Runtime.WorkflowInstance.Unload%2A?displayProperty=nameWithType> sur l’instance de workflow ou qu’une instance de workflow est terminée ou se termine. Lorsque la sémantique du moteur d'exécution de workflow détermine que la persistance doit avoir lieu, le moteur d'exécution de workflow appelle les méthodes fournies par un service de persistance pour enregistrer les informations d'état relatives à l'instance de workflow. De même, lorsque le moteur d'exécution de workflow doit restaurer une instance de workflow rendue persistante auparavant, il appelle les méthodes fournies par le service de persistance pour charger ces informations d'état. Le moteur d'exécution de workflow gère toute la sémantique ayant trait au moment de l'exécution de la persistance. Le service de persistance gère l'enregistrement et le chargement des informations d'état du workflow vers ou à partir d'une banque de données.  
   
  Vous pouvez créer un service de persistance en dérivant une classe de <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService>.  Vous pouvez ajouter un service de persistance au moteur d'exécution de workflow en appelant la méthode <xref:System.Workflow.Runtime.WorkflowRuntime.AddService%2A> ou en effectuant une entrée appropriée dans le fichier de configuration de l'application. La classe <xref:System.Workflow.Runtime.WorkflowRuntime> doit contenir un seul service de persistance. Windows Workflow Foundation fournit la classe <xref:System.Workflow.Runtime.Hosting.SqlWorkflowPersistenceService>, un service de persistance prédéfini, que vous pouvez utiliser tel quel ou développer.  
   
@@ -45,7 +45,7 @@
   
  Votre service de persistance doit lever une classe <xref:System.Workflow.Runtime.Hosting.PersistenceException> s'il ne peut pas enregistrer les informations d'état dans sa banque de données ni charger les informations d'état depuis sa banque de données. Le moteur d'exécution de workflow prévoit ce comportement.  
   
- Un mécanisme de traitement par lots est fourni pour les services qui utilisent un magasin fiable pour enregistrer les informations d'état du workflow. Dans ces situations, il est souvent important de maintenir la cohérence entre le magasin fiable utilisé par le service de persistance et l'état interne du moteur d'exécution de workflow. Vous pouvez ajouter des fonctionnalités définies par l'interface <xref:System.Workflow.Runtime.IPendingWork> à votre service, puis participer au traitement par lots de la transaction de workflow fournie par la classe <xref:System.Workflow.Runtime.Hosting.WorkflowCommitWorkBatchService> en ajoutant des modifications à votre banque de données en tant qu'éléments de travail de la propriété <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A>. Le magasin fiable lui-même doit implémenter l'interface <xref:System.Transactions.IEnlistmentNotification> afin que les informations de workflow ne deviennent pas incorrectement persistantes en cas de restauration d'une transaction. Pour plus d'informations, consultez <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveCompletedContextActivity%2A> ou <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveWorkflowInstanceState%2A>.  
+ Un mécanisme de traitement par lots est fourni pour les services qui utilisent un magasin fiable pour enregistrer les informations d'état du workflow. Dans ces situations, il est souvent important de maintenir la cohérence entre le magasin fiable utilisé par le service de persistance et l'état interne du moteur d'exécution de workflow. Vous pouvez ajouter des fonctionnalités définies par l’interface <xref:System.Workflow.Runtime.IPendingWork> à votre service, puis participer au traitement par lots de la transaction de workflow fournie par la classe <xref:System.Workflow.Runtime.Hosting.WorkflowCommitWorkBatchService> en ajoutant des modifications à votre banque de données en tant qu’éléments de travail de la propriété <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A>. Le magasin fiable lui-même doit implémenter l’interface <xref:System.Transactions.IEnlistmentNotification> afin que les informations de workflow ne deviennent pas incorrectement persistantes en cas de restauration d’une transaction. Pour plus d'informations, consultez <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveCompletedContextActivity%2A> ou <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveWorkflowInstanceState%2A>.  
   
  ]]></format>
     </remarks>
@@ -70,7 +70,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- L'exemple suivant illustre la création d'une instance de la classe `SqlWorkflowPersistenceService` (dérivée de `WorkflowPersistenceService`). Il provient de l'exemple du Kit de développement Nested Exception Handlers et provient du fichier Program.cs.  Pour plus d’informations, consultez le [Nested Exception Handlers, exemple](http://msdn.microsoft.com/library/d1da0209-842b-41c8-9b7c-0cbaa1034265).  
+ L'exemple suivant illustre la création d'une instance de la classe `SqlWorkflowPersistenceService` (dérivée de `WorkflowPersistenceService`). Il provient de l'exemple du Kit de développement Nested Exception Handlers et provient du fichier Program.cs.  Pour plus d’informations, consultez le [Nested Exception Handlers, exemple](https://msdn.microsoft.com/library/d1da0209-842b-41c8-9b7c-0cbaa1034265).  
   
  [!code-csharp[WF_Samples#161](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets11.cs#161)]
  [!code-vb[WF_Samples#161](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets11.vb#161)]  
@@ -216,14 +216,14 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le moteur d'exécution de workflow utilise <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadCompletedContextActivity%2A> pour implémenter la compensation. Vous devez restaurer une copie identique de l'objectif achevé. Pour ceci, vous devez restaurer une classe <xref:System.IO.Stream> valide de la représentation de l'objectif achevé dans la banque de données. Puis, vous devez passer la classe <xref:System.IO.Stream> à l'une des méthodes surchargées de la méthode <xref:System.Workflow.ComponentModel.Activity.Load%2A> pour exécuter la désérialisation de l'objectif.  
+ Le moteur d'exécution de workflow utilise <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadCompletedContextActivity%2A> pour implémenter la compensation. Vous devez restaurer une copie identique de l'objectif achevé. Pour ceci, vous devez restaurer une classe <xref:System.IO.Stream> valide de la représentation de l'objectif achevé dans la banque de données. Puis, vous devez passer la classe <xref:System.IO.Stream> à l’une des méthodes surchargées de la méthode <xref:System.Workflow.ComponentModel.Activity.Load%2A> pour exécuter la désérialisation de l’objectif.  
   
  Si votre service de persistance ne peut pas charger l'objectif achevé à partir de sa banque de données, il doit lever une classe <xref:System.Workflow.Runtime.Hosting.PersistenceException> avec un message approprié.  
   
    
   
 ## Examples  
- L'exemple suivant illustre une implémentation de la méthode `LoadCompletedContextActivity`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ L'exemple suivant illustre une implémentation de la méthode `LoadCompletedContextActivity`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](https://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#269](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#269)]
  [!code-vb[WF_Samples#269](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#269)]  
@@ -268,7 +268,7 @@
    
   
 ## Examples  
- L'exemple suivant illustre une implémentation de la méthode `LoadWorkflowInstanceState`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ L'exemple suivant illustre une implémentation de la méthode `LoadWorkflowInstanceState`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](https://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#266](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#266)]
  [!code-vb[WF_Samples#266](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#266)]  
@@ -307,7 +307,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- L'exemple suivant illustre une implémentation de la méthode `RestoreFromDefaultSerializedForm`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ L'exemple suivant illustre une implémentation de la méthode `RestoreFromDefaultSerializedForm`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](https://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#269](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#269)]
  [!code-vb[WF_Samples#269](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#269)]  
@@ -348,14 +348,14 @@
   
  <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.LoadCompletedContextActivity%2A> utilise le <xref:System.Guid> de l'objectif achevé en tant que paramètre. Par conséquent, vous devez également enregistrer la propriété <xref:System.Workflow.ComponentModel.ActivityExecutionContext.ContextGuid%2A> associée à l'`activity`. Cette propriété peut être référencée via le champ <xref:System.Workflow.ComponentModel.Activity.ActivityContextGuidProperty> d'`activity`.  
   
- Si vous implémentez un service de persistance qui utilise un magasin fiable, afin de maintenir la cohérence avec l’état interne du moteur d’exécution de workflow, vous devez participer au traitement par lots de la transaction du workflow pour différer l’écriture réelle dans votre magasin fiable jusqu’à un point de la validation du workflow. Pour participer au traitement par lots, ajoutez un élément de travail à la propriété <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A> qui représente les modifications à apporter à la base de données et implémentez l'interface <xref:System.Workflow.Runtime.IPendingWork> dans votre service de persistance.  
+ Si vous implémentez un service de persistance qui utilise un magasin fiable, afin de maintenir la cohérence avec l’état interne du moteur d’exécution de workflow, vous devez participer au traitement par lots de la transaction du workflow pour différer l’écriture réelle dans votre magasin fiable jusqu’à un point de la validation du workflow. Pour participer au traitement par lots, ajoutez un élément de travail à la propriété <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A> qui représente les modifications à apporter à la base de données et implémentez l’interface <xref:System.Workflow.Runtime.IPendingWork> dans votre service de persistance.  
   
  Si vous ne pouvez pas enregistrer l'objectif achevé sur votre banque de données, vous devez lever une classe <xref:System.Workflow.Runtime.Hosting.PersistenceException> avec un message d'erreur approprié.  
   
    
   
 ## Examples  
- L'exemple suivant illustre une implémentation de la méthode `SaveCompletedContextActivity`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ L'exemple suivant illustre une implémentation de la méthode `SaveCompletedContextActivity`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](https://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#268](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#268)]
  [!code-vb[WF_Samples#268](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#268)]  
@@ -401,12 +401,12 @@
   
  Le moteur d'exécution de workflow appelle la méthode <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.SaveWorkflowInstanceState%2A> une dernière fois lorsque l'instance de workflow est complétée ou interrompue. Par conséquent, si <xref:System.Workflow.Runtime.Hosting.WorkflowPersistenceService.GetWorkflowStatus%2A> est égal à <xref:System.Workflow.Runtime.WorkflowStatus.Completed> ou <xref:System.Workflow.Runtime.WorkflowStatus.Terminated>, vous pouvez supprimer sans risque l'instance de workflow et tous les objectifs achevés qui lui sont associés dans votre banque de données. Vous pouvez également vous abonner à l'événement <xref:System.Workflow.Runtime.WorkflowRuntime.WorkflowCompleted> ou <xref:System.Workflow.Runtime.WorkflowRuntime.WorkflowTerminated> pour déterminer si vous pouvez supprimer en toute sécurité les enregistrements associés à l'instance de workflow. La suppression réelle des enregistrements de votre banque de données dépend de votre implémentation.  
   
- Si vous implémentez un service de persistance qui utilise un magasin fiable, afin de maintenir la cohérence avec l'état interne du moteur d'exécution de workflow, vous devez ensuite participer au traitement par lots de la transaction du workflow pour différer l'écriture réelle dans votre magasin fiable jusqu'à un point de la validation du workflow. Pour participer au traitement par lots, ajoutez un élément de travail à la propriété <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A> qui représente les modifications à apporter à votre banque de données et implémentez l'interface <xref:System.Workflow.Runtime.IPendingWork> dans votre service de persistance.  
+ Si vous implémentez un service de persistance qui utilise un magasin fiable, afin de maintenir la cohérence avec l'état interne du moteur d'exécution de workflow, vous devez ensuite participer au traitement par lots de la transaction du workflow pour différer l'écriture réelle dans votre magasin fiable jusqu'à un point de la validation du workflow. Pour participer au traitement par lots, ajoutez un élément de travail à la propriété <xref:System.Workflow.Runtime.WorkflowEnvironment.WorkBatch%2A> qui représente les modifications à apporter à votre banque de données et implémentez l’interface <xref:System.Workflow.Runtime.IPendingWork> dans votre service de persistance.  
   
    
   
 ## Examples  
- L'exemple suivant illustre une implémentation de la méthode `SaveWorkflowInstanceState`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ L'exemple suivant illustre une implémentation de la méthode `SaveWorkflowInstanceState`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](https://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#264](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#264)]
  [!code-vb[WF_Samples#264](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#264)]  
@@ -442,7 +442,7 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Examples  
- L'exemple suivant illustre une implémentation de la méthode `UnloadOnIdle`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ L'exemple suivant illustre une implémentation de la méthode `UnloadOnIdle`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](https://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#270](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#270)]
  [!code-vb[WF_Samples#270](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#270)]  
@@ -484,7 +484,7 @@
    
   
 ## Examples  
- L'exemple suivant illustre une implémentation de la méthode `UnlockWorkflowInstanceState`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](http://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
+ L'exemple suivant illustre une implémentation de la méthode `UnlockWorkflowInstanceState`. Il provient de l'exemple de Custom Persistence Service, dans le fichier FilePersistenceService.cs. Pour plus d’informations, consultez [exemple de Service de persistance personnalisé](https://msdn.microsoft.com/library/869dfadf-5298-4551-bc80-f4cf7918729d).  
   
  [!code-csharp[WF_Samples#267](~/samples/snippets/csharp/VS_Snippets_CFX/wf_samples/cs/snippets24.cs#267)]
  [!code-vb[WF_Samples#267](~/samples/snippets/visualbasic/VS_Snippets_CFX/wf_samples/vb/snippets24.vb#267)]  
