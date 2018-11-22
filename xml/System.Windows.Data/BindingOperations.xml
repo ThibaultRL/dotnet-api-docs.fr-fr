@@ -1,11 +1,11 @@
 <Type Name="BindingOperations" FullName="System.Windows.Data.BindingOperations">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="51eef6572002081a616a5d4355aca43a61a9c451" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="4601fcaf8f086826132c17425f722a0180d270b0" />
+    <Meta Name="ms.sourcegitcommit" Value="9e06b87bcfa4347dbbaaa4b3cc36b43b93b5badb" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="08/24/2018" />
-    <Meta Name="ms.locfileid" Value="37579253" />
+    <Meta Name="ms.lasthandoff" Value="11/20/2018" />
+    <Meta Name="ms.locfileid" Value="52236437" />
   </Metadata>
   <TypeSignature Language="C#" Value="public static class BindingOperations" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit BindingOperations extends System.Object" />
@@ -58,7 +58,7 @@
         <param name="collection">Collection à laquelle accéder.</param>
         <param name="accessMethod">Action à exécuter sur la collection.</param>
         <param name="writeAccess">
-          <see langword="true" /> si <c>accessMethod</c> doit écrire dans la collection ; sinon, <see langword="false" />.</param>
+          <see langword="true" /> si <paramref name="accessMethod" /> écrira dans la collection ; sinon, <see langword="false" />.</param>
         <summary>Permet d'accéder à une collection à l'aide du mécanisme de synchronisation que l'application a spécifié lorsqu'elle a appelé EnableCollectionSynchronization.</summary>
         <remarks>To be added.</remarks>
       </Docs>
@@ -237,12 +237,10 @@
   
 ## Remarks  
 
-Une application WPF peut afficher une collection de données à l’aide un <xref:System.Windows.Controls.ItemsControl> ou une de ses sous-classes (<xref:System.Windows.Controls.ListBox>, <xref:System.Windows.Controls.DataGrid>, <xref:System.Windows.Controls.TreeView>, <xref:System.Windows.Controls.ListView>, etc..). Les canaux de WPF tout son accès à la collection via une sous-classe de <xref:System.Windows.Data.CollectionView>. À la fois le <xref:System.Windows.Controls.ItemsControl> et <xref:System.Windows.Data.CollectionView> ont une affinité au thread sur lequel le <xref:System.Windows.Controls.ItemsControl> a été créé, ce qui signifie que leur utilisation sur un autre thread n’est pas autorisé et lève une exception. En effet, cette restriction s’applique à la collection également.
- 
-Voulez-vous utiliser le regroupement sur plusieurs threads.   Par exemple, vous souhaitez mettre à jour de la collection (ajouter ou supprimer des éléments) sur un thread « collecte de données », tout en affichant les résultats sur un thread « interface utilisateur », afin que l’interface utilisateur reste réactive lors de la collecte de données qui se passe. Dans ce cas, vous êtes responsable de l’accès synchronisé de (« thread-safe ») à la collection.   Cela s’effectue généralement à l’aide d’un mécanisme de verrouillage simple ou un mécanisme de synchronisation plus élaboré comme sémaphores, événements, etc. de réinitialisation. 
- 
-Bien que vous devez synchroniser l’accès de votre application à la collection, vous devez également vous assurer que l’accès à partir de WPF (en particulier en <xref:System.Windows.Data.CollectionView>) participe le même mécanisme de synchronisation.  Pour ce faire, appelez la méthode <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A>.
- 
+Une application WPF peut afficher une collection de données à l’aide un <xref:System.Windows.Controls.ItemsControl> ou une de ses sous-classes (<xref:System.Windows.Controls.ListBox>, <xref:System.Windows.Controls.DataGrid>, <xref:System.Windows.Controls.TreeView>, <xref:System.Windows.Controls.ListView>, etc.). Les canaux de WPF tout son accès à la collection via une sous-classe de <xref:System.Windows.Data.CollectionView>. À la fois le <xref:System.Windows.Controls.ItemsControl> et <xref:System.Windows.Data.CollectionView> ont une affinité au thread sur lequel le <xref:System.Windows.Controls.ItemsControl> a été créé, ce qui signifie que leur utilisation sur un autre thread n’est pas autorisé et lève une exception. En effet, cette restriction s’applique à la collection également.
+ 
+Voulez-vous utiliser le regroupement sur plusieurs threads.   Par exemple, vous souhaitez mettre à jour de la collection (ajouter ou supprimer des éléments) sur un thread « collecte de données », tout en affichant les résultats sur un thread « interface utilisateur », afin que l’interface utilisateur reste réactive lors de la collecte de données qui se passe. Dans ce cas, vous êtes responsable de l’accès synchronisé de (« thread-safe ») à la collection.   Cela s’effectue généralement à l’aide d’un mécanisme de verrouillage simple ou un mécanisme de synchronisation plus élaboré comme sémaphores, événements, etc. de réinitialisation.   Bien que vous devez synchroniser l’accès de votre application à la collection, vous devez également vous assurer que l’accès à partir de WPF (en particulier en <xref:System.Windows.Data.CollectionView>) participe le même mécanisme de synchronisation.  Pour ce faire, appelez la méthode <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A>.
+ 
 Pour utiliser un regroupement sur plusieurs threads, y compris le thread d’interface utilisateur qui détient le <xref:System.Windows.Controls.ItemsControl>, une application responsabilités est les suivantes :
 
 1. Choisir un mécanisme de synchronisation.
@@ -257,13 +255,13 @@ Pour utiliser un regroupement sur plusieurs threads, y compris le thread d’int
 
    - Appelez le <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object)> surcharge si vous utilisez un mécanisme de verrouillage simple ; appel le <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object,System.Windows.Data.CollectionSynchronizationCallback)> surcharge si vous utilisez un mécanisme plus élaboré.
 
-1. Vérifiez qu’une modification apportée à la collection et la notification de cette modification (via <xref:System.Collections.Specialized.INotifyCollectionChanged>) sont atomique ; aucun accès à partir d’autres threads ne peuvent intervenir.  (Cela est généralement proposé gratuitement. For instance, <xref:System.Collections.ObjectModel.ObservableCollection%601> , garantit à condition que toutes les modifications sont protégées par la synchronisation.)
+1. Vérifiez qu’une modification apportée à la collection et la notification de cette modification (via <xref:System.Collections.Specialized.INotifyCollectionChanged>) sont atomique ; aucun accès à partir d’autres threads ne peuvent intervenir.  (Cela est généralement proposé gratuitement. For instance, <xref:System.Collections.ObjectModel.ObservableCollection%601> , garantit à condition que toutes les modifications sont protégées par la synchronisation.)
 
-1. Si vous appelez <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, qu’appel doit également se produire sur le thread d’interface utilisateur.
+1. Si vous appelez <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, qu’appel doit également se produire sur le thread d’interface utilisateur.
 
 1. Si vous souhaitez utiliser la même collection sur plusieurs threads d’interface utilisateur, vous devez appeler <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A> (et <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, si nécessaire) séparément sur chaque thread d’interface utilisateur.
 
-1. Éviter un blocage.  Il s’agit déjà responsabilité de l’application une fois qu’elle choisit d’utiliser la synchronisation, mais il doit également prendre en la participation de WPF de compte dans la synchronisation, comme indiqué dans le paragraphe suivant.
+1. Éviter un blocage.  Il s’agit déjà responsabilité de l’application une fois qu’elle choisit d’utiliser la synchronisation, mais il doit également prendre en la participation de WPF de compte dans la synchronisation, comme indiqué dans le paragraphe suivant.
 
 En retour, WPF fournit le comportement suivant :
 
@@ -275,9 +273,9 @@ En retour, WPF fournit le comportement suivant :
 
 - Événements en attente sont appliquées à la copie miroir de façon asynchrone sur le thread d’interface utilisateur lorsqu’il a la possibilité de le faire.
 
-- Le <xref:System.Windows.Data.CollectionView> ne sont pas utiliser directement n’importe quel mécanisme de synchronisation visible par l’application. Il s’agit moyen de WPF de la façon d’éviter un blocage (voir l’élément précédent 7).   
+- Le <xref:System.Windows.Data.CollectionView> ne sont pas utiliser directement n’importe quel mécanisme de synchronisation visible par l’application. Il s’agit moyen de WPF de la façon d’éviter un blocage (voir l’élément précédent 7).   
 
-L’effet net est que vous pouvez modifier la collection sur n’importe quel thread, et ces modifications apparaissent dans le <xref:System.Windows.Controls.ItemsControl> lorsque le thread d’interface utilisateur a le temps de « rattraper ».  L’implémentation a été paramétrée pour limiter le taux de modifications de flux dans le thread d’interface utilisateur pour conserver l’arrière-plan des threads à partir de saturer le thread d’interface utilisateur et au détriment de la réponse à une entrée utilisateur normal.
+L’effet net est que vous pouvez modifier la collection sur n’importe quel thread, et ces modifications apparaissent dans le <xref:System.Windows.Controls.ItemsControl> lorsque le thread d’interface utilisateur a le temps de « rattraper ».  L’implémentation a été paramétrée pour limiter le taux de modifications de flux dans le thread d’interface utilisateur pour conserver l’arrière-plan des threads à partir de saturer le thread d’interface utilisateur et au détriment de la réponse à une entrée utilisateur normal.
 
  ]]></format>
         </remarks>
@@ -311,10 +309,10 @@ L’effet net est que vous pouvez modifier la collection sur n’importe quel th
 
 ## Remarks
 
-Une application WPF peut afficher une collection de données à l’aide un <xref:System.Windows.Controls.ItemsControl> ou une de ses sous-classes (<xref:System.Windows.Controls.ListBox>, <xref:System.Windows.Controls.DataGrid>, <xref:System.Windows.Controls.TreeView>, <xref:System.Windows.Controls.ListView>, etc..). Les canaux de WPF tout son accès à la collection via une sous-classe de <xref:System.Windows.Data.CollectionView>. À la fois le <xref:System.Windows.Controls.ItemsControl> et <xref:System.Windows.Data.CollectionView> ont une affinité au thread sur lequel le <xref:System.Windows.Controls.ItemsControl> a été créé, ce qui signifie que leur utilisation sur un autre thread n’est pas autorisé et lève une exception. En effet, cette restriction s’applique à la collection également.
- 
-Voulez-vous utiliser le regroupement sur plusieurs threads.   Par exemple, vous souhaitez mettre à jour de la collection (ajouter ou supprimer des éléments) sur un thread « collecte de données », tout en affichant les résultats sur un thread « interface utilisateur », afin que l’interface utilisateur reste réactive lors de la collecte de données qui se passe. Dans ce cas, vous êtes chargé de garantir un accès (« thread-safe ») à la collection et pour garantir que l’accès à partir de WPF synchronisé (en particulier en <xref:System.Windows.Data.CollectionView>) fait partie dans le même mécanisme de synchronisation. En appelant le <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object)> (méthode), vous pouvez faire à l’aide d’un mécanisme de verrouillage simple. 
- 
+Une application WPF peut afficher une collection de données à l’aide un <xref:System.Windows.Controls.ItemsControl> ou une de ses sous-classes (<xref:System.Windows.Controls.ListBox>, <xref:System.Windows.Controls.DataGrid>, <xref:System.Windows.Controls.TreeView>, <xref:System.Windows.Controls.ListView>, etc.). Les canaux de WPF tout son accès à la collection via une sous-classe de <xref:System.Windows.Data.CollectionView>. À la fois le <xref:System.Windows.Controls.ItemsControl> et <xref:System.Windows.Data.CollectionView> ont une affinité au thread sur lequel le <xref:System.Windows.Controls.ItemsControl> a été créé, ce qui signifie que leur utilisation sur un autre thread n’est pas autorisé et lève une exception. En effet, cette restriction s’applique à la collection également.
+ 
+Voulez-vous utiliser le regroupement sur plusieurs threads.   Par exemple, vous souhaitez mettre à jour de la collection (ajouter ou supprimer des éléments) sur un thread « collecte de données », tout en affichant les résultats sur un thread « interface utilisateur », afin que l’interface utilisateur reste réactive lors de la collecte de données qui se passe. Dans ce cas, vous êtes chargé de garantir un accès (« thread-safe ») à la collection et pour garantir que l’accès à partir de WPF synchronisé (en particulier en <xref:System.Windows.Data.CollectionView>) fait partie dans le même mécanisme de synchronisation. En appelant le <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object)> (méthode), vous pouvez faire à l’aide d’un mécanisme de verrouillage simple. 
+ 
 Pour utiliser un regroupement sur plusieurs threads, y compris le thread d’interface utilisateur qui détient le <xref:System.Windows.Controls.ItemsControl>, vous devez procédez comme suit :
 
 1. Instanciez un objet à verrouiller lors de l’accès à la collection.
@@ -327,13 +325,13 @@ Pour utiliser un regroupement sur plusieurs threads, y compris le thread d’int
 
    - L’appel doit se produire avant à l’aide de la collection sur un thread différent ou avant d’attacher la collection à le <xref:System.Windows.Controls.ItemsControl>, selon ce qui est plus loin.
 
-1. Vérifiez qu’une modification apportée à la collection et la notification de cette modification (via <xref:System.Collections.Specialized.INotifyCollectionChanged>) sont atomique ; aucun accès à partir d’autres threads ne peuvent intervenir.  (Cela est généralement proposé gratuitement. For instance, <xref:System.Collections.ObjectModel.ObservableCollection%601> , garantit à condition que toutes les modifications sont protégées par la synchronisation.)
+1. Vérifiez qu’une modification apportée à la collection et la notification de cette modification (via <xref:System.Collections.Specialized.INotifyCollectionChanged>) sont atomique ; aucun accès à partir d’autres threads ne peuvent intervenir.  (Cela est généralement proposé gratuitement. For instance, <xref:System.Collections.ObjectModel.ObservableCollection%601> , garantit à condition que toutes les modifications sont protégées par la synchronisation.)
 
-1. Si vous appelez <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, qu’appel doit également se produire sur le thread d’interface utilisateur.
+1. Si vous appelez <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, qu’appel doit également se produire sur le thread d’interface utilisateur.
 
 1. Si vous souhaitez utiliser la même collection sur plusieurs threads d’interface utilisateur, vous devez appeler <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A> (et <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, si nécessaire) séparément sur chaque thread d’interface utilisateur.
 
-1. Éviter un blocage.  Il s’agit déjà responsabilité de l’application une fois qu’elle choisit d’utiliser la synchronisation, mais il doit également prendre en compte la participation de WPF dans la synchronisation. (Voir plus d’informations, ci-dessous.)
+1. Éviter un blocage.  Il s’agit déjà responsabilité de l’application une fois qu’elle choisit d’utiliser la synchronisation, mais il doit également prendre en compte la participation de WPF dans la synchronisation. (Voir plus d’informations, ci-dessous.)
 
 En retour, WPF fournit le comportement suivant :
 
@@ -345,9 +343,9 @@ En retour, WPF fournit le comportement suivant :
 
 - Événements en attente sont appliquées à la copie miroir de façon asynchrone sur le thread d’interface utilisateur lorsqu’il a la possibilité de le faire.
 
-- Le <xref:System.Windows.Data.CollectionView> n’utilisera pas directement n’importe quel mécanisme de synchronisation visible par l’application. Il s’agit moyen de WPF de la façon d’éviter un blocage (voir l’élément précédent 7).   
+- Le <xref:System.Windows.Data.CollectionView> n’utilisera pas directement n’importe quel mécanisme de synchronisation visible par l’application. Il s’agit moyen de WPF de la façon d’éviter un blocage (voir l’élément précédent 7).   
 
-L’effet net est que vous pouvez modifier la collection sur n’importe quel thread, et ces modifications apparaissent dans le <xref:System.Windows.Controls.ItemsControl> lorsque le thread d’interface utilisateur a le temps de « rattraper ».  L’implémentation a été paramétrée pour limiter le taux de modifications de flux dans le thread d’interface utilisateur pour conserver l’arrière-plan des threads à partir de saturer le thread d’interface utilisateur et au détriment de la réponse à une entrée utilisateur normal.
+L’effet net est que vous pouvez modifier la collection sur n’importe quel thread, et ces modifications apparaissent dans le <xref:System.Windows.Controls.ItemsControl> lorsque le thread d’interface utilisateur a le temps de « rattraper ».  L’implémentation a été paramétrée pour limiter le taux de modifications de flux dans le thread d’interface utilisateur pour conserver l’arrière-plan des threads à partir de saturer le thread d’interface utilisateur et au détriment de la réponse à une entrée utilisateur normal.
   
  ]]></format>
         </remarks>
@@ -383,11 +381,9 @@ L’effet net est que vous pouvez modifier la collection sur n’importe quel th
   
 ## Remarks  
 
-Une application WPF peut afficher une collection de données à l’aide un <xref:System.Windows.Controls.ItemsControl> ou une de ses sous-classes (<xref:System.Windows.Controls.ListBox>, <xref:System.Windows.Controls.DataGrid>, <xref:System.Windows.Controls.TreeView>, <xref:System.Windows.Controls.ListView>, etc..). Les canaux de WPF tout son accès à la collection via une sous-classe de <xref:System.Windows.Data.CollectionView>. À la fois le <xref:System.Windows.Controls.ItemsControl> et <xref:System.Windows.Data.CollectionView> ont une affinité au thread sur lequel le <xref:System.Windows.Controls.ItemsControl> a été créé, ce qui signifie que leur utilisation sur un autre thread n’est pas autorisé et lève une exception. En effet, cette restriction s’applique à la collection également.
- 
-Voulez-vous utiliser le regroupement sur plusieurs threads.   Par exemple, vous souhaitez mettre à jour de la collection (ajouter ou supprimer des éléments) sur un thread « collecte de données », tout en affichant les résultats sur un thread « interface utilisateur », afin que l’interface utilisateur reste réactive lors de la collecte de données qui se passe. Dans ce cas, vous êtes chargé de garantir un accès (« thread-safe ») à la collection et pour garantir que l’accès à partir de WPF synchronisé (en particulier en <xref:System.Windows.Data.CollectionView>) fait partie dans le même mécanisme de synchronisation. En appelant le <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object,System.Windows.Data.CollectionSynchronizationCallback)> (méthode), vous pouvez faire à l’aide d’un mécanisme de synchronisation comme un sémaphores, d’un événement de réinitialisation, etc.. 
- 
-Pour utiliser un regroupement sur plusieurs threads, y compris le thread d’interface utilisateur qui détient le <xref:System.Windows.Controls.ItemsControl>, vous devez procédez comme suit :
+Une application WPF peut afficher une collection de données à l’aide un <xref:System.Windows.Controls.ItemsControl> ou une de ses sous-classes (<xref:System.Windows.Controls.ListBox>, <xref:System.Windows.Controls.DataGrid>, <xref:System.Windows.Controls.TreeView>, <xref:System.Windows.Controls.ListView>, etc.). Les canaux de WPF tout son accès à la collection via une sous-classe de <xref:System.Windows.Data.CollectionView>. À la fois le <xref:System.Windows.Controls.ItemsControl> et <xref:System.Windows.Data.CollectionView> ont une affinité au thread sur lequel le <xref:System.Windows.Controls.ItemsControl> a été créé, ce qui signifie que leur utilisation sur un autre thread n’est pas autorisé et lève une exception. En effet, cette restriction s’applique à la collection également.
+ 
+Voulez-vous utiliser le regroupement sur plusieurs threads.   Par exemple, vous souhaitez mettre à jour de la collection (ajouter ou supprimer des éléments) sur un thread « collecte de données », tout en affichant les résultats sur un thread « interface utilisateur », afin que l’interface utilisateur reste réactive lors de la collecte de données qui se passe. Dans ce cas, vous êtes chargé de garantir un accès (« thread-safe ») à la collection et pour garantir que l’accès à partir de WPF synchronisé (en particulier en <xref:System.Windows.Data.CollectionView>) fait partie dans le même mécanisme de synchronisation. En appelant le <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization(System.Collections.IEnumerable,System.Object,System.Windows.Data.CollectionSynchronizationCallback)> (méthode), vous pouvez faire à l’aide d’un mécanisme de synchronisation comme un sémaphores, d’un événement de réinitialisation, etc.   Pour utiliser un regroupement sur plusieurs threads, y compris le thread d’interface utilisateur qui détient le <xref:System.Windows.Controls.ItemsControl>, vous devez procédez comme suit :
 
 1. Choisir un mécanisme de synchronisation.
 
@@ -399,13 +395,13 @@ Pour utiliser un regroupement sur plusieurs threads, y compris le thread d’int
 
    - L’appel doit se produire avant à l’aide de la collection sur un thread différent ou avant d’attacher la collection à le <xref:System.Windows.Controls.ItemsControl>, selon ce qui est plus loin.
 
-1. Vérifiez qu’une modification apportée à la collection et la notification de cette modification (via <xref:System.Collections.Specialized.INotifyCollectionChanged>) sont atomique ; aucun accès à partir d’autres threads ne peuvent intervenir.  (Cela est généralement proposé gratuitement. For instance, <xref:System.Collections.ObjectModel.ObservableCollection%601> , garantit à condition que toutes les modifications sont protégées par la synchronisation.)
+1. Vérifiez qu’une modification apportée à la collection et la notification de cette modification (via <xref:System.Collections.Specialized.INotifyCollectionChanged>) sont atomique ; aucun accès à partir d’autres threads ne peuvent intervenir.  (Cela est généralement proposé gratuitement. For instance, <xref:System.Collections.ObjectModel.ObservableCollection%601> , garantit à condition que toutes les modifications sont protégées par la synchronisation.)
 
-1. Si vous appelez <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, qu’appel doit également se produire sur le thread d’interface utilisateur.
+1. Si vous appelez <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, qu’appel doit également se produire sur le thread d’interface utilisateur.
 
 1. Si vous souhaitez utiliser la même collection sur plusieurs threads d’interface utilisateur, vous devez appeler <xref:System.Windows.Data.BindingOperations.EnableCollectionSynchronization%2A> (et <xref:System.Windows.Data.BindingOperations.DisableCollectionSynchronization%2A>, si nécessaire) séparément sur chaque thread d’interface utilisateur.
 
-1. Éviter un blocage.  Il s’agit déjà responsabilité de l’application une fois qu’elle choisit d’utiliser la synchronisation, mais il doit également prendre en compte la participation de WPF dans la synchronisation. (Voir plus d’informations, ci-dessous.)
+1. Éviter un blocage.  Il s’agit déjà responsabilité de l’application une fois qu’elle choisit d’utiliser la synchronisation, mais il doit également prendre en compte la participation de WPF dans la synchronisation. (Voir plus d’informations, ci-dessous.)
 
 En retour, WPF fournit le comportement suivant :
 
@@ -424,9 +420,9 @@ En retour, WPF fournit le comportement suivant :
 
 - Événements en attente sont appliquées à la copie miroir de façon asynchrone sur le thread d’interface utilisateur lorsqu’il a la possibilité de le faire.
 
-- Le <xref:System.Windows.Data.CollectionView> n’utilisera pas directement n’importe quel mécanisme de synchronisation visible par l’application. Il s’agit moyen de WPF de la façon d’éviter un blocage (voir l’élément précédent 7).   
+- Le <xref:System.Windows.Data.CollectionView> n’utilisera pas directement n’importe quel mécanisme de synchronisation visible par l’application. Il s’agit moyen de WPF de la façon d’éviter un blocage (voir l’élément précédent 7).   
 
-L’effet net est que vous pouvez modifier la collection sur n’importe quel thread, et ces modifications apparaissent dans le <xref:System.Windows.Controls.ItemsControl> lorsque le thread d’interface utilisateur a le temps de « rattraper ».  L’implémentation a été paramétrée pour limiter le taux de modifications de flux dans le thread d’interface utilisateur pour conserver l’arrière-plan des threads à partir de saturer le thread d’interface utilisateur et au détriment de la réponse à une entrée utilisateur normal.
+L’effet net est que vous pouvez modifier la collection sur n’importe quel thread, et ces modifications apparaissent dans le <xref:System.Windows.Controls.ItemsControl> lorsque le thread d’interface utilisateur a le temps de « rattraper ».  L’implémentation a été paramétrée pour limiter le taux de modifications de flux dans le thread d’interface utilisateur pour conserver l’arrière-plan des threads à partir de saturer le thread d’interface utilisateur et au détriment de la réponse à une entrée utilisateur normal.
 
  Le `context` paramètre est un objet arbitraire qui est passé à la `callback`. Vous pouvez l’utiliser pour déterminer le mécanisme de synchronisation utilisé pour contrôler l’accès à `collection`. `Context` peut être `null`.  
  
@@ -455,7 +451,7 @@ L’effet net est que vous pouvez modifier la collection sur n’importe quel th
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objet où se trouve <c>dp</c>.</param>
+        <param name="target">Objet où <paramref name="dp" /> existe.</param>
         <param name="dp">Propriété de cible de liaison à partir de laquelle récupérer la liaison.</param>
         <summary>Récupère l'objet <see cref="T:System.Windows.Data.Binding" /> défini sur la propriété spécifiée.</summary>
         <returns>Objet <see cref="T:System.Windows.Data.Binding" /> défini sur la propriété donnée ou <see langword="null" /> si aucun objet <see cref="T:System.Windows.Data.Binding" /> n'a été défini.</returns>
@@ -488,8 +484,8 @@ L’effet net est que vous pouvez modifier la collection sur n’importe quel th
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objet où se trouve <c>dp</c>.</param>
-        <param name="dp">Propriété de la cible de liaison à partir de laquelle récupérer l'objet <see cref="T:System.Windows.Data.BindingBase" />.</param>
+        <param name="target">Objet où <paramref name="dp" /> existe.</param>
+        <param name="dp">Propriété de cible de liaison à partir de laquelle récupérer l’objet <see cref="T:System.Windows.Data.BindingBase" />.</param>
         <summary>Récupère l'objet <see cref="T:System.Windows.Data.BindingBase" /> défini sur la propriété spécifiée.</summary>
         <returns>Objet <see cref="T:System.Windows.Data.BindingBase" /> défini sur la propriété donnée ou <see langword="null" /> si aucun objet de liaison n'a été défini.</returns>
         <remarks>
@@ -525,10 +521,10 @@ L’effet net est que vous pouvez modifier la collection sur n’importe quel th
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objet cible de liaison où se trouve <c>dp</c>.</param>
-        <param name="dp">Propriété de la cible de liaison à partir de laquelle récupérer l'objet <see cref="T:System.Windows.Data.BindingExpression" />.</param>
-        <summary>Retourne l'objet <see cref="T:System.Windows.Data.BindingExpression" /> associé à la propriété de cible de liaison spécifiée sur l'objet donné.</summary>
-        <returns>Objet <see cref="T:System.Windows.Data.BindingExpression" /> associé à la propriété donnée ou <see langword="null" /> si aucun objet n'existe. Si un objet <see cref="T:System.Windows.Data.PriorityBindingExpression" /> est défini sur la propriété, <see cref="P:System.Windows.Data.PriorityBindingExpression.ActiveBindingExpression" /> est retourné.</returns>
+        <param name="target">Objet cible de liaison où se trouve <paramref name="dp" />.</param>
+        <param name="dp">Propriété de cible de liaison à partir de laquelle récupérer l’objet <see cref="T:System.Windows.Data.BindingExpression" />.</param>
+        <summary>Retourne l’objet <see cref="T:System.Windows.Data.BindingExpression" /> associé à la propriété de cible de liaison spécifiée sur l’objet spécifié.</summary>
+        <returns>Objet <see cref="T:System.Windows.Data.BindingExpression" /> associé à la propriété donnée ou <see langword="null" /> s’il n’en existe aucun. Si un objet <see cref="T:System.Windows.Data.PriorityBindingExpression" /> est défini sur la propriété, <see cref="P:System.Windows.Data.PriorityBindingExpression.ActiveBindingExpression" /> est retourné.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -574,8 +570,8 @@ L’effet net est que vous pouvez modifier la collection sur n’importe quel th
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objet où se trouve <c>dp</c>.</param>
-        <param name="dp">Propriété de la cible de liaison à partir de laquelle récupérer l'objet <see cref="T:System.Windows.Data.BindingExpressionBase" />.</param>
+        <param name="target">Objet où <paramref name="dp" /> existe.</param>
+        <param name="dp">Propriété de cible de liaison à partir de laquelle récupérer l’objet <see cref="T:System.Windows.Data.BindingExpressionBase" />.</param>
         <summary>Récupère l'objet <see cref="T:System.Windows.Data.BindingExpressionBase" /> défini sur la propriété spécifiée.</summary>
         <returns>Objet <see cref="T:System.Windows.Data.BindingExpressionBase" /> défini sur la propriété donnée ou <see langword="null" /> si aucun objet de liaison n'a été défini.</returns>
         <remarks>
@@ -611,7 +607,7 @@ L’effet net est que vous pouvez modifier la collection sur n’importe quel th
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objet où se trouve <c>dp</c>.</param>
+        <param name="target">Objet où <paramref name="dp" /> existe.</param>
         <param name="dp">Propriété de cible de liaison à partir de laquelle récupérer la liaison.</param>
         <summary>Récupère l'objet <see cref="T:System.Windows.Data.MultiBinding" /> défini sur la propriété spécifiée.</summary>
         <returns>Objet <see cref="T:System.Windows.Data.MultiBinding" /> défini sur la propriété donnée ou <see langword="null" /> si aucun objet <see cref="T:System.Windows.Data.MultiBinding" /> n'a été défini.</returns>
@@ -642,15 +638,15 @@ L’effet net est que vous pouvez modifier la collection sur n’importe quel th
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objet cible de liaison où se trouve <c>dp</c>.</param>
-        <param name="dp">Propriété de la cible de liaison à partir de laquelle récupérer l'objet <see cref="T:System.Windows.Data.MultiBindingExpression" />.</param>
-        <summary>Retourne l'objet <see cref="T:System.Windows.Data.MultiBindingExpression" /> associé à la propriété de cible de liaison spécifiée sur l'objet donné.</summary>
-        <returns>Objet <see cref="T:System.Windows.Data.MultiBindingExpression" /> associé à la propriété donnée ou <see langword="null" /> si aucun objet n'existe.</returns>
+        <param name="target">Objet cible de liaison où se trouve <paramref name="dp" />.</param>
+        <param name="dp">Propriété de cible de liaison à partir de laquelle récupérer l’objet <see cref="T:System.Windows.Data.MultiBindingExpression" />.</param>
+        <summary>Retourne l’objet <see cref="T:System.Windows.Data.MultiBindingExpression" /> associé à la propriété de cible de liaison spécifiée sur l’objet spécifié.</summary>
+        <returns>Objet <see cref="T:System.Windows.Data.MultiBindingExpression" /> associé à la propriété donnée ou <see langword="null" /> s’il n’en existe aucun.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Objet <xref:System.Windows.Data.MultiBindingExpression> associé à la propriété donnée ou `null` si aucun objet n'existe.  
+ Objet <xref:System.Windows.Data.MultiBindingExpression> associé à la propriété donnée ou `null` s’il n’en existe aucun.  
   
  ]]></format>
         </remarks>
@@ -681,7 +677,7 @@ L’effet net est que vous pouvez modifier la collection sur n’importe quel th
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objet où se trouve <c>dp</c>.</param>
+        <param name="target">Objet où <paramref name="dp" /> existe.</param>
         <param name="dp">Propriété de cible de liaison à partir de laquelle récupérer la liaison.</param>
         <summary>Récupère l'objet <see cref="T:System.Windows.Data.PriorityBinding" /> défini sur la propriété spécifiée.</summary>
         <returns>Objet <see cref="T:System.Windows.Data.PriorityBinding" /> défini sur la propriété donnée ou <see langword="null" /> si aucun objet <see cref="T:System.Windows.Data.PriorityBinding" /> n'a été défini.</returns>
@@ -712,10 +708,10 @@ L’effet net est que vous pouvez modifier la collection sur n’importe quel th
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objet cible de liaison où se trouve <c>dp</c>.</param>
-        <param name="dp">Propriété de la cible de liaison à partir de laquelle récupérer l'objet <see cref="T:System.Windows.Data.PriorityBindingExpression" />.</param>
-        <summary>Retourne l'objet <see cref="T:System.Windows.Data.PriorityBindingExpression" /> associé à la propriété de cible de liaison spécifiée sur l'objet donné.</summary>
-        <returns>Objet <see cref="T:System.Windows.Data.PriorityBindingExpression" /> associé à la propriété donnée ou <see langword="null" /> si aucun objet n'existe.</returns>
+        <param name="target">Objet cible de liaison où se trouve <paramref name="dp" />.</param>
+        <param name="dp">Propriété de cible de liaison à partir de laquelle récupérer l’objet <see cref="T:System.Windows.Data.PriorityBindingExpression" />.</param>
+        <summary>Retourne l’objet <see cref="T:System.Windows.Data.PriorityBindingExpression" /> associé à la propriété de cible de liaison spécifiée sur l’objet spécifié.</summary>
+        <returns>Objet <see cref="T:System.Windows.Data.PriorityBindingExpression" /> associé à la propriété donnée ou <see langword="null" /> s’il n’en existe aucun.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException">Les paramètres <paramref name="target" /> et <paramref name="dp" /> ne peuvent pas avoir la valeur <see langword="null" />.</exception>
         <altmember cref="M:System.Windows.Data.BindingOperations.GetBindingExpressionBase(System.Windows.DependencyObject,System.Windows.DependencyProperty)" />
@@ -808,7 +804,7 @@ L’effet net est que vous pouvez modifier la collection sur n’importe quel th
         <Parameter Name="dp" Type="System.Windows.DependencyProperty" />
       </Parameters>
       <Docs>
-        <param name="target">Objet où se trouve <c>dp</c>.</param>
+        <param name="target">Objet où <paramref name="dp" /> existe.</param>
         <param name="dp">Propriété de dépendance à vérifier.</param>
         <summary>Retourne une valeur qui indique si la propriété spécifiée est actuellement liée aux données.</summary>
         <returns>
@@ -843,7 +839,7 @@ L’effet net est que vous pouvez modifier la collection sur n’importe quel th
         <param name="dp">Propriété cible de la liaison.</param>
         <param name="binding">Objet <see cref="T:System.Windows.Data.BindingBase" /> qui décrit la liaison.</param>
         <summary>Crée et associe une instance de <see cref="T:System.Windows.Data.BindingExpressionBase" /> à la propriété de cible de liaison spécifiée.</summary>
-        <returns>Instance de <see cref="T:System.Windows.Data.BindingExpressionBase" /> créée pour la propriété spécifiée et associée à celle-ci. La classe <see cref="T:System.Windows.Data.BindingExpressionBase" /> est la classe de base de <see cref="T:System.Windows.Data.BindingExpression" />, <see cref="T:System.Windows.Data.MultiBindingExpression" /> et <see cref="T:System.Windows.Data.PriorityBindingExpression" />.</returns>
+        <returns>Instance de <see cref="T:System.Windows.Data.BindingExpressionBase" /> créée et associée à la propriété spécifiée. La classe <see cref="T:System.Windows.Data.BindingExpressionBase" /> est la classe de base de <see cref="T:System.Windows.Data.BindingExpression" />, <see cref="T:System.Windows.Data.MultiBindingExpression" /> et <see cref="T:System.Windows.Data.PriorityBindingExpression" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
