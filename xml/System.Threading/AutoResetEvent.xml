@@ -1,11 +1,11 @@
 <Type Name="AutoResetEvent" FullName="System.Threading.AutoResetEvent">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="8fce8768b4a2ba80422edde0871cb31a0a891d1f" />
-    <Meta Name="ms.sourcegitcommit" Value="16d2d159872fd213cae4b8f371d7ae9c8b027c89" />
+    <Meta Name="ms.openlocfilehash" Value="c64c681a3837ebc150b0f23474a66a22791e1e98" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="11/17/2018" />
-    <Meta Name="ms.locfileid" Value="51871741" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52605569" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class AutoResetEvent : System.Threading.EventWaitHandle" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit AutoResetEvent extends System.Threading.EventWaitHandle" />
@@ -88,7 +88,6 @@
     <threadsafe>Cette classe est thread-safe.</threadsafe>
     <altmember cref="T:System.Threading.WaitHandle" />
     <related type="Article" href="~/docs/standard/threading/index.md">Threading managé</related>
-    <related type="Article" href="https://msdn.microsoft.com/library/6d39c48d-6b37-4a9b-8631-f2924cfd9c18">AutoResetEvent</related>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -149,7 +148,6 @@
         </remarks>
         <altmember cref="T:System.Threading.WaitHandle" />
         <related type="Article" href="~/docs/standard/threading/index.md">Threading managé</related>
-        <related type="Article" href="https://msdn.microsoft.com/library/6d39c48d-6b37-4a9b-8631-f2924cfd9c18">AutoResetEvent</related>
       </Docs>
     </Member>
     <Member MemberName="Reset">
@@ -175,8 +173,9 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Définit l'état de l'événement à "non signalé", ce qui entraîne le blocage des threads.</summary>
+        <returns>
+          <see langword="true" /> si l’opération aboutit ; sinon, <see langword="false" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -203,9 +202,20 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Définit l'état de l'événement à "signalé", ce qui permet à un seul thread en attente de continuer à s'exécuter.</summary>
+        <returns>
+          <see langword="true" /> si l’opération aboutit ; sinon, <see langword="false" />.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+La méthode Set libère un thread unique. S’il n’y a pas de threads en attente, le handle d’attente reste signalé jusqu'à ce qu’un thread tente d’attendre, ou jusqu'à ce que sa méthode de réinitialisation est appelée.
+
+> [!IMPORTANT]
+> Il n’existe aucune garantie que chaque appel à la méthode Set libère un thread. Si deux appels sont trop proches, afin que le deuxième appel se produit avant la libération d’un thread, un seul thread est libéré, comme si le deuxième appel n’a pas eu lieu. En outre, si la méthode Set est appelée lorsqu’il n’y a aucun thread n’attend que <xref:System.Threading.AutoResetEvent> est déjà signalé, l’appel n’a aucun effet.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

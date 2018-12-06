@@ -1,11 +1,11 @@
 <Type Name="XmlValidatingReader" FullName="System.Xml.XmlValidatingReader">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="088fad552fc08286648291b2704d03b305f067ee" />
-    <Meta Name="ms.sourcegitcommit" Value="9e06b87bcfa4347dbbaaa4b3cc36b43b93b5badb" />
+    <Meta Name="ms.openlocfilehash" Value="d907a72f6f319a0dd7ee0a4b9966ac0eb174f4ed" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="11/20/2018" />
-    <Meta Name="ms.locfileid" Value="52220044" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52601396" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class XmlValidatingReader : System.Xml.XmlReader, System.Xml.IXmlLineInfo, System.Xml.IXmlNamespaceResolver" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit XmlValidatingReader extends System.Xml.XmlReader implements class System.Xml.IXmlLineInfo, class System.Xml.IXmlNamespaceResolver" />
@@ -698,7 +698,38 @@ Cette classe est obsolète. À compter de .NET Framework 2.0, nous vous recomma
  Pour illustrer la différence entre l’entité tenez compte des modes de gestion le code XML suivant :  
   
 ```xml  
-<!DOCTYPE doc [<!ENTITY num "123"]]></format>
+<!DOCTYPE doc [<!ENTITY num "123">]>  
+ <doc> &#65; &num; </doc>  
+```  
+  
+ Lorsque `EntityHandling` est défini sur `ExpandEntities` le nœud d’élément « doc » contient un nœud de texte avec le texte de l’entité étendue :  
+  
+|Profondeur|NodeType|Name|Value|  
+|-----------|--------------|----------|-----------|  
+|1|Texte||UN 123|  
+  
+ Lorsque `EntityHandling` a la valeur `ExpandCharEntites`, et <xref:System.Xml.XmlTextReader.WhitespaceHandling%2A> a la valeur Significant ou All, l’élément « doc » élément développe l’entité de caractère et retourne l’entité générale en tant que nœud :  
+  
+|Profondeur|NodeType|Name|Value|  
+|-----------|--------------|----------|-----------|  
+|1|Texte||A|  
+|1|EntityReference|num||  
+|1|SignificantWhitespace|||  
+  
+   
+  
+## Examples  
+ L’exemple suivant utilise le `ResolveEntity` (méthode) pour développer une entité générale.  
+  
+ [!code-cpp[Classic WebData XmlValidatingReader.ResolveEntity Example#1](~/samples/snippets/cpp/VS_Snippets_Data/Classic WebData XmlValidatingReader.ResolveEntity Example/CPP/source.cpp#1)]
+ [!code-csharp[Classic WebData XmlValidatingReader.ResolveEntity Example#1](~/samples/snippets/csharp/VS_Snippets_Data/Classic WebData XmlValidatingReader.ResolveEntity Example/CS/source.cs#1)]
+ [!code-vb[Classic WebData XmlValidatingReader.ResolveEntity Example#1](~/samples/snippets/visualbasic/VS_Snippets_Data/Classic WebData XmlValidatingReader.ResolveEntity Example/VB/source.vb#1)]  
+  
+ L’exemple utilise le fichier `book1.xml`comme entrée.  
+  
+ [!code-xml[Classic WebData XmlValidatingReader.ResolveEntity Example#2](~/samples/snippets/xml/VS_Snippets_Data/Classic WebData XmlValidatingReader.ResolveEntity Example/XML/source.xml#2)]  
+  
+ ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Valeur non valide spécifiée.</exception>
         <altmember cref="T:System.Xml.XmlReader" />
@@ -3138,9 +3169,19 @@ object obj = vreader.SchemaType;
         <ReturnType>System.Xml.XmlReaderSettings</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtient l'objet <see cref="T:System.Xml.XmlReaderSettings" /> qui a permis de créer cette instance de <see cref="T:System.Xml.XmlValidatingReader" />.</summary>
+        <value>
+          <see langword="null" /> car les objets <see cref="T:System.Xml.XmlValidatingReader" /> ne sont pas instanciés à l'aide de la classe <see cref="T:System.Xml.XmlReaderSettings" /> et de la méthode <see cref="Overload:System.Xml.XmlReader.Create" />.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+
+> [!NOTE]
+> La classe <xref:System.Xml.XmlValidatingReader> est obsolète dans le .NET Framework version 2.0. Vous pouvez créer une validation <xref:System.Xml.XmlReader> instance à l’aide de la <xref:System.Xml.XmlReaderSettings> classe et le <xref:System.Xml.XmlReader.Create%2A> (méthode). Pour plus d’informations, consultez [validation des données XML avec XmlReader](https://docs.microsoft.com/previous-versions/dotnet/netframework-4.0/hdf992b8(v=vs.100)).
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="System.Xml.IXmlLineInfo.HasLineInfo">
@@ -3168,8 +3209,9 @@ object obj = vreader.SchemaType;
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Obtient une valeur indiquant si la classe peut retourner des informations de ligne.</summary>
+        <returns>
+          <see langword="true" /> si <see cref="P:System.Xml.IXmlLineInfo.LineNumber" /> et <see cref="P:System.Xml.IXmlLineInfo.LinePosition" /> peuvent être fournis ; sinon, <see langword="false" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

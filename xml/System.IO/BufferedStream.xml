@@ -1,11 +1,11 @@
 <Type Name="BufferedStream" FullName="System.IO.BufferedStream">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="844e045e034922791bd6f5c66770ed7166f90a00" />
-    <Meta Name="ms.sourcegitcommit" Value="9e06b87bcfa4347dbbaaa4b3cc36b43b93b5badb" />
+    <Meta Name="ms.openlocfilehash" Value="9cf5c6dc99590b2f24b7725c166fa854be4af0d8" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="11/20/2018" />
-    <Meta Name="ms.locfileid" Value="52255079" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52598913" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class BufferedStream : System.IO.Stream" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit BufferedStream extends System.IO.Stream" />
@@ -568,8 +568,52 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Ferme le flux et libère toutes les ressources (en particulier les ressources système telles que les sockets et les handles de fichiers) associées au flux actuel en mémoire tampon.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Les données écrites précédemment dans la mémoire tampon sont copiées dans la source de données ou le référentiel sous-jacent avant la mise en mémoire tampon du flux est fermé. Par conséquent, il n’est pas nécessaire d’appeler <xref:System.IO.BufferedStream.Flush> avant l’appel de Close. Suite à un appel à Close, toutes les opérations sur le flux mis en mémoire tampon peuvent lever des exceptions.
+
+Vider le flux ne videra pas son encodeur sous-jacent, sauf si vous appelez explicitement <xref:System.IO.BufferedStream.Flush> ou fermer. Paramètre <xref:System.IO.StreamWriter.AutoFlush> true signifie que les données sont vidées de la mémoire tampon dans le flux, mais l’état de l’encodeur n’est pas vidé. Ainsi, l’encodeur afin de conserver son état (caractères partiels) afin qu’il peut encoder correctement le bloc suivant de caractères. Ce scénario affecte UTF8 et UTF7, où certains caractères peuvent uniquement être encodés après que l’encodeur a reçu les caractères adjacents.
+
+Tentez de manipuler un flux de données qui a été fermée peut lever une <xref:System.ObjectDisposedException>.
+
+## Examples  
+Cet exemple de code fait partie d’un exemple plus complet fourni pour la <xref:System.IO.BufferedStream> classe.
+
+```vb
+' When bufStream is closed, netStream is in turn 
+' closed, which in turn shuts down the connection 
+' and closes clientSocket.
+Console.WriteLine(vbCrLf & "Shutting down the connection.")
+bufStream.Close()
+```
+
+```csharp
+// When bufStream is closed, netStream is in turn
+// closed, which in turn shuts down the connection
+// and closes clientSocket.
+Console.WriteLine("\nShutting down the connection.");
+bufStream.Close();
+```
+
+```cpp
+// When bufStream is closed, netStream is in turn closed,
+// which in turn shuts down the connection and closes
+// clientSocket.
+Console::WriteLine( "\nShutting down connection." );
+bufStream->Close();
+
+```
+
+]]></format>
+        </remarks>
+        <exception cref="T:System.IO.IOException">Une erreur s’est produite durant la tentative de fermeture du flux.</exception>
+        <altmember cref="M:System.IO.BufferedStream.Flush" />
+        <related type="Article" href="~/docs/standard/io/index.md">Fichier et flux de données E/S</related>
+        <related type="Article" href="~/docs/standard/io/how-to-read-text-from-a-file.md">Comment : lire du texte dans un fichier</related>
+        <related type="Article" href="~/docs/standard/io/how-to-write-text-to-a-file.md">Comment : écrire du texte dans un fichier</related>
       </Docs>
     </Member>
     <Member MemberName="Dispose">
