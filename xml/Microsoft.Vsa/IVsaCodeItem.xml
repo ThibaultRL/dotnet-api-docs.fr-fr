@@ -1,11 +1,11 @@
 <Type Name="IVsaCodeItem" FullName="Microsoft.Vsa.IVsaCodeItem">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="3d52b4e13d62d9a7363590361d0bd20b652f28e6" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="02ffa3d80165d4caa3178d3b714320a67262d734" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39790999" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52610020" />
   </Metadata>
   <TypeSignature Language="C#" Value="public interface IVsaCodeItem : Microsoft.Vsa.IVsaItem" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IVsaCodeItem implements class Microsoft.Vsa.IVsaItem" />
@@ -35,8 +35,19 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Représente un élément de code qui doit être compilé par le moteur de script.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[
+
+## Remarks  
+L’élément de code spécifié peut contenir des classes, des modules ou des autres types de texte source.
+
+Aucune autorisation n’est requise pour appeler les membres de l’interface IVsaCodeItem.
+
+Le moteur de script implémente cette interface afin d’ajouter des éléments de code.
+
+]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="AddEventSource">
@@ -60,10 +71,27 @@
         <Parameter Name="eventSourceType" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="eventSourceName">To be added.</param>
-        <param name="eventSourceType">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="eventSourceName">Nom de programmation de la source de l'événement.</param>
+        <param name="eventSourceType">Nom de type de la source de l'événement.</param>
+        <summary>Ajoute une source d'événement à l'élément de code. L'élément de code utilise la source de l'événement pour raccorder un événement à la source d'événement nommée en appelant la méthode IVsaSite.GetEventSourceInstance, qui est implémentée par l'hôte.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Le moteur de script utilise les informations fournies par la méthode AddEventSource pour raccorder des événements à la source d’événement nommé. Il obtient les sources d’événements en appelant la méthode IVsaSite.GetEventSourceInstance, qui est implémentée par l’hôte. La méthode AddEventSource crée une classe qui gère les événements déclenchés par un objet fourni par l’hôte.
+
+> [!NOTE]
+> Le moteur de script JScript .NET ne prend pas en charge cette méthode. Dans les cas où le moteur JScript .NET doit raccorder un événement, vous devez le faire à l’aide d’un élément global. Plutôt que des sources d’événements, le moteur JScript .NET utilise les types d’éléments AppGlobal. Pour plus d’informations, consultez VsaItemType.
+
+
+Dans l’élément de code, vous pouvez accéder à l’objet source d’événement par nom et, une fois accessible, vous pouvez écrire des gestionnaires d’événements par rapport à l’objet. Le type de source d’événement est passé en tant que chaîne plutôt que comme un objet de Type pour faciliter l’implémentation des sources d’événements par des hôtes non managés.
+
+Le compilateur utilise le paramètre eventSourceType pour lier aux méthodes fournies par le type. Il est également utilisé plus tard lorsque le moteur de script appelle la méthode IVsaSite.GetEventSourceInstance pour demander une instance de l’objet de Type.
+
+Pour plus d’informations sur les mécanismes permettant de raccorder des événements pour le moteur de script, consultez la méthode IVsaSite.GetEventSourceInstance.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="AppendSourceText">
@@ -86,9 +114,18 @@
         <Parameter Name="text" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="text">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="text">Texte à ajouter à l'élément de code.</param>
+        <summary>Ajoute le texte spécifié à la fin de l'élément de code.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Texte source ajouté n’est pas soumis à la validation. Pour cette raison, les erreurs, le cas échéant, affichera lors du prochain appel à la méthode IVsaEngine.Compile.
+
+Le texte source ajouté est fourni sous forme de chaîne unique. La chaîne nécessite de mise en forme, vous devez fournir vous-même.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CodeDOM">
@@ -108,9 +145,16 @@
         <ReturnType>System.CodeDom.CodeObject</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtient le modèle CodeDOM (Code Document Object Model) représenté dans l’élément de code.</summary>
+        <value>Retourne le CodeDOM de l’élément de code.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+La propriété CodeDOM est généralement générée dans le cadre de l’étape de compilation du moteur de script, donc il n’est disponible qu’après un appel à la méthode IVsaEngine.Compile. Certaines implémentations de VSA peuvent être en mesure de fournir le CodeDOM dynamiquement, sans la nécessité d’une étape de compilation explicite, mais les hôtes ne peuvent pas reposer sur ce comportement. Certains moteurs de script, par exemple, le moteur de script JScript .NET, ne prennent pas en charge ce comportement.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RemoveEventSource">
@@ -133,9 +177,16 @@
         <Parameter Name="eventSourceName" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="eventSourceName">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <param name="eventSourceName">Nom de programmation de la source de l'événement à supprimer.</param>
+        <summary>Supprime la source d'événement spécifiée de l'élément de code.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Suppression d’une source d’événement ne supprime pas le Gestionnaire d’événements sous-jacent du texte source. Au lieu de cela, les événements ne déclenchent plus de notifications au gestionnaire d’événements. Par conséquent, vous obtiendrez une erreur du compilateur si vous supprimez une source d’événements en conservant la fonction sous-jacente dans le code source.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SourceText">
@@ -155,9 +206,20 @@
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Définit ou obtient le texte d'un élément de code spécifié, y compris du code généré automatiquement, le cas échéant.</summary>
+        <value>Retourne le texte source de l'élément de code.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Lorsque vous définissez cette propriété, le texte n’est pas soumis à la validation. Pour cette raison, les erreurs, le cas échéant, affichera lors du prochain appel à la méthode IVsaEngine.Compile.
+
+La propriété de texte source retourne le texte source dans une seule grande chaîne, y compris les caractères de mise en forme telles que chariot retourne.
+
+Pour obtenir cette propriété le moteur ne doit pas être fermé. Pour définir cette propriété le moteur ne doit pas être fermé et il se peut que le moteur ne doit pas en cours d’exécution.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
   </Members>

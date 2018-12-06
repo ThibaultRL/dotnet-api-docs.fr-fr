@@ -1,11 +1,11 @@
 <Type Name="InstancePersistenceContext" FullName="System.Runtime.DurableInstancing.InstancePersistenceContext">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="774f08f307628a25a88866a93592fcaade22fb04" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="ad341bed6953172fb3eba70952b4f8f56f0e65d7" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39959564" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52611601" />
   </Metadata>
   <TypeSignature Language="C#" Value="public sealed class InstancePersistenceContext" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit InstancePersistenceContext extends System.Object" />
@@ -253,7 +253,7 @@
       </Parameters>
       <Docs>
         <param name="instanceOwnerId">Identificateur pour le propriétaire d'instance.</param>
-        <param name="lockToken">Lock-token du propriétaire d'instance. Un fournisseur de persistance peut choisir d'utiliser la même valeur pour l'identificateur de propriétaire d'instance et le lock-token du propriétaire.</param>
+        <param name="lockToken">Lock-token du propriétaire d'instance. Un fournisseur de persistance peut choisir d’utiliser la même valeur pour l’identificateur de propriétaire d’instance et le lock-token du propriétaire.</param>
         <summary>Lie un propriétaire d'instance au handle d'instance actuel.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -532,12 +532,12 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
       </ReturnValue>
       <Docs>
         <summary>Obtient la version du verrou maintenu sur l'instance actuelle par le handle d'instance actuel.</summary>
-        <value>La version du verrou d'instance a créé une liaison avec le handle d'instance actuel, ou -1 si le handle n'est pas lié à un verrou.</value>
+        <value>La version du verrou d’instance lié au handle d’instance actuel, ou -1 si le handle n’est pas lié à un verrou.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le fournisseur de persistance doit comparer cette valeur à la version du verrou maintenu sur une instance dans le magasin d'instances lorsqu'une opération qui requiert un verrou est effectuée (par exemple, la persistance de données d'instance) avec un handle lié au verrou. Si la version de verrou ne correspond pas, la commande doit échouer et lever l'exception InstanceLockLostException.  
+ Le fournisseur de persistance doit comparer cette valeur à la version du verrou maintenu sur une instance dans le magasin d'instances lorsqu'une opération qui requiert un verrou est effectuée (par exemple, la persistance de données d'instance) avec un handle lié au verrou. Si la version de verrou ne correspond pas, la commande doit échouer instancelocklostexception.  
   
  ]]></format>
         </remarks>
@@ -594,7 +594,7 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
       <Docs>
         <param name="state">Informations d'état de l'instance.</param>
         <param name="instanceData">Données d'instance sous forme d'un dictionnaire d'objets <see cref="T:System.Xml.Linq.XName" /> et <see cref="T:System.Runtime.DurableInstancing.InstanceValue" />.</param>
-        <param name="instanceMetadata">Métadonnées d'instance sous forme d'une collection d'objets <see cref="T:System.Xml.Linq.XName" /> et <see cref="T:System.Runtime.DurableInstancing.InstanceValue" />.</param>
+        <param name="instanceMetadata">Métadonnées d’instance sous forme d’une collection d’objets <see cref="T:System.Xml.Linq.XName" /> et <see cref="T:System.Runtime.DurableInstancing.InstanceValue" />.</param>
         <param name="associatedInstanceKeyMetadata">Métadonnées de clé d'instance associées sous forme d'un dictionnaire de métadonnées d'identificateur d'instance et de clé d'instance, c'est-à-dire un dictionnaire d'objets <see cref="T:System.Xml.Linq.XName" /> et <see cref="T:System.Runtime.DurableInstancing.InstanceValue" />.</param>
         <param name="completedInstanceKeyMetadata">Métadonnées d'instance terminées sous forme d'un dictionnaire de métadonnées d'identificateur d'instance et de clé d'instance, c'est-à-dire un dictionnaire d'objets <see cref="T:System.Xml.Linq.XName" /> et <see cref="T:System.Runtime.DurableInstancing.InstanceValue" />.</param>
         <summary>Indique que le fournisseur de persistance a récupéré avec succès l'instance actuelle du magasin d'instances.</summary>
@@ -625,12 +625,12 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
       </ReturnValue>
       <Docs>
         <summary>Obtient le lock-token du propriétaire d'instance lié au handle d'instance actuel.</summary>
-        <value>Lock-token lié au handle d'instance actuel, ou Guid.Empty si le handle n'est pas lié à un propriétaire d'instance.</value>
+        <value>Lock-token lié au handle d’instance actuel, ou Guid.Empty si le handle n’est pas lié à un propriétaire d’instance.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le fournisseur de persistance doit comparer cette valeur au lock-token du verrou maintenu sur une instance dans le magasin d'instances lorsqu'une opération qui requiert un verrou est effectuée (par exemple, la persistance de données d'instance) avec un handle lié au verrou. Si le lock-token ne correspond pas, la commande doit échouer et lever l'exception InstanceLockLostException.  
+ Le fournisseur de persistance doit comparer cette valeur au lock-token du verrou maintenu sur une instance dans le magasin d'instances lorsqu'une opération qui requiert un verrou est effectuée (par exemple, la persistance de données d'instance) avec un handle lié au verrou. Si le lock-token ne correspond pas, la commande doit échouer instancelocklostexception.  
   
  Le fournisseur de persistance doit utiliser cette valeur comme lock-token lors de l'acquisition d'un nouveau verrou sur une instance (par exemple, pour rendre persistantes des données d'instance à l'aide d'un handle qui n'est pas encore lié à un verrou). Si l'instance est déjà verrouillée dans le magasin d'instances et le lock-token correspond à ce lock-token, le fournisseur de persistance peut essayer de récupérer l'instance à l'aide de BindReclaimedLock.  
   
@@ -658,7 +658,7 @@ protected override bool TryCommand(InstancePersistenceContext context, InstanceP
       </Parameters>
       <Docs>
         <param name="data">Données d'instance sous forme d'un dictionnaire d'objets <see cref="T:System.Xml.Linq.XName" /> et <see cref="T:System.Runtime.DurableInstancing.InstanceValue" />.</param>
-        <summary>Indique que le fournisseur de persistance a réussi à rendre persistant un jeu de données d'instance sur le magasin d'instances. Cela a pour effet d'initialiser l'instance, si elle ne l'était pas déjà.</summary>
+        <summary>Indique que le fournisseur de persistance a réussi à rendre persistant un jeu de données d'instance sur le magasin d'instances. Cela a pour effet d’initialiser l’instance, si elle ne l’était pas déjà.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   

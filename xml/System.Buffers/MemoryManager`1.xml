@@ -1,11 +1,11 @@
 <Type Name="MemoryManager&lt;T&gt;" FullName="System.Buffers.MemoryManager&lt;T&gt;">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="5047a443f74813c69439bd383ddec25478572d83" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="ce1f4dd9e0f3e75e828feeef7ffb2401986c3572" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39835917" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52614682" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class MemoryManager&lt;T&gt; : System.Buffers.IMemoryOwner&lt;T&gt;, System.Buffers.IPinnable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit MemoryManager`1&lt;T&gt; extends System.Object implements class System.Buffers.IMemoryOwner`1&lt;!T&gt;, class System.Buffers.IPinnable, class System.IDisposable" />
@@ -16,6 +16,9 @@
   <AssemblyInfo>
     <AssemblyName>System.Runtime</AssemblyName>
     <AssemblyVersion>4.2.1.0</AssemblyVersion>
+  </AssemblyInfo>
+  <AssemblyInfo>
+    <AssemblyName>System.Memory</AssemblyName>
   </AssemblyInfo>
   <TypeParameters>
     <TypeParameter Name="T" />
@@ -30,11 +33,23 @@
     <Interface>
       <InterfaceName>System.Buffers.IPinnable</InterfaceName>
     </Interface>
+    <Interface>
+      <InterfaceName>System.IDisposable</InterfaceName>
+    </Interface>
   </Interfaces>
   <Docs>
-    <typeparam name="T">To be added.</typeparam>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <typeparam name="T">Le type d’éléments dans la mémoire tampon gérés par ce gestionnaire de mémoire.</typeparam>
+    <summary>Classe de base abstraite utilisée pour remplacer l’implémentation de <see cref="T:System.Memory`1" />.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+
+Le `MemoryManager<T>` classe est utilisée pour étendre la base de connaissances des types qui <xref:System.Memory%601> est en mesure de représenter. Par exemple, vous pouvez dériver de `MemoryManager<T>` pour autoriser <xref:System.Memory%601> être sauvegardé par un <xref:System.Runtime.InteropServices.SafeHandle>.
+
+> [!NOTE]
+> Le `MemoryManager<T>` classe est destinée aux scénarios avancés. La plupart des développeurs n’avez pas besoin de l’utiliser.
+
+       ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -48,9 +63,12 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Initialise une nouvelle instance de la classe <see cref="T:System.Buffers.MemoryManager`1" />.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -66,6 +84,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
@@ -73,9 +94,9 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="length">Nombre d’éléments dans la mémoire tampon, en commençant à l’offset 0.</param>
+        <summary>Retourne une mémoire tampon composée d’un nombre spécifié d’éléments issus de la mémoire gérée par le gestionnaire de mémoire actuel.</summary>
+        <returns>Mémoire tampon.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -91,6 +112,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
@@ -99,10 +123,10 @@
         <Parameter Name="length" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="start">To be added.</param>
-        <param name="length">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="start">Offset de l’élément où commence la mémoire tampon retournée.</param>
+        <param name="length">Nombre d’éléments à inclure dans la mémoire tampon retournée.</param>
+        <summary>Retourne une mémoire tampon composée d’un nombre spécifié d’éléments, commençant à un offset spécifié, issus de la mémoire gérée par le gestionnaire de mémoire actuel.</summary>
+        <returns>Mémoire tampon qui se compose d’éléments <paramref name="length" /> commençant à l’offset <paramref name="start" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -118,6 +142,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
@@ -125,8 +152,9 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="disposing">
+          <see langword="true" /> pour libérer les ressources managées et non managées ; <see langword="false" /> pour ne libérer que les ressources non managées.</param>
+        <summary>Libère toutes les ressources utilisées par le gestionnaire de mémoire actuel.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -142,13 +170,16 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Span&lt;T&gt;</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <summary>Retourne une étendue de mémoire qui inclut dans un wrapper la mémoire tampon sous-jacente.</summary>
+        <returns>Étendue de mémoire qui inclut dans un wrapper la mémoire tampon sous-jacente.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -167,12 +198,15 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Memory&lt;T&gt;</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Obtient le bloc de mémoire géré par ce <see cref="T:System.Buffers.MemoryManager`1" />.</summary>
+        <value>Le bloc de mémoire gérée par ce <see cref="T:System.Buffers.MemoryManager`1" />.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -190,6 +224,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Buffers.MemoryHandle</ReturnType>
       </ReturnValue>
@@ -197,9 +234,9 @@
         <Parameter Name="elementIndex" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="elementIndex">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="elementIndex">Offset de l’élément dans la mémoire tampon où pointe le <see cref="T:System.Buffers.MemoryHandle" /> retourné.</param>
+        <summary>Retourne un handle de la mémoire qui a été épinglée et dont l’adresse peut être prise.</summary>
+        <returns>Handle de la mémoire qui a été épinglée.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -217,13 +254,16 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Libère toutes les ressources utilisées par le gestionnaire de mémoire.</summary>
+        <remarks>Cette méthode fournit le Gestionnaire de mémoire <see cref="M:System.IDisposable.Dispose" /> implémentation.</remarks>
       </Docs>
     </Member>
     <Member MemberName="TryGetArray">
@@ -238,6 +278,9 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
@@ -245,10 +288,11 @@
         <Parameter Name="segment" Type="System.ArraySegment&lt;T&gt;" RefType="out" />
       </Parameters>
       <Docs>
-        <param name="segment">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="segment">Segment de tableau où écrire.</param>
+        <summary>Retourne un segment de tableau.</summary>
+        <returns>
+          <see langword="true" /> si la méthode a réussi à récupérer le segment de tableau ; sinon, <see langword="false" />.</returns>
+        <remarks>Si cette méthode n’est pas substituée, elle retourne le segment de tableau par défaut.</remarks>
       </Docs>
     </Member>
     <Member MemberName="Unpin">
@@ -266,12 +310,15 @@
         <AssemblyName>System.Runtime</AssemblyName>
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
+      <AssemblyInfo>
+        <AssemblyName>System.Memory</AssemblyName>
+      </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
+        <summary>Désépingle la mémoire épinglée pour permettre au récupérateur de mémoire de la déplacer.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>

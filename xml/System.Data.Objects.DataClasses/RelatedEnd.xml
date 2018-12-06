@@ -1,11 +1,11 @@
 <Type Name="RelatedEnd" FullName="System.Data.Objects.DataClasses.RelatedEnd">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="c3fcee3a79374bee386da7966a336f597aef0f04" />
-    <Meta Name="ms.sourcegitcommit" Value="16d2d159872fd213cae4b8f371d7ae9c8b027c89" />
+    <Meta Name="ms.openlocfilehash" Value="59186487ee63d29a10e4f974f73fe97241df86c8" />
+    <Meta Name="ms.sourcegitcommit" Value="0e1f030650a307c745ee84ed547ef858acaea587" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="11/17/2018" />
-    <Meta Name="ms.locfileid" Value="51862115" />
+    <Meta Name="ms.lasthandoff" Value="11/29/2018" />
+    <Meta Name="ms.locfileid" Value="52608468" />
   </Metadata>
   <TypeSignature Language="C#" Value="public abstract class RelatedEnd : System.Data.Objects.DataClasses.IRelatedEnd" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract serializable beforefieldinit RelatedEnd extends System.Object implements class System.Data.Objects.DataClasses.IRelatedEnd" />
@@ -31,7 +31,7 @@
       <AttributeName>System.Runtime.Serialization.DataContract</AttributeName>
     </Attribute>
     <Attribute FrameworkAlternate="netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8">
-      <AttributeName>Serializable</AttributeName>
+      <AttributeName>System.Serializable</AttributeName>
     </Attribute>
   </Attributes>
   <Docs>
@@ -115,11 +115,20 @@
         <Parameter Name="allowCollection" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <typeparam name="TEntity">To be added.</typeparam>
-        <param name="entities">To be added.</param>
-        <param name="allowCollection">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <typeparam name="TEntity">Type de la collection <see cref="T:System.Collections.Generic.IEnumerable`1" /> d'objets d'entité à attacher.</typeparam>
+        <param name="entities">Collection <see cref="T:System.Collections.Generic.IEnumerable`1" /> d'objets entité.</param>
+        <param name="allowCollection">Spécifie si l'objet qui est attaché fait partie d'une collection.</param>
+        <summary>Définit une relation entre deux objets attachés.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+La méthode `Attach<TEntity>(IEnumerable<TEntity>, Boolean)` est utilisée pour définir une relation entre un objet et un objet connexe lorsque les deux objets sont déjà attachés à un contexte d'objet. Définissez l'objet connexe à la propriété <xref:System.Data.Objects.DataClasses.EntityReference%601.Value> de l'objet <xref:System.Data.Objects.DataClasses.EntityReference%601> ou appelez la méthode <xref:System.Data.Objects.DataClasses.EntityCollection%601.Add%2A> si l'objet connexe <xref:System.Data.Objects.DataClasses.EntityCollection%601> n'est pas encore attaché au contexte de l'objet. Lorsque les deux objets sont détachés, vous pouvez également définir la relation en définissant l'objet connexe à la propriété <xref:System.Data.Objects.DataClasses.EntityReference%601.Value> de l'objet <xref:System.Data.Objects.DataClasses.EntityReference%601> ou en appelant la méthode <xref:System.Data.Objects.DataClasses.EntityCollection%601.Add%2A> sur l'objet <xref:System.Data.Objects.DataClasses.EntityCollection%601>, puis en attachant l'objet racine dans le graphique d'objet. Pour plus d’informations, consultez [attachement et détachement des objets](https://docs.microsoft.com/previous-versions/dotnet/netframework-4.0/bb896271(v=vs.100)).
+
+La méthode `Attach<TEntity>(IEnumerable<TEntity>, Boolean)` est appelée par Object Services durant les opérations d'attachement contre une terminaison connexe.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="GetEnumerator">
@@ -322,12 +331,19 @@ Lorsque l'objet source est suivi mais qu'il est à l'état <see cref="F:System.D
         <Parameter Name="setIsLoaded" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <typeparam name="TEntity">To be added.</typeparam>
-        <param name="collection">To be added.</param>
-        <param name="mergeOption">To be added.</param>
-        <param name="setIsLoaded">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <typeparam name="TEntity">Type de la collection <see cref="T:System.Collections.Generic.IEnumerable`1" /> d’objets d’entité à fusionner.</typeparam>
+        <param name="collection">Collection <see cref="T:System.Collections.Generic.IEnumerable`1" /> d’objets entité à ajouter à cette terminaison connexe.</param>
+        <param name="mergeOption">Objet <see cref="T:System.Data.Objects.MergeOption" /> à utiliser lors de la fusion d'objets en un objet <see cref="T:System.Data.Objects.DataClasses.EntityCollection`1" /> existant.</param>
+        <param name="setIsLoaded">Indique si le jeu d'objets connexes est complet et correspond au serveur. Les opérations telles que <see cref="M:System.Data.Objects.DataClasses.EntityCollection`1.Load(System.Data.Objects.MergeOption)" /> affectent la valeur <see langword="true" /> à setIsLoaded, mais <see cref="Overload:System.Data.Objects.DataClasses.EntityCollection`1.Attach" /> lui affecte la valeur <see langword="false" />.</param>
+        <summary>Fusionne des entités connexes dans l’objet <see cref="T:System.Data.Objects.DataClasses.EntityCollection`1" /> local.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+La méthode `Merge<TEntity>` est appelée par Object Services durant les opérations de relation.
+
+]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="OnDeserialized">
@@ -830,12 +846,28 @@ Lorsque l'objet source est suivi mais qu'il est à l'état <see cref="F:System.D
         <Parameter Name="allowCollection" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <typeparam name="TEntity">To be added.</typeparam>
-        <param name="entity">To be added.</param>
-        <param name="index">To be added.</param>
-        <param name="allowCollection">To be added.</param>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <typeparam name="TEntity">Type de l'objet à valider.</typeparam>
+        <param name="entity">Objet validé.</param>
+        <param name="index">Position de l'objet validé dans la collection.</param>
+        <param name="allowCollection">Indique si l'objet est membre d'une collection.</param>
+        <summary>Détermine si un objet peut être attaché à la référence ou collection locale.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+La méthode `ValidateEntityForAttach<TEntity>` est appelée par Object Services durant une opération d'attachement.
+
+]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">Quand l’objet attaché a une valeur <see langword="null" />.
+
+- ou -
+
+L'objet qui est attaché à la terminaison connexe n'existe pas dans le même <see cref="T:System.Data.Objects.ObjectContext" /> que l'objet source.
+
+- ou -
+
+L'objet qui est attaché est à l'état <see cref="F:System.Data.EntityState.Added" /> ou <see cref="F:System.Data.EntityState.Deleted" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="ValidateLoad&lt;TEntity&gt;">
@@ -860,12 +892,31 @@ Lorsque l'objet source est suivi mais qu'il est à l'état <see cref="F:System.D
         <Parameter Name="relatedEndName" Type="System.String" />
       </Parameters>
       <Docs>
-        <typeparam name="TEntity">To be added.</typeparam>
-        <param name="mergeOption">To be added.</param>
-        <param name="relatedEndName">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <typeparam name="TEntity">Type de l'objet à valider.</typeparam>
+        <param name="mergeOption">Objet <see cref="T:System.Data.Objects.MergeOption" /> à utiliser lors de la fusion d'objets en un objet <see cref="T:System.Data.Objects.DataClasses.EntityCollection`1" /> existant.</param>
+        <param name="relatedEndName">Nom de la terminaison connexe.</param>
+        <summary>Garantit que les objets connexes peuvent être chargés avec succès dans la collection ou référence locale.</summary>
+        <returns>
+          <see cref="T:System.Data.Objects.ObjectQuery`1" /> utilisé pour charger les objets à la terminaison associée.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Object Services Obtient le <xref:System.Data.Objects.ObjectQuery%601> en appelant le [IRelatedEnd.CreateSourceQuery](xref:System.Data.Objects.DataClasses.RelatedEnd.System%23Data%23Objects%23DataClasses%23IRelatedEnd%23CreateSourceQuery) (méthode).
+
+Object Services appelle la méthode `ValidateLoad<TEntity>` avant d'exécuter une opération de chargement afin de s'assurer que l'opération réussira.
+
+]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">Lorsque l'objet source a été récupéré à l'aide d'une requête <see cref="F:System.Data.Objects.MergeOption.NoTracking" /> et que l'objet <see cref="T:System.Data.Objects.MergeOption" /> n'est pas <see cref="F:System.Data.Objects.MergeOption.NoTracking" /> ou que les objets connexes sont déjà chargés.
+
+- ou -
+
+Lorsque l'objet source n'est pas attaché à l'objet <see cref="T:System.Data.Objects.ObjectContext" />.
+
+- ou -
+
+Lorsque l'objet source est suivi mais qu'il est à l'état <see cref="F:System.Data.EntityState.Added" /> ou <see cref="F:System.Data.EntityState.Deleted" /> ou que l'objet <see cref="T:System.Data.Objects.MergeOption" /> utilisé pour <see cref="Overload:System.Data.Objects.DataClasses.RelatedEnd.Load" /> est <see cref="F:System.Data.Objects.MergeOption.NoTracking" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="ValidateOwnerForAttach">
@@ -885,8 +936,16 @@ Lorsque l'objet source est suivi mais qu'il est à l'état <see cref="F:System.D
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Garantit que l'objet auquel la terminaison connexe appartient prend en charge une opération d'attachement.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Object Services appelle la méthode ValidateOwnerForAttach avant d’exécuter une opération d’attachement pour s’assurer que l’opération réussira.
+
+]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">Lorsque l'objet source n'est pas attaché à l'objet <see cref="T:System.Data.Objects.ObjectContext" />, a été retourné à partir d'une requête <see cref="F:System.Data.Objects.MergeOption.NoTracking" /> ou n'est pas à l'état <see cref="F:System.Data.EntityState.Modified" /> ou <see cref="F:System.Data.EntityState.Unchanged" />.</exception>
       </Docs>
     </Member>
   </Members>
