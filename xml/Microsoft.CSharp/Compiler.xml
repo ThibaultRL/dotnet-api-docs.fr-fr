@@ -1,11 +1,11 @@
 <Type Name="Compiler" FullName="Microsoft.CSharp.Compiler">
   <Metadata>
-    <Meta Name="ms.openlocfilehash" Value="6ce05ee44ac65d4c530556eb4f9a715ed7fb72f9" />
-    <Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" />
+    <Meta Name="ms.openlocfilehash" Value="7b7f79572aac638b945fea6761568e66249d10a9" />
+    <Meta Name="ms.sourcegitcommit" Value="c0c07dbd19cd7017243f9ac36915755f79bc8da6" />
     <Meta Name="ms.translationtype" Value="HT" />
     <Meta Name="ms.contentlocale" Value="fr-FR" />
-    <Meta Name="ms.lasthandoff" Value="08/25/2018" />
-    <Meta Name="ms.locfileid" Value="39858515" />
+    <Meta Name="ms.lasthandoff" Value="11/27/2018" />
+    <Meta Name="ms.locfileid" Value="52364852" />
   </Metadata>
   <TypeSignature Language="C#" Value="public class Compiler" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Compiler extends System.Object" />
@@ -15,6 +15,7 @@
   <TypeSignature Language="F#" Value="type Compiler = class" />
   <AssemblyInfo>
     <AssemblyName>cscompmgd</AssemblyName>
+    <AssemblyVersion>7.0.5000.0</AssemblyVersion>
     <AssemblyVersion>8.0.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
@@ -27,8 +28,17 @@
     </Attribute>
   </Attributes>
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>**Remarque : cette API est maintenant obsolète.** L'alternative non obsolète est <see cref="T:Microsoft.CSharp.CSharpCodeProvider" />.
+
+Wrapper managé pour le compilateur C#.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Pour compiler C\# appel de code dans le processus, <xref:Microsoft.CSharp.Compiler.Compile(System.String[],System.String[],System.String,System.String[],System.Collections.IDictionary)>.
+
+]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="Compile">
@@ -41,6 +51,7 @@
       <MemberType>Method</MemberType>
       <AssemblyInfo>
         <AssemblyName>cscompmgd</AssemblyName>
+        <AssemblyVersion>7.0.5000.0</AssemblyVersion>
         <AssemblyVersion>8.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
@@ -54,14 +65,74 @@
         <Parameter Name="options" Type="System.Collections.IDictionary" />
       </Parameters>
       <Docs>
-        <param name="sourceTexts">To be added.</param>
-        <param name="sourceTextNames">To be added.</param>
-        <param name="target">To be added.</param>
-        <param name="imports">To be added.</param>
-        <param name="options">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
-        <remarks>To be added.</remarks>
+        <param name="sourceTexts">Tableau de chaînes de type, chacune avec du code C\#.</param>
+        <param name="sourceTextNames">Tableau de chaînes de type qui contient les noms de fichier de chaque sourceTexts.</param>
+        <param name="target">Nom du fichier de sortie. Cet argument est obligatoire.</param>
+        <param name="imports">Tableau de chaînes de type avec les fichiers à référencer.</param>
+        <param name="options">
+          <see cref="T:System.Collections.IDictionary" /> d’options de compilateur.</param>
+        <summary>Compile les sources C# données dans le fichier de destination spécifié.</summary>
+        <returns>Retourne les messages de diagnostic sous la forme d’un tableau de type <see cref="T:Microsoft.CSharp.CompilerError" />. Si le tableau est vide ou si tous les éléments sont des avertissements, la compilation a réussi.</returns>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks  
+Chaque chaîne dans le paramètre sourceTexts est l’équivalent d’un fichier source unique. Il doit y avoir au moins un élément sourceTexts.
+
+Les noms de fichiers dans le paramètre sourceTextNames sont utilisés pour les diagnostics du compilateur et les informations de débogage. Le tableau est requis, mais elle peut être substituée localement à l’aide de la \#directive de ligne. Le tableau doit avoir le même nombre d’éléments que le paramètre sourceTexts.
+
+Le paramètre d’importation est identique à l’option de compilateur /reference. Ce paramètre peut être <see langword="null" />.
+
+Pour le paramètre options, la clé est la forme abrégée de l’option du compilateur. La valeur est la valeur de votre choix pour l’option. Le paramètre d’options peut être <see langword="null" />. Certaines options du compilateur ne sont pas reconnues. Options reconnues et la valeur :
+
+| Nom de clé | Utilisation |
+| --- | --- |
+| /addmodule | Liste des modules à inclure dans cet assembly. Les noms de module doivent être séparés par la barre verticale ou d’une barre verticale. La valeur doit être de type <xref:System.String>. Consultez [- addmodule (C# Options du compilateur)](https://msdn.microsoft.com/library/1s46f83c). |
+| adresse de base | Adresse de base pour les bibliothèques. La valeur doit être de type <xref:System.UInt32>. Consultez [- baseaddress (C# Options du compilateur)](~/docs/csharp/language-reference/compiler-options/baseaddress-compiler-option.md). |
+| bugreport | Génère un fichier de rapport de bogue. La valeur doit être de type <xref:System.String>. Consultez [- bugreport (C# Options du compilateur)](https://msdn.microsoft.com/library/kaky3xy9). |
+| checked | Définir l’évaluation de l’expression par défaut activé (ou désactivée). La valeur doit être de type <xref:System.Boolean>. Consultez [-vérifié (C# Options du compilateur)](https://msdn.microsoft.com/library/h25wtyxf). |
+| d | Liste point-virgule séparées par des symboles à définir. La valeur doit être de type <xref:System.String>. Consultez [-définir (C# Options du compilateur)](https://msdn.microsoft.com/library/0feaad6z). |
+| déboguer | Émettre des informations de débogage avec la sortie. La valeur doit être de type <xref:System.Boolean>. Full ou pdbonly ne peut pas être spécifié. Consultez [-debug (C# Options du compilateur)](https://msdn.microsoft.com/library/8cw0bt21). |
+| doc | Nom de fichier à placer des commentaires XML dans. La valeur doit être de type <xref:System.String>. Consultez [-doc (C# Options du compilateur)](https://msdn.microsoft.com/library/3260k4x7). |
+| /filealign | Taille d’alignement de section PE. La valeur doit être de type <xref:System.UInt32>. Consultez [- filealign (C# Options du compilateur)](https://msdn.microsoft.com/library/0s4tzdf2). |
+| incr | Activer la régénération incrémentielle. La valeur doit être de type <xref:System.Boolean>. |
+| lib | Chemins d’accès supplémentaires pour rechercher les modules et assemblys référencés. La valeur doit être de type <xref:System.String>. Consultez [-lib (C# Options du compilateur)](https://msdn.microsoft.com/library/s5bac5fx). |
+| linkres | Lier une ressource managée à l’assembly. La valeur doit être de type <xref:System.String>. Consultez [- linkresource (C# Options du compilateur)](https://msdn.microsoft.com/library/xawyf94k). |
+| m | Type à rechercher dans la méthode Main. La valeur doit être de type <xref:System.String>. Consultez [-principal (C# Options du compilateur)](https://msdn.microsoft.com/library/x3eht538). |
+| nostdlib | Ne pas de référence automatiquement mscorlib.dll. La valeur doit être de type <xref:System.Boolean>. Consultez [- nostdlib (C# Options du compilateur)](https://msdn.microsoft.com/library/fa13yay7). |
+| nowarn | Liste point-virgule séparées par des numéros d’avertissement pour ne pas signaler. La valeur doit être de type <xref:System.String>. Consultez [- nowarn (C# Options du compilateur)](https://msdn.microsoft.com/library/7f28x9z3). |
+| o | Activer les optimisations du compilateur. La valeur doit être de type <xref:System.Boolean>. Consultez [-optimiser (C# Options du compilateur)](https://msdn.microsoft.com/library/t0hfscdc). |
+| b | Assemblys référencés. Valeur doit être de type chaîne. Si plusieurs assemblys est spécifié, le nom de fichier doit être séparé par la barre verticale ou d’une barre verticale. Consultez [-référence (C# Options du compilateur)](https://msdn.microsoft.com/library/yabyz3h4). |
+| res | Incorporer une ressource managée. La valeur doit être de type <xref:System.String>. Consultez [-resource (C# Options du compilateur)](~/docs/csharp/language-reference/compiler-options/resource-compiler-option.md). |
+| target | Sortie de type de cible de fichier, un des éléments suivants : « bibliothèque », « exe », « winexe » ou « module ». La valeur doit être de type <xref:System.String>. Consultez [-cible (C# Options du compilateur)](https://msdn.microsoft.com/library/6h25dztx). |
+| unsafe | Autoriser la construction non sécurisée. La valeur doit être de type <xref:System.Boolean>. Consultez [-unsafe (C# Options du compilateur)](https://msdn.microsoft.com/library/ct597kb0). |
+| s | Niveau d’avertissement (0-4). La valeur doit être de type <xref:System.String>. Consultez [-warn (C# Options du compilateur)](https://msdn.microsoft.com/library/13b90fz7). |
+| warnaserror | Diagnostics d’avertissement de rapport comme des erreurs. La valeur doit être de type <xref:System.Boolean>. Consultez [- warnaserror (C# Options du compilateur)](https://msdn.microsoft.com/library/406xhdz3). |
+| win32icon | Icône Win32 pour automatiquement généré la ressource Win32. La valeur doit être de type <xref:System.String>. Consultez [-win32icon (C# Options du compilateur)](https://msdn.microsoft.com/library/2aaxe43f). |
+| win32res | Fichier de ressources Win32. La valeur doit être de type <xref:System.String>. Consultez [-win32res (C# Options du compilateur)](https://msdn.microsoft.com/library/8f2f5x2e). |
+
+]]></format>
+        </remarks>
+        <altmember cref="T:Microsoft.CSharp.Compiler" />
+        <exception cref="T:System.ArgumentNullException">
+          <paramref name="sourceTexts" /> a la valeur <see langword="null" />.
+          
+- ou -
+
+<paramref name="sourceTextNames" /> a la valeur <see langword="null" />.
+
+- ou -
+
+<paramref name="target" /> a la valeur <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">
+          <paramref name="sourceTexts" /> est un tableau vide.
+
+- ou -
+
+<paramref name="sourceTextNames" /> n’a pas la même taille que <paramref name="sourceTexts" />.</exception>
+        <related type="Article" href="~/docs/csharp/language-reference/preprocessor-directives/preprocessor-line.md">#line (référence C#)</related>
+        <related type="Article" href="~/docs/csharp/language-reference/compiler-options/reference-compiler-option.md">-reference (Options du compilateur C#)</related>
+        <related type="Article" href="~/docs/csharp/language-reference/compiler-options/index.md">Options du compilateur C#</related>
       </Docs>
     </Member>
   </Members>
