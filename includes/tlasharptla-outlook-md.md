@@ -1,1 +1,1 @@
-<span data-ttu-id="04ec2-101">Microsoft Outlook</span><span class="sxs-lookup"><span data-stu-id="04ec2-101">Microsoft Outlook</span></span>
+<span data-ttu-id="2de7e-101">Microsoft Outlook</span><span class="sxs-lookup"><span data-stu-id="2de7e-101">Microsoft Outlook</span></span>

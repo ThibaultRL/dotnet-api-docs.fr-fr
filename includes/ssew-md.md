@@ -1,1 +1,1 @@
-<span data-ttu-id="c179c-101">SQL Server Compact 3.5</span><span class="sxs-lookup"><span data-stu-id="c179c-101">SQL Server Compact 3.5</span></span>
+<span data-ttu-id="a3c56-101">SQL Server Compact 3.5</span><span class="sxs-lookup"><span data-stu-id="a3c56-101">SQL Server Compact 3.5</span></span>

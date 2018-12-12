@@ -1,1 +1,1 @@
-<span data-ttu-id="3ff60-101">Internet Explorer</span><span class="sxs-lookup"><span data-stu-id="3ff60-101">Internet Explorer</span></span>
+<span data-ttu-id="f3f4d-101">Internet Explorer</span><span class="sxs-lookup"><span data-stu-id="f3f4d-101">Internet Explorer</span></span>

@@ -1,1 +1,1 @@
-<span data-ttu-id="8d113-101">points par pouce (ppp)</span><span class="sxs-lookup"><span data-stu-id="8d113-101">dots per inch (dpi)</span></span>
+<span data-ttu-id="5fe50-101">points par pouce (ppp)</span><span class="sxs-lookup"><span data-stu-id="5fe50-101">dots per inch (dpi)</span></span>

@@ -1,1 +1,1 @@
-<span data-ttu-id="56518-101">XPS</span><span class="sxs-lookup"><span data-stu-id="56518-101">XPS</span></span>
+<span data-ttu-id="bdf99-101">XPS</span><span class="sxs-lookup"><span data-stu-id="bdf99-101">XPS</span></span>
