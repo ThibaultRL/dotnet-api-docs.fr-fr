@@ -12,7 +12,7 @@ Si vous rencontrez des problèmes de performances lors de l’utilisation de l�
 
 - Convertissez l’instance de <xref:System.Text.StringBuilder> en <xref:System.String> en appelant la méthode <xref:System.Text.StringBuilder.ToString%2A>, puis accédez aux caractères de la chaîne.
 
-- Copiez le contenu de l’objet <xref:System.Text.StringBuilder> existant dans un objet <xref:System.Text.StringBuilder> prédimensionné. Les performances s’améliorent, car le nouvel objet <xref:System.Text.StringBuilder> ne contient pas de gros blocs. Exemple :
+- Copiez le contenu de l’objet <xref:System.Text.StringBuilder> existant dans un objet <xref:System.Text.StringBuilder> prédimensionné. Les performances s’améliorent, car le nouvel objet <xref:System.Text.StringBuilder> ne contient pas de gros blocs. Par exemple :
 
    ```csharp
    // sbOriginal is the existing StringBuilder object
