@@ -1,1 +1,1 @@
-<span data-ttu-id="8a3a4-101">métafichier amélioré (EMF)</span><span class="sxs-lookup"><span data-stu-id="8a3a4-101">Enhanced Metafile (EMF)</span></span>
+<span data-ttu-id="4d51f-101">métafichier amélioré (EMF)</span><span class="sxs-lookup"><span data-stu-id="4d51f-101">Enhanced Metafile (EMF)</span></span>

@@ -1,1 +1,1 @@
-<span data-ttu-id="c6215-101">SQL Server 2000</span><span class="sxs-lookup"><span data-stu-id="c6215-101">SQL Server 2000</span></span>
+<span data-ttu-id="c3ff8-101">SQL Server 2000</span><span class="sxs-lookup"><span data-stu-id="c3ff8-101">SQL Server 2000</span></span>

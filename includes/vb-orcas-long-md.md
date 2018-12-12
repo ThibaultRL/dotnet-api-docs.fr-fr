@@ -1,1 +1,1 @@
-<span data-ttu-id="87b38-101">Visual Basic 2008</span><span class="sxs-lookup"><span data-stu-id="87b38-101">Visual Basic 2008</span></span>
+<span data-ttu-id="d2c39-101">Visual Basic 2008</span><span class="sxs-lookup"><span data-stu-id="d2c39-101">Visual Basic 2008</span></span>

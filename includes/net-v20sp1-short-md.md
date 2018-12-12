@@ -1,1 +1,1 @@
-<span data-ttu-id="aa14f-101">.NET Framework 2,0 SP1</span><span class="sxs-lookup"><span data-stu-id="aa14f-101">.NET Framework 2.0 SP1</span></span>
+<span data-ttu-id="ce977-101">.NET Framework 2,0 SP1</span><span class="sxs-lookup"><span data-stu-id="ce977-101">.NET Framework 2.0 SP1</span></span>

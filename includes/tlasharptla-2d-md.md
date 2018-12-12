@@ -1,1 +1,1 @@
-<span data-ttu-id="2f78e-101">2D</span><span class="sxs-lookup"><span data-stu-id="2f78e-101">2-D</span></span>
+<span data-ttu-id="1220b-101">2D</span><span class="sxs-lookup"><span data-stu-id="1220b-101">2-D</span></span>

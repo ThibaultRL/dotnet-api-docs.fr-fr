@@ -1,1 +1,1 @@
-<span data-ttu-id="96afa-101">Microsoft Windows Graphics Device Interface (GDI)</span><span class="sxs-lookup"><span data-stu-id="96afa-101">Microsoft Windows Graphics Device Interface (GDI)</span></span>
+<span data-ttu-id="64b84-101">Microsoft Windows Graphics Device Interface (GDI)</span><span class="sxs-lookup"><span data-stu-id="64b84-101">Microsoft Windows Graphics Device Interface (GDI)</span></span>

@@ -1,1 +1,1 @@
-<span data-ttu-id="b5ce7-101">bibliothèque de liens dynamiques (DLL)</span><span class="sxs-lookup"><span data-stu-id="b5ce7-101">dynamic-link library (DLL)</span></span>
+<span data-ttu-id="b848d-101">bibliothèque de liens dynamiques (DLL)</span><span class="sxs-lookup"><span data-stu-id="b848d-101">dynamic-link library (DLL)</span></span>
