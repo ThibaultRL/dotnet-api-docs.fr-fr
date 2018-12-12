@@ -1,1 +1,1 @@
-<span data-ttu-id="392fc-101">HTML</span><span class="sxs-lookup"><span data-stu-id="392fc-101">HTML</span></span>
+<span data-ttu-id="02896-101">HTML</span><span class="sxs-lookup"><span data-stu-id="02896-101">HTML</span></span>

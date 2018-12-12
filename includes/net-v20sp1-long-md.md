@@ -1,1 +1,1 @@
-<span data-ttu-id="841d8-101">.NET Framework 2.0 Service Pack 1</span><span class="sxs-lookup"><span data-stu-id="841d8-101">.NET Framework 2.0 Service Pack 1</span></span>
+<span data-ttu-id="f4613-101">.NET Framework 2.0 Service Pack 1</span><span class="sxs-lookup"><span data-stu-id="f4613-101">.NET Framework 2.0 Service Pack 1</span></span>

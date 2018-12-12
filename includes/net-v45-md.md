@@ -1,1 +1,1 @@
-<span data-ttu-id="fd5b9-101">.NET Framework 4.5</span><span class="sxs-lookup"><span data-stu-id="fd5b9-101">.NET Framework 4.5</span></span>
+<span data-ttu-id="4d917-101">.NET Framework 4.5</span><span class="sxs-lookup"><span data-stu-id="4d917-101">.NET Framework 4.5</span></span>
