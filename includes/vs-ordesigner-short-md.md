@@ -1,1 +1,1 @@
-<span data-ttu-id="cf8dc-101">Concepteur O/R</span><span class="sxs-lookup"><span data-stu-id="cf8dc-101">O/R Designer</span></span>
+<span data-ttu-id="9a7f8-101">Concepteur O/R</span><span class="sxs-lookup"><span data-stu-id="9a7f8-101">O/R Designer</span></span>

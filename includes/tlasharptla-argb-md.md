@@ -1,1 +1,1 @@
-<span data-ttu-id="150f7-101">ARVB</span><span class="sxs-lookup"><span data-stu-id="150f7-101">ARGB</span></span>
+<span data-ttu-id="8dbec-101">ARVB</span><span class="sxs-lookup"><span data-stu-id="8dbec-101">ARGB</span></span>
