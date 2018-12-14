@@ -1,5 +1,5 @@
 <Type Name="GC" FullName="System.GC">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="6c38b21659aa141b32c988dfe140585d7feda29b" /><Meta Name="ms.sourcegitcommit" Value="9d1bf7e4c6d697123f26c810c1a049a755634634" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/06/2018" /><Meta Name="ms.locfileid" Value="52982018" /></Metadata><TypeSignature Language="C#" Value="public static class GC" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="2f2b4ba00cf0c1761c43492973ebca8a4d1f83dc" /><Meta Name="ms.sourcegitcommit" Value="adc8598fd19d91438cacaa8fa7ce613e28c8218e" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/11/2018" /><Meta Name="ms.locfileid" Value="53222077" /></Metadata><TypeSignature Language="C#" Value="public static class GC" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit GC extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.GC" />
   <TypeSignature Language="VB.NET" Value="Public Class GC" />
@@ -72,7 +72,7 @@
  Vieillissement des objets permet aux applications de nettoyage de la cible à un ensemble spécifique de générations au lieu de demander au garbage collector évaluer toutes les générations. Les surcharges de la <xref:System.GC.Collect%2A> méthode qui incluent un `generation` paramètre permettent de spécifier la génération la plus ancienne pour être nettoyées.  
   
 <a name="NoGCRegion"></a>   
-## <a name="disallowing-garbage-collection"></a>Interdire le garbage collection  
+## <a name="disallowing-garbage-collection"></a>Configuration du garbage collection  
  En commençant par le [!INCLUDE[net_v46](~/includes/net-v46-md.md)], le garbage collector prend en charge un mode sans région GC latence qui peut être utilisé pendant l’exécution de chemins critiques dans laquelle les garbage collection peut nuire aux performances de l’application. Le mode sans région GC latence nécessite que vous spécifiez une quantité de mémoire pouvant être allouée sans interférence du garbage collector. Si le runtime peut allouer cette mémoire, le runtime ne sera pas effectuer un garbage collection pendant l’exécution de code dans le chemin critique.  
   
  Vous définissez le début du chemin critique sans région GC en appelant une des surcharges de la <xref:System.GC.TryStartNoGCRegion%2A>. Vous spécifiez la fin de son chemin d’accès critique en appelant le <xref:System.GC.EndNoGCRegion%2A> (méthode).  
@@ -153,10 +153,10 @@
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="bytesAllocated" /> est inférieur ou égal à 0.  
   
-- ou - 
+ou 
 Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur à <see cref="F:System.Int32.MaxValue" />.</exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">pour avoir la possibilité d’appeler du code non managé lors de la manipulation de priorité de garbage collection. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">requiert une confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par le code de confiance partielle ou transparent.</permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">pour avoir la possibilité d’appeler du code non managé lors de la manipulation de priorité de garbage collection. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" />.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
       </Docs>
     </Member>
     <Member MemberName="CancelFullGCNotification">
@@ -211,8 +211,8 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException">Ce membre n’est pas disponible quand le garbage collection simultané est activé. Pour plus d’informations sur la désactivation d’une opération garbage collection simultanée, consultez le paramètre d’exécution [&lt;gcConcurrent&gt;](~/docs/framework/configure-apps/file-schema/runtime/gcconcurrent-element.md).</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">pour la confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">requiert une confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par le code de confiance partielle ou transparent.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
         <related type="Article" href="https://msdn.microsoft.com/library/e12d8e74-31e3-4035-a87d-f3e66f0a9b89">Notifications de garbage collection</related>
       </Docs>
     </Member>
@@ -428,7 +428,7 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="generation" /> n'est pas valide.  
   
-- ou - 
+ou 
  <paramref name="mode" /> ne fait pas partie des valeurs <see cref="T:System.GCCollectionMode" />.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/019008fe-4708-4e65-bebf-04fd9941e149">Collections forcées</related>
       </Docs>
@@ -481,11 +481,11 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le tableau suivant résume l’interaction de le `mode` et `blocking` paramètres :  
+ Le tableau suivant résume l’interaction des arguments `mode` et `blocking`.  
   
 |`mode`|`blocking` a la valeur `true`.|`blocking` a la valeur `false`.|  
 |-|-|-|  
-|<xref:System.GCCollectionMode.Forced> ou <xref:System.GCCollectionMode.Default>|Une collection de blocage est exécutée dès que possible. Si une collection d’arrière-plan est en cours et `generation` est 0 ou 1, le <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%29> méthode déclenche une collection de blocage immédiatement et retourne quand la collection est terminée. Si une collection d’arrière-plan est en cours et `generation` est 2, la méthode attend la collection d’arrière-plan est terminée, déclenche une collection de génération 2 blocage et renvoie.|Une collection est exécutée dès que possible. La méthode <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%29> demande une collection d'arrière-plan, mais cela n'est pas garanti ; selon les cas, une collection bloquante peut toujours être exécutée. Si une collection d’arrière-plan est déjà en cours, la méthode retourne immédiatement une valeur.|  
+|<xref:System.GCCollectionMode.Forced> ou <xref:System.GCCollectionMode.Default>|Une collection de blocage est exécutée dès que possible. Si une collection d’arrière-plan est en cours et `generation` est 0 ou 1, le <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%29> méthode déclenche une collection de blocage immédiatement et retourne quand la collection est terminée. Si une collection d’arrière-plan est en cours et que le paramètre `generation` a la valeur 2, la méthode attend la fin de la collection d’arrière-plan, déclenche une collection de blocage de génération 2, puis retourne une valeur.|Une collection est exécutée dès que possible. La méthode <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%29> demande une collection d'arrière-plan, mais cela n'est pas garanti ; selon les cas, une collection bloquante peut toujours être exécutée. Si une collection d’arrière-plan est déjà en cours, la méthode retourne immédiatement une valeur.|  
 |<xref:System.GCCollectionMode.Optimized>|Une collecte bloquante peut être exécutée, selon l'état du récupérateur de mémoire et du paramètre `generation`. Le Garbage collector tente de fournir des performances optimales.|Une collection de blocage peut être effectuée, en fonction de l’état du Garbage collector. La méthode <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%29> demande une collection d'arrière-plan, mais cela n'est pas garanti ; selon les cas, une collection bloquante peut toujours être exécutée. Le Garbage collector tente de fournir des performances optimales. Si une collection d’arrière-plan est déjà en cours, la méthode retourne immédiatement une valeur.|  
   
  Si un appel à la <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%29> méthode effectue une garbage collection de blocage, vous pouvez également compacter le tas d’objets volumineux en définissant le <xref:System.Runtime.GCSettings.LargeObjectHeapCompactionMode%2A?displayProperty=nameWithType> propriété <xref:System.Runtime.GCLargeObjectHeapCompactionMode.CompactOnce?displayProperty=nameWithType> avant d’appeler le <xref:System.GC.Collect%2A> (méthode).  
@@ -654,7 +654,7 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
 ## Remarks  
  Le <xref:System.GC.EndNoGCRegion%2A> méthode lève un <xref:System.InvalidOperationException> si le garbage collector n’est pas en mode de latence sans région GC. Cela se produit si l’une des conditions suivantes :  
   
--   Le <xref:System.GC.TryStartNoGCRegion%2A> (méthode) n’a pas été appelée précédemment.  
+-   La méthode <xref:System.GC.TryStartNoGCRegion%2A> a été appelée au préalable.  
   
 -   L’appel à la <xref:System.GC.TryStartNoGCRegion%2A> méthode retournée `false`.  
   
@@ -669,10 +669,10 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
         </remarks>
         <exception cref="T:System.InvalidOperationException">Le garbage collector n’est pas en mode de latence sans région GC.  
   
-- ou - 
+ou 
 Le mode de latence sans région GC a été interrompu précédemment, car un garbage collection a été induit.  
   
-- ou - 
+ou 
 Une allocation de mémoire a dépassé la quantité spécifiée dans l’appel à la méthode <see cref="M:System.GC.TryStartNoGCRegion(System.Int64)" />.</exception>
         <altmember cref="M:System.GC.TryStartNoGCRegion(System.Int64)" />
         <altmember cref="P:System.Runtime.GCSettings.LatencyMode" />
@@ -1126,8 +1126,8 @@ Utilisez le <see cref="P:System.GC.MaxGeneration" /> propriété afin de déterm
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException">Ni <paramref name="maxGenerationThreshold" /> ni <paramref name="largeObjectHeapThreshold" /> n’est compris entre 1 et 99.</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">pour la confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">requiert une confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par le code de confiance partielle ou transparent.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
         <related type="Article" href="https://msdn.microsoft.com/library/e12d8e74-31e3-4035-a87d-f3e66f0a9b89">Notifications de garbage collection</related>
       </Docs>
     </Member>
@@ -1191,8 +1191,8 @@ Utilisez le <see cref="P:System.GC.MaxGeneration" /> propriété afin de déterm
   
 - ou - 
 Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur à <see cref="F:System.Int32.MaxValue" />.</exception>
-        <permission cref="T:System.Security.Permissions.SecurityPermission">pour avoir la possibilité d’appeler du code non managé lors de la manipulation de priorité de garbage collection. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" /></permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">requiert une confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par le code de confiance partielle ou transparent.</permission>
+        <permission cref="T:System.Security.Permissions.SecurityPermission">pour avoir la possibilité d’appeler du code non managé lors de la manipulation de priorité de garbage collection. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.UnmanagedCode" />.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
       </Docs>
     </Member>
     <Member MemberName="ReRegisterForFinalize">
@@ -1514,7 +1514,7 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
         <Parameter Name="lohSize" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="totalSize">Quantité de mémoire en octets à allouer sans déclencher un garbage collection. <paramref name="totalSize" /> –<paramref name="lohSize" /> doit être inférieure ou égale à la taille d'un segment éphémère. Pour plus d’informations sur la taille d’un segment éphémère, consultez la section « Segments et générations éphémères » dans l’article [Notions de base du garbage collection](~/docs/standard/garbage-collection/fundamentals.md).</param>
+        <param name="totalSize">Quantité de mémoire en octets à allouer sans déclencher un garbage collection. <paramref name="totalSize" /> -<paramref name="lohSize" /> doit être inférieure ou égale à la taille d’un segment éphémère. Pour plus d’informations sur la taille d’un segment éphémère, consultez la section « Segments et générations éphémères » dans l’article [Notions de base du garbage collection](~/docs/standard/garbage-collection/fundamentals.md).</param>
         <param name="lohSize">Nombre d'octets dans <paramref name="totalSize" /> à utiliser pour les allocations de tas d'objets volumineux (LOH).</param>
         <summary>Tente d'interdire le garbage collection pendant l'exécution d'un chemin d'accès critique si une quantité de mémoire spécifiée est disponible pour le tas d'objets volumineux et le tas de petits objets.</summary>
         <returns><see langword="true" /> si le runtime a pu valider la quantité de mémoire requise et que le garbage collector peut entrer en mode de latence sans région GC ; sinon, <see langword="false" />.</returns>
@@ -1522,9 +1522,9 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%29> méthode tente de placer le garbage collector dans aucun mode de latence de région GC, qui n’autorise pas le garbage collection pendant une application exécute une zone critique de code.  Si le runtime ne parvient pas initialement allouer la quantité de mémoire demandée, le garbage collector effectue une garbage collection de blocage en essayant de libérer la mémoire supplémentaire. Le garbage collector passe le mode de latence sans région GC s’il est en mesure d’allouer `lohSize` pour le LOH et `totalSize` – `lohSize` pour le tas de petits objets (SOH).  
+ Le <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%29> méthode tente de placer le garbage collector dans aucun mode de latence de région GC, qui n’autorise pas le garbage collection pendant une application exécute une zone critique de code.  Si le runtime ne parvient pas initialement allouer la quantité de mémoire demandée, le garbage collector effectue une garbage collection de blocage en essayant de libérer la mémoire supplémentaire. Le garbage collector passe le mode de latence sans région GC s’il est en mesure d’allouer `lohSize` pour le LOH et `totalSize`  -  `lohSize` pour le tas de petits objets (SOH).  
   
- `lohSize` doit être suffisamment grand pour gérer toutes les allocations de mémoire qui se produisent dans le chemin critique pour le LOH, et `totalSize` – `lohSize` doit être suffisamment grand pour gérer toutes les allocations de mémoire qui se produisent dans le chemin critique pour la déclaration d’intégrité. Cela inclut les allocations par l’application, ainsi que les allocations par le runtime sur le nom de l’application.  
+ `lohSize` doit être suffisamment grand pour gérer toutes les allocations de mémoire qui se produisent dans le chemin critique pour le LOH, et `totalSize`  -  `lohSize` doit être suffisamment grand pour gérer toutes les allocations de mémoire qui se produisent dans le chemin critique pour la déclaration d’intégrité. Cela inclut les allocations par l’application, ainsi que les allocations par le runtime sur le nom de l’application.  
   
 > [!IMPORTANT]
 >  Vous ne pouvez pas imbriquer des appels à la <xref:System.GC.TryStartNoGCRegion%2A> (méthode) et vous devez appeler uniquement la <xref:System.GC.EndNoGCRegion%2A> méthode si le runtime est actuellement en mode de latence sans région GC. En d’autres termes, vous ne devez pas appeler <xref:System.GC.TryStartNoGCRegion%2A> plusieurs fois (après le premier appel de méthode, les appels suivants ne réussissent pas), et vous ne devriez pas les appels à <xref:System.GC.EndNoGCRegion%2A> réussisse parce que le premier appel à <xref:System.GC.TryStartNoGCRegion%2A> a réussi.  
@@ -1533,7 +1533,7 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="totalSize" /> – <paramref name="lohSize" /> dépasse la taille du segment éphémère.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="totalSize" /> - <paramref name="lohSize" /> dépasse la taille du segment éphémère.</exception>
         <exception cref="T:System.InvalidOperationException">Le processus est déjà en mode de latence sans région GC.</exception>
         <altmember cref="M:System.GC.EndNoGCRegion" />
         <related type="Article" href="https://msdn.microsoft.com/library/67c5a20d-1be1-4ea7-8a9a-92b0b08658d2">Notions de base du garbage collection</related>
@@ -1576,7 +1576,7 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
         <Parameter Name="disallowFullBlockingGC" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="totalSize">Quantité de mémoire en octets à allouer sans déclencher un garbage collection. <paramref name="totalSize" /> –<paramref name="lohSize" /> doit être inférieure ou égale à la taille d'un segment éphémère. Pour plus d’informations sur la taille d’un segment éphémère, consultez la section « Segments et générations éphémères » dans l’article [Notions de base du garbage collection](~/docs/standard/garbage-collection/fundamentals.md).</param>
+        <param name="totalSize">Quantité de mémoire en octets à allouer sans déclencher un garbage collection. <paramref name="totalSize" /> -<paramref name="lohSize" /> doit être inférieure ou égale à la taille d’un segment éphémère. Pour plus d’informations sur la taille d’un segment éphémère, consultez la section « Segments et générations éphémères » dans l’article [Notions de base du garbage collection](~/docs/standard/garbage-collection/fundamentals.md).</param>
         <param name="lohSize">Nombre d'octets dans <paramref name="totalSize" /> à utiliser pour les allocations de tas d'objets volumineux (LOH).</param>
         <param name="disallowFullBlockingGC"><see langword="true" /> pour omettre un garbage collection de blocage complet si le garbage collector ne parvient pas initialement à allouer la mémoire spécifiée sur le tas de petits objets (SOH) et le tas d'objets volumineux (LOH) ; sinon, <see langword="false" />.</param>
         <summary>Tente de suspendre le garbage collection pendant l'exécution d'un chemin d'accès critique si une quantité de mémoire suffisante spécifiée est disponible pour le tas d'objets volumineux et le tas de petits objets, et contrôle si le garbage collector effectue un garbage collection de blocage complet si la mémoire initialement disponible est insuffisante.</summary>
@@ -1585,9 +1585,9 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%2CSystem.Boolean%29> méthode tente de placer le garbage collector dans aucun mode de latence de région GC, qui n’autorise pas le garbage collection pendant une application exécute une zone critique de code.  Si le runtime ne parvient pas initialement allouer la quantité de mémoire demandée et la `disallowFullBlockingGC` argument est `false`, le garbage collector effectue une garbage collection de blocage en essayant de libérer de la mémoire supplémentaire ; sinon, l’allocation échoue et la méthode retourne `false`. Le garbage collector passe le mode de latence sans région GC s’il est en mesure d’allouer `lohSize` pour le LOH et `totalSize` – `lohSize` pour le tas de petits objets (SOH).  
+ Le <xref:System.GC.TryStartNoGCRegion%28System.Int64%2CSystem.Int64%2CSystem.Boolean%29> méthode tente de placer le garbage collector dans aucun mode de latence de région GC, qui n’autorise pas le garbage collection pendant une application exécute une zone critique de code.  Si le runtime ne parvient pas initialement allouer la quantité de mémoire demandée et la `disallowFullBlockingGC` argument est `false`, le garbage collector effectue une garbage collection de blocage en essayant de libérer de la mémoire supplémentaire ; sinon, l’allocation échoue et la méthode retourne `false`. Le garbage collector passe le mode de latence sans région GC s’il est en mesure d’allouer `lohSize` pour le LOH et `totalSize`  -  `lohSize` pour le tas de petits objets (SOH).  
   
- `lohSize` doit être suffisamment grand pour gérer toutes les allocations de mémoire qui se produisent dans le chemin critique pour le LOH, et `totalSize` – `lohSize` doit être suffisamment grand pour gérer toutes les allocations de mémoire qui se produisent dans le chemin critique pour la déclaration d’intégrité. Cela inclut les allocations par l’application, ainsi que les allocations par le runtime sur le nom de l’application.  
+ `lohSize` doit être suffisamment grand pour gérer toutes les allocations de mémoire qui se produisent dans le chemin critique pour le LOH, et `totalSize`  -  `lohSize` doit être suffisamment grand pour gérer toutes les allocations de mémoire qui se produisent dans le chemin critique pour la déclaration d’intégrité. Cela inclut les allocations par l’application, ainsi que les allocations par le runtime sur le nom de l’application.  
   
  Paramètre `disallowFullBlockingGC` à `true` pour empêcher un garbage de blocage complet collection s’il n’est pas suffisamment de mémoire initialement disponible est particulièrement utile dans les scénarios d’équilibrage de charge : un système peut appeler cette méthode et signaler lui-même comme prêt à accepter les demandes si elle retourne `true`, et l’équilibrage de charge rediriger les demandes vers d’autres systèmes si elle retourne `false`. Il peut ensuite faire une garbage collection de blocage quand il ne gère pas les demandes en appelant le <xref:System.GC.Collect%28System.Int32%2CSystem.GCCollectionMode%2CSystem.Boolean%2CSystem.Boolean%29> (méthode).  
   
@@ -1598,7 +1598,7 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="totalSize" /> – <paramref name="lohSize" /> dépasse la taille du segment éphémère.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="totalSize" /> - <paramref name="lohSize" /> dépasse la taille du segment éphémère.</exception>
         <exception cref="T:System.InvalidOperationException">Le processus est déjà en mode de latence sans région GC.</exception>
         <altmember cref="M:System.GC.EndNoGCRegion" />
         <related type="Article" href="https://msdn.microsoft.com/library/67c5a20d-1be1-4ea7-8a9a-92b0b08658d2">Notions de base du garbage collection</related>
@@ -1673,8 +1673,8 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
   
  ]]></format>
         </remarks>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">pour la confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">requiert une confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par le code de confiance partielle ou transparent.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
         <related type="Article" href="https://msdn.microsoft.com/library/e12d8e74-31e3-4035-a87d-f3e66f0a9b89">Notifications de garbage collection</related>
       </Docs>
     </Member>
@@ -1733,8 +1733,8 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="millisecondsTimeout" /> doit être non négatif ou inférieur ou égal à <see cref="F:System.Int32.MaxValue" /> ou -1.</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">pour la confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">requiert une confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par le code de confiance partielle ou transparent.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
         <related type="Article" href="https://msdn.microsoft.com/library/e12d8e74-31e3-4035-a87d-f3e66f0a9b89">Notifications de garbage collection</related>
       </Docs>
     </Member>
@@ -1806,8 +1806,8 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
   
  ]]></format>
         </remarks>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">pour la confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">requiert une confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par le code de confiance partielle ou transparent.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
         <related type="Article" href="https://msdn.microsoft.com/library/e12d8e74-31e3-4035-a87d-f3e66f0a9b89">Notifications de garbage collection</related>
       </Docs>
     </Member>
@@ -1866,8 +1866,8 @@ Sur un ordinateur à 32 bits, <paramref name="bytesAllocated" /> est supérieur
  ]]></format>
         </remarks>
         <exception cref="T:System.InvalidOperationException"><paramref name="millisecondsTimeout" /> doit être non négatif ou inférieur ou égal à <see cref="F:System.Int32.MaxValue" /> ou -1.</exception>
-        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">pour la confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
-        <permission cref="T:System.Security.SecurityCriticalAttribute">requiert une confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par le code de confiance partielle ou transparent.</permission>
+        <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
+        <permission cref="T:System.Security.SecurityCriticalAttribute">Confiance totale accordée à l'appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
         <related type="Article" href="https://msdn.microsoft.com/library/e12d8e74-31e3-4035-a87d-f3e66f0a9b89">Notifications de garbage collection</related>
       </Docs>
     </Member>
