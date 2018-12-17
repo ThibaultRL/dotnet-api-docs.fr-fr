@@ -1,0 +1,2 @@
+> [!NOTE]
+> **.NET Core s’exécutant sur les systèmes Linux et macOS uniquement :** Le comportement de classement pour les cultures C et Posix respecte toujours la casse, car ces cultures n’utilisent pas l’ordre de classement Unicode attendu. Nous vous recommandons d’utiliser une culture autre que C ou Posix pour effectuer des opérations de tri respectant la culture, mais ne respectant pas la casse.  
