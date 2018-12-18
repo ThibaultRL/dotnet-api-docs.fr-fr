@@ -1,5 +1,5 @@
 <Type Name="TimeZoneInfo" FullName="System.TimeZoneInfo">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="70054d455b955161ef448f2b29946549404baabf" /><Meta Name="ms.sourcegitcommit" Value="adc8598fd19d91438cacaa8fa7ce613e28c8218e" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/11/2018" /><Meta Name="ms.locfileid" Value="53232169" /></Metadata><TypeSignature Language="C#" Value="public sealed class TimeZoneInfo : IEquatable&lt;TimeZoneInfo&gt;, System.Runtime.Serialization.IDeserializationCallback, System.Runtime.Serialization.ISerializable" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="a0c1b671172dcff914cfb84a095c579b475828bb" /><Meta Name="ms.sourcegitcommit" Value="d8bd5d494445ce3fcad1321267cb87548d23a45b" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/15/2018" /><Meta Name="ms.locfileid" Value="53449890" /></Metadata><TypeSignature Language="C#" Value="public sealed class TimeZoneInfo : IEquatable&lt;TimeZoneInfo&gt;, System.Runtime.Serialization.IDeserializationCallback, System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit TimeZoneInfo extends System.Object implements class System.IEquatable`1&lt;class System.TimeZoneInfo&gt;, class System.Runtime.Serialization.IDeserializationCallback, class System.Runtime.Serialization.ISerializable" />
   <TypeSignature Language="DocId" Value="T:System.TimeZoneInfo" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class TimeZoneInfo&#xA;Implements IDeserializationCallback, IEquatable(Of TimeZoneInfo), ISerializable" />
@@ -79,13 +79,13 @@
 |Nom de membre statique|Description |  
 |------------------------|-----------------|  
 |Méthode <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A>|Crée un fuseau horaire personnalisé à partir de données fournie par l’application.|  
-|Méthode <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A>|Instancie un fuseau horaire défini dans le Registre système en fonction de l’identificateur de la zone.|  
+|Méthode <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A>|Instancie un fuseau horaire en fonction de son identificateur.|  
 |Méthode <xref:System.TimeZoneInfo.FromSerializedString%2A>|Désérialise une valeur de chaîne pour recréer un précédemment sérialisé <xref:System.TimeZoneInfo> objet.|  
 |Méthode <xref:System.TimeZoneInfo.GetSystemTimeZones%2A>|Retourne un énumérable <xref:System.Collections.ObjectModel.ReadOnlyCollection%601> de <xref:System.TimeZoneInfo> objets qui représente tous les fuseaux horaires qui sont disponibles sur le système local.|  
 |Propriété<xref:System.TimeZoneInfo.Local%2A> |Instancie un <xref:System.TimeZoneInfo> objet qui représente le fuseau horaire local.|  
 |Propriété<xref:System.TimeZoneInfo.Utc%2A> |Instancie un <xref:System.TimeZoneInfo> objet qui représente le fuseau horaire UTC.|  
   
- Vous pouvez utiliser la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> méthode pour créer un fuseau horaire qui n’est pas défini dans le Registre système local. Vous pouvez ensuite utiliser le <xref:System.TimeZoneInfo.ToSerializedString%2A> propriété pour enregistrer les informations de l’objet de fuseau horaire en tant que chaîne, qui peut être stockée dans une forme qui est accessible à l’application. Vous pouvez utiliser la <xref:System.TimeZoneInfo.FromSerializedString%2A> retour de méthode pour convertir une chaîne sérialisée à une <xref:System.TimeZoneInfo> objet.  
+ Vous pouvez utiliser la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> méthode pour créer un fuseau horaire qui n’est pas défini dans le Registre système local sur les systèmes Windows ou par les classes de fuseau horaire dans le [bibliothèque ICU](http://userguide.icu-project.org/datetime/timezone) sur Linux ou macOS. Vous pouvez ensuite utiliser le <xref:System.TimeZoneInfo.ToSerializedString%2A> propriété pour enregistrer les informations de l’objet de fuseau horaire en tant que chaîne, qui peut être stockée dans une forme qui est accessible à l’application. Vous pouvez utiliser la <xref:System.TimeZoneInfo.FromSerializedString%2A> retour de méthode pour convertir une chaîne sérialisée à une <xref:System.TimeZoneInfo> objet.  
   
  ]]></format>
     </remarks>
@@ -193,11 +193,11 @@
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Données de fuseau horaire mises en cache incluent des données sur le fuseau horaire local, la zone de temps universel coordonné (UTC) et les fuseaux horaires qui sont récupérés à l’aide de méthodes telles que <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> et <xref:System.TimeZoneInfo.GetSystemTimeZones%2A>.  
+ Données de fuseau horaire mises en cache incluent des données sur le fuseau horaire local et la zone de temps universel coordonné (UTC).  
   
- Vous pouvez appeler la <xref:System.TimeZoneInfo.ClearCachedData%2A> méthode pour réduire la mémoire consacrée au cache de l’application des informations de fuseau horaire ou pour refléter le fait que le fuseau horaire du système local a changé.  
+ Vous pouvez appeler la `ClearCachedData` méthode pour réduire la mémoire consacrée au cache de l’application des informations de fuseau horaire ou pour refléter le fait que le fuseau horaire du système local a changé.  
   
- Stockage des références aux fuseaux horaires UTC et local n’est pas recommandé. Après l’appel à la <xref:System.TimeZoneInfo.ClearCachedData%2A> (méthode), ces variables d’objet ne seront pas définis <xref:System.TimeZoneInfo> les objets qui ne sont plus références à <xref:System.TimeZoneInfo.Local%2A?displayProperty=nameWithType> ou <xref:System.TimeZoneInfo.Utc%2A?displayProperty=nameWithType>. Par exemple, dans le code suivant, le deuxième appel à la <xref:System.TimeZoneInfo.ConvertTime%28System.DateTime%2CSystem.TimeZoneInfo%2CSystem.TimeZoneInfo%29?displayProperty=nameWithType> méthode lève une exception une <xref:System.ArgumentException> , car le `local` variable n’est plus considérée égale à <xref:System.TimeZoneInfo.Local%2A?displayProperty=nameWithType>.  
+ Stockage des références aux fuseaux horaires UTC et local n’est pas recommandé. Après l’appel à la `ClearCachedData` (méthode), ces variables d’objet ne seront pas définis <xref:System.TimeZoneInfo> les objets qui ne sont plus références à <xref:System.TimeZoneInfo.Local%2A?displayProperty=nameWithType> ou <xref:System.TimeZoneInfo.Utc%2A?displayProperty=nameWithType>. Par exemple, dans le code suivant, le deuxième appel à la <xref:System.TimeZoneInfo.ConvertTime%28System.DateTime%2CSystem.TimeZoneInfo%2CSystem.TimeZoneInfo%29?displayProperty=nameWithType> méthode lève une exception une <xref:System.ArgumentException> , car le `local` variable n’est plus considérée égale à <xref:System.TimeZoneInfo.Local%2A?displayProperty=nameWithType>.  
   
  [!code-csharp[System.TimeZone2.BestPractices#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.TimeZone2.BestPractices/cs/System.TimeZone2.BestPractices.cs#1)]
  [!code-vb[System.TimeZone2.BestPractices#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.TimeZone2.BestPractices/vb/System.TimeZone2.BestPractices.vb#1)]  
@@ -456,10 +456,10 @@
         </remarks>
         <exception cref="T:System.ArgumentException">La propriété <see cref="P:System.DateTime.Kind" /> du paramètre <paramref name="dateTime" /> est <see cref="F:System.DateTimeKind.Local" />, mais le paramètre <paramref name="sourceTimeZone" /> n’est pas égal à <see cref="F:System.DateTimeKind.Local" />.  
   
-- ou - 
+ou 
 La propriété <see cref="P:System.DateTime.Kind" /> du paramètre <paramref name="dateTime" /> est <see cref="F:System.DateTimeKind.Utc" />, mais le paramètre <paramref name="sourceTimeZone" /> n’est pas égal à <see cref="P:System.TimeZoneInfo.Utc" />.  
   
-ou 
+- ou - 
 Le paramètre <paramref name="dateTime" /> est une heure non valide (elle représente une heure qui n’existe pas en vertu des règles d’ajustement d’un fuseau horaire).</exception>
         <exception cref="T:System.ArgumentNullException">Le paramètre <paramref name="sourceTimeZone" /> a la valeur <see langword="null" />.  
   
@@ -544,7 +544,7 @@ Le paramètre <paramref name="destinationTimeZone" /> a la valeur <see langword=
   
  Si la conversion de `dateTime` aboutit à une valeur de date et l’heure est antérieure à <xref:System.DateTime.MinValue?displayProperty=nameWithType> ou une version <xref:System.DateTime.MaxValue?displayProperty=nameWithType>, cette méthode retourne <xref:System.DateTime.MinValue?displayProperty=nameWithType> ou <xref:System.DateTime.MaxValue?displayProperty=nameWithType>, respectivement.  
   
- Cette méthode récupère le fuseau horaire dont l’identificateur est spécifié par le `destinationTimeZoneId` paramètre à partir du Registre. Il ne peut pas récupérer un objet de fuseau horaire qui est créé à l’aide de la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> (méthode). Le `destinationTimeZoneId` paramètre doit correspondre exactement à la clé de Registre du fuseau horaire de longueur, mais pas dans les cas, pour une correspondance réussie ; autrement dit, la comparaison de `destinationTimeZoneId` avec fuseau horaire identificateurs respecte la casse.  
+ Cette méthode extrait des informations sur le fuseau horaire dont l’identificateur est spécifié par le `destinationTimeZoneId` paramètre à partir du Registre sur les systèmes Windows et à partir de la [bibliothèque ICU](http://userguide.icu-project.org/datetime/timezone) sur Linux et macOS. Il ne peut pas récupérer un objet de fuseau horaire qui est créé à l’aide de la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> (méthode). Le `destinationTimeZoneId` paramètre doit correspondre exactement à l’identificateur du fuseau horaire de longueur, mais pas dans les cas, pour une correspondance réussie ; autrement dit, la comparaison de `destinationTimeZoneId` avec fuseau horaire identificateurs respecte la casse.  
   
  ]]></format>
         </remarks>
@@ -602,7 +602,7 @@ Le paramètre <paramref name="destinationTimeZone" /> a la valeur <see langword=
   
  Étant donné que le `dateTimeOffset` paramètre représente une date et décalage horaire ainsi que cette heure par rapport à partir du temps universel coordonné (UTC), il ne peut pas représenter une heure ambiguë ou une heure non valide.  
   
- Cette méthode récupère le fuseau horaire dont l’identificateur est spécifié par le `destinationTimeZoneId` paramètre à partir du Registre. Il ne peut pas récupérer un objet de fuseau horaire qui est créé à l’aide de la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> (méthode). Le `destinationTimeZoneId` paramètre doit correspondre exactement à la clé de Registre du fuseau horaire de longueur, mais pas dans les cas, pour une correspondance réussie ; autrement dit, la comparaison de `destinationTimeZoneId` avec fuseau horaire identificateurs respecte la casse.  
+ Cette méthode récupère le fuseau horaire dont l’identificateur est spécifié par le `destinationTimeZoneId` paramètre à partir du Registre sur les systèmes Windows et à partir de la [bibliothèque ICU](http://userguide.icu-project.org/datetime/timezone) sur Linux et macOS. Il ne peut pas récupérer un objet de fuseau horaire qui est créé à l’aide de la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> (méthode). Le `destinationTimeZoneId` paramètre doit correspondre exactement à l’identificateur du fuseau horaire de longueur, mais pas dans les cas, pour une correspondance réussie ; autrement dit, la comparaison de `destinationTimeZoneId` avec fuseau horaire identificateurs respecte la casse.  
   
  Pour convertir le `dateTimeOffset` valeur à la fois dans le fuseau horaire de destination, la méthode prend en compte les règles d’ajustement en vigueur dans le fuseau horaire de destination.  
   
@@ -664,7 +664,7 @@ Le paramètre <paramref name="destinationTimeZone" /> a la valeur <see langword=
   
  Bien qu’il soit similaire à la <xref:System.TimeZoneInfo.ConvertTime%28System.DateTime%2CSystem.TimeZoneInfo%2CSystem.TimeZoneInfo%29?displayProperty=nameWithType> (méthode), vous pouvez utiliser <xref:System.TimeZoneInfo.ConvertTimeBySystemTimeZoneId%28System.DateTime%2CSystem.String%2CSystem.String%29?displayProperty=nameWithType> pour spécifier les fuseaux horaires source et de destination à l’aide de leurs identificateurs au lieu de leur <xref:System.TimeZoneInfo> objets. Cette méthode est particulièrement utile lorsque vous devez convertir une heure sans récupérer l’objet de fuseau horaire qui correspond à ce dernier et que vous n’avez pas besoin de savoir si l’heure convertie est standard ou l’heure d’été.  
   
- Cette méthode récupère les fuseaux horaires dont les identificateurs sont les `sourceTimeZoneId` et `destinationTimeZoneId` paramètres à partir du Registre. Il ne peut pas récupérer des objets de fuseau horaire qui sont créés à l’aide de la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> (méthode).  
+ Cette méthode récupère les fuseaux horaires dont les identificateurs sont les `sourceTimeZoneId` et `destinationTimeZoneId` paramètres à partir du Registre sur les systèmes Windows et à partir de la [bibliothèque ICU](http://userguide.icu-project.org/datetime/timezone) sur Linux et macOS. Il ne peut pas récupérer des objets de fuseau horaire qui sont créés à l’aide de la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> (méthode).  
   
  La valeur de la <xref:System.DateTime.Kind%2A> propriété de la `dateTime` paramètre doit correspondre à la `sourceTimeZoneId` paramètre, comme le tableau suivant.  
   
@@ -917,10 +917,10 @@ L’identificateur <paramref name="destinationTimeZoneId" /> est introuvable sur
         <exception cref="T:System.ArgumentException"><paramref name="dateTime" />
           <see langword=".Kind" /> a la valeur <see cref="F:System.DateTimeKind.Utc" />, et <paramref name="sourceTimeZone" /> n’est pas égal à <see cref="P:System.TimeZoneInfo.Utc" />.  
   
-ou 
+- ou - 
  <paramref name="dateTime" /><see langword=".Kind" /> a la valeur <see cref="F:System.DateTimeKind.Local" />, et <paramref name="sourceTimeZone" /> n’est pas égal à <see cref="P:System.TimeZoneInfo.Local" />.  
   
-ou 
+- ou - 
  <paramref name="sourceTimeZone" /><see langword=".IsInvalidDateTime(" /><paramref name="dateTime" /><see langword=")" /> retourne <see langword="true" />.</exception>
         <exception cref="T:System.ArgumentNullException"><paramref name="sourceTimeZone" /> a la valeur <see langword="null" />.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/a51e1a3b-c983-4320-b31a-1f9fa3cf824a">Conversion d'heures entre fuseaux horaires</related>
@@ -1083,7 +1083,7 @@ Le paramètre <paramref name="baseUtcOffset" /> ne représente pas un nombre ent
 |`daylightDisplayName`|<xref:System.TimeZoneInfo.DaylightName%2A>|  
 |`adjustmentRules`|Un tableau de <xref:System.TimeZoneInfo.AdjustmentRule?displayProperty=nameWithType> objets retournés par le <xref:System.TimeZoneInfo.GetAdjustmentRules%2A> (méthode).|  
   
- En règle générale, nom d’heure d’hiver du fuseau horaire et de son identificateur sont les mêmes. Toutefois, la longueur de l’identificateur du fuseau horaire ne doit pas dépasser 32 caractères. La chaîne passée à la `displayName` paramètre suit un format relativement standard. La première partie du nom complet est l’offset de base du fuseau horaire à partir de l’heure UTC, ce qui est indiqué par l’acronyme GMT (Greenwich Mean Time), placé entre parenthèses. Elle est suivie d’une chaîne qui identifie le fuseau horaire lui-même, ou un ou plusieurs villes, des régions ou des pays dans le fuseau horaire, ou les deux. Exemple :  
+ En règle générale, nom d’heure d’hiver du fuseau horaire et de son identificateur sont les mêmes. Toutefois, la longueur de l’identificateur du fuseau horaire ne doit pas dépasser 32 caractères. La chaîne passée à la `displayName` paramètre suit un format relativement standard. La première partie du nom complet est l’offset de base du fuseau horaire à partir de l’heure UTC, ce qui est indiqué par l’acronyme GMT (Greenwich Mean Time), placé entre parenthèses. Elle est suivie d’une chaîne qui identifie le fuseau horaire lui-même, ou un ou plusieurs villes, des régions ou des pays dans le fuseau horaire, ou les deux. Par exemple :  
   
 ```  
 (GMT+02:00) Athens, Beirut, Istanbul, Minsk  
@@ -1114,7 +1114,7 @@ Le paramètre <paramref name="baseUtcOffset" /> ne représente pas un nombre ent
         <exception cref="T:System.ArgumentNullException">Le paramètre <paramref name="id" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">Le paramètre <paramref name="id" /> est une chaîne vide ("").  
   
-- ou - 
+ou 
 Le paramètre <paramref name="baseUtcOffset" /> ne représente pas un nombre entier de minutes.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">Le paramètre <paramref name="baseUtcOffset" /> est supérieur à 14 heures ou inférieur à -14 heures.</exception>
         <exception cref="T:System.InvalidTimeZoneException">Les règles d’ajustement spécifiées dans le paramètre <paramref name="adjustmentRules" /> se chevauchent.  
@@ -1128,7 +1128,7 @@ Un ou plusieurs éléments dans <paramref name="adjustmentRules" /> sont <see la
 ou 
 Plusieurs règles d’ajustement peuvent être appliquées à une date.  
   
-ou 
+- ou - 
 La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cref="P:System.TimeZoneInfo.AdjustmentRule.DaylightDelta" /> d’un ou plusieurs objets dans le tableau <paramref name="adjustmentRules" /> est supérieure à 14 heures ou inférieure à -14 heures.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/c52ef192-13a9-435f-8015-3b12eae8c47c">Comment : créer des fuseaux horaires avec des règles d'ajustement</related>
       </Docs>
@@ -1199,7 +1199,7 @@ La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cr
 |`adjustmentRules`|Un tableau de <xref:System.TimeZoneInfo.AdjustmentRule> objets retournés par le <xref:System.TimeZoneInfo.GetAdjustmentRules%2A> méthode si `disableDaylightSavingTime` est `false`; un tableau vide est retourné par la <xref:System.TimeZoneInfo.GetAdjustmentRules%2A> méthode si `disableDaylightSavingTime` est `true`.|  
 |`disableDaylightSavingTime`|Pas <xref:System.TimeZoneInfo.SupportsDaylightSavingTime%2A>.|  
   
- En règle générale, nom d’heure d’hiver du fuseau horaire et de son identificateur sont les mêmes. Toutefois, la longueur de l’identificateur du fuseau horaire ne doit pas dépasser 32 caractères. La chaîne passée à la `displayName` paramètre suit un format relativement standard. La première partie du nom complet est l’offset de base du fuseau horaire à partir de l’heure UTC, ce qui est indiqué par l’acronyme GMT (Greenwich Mean Time), placé entre parenthèses. Elle est suivie d’une chaîne qui identifie le fuseau horaire lui-même, ou un ou plusieurs villes, des régions ou des pays dans le fuseau horaire, ou les deux. Par exemple :  
+ En règle générale, nom d’heure d’hiver du fuseau horaire et de son identificateur sont les mêmes. Toutefois, la longueur de l’identificateur du fuseau horaire ne doit pas dépasser 32 caractères. La chaîne passée à la `displayName` paramètre suit un format relativement standard. La première partie du nom complet est l’offset de base du fuseau horaire à partir de l’heure UTC, ce qui est indiqué par l’acronyme GMT (Greenwich Mean Time), placé entre parenthèses. Elle est suivie d’une chaîne qui identifie le fuseau horaire lui-même, ou un ou plusieurs villes, des régions ou des pays dans le fuseau horaire, ou les deux. Exemple :  
   
 ```  
 (GMT+02:00) Athens, Beirut, Istanbul, Minsk  
@@ -1235,10 +1235,10 @@ Le paramètre <paramref name="baseUtcOffset" /> ne représente pas un nombre ent
         <exception cref="T:System.ArgumentOutOfRangeException">Le paramètre <paramref name="baseUtcOffset" /> est supérieur à 14 heures ou inférieur à -14 heures.</exception>
         <exception cref="T:System.InvalidTimeZoneException">Les règles d’ajustement spécifiées dans le paramètre <paramref name="adjustmentRules" /> se chevauchent.  
   
-- ou - 
+ou 
 Les règles d’ajustement spécifiées dans le paramètre <paramref name="adjustmentRules" /> ne sont pas dans l’ordre chronologique.  
   
-- ou - 
+ou 
 Un ou plusieurs éléments dans <paramref name="adjustmentRules" /> sont <see langword="null" />.  
   
 ou 
@@ -1294,7 +1294,7 @@ La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cr
   
  Un <xref:System.TimeZoneInfo.DaylightName%2A> propriété dont la valeur n’est pas <xref:System.String.Empty?displayProperty=nameWithType> ou `null` n’indique pas nécessairement que le fuseau horaire prend en charge l’heure d’été. Pour déterminer si le fuseau horaire prend en charge l’heure d’été, vérifiez la valeur de son <xref:System.TimeZoneInfo.SupportsDaylightSavingTime%2A> propriété.  
   
- Dans la plupart des cas, le <xref:System.TimeZoneInfo.DaylightName%2A> propriété des fuseaux horaires définis dans le Registre n’est pas <xref:System.String.Empty?displayProperty=nameWithType> ou `null`. Toutefois, le <xref:System.TimeZoneInfo.DaylightName%2A> propriété de fuseaux horaires personnalisés peut être définie sur <xref:System.String.Empty?displayProperty=nameWithType>. Cela se produit lorsque des fuseaux horaires personnalisés sont créés par le <xref:System.TimeZoneInfo.CreateCustomTimeZone%28System.String%2CSystem.TimeSpan%2CSystem.String%2CSystem.String%29?displayProperty=nameWithType> ou <xref:System.TimeZoneInfo.CreateCustomTimeZone%28System.String%2CSystem.TimeSpan%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.TimeZoneInfo.AdjustmentRule%5B%5D%2CSystem.Boolean%29?displayProperty=nameWithType> surcharge et la `disableDaylightSavingTime` paramètre est `true`. Par conséquent, votre code ne doit jamais supposer que la valeur de la <xref:System.TimeZoneInfo.DaylightName%2A> propriété n’est pas `null` ou vide.  
+ Dans la plupart des cas, le `DaylightName` propriété des fuseaux horaires définis par le système n’est pas <xref:System.String.Empty?displayProperty=nameWithType> ou `null`. Toutefois, le <xref:System.TimeZoneInfo.DaylightName%2A> propriété de fuseaux horaires personnalisés peut être définie sur <xref:System.String.Empty?displayProperty=nameWithType>. Cela se produit lorsque des fuseaux horaires personnalisés sont créés par le <xref:System.TimeZoneInfo.CreateCustomTimeZone%28System.String%2CSystem.TimeSpan%2CSystem.String%2CSystem.String%29?displayProperty=nameWithType> ou <xref:System.TimeZoneInfo.CreateCustomTimeZone%28System.String%2CSystem.TimeSpan%2CSystem.String%2CSystem.String%2CSystem.String%2CSystem.TimeZoneInfo.AdjustmentRule%5B%5D%2CSystem.Boolean%29?displayProperty=nameWithType> surcharge et la `disableDaylightSavingTime` paramètre est `true`. Par conséquent, votre code ne doit jamais supposer que la valeur de la <xref:System.TimeZoneInfo.DaylightName%2A> propriété n’est pas `null` ou vide.  
   
  Le <xref:System.TimeZoneInfo.DaylightName%2A> propriété est équivalente à la <xref:System.TimeZone.DaylightName%2A> propriété de la <xref:System.TimeZone> classe.  
   
@@ -1352,7 +1352,7 @@ La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cr
 ## Remarks  
  Le nom d’affichage est localisé en fonction de la culture installée avec le système d’exploitation Windows.  
   
- Les noms complets pour les fuseaux horaires de système Windows respectent un format relativement standard. La première partie du nom complet est l’offset de base du fuseau horaire à partir de l’heure UTC, ce qui est indiqué par l’acronyme GMT (Greenwich Mean Time), placé entre parenthèses. Pour le temps universel coordonné, l’acronyme GMT sans décalage est placée entre parenthèses.  Elle est suivie d’une chaîne qui identifie le fuseau horaire ou un ou plusieurs villes, des régions ou des pays dans le fuseau horaire. Par exemple :  
+ Les noms complets pour les fuseaux horaires de système Windows respectent un format relativement standard. La première partie du nom complet est l’offset de base du fuseau horaire à partir de l’heure UTC, ce qui est indiqué par l’acronyme GMT (Greenwich Mean Time), placé entre parenthèses. Pour le temps universel coordonné, l’acronyme GMT sans décalage est placée entre parenthèses.  Elle est suivie d’une chaîne qui identifie le fuseau horaire ou un ou plusieurs villes, des régions ou des pays dans le fuseau horaire. Exemple :  
   
 ```  
 (GMT) Greenwich Mean Time : Dublin, Edinburgh, Lisbon, London  
@@ -1557,17 +1557,17 @@ La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cr
       </Parameters>
       <Docs>
         <param name="id">Identificateur de fuseau horaire, qui correspond à la propriété <see cref="P:System.TimeZoneInfo.Id" />.</param>
-        <summary>Récupère un objet <see cref="T:System.TimeZoneInfo" /> à partir du Registre en fonction de son identificateur.</summary>
+        <summary>Instancie un nouvel objet <see cref="T:System.TimeZoneInfo" /> en fonction de son identificateur.</summary>
         <returns>Objet dont l'identificateur est la valeur du paramètre <paramref name="id" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le `id` paramètre doit correspondre exactement à la clé de Registre du fuseau horaire de longueur, mais pas dans les cas, pour une correspondance réussie ; autrement dit, la comparaison de `id` avec fuseau horaire identificateurs respecte la casse. Si vous souhaitez récupérer des objets de fuseau horaire selon des correspondances partielles, vous pouvez écrire des procédures personnalisées qui fonctionnent avec la collection en lecture seule de <xref:System.TimeZoneInfo> objets retournés par le <xref:System.TimeZoneInfo.GetSystemTimeZones%2A> (méthode).  
+ Le `id` paramètre doit correspondre exactement à l’identificateur du fuseau horaire de longueur, mais pas dans les cas, pour une correspondance réussie ; autrement dit, la comparaison de `id` avec fuseau horaire identificateurs respecte la casse. Si vous souhaitez récupérer des objets de fuseau horaire selon des correspondances partielles, vous pouvez écrire des procédures personnalisées qui fonctionnent avec la collection en lecture seule de <xref:System.TimeZoneInfo> objets retournés par le <xref:System.TimeZoneInfo.GetSystemTimeZones%2A> (méthode).  
   
- Sur les systèmes Windows, <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> tente de faire correspondre `id` pour le nom des sous-clés de la branche HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Time Zones du Registre. Cette branche ne contient pas nécessairement une liste complète des identificateurs de fuseau horaire. Si nécessaire par une application, vous pouvez créer un fuseau horaire particulier en appelant une des surcharges de la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> méthode ou en appelant <xref:System.TimeZoneInfo.FromSerializedString%2A> pour désérialiser un <xref:System.TimeZoneInfo> objet qui représente le fuseau horaire requis. Toutefois, les fuseaux horaires créés par ces appels de méthode ne sont pas inclus dans le Registre et ne peut pas être récupérée à l’aide de la <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> (méthode). Ces fuseaux horaires personnalisés sont accessibles uniquement par le biais de la référence d’objet retournée par la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> ou <xref:System.TimeZoneInfo.FromSerializedString%2A> appel de méthode.  
+ Sur les systèmes Windows, `FindSystemTimeZoneById` tente de faire correspondre `id` pour le nom des sous-clés de la branche HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Time Zones du Registre. Sur Linux et macOS, il utilise les informations de fuseau horaire disponibles dans le [bibliothèque ICU](http://userguide.icu-project.org/datetime/timezone). Si le Registre ou la bibliothèque n’a pas les informations pour le fuseau horaire que vous le souhaitez, vous pouvez créer un fuseau horaire particulier en appelant une des surcharges de la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> méthode ou en appelant <xref:System.TimeZoneInfo.FromSerializedString%2A> pour désérialiser un <xref:System.TimeZoneInfo> de l’objet qui représente le fuseau horaire requis. Toutefois, les fuseaux horaires créés par ces appels de méthode ne sont pas définies par le système le temps et ne peut pas être récupérées à l’aide de la <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> (méthode). Ces fuseaux horaires personnalisés sont accessibles uniquement par le biais de la référence d’objet retournée par la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> ou <xref:System.TimeZoneInfo.FromSerializedString%2A> appel de méthode.  
   
-   
+Cette méthode retourne un nouvel <xref:System.TimeZoneInfo> pour chaque appel de méthode d’instance ; elle ne retourne pas les objets mis en cache. Cela peut affecter les performances dans les applications qui appellent le `FindSystemTimeZoneById` méthode à plusieurs reprises avec le même identificateur.   
   
 ## Examples  
  L’exemple suivant utilise la <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> méthode pour récupérer le fuseau horaire de Tokyo. Cela <xref:System.TimeZoneInfo> objet est ensuite utilisé pour convertir l’heure locale à l’heure de Tokyo et pour déterminer s’il s’agit d’heure d’hiver Tokyo ou l’heure d’été de Tokyo.  
@@ -1579,7 +1579,7 @@ La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cr
         </remarks>
         <exception cref="T:System.OutOfMemoryException">Le système n’a pas suffisamment de mémoire pour conserver les informations sur le fuseau horaire.</exception>
         <exception cref="T:System.ArgumentNullException">Le paramètre <paramref name="id" /> a la valeur <see langword="null" />.</exception>
-        <exception cref="T:System.TimeZoneNotFoundException">L’identificateur de fuseau horaire spécifié par <paramref name="id" /> est introuvable. Cela signifie qu’une clé de Registre dont le nom correspond à <paramref name="id" /> n’existe pas ou qu’elle existe mais qu’elle ne contient pas de données de fuseau horaire.</exception>
+        <exception cref="T:System.TimeZoneNotFoundException">L’identificateur de fuseau horaire spécifié par <paramref name="id" /> est introuvable. Cela signifie qu’un identificateur de fuseau horaire dont le nom correspond à <paramref name="id" /> n’existe pas ou qu’il existe mais ne contient pas de données de fuseau horaire.</exception>
         <exception cref="T:System.Security.SecurityException">Le processus n’a pas les autorisations nécessaires pour lire la clé de Registre qui contient les informations de fuseau horaire.</exception>
         <exception cref="T:System.InvalidTimeZoneException">L’identificateur de fuseau horaire a été trouvé, mais les données du Registre sont endommagées.</exception>
         <altmember cref="P:System.TimeZoneInfo.Id" />
@@ -1626,7 +1626,7 @@ La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cr
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il existe une alternative à la fourniture de tout le code nécessaire pour créer un fuseau horaire qui est introuvable dans le Registre. Vous pouvez définir un fuseau horaire personnalisé et soit utiliser le <xref:System.TimeZoneInfo.ToSerializedString%2A> méthode dans un exécutable autonome ou en utilisant le programme d’installation d’une application de programme pour enregistrer le fuseau horaire sous forme de chaîne. L’application peut ensuite récupérer cette chaîne à partir de son emplacement de stockage et l’instancier à l’aide de la <xref:System.TimeZoneInfo.FromSerializedString%2A> (méthode).  
+ Il existe une alternative à la fourniture de tout le code nécessaire pour créer un fuseau horaire qui est introuvable dans le Registre sur Windows ou dans le [bibliothèque ICU](http://userguide.icu-project.org/datetime/timezone) sur Linux et macOS. Vous pouvez définir un fuseau horaire personnalisé et soit utiliser le <xref:System.TimeZoneInfo.ToSerializedString%2A> méthode dans un exécutable autonome ou en utilisant le programme d’installation d’une application de programme pour enregistrer le fuseau horaire sous forme de chaîne. L’application peut ensuite récupérer cette chaîne à partir de son emplacement de stockage et l’instancier à l’aide de la <xref:System.TimeZoneInfo.FromSerializedString%2A> (méthode).  
   
    
   
@@ -1942,10 +1942,10 @@ La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cr
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.TimeZoneInfo.GetSystemTimeZones%2A> méthode récupère toutes les informations de fuseau horaire disponibles à partir des sous-clés de la clé de Registre HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Time Zones. S’il est impossible de récupérer et d’analyser les valeurs des propriétés de chaîne particulière d’individu <xref:System.TimeZoneInfo> objets, cette méthode définit leur valeur sur une chaîne vide ( » »).  
+ Le <xref:System.TimeZoneInfo.GetSystemTimeZones%2A> méthode récupère toutes les informations de fuseau horaire disponibles à partir des sous-clés de la clé de Registre HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Time Zones sur les systèmes Windows et à partir de la [bibliothèque ICU](http://userguide.icu-project.org/datetime/timezone) sur Linux et macOS. S’il est impossible de récupérer et d’analyser les valeurs des propriétés de chaîne particulière d’individu <xref:System.TimeZoneInfo> objets, cette méthode définit leur valeur sur une chaîne vide ( » »).  
   
 > [!IMPORTANT]
->  Le <xref:System.TimeZoneInfo.GetSystemTimeZones%2A> méthode retourne une collection de <xref:System.TimeZoneInfo> objets uniquement pour les fuseaux horaires définis dans le Registre. Il n’inclut pas les fuseaux horaires créés à l’aide de surcharges de la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> (méthode). Ils sont accessibles uniquement par le biais de la référence d’objet retournée par la méthode de création de fuseau horaire.  
+>  Le <xref:System.TimeZoneInfo.GetSystemTimeZones%2A> méthode retourne une collection de <xref:System.TimeZoneInfo> objets uniquement pour les fuseaux horaires définis dans l’ou bibliothèque ICU. Il n’inclut pas les fuseaux horaires créés à l’aide de surcharges de la <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> (méthode). Ils sont accessibles uniquement par le biais de la référence d’objet retournée par la méthode de création de fuseau horaire.  
   
  La collection retournée par cette méthode est triée par décalage UTC et, pour les fuseaux horaires qui ont le même décalage UTC, par le nom complet à l’aide de la culture actuelle. Pour plus d’informations sur le nom d’affichage, consultez <xref:System.TimeZoneInfo.DisplayName%2A>.  
   
@@ -2139,7 +2139,7 @@ La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cr
    
   
 ## Examples  
- En règle générale, un nombre de fuseaux horaires définis dans le Registre ont le même offset de temps universel coordonné (UTC) et les mêmes règles d’ajustement. L’exemple suivant affiche une liste de ces fuseaux horaires dans la console.  
+ En règle générale, un nombre de fuseaux horaires définis dans le Registre sur Windows et le [bibliothèque ICU](http://userguide.icu-project.org/datetime/timezone) sur Linux et macOS ont le même offset de temps universel coordonné (UTC) et les mêmes règles d’ajustement. L’exemple suivant affiche une liste de ces fuseaux horaires dans la console.  
   
  [!code-csharp[System.TimeZone2.HasSameRules#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.TimeZone2.HasSameRules/cs/HasSameRules.cs#1)]
  [!code-vb[System.TimeZone2.HasSameRules#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.TimeZone2.HasSameRules/vb/HasSameRules.vb#1)]  
@@ -2187,7 +2187,7 @@ La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cr
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- L’identificateur de fuseau horaire est une chaîne clé qui identifie de façon unique un fuseau horaire particulier. Sur les systèmes Windows, il correspond aux sous-clés de la branche HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Time Zones du Registre. Elle peut être passée en tant que paramètre à la <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> méthode pour récupérer un fuseau horaire particulier à partir du Registre.  
+ L’identificateur de fuseau horaire est une chaîne clé qui identifie de façon unique un fuseau horaire particulier. Sur les systèmes Windows, il correspond aux sous-clés de la branche HKEY_LOCAL_MACHINE\Software\Microsoft\Windows NT\CurrentVersion\Time Zones du Registre sur les systèmes Windows et à partir de la [bibliothèque ICU](http://userguide.icu-project.org/datetime/timezone) sur Linux et macOS. Elle peut être passée en tant que paramètre à la <xref:System.TimeZoneInfo.FindSystemTimeZoneById%2A> méthode pour instancier un <xref:System.TimeZoneInfo> objet qui représente un fuseau horaire particulier.  
   
 > [!IMPORTANT]
 >  Bien qu’un nom de clé dans le Registre Windows peut être un maximum de 255 caractères, nous recommandons un identificateur que vous attribuez à un fuseau horaire personnalisé 32 caractères ou moins. L’identificateur de plus, plus la probabilité qu’un nom incorrect de la clé sera fournie lors de leur récupération.  
@@ -2272,7 +2272,7 @@ La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cr
 |------------------------------|-------------------------|--------------|  
 |<xref:System.TimeZoneInfo.Local%2A?displayProperty=nameWithType>|<xref:System.DateTimeKind.Local?displayProperty=nameWithType> ou <xref:System.DateTimeKind.Unspecified?displayProperty=nameWithType>|Détermine si le `dateTime` paramètre est ambigu.|  
 |<xref:System.TimeZoneInfo.Local%2A?displayProperty=nameWithType>|<xref:System.DateTimeKind.Utc?displayProperty=nameWithType>|Convertit `dateTime` à l’heure locale, puis détermine si cette heure est ambiguë.|  
-|<xref:System.TimeZoneInfo.Utc%2A?displayProperty=nameWithType>|<xref:System.DateTimeKind.Utc?displayProperty=nameWithType> ou <xref:System.DateTimeKind.Unspecified?displayProperty=nameWithType>|Retourne `false`.|  
+|<xref:System.TimeZoneInfo.Utc%2A?displayProperty=nameWithType>|<xref:System.DateTimeKind.Utc?displayProperty=nameWithType> ou <xref:System.DateTimeKind.Unspecified?displayProperty=nameWithType>|retourne `false` ;|  
 |<xref:System.TimeZoneInfo.Utc%2A?displayProperty=nameWithType>|<xref:System.DateTimeKind.Local?displayProperty=nameWithType>|Si `dateTime` est ambigu, il part du principe qu’il est une heure, il convertit en heure UTC et retourne `false`.|  
 |Tout autre fuseau horaire.|<xref:System.DateTimeKind.Local?displayProperty=nameWithType> ou <xref:System.DateTimeKind.Utc?displayProperty=nameWithType>|Convertit `dateTime` en une heure dans le fuseau horaire spécifié, puis détermine si cette heure est ambiguë.|  
 |Tout autre fuseau horaire.|<xref:System.DateTimeKind.Unspecified?displayProperty=nameWithType>|Détermine si `dateTime` est ambigu.|  
@@ -2872,11 +2872,11 @@ La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cr
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Les applications qui s’appuient sur les fuseaux horaires qui ne sont pas généralement définies dans le Registre du système de Windows peuvent utiliser le <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> méthode pour instancier les fuseaux horaires nécessaires en tant que <xref:System.TimeZoneInfo> objets. L’application peut ensuite appeler la <xref:System.TimeZoneInfo.ToSerializedString%2A> méthode pour convertir l’objet de fuseau horaire vers une chaîne.  
+ Les applications qui s’appuient sur les fuseaux horaires qui ne sont pas généralement définies dans le Registre du système de Windows ou le [bibliothèque ICU](http://userguide.icu-project.org/datetime/timezone) sur Linux et macOScan peuvent utiliser le <xref:System.TimeZoneInfo.CreateCustomTimeZone%2A> méthode pour instancier les fuseaux horaires nécessaires en tant que <xref:System.TimeZoneInfo>objets. L’application peut ensuite appeler la <xref:System.TimeZoneInfo.ToSerializedString%2A> méthode pour convertir l’objet de fuseau horaire vers une chaîne.  
   
  Le <xref:System.TimeZoneInfo> objet doit également être stocké dans un emplacement où l’application peut récupérer en cas de besoin. Emplacements possibles sont les suivantes :  
   
--   Le Registre.  
+-   Le Registre sur les systèmes Windows.  
   
 -   Un fichier de ressources d’application.  
   
@@ -2937,7 +2937,7 @@ La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cr
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Lorsque l’assignation d’une collection qui contient <xref:System.TimeZoneInfo> objets à un contrôle de liste, tels que le <xref:System.Windows.Forms.ListBox> contrôle, le contrôle appelle automatiquement la <xref:System.TimeZoneInfo.ToString%2A> méthode pour extraire une chaîne qui décrit chaque objet à représenter dans la liste. Par conséquent, vous n’avez pas besoin de stocker une description explicite de l’objet sous forme de chaîne, et l’utilisateur n’a pas besoin d’utiliser cette chaîne pour extraire l’objet de la collection. Consultez [Comment : Énumérer les fuseaux horaires présents sur un ordinateur](~/docs/standard/datetime/enumerate-time-zones.md) pour plus de détails.  
+ Lorsque l’assignation d’une collection qui contient <xref:System.TimeZoneInfo> objets à un contrôle de liste, tels que le <xref:System.Windows.Forms.ListBox> contrôle, le contrôle appelle automatiquement la <xref:System.TimeZoneInfo.ToString%2A> méthode pour extraire une chaîne qui décrit chaque objet à représenter dans la liste. Par conséquent, vous n’avez pas besoin de stocker une description explicite de l’objet sous forme de chaîne, et l’utilisateur n’a pas besoin d’utiliser cette chaîne pour extraire l’objet de la collection. Voir [Guide pratique pour Énumérer les fuseaux horaires présents sur un ordinateur](~/docs/standard/datetime/enumerate-time-zones.md) pour plus de détails.  
   
  ]]></format>
         </remarks>
@@ -2983,7 +2983,7 @@ La somme du paramètre <paramref name="baseUtcOffset" /> et de la valeur <see cr
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Il s’agit d’un objet intégré ; informations à ce sujet <xref:System.TimeZoneInfo> objet n’est pas récupéré à partir du Registre.  
+ Il s’agit d’un objet intégré ; informations à ce sujet <xref:System.TimeZoneInfo> objet n’est pas récupéré à partir du Registre sur les systèmes Windows et à partir de la [bibliothèque ICU](http://userguide.icu-project.org/datetime/timezone) sur Linux et macOS.  
   
 > [!IMPORTANT]
 >  Vous devez toujours accéder à la zone de temps universel coordonné (UTC) via le <xref:System.TimeZoneInfo.Utc%2A?displayProperty=nameWithType> propriété plutôt qu’en affectant le fuseau horaire UTC à un <xref:System.TimeZoneInfo> variable objet. Cela empêche le <xref:System.TimeZoneInfo> variable objet d’être invalidée par un appel à la <xref:System.TimeZoneInfo.ClearCachedData%2A> (méthode).  

@@ -1,5 +1,5 @@
 <Type Name="MsmqTransportBindingElement" FullName="System.ServiceModel.Channels.MsmqTransportBindingElement">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="402a3e6a0ac2893494ac7cef8a1b19d0648efc3d" /><Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="08/25/2018" /><Meta Name="ms.locfileid" Value="39996284" /></Metadata><TypeSignature Language="C#" Value="public sealed class MsmqTransportBindingElement : System.ServiceModel.Channels.MsmqBindingElementBase" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="fd45951351fc2f31bab1a0a8b34353fb56cd801b" /><Meta Name="ms.sourcegitcommit" Value="b0551d7828f015124aca601dbb64bd913cc5067d" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/13/2018" /><Meta Name="ms.locfileid" Value="53333701" /></Metadata><TypeSignature Language="C#" Value="public sealed class MsmqTransportBindingElement : System.ServiceModel.Channels.MsmqBindingElementBase" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit MsmqTransportBindingElement extends System.ServiceModel.Channels.MsmqBindingElementBase" />
   <TypeSignature Language="DocId" Value="T:System.ServiceModel.Channels.MsmqTransportBindingElement" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class MsmqTransportBindingElement&#xA;Inherits MsmqBindingElementBase" />
@@ -22,7 +22,7 @@
 ## Remarks  
  La <xref:System.ServiceModel.Channels.MsmqTransportBindingElement> permet à l'utilisateur de définir les propriétés du canal de communication mis en file d'attente. Le canal de communication mis en file d'attente utilise Message Queuing pour son transport.  
   
- Cet élément de liaison est l'élément de liaison par défaut utilisé par la liaison standard Message Queuing (<xref:System.ServiceModel.NetMsmqBinding>).  
+ Cet élément de liaison est l’élément de liaison par défaut utilisé par la liaison standard Message Queuing (<xref:System.ServiceModel.NetMsmqBinding>).  
   
    
   
@@ -82,8 +82,8 @@
       </Parameters>
       <Docs>
         <typeparam name="TChannel">Classe <see cref="T:System.ServiceModel.Channels.IOutputSessionChannel" /> ou <see cref="T:System.ServiceModel.Channels.IOutputChannel" />.</typeparam>
-        <param name="context">La <see cref="T:System.ServiceModel.Channels.BindingContext" /> avec laquelle générer la fabrication de canal.</param>
-        <summary>Génère une fabrique de canaux à l'aide du contexte fourni.</summary>
+        <param name="context">La <see cref="T:System.ServiceModel.Channels.BindingContext" /> avec laquelle générer la fabrique de canal.</param>
+        <summary>Génère une fabrique de canal à l'aide du contexte fourni.</summary>
         <returns>Fabrique de canaux Message Queuing (MSMQ) qui peut être utilisée pour créer des canaux pour envoyer des messages aux applications Message Queuing existantes.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -100,7 +100,47 @@
         </remarks>
         <exception cref="T:System.ArgumentNullException">La valeur de contexte est null.</exception>
         <exception cref="T:System.ArgumentException">TChannel n'a pas la valeur IOutputChannel ni la valeur IOutputSessionChannel.</exception>
-        <exception cref="T:System.InvalidOperationException">MsmqTransportSecurity.MsmqProtectionLevel a la valeur EncryptAndSign et UseActiveDirectory a la valeur false.</exception>
+        <exception cref="T:System.InvalidOperationException">ExactlyOnce a la valeur true et Durable la valeur false.
+
+ou
+
+UseActiveDirectory a la valeur true et QueueTransferProtocol n'a pas la valeur Native.
+
+ou
+
+CustomDeadLetterQueue n'a pas la valeur null et DeadLetterQueue n'a pas la valeur Custom.
+
+ou
+
+DeadLetterQueue a la valeur Personnalisé sur Windows 2003/XP.
+
+ou
+
+ExactlyOnce a la valeur false et DeadLetterQueue a la valeur Personnalisé.
+
+ou
+
+CustomDeadLetterQueue est défini et soit l’écriture n’est pas autorisée dans la file d’attente, soit la file d’attente n’existe pas.
+
+ou
+
+CustomDeadLetterQueue est non transactionnel.
+
+ou
+
+MsmqTransportSecurity.MsmqAuthenticationMode a la valeur WindowsDomain et MSMQ est installé sans intégration ActiveDirectory.
+
+ou
+
+MsmqTransportSecurity.MsmqAuthenticationMode a la valeur None et MsmqTransportSecurity.MsmqProtectionLevel n'a pas la valeur None.
+
+ou
+
+MsmqTransportSecurity.MsmqAuthenticationMode a la valeur Certificate ou WindowsDomain et MsmqTransportSecurity.MsmqProtectionLevel a la valeur None.
+
+ou
+
+MsmqTransportSecurity.MsmqProtectionLevel a la valeur EncryptAndSign et UseActiveDirectory a la valeur false.</exception>
       </Docs>
     </Member>
     <Member MemberName="BuildChannelListener&lt;TChannel&gt;">
@@ -145,7 +185,43 @@
         </remarks>
         <exception cref="T:System.ArgumentNullException">La valeur de contexte est null.</exception>
         <exception cref="T:System.ArgumentException">TChannel n'a pas la valeur IInputChannel ni la valeur IInputSessionChannel.</exception>
-        <exception cref="T:System.InvalidOperationException">MsmqTransportSecurity.MsmqAuthenticationMode a la valeur Certificate ou WindowsDomain et MsmqTransportSecurity.MsmqProtectionLevel a la valeur None.</exception>
+        <exception cref="T:System.InvalidOperationException">ExactlyOnce a la valeur true et Durable la valeur false.
+
+ou
+
+La file d'attente n'est pas lisible.
+
+ou
+
+ExactlyOnce a la valeur true et la file d'attente est non transactionnelle.
+
+ou
+
+ExactlyOnce a la valeur false et la file d'attente est transactionnelle.
+
+ou
+
+ReceiveErrorHandling a la valeur Move et le nom de la file d'attente contient un « ; » dans Windows Vista.
+
+ou
+
+ExactlyOnce a la valeur true et ne peut pas ouvrir la sous-file d'attente de nouvel essai dans Windows Vista.
+
+ou
+
+ReceiveErrorHandling a la valeur Reject ou Move et la plateforme est Windows Vista.
+
+ou
+
+MsmqTransportSecurity.MsmqAuthenticationMode a la valeur WindowsDomain et MSMQ est installé sans intégration ActiveDirectory.
+
+ou
+
+MsmqTransportSecurity.MsmqAuthenticationMode a la valeur None et MsmqTransportSecurity.MsmqProtectionLevel n'a pas la valeur None.
+
+ou
+
+MsmqTransportSecurity.MsmqAuthenticationMode a la valeur Certificate ou WindowsDomain et MsmqTransportSecurity.MsmqProtectionLevel a la valeur None.</exception>
       </Docs>
     </Member>
     <Member MemberName="CanBuildChannelFactory&lt;TChannel&gt;">
@@ -172,7 +248,7 @@
       </Parameters>
       <Docs>
         <typeparam name="TChannel">Type de canal à utiliser pour générer l'écouteur de canal. Les types de canaux autorisés sont <see cref="T:System.ServiceModel.Channels.IOutputSessionChannel" /> ou une classe <see cref="T:System.ServiceModel.Channels.IOutputChannel" />.</typeparam>
-        <param name="context">La <see cref="T:System.ServiceModel.Channels.BindingContext" /> avec laquelle générer la fabrication de canal.</param>
+        <param name="context">La <see cref="T:System.ServiceModel.Channels.BindingContext" /> avec laquelle générer la fabrique de canal.</param>
         <summary>Retourne une valeur Boolean qui indique si vous pouvez générer une fabrique de canaux avec le contexte fourni.</summary>
         <returns><see langword="true" /> si vous pouvez générer une fabrication de canal avec le contexte fourni ; sinon, <see langword="false" />. L'élément de liaison retourne <see langword="true" /> uniquement lorsque <paramref name="TChannel" /> a la valeur <see cref="T:System.ServiceModel.Channels.IOutputChannel" /> ou <see cref="T:System.ServiceModel.Channels.IOutputSessionChannel" />.</returns>
         <remarks>
@@ -215,7 +291,7 @@
       <Docs>
         <typeparam name="TChannel">Type de canal à utiliser pour générer l'écouteur de canal. Les types de canaux autorisés sont <see cref="T:System.ServiceModel.Channels.IInputSessionChannel" /> ou une classe <see cref="T:System.ServiceModel.Channels.IInputChannel" />.</typeparam>
         <param name="context">La <see cref="T:System.ServiceModel.Channels.BindingContext" /> avec laquelle générer l'écouteur de canal.</param>
-        <summary>Retourne une valeur Boolean qui indique si vous pouvez générer un écouteur de canal avec le contexte fourni.</summary>
+        <summary>Retourne une valeur booléenne qui indique si vous pouvez générer un écouteur de canal avec le contexte fourni.</summary>
         <returns><see langword="true" /> si vous pouvez générer un écouteur de canal avec le contexte fourni ; sinon, <see langword="false" />.  
   
 La liaison retourne <see langword="true" /> uniquement lorsque <paramref name="TChannel" /> a la valeur <see cref="T:System.ServiceModel.Channels.IInputChannel" /> ou <see cref="T:System.ServiceModel.Channels.IInputSessionChannel" />.</returns>
@@ -247,8 +323,8 @@ La liaison retourne <see langword="true" /> uniquement lorsque <paramref name="T
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Retourne un clone de l’élément de liaison.</summary>
-        <returns>Un clone de l’élément de liaison.</returns>
+        <summary>Retourne un clone de l'élément de liaison.</summary>
+        <returns>Clone de l'élément de liaison.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -321,7 +397,7 @@ La liaison retourne <see langword="true" /> uniquement lorsque <paramref name="T
         <ReturnType>System.ServiceModel.QueueTransferProtocol</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit une valeur d’énumération qui indique le transport de canal de communication en file d’attente que cette liaison utilise.</summary>
+        <summary>Obtient ou définit une valeur d'énumération qui indique le transport de canal de communication mis en file d'attente que cette liaison utilise.</summary>
         <value>Valeur d'énumération <see cref="T:System.ServiceModel.QueueTransferProtocol" /> qui indique le transport utilisé pour la remise de messages entre des gestionnaires de files d'attente.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -336,7 +412,7 @@ La liaison retourne <see langword="true" /> uniquement lorsque <paramref name="T
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">La valeur ne fait pas partie des valeurs <see cref="T:System.ServiceModel.QueueTransferProtocol" />.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">La valeur ne fait pas partie des valeurs de <see cref="T:System.ServiceModel.QueueTransferProtocol" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="Scheme">
@@ -356,7 +432,7 @@ La liaison retourne <see langword="true" /> uniquement lorsque <paramref name="T
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Retourne une <see cref="T:System.String" /> qui contient le modèle d'adressage utilisé par cet élément de liaison de transport.</summary>
+        <summary>Retourne un objet <see cref="T:System.String" /> qui contient le modèle d'adressage utilisé par cet élément de liaison de transport.</summary>
         <value><see cref="T:System.String" /> qui contient le modèle d'adressage utilisé par cet élément de liaison de transport.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -400,7 +476,7 @@ La liaison retourne <see langword="true" /> uniquement lorsque <paramref name="T
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Retourne une valeur Boolean qui indique si les adresses de file d'attente doivent être converties à l'aide d'Active Directory.</summary>
+        <summary>Renvoie une valeur booléenne qui indique si des adresses de file d'attente doivent être converties à l'aide d'Active Directory.</summary>
         <value><see langword="true" /> si les adresses de file d'attente doivent être converties à l'aide d'Active Directory ; sinon <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  

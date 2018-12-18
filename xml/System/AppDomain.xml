@@ -1,5 +1,5 @@
 <Type Name="AppDomain" FullName="System.AppDomain">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="40ea79988bc31dd09a52c0a55c2ef2c71dcc4eb7" /><Meta Name="ms.sourcegitcommit" Value="adc8598fd19d91438cacaa8fa7ce613e28c8218e" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/11/2018" /><Meta Name="ms.locfileid" Value="53231909" /></Metadata><TypeSignature Language="C#" Value="public sealed class AppDomain : MarshalByRefObject, _AppDomain, System.Security.IEvidenceFactory" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="dc4f8d3ff23c8f206e2c442d12c97a21b64bf481" /><Meta Name="ms.sourcegitcommit" Value="d8bd5d494445ce3fcad1321267cb87548d23a45b" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/15/2018" /><Meta Name="ms.locfileid" Value="53449916" /></Metadata><TypeSignature Language="C#" Value="public sealed class AppDomain : MarshalByRefObject, _AppDomain, System.Security.IEvidenceFactory" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi sealed beforefieldinit AppDomain extends System.MarshalByRefObject implements class System._AppDomain, class System.Security.IEvidenceFactory" />
   <TypeSignature Language="DocId" Value="T:System.AppDomain" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class AppDomain&#xA;Inherits MarshalByRefObject&#xA;Implements _AppDomain, IEvidenceFactory" />
@@ -55,6 +55,9 @@
   
 -   Si un assembly est chargé dans le domaine d’application par défaut, il ne peut pas être déchargée de la mémoire pendant que le processus est en cours d’exécution. Toutefois, si vous ouvrez un deuxième domaine d’application pour charger et exécuter l’assembly, l’assembly est déchargé lorsque ce domaine d’application est déchargé. Cette technique permet de réduire la plage de travail de processus à long terme qui utilisent parfois des DLL volumineuses.  
   
+ > [!NOTE]
+ >  Sur .NET Core, le <xref:System.AppDomain> implémentation est limitée par la conception et ne fournit pas de limites d’isolation, le déchargement ou la sécurité. Pour .NET Core, il existe exactement un <xref:System.AppDomain>. Isolation et déchargement sont fournies via <xref:System.Runtime.Loader.AssemblyLoadContext>. Limites de sécurité doivent être fournies par des limites de processus et techniques de communication à distance appropriées.
+ 
  Plusieurs domaines d’application peuvent s’exécuter dans un processus unique. Toutefois, il n'est pas une correspondance entre domaines d’application et les threads. Plusieurs threads peuvent appartenir à un seul domaine d’application, et pendant un thread donné n’est pas limité à un seul domaine d’application, à un moment donné, un thread s’exécute dans un seul domaine d’application.  
   
  Domaines d’application sont créés à l’aide de la <xref:System.AppDomain.CreateDomain%2A> (méthode). <xref:System.AppDomain> instances sont utilisées pour charger et exécuter des assemblys (<xref:System.Reflection.Assembly>). Quand un <xref:System.AppDomain> est n’est plus en cours d’utilisation, il peut être déchargé.  
@@ -422,7 +425,7 @@
  Pour cet événement, le <xref:System.ResolveEventArgs.Name%2A?displayProperty=nameWithType> propriété retourne le nom de l’assembly avant de la stratégie est appliquée.  
   
 > [!IMPORTANT]
->  Si plus d’un gestionnaire d’événements est inscrit pour cet événement, l’événement handlersarecalled dans l’ordre jusqu'à ce qu’un gestionnaire d’événements retourne une valeur qui n’est pas `null`. Gestionnaires d’événements suivants sont ignorés.  
+>  Si plus d’un gestionnaire d’événements est inscrit pour cet événement, les gestionnaires d’événements sont appelés dans l’ordre jusqu'à ce qu’un gestionnaire d’événements retourne une valeur qui n’est pas `null`. Gestionnaires d’événements suivants sont ignorés.
   
  Pour plus d'informations sur la gestion des événements, voir [gestion et déclenchement d’événements](~/docs/standard/events/index.md).  
   
@@ -780,7 +783,7 @@ Ce membre a été appelé avec un mécanisme de liaison tardive.</exception>
         <exception cref="T:System.IO.FileNotFoundException"><paramref name="assemblyFile" /> est introuvable.</exception>
         <exception cref="T:System.MemberAccessException"><paramref name="typeName" /> est une classe abstraite.  
   
-- ou - 
+ou 
 Ce membre a été appelé avec un mécanisme de liaison tardive.</exception>
         <exception cref="T:System.NotSupportedException">L’appelant ne peut pas fournir d’attributs d’activation pour un objet qui n’hérite pas de <see cref="T:System.MarshalByRefObject" />.</exception>
         <exception cref="T:System.ArgumentException"><paramref name="assemblyFile" /> est la chaîne vide ("").</exception>
@@ -861,6 +864,7 @@ Ce membre a été appelé avec un mécanisme de liaison tardive.</exception>
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="friendlyName" /> a la valeur <see langword="null" />.</exception>
+        <exception cref="T:System.PlatformNotSupportedException">Méthode non prise en charge sur .NET Core.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">pour fournir la preuve. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" />.</permission>
         <altmember cref="P:System.AppDomain.FriendlyName" />
       </Docs>
@@ -1266,7 +1270,7 @@ La propriété <see cref="P:System.AppDomainSetup.ApplicationBase" /> n'est pas 
         <exception cref="T:System.ArgumentNullException"><paramref name="assemblyName" /> ou <paramref name="typeName" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assemblyName" /> n’est pas un assembly valide.  
   
-- ou - 
+ou 
 La version 2.0 ou ultérieure du Common Language Runtime est actuellement chargée et <paramref name="assemblyName" /> a été compilé avec une version ultérieure.</exception>
         <exception cref="T:System.IO.FileLoadException">Un assembly ou un module a été chargé à deux reprises avec deux preuves différentes.</exception>
         <exception cref="T:System.IO.FileNotFoundException"><paramref name="assemblyName" /> est introuvable.</exception>
@@ -1520,7 +1524,7 @@ La version 2.0 ou ultérieure du Common Language Runtime est actuellement charg
         <exception cref="T:System.MissingMethodException">Aucun constructeur correspondant n’a été trouvé.</exception>
         <exception cref="T:System.NotSupportedException">L’appelant ne peut pas fournir d’attributs d’activation pour un objet qui n’hérite pas de <see cref="T:System.MarshalByRefObject" />.  
   
-- ou - 
+ou 
  <paramref name="securityAttributes" /> n’est pas un <see langword="null" />. Lorsque la stratégie CAS héritée n'est pas activée, <paramref name="securityAttributes" /> doit être <see langword="null." />.</exception>
         <exception cref="T:System.TypeLoadException"><paramref name="typename" /> est introuvable dans <paramref name="assemblyName" />.</exception>
         <exception cref="T:System.NullReferenceException">L’instance est <see langword="null" />.</exception>
@@ -1984,7 +1988,7 @@ La version 2.0 ou ultérieure du Common Language Runtime est actuellement charg
         </remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="assemblyFile" /> a la valeur <see langword="null" />.  
   
-- ou - 
+ou 
  <paramref name="typeName" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.IO.FileNotFoundException"><paramref name="assemblyFile" /> est introuvable.</exception>
         <exception cref="T:System.TypeLoadException"><paramref name="typeName" /> est introuvable dans <paramref name="assemblyFile" />.</exception>
@@ -2072,7 +2076,7 @@ Ce paramètre concerne les objets activés par le client. L’activation par le 
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assemblyFile" /> n’est pas un assembly valide.  
   
-- ou - 
+ou 
 La version 2.0 ou ultérieure du Common Language Runtime est actuellement chargée et <paramref name="assemblyFile" /> a été compilé avec une version ultérieure.</exception>
         <exception cref="T:System.IO.FileLoadException">Un assembly ou un module a été chargé à deux reprises avec deux preuves différentes.</exception>
         <exception cref="T:System.NullReferenceException">L’instance est <see langword="null" />.</exception>
@@ -2243,7 +2247,7 @@ Ce paramètre est lié aux objets activés par le client. L'activation des clien
         </remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="assemblyFile" /> a la valeur <see langword="null" />.  
   
-- ou - 
+ou 
  <paramref name="typeName" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.NotSupportedException">L’appelant ne peut pas fournir d’attributs d’activation pour un objet qui n’hérite pas de <see cref="T:System.MarshalByRefObject" />.  
   
@@ -2335,7 +2339,7 @@ ou
         <exception cref="T:System.MethodAccessException">L’appelant n’a pas les autorisations suffisantes pour appeler ce constructeur.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assemblyName" /> n’est pas un assembly valide.  
   
-- ou - 
+ou 
 La version 2.0 ou ultérieure du Common Language Runtime est actuellement chargée et <paramref name="assemblyName" /> a été compilé avec une version ultérieure.</exception>
         <exception cref="T:System.IO.FileLoadException">Un assembly ou un module a été chargé à deux reprises avec deux preuves différentes.</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermissionAccess">Pour pouvoir lire le fichier contenant le manifeste d’assembly. Énumération associée : <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Read" /></permission>
@@ -2575,7 +2579,7 @@ ou
         <exception cref="T:System.MethodAccessException">L’appelant n’a pas les autorisations suffisantes pour appeler ce constructeur.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assemblyName" /> n’est pas un assembly valide.  
   
-ou 
+- ou - 
 La version 2.0 ou ultérieure du Common Language Runtime est actuellement chargée et <paramref name="assemblyName" /> a été compilé avec une version ultérieure.</exception>
         <exception cref="T:System.IO.FileLoadException">Un assembly ou un module a été chargé à deux reprises avec deux preuves différentes.</exception>
         <permission cref="T:System.Security.Permissions.FileIOPermissionAccess">Pour pouvoir lire le fichier contenant le manifeste d’assembly. Énumération associée : <see cref="F:System.Security.Permissions.FileIOPermissionAccess.Read" /></permission>
@@ -2703,7 +2707,7 @@ La version 2.0 ou ultérieure du Common Language Runtime est actuellement charg
         <exception cref="T:System.ArgumentNullException"><paramref name="name" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">La propriété <see langword="Name" /> de <paramref name="name" /> a la valeur <see langword="null" />.  
   
-ou 
+- ou - 
 La propriété <see langword="Name" /> de <paramref name="name" /> commence par un espace blanc ou contient une barre oblique ou une barre oblique inverse.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
       </Docs>
@@ -2777,7 +2781,7 @@ La propriété <see langword="Name" /> de <paramref name="name" /> commence par 
         <exception cref="T:System.ArgumentNullException"><paramref name="name" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">La propriété <see langword="Name" /> de <paramref name="name" /> a la valeur <see langword="null" />.  
   
-- ou - 
+ou 
 La propriété <see langword="Name" /> de <paramref name="name" /> commence par un espace blanc ou bien contient une barre oblique ou une barre oblique inverse.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <altmember cref="M:System.Reflection.Emit.AssemblyBuilder.SetCustomAttribute(System.Reflection.Emit.CustomAttributeBuilder)" />
@@ -2862,7 +2866,7 @@ La propriété <see langword="Name" /> de <paramref name="name" /> commence par 
         <exception cref="T:System.ArgumentNullException"><paramref name="name" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">La propriété <see langword="Name" /> de <paramref name="name" /> a la valeur <see langword="null" />.  
   
-ou 
+- ou - 
 La propriété <see langword="Name" /> de <paramref name="name" /> commence par un espace blanc ou contient une barre oblique ou une barre oblique inverse.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">pour charger un assembly avec la preuve. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" />.</permission>
@@ -2993,7 +2997,7 @@ La propriété <see langword="Name" /> de <paramref name="name" /> commence par 
         <exception cref="T:System.ArgumentNullException"><paramref name="name" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">La propriété <see langword="Name" /> de <paramref name="name" /> a la valeur <see langword="null" />.  
   
-ou 
+- ou - 
 La propriété <see langword="Name" /> de <paramref name="name" /> commence par un espace blanc ou bien contient une barre oblique ou une barre oblique inverse.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <exception cref="T:System.ArgumentOutOfRangeException">La valeur de <paramref name="securityContextSource" /> ne correspondait pas à une des valeurs d'énumération.</exception>
@@ -3315,7 +3319,7 @@ La propriété <see langword="Name" /> de <paramref name="name" /> commence par 
         <exception cref="T:System.ArgumentNullException"><paramref name="name" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">La propriété <see langword="Name" /> de <paramref name="name" /> a la valeur <see langword="null" />.  
   
-- ou - 
+ou 
 La propriété <see langword="Name" /> de <paramref name="name" /> commence par un espace blanc ou contient une barre oblique ou une barre oblique inverse.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">pour charger un assembly avec la preuve. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" />.</permission>
@@ -3495,7 +3499,7 @@ La propriété <see langword="Name" /> de <paramref name="name" /> commence par 
         <exception cref="T:System.ArgumentNullException"><paramref name="name" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">La propriété <see langword="Name" /> de <paramref name="name" /> a la valeur <see langword="null" />.  
   
-ou 
+- ou - 
 La propriété <see langword="Name" /> de <paramref name="name" /> commence par un espace blanc ou contient une barre oblique ou une barre oblique inverse.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">pour charger un assembly avec la preuve. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" />.</permission>
@@ -3590,7 +3594,7 @@ La propriété <see langword="Name" /> de <paramref name="name" /> commence par 
         <exception cref="T:System.ArgumentNullException"><paramref name="name" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">La propriété <see langword="Name" /> de <paramref name="name" /> a la valeur <see langword="null" />.  
   
-- ou - 
+ou 
 La propriété <see langword="Name" /> de <paramref name="name" /> commence par un espace blanc ou contient une barre oblique ou une barre oblique inverse.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <permission cref="T:System.Security.Permissions.SecurityPermission">pour charger un assembly avec la preuve. Énumération associée : <see cref="F:System.Security.Permissions.SecurityPermissionFlag.ControlEvidence" />.</permission>
@@ -4040,7 +4044,7 @@ La propriété <see langword="Name" /> de <paramref name="name" /> commence par 
         <exception cref="T:System.IO.FileNotFoundException"><paramref name="assemblyFile" /> est introuvable.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assemblyFile" /> n’est pas un assembly valide.  
   
-- ou - 
+ou 
 La version 2.0 ou ultérieure du common language runtime est actuellement chargée et <paramref name="assemblyFile" /> a été compilé avec une version ultérieure.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <exception cref="T:System.IO.FileLoadException">Un assembly ou un module a été chargé à deux reprises avec deux preuves différentes.</exception>
@@ -4122,7 +4126,7 @@ La version 2.0 ou ultérieure du common language runtime est actuellement charg
         <exception cref="T:System.IO.FileNotFoundException"><paramref name="assemblyFile" /> est introuvable.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assemblyFile" /> n’est pas un assembly valide.  
   
-- ou - 
+ou 
 La version 2.0 ou ultérieure du common language runtime est actuellement chargée et <paramref name="assemblyFile" /> a été compilé avec une version ultérieure.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <exception cref="T:System.IO.FileLoadException">Un assembly ou un module a été chargé à deux reprises avec deux preuves différentes.</exception>
@@ -4197,7 +4201,7 @@ La version 2.0 ou ultérieure du common language runtime est actuellement charg
         <exception cref="T:System.IO.FileNotFoundException"><paramref name="assemblyFile" /> est introuvable.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assemblyFile" /> n’est pas un assembly valide.  
   
-- ou - 
+ou 
  <paramref name="assemblyFile" /> a été compilé avec une version du Common Language Runtime ultérieure à la version actuellement chargée.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <exception cref="T:System.IO.FileLoadException">Un assembly ou un module a été chargé à deux reprises avec deux preuves différentes.</exception>
@@ -4361,7 +4365,7 @@ La version 2.0 ou ultérieure du common language runtime est actuellement charg
         <exception cref="T:System.IO.FileNotFoundException"><paramref name="assemblyFile" /> est introuvable.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assemblyFile" /> n’est pas un assembly valide.  
   
-- ou - 
+ou 
  <paramref name="assemblyFile" /> a été compilé avec une version du Common Language Runtime ultérieure à la version actuellement chargée.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <exception cref="T:System.IO.FileLoadException">Un assembly ou un module a été chargé à deux reprises avec deux preuves différentes.</exception>
@@ -4446,7 +4450,7 @@ La version 2.0 ou ultérieure du common language runtime est actuellement charg
         <exception cref="T:System.IO.FileNotFoundException"><paramref name="assemblyFile" /> est introuvable.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assemblyFile" /> n’est pas un assembly valide.  
   
-ou 
+- ou - 
 La version 2.0 ou ultérieure du common language runtime est actuellement chargée et <paramref name="assemblyFile" /> a été compilé avec une version ultérieure.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <exception cref="T:System.IO.FileLoadException">Un assembly ou un module a été chargé à deux reprises avec deux preuves différentes.</exception>
@@ -4741,7 +4745,7 @@ La version 2.0 ou ultérieure du common language runtime est actuellement charg
         <exception cref="T:System.IO.FileLoadException">L’assembly spécifié par <paramref name="assemblyName" /> a été trouvé, mais ne peut pas être chargé.</exception>
         <exception cref="T:System.BadImageFormatException">L’assembly spécifié par <paramref name="assemblyName" /> n’est pas un assembly valide.  
   
-ou 
+- ou - 
  <paramref name="assemblyName" /> a été compilé avec une version du Common Language Runtime ultérieure à la version actuellement chargée.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <exception cref="T:System.MissingMethodException">L’assembly spécifié n’a aucun point d’entrée.</exception>
@@ -5786,7 +5790,7 @@ La version 2.0 ou ultérieure du common language runtime est actuellement charg
         <exception cref="T:System.IO.FileNotFoundException"><paramref name="assemblyRef" /> est introuvable.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assemblyRef" /> n’est pas un assembly valide.  
   
-ou 
+- ou - 
 La version 2.0 ou ultérieure du common language runtime est actuellement chargée et <paramref name="assemblyRef" /> a été compilé avec une version ultérieure.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <exception cref="T:System.IO.FileLoadException">Un assembly ou un module a été chargé à deux reprises avec deux preuves différentes.</exception>
@@ -5927,7 +5931,7 @@ La version 2.0 ou ultérieure du common language runtime est actuellement charg
         <exception cref="T:System.ArgumentNullException"><paramref name="rawAssembly" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="rawAssembly" /> n’est pas un assembly valide.  
   
-ou 
+- ou - 
 La version 2.0 ou ultérieure du common language runtime est actuellement chargée et <paramref name="rawAssembly" /> a été compilé avec une version ultérieure.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <exception cref="T:System.IO.FileLoadException">Un assembly ou un module a été chargé à deux reprises avec deux preuves différentes.</exception>
@@ -5996,7 +6000,7 @@ La version 2.0 ou ultérieure du common language runtime est actuellement charg
         <exception cref="T:System.IO.FileNotFoundException"><paramref name="assemblyRef" /> est introuvable.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assemblyRef" /> n’est pas un assembly valide.  
   
-ou 
+- ou - 
 La version 2.0 ou ultérieure du common language runtime est actuellement chargée et <paramref name="assemblyRef" /> a été compilé avec une version ultérieure.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <exception cref="T:System.IO.FileLoadException">Un assembly ou un module a été chargé à deux reprises avec deux preuves différentes.</exception>
@@ -6066,7 +6070,7 @@ La version 2.0 ou ultérieure du common language runtime est actuellement charg
         <exception cref="T:System.IO.FileNotFoundException"><paramref name="assemblyString" /> est introuvable.</exception>
         <exception cref="T:System.BadImageFormatException"><paramref name="assemblyString" /> n’est pas un assembly valide.  
   
-- ou - 
+ou 
 La version 2.0 ou ultérieure du common language runtime est actuellement chargée et <paramref name="assemblyString" /> a été compilé avec une version ultérieure.</exception>
         <exception cref="T:System.AppDomainUnloadedException">L’opération est tentée sur un domaine d’application non chargé.</exception>
         <exception cref="T:System.IO.FileLoadException">Un assembly ou un module a été chargé à deux reprises avec deux preuves différentes.</exception>

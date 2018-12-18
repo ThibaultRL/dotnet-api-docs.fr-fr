@@ -1,5 +1,5 @@
 <Type Name="MsmqIntegrationBindingElement" FullName="System.ServiceModel.MsmqIntegration.MsmqIntegrationBindingElement">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="141142bac3d72d460e8a9ddf260162836d78bcec" /><Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="08/25/2018" /><Meta Name="ms.locfileid" Value="39810720" /></Metadata><TypeSignature Language="C#" Value="public sealed class MsmqIntegrationBindingElement : System.ServiceModel.Channels.MsmqBindingElementBase" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="54d98b5174594f234b167662213c058e680d2c24" /><Meta Name="ms.sourcegitcommit" Value="b0551d7828f015124aca601dbb64bd913cc5067d" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/13/2018" /><Meta Name="ms.locfileid" Value="53332440" /></Metadata><TypeSignature Language="C#" Value="public sealed class MsmqIntegrationBindingElement : System.ServiceModel.Channels.MsmqBindingElementBase" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit MsmqIntegrationBindingElement extends System.ServiceModel.Channels.MsmqBindingElementBase" />
   <TypeSignature Language="DocId" Value="T:System.ServiceModel.MsmqIntegration.MsmqIntegrationBindingElement" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class MsmqIntegrationBindingElement&#xA;Inherits MsmqBindingElementBase" />
@@ -75,9 +75,9 @@
       </Parameters>
       <Docs>
         <typeparam name="TChannel">Le type de canal.</typeparam>
-        <param name="context">La <see cref="T:System.ServiceModel.Channels.BindingContext" /> avec laquelle générer la fabrication de canal.</param>
-        <summary>Génère une fabrique de canaux à l'aide du contexte fourni.</summary>
-        <returns>Une fabrication de canal d'intégration MSMQ qui peut être utilisée pour créer des canaux afin d'envoyer des messages à des applications MSMQ existantes.</returns>
+        <param name="context">La <see cref="T:System.ServiceModel.Channels.BindingContext" /> avec laquelle générer la fabrique de canal.</param>
+        <summary>Génère une fabrique de canal à l'aide du contexte fourni.</summary>
+        <returns>Fabrique de canal d'intégration MSMQ qui peut être utilisée pour créer des canaux afin d'envoyer des messages à des applications MSMQ existantes.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -87,8 +87,40 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">La valeur de contexte correspond à <see langword="null" />.</exception>
-        <exception cref="T:System.ArgumentException"><paramref name="TChannel" /> ne correspond pas à <see langword="IOutputChannel" />.</exception>
-        <exception cref="T:System.InvalidOperationException"><see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqAuthenticationMode" /> a la valeur Certificate ou WindowsDomain et <see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqProtectionLevel" /> a la valeur None.</exception>
+        <exception cref="T:System.ArgumentException"><paramref name="TChannel" /> n'est pas <see langword="IOutputChannel" />.</exception>
+        <exception cref="T:System.InvalidOperationException"><paramref name="ExactlyOnce" /> a la valeur <see langword="true" /> et <paramref name="Durable" /> a la valeur <see langword="false" />.
+
+ou
+
+CustomDeadLetterQueue n'a pas la valeur null et DeadLetterQueue n'a pas la valeur Custom.
+
+ou
+
+DeadLetterQueue a la valeur Personnalisé sur Windows 2003/XP.
+
+ou
+
+ExactlyOnce a la valeur false et DeadLetterQueue a la valeur Personnalisé.
+
+ou
+
+CustomDeadLetterQueue est défini et l'écriture n'est pas autorisée dans la file d'attente ou la file d'attente n'existe pas.
+
+ou
+
+Si CustomDeadLetterQueue est non transactionnel.
+
+ou
+
+<see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqAuthenticationMode" /> a la valeur WindowsDomain si MSMQ est installé sans prendre en charge l'intégration Active Directory.
+
+ou
+
+<see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqAuthenticationMode" /> correspond à None, contrairement à <see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqProtectionLevel" />.
+
+ou
+
+<see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqAuthenticationMode" /> a la valeur Certificate ou WindowsDomain et <see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqProtectionLevel" /> a la valeur None.</exception>
       </Docs>
     </Member>
     <Member MemberName="BuildChannelListener&lt;TChannel&gt;">
@@ -122,7 +154,7 @@
         <typeparam name="TChannel">Le type de canal.</typeparam>
         <param name="context">La <see cref="T:System.ServiceModel.Channels.BindingContext" /> avec laquelle générer l'écouteur de canal.</param>
         <summary>Génère un écouteur de canal à l'aide du contexte fourni.</summary>
-        <returns>Un écouteur de canal d'intégration MSMQ qui peut être utilisé pour créer des canaux afin de recevoir des messages d'applications MSMQ existantes.</returns>
+        <returns>Écouteur de canal d'intégration MSMQ qui peut être utilisé pour créer des canaux afin de recevoir des messages d'applications MSMQ existantes.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -132,8 +164,44 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">La valeur de contexte correspond à <see langword="null" />.</exception>
-        <exception cref="T:System.ArgumentException"><paramref name="TChannel" /> ne correspond pas à <see langword="IInputChannel" />.</exception>
-        <exception cref="T:System.InvalidOperationException"><see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqAuthenticationMode" /> a la valeur Certificate ou WindowsDomain et <see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqProtectionLevel" /> a la valeur None.</exception>
+        <exception cref="T:System.ArgumentException"><paramref name="TChannel" /> n'est pas <see langword="IInputChannel" />.</exception>
+        <exception cref="T:System.InvalidOperationException">ExactlyOnce a la valeur <see langword="true" /> et Durable, la valeur <see langword="false" />.
+
+ou
+
+La file d’attente n’est pas accessible en lecture.
+
+ou
+
+ExactlyOnce a la valeur <see langword="true" /> et la file d'attente est non transactionnelle.
+
+ou
+
+ExactlyOnce a la valeur <see langword="false" /> et la file d'attente est transactionnelle.
+
+ou
+
+ReceiveErrorHandling a la valeur Move et le nom de la file d'attente contient un « ; » dans Windows Vista.
+
+ou
+
+ExactlyOnce a la valeur <see langword="true" /> et ne peut pas ouvrir la sous-file d'attente de nouvel essai sous Windows Vista.
+
+ou
+
+ReceiveErrorHandling a la valeur Reject ou Move et la plateforme est Windows Vista.
+
+ou
+
+<see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqAuthenticationMode" /> a la valeur WindowsDomain si MSMQ est installé sans prendre en charge l'intégration Active Directory.
+
+ou
+
+<see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqAuthenticationMode" /> correspond à None, contrairement à <see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqProtectionLevel" />.
+
+ou
+
+<see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqAuthenticationMode" /> a la valeur Certificate ou WindowsDomain et <see cref="P:System.ServiceModel.MsmqTransportSecurity.MsmqProtectionLevel" /> a la valeur None.</exception>
       </Docs>
     </Member>
     <Member MemberName="CanBuildChannelFactory&lt;TChannel&gt;">
@@ -160,7 +228,7 @@
       </Parameters>
       <Docs>
         <typeparam name="TChannel">Le type de canal.</typeparam>
-        <param name="context">La <see cref="T:System.ServiceModel.Channels.BindingContext" /> avec laquelle générer la fabrication de canal.</param>
+        <param name="context">La <see cref="T:System.ServiceModel.Channels.BindingContext" /> avec laquelle générer la fabrique de canal.</param>
         <summary>Retourne une valeur qui indique si vous pouvez générer une fabrique de canal selon le contexte fourni.</summary>
         <returns><see langword="true" /> si vous pouvez générer une fabrication de canal avec le contexte fourni ; sinon, <see langword="false" />. Cette méthode retourne <see langword="true" /> uniquement si <paramref name="TChannel" /> est <see cref="T:System.ServiceModel.Channels.IOutputChannel" />.</returns>
         <remarks>To be added.</remarks>
@@ -221,8 +289,8 @@ Cette méthode retourne <see langword="true" /> uniquement si <paramref name="TC
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Retourne un clone de l’élément de liaison.</summary>
-        <returns>Un clone de l’élément de liaison.</returns>
+        <summary>Retourne un clone de l'élément de liaison.</summary>
+        <returns>Clone de l'élément de liaison.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -261,7 +329,7 @@ Cette méthode retourne <see langword="true" /> uniquement si <paramref name="TC
       </Parameters>
       <Docs>
         <typeparam name="T">Type de propriété.</typeparam>
-        <param name="context">Le contexte de liaison.</param>
+        <param name="context">Contexte de liaison.</param>
         <summary>Obtient une propriété du type demandé de l'objet <see langword="BindingContext" /> spécifié.</summary>
         <returns>Objet de type <paramref name="T" />.</returns>
         <remarks>
@@ -358,7 +426,7 @@ Cette méthode retourne <see langword="true" /> uniquement si <paramref name="TC
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentOutOfRangeException">La valeur ne fait pas partie des valeurs prévues par <see cref="T:System.ServiceModel.MsmqIntegration.MsmqMessageSerializationFormat" />.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">La valeur ne fait pas partie des valeurs prévues par un objet <see cref="T:System.ServiceModel.MsmqIntegration.MsmqMessageSerializationFormat" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="TargetSerializationTypes">
