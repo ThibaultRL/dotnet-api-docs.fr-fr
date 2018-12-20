@@ -1,5 +1,5 @@
 <Type Name="Interlocked" FullName="System.Threading.Interlocked">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="a8c91429c4211b1e1da8ab9a2544c92e96f992ae" /><Meta Name="ms.sourcegitcommit" Value="1654a92bac785a221098172d9cacd405ceaac9b7" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/01/2018" /><Meta Name="ms.locfileid" Value="52732249" /></Metadata><TypeSignature Language="C#" Value="public static class Interlocked" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="3b2fdb41b1e5f8614494e0d69b0a97131cab338e" /><Meta Name="ms.sourcegitcommit" Value="662f143e6be46d519ff8ab4451d543d91e651478" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/18/2018" /><Meta Name="ms.locfileid" Value="53567028" /></Metadata><TypeSignature Language="C#" Value="public static class Interlocked" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Interlocked extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Threading.Interlocked" />
   <TypeSignature Language="VB.NET" Value="Public Class Interlocked" />
@@ -526,7 +526,7 @@
 ## Remarks
 
 > [!IMPORTANT]
-> À partir de .NET Framework 2.0, le <xref:System.Threading.Interlocked.CompareExchange%60%601%28%60%600%40%2C%60%600%2C%60%600%29> surcharge de méthode fournit une alternative de type sécurisé pour les types référence. Nous recommandons d’appeler au lieu de cette surcharge.
+> À compter de .NET Framework 2.0, la surcharge de méthode <xref:System.Threading.Interlocked.CompareExchange%60%601%28%60%600%40%2C%60%600%2C%60%600%29> fournit une alternative de type sécurisé pour les types référence. Nous recommandons d’appeler au lieu de cette surcharge.
 
 Si `comparand` et l’objet dans `location1` sont égales par référence, puis `value` est stocké dans `location1`. Dans le cas contraire, aucune opération n'est effectuée. Les opérations de comparaison et d’échange sont effectuées comme une opération atomique. La valeur de retour de <xref:System.Threading.Interlocked.CompareExchange%2A> est la valeur d’origine dans `location1`, que l’échange a lieu ou non.  
 
@@ -741,7 +741,7 @@ Si `comparand` et l’objet dans `location1` sont égales par référence, puis 
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode gère une condition de dépassement de capacité en encapsulant : si `location`  =  <xref:System.Int32.MinValue?displayProperty=nameWithType>, `location` - 1 = <xref:System.Int32.MaxValue?displayProperty=nameWithType>. Aucune exception n'est levée.  
+ Cette méthode gère une condition de dépassement de capacité en encapsulant : Si `location`  =  <xref:System.Int32.MinValue?displayProperty=nameWithType>, `location` - 1 = <xref:System.Int32.MaxValue?displayProperty=nameWithType>. Aucune exception n'est levée.  
   
    
   
@@ -1093,7 +1093,7 @@ Si `comparand` et l’objet dans `location1` sont égales par référence, puis 
 ## Remarks
 
 > [!IMPORTANT]
-> À partir de .NET Framework 2.0, le <xref:System.Threading.Interlocked.Exchange%60%601%28%60%600%40%2C%60%600%29> surcharge de méthode fournit une alternative de type sécurisé pour les types référence. Nous recommandons d’appeler au lieu de cette surcharge.
+> À compter de .NET Framework 2.0, la surcharge de méthode <xref:System.Threading.Interlocked.Exchange%60%601%28%60%600%40%2C%60%600%29> fournit une alternative de type sécurisé pour les types référence. Nous recommandons d’appeler au lieu de cette surcharge.
 
  ]]></format>
         </remarks>
@@ -1395,7 +1395,7 @@ Si `comparand` et l’objet dans `location1` sont égales par référence, puis 
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Synchronise l'accès à la mémoire comme suit : le processeur qui exécute le thread actuel ne peut pas réorganiser les instructions de sorte que les accès à la mémoire avant l'appel de <see cref="M:System.Threading.Interlocked.MemoryBarrier" /> s'exécutent après les accès à la mémoire postérieurs à l'appel de <see cref="M:System.Threading.Interlocked.MemoryBarrier" />.</summary>
+        <summary>Synchronise l'accès à la mémoire comme suit : Le processeur qui exécute le thread actuel ne peut pas réorganiser les instructions de manière à ce que les accès à la mémoire antérieurs à l’appel de <see cref="M:System.Threading.Interlocked.MemoryBarrier" /> s’exécutent après les accès à la mémoire postérieurs à l’appel de <see cref="M:System.Threading.Interlocked.MemoryBarrier" />.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1434,8 +1434,24 @@ Si `comparand` et l’objet dans `location1` sont égales par référence, puis 
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Fournit un cloisonnement de mémoire à l’échelle du processus qui garantit que les lectures et les écritures des processeurs ne peuvent pas se déplacer au sein du cloisonnement.</summary>
+        <remarks>  
+          <format type="text/markdown"><![CDATA[  
+
+Le `MemoryBarrierProcessWide` méthode diffère de la « normal » <xref:System.Threading.Interlocked.MemoryBarrier%2A> méthode comme suit :
+
+- La barrière de mémoire normal permet de s’assurer que les lectures et écritures à partir de l’UC ne peut pas déplacer sur le cloisonnement. La barrière de mémoire de processus à l’échelle garantit que toute lecture ou écriture à partir de n’importe quelle UC est utilisé dans le processus ne peut pas déplacer sur le cloisonnement.
+
+- La barrière de mémoire normal permet un accès partagé raisonnable si *chaque* thread accède aux données utilise les obstacles. Les forces de barrière de mémoire de processus à l’échelle *autres processeurs* pour se synchroniser avec la mémoire de processus (par exemple, pour écrire des mémoires tampons de vidage et de synchroniser les mémoires tampons de lecture). Ainsi, non-opérations à blocage sur certains threads et toujours avait raisonnable un accès partagé. 
+
+- La barrière de mémoire normal impose une charge très faible ; les opérations verrouillées normales coût probablement moins d’une centaine de cycles. La barrière de mémoire de processus à l’échelle est très coûteuse. Il doit forcer tous les processeurs dans le processus ne sur quelque chose, moyennant une probable de milliers de cycles. 
+
+Le `MemoryBarrierProcessWide` méthode souffre également toutes les subtilités de la programmation sans verrou. Néanmoins, cette méthode peut être très utile lorsque vous devez réellement l’appeler, ce qui doit être rare.
+
+Cette méthode encapsule un appel à [FlushProcessWriteBuffers](/windows/desktop/api/processthreadsapi/nf-processthreadsapi-flushprocesswritebuffers) sur Windows et [sys_membarrier](https://lore.kernel.org/patchwork/patch/188708/) sur Linux.
+
+         ]]></format>
+         </remarks>
       </Docs>
     </Member>
     <Member MemberName="Read">
