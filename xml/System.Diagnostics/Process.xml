@@ -1,5 +1,5 @@
 <Type Name="Process" FullName="System.Diagnostics.Process">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="d2e9b1e9a38924eb4c0b9011797ffc977a4fdd64" /><Meta Name="ms.sourcegitcommit" Value="c5fd6b431a16f0412349201a0e93a9eacddf4b35" /><Meta Name="ms.translationtype" Value="HT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/14/2018" /><Meta Name="ms.locfileid" Value="53392937" /></Metadata><TypeSignature Language="C#" Value="public class Process : System.ComponentModel.Component" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="9ce0808934277c6968c9793879723d45502a0834" /><Meta Name="ms.sourcegitcommit" Value="50e9852b966203545b6fb9dec8581a9fc431277d" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="01/07/2019" /><Meta Name="ms.locfileid" Value="54060483" /></Metadata><TypeSignature Language="C#" Value="public class Process : System.ComponentModel.Component" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit Process extends System.ComponentModel.Component" />
   <TypeSignature Language="DocId" Value="T:System.Diagnostics.Process" />
   <TypeSignature Language="VB.NET" Value="Public Class Process&#xA;Inherits Component" />
@@ -303,7 +303,7 @@ Le processus n’a pas démarré. De ce fait, il n’existe aucun ID de processu
   
 1.  Affectez la valeur <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> à `false`.  
   
-2.  Affectez la valeur `true` à <xref:System.Diagnostics.ProcessStartInfo.RedirectStandardError%2A>.  
+2.  Affectez la valeur <xref:System.Diagnostics.ProcessStartInfo.RedirectStandardError%2A> à `true`.  
   
 3.  Ajoutez votre gestionnaire d’événements pour le <xref:System.Diagnostics.Process.ErrorDataReceived> événement. Le Gestionnaire d’événements doit correspondre à la <xref:System.Diagnostics.DataReceivedEventHandler?displayProperty=nameWithType> signature du délégué.  
   
@@ -331,7 +331,7 @@ Le processus n’a pas démarré. De ce fait, il n’existe aucun ID de processu
         </remarks>
         <exception cref="T:System.InvalidOperationException">La propriété <see cref="P:System.Diagnostics.ProcessStartInfo.RedirectStandardError" /> a la valeur <see langword="false" />.  
   
-- ou - 
+ou 
 Une opération de lecture asynchrone est déjà en cours sur le flux <see cref="P:System.Diagnostics.Process.StandardError" />.  
   
 ou 
@@ -391,7 +391,7 @@ Le flux <see cref="P:System.Diagnostics.Process.StandardError" /> a été utilis
   
 1.  Affectez la valeur <xref:System.Diagnostics.ProcessStartInfo.UseShellExecute%2A> à `false`.  
   
-2.  Affectez la valeur `true` à <xref:System.Diagnostics.ProcessStartInfo.RedirectStandardOutput%2A>.  
+2.  Affectez la valeur <xref:System.Diagnostics.ProcessStartInfo.RedirectStandardOutput%2A> à `true`.  
   
 3.  Ajoutez votre gestionnaire d’événements pour le <xref:System.Diagnostics.Process.OutputDataReceived> événement. Le Gestionnaire d’événements doit correspondre à la <xref:System.Diagnostics.DataReceivedEventHandler?displayProperty=nameWithType> signature du délégué.  
   
@@ -477,7 +477,7 @@ Le flux <see cref="P:System.Diagnostics.Process.StandardOutput" /> a été utili
   
  Après l’annulation, vous pouvez reprendre l’opération de lecture asynchrone en appelant <xref:System.Diagnostics.Process.BeginErrorReadLine%2A> à nouveau.  
   
- Lorsque vous appelez <xref:System.Diagnostics.Process.CancelErrorRead%2A>, tous les en cours de lecture pour les opérations <xref:System.Diagnostics.Process.StandardError%2A> sont terminées puis le Gestionnaire d’événements est désactivé. Tous les sortie redirigée ultérieure vers <xref:System.Diagnostics.Process.StandardError%2A> est enregistré dans une mémoire tampon. Si vous activez à nouveau le Gestionnaire d’événements avec un appel à <xref:System.Diagnostics.Process.BeginErrorReadLine%2A>, la sortie enregistrée est envoyée au gestionnaire d’événements et reprennent les opérations de lecture asynchrones. Si vous souhaitez modifier le Gestionnaire d’événements avant de reprendre les opérations de lecture asynchrones, vous devez supprimer le Gestionnaire d’événements existant avant d’ajouter le nouveau gestionnaire d’événements :  
+ Lorsque vous appelez <xref:System.Diagnostics.Process.CancelErrorRead%2A>, tous les en cours de lecture pour les opérations <xref:System.Diagnostics.Process.StandardError%2A> sont terminées puis le Gestionnaire d’événements est désactivé. Tous les sortie redirigée ultérieure vers <xref:System.Diagnostics.Process.StandardError%2A> seront perdues. Si vous activez à nouveau le Gestionnaire d’événements avec un appel à <xref:System.Diagnostics.Process.BeginErrorReadLine%2A>asynchrone lire la reprise des opérations. Si vous souhaitez modifier le Gestionnaire d’événements avant de reprendre les opérations de lecture asynchrones, vous devez supprimer le Gestionnaire d’événements existant avant d’ajouter le nouveau gestionnaire d’événements :  
   
 ```csharp  
 // At this point the DataReceivedEventHandler(ErrorHandler1)   
@@ -777,7 +777,7 @@ Aucun processus n’est associé à cet objet <see cref="T:System.Diagnostics.Pr
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing"><see langword="true" /> pour libérer les ressources managées et non managées ; <see langword="false" /> pour ne libérer que les ressources non managées.</param>
+        <param name="disposing"><see langword="true" /> pour libérer les ressources managées et non managées ; <see langword="false" /> pour libérer uniquement les ressources non managées.</param>
         <summary>Libère toutes les ressources utilisées par ce processus.</summary>
         <remarks>To be added.</remarks>
       </Docs>
@@ -1055,7 +1055,7 @@ L’exemple de code suivant crée un processus qui imprime un fichier. Il défin
         </remarks>
         <exception cref="T:System.InvalidOperationException">Le processus ne s’est pas fermé.  
   
-- ou - 
+ou 
 Le processus <see cref="P:System.Diagnostics.Process.Handle" /> n’est pas valide.</exception>
         <exception cref="T:System.NotSupportedException">Vous tentez d’accéder à la propriété <see cref="P:System.Diagnostics.Process.ExitCode" /> d’un processus en cours d’exécution sur un ordinateur distant. Cette propriété est disponible uniquement pour les processus en cours d’exécution sur l’ordinateur local.</exception>
         <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">pour la confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
@@ -1403,7 +1403,7 @@ Le processus <see cref="P:System.Diagnostics.Process.Handle" /> n’est pas vali
         </remarks>
         <exception cref="T:System.ArgumentException">Le processus spécifié par le paramètre <paramref name="processId" /> n’est pas en cours d’exécution. L’identificateur peut avoir expiré.  
   
-- ou - 
+ou 
 La syntaxe du paramètre <paramref name="machineName" /> n’est pas valide. Le nom peut être de longueur zéro (0).</exception>
         <exception cref="T:System.ArgumentNullException">Le paramètre <paramref name="machineName" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.InvalidOperationException">Le processus n’a pas été démarré par cet objet.</exception>
@@ -3555,7 +3555,7 @@ Le processus est terminé.</exception>
         <exception cref="T:System.ComponentModel.Win32Exception">Nous n’avons pas pu récupérer les informations de renforcement de priorité à partir de la ressource de processus associée.</exception>
         <exception cref="T:System.PlatformNotSupportedException">La plateforme est Windows 98 ou Windows Millennium Edition (Windows Me), qui ne prennent pas en charge cette propriété.  
   
-- ou - 
+ou 
 L’identificateur ou le handle de processus correspond à zéro. (Le processus n’a pas été démarré.)</exception>
         <exception cref="T:System.NotSupportedException">Vous tentez d’accéder à la propriété <see cref="P:System.Diagnostics.Process.PriorityBoostEnabled" /> d’un processus en cours d’exécution sur un ordinateur distant. Cette propriété est disponible uniquement pour les processus en cours d’exécution sur l’ordinateur local.</exception>
         <exception cref="T:System.InvalidOperationException">Le processus <see cref="P:System.Diagnostics.Process.Id" /> n’est pas disponible.</exception>
@@ -3885,7 +3885,7 @@ L’identificateur ou le handle de processus correspond à zéro. (Le processus 
         </remarks>
         <exception cref="T:System.InvalidOperationException">Le processus n’a pas d’identificateur ou aucun processus n’est associé à <see cref="T:System.Diagnostics.Process" />.  
   
-- ou - 
+ou 
 Le processus associé s’est arrêté.</exception>
         <exception cref="T:System.PlatformNotSupportedException">La plateforme est Windows 98 ou Windows Millennium Edition (Windows Me) ; affectez à <see cref="P:System.Diagnostics.ProcessStartInfo.UseShellExecute" /> la valeur <see langword="false" /> pour accéder à cette propriété sur Windows 98 et Windows Me.</exception>
         <exception cref="T:System.NotSupportedException">Le processus n’est pas sur cet ordinateur.</exception>
@@ -3960,12 +3960,12 @@ Le processus associé s’est arrêté.</exception>
         </remarks>
         <exception cref="T:System.ComponentModel.Win32Exception">Nous n’avons pas pu définir ou récupérer des informations <see cref="P:System.Diagnostics.Process.ProcessorAffinity" /> à partir de la ressource de processus associée.  
   
-- ou - 
+ou 
 L’identificateur ou le handle de processus correspond à zéro. (Le processus n’a pas été démarré.)</exception>
         <exception cref="T:System.NotSupportedException">Vous tentez d’accéder à la propriété <see cref="P:System.Diagnostics.Process.ProcessorAffinity" /> d’un processus en cours d’exécution sur un ordinateur distant. Cette propriété est disponible uniquement pour les processus en cours d’exécution sur l’ordinateur local.</exception>
         <exception cref="T:System.InvalidOperationException">Le processus <see cref="P:System.Diagnostics.Process.Id" /> n’était pas disponible.  
   
-- ou - 
+ou 
 Le processus s’est fermé.</exception>
         <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">pour la confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
       </Docs>
@@ -4681,7 +4681,7 @@ Ou le membre <see cref="P:System.Diagnostics.ProcessStartInfo.UseShellExecute" /
         </remarks>
         <exception cref="T:System.InvalidOperationException">Aucun nom de fichier n’a été spécifié dans la propriété <see cref="P:System.Diagnostics.ProcessStartInfo.FileName" /> du paramètre <paramref name="startInfo" />.  
   
-- ou - 
+ou 
 La propriété <see cref="P:System.Diagnostics.ProcessStartInfo.UseShellExecute" /> du paramètre <paramref name="startInfo" /> a la valeur <see langword="true" />, et la propriété <see cref="P:System.Diagnostics.ProcessStartInfo.RedirectStandardInput" />, <see cref="P:System.Diagnostics.ProcessStartInfo.RedirectStandardOutput" /> ou <see cref="P:System.Diagnostics.ProcessStartInfo.RedirectStandardError" /> a également la valeur <see langword="true" />.  
   
 ou 
@@ -5027,7 +5027,7 @@ La somme de la longueur des arguments et de la longueur du chemin d’accès com
         <exception cref="T:System.InvalidOperationException">Aucun nom de fichier n’a été spécifié.</exception>
         <exception cref="T:System.ComponentModel.Win32Exception">Une erreur s’est produite lors de l’ouverture du fichier associé.  
   
-- ou - 
+ou 
 La somme de la longueur des arguments et de la longueur du chemin d’accès complet au fichier associé dépasse 2080. Le message d’erreur associé à cette exception peut être un des suivants : « La zone de données passée à un appel système est insuffisante. » ou « Accès refusé. »</exception>
         <exception cref="T:System.ObjectDisposedException">L’objet de processus a déjà été supprimé.</exception>
         <exception cref="T:System.PlatformNotSupportedException">Méthode non prise en charge sur Linux ou macOS (.NET Core uniquement).</exception>
@@ -5673,7 +5673,7 @@ Pour des exemples de code, consultez les pages de référence des propriétés <
 ou 
 Aucun processus n’est associé à cet objet <see cref="T:System.Diagnostics.Process" />.  
   
-- ou - 
+ou 
 Vous tentez d’appeler <see cref="M:System.Diagnostics.Process.WaitForExit" /> pour un processus en cours d’exécution sur un ordinateur distant. Cette méthode est disponible uniquement pour les processus en cours d’exécution sur l’ordinateur local.</exception>
         <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">pour la confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
         <altmember cref="M:System.Diagnostics.Process.CloseMainWindow" />
@@ -5747,7 +5747,7 @@ Vous tentez d’appeler <see cref="M:System.Diagnostics.Process.WaitForExit" /> 
         <exception cref="T:System.ComponentModel.Win32Exception">Impossible d’accéder au paramètre d’attente.</exception>
         <exception cref="T:System.SystemException">Aucun processus <see cref="P:System.Diagnostics.Process.Id" /> n’a été défini, et un <see cref="P:System.Diagnostics.Process.Handle" /> à partir duquel la propriété <see cref="P:System.Diagnostics.Process.Id" /> peut être déterminée n’existe pas.  
   
-- ou - 
+ou 
 Aucun processus n’est associé à cet objet <see cref="T:System.Diagnostics.Process" />.  
   
 ou 
@@ -5824,13 +5824,13 @@ Vous tentez d’appeler <see cref="M:System.Diagnostics.Process.WaitForExit(Syst
         </remarks>
         <exception cref="T:System.InvalidOperationException">Le processus ne dispose pas d’une interface graphique.  
   
-- ou - 
+ou 
 Une erreur inconnue s'est produite. Le processus n’est pas parvenu à entrer dans un état inactif.  
   
 ou 
 Le processus est déjà terminé.  
   
-- ou - 
+ou 
 Aucun processus n’est associé à cet objet <see cref="T:System.Diagnostics.Process" />.</exception>
         <permission cref="F:System.Security.Permissions.SecurityAction.LinkDemand">pour la confiance totale pour l’appelant immédiat. Ce membre ne peut pas être utilisé par du code d'un niveau de confiance partiel.</permission>
         <altmember cref="M:System.Diagnostics.Process.Start" />
@@ -5887,7 +5887,7 @@ Aucun processus n’est associé à cet objet <see cref="T:System.Diagnostics.Pr
         </remarks>
         <exception cref="T:System.InvalidOperationException">Le processus ne dispose pas d’une interface graphique.  
   
-- ou - 
+ou 
 Une erreur inconnue s'est produite. Le processus n’est pas parvenu à entrer dans un état inactif.  
   
 ou 
