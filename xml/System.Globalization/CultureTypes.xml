@@ -1,5 +1,5 @@
 <Type Name="CultureTypes" FullName="System.Globalization.CultureTypes">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="90d1c338aff0fdcc586e0c7ccc25f989c82f8e2e" /><Meta Name="ms.sourcegitcommit" Value="c0c07dbd19cd7017243f9ac36915755f79bc8da6" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="11/27/2018" /><Meta Name="ms.locfileid" Value="52357156" /></Metadata><TypeSignature Language="C#" Value="public enum CultureTypes" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="caa908feb7e94236c27b517f82513196ba6daa07" /><Meta Name="ms.sourcegitcommit" Value="a489a0c68ea6b109393f1400bbd772073b4befd4" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="01/20/2019" /><Meta Name="ms.locfileid" Value="54416967" /></Metadata><TypeSignature Language="C#" Value="public enum CultureTypes" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed CultureTypes extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.Globalization.CultureTypes" />
   <TypeSignature Language="VB.NET" Value="Public Enum CultureTypes" />
@@ -44,10 +44,22 @@
 
 Ces valeurs de type de culture sont retournées par la <xref:System.Globalization.CultureInfo.CultureTypes%2A?displayProperty=nameWithType> propriété et constituent également un filtre qui restreint les cultures retournées par la <xref:System.Globalization.CultureInfo.GetCultures%2A?displayProperty=nameWithType> (méthode). Pour plus d’informations sur les cultures, consultez <xref:System.Globalization.CultureInfo>.  
   
-En règle générale, votre application doit énumérer toutes les cultures à l’aide de la `CultureTypes.AllCultures` valeur. Cela permet l’énumération de cultures personnalisées, ainsi que les autres types de cultures.  
+En règle générale, vous énumérer toutes les cultures à l’aide de la `CultureTypes.AllCultures` valeur. Cela permet l’énumération de cultures personnalisées, ainsi que les autres types de cultures.  
   
 Notez que tous les `CultureTypes` membres ont été déconseillées à l’exception de `CultureTypes.AllCultures`, `CultureTypes.NeutralCultures`, et `CultureTypes.SpecificCultures`.  
+
+.NET reconnaît les types suivants de la culture, qui sont inclus dans les énumérations retournées par le `CultureTypes.AllTypes` membre d’énumération :
+
+- **Cultures spécifiques**, qui spécifient un pays/région et un langage. Les noms de ces cultures respectent la norme RFC 4646. Le format est `<languagecode2>-<country/regioncode2>`, où `<languagecode2>` est un code à deux lettres minuscules dérivé d’ISO 639-1, et `<country/regioncode2>` est un code de deux lettres majuscules dérivé d’ISO 3166. Par exemple, « fr-FR » pour Français (France) est une culture spécifique. Cultures spécifiques personnalisées (autrement dit, les cultures application - plutôt que définie par le système) peuvent avoir n’importe quel nom spécifié par l’utilisateur, pas seulement un celui conformes aux normes.  
+
+- **Cultures neutres**, qui spécifient un langage de base d’un pays/région. Les noms de cultures neutres consistent par le code à deux lettres minuscules dérivé d’ISO 639-1. Par exemple : « fr » (Français) est une culture neutre. Cultures neutres personnalisés (autrement dit, les cultures application - plutôt que définie par le système) peuvent avoir n’importe quel nom spécifié par l’utilisateur, pas seulement un code à deux lettres.
   
+  La culture dite indifférente est incluse dans le tableau de cultures retourné par la <xref:System.Globalization.CultureInfo.GetCultures%2A?displayProperty=nameWithType> méthode qui spécifie cette valeur.  
+
+- **Cultures personnalisées**, qui sont des cultures définies par l’application. Cultures personnalisées peuvent représenter des cultures spécifiques ou cultures neutres et peuvent avoir n’importe quel nom spécifié par l’application. 
+
+   Dans les versions de Windows antérieures à Windows 10, le `UserCustomCulture` valeur est assignée à cultures personnalisées créées par le développeur. Dans Windows 10, le `UserCustomCulture` valeur est également assignée à cultures système qui ne sont pas soutenues par un ensemble complet de données culturelles et qui ne disposent pas des identificateurs uniques locaux. (Toutes les cultures de type `UserCustomCulture` partager un <xref:System.Globalization.CultureInfo.LCID%2A?displayProperty=nameWithType> valeur `LOCALE_CUSTOM_UNSPECIFIED` (0 x 1000 ou 4096)). Par conséquent, le `CultureInfo.GetCultures(CultureTypes.UserCustomCulture)` méthode retourne différents ensembles de cultures sur différentes versions de Windows.  
+
 ## Examples  
 
 L’exemple suivant montre le `CultureTypes.AllCultures` membre d’énumération et la <xref:System.Globalization.CultureInfo.CultureTypes%2A> propriété.  
@@ -201,17 +213,6 @@ Sur .NET Framework 4 et versions ultérieures et .NET Core s’exécutant sur Wi
       <MemberValue>1</MemberValue>
       <Docs>
         <summary>Cultures associées à une langue mais qui ne sont pas propres à un pays/une région.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-
-Les noms de cultures .NET consistent par le code à deux lettres minuscules dérivé d’ISO 639-1. Par exemple : « fr » (Français) est une culture neutre. Cultures personnalisées (autrement dit, les cultures application - plutôt que définie par le système) peuvent avoir n’importe quel nom spécifié par l’utilisateur, pas seulement un code à deux lettres.  
-  
- La culture dite indifférente est incluse dans le tableau de cultures retourné par la <xref:System.Globalization.CultureInfo.GetCultures%2A?displayProperty=nameWithType> méthode qui spécifie cette valeur.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ReplacementCultures">
@@ -275,17 +276,6 @@ Les noms de cultures .NET consistent par le code à deux lettres minuscules dér
       <MemberValue>2</MemberValue>
       <Docs>
         <summary>Cultures propres à un pays/une région.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks 
-
-Les noms de ces cultures respectent la norme RFC 4646 (Windows Vista et versions ultérieures). Le format est &lt;code_langue_2&gt;-&lt;code_pays/région_2&gt;, où &lt;code_langue_2&gt; est un code à deux lettres minuscules dérivé de la norme ISO 639-1 et &lt;code_pays/région_2&gt; est un code à deux lettres majuscules dérivé de la norme ISO 3166. Par exemple, « fr-FR » pour Français (France) est une culture spécifique.
-
-Cultures personnalisées (autrement dit, les cultures application - plutôt que définie par le système) peuvent avoir n’importe quel nom spécifié par l’utilisateur, pas seulement un celui conforme au standard.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="UserCustomCulture">
@@ -317,15 +307,6 @@ Cultures personnalisées (autrement dit, les cultures application - plutôt que 
       <MemberValue>8</MemberValue>
       <Docs>
         <summary>**Ce membre est déconseillé.** Cultures personnalisées créées par l’utilisateur.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
-
-Dans les versions de Windows antérieures à Windows 10, le `UserCustomCulture` valeur est assignée à cultures personnalisées créées par le développeur. Dans Windows 10, le `UserCustomCulture` valeur est également assignée à cultures système qui ne sont pas soutenues par un ensemble complet de données culturelles et qui ne disposent pas des identificateurs uniques locaux. (Toutes les cultures de type `UserCustomCulture` partager un <xref:System.Globalization.CultureInfo.LCID%2A?displayProperty=nameWithType> valeur `LOCALE_CUSTOM_UNSPECIFIED` (0 x 1000 ou 4096)). Par conséquent, le `CultureInfo.GetCultures(CultureTypes.UserCustomCulture)` méthode retourne différents ensembles de cultures sur différentes versions de Windows.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="WindowsOnlyCultures">
