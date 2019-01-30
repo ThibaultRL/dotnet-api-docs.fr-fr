@@ -1,5 +1,5 @@
 <Type Name="BindingFlags" FullName="System.Reflection.BindingFlags">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="73fce1aa21d20f45653df555c778b466bca7fbbb" /><Meta Name="ms.sourcegitcommit" Value="c0c07dbd19cd7017243f9ac36915755f79bc8da6" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="11/27/2018" /><Meta Name="ms.locfileid" Value="52368180" /></Metadata><TypeSignature Language="C#" Value="public enum BindingFlags" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="61b76576a70d04513a7283ac5ace3dbd7521f391" /><Meta Name="ms.sourcegitcommit" Value="a489a0c68ea6b109393f1400bbd772073b4befd4" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="01/20/2019" /><Meta Name="ms.locfileid" Value="54416954" /></Metadata><TypeSignature Language="C#" Value="public enum BindingFlags" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed BindingFlags extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.Reflection.BindingFlags" />
   <TypeSignature Language="VB.NET" Value="Public Enum BindingFlags" />
@@ -50,7 +50,7 @@
 ## Remarks  
  Ces `BindingFlags` contrôlent la liaison pour de très nombreuses classes dans le `System`, `System.Reflection`, et `System.Runtime` espaces de noms appeler, créer, obtenir, définir et rechercher des types et membres.  
   
- `BindingFlags` sont utilisées dans l’exemple suivant <xref:System.Type> méthodes et autres endroits tels que <xref:System.Reflection.MethodBase.Invoke%2A?displayProperty=nameWithType> :  
+ `BindingFlags` sont utilisées dans l’exemple suivant <xref:System.Type> méthodes et autres endroits tels que <xref:System.Reflection.MethodBase.Invoke%2A?displayProperty=nameWithType>:  
   
 -   <xref:System.Reflection.MethodBase.Invoke%2A?displayProperty=nameWithType>  
   
@@ -95,7 +95,7 @@
 > [!NOTE]
 >  Vous devez spécifier `Instance` ou `Static` avec `Public` ou `NonPublic` ou aucun membre n’est retourné.  
   
- Le tableau suivant répertorie les contraintes effectuées par la valeur par défaut <xref:System.Reflection.Binder.ChangeType%2A?displayProperty=nameWithType>. Ce tableau s’applique en particulier à la `ExactBinding` indicateur de liaison.  
+ Le tableau suivant répertorie les contraintes effectuées par la valeur par défaut <xref:System.Reflection.Binder.ChangeType%2A?displayProperty=nameWithType>. Ce tableau s’applique en particulier à la `BindingFlags.ExactBinding` indicateur de liaison. Le principe général est que <xref:System.Reflection.Binder.ChangeType%2A> doit effectuer que des contraintes étendues, qui ne perdent jamais de données. La conversion forcée d’une valeur qui est un entier signé 32 bits à une valeur qui est un entier signé 64 bits est un exemple de contrainte étendue. Elle se distingue d’une contrainte restrictive, ce qui peut perdre des données. La conversion forcée d’un entier signé 64 bits à un entier signé 32 bits est un exemple de contrainte restrictive. 
   
 |Type de source|Type de cible|  
 |-----------------|-----------------|  
@@ -112,8 +112,13 @@
 |`Int64`|`Single`, `Double`|  
 |`Single`|`Double`|  
 |Non-reference|Par référence.|  
+
+Lorsque le `BindingFlags.ExactBinding` indicateur de liaison est utilisée, la réflexion modélise les règles d’accessibilité du système de type commun. Par exemple, si l’appelant est dans le même assembly, l’appelant n’a besoin pas des autorisations spéciales pour les membres internes. Sinon, l’appelant doit <xref:System.Security.Permissions.ReflectionPermission>. Cela est cohérent avec la recherche de membres qui sont protégées, privées et ainsi de suite.  
   
    
+  
+   
+     
   
 ## Examples  
  L’exemple suivant illustre plusieurs indicateurs de liaison.  
@@ -312,19 +317,7 @@ Cet indicateur est passé à une méthode <see langword="InvokeMember" /> pour a
       </ReturnValue>
       <MemberValue>65536</MemberValue>
       <Docs>
-        <summary>Spécifie que les types des arguments fournis doivent correspondre exactement aux types des paramètres formels correspondants. La réflexion lève une exception si l’appelant fournit un objet <see langword="Binder" /> non null, car cela implique que l’appelant fournisse des implémentations de <see langword="BindToXXX" /> qui sélectionnent la méthode appropriée.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- La réflexion modélise les règles d’accessibilité du système de type commun. Par exemple, si l’appelant est dans le même assembly, l’appelant n’a besoin pas des autorisations spéciales pour les membres internes. Sinon, l’appelant doit <xref:System.Security.Permissions.ReflectionPermission>. Cela est cohérent avec la recherche de membres qui sont protégées, privées et ainsi de suite.  
-  
- Le principe général est que <xref:System.Reflection.Binder.ChangeType%2A> doit effectuer que des contraintes étendues, qui ne perdent jamais de données. La conversion forcée d’une valeur qui est un entier signé 32 bits à une valeur qui est un entier signé 64 bits est un exemple de contrainte étendue. Elle se distingue d’une contrainte restrictive, ce qui peut perdre des données. La conversion forcée d’un entier signé 64 bits à un entier signé 32 bits est un exemple de contrainte restrictive.  
-  
- Le binder par défaut ignore cet indicateur, tandis que les binders personnalisés peuvent implémenter la sémantique de cet indicateur.  
-  
- ]]></format>
-        </remarks>
+        <summary>Spécifie que les types des arguments fournis doivent correspondre exactement aux types des paramètres formels correspondants. La réflexion lève une exception si l’appelant fournit un objet <see langword="Binder" /> non null, car cela implique que l’appelant fournisse des implémentations de <see langword="BindToXXX" /> qui sélectionnent la méthode appropriée. Le binder par défaut ignore cet indicateur, tandis que les binders personnalisés peuvent implémenter la sémantique de cet indicateur.</summary>
       </Docs>
     </Member>
     <Member MemberName="FlattenHierarchy">
@@ -679,15 +672,7 @@ Cet indicateur est passé à une méthode <see langword="InvokeMember" /> pour a
       </ReturnValue>
       <MemberValue>262144</MemberValue>
       <Docs>
-        <summary>Retourne l’ensemble de membres dont le nombre de paramètres correspond au nombre d’arguments fournis. Cet indicateur de liaison est utilisé pour les méthodes avec des paramètres qui ont des valeurs par défaut et pour les méthodes avec des arguments de variable (varargs). Cet indicateur doit être utilisé seulement avec <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Paramètres avec valeurs par défaut sont utilisés uniquement dans les appels où les arguments de fin sont omis. Ils doivent être les derniers arguments.  
-  
- ]]></format>
-        </remarks>
+        <summary>Retourne l’ensemble de membres dont le nombre de paramètres correspond au nombre d’arguments fournis. Cet indicateur de liaison est utilisé pour les méthodes avec des paramètres qui ont des valeurs par défaut et pour les méthodes avec des arguments de variable (varargs). Cet indicateur doit être utilisé seulement avec <see cref="M:System.Type.InvokeMember(System.String,System.Reflection.BindingFlags,System.Reflection.Binder,System.Object,System.Object[],System.Reflection.ParameterModifier[],System.Globalization.CultureInfo,System.String[])" />.<br /><br />Les paramètres avec des valeurs par défaut sont utilisés uniquement dans les appels où les arguments de fin sont omis. Ils doivent être les derniers arguments.</summary>
       </Docs>
     </Member>
     <Member MemberName="Public">

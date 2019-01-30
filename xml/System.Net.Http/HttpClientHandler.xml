@@ -1,5 +1,5 @@
 <Type Name="HttpClientHandler" FullName="System.Net.Http.HttpClientHandler">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="ba3ed49c9a90efc55711df6801abd12d767b3a33" /><Meta Name="ms.sourcegitcommit" Value="9e3550fb2088d4faf2043f0acb29da4555519937" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/12/2018" /><Meta Name="ms.locfileid" Value="53291598" /></Metadata><TypeSignature Language="C#" Value="public class HttpClientHandler : System.Net.Http.HttpMessageHandler" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="4e4378873f3a5fa6c23c6de9bded7f111e986d3e" /><Meta Name="ms.sourcegitcommit" Value="8c966994f39ffe6e7c21611e9ec1b91247a68500" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="01/26/2019" /><Meta Name="ms.locfileid" Value="55084614" /></Metadata><TypeSignature Language="C#" Value="public class HttpClientHandler : System.Net.Http.HttpMessageHandler" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit HttpClientHandler extends System.Net.Http.HttpMessageHandler" />
   <TypeSignature Language="DocId" Value="T:System.Net.Http.HttpClientHandler" />
   <TypeSignature Language="VB.NET" Value="Public Class HttpClientHandler&#xA;Inherits HttpMessageHandler" />
@@ -22,24 +22,37 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>Gestionnaire de messages par défaut utilisé par <see cref="T:System.Net.Http.HttpClient" />.</summary>
+    <summary>Gestionnaire de messages par défaut utilisé par <see cref="T:System.Net.Http.HttpClient" /> dans le .NET Framework et .NET Core 2.0 et antérieur.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Net.Http.HttpClientHandler> classe et les classes dérivées à partir de celui-ci permettent aux développeurs de configurer diverses options allant de proxys à l’authentification.  
+ Le `HttpClientHandler` classe et les classes dérivées à partir de celui-ci permettent aux développeurs de configurer diverses options allant de proxys à l’authentification.  
   
 ### <a name="httpclienthandler-in-net-core"></a>HttpClientHandler dans .NET Core
 
-En commençant par .NET Core 2.1, le <xref:System.Net.Http.SocketsHttpHandler?displayProperty=nameWithType> classe au lieu de `HttpClientHandler` fournit l’implémentation utilisée par HTTP de niveau supérieur API de mise en réseau. Vous pouvez configurer votre application pour utiliser `HttpClientHandler` au lieu de cela en appelant le <xref:System.AppContext.SetSwitch%2A> méthode comme suit :
+En commençant par .NET Core 2.1, le <xref:System.Net.Http.SocketsHttpHandler?displayProperty=nameWithType> classe au lieu de `HttpClientHandler` fournit l’implémentation utilisée par HTTP de niveau supérieur API de mise en réseau. Vous pouvez configurer votre application pour utiliser `HttpClientHandler` au lieu de cela dans une des manières suivantes :
 
-```csharp
-AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", false);
-```
-```vb
-AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", False)
-``` 
+- En appelant le <xref:System.AppContext.SetSwitch%2A?displayProperty=nameWithType> méthode comme suit :
+
+  ```csharp
+  AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", false);
+  ```
+  ```vb
+  AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", False)
+  ``` 
+En définissant le `System.Net.Http.useSocketsHttpHandler` basculer dans le *. netcore.runtimeconfig.json* fichier de configuration :
+
+  ```json
+  "runtimeOptions": {
+    "configProperties": {
+        "System.Net.Http.useSocketsHttpHandler": false
+    }
+  }
+  ```
   
+- En définissant une variable d’environnement nommée `DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER` et l’affectation soit `false` ou 0.
+
 ## Examples  
  [!code-csharp[System.Net.Http.HttpClientHandler#1](~/samples/snippets/csharp/VS_Snippets_Misc/system.net.http.httpclienthandler/cs/source.cs#1)]  
   
@@ -75,7 +88,7 @@ AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", False)
       </AssemblyInfo>
       <Parameters />
       <Docs>
-        <summary>Crée une instance d'une classe <see cref="T:System.Net.Http.HttpClientHandler" />.</summary>
+        <summary>Crée une instance d’une classe <see cref="T:System.Net.Http.HttpClientHandler" />.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -147,7 +160,7 @@ Les versions de .NET core 1.0, 1.1 et 2.0 ne suivront pas une redirection à par
         <ReturnType>System.Net.DecompressionMethods</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit le type de méthode de décompression utilisé par le gestionnaire pour la décompression automatique de la réponse de contenu HTTP.</summary>
+        <summary>Obtient ou définit le type de méthode de décompression utilisé par le gestionnaire pour la décompression automatique de la réponse du contenu HTTP.</summary>
         <value>Méthode de décompression automatique utilisée par le gestionnaire.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -223,7 +236,7 @@ Après avoir v4.3.2 de package NuGet, la valeur par défaut de <xref:System.Net.
       </ReturnValue>
       <Docs>
         <summary>Obtient ou définit une valeur qui indique si le certificat est automatiquement prélevé dans le magasin de certificats ou si l’appelant est autorisé à transmettre un certificat client spécifique.</summary>
-        <value>Collection de certificats de sécurité associés à ce gestionnaire.</value>
+        <value>Collection de certificats de sécurité associée à ce gestionnaire.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -285,8 +298,8 @@ Après avoir v4.3.2 de package NuGet, la valeur par défaut de <xref:System.Net.
         <ReturnType>System.Net.CookieContainer</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit le conteneur de cookies utilisé par le gestionnaire pour stocker des cookies de serveur.</summary>
-        <value>Conteneur de cookies utilisé par le gestionnaire pour stocker des cookies de serveur.</value>
+        <summary>Obtient ou définit le conteneur du cookie utilisé pour stocker des cookies de serveur par le gestionnaire.</summary>
+        <value>Conteneur du cookie utilisé pour stocker des cookies de serveur par le gestionnaire.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -323,7 +336,7 @@ Après avoir v4.3.2 de package NuGet, la valeur par défaut de <xref:System.Net.
         <ReturnType>System.Net.ICredentials</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit les informations d'authentification utilisées par ce gestionnaire.</summary>
+        <summary>Obtient ou définit les informations d’authentification utilisées par ce gestionnaire.</summary>
         <value>Informations d’identification d’authentification associées au gestionnaire. La valeur par défaut est <see langword="null" />.</value>
         <remarks>To be added.</remarks>
       </Docs>
@@ -469,7 +482,7 @@ handler.ServerCertificateCustomValidationCallback = httpClientHandler.DangerousA
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit le nombre maximal de redirections suivies par le gestionnaire.</summary>
+        <summary>Récupère ou définit le nombre maximal de redirections suivies par le gestionnaire.</summary>
         <value>Le nombre maximal de réponses de redirection suivies par le gestionnaire. La valeur par défaut est 50.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -539,8 +552,8 @@ handler.ServerCertificateCustomValidationCallback = httpClientHandler.DangerousA
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit la taille maximale de mémoire tampon de contenu demandée utilisée par le gestionnaire.</summary>
-        <value>Taille de mémoire tampon du contenu de requête maximale en octets. La valeur par défaut est 2 gigaoctets.</value>
+        <summary>Obtient ou définit la taille de mémoire tampon du contenu de requête maximale utilisée par le gestionnaire.</summary>
+        <value>Taille de mémoire tampon du contenu de requête maximale en octets. La valeur par défaut est 2 Go.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -609,7 +622,7 @@ handler.ServerCertificateCustomValidationCallback = httpClientHandler.DangerousA
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit une valeur indiquant si le gestionnaire envoie un en-tête d'autorisation avec la requête.</summary>
+        <summary>Obtient ou définit une valeur indiquant si le gestionnaire envoie un en-tête d’autorisation avec la requête.</summary>
         <value><see langword="true" /> pour que le gestionnaire envoie un en-tête d’autorisation HTTP avec les requêtes une fois l’authentification effectuée ; sinon, <see langword="false" />. La valeur par défaut est <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -688,7 +701,7 @@ handler.ServerCertificateCustomValidationCallback = httpClientHandler.DangerousA
         <ReturnType>System.Net.IWebProxy</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit les informations de proxy utilisées par le gestionnaire.</summary>
+        <summary>Obtient ou définit les informations du proxy utilisées par le gestionnaire.</summary>
         <value>Informations du proxy utilisées par le gestionnaire. La valeur par défaut est <see langword="null" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -744,8 +757,8 @@ handler.ServerCertificateCustomValidationCallback = httpClientHandler.DangerousA
         <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" />
       </Parameters>
       <Docs>
-        <param name="request">Message de la requête HTTP.</param>
-        <param name="cancellationToken">Jeton d'annulation pour annuler l'opération.</param>
+        <param name="request">Méthode de requête HTTP.</param>
+        <param name="cancellationToken">Jeton d’annulation pour annuler l’opération.</param>
         <summary>Crée une instance de <see cref="T:System.Net.Http.HttpResponseMessage" /> selon les informations fournies dans le <see cref="T:System.Net.Http.HttpRequestMessage" /> en tant qu’opération qui ne se bloque pas.</summary>
         <returns>Objet de tâche représentant l'opération asynchrone.</returns>
         <remarks>
@@ -756,7 +769,7 @@ handler.ServerCertificateCustomValidationCallback = httpClientHandler.DangerousA
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="request" /> était <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="request" /> avait la valeur <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="ServerCertificateCustomValidationCallback">
@@ -852,7 +865,7 @@ handler.ServerCertificateCustomValidationCallback = httpClientHandler.DangerousA
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient une valeur qui indique si le gestionnaire prend en charge la décompression de contenu de réponse automatique.</summary>
+        <summary>Obtient une valeur qui indique si le gestionnaire prend en charge la décompression automatique du contenu de la réponse.</summary>
         <value><see langword="true" /> si le gestionnaire prend en charge la décompression automatique du contenu de la réponse ; sinon, <see langword="false" />. La valeur par défaut est <see langword="true" />.</value>
         <remarks>To be added.</remarks>
       </Docs>
@@ -910,7 +923,7 @@ handler.ServerCertificateCustomValidationCallback = httpClientHandler.DangerousA
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient une valeur qui indique si le gestionnaire prend en charge les paramètres de configuration pour les propriétés <see cref="P:System.Net.Http.HttpClientHandler.AllowAutoRedirect" /> et <see cref="P:System.Net.Http.HttpClientHandler.MaxAutomaticRedirections" /> .</summary>
+        <summary>Obtient une valeur qui indique si le gestionnaire prend en charge les paramètres de configuration des propriétés <see cref="P:System.Net.Http.HttpClientHandler.AllowAutoRedirect" /> et <see cref="P:System.Net.Http.HttpClientHandler.MaxAutomaticRedirections" />.</summary>
         <value><see langword="true" /> si le gestionnaire prend en charge les paramètres de configuration des propriétés <see cref="P:System.Net.Http.HttpClientHandler.AllowAutoRedirect" /> et <see cref="P:System.Net.Http.HttpClientHandler.MaxAutomaticRedirections" /> ; sinon, <see langword="false" />. La valeur par défaut est <see langword="true" />.</value>
         <remarks>To be added.</remarks>
       </Docs>
@@ -968,7 +981,7 @@ handler.ServerCertificateCustomValidationCallback = httpClientHandler.DangerousA
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit une valeur qui contrôle si les informations d'identification par défaut sont envoyées avec les requêtes par le gestionnaire.</summary>
+        <summary>Obtient ou définit une valeur qui contrôle si les informations d’identification par défaut sont envoyées avec les requêtes par le gestionnaire.</summary>
         <value><see langword="true" /> si les informations d'identification par défaut sont utilisées ; sinon, <see langword="false" />. La valeur par défaut est <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1004,7 +1017,7 @@ handler.ServerCertificateCustomValidationCallback = httpClientHandler.DangerousA
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit une valeur qui indique si le gestionnaire utilise un proxy pour les demandes.</summary>
+        <summary>Obtient ou définit une valeur qui indique si le gestionnaire utilise un proxy pour les requêtes.</summary>
         <value><see langword="true" /> si le gestionnaire doit utiliser un proxy pour les requêtes ; sinon, <see langword="false" />. La valeur par défaut est <see langword="true" />.</value>
         <remarks>To be added.</remarks>
       </Docs>

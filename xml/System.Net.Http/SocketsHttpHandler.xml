@@ -1,5 +1,5 @@
 <Type Name="SocketsHttpHandler" FullName="System.Net.Http.SocketsHttpHandler">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="231b43b22ff6ee232f5083c5679b2c62b173f6f8" /><Meta Name="ms.sourcegitcommit" Value="19b66619a469ee45c85c618f8a605859882eb638" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="01/10/2019" /><Meta Name="ms.locfileid" Value="54183744" /></Metadata><TypeSignature Language="C#" Value="public sealed class SocketsHttpHandler : System.Net.Http.HttpMessageHandler" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="7cdbdc2743b0187f9b503ec7761a417e979bc862" /><Meta Name="ms.sourcegitcommit" Value="8c966994f39ffe6e7c21611e9ec1b91247a68500" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="01/26/2019" /><Meta Name="ms.locfileid" Value="55084588" /></Metadata><TypeSignature Language="C#" Value="public sealed class SocketsHttpHandler : System.Net.Http.HttpMessageHandler" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit SocketsHttpHandler extends System.Net.Http.HttpMessageHandler" />
   <TypeSignature Language="DocId" Value="T:System.Net.Http.SocketsHttpHandler" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class SocketsHttpHandler&#xA;Inherits HttpMessageHandler" />
@@ -14,8 +14,43 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
-    <remarks>To be added.</remarks>
+    <summary>Fournit le Gestionnaire de messages par défaut utilisé par <see cref="T:System.Net.Http.HttpClient" /> dans .NET Core 2.1 et ultérieur.</summary>
+        <remarks>  
+          <format type="text/markdown"><![CDATA[  
+
+En commençant par .NET Core 2.1, le `SocketsHttpHandler` classe fournit l’implémentation utilisée par les classes de mise en réseau HTTP niveau supérieur tels que <xref:System.Net.Http.HttpClient>. L’utilisation de `SocketsHttpHandler` offre un certain nombre d’avantages :
+
+- Une amélioration significative des performances par rapport à l’implémentation précédente.
+
+- L’élimination des dépendances de plateforme, ce qui simplifie le déploiement et la maintenance. Par exemple, `libcurl` n’est plus une dépendance sur .NET Core pour macOS et .NET Core pour Linux.
+
+- Comportement cohérent sur toutes les plateformes .NET.
+
+Si cette modification n’est pas souhaitable, vous pouvez configurer votre application pour utiliser l’ancien <xref:System.Net.Http.HttpClientHandler?displayProperty=nameWithType> classe à la place de plusieurs façons :
+
+- En appelant le <xref:System.AppContext.SetSwitch%2A?displayProperty=nameWithType> méthode comme suit :
+
+   ```csharp
+   AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", false);
+   ```
+
+   ```vb
+   AppContext.SetSwitch("System.Net.Http.useSocketsHttpHandler", False)
+   ``` 
+- En définissant le `System.Net.Http.useSocketsHttpHandler` basculer dans le *. netcore.runtimeconfig.json* fichier de configuration :
+
+  ```json
+  "runtimeOptions": {
+    "configProperties": {
+        "System.Net.Http.useSocketsHttpHandler": false
+    }
+  }
+  ```
+  
+- En définissant une variable d’environnement nommée `DOTNET_SYSTEM_NET_HTTP_USESOCKETSHTTPHANDLER` et l’affectation soit `false` ou 0.
+
+         ]]></format>
+         </remarks>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
