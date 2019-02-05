@@ -1,0 +1,3 @@
+> [!NOTE]
+>  La définition d’une propriété visuelle a un effet seulement si cette propriété est présente dans le modèle par défaut du contrôle et définie à l’aide de [TemplateBinding](~/docs/framework/wpf/advanced/templatebinding-markup-extension.md). Vous trouverez une liste de propriétés visuelles dans la section [Changement de la structure visuelle d’un contrôle](~/docs/framework/wpf/controls/customizing-the-appearance-of-an-existing-control.md#changing-the-visual-structure-of-a-control) de l’article [Personnalisation de l’apparence d’un contrôle existant en créant un ControlTemplate](~/docs/framework/wpf/controls/customizing-the-appearance-of-an-existing-control.md).
+  
