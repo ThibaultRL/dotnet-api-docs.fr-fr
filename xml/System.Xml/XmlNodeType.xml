@@ -1,5 +1,5 @@
 <Type Name="XmlNodeType" FullName="System.Xml.XmlNodeType">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="beb49da4e5041683aa68e9c41480c99fdd1e4848" /><Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="08/24/2018" /><Meta Name="ms.locfileid" Value="37481769" /></Metadata><TypeSignature Language="C#" Value="public enum XmlNodeType" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="b05b4d833b750ad3465979433432a1ac25d30904" /><Meta Name="ms.sourcegitcommit" Value="8e213bb5e6801f6e29861ba72664978ad00e34fa" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="02/18/2019" /><Meta Name="ms.locfileid" Value="56372581" /></Metadata><TypeSignature Language="C#" Value="public enum XmlNodeType" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed XmlNodeType extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.Xml.XmlNodeType" />
   <TypeSignature Language="VB.NET" Value="Public Enum XmlNodeType" />
@@ -29,7 +29,36 @@
   </Base>
   <Docs>
     <summary>Spécifie le type de nœud.</summary>
-    <remarks>To be added.</remarks>
+    <remarks>
+      <format type="text/markdown"><![CDATA[  
+  
+## Remarks  
+
+Le tableau suivant fournit des informations supplémentaires sur les nœuds XML, ainsi que leurs nœuds parents et enfants.
+
+| Champ | Description  | Peut avoir des nœuds enfants : | Peut être un nœud enfant du : |
+|---|---|---|---|
+|`Attribute`| |`EntityReference`, `Text`|Aucun. Il n’est pas considéré comme un nœud enfant d’un `Element`.|
+|`CDATA`| Sections CDATA sont utilisées pour l’échappement des blocs de texte qui seraient normalement considérés comme du balisage.|Aucun.|`DocumentFragment`, `EntityReference`et `Element`|
+|`Comment`| | Aucun. |`Document`, `DocumentFragment`, `EntityReference`|
+|`Document`| |`XmlDeclaration`, `Element` (maximum une), `ProcessingInstruction`, `Comment`, `DocumentType`|Aucun.|
+|`DocumentFragment`|Associe un nœud ou un sous-arbre à un document sans réellement contenu dans le document.|`Element`, `ProcessingInstruction`, `Comment`, `Text`, `CDATA`, `EntityReference`|Aucun. 
+|`DocumentType`| |`Notation`, `Entity`|Aucun.|
+|`Element`| |`Element`, `Text`, `Comment`, `ProcessingInstruction`, `CDATA`, `EntityReference`| `Document`, `DocumentFragment`, `EntityReference`, `Element`|
+|`EndElement`|Retourné lorsque le <xref:System.Xml.XmlReader> arrive à la fin d’un élément.| | |   
+|`EndEntity`| | | |
+|`Entity`| |Nœuds enfants représentant l’entité développée (par exemple, `Text` et `EntityReference` nœuds) |`DocumentType`|
+|`EntityReference`| |`Element`, `ProcessingInstruction`, `Comment`, `Text`, `CDATA`, `EntityReference` |`Attribute`, `DocumentFragment`, `Element`, `EntityReference` |
+|`None`| | | |
+|`Notation`| | Aucun. | `DocumentType`| 
+|`ProcessingInstruction`| | Aucun. | `Document`, `DocumentFragment`, `Element`, `EntityReference`|
+|`SignificantWhitespace`| | | |
+|`Text`| | Aucun. | `Attribute`, `DocumentFragment`, `Element`, `EntityReference` |
+|`Whitespace`| | | |
+|`XmlDeclaration`| Doit être le premier nœud dans le document. Il peut avoir des attributs qui fournissent la version et l’encodage des informations. |Aucun.|`Document`|
+
+ ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="Attribute">
@@ -65,14 +94,6 @@
       <MemberValue>2</MemberValue>
       <Docs>
         <summary>Attribut (par exemple, <c>id='123'</c>).</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Un `Attribute` nœud peut avoir les types de nœuds enfants suivants : `Text` et `EntityReference`. Le `Attribute` nœud n’apparaît pas sous le nœud enfant d’un autre type de nœud. Il n’est pas considéré comme un nœud enfant d’un `Element`.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CDATA">
@@ -108,14 +129,6 @@
       <MemberValue>4</MemberValue>
       <Docs>
         <summary>Section CDATA (par exemple, <c>&lt;![CDATA[my escaped text]]&gt;</c>).</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Sections CDATA sont utilisées pour l’échappement des blocs de texte qui seraient normalement considérés comme du balisage. Un `CDATA` nœud ne peut pas avoir de nœuds enfants. Elle peut apparaître comme enfant de le `DocumentFragment`, `EntityReference`, et `Element` nœuds.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Comment">
@@ -151,14 +164,6 @@
       <MemberValue>8</MemberValue>
       <Docs>
         <summary>Commentaire (par exemple, <c>&lt;!-- my comment --&gt;</c>).</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Un `Comment` nœud ne peut pas avoir de nœuds enfants. Elle peut apparaître comme enfant de le `Document`, `DocumentFragment`, `Element`, et `EntityReference` nœuds.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Document">
@@ -194,14 +199,6 @@
       <MemberValue>9</MemberValue>
       <Docs>
         <summary>Objet document qui, en tant que racine de l'arborescence de documents, permet d'accéder à l'intégralité du document XML.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Un `Document` nœud peut avoir les types de nœuds enfants suivants : `XmlDeclaration`, `Element` (un au maximum), `ProcessingInstruction`, `Comment`, et `DocumentType`. Il ne peut pas apparaître comme enfant de tout type de nœud.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DocumentFragment">
@@ -237,14 +234,6 @@
       <MemberValue>11</MemberValue>
       <Docs>
         <summary>Fragment de document.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Le `DocumentFragment` nœud associe un nœud ou un sous-arbre à un document sans réellement contenu dans le document. Un `DocumentFragment` nœud peut avoir les types de nœuds enfants suivants : `Element`, `ProcessingInstruction`, `Comment`, `Text`, `CDATA`, et `EntityReference`. Il ne peut pas apparaître comme enfant de tout type de nœud.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="DocumentType">
@@ -280,14 +269,6 @@
       <MemberValue>10</MemberValue>
       <Docs>
         <summary>Déclaration de type du document, indiquée par la balise suivante (par exemple, <c>&lt;!DOCTYPE...&gt;</c>).</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Un `DocumentType` nœud peut avoir les types de nœuds enfants suivants : `Notation` et `Entity`. Elle peut apparaître comme enfant de le `Document` nœud.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Element">
@@ -323,14 +304,6 @@
       <MemberValue>1</MemberValue>
       <Docs>
         <summary>Élément (par exemple, <c>&lt;item&gt;</c>).</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Un `Element` nœud peut avoir les types de nœuds enfants suivants : `Element`, `Text`, `Comment`, `ProcessingInstruction`, `CDATA`, et `EntityReference`. Il peut être l’enfant de la `Document`, `DocumentFragment`, `EntityReference`, et `Element` nœuds.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="EndElement">
@@ -366,14 +339,6 @@
       <MemberValue>15</MemberValue>
       <Docs>
         <summary>Balise d’élément de fin (par exemple, <c>&lt;/item&gt;</c>).</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- `EndElement` les nœuds sont retournés lorsque <xref:System.Xml.XmlReader> arrive à la fin d’un élément.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="EndEntity">
@@ -444,14 +409,6 @@
       <MemberValue>6</MemberValue>
       <Docs>
         <summary>Déclaration d’entité (par exemple, <c>&lt;!ENTITY...&gt;</c>).</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Un `Entity` nœud peut avoir des nœuds enfants représentant l’entité développée (par exemple, `Text` et `EntityReference` nœuds). Elle peut apparaître comme enfant de le `DocumentType` nœud.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="EntityReference">
@@ -487,14 +444,6 @@
       <MemberValue>5</MemberValue>
       <Docs>
         <summary>Référence à une entité (par exemple, <c>&amp;num;</c>).</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Un `EntityReference` nœud peut avoir les types de nœuds enfants suivants : `Element`, `ProcessingInstruction`, `Comment`, `Text`, `CDATA`, et `EntityReference`. Elle peut apparaître comme enfant de le `Attribute`, `DocumentFragment`, `Element`, et `EntityReference` nœuds.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="None">
@@ -565,14 +514,6 @@
       <MemberValue>12</MemberValue>
       <Docs>
         <summary>Notation dans la déclaration de type du document (par exemple, <c>&lt;!NOTATION...&gt;</c>).</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Un `Notation` nœud ne peut pas avoir de nœuds enfants. Elle peut apparaître comme enfant de le `DocumentType` nœud.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ProcessingInstruction">
@@ -608,14 +549,6 @@
       <MemberValue>7</MemberValue>
       <Docs>
         <summary>Instruction de traitement (par exemple, <c>&lt;?pi test?&gt;</c>).</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Un `ProcessingInstruction` nœud ne peut pas avoir de nœuds enfants. Elle peut apparaître comme enfant de le `Document`, `DocumentFragment`, `Element`, et `EntityReference` nœuds.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SignificantWhitespace">
