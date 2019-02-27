@@ -1,5 +1,5 @@
 <Type Name="XmlConvert" FullName="System.Xml.XmlConvert">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="9b7119391e323f3222e36605a2de5c38872895dc" /><Meta Name="ms.sourcegitcommit" Value="756d085f27705e86604f1bba5f2086ee23761acf" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="01/30/2019" /><Meta Name="ms.locfileid" Value="55360653" /></Metadata><TypeSignature Language="C#" Value="public class XmlConvert" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="b86397231d641d04128f41bea17f071284ac0a64" /><Meta Name="ms.sourcegitcommit" Value="8e213bb5e6801f6e29861ba72664978ad00e34fa" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="02/18/2019" /><Meta Name="ms.locfileid" Value="56398726" /></Metadata><TypeSignature Language="C#" Value="public class XmlConvert" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit XmlConvert extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Xml.XmlConvert" />
   <TypeSignature Language="VB.NET" Value="Public Class XmlConvert" />
@@ -29,7 +29,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>Encode et décode les noms XML, et fournit des méthodes pour la conversion entre les types Common Language Runtime et les types XSD (XML Schema Definition). Lors de la conversion de types de données, les valeurs retournées sont indépendantes des paramètres régionaux.</summary>
+    <summary>Encode et décode les noms XML, et fournit des méthodes pour la conversion des types Common Language Runtime en types de langage XSD (XML Schema Definition). Lors de la conversion de types de données, les valeurs retournées sont indépendantes des paramètres régionaux.</summary>
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
@@ -150,14 +150,14 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
 ## Remarks  
  Les noms sont décodés utilisant les règles suivantes :  
   
--   Les noms sont décodés de gauche à droite.  
+- Les noms sont décodés de gauche à droite.  
   
--   Toute séquence _x `HHHH_` (où HHHH représente un quatre valide, code UCS-2 hexadécimal à chiffres) qui n’a pas été décodé est transformé en le correspondantes Unicode 2.1 (Unicode 3.0 si pris en charge par l’application) caractères.  
+- N’importe quelle séquence \_x*HHHH* \_ (où HHHH représente un code UCS-2 hexadécimal valid, à quatre chiffres) qui n'a pas été décodé est transformé en le correspondantes Unicode 2.1 (Unicode 3.0 si pris en charge par le caractère de l’application).  
   
--   Aucun abrégée n’est reconnue. Ils sont transmis sans traduction. Par exemple, _x20\_ ou __ ne sont pas décodées.  
+- Aucun abrégée n’est reconnue. Ils sont transmis sans traduction. Par exemple, \_x20\_ ou \_ \_ ne sont pas décodées.
   
 > [!NOTE]
->  L’encodage réel du caractère est spécifique à l’application. Par exemple, Order_x0020_Details devient Order Details. Même avec la séquence d’échappement des caractères non valides dans les noms XML seront reconnus et décodés.  
+> L’encodage réel du caractère est spécifique à l’application. Par exemple, commandes\_x0020\_détails devient Order Details. Même avec la séquence d’échappement des caractères non valides dans les noms XML seront reconnus et décodés.  
   
    
   
@@ -220,9 +220,9 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
 ## Remarks  
  Cette méthode est similaire à la <xref:System.Xml.XmlConvert.EncodeName%2A> (méthode), sauf qu’elle encode le caractère deux-points, ce qui garantit que le nom peut être utilisé en tant que la partie nom local d’un nom qualifié d’espace de noms.  
   
- Par exemple, si vous avez passé à cette méthode le nom non valide un : b, elle retourne a_x003a_b, qui est un nom local valide.  
+ Par exemple, si vous avez passé à cette méthode le nom non valide un : b, elle retourne un\_x003a\_b, qui est un nom local valide.  
   
- Si `name` est `null` ou `String.Empty` puis la même valeur est retournée.  
+ Si `name` est `null` ou <xref:System.String.Empty?displayProperty=fullName>, la méthode retourne la même valeur.  
   
    
   
@@ -287,9 +287,9 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
 ## Remarks  
  Cette méthode se traduit par des caractères non valides, tels que des espaces ou le Katakana à demi-chasse, qui doivent être mappées à des noms XML sans la prise en charge ou la présence de schémas. Les caractères non valides sont convertis en codages d’entités numériques d’échappement.  
   
- Le caractère d’échappement est « _ ». N’importe quel caractère de nom XML qui n’est pas conforme à la [((quatrième édition) de la spécification XML 1.0 recommendation](https://www.w3.org/TR/2006/REC-xml-20060816/) est une séquence d’échappement sous la forme _xHHHH\_. La chaîne HHHH désigne le code de UCS-2 hexadécimal à quatre chiffres du caractère dans l’ordre du premier bit plus significatif. Par exemple, le nom Order Details est encodé sous la forme Order_x0020_Details.  
+ Le caractère d’échappement est «\_». N’importe quel caractère de nom XML qui n’est pas conforme à la [((quatrième édition) de la spécification XML 1.0 recommendation](https://www.w3.org/TR/2006/REC-xml-20060816/) est ignoré en tant que \_xHHHH\_. La chaîne HHHH désigne le code de UCS-2 hexadécimal à quatre chiffres du caractère dans l’ordre du premier bit plus significatif. Par exemple, le nom Order Details est encodé comme commande\_x0020\_détails.  
   
- Le caractère de soulignement ne doit pas être repris dans une séquence d'échappement à moins qu'il ne soit suivi par une séquence de caractères qui, avec le caractère de soulignement, puisse être confondu avec une séquence d'échappement lors du décodage du nom. Par exemple, Order_Details n'est pas encodé, mais Order_x0020_ est encodé comme Order_x005f_x0020_. Aucun abrégée n’est autorisée. Par exemple, le _x20 forms\_ et __ ne sont pas générés.  
+ Le caractère de soulignement ne doit pas être repris dans une séquence d'échappement à moins qu'il ne soit suivi par une séquence de caractères qui, avec le caractère de soulignement, puisse être confondu avec une séquence d'échappement lors du décodage du nom. Par exemple, commandes\_détails n’est pas encodé, mais commander\_x0020\_ est encodée sous la forme d’ordre\_x005f\_x0020\_. Aucun abrégée n’est autorisée. Par exemple, le _x20 forms\_ et \_ \_ ne sont pas générés.  
   
  Cette méthode garantit que le nom est valide conformément à la spécification XML. Il permet des signes deux-points dans n’importe quelle position, ce qui signifie que le nom peut néanmoins être non valide en fonction de la [W3C Namespace spécification](https://www.w3.org/TR/REC-xml-names/). Afin de garantir qu’il est un espace de noms valide qualifié nom, utilisez <xref:System.Xml.XmlConvert.EncodeLocalName%2A> pour le préfixe local nommer les parties et joindre le résultat avec un signe deux-points.  
   
@@ -348,13 +348,13 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
       </Parameters>
       <Docs>
         <param name="name">Nom à encoder.</param>
-        <summary>Vérifie que le nom est valide selon la spécification XML.</summary>
+        <summary>Vérifie le nom est valide conformément à la spécification XML.</summary>
         <returns>Nom encodé.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode garantit que le nom est valide conformément à la spécification XML. Par exemple, si vous avez passé à cette méthode le nom non valide 70 +, elle retourne 70_x002b, qui est un nom XML valide.  
+ Cette méthode garantit que le nom est valide conformément à la spécification XML. Par exemple, si vous avez passé à cette méthode le nom non valide 70 +, elle retourne 70\_x002b\_ qui est un nom XML valide.  
   
  Si `name` est `null` ou String.Empty, vous obtenez la valeur retournée.  
   
@@ -391,8 +391,8 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <Parameter Name="ch" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="ch">Caractère dont il faut vérifier qu'il n'est pas le caractère deux-points.</param>
-        <summary>Vérifie si le caractère passé est un type de caractère autre que deux-points valide.</summary>
+        <param name="ch">Caractère à vérifier comme un caractère non deux-points.</param>
+        <summary>Vérifie si le caractère passé est un type de caractère non deux-points valide.</summary>
         <returns><see langword="true" /> si le caractère est un type de caractère valide autre que le caractère deux-points ; sinon, <see langword="false" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -427,7 +427,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
       </Parameters>
       <Docs>
         <param name="ch">Objet <see cref="T:System.Char" /> à valider.</param>
-        <summary>Retourne l'instance du caractère passé si le caractère de l'argument est un caractère d'ID public valide, sinon <see langword="null" />.</summary>
+        <summary>Retourne l'instance de caractère passée si le caractère dans l'argument est un caractère ID public valide, sinon <see langword="null" />.</summary>
         <returns>Caractère passé si le caractère est un caractère d’ID public valide, sinon <see langword="null" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -462,8 +462,8 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
       </Parameters>
       <Docs>
         <param name="ch">Caractère à valider.</param>
-        <summary>Vérifie si le caractère passé est un type de caractère de début de nom valide.</summary>
-        <returns><see langword="true" /> si le caractère est un type de caractère de début de nom valide ; sinon, <see langword="false" />.</returns>
+        <summary>Vérifie si le caractère passé est un type de caractère de nom de démarrage valide.</summary>
+        <returns><see langword="true" /> si le caractère est un type de caractère de nom de démarrage valide ; sinon, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -504,7 +504,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
       </Parameters>
       <Docs>
         <param name="ch">Caractère à valider.</param>
-        <summary>Vérifie si le caractère passé est un caractère d'espace XML valide.</summary>
+        <summary>Vérifie si le caractère passé est un caractère d'espace blanc XML valide.</summary>
         <returns><see langword="true" /> si le caractère passé est un caractère d’espace XML valide ; sinon, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -590,7 +590,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
       <Docs>
         <param name="lowChar">Caractère de substitution à valider.</param>
         <param name="highChar">Caractère de substitution à valider.</param>
-        <summary>Vérifie si la paire de caractères de substitution passée est un caractère XML valide.</summary>
+        <summary>Vérifie si la paire de substitution passée de caractères est un caractère XML valide.</summary>
         <returns><see langword="true" /> si la paire de caractères de substitution passée est un caractère XML valide ; sinon, <see langword="false" />.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -630,7 +630,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.Boolean" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.Boolean" />.</summary>
         <returns>Valeur <see langword="Boolean" />, c'est-à-dire <see langword="true" /> ou <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -679,7 +679,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.Byte" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.Byte" />.</summary>
         <returns>Équivalent <see langword="Byte" /> de la chaîne.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="s" /> est <see langword="null" />.</exception>
@@ -721,8 +721,8 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <Parameter Name="s" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="s">Chaîne contenant un seul caractère à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.Char" />.</summary>
+        <param name="s">Chaîne contenant un caractère unique à convertir.</param>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.Char" />.</summary>
         <returns><see langword="Char" /> représentant le caractère unique.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException">La valeur du paramètre <paramref name="s" /> est <see langword="null" />.</exception>
@@ -736,7 +736,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.DateTime" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.DateTime" />.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="ToDateTime">
@@ -764,7 +764,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;netcore-3.0">
           <AttributeName>System.Obsolete("Use XmlConvert.ToDateTime() that takes in XmlDateTimeSerializationMode")</AttributeName>
         </Attribute>
       </Attributes>
@@ -776,7 +776,7 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.DateTime" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.DateTime" />.</summary>
         <returns>Équivalent <see langword="DateTime" /> de la chaîne.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -838,8 +838,8 @@ writer.WriteElementString(XmlConvert.EncodeName("Order Detail"),"My order");
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <param name="format">Structure du format à appliquer à l'élément <see langword="DateTime" /> converti. Les formats valides sont "yyyy-MM-ddTHH:mm:sszzzzzz" et ses sous-ensembles. La chaîne est validée par rapport à ce format.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.DateTime" />.</summary>
+        <param name="format">Structure du format à appliquer au <see langword="DateTime" /> converti. Les formats valides incluent "yyyy-MM-ddTHH:mm:sszzzzzz" et ses sous-ensembles. La chaîne est validée en fonction de ce format.</param>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.DateTime" />.</summary>
         <returns>Équivalent <see langword="DateTime" /> de la chaîne.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="s" /> est <see langword="null" />.</exception>
@@ -881,8 +881,8 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <param name="formats">Tableau contenant les structures du format à appliquer à l'élément <see langword="DateTime" /> converti. Les formats valides sont "yyyy-MM-ddTHH:mm:sszzzzzz" et ses sous-ensembles.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.DateTime" />.</summary>
+        <param name="formats">Tableau contenant les structures du format à appliquer au <see langword="DateTime" /> converti. Les formats valides incluent "yyyy-MM-ddTHH:mm:sszzzzzz" et ses sous-ensembles.</param>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.DateTime" />.</summary>
         <returns>Équivalent <see langword="DateTime" /> de la chaîne.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -933,8 +933,8 @@ ou
       <Docs>
         <param name="s">Valeur <see cref="T:System.String" /> à convertir.</param>
         <param name="dateTimeOption">Une des valeurs d’énumération qui spécifient si la date doit être convertie en heure locale ou conservée en temps UTC, s’il s’agit d’une date UTC.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un élément <see cref="T:System.DateTime" /> en utilisant le mode <see cref="T:System.Xml.XmlDateTimeSerializationMode" /> spécifié.</summary>
-        <returns>Équivalent <see cref="T:System.DateTime" /> de l'élément <see cref="T:System.String" />.</returns>
+        <summary>Convertit <see cref="T:System.String" /> en <see cref="T:System.DateTime" /> à l'aide du <see cref="T:System.Xml.XmlDateTimeSerializationMode" /> spécifié</summary>
+        <returns>Équivalent <see cref="T:System.DateTime" /> de la chaîne <see cref="T:System.String" />.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.NullReferenceException"><paramref name="s" /> est <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentNullException"><paramref name="dateTimeOption" /> est <see langword="null" />.</exception>
@@ -950,7 +950,7 @@ ou
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> fournie en un équivalent <see cref="T:System.DateTimeOffset" />.</summary>
+        <summary>Convertit le <see cref="T:System.String" /> fourni en équivalent <see cref="T:System.DateTimeOffset" />.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="ToDateTimeOffset">
@@ -989,7 +989,7 @@ ou
         <param name="s">Chaîne à convertir.  
   
  **Remarque** La chaîne doit être conforme à une partie de la recommandation du W3C sur le type XML dateTime. Pour plus d’informations, consultez la section <see href="https://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</see> de la spécification XML Schema.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> fournie en un équivalent <see cref="T:System.DateTimeOffset" />.</summary>
+        <summary>Convertit le <see cref="T:System.String" /> fourni en équivalent <see cref="T:System.DateTimeOffset" />.</summary>
         <returns>Équivalent <see cref="T:System.DateTimeOffset" /> de la chaîne fournie.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1061,8 +1061,8 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <param name="format">Format à partir duquel <paramref name="s" /> est convertie. Le paramètre de format peut correspondre à un sous-ensemble de recommandations du W3C pour le type XML dateTime. (Pour plus d’informations, consultez la section <see href="https://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</see> de la spécification XML Schema.) La chaîne <paramref name="s" /> est validée par rapport à ce format.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> fournie en un équivalent <see cref="T:System.DateTimeOffset" />.</summary>
+        <param name="format">Format à partir duquel <paramref name="s" /> est converti. Le paramètre de format peut correspondre à un sous-ensemble de recommandations du W3C sur le type XML dateTime. (Pour plus d’informations, consultez la section <see href="https://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</see> de la spécification XML Schema.) La chaîne <paramref name="s" /> est validée par rapport à ce format.</param>
+        <summary>Convertit le <see cref="T:System.String" /> fourni en équivalent <see cref="T:System.DateTimeOffset" />.</summary>
         <returns>Équivalent <see cref="T:System.DateTimeOffset" /> de la chaîne fournie.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1135,8 +1135,8 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <param name="formats">Tableau de formats à partir duquel <paramref name="s" /> peut être convertie. Chaque format figurant dans <paramref name="formats" /> peut correspondre à un des sous-ensembles de la recommandation W3C pour le type XML dateTime. (Pour plus d’informations, consultez la section <see href="https://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</see> de la spécification XML Schema.) La chaîne <paramref name="s" /> est validée par rapport à un de ces formats.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> fournie en un équivalent <see cref="T:System.DateTimeOffset" />.</summary>
+        <param name="formats">Tableau de formats à partir duquel <paramref name="s" /> peut être converti. Chaque format figurant dans <paramref name="formats" /> peut correspondre à un sous-ensemble de recommandations du W3C sur le type XML dateTime. (Pour plus d’informations, consultez la section <see href="https://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</see> de la spécification XML Schema.) La chaîne <paramref name="s" /> est validée par rapport à l'un de ces formats.</param>
+        <summary>Convertit le <see cref="T:System.String" /> fourni en équivalent <see cref="T:System.DateTimeOffset" />.</summary>
         <returns>Équivalent <see cref="T:System.DateTimeOffset" /> de la chaîne fournie.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1207,7 +1207,7 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.Decimal" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.Decimal" />.</summary>
         <returns>Équivalent <see langword="Decimal" /> de la chaîne.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="s" /> est <see langword="null" />.</exception>
@@ -1250,7 +1250,7 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.Double" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.Double" />.</summary>
         <returns>Équivalent <see langword="Double" /> de la chaîne.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1315,7 +1315,7 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.Guid" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.Guid" />.</summary>
         <returns>Équivalent <see langword="Guid" /> de la chaîne.</returns>
         <remarks>To be added.</remarks>
       </Docs>
@@ -1355,7 +1355,7 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.Int16" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.Int16" />.</summary>
         <returns>Équivalent <see langword="Int16" /> de la chaîne.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="s" /> est <see langword="null" />.</exception>
@@ -1398,7 +1398,7 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.Int32" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.Int32" />.</summary>
         <returns>Équivalent <see langword="Int32" /> de la chaîne.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="s" /> est <see langword="null" />.</exception>
@@ -1441,7 +1441,7 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.Int64" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.Int64" />.</summary>
         <returns>Équivalent <see langword="Int64" /> de la chaîne.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="s" /> est <see langword="null" />.</exception>
@@ -1477,7 +1477,7 @@ ou
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -1489,7 +1489,7 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.SByte" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.SByte" />.</summary>
         <returns>Équivalent <see langword="SByte" /> de la chaîne.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="s" /> est <see langword="null" />.</exception>
@@ -1532,7 +1532,7 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.Single" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.Single" />.</summary>
         <returns>Équivalent <see langword="Single" /> de la chaîne.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1558,7 +1558,7 @@ ou
         <AssemblyVersion>4.2.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Convertit des données fortement typées en une représentation <see cref="T:System.String" /> équivalente.</summary>
+        <summary>Convertit les données fortement typées en une représentation <see cref="T:System.String" /> équivalente.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="ToString">
@@ -1597,7 +1597,7 @@ ou
       <Docs>
         <param name="value">Valeur à convertir.</param>
         <summary>Convertit le <see cref="T:System.Boolean" /> en <see cref="T:System.String" />.</summary>
-        <returns>Une représentation sous forme de chaîne de l'élément <see langword="Boolean" />, c'est-à-dire "true" ou "false".</returns>
+        <returns>Une représentation sous forme de chaîne <see langword="Boolean" />, c'est-à-dire, "true" ou "false".</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -1705,7 +1705,7 @@ ou
         <AssemblyVersion>4.2.1.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-2.0;netcore-2.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;netcore-3.0">
           <AttributeName>System.Obsolete("Use XmlConvert.ToString() that takes in XmlDateTimeSerializationMode")</AttributeName>
         </Attribute>
         <Attribute FrameworkAlternate="netframework-4.0">
@@ -1721,7 +1721,7 @@ ou
       <Docs>
         <param name="value">Valeur à convertir.</param>
         <summary>Convertit le <see cref="T:System.DateTime" /> en <see cref="T:System.String" />.</summary>
-        <returns>Représentation sous forme de chaîne de <see langword="DateTime" /> au format yyyy-MM-ddTHH:mm:ss, où 'T' est une constante littérale.</returns>
+        <returns>Représentation sous forme de chaîne de <see langword="DateTime" /> au format yyyy-MM-ddTHH:mm:ss où 'T' est une constante littérale.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1768,8 +1768,8 @@ ou
       </Parameters>
       <Docs>
         <param name="value"><see cref="T:System.DateTimeOffset" /> à convertir.</param>
-        <summary>Convertit l'élément <see cref="T:System.DateTimeOffset" /> fourni en une chaîne <see cref="T:System.String" />.</summary>
-        <returns>Représentation <see cref="T:System.String" /> de l'élément <see cref="T:System.DateTimeOffset" /> fourni.</returns>
+        <summary>Convertit le <see cref="T:System.DateTimeOffset" /> fourni en <see cref="T:System.String" />.</summary>
+        <returns>Représentation <see cref="T:System.String" /> du <see cref="T:System.DateTimeOffset" /> fourni.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2080,7 +2080,7 @@ ou
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2213,7 +2213,7 @@ ou
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2258,7 +2258,7 @@ ou
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2303,7 +2303,7 @@ ou
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2353,7 +2353,7 @@ ou
       </Parameters>
       <Docs>
         <param name="value">Valeur à convertir.</param>
-        <param name="format">Structure du format qui définit comment afficher la chaîne convertie. Les formats valides sont "yyyy-MM-ddTHH:mm:sszzzzzz" et ses sous-ensembles.</param>
+        <param name="format">Structure du format qui définit comment afficher la chaîne convertie. Les formats valides incluent "yyyy-MM-ddTHH:mm:sszzzzzz" et ses sous-ensembles.</param>
         <summary>Convertit le <see cref="T:System.DateTime" /> en <see cref="T:System.String" />.</summary>
         <returns>Représentation sous forme de chaîne de <see langword="DateTime" /> au format spécifié.</returns>
         <remarks>
@@ -2405,8 +2405,8 @@ ou
       <Docs>
         <param name="value">Valeur <see cref="T:System.DateTime" /> à convertir.</param>
         <param name="dateTimeOption">Une des valeurs de <see cref="T:System.Xml.XmlDateTimeSerializationMode" /> qui spécifient comment traiter la valeur <see cref="T:System.DateTime" />.</param>
-        <summary>Convertit l'élément <see cref="T:System.DateTime" /> en une chaîne <see cref="T:System.String" /> en utilisant le mode <see cref="T:System.Xml.XmlDateTimeSerializationMode" /> spécifié.</summary>
-        <returns>Équivalent <see cref="T:System.String" /> de l'élément <see cref="T:System.DateTime" />.</returns>
+        <summary>Convertit <see cref="T:System.DateTime" /> en <see cref="T:System.String" /> à l'aide du <see cref="T:System.Xml.XmlDateTimeSerializationMode" /> spécifié</summary>
+        <returns>Équivalent <see cref="T:System.String" /> de la chaîne <see cref="T:System.DateTime" />.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentException">La valeur <paramref name="dateTimeOption" /> n'est pas valide.</exception>
         <exception cref="T:System.ArgumentNullException">La valeur de <paramref name="value" /> ou de <paramref name="dateTimeOption" /> est <see langword="null" />.</exception>
@@ -2447,9 +2447,9 @@ ou
       </Parameters>
       <Docs>
         <param name="value"><see cref="T:System.DateTimeOffset" /> à convertir.</param>
-        <param name="format">Format vers lequel <paramref name="s" /> est convertie. Le paramètre de format peut correspondre à un sous-ensemble de recommandations du W3C pour le type XML dateTime. (Pour plus d’informations, consultez la section <see href="https://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</see> de la spécification XML Schema.)</param>
-        <summary>Convertit l'élément <see cref="T:System.DateTimeOffset" /> fourni en une chaîne <see cref="T:System.String" /> dans le format spécifié.</summary>
-        <returns>Représentation <see cref="T:System.String" /> dans le format spécifié de l'élément <see cref="T:System.DateTimeOffset" />.</returns>
+        <param name="format">Format vers lequel <paramref name="s" /> est converti. Le paramètre de format peut correspondre à un sous-ensemble de recommandations du W3C sur le type XML dateTime. (Pour plus d’informations, consultez la section <see href="https://www.w3.org/TR/xmlschema-2/#dateTime">dateTime</see> de la spécification XML Schema.)</param>
+        <summary>Convertit le <see cref="T:System.DateTimeOffset" /> fourni en <see cref="T:System.String" /> dans le format spécifié.</summary>
+        <returns>Représentation <see cref="T:System.String" /> dans le format spécifié du <see cref="T:System.DateTimeOffset" /> fourni.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2498,7 +2498,7 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir. Le format de chaîne doit être conforme à la recommandation W3C XML intitulée Schema Part 2: Datatypes pour les durées.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.TimeSpan" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.TimeSpan" />.</summary>
         <returns>Équivalent <see langword="TimeSpan" /> de la chaîne.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.FormatException">Le format de <paramref name="s" /> est incorrect pour représenter une valeur <see langword="TimeSpan" />.</exception>
@@ -2532,7 +2532,7 @@ ou
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2544,7 +2544,7 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.UInt16" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.UInt16" />.</summary>
         <returns>Équivalent <see langword="UInt16" /> de la chaîne.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="s" /> est <see langword="null" />.</exception>
@@ -2580,7 +2580,7 @@ ou
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2592,7 +2592,7 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.UInt32" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.UInt32" />.</summary>
         <returns>Équivalent <see langword="UInt32" /> de la chaîne.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="s" /> est <see langword="null" />.</exception>
@@ -2628,7 +2628,7 @@ ou
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Attributes>
-        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2">
+        <Attribute FrameworkAlternate="netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netframework-4.8;netcore-2.2;dotnet-uwp-10.0;netcore-3.0">
           <AttributeName>System.CLSCompliant(false)</AttributeName>
         </Attribute>
       </Attributes>
@@ -2640,7 +2640,7 @@ ou
       </Parameters>
       <Docs>
         <param name="s">Chaîne à convertir.</param>
-        <summary>Convertit la chaîne <see cref="T:System.String" /> en un équivalent <see cref="T:System.UInt64" />.</summary>
+        <summary>Convertit <see cref="T:System.String" /> en équivalent de <see cref="T:System.UInt64" />.</summary>
         <returns>Équivalent <see langword="UInt64" /> de la chaîne.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="s" /> est <see langword="null" />.</exception>
@@ -2683,7 +2683,7 @@ ou
       </Parameters>
       <Docs>
         <param name="name">Nom à vérifier.</param>
-        <summary>Vérifie que le nom est un nom valide selon la recommandation W3C XML (Extended Markup Language).</summary>
+        <summary>Vérifie que le nom est un nom valide en vertu de la recommandation W3C XML (Extended Markup Language).</summary>
         <returns>Le nom, s'il s'agit d'un nom XML valide.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -2757,7 +2757,7 @@ catch(Exception e)
       </Parameters>
       <Docs>
         <param name="name">Nom à vérifier.</param>
-        <summary>Vérifie que le nom est un <see langword="NCName" /> valide selon la recommandation W3C XML (Extended Markup Language). Un élément <see langword="NCName" /> est un nom qui ne peut pas contenir un signe deux-points.</summary>
+        <summary>Vérifie que le nom est un <see langword="NCName" /> valide en vertu de la recommandation W3C XML (Extended Markup Language). Un <see langword="NCName" /> est un nom qui ne peut pas contenir un signe deux-points.</summary>
         <returns>Le nom, s'il s'agit d'un NCName valide.</returns>
         <remarks>To be added.</remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="name" /> est <see langword="null" /> ou <c>String.Empty</c>.</exception>
@@ -2861,7 +2861,7 @@ catch(Exception e) {
       </Parameters>
       <Docs>
         <param name="publicId"><see cref="T:System.String" /> qui contient l'ID à valider.</param>
-        <summary>Retourne l’instance de chaîne passée si tous les caractères de l’argument de chaîne sont des caractères d’ID publics valides.</summary>
+        <summary>Retourne l'instance de chaîne passée si tous les caractères dans l'argument de chaîne sont des caractères ID publics valides.</summary>
         <returns>Chaîne passée si tous les caractères de l’argument sont des caractères d’ID publics valides.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -2965,7 +2965,7 @@ catch(Exception e) {
       </Parameters>
       <Docs>
         <param name="content"><see cref="T:System.String" /> à vérifier.</param>
-        <summary>Retourne l’instance de chaîne passée si tous les caractères de l’argument de chaîne sont des caractères d’espace valides.</summary>
+        <summary>Retourne l'instance de chaîne passée si tous les caractères dans l'argument de chaîne sont des caractères espace blanc valides.</summary>
         <returns>Instance de chaîne passée si tous les caractères de l’argument de chaîne sont des caractères d’espace valides, sinon <see langword="null" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -3023,8 +3023,8 @@ catch(Exception e) {
         <Parameter Name="content" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="content">Chaîne <see cref="T:System.String" /> qui contient les caractères à vérifier.</param>
-        <summary>Retourne les caractères de la chaîne passée si tous les caractères et caractères de la paire de substitution de l'argument de chaîne sont des caractères XML valides, sinon une exception <see langword="XmlException" /> est levée avec des informations relatives au premier caractère non valide rencontré.</summary>
+        <param name="content"><see cref="T:System.String" /> qui contient des caractères à vérifier.</param>
+        <summary>Retourne les caractères de la chaîne passée si tous les caractères et caractères de paire de substitution dans l'argument de le chaîne sont valides d'un point de vue XML, sinon une exception <see langword="XmlException" /> est levée avec les informations relatives au premier caractère non valide rencontré.</summary>
         <returns>Caractères de la chaîne passée si tous les caractères et caractères de la paire de substitution de l’argument de chaîne sont des caractères XML valides, sinon une exception <see langword="XmlException" /> est levée avec des informations relatives au premier caractère non valide rencontré.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
