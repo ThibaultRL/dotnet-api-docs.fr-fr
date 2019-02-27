@@ -1,5 +1,5 @@
 <Type Name="EnvironmentVariableTarget" FullName="System.EnvironmentVariableTarget">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="35b8f0d5b4debc17bc81714e0a0ee7e3f6e08297" /><Meta Name="ms.sourcegitcommit" Value="0ec122ee5f3681159b8460ab15b409fd6e3d3ae0" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="10/04/2018" /><Meta Name="ms.locfileid" Value="48662921" /></Metadata><TypeSignature Language="C#" Value="public enum EnvironmentVariableTarget" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="5a4d836a089d03d2689103f2472f27e07a81d5b5" /><Meta Name="ms.sourcegitcommit" Value="3f21796619d6e69ad383c958cc013ce44c0678de" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="02/11/2019" /><Meta Name="ms.locfileid" Value="56067318" /></Metadata><TypeSignature Language="C#" Value="public enum EnvironmentVariableTarget" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed EnvironmentVariableTarget extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.EnvironmentVariableTarget" />
   <TypeSignature Language="VB.NET" Value="Public Enum EnvironmentVariableTarget" />
@@ -34,12 +34,22 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.EnvironmentVariableTarget> énumération est utilisée par certaines surcharges de la <xref:System.Environment.SetEnvironmentVariable%2A>, <xref:System.Environment.GetEnvironmentVariable%2A>, et <xref:System.Environment.GetEnvironmentVariables%2A> méthodes pour spécifier l’emplacement, ou cible, où le nom et la valeur de variable d’environnement est stockée ou récupérée.  
+ Le <xref:System.EnvironmentVariableTarget> énumération est utilisée par certaines surcharges de la <xref:System.Environment.SetEnvironmentVariable%2A?displayProperty=nameWithType>, <xref:System.Environment.GetEnvironmentVariable%2A?displayProperty=nameWithType>, et <xref:System.Environment.GetEnvironmentVariables%2A?displayProperty=nameWithType> méthodes pour spécifier l’emplacement, ou cible, où le nom et la valeur de variable d’environnement est stockée ou récupérée.  
   
- La cible peut être un des trois emplacements : le bloc environnement associé le processus en cours, la clé de la Registre système d’exploitation Windows réservée pour les variables d’environnement associé à l’utilisateur actuel ou la clé de Registre réservée pour l’environnement variables associées à tous les utilisateurs sur l’ordinateur local.  
-  
+ La cible peut être un des trois emplacements : 
+ 
+ - Le bloc environnement associé au processus en cours (`EnvironmentVariableTarget.Process`).
+
+   L’utilisateur crée la variable d’environnement dans une opération ensembliste. Lorsque le processus se termine, le système d’exploitation détruit la variable d’environnement dans ce processus.
+
+ - La clé de la Registre système d’exploitation Windows réservée pour les variables d’environnement associé à l’utilisateur actuel (`EnvironmentVariableTarget.User`).
+ 
+   Lorsque l’utilisateur crée la variable d’environnement dans une opération ensembliste, le système d’exploitation stocke la variable d’environnement dans le Registre système, mais pas dans le processus en cours. Si l’utilisateur démarre un nouveau processus, le système d’exploitation copie la variable d’environnement à partir du Registre à ce processus. Lorsque le processus se termine, le système d’exploitation détruit la variable d’environnement dans ce processus. Toutefois, la variable d’environnement dans le Registre persiste jusqu'à ce que l’utilisateur supprime par programme ou au moyen d’un outil de système d’exploitation.  
    
-  
+ - La clé de Registre réservée pour les variables d’environnement associées à tous les utilisateurs sur l’ordinateur local (`EnvironmentVariableTarget.Machine`). 
+
+    Lorsqu’un utilisateur crée la variable d’environnement dans une opération ensembliste, le système d’exploitation stocke la variable d’environnement dans le Registre système, mais pas dans le processus en cours. Si n’importe quel utilisateur sur l’ordinateur local démarre un nouveau processus, le système d’exploitation copie la variable d’environnement à partir du Registre à ce processus. Lorsque le processus se termine, le système d’exploitation détruit la variable d’environnement dans ce processus. Toutefois, la variable d’environnement dans le Registre persiste jusqu'à ce qu’un utilisateur supprime par programme ou au moyen d’un outil de système d’exploitation.
+ 
 ## Examples  
  L’exemple de code suivant montre le <xref:System.EnvironmentVariableTarget> énumération dans les méthodes pour créer, modifier et supprimer des variables d’environnement.  
   
@@ -80,16 +90,6 @@
       <MemberValue>2</MemberValue>
       <Docs>
         <summary>La variable d'environnement est stockée ou récupérée à partir de la clé <see langword="HKEY_LOCAL_MACHINE\System\CurrentControlSet\Control\Session Manager\Environment" /> de la base de registres du système d'exploitation Windows.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Lorsqu’un utilisateur crée la variable d’environnement dans une opération ensembliste, le système d’exploitation stocke la variable d’environnement dans le Registre système, mais pas dans le processus en cours. Si n’importe quel utilisateur sur l’ordinateur local démarre un nouveau processus, le système d’exploitation copie la variable d’environnement à partir du Registre à ce processus.  
-  
- Lorsque le processus se termine, le système d’exploitation détruit la variable d’environnement dans ce processus. Toutefois, la variable d’environnement dans le Registre persiste jusqu'à ce qu’un utilisateur supprime par programme ou au moyen d’un outil de système d’exploitation.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Process">
@@ -121,16 +121,6 @@
       <MemberValue>0</MemberValue>
       <Docs>
         <summary>La variable d'environnement est stockée ou récupérée à partir du bloc environnement associé au processus en cours.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- L’utilisateur crée la variable d’environnement dans une opération ensembliste.  
-  
- Lorsque le processus se termine, le système d’exploitation détruit la variable d’environnement dans ce processus.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="User">
@@ -162,16 +152,6 @@
       <MemberValue>1</MemberValue>
       <Docs>
         <summary>La variable d'environnement est stockée ou récupérée à partir de la clé <see langword="HKEY_CURRENT_USER\Environment" /> de la base de registres du système d'exploitation Windows.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Lorsque l’utilisateur crée la variable d’environnement dans une opération ensembliste, le système d’exploitation stocke la variable d’environnement dans le Registre système, mais pas dans le processus en cours. Si l’utilisateur démarre un nouveau processus, le système d’exploitation copie la variable d’environnement à partir du Registre à ce processus.  
-  
- Lorsque le processus se termine, le système d’exploitation détruit la variable d’environnement dans ce processus. Toutefois, la variable d’environnement dans le Registre persiste jusqu'à ce que l’utilisateur supprime par programme ou au moyen d’un outil de système d’exploitation.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
   </Members>
