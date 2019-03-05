@@ -1,5 +1,5 @@
 <Type Name="PerformanceCounterType" FullName="System.Diagnostics.PerformanceCounterType">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="795e77f42b86e69226603d9859d95cdbc9616196" /><Meta Name="ms.sourcegitcommit" Value="adc8598fd19d91438cacaa8fa7ce613e28c8218e" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/11/2018" /><Meta Name="ms.locfileid" Value="53226846" /></Metadata><TypeSignature Language="C#" Value="public enum PerformanceCounterType" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="31188917af63ca23d0aa794354eb56773ccd7b8b" /><Meta Name="ms.sourcegitcommit" Value="220917117f9d774aaa482439aa7324e39dc1f5b6" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="02/25/2019" /><Meta Name="ms.locfileid" Value="56780303" /></Metadata><TypeSignature Language="C#" Value="public enum PerformanceCounterType" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed PerformanceCounterType extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.Diagnostics.PerformanceCounterType" />
   <TypeSignature Language="VB.NET" Value="Public Enum PerformanceCounterType" />
@@ -14,6 +14,7 @@
   <AssemblyInfo>
     <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
     <AssemblyVersion>4.0.0.0</AssemblyVersion>
+    <AssemblyVersion>4.0.1.0</AssemblyVersion>
   </AssemblyInfo>
   <Base>
     <BaseTypeName>System.Enum</BaseTypeName>
@@ -28,23 +29,29 @@
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
-## Remarks  
- Certains types de compteurs représentent des données brutes, tandis que d’autres représentent des valeurs calculées qui sont basés sur un ou plusieurs échantillons de compteur. Les catégories suivantes classent les types de compteurs disponibles.  
+## Remarks
+
+Certains types de compteurs représentent des données brutes, tandis que d’autres représentent des valeurs calculées qui sont basés sur un ou plusieurs échantillons de compteur. Les catégories suivantes classent les types de compteurs disponibles.  
   
--   Moyenne : mesurer une valeur au fil du temps et afficher la moyenne des deux dernières mesures. Associé à chaque compteur de moyenne est un compteur de base qui effectue le suivi du nombre d’échantillons impliqués.  
+- **Moyenne**: Mesure une valeur au fil du temps et affiche la moyenne des deux dernières mesures. Associé à chaque compteur de moyenne est un compteur de base qui effectue le suivi du nombre d’échantillons impliqués.  
   
--   Différence : soustraient la dernière mesure de la précédente et affichent la différence, si elle est positive. Si négatif, ils affichent un zéro.  
+- **Différence**: Soustrait la dernière mesure de la précédente et affiche la différence, s’il est positif ; Si négatif, il affiche un zéro.  
   
--   Instantané : affichent la mesure la plus récente.  
+- **Instantané**: Affiche la mesure la plus récente.  
   
--   Pourcentage : afficher des valeurs calculées sous forme de pourcentage.  
+- **Pourcentage**: Affiche les valeurs calculées sous forme de pourcentage.  
   
--   Taux : un nombre croissant d’événements d’échantillons au fil du temps et à diviser la modification en valeurs de compteur par la modification dans le temps pour afficher un taux d’activité.  
+- **Taux**: Exemples d’un nombre croissant d’événements au fil du temps et divise la modification en valeurs de compteur par la modification dans le temps pour afficher un taux d’activité.  
   
- Lors de l’échantillonnage des données de compteur de performances, à l’aide d’un type de compteur représentant une moyenne peut rendre les valeurs de données brutes significatif pour votre usage. Par exemple, le compteur de données brutes `NumberOfItems64` peut exposer des données relativement aléatoires d’un échantillon. La formule de calcul moyenne des valeurs retournée par le compteur est (X 0 + X 1 +... + X n) / n, où chaque X i est un échantillon de compteur brut.  
+Lors de l’échantillonnage des données de compteur de performances, à l’aide d’un type de compteur représentant une moyenne peut rendre les valeurs de données brutes significatif pour votre usage. Par exemple, le compteur de données brutes `NumberOfItems64` peut exposer des données relativement aléatoires d’un échantillon. La formule de calcul moyenne des valeurs retournée par le compteur est (X 0 + X 1 +... + X n) / n, où chaque X i est un échantillon de compteur brut.  
   
- Compteurs de fréquence sont similaires aux compteurs de moyenne, mais il est plus utile dans les situations dans lesquelles le taux augmente comme une ressource est utilisée. Est une formule qui calcule rapidement la moyenne ((X n -X 0) / T n -T (0)) / fréquence, où chaque X est un échantillon de compteur et chaque T i est l’heure à laquelle l’échantillon correspondant a été pris. Le résultat est l’utilisation moyenne par seconde.  
-  
+Compteurs de fréquence sont similaires aux compteurs de moyenne, mais il est plus utile dans les situations dans lesquelles le taux augmente comme une ressource est utilisée. Est une formule qui calcule rapidement la moyenne ((X n -X 0) / T n -T (0)) / fréquence, où chaque X est un échantillon de compteur et chaque T i est l’heure à laquelle l’échantillon correspondant a été pris. Le résultat est l’utilisation moyenne par seconde.  
+
+*Compteurs multitimer* collecter des données à partir de plusieurs instances d’un composant, tel qu’un processeur ou un disque. 
+ 
+*Les compteurs inverses* mesurent le temps pendant lequel un composant n’est pas actif et dérivent le temps d’activité à partir de cette mesure.  
+ 
+   
 > [!NOTE]
 >  Sauf indication contraire, la base de temps est secondes.  
   
@@ -57,8 +64,56 @@
 |`RawBase`|`RawFraction`|  
 |`SampleBase`|`SampleFraction`|  
   
-   
+Les formules utilisées par certains des compteurs qui représentent des valeurs calculées sont les suivantes :
+
+- `AverageCount64`: (N1 - N0) /(B1-B0), où N 1 et N 0 sont des valeurs de compteur de performance et B1 et B0 sont leurs correspondant `AverageBase` valeurs. Par conséquent, le numérateur représente le nombre d’éléments traités pendant l’intervalle échantillon et le dénominateur représente le nombre d’opérations exécutées au cours de l’intervalle échantillon.   
   
+- `AverageTimer32`: ((N1 - N0) /F) /(B1-B0), où N1 et N0 sont des valeurs du compteur de performances, B1 et B0 sont leurs correspondant `AverageBase` valeurs et F est le nombre de graduations par seconde. La valeur de F est factorisée dans l’équation de sorte que le résultat peut être affiché en secondes. Par conséquent, le numérateur représente le nombre de graduations comptées au cours du dernier intervalle échantillon, F représente la fréquence des graduations et le dénominateur représente le nombre d’opérations exécutées au cours du dernier intervalle échantillon.
+
+- `CounterDelta32`: N1 - N0, où N1 et N0 sont des valeurs de compteur de performance. 
+
+- `CounterDelta64`: N1 - N0, où N1 et N0 sont des valeurs de compteur de performance.  
+
+- `CounterMultiTimer`: ((N1 - N0) / (D1 - D0)) x 100 / B, où N1 et N0 sont des valeurs de compteur de performance, D1 et D0 sont leurs valeurs temporelles correspondantes en graduations de la minuterie des performances système, et la variable B indique le nombre de base pour les composants surveillés (à l’aide un compteur de base du ty PE `CounterMultiBase`). Par conséquent, le numérateur représente les parties de l’intervalle échantillon pendant lequel les composants surveillés étaient actifs et le dénominateur représente le temps total écoulé de l’intervalle échantillon.  
+
+- `CounterMultiTimer100Ns`: ((N1 - N0) / (D1 - D0)) x 100 / B, où N1 et N0 sont des valeurs du compteur de performances, D1 et D0 sont leurs valeurs temporelles correspondantes en unités de 100 nanosecondes, et la variable B indique le nombre de base pour les composants surveillés (à l’aide d’un compteur de base du type `CounterMultiBase`</c0>). Par conséquent, le numérateur représente les parties de l’intervalle échantillon pendant lequel les composants surveillés étaient actifs et le dénominateur représente le temps total écoulé de l’intervalle échantillon.
+
+- `CounterMultiTimer100NsInverse`: (B - ((N1-N0) / (D1 - D0))) x 100, où le dénominateur représente le temps total écoulé de l’intervalle échantillon, le numérateur représente le temps pendant l’intervalle lorsque les composants surveillés étaient inactifs, et B représente le nombre de composants en cours d’analyse , à l’aide d’un compteur de base du type `CounterMultiBase`.  
+
+- `CounterMultiTimerInverse`: (B - ((N1-N0) / (D1 - D0))) x 100, où le dénominateur représente le temps total écoulé de l’intervalle échantillon, le numérateur représente le temps pendant l’intervalle lorsque les composants surveillés étaient inactifs, et B représente le nombre de composants en cours d’analyse , à l’aide d’un compteur de base du type `CounterMultiBase`.
+
+- `CounterTimer`: (N1 - N0) / (D1 - D0), où N1 et N0 sont des valeurs de compteur de performance et D1 et D0 sont leurs valeurs temporelles correspondantes. Par conséquent, le numérateur représente les parties de l’intervalle échantillon pendant lequel les composants surveillés étaient actifs et le dénominateur représente le temps total écoulé de l’intervalle échantillon.  
+
+- `CounterTimerInverse`: (1 - ((N1-N0) / (D1 - D0))) x 100, où le numérateur représente le temps pendant l’intervalle lorsque les composants surveillés étaient inactifs et le dénominateur représente le temps total écoulé de l’intervalle échantillon.  
+
+- `CountPerTimeInterval32`: (N1 - N0) / (D1 - D0), où le numérateur représente le nombre d’éléments dans la file d’attente, et le dénominateur représente le temps écoulé au cours du dernier intervalle échantillon.
+
+- `CountPerTimeInterval64`: (N1 - N0) / (D1 - D0), où le numérateur représente le nombre d’éléments dans une file d’attente et le dénominateur représente le temps écoulé durant l’intervalle échantillon.
+
+- `ElapsedTime`: (D0 - N0) / F, où D0 représente l’heure actuelle, N0 représente l’heure de début de l’objet, et F représente le nombre d’unités de temps qui s’écouler lors d’une seconde. La valeur de F est factorisée dans l’équation de sorte que le résultat peut être affiché en secondes.  
+  
+- `NumberOfItems32`: Aucun. N’affiche pas une moyenne, mais affiche les données brutes comme il est collecté. 
+
+- `NumberOfItems64`: Aucun. N’affiche pas une moyenne, mais affiche les données brutes comme il est collecté.
+
+- `NumberOfItemsHEX32`: Aucun. N’affiche pas une moyenne, mais affiche les données brutes comme il est collecté.  
+
+- `NumberOfItemsHEX64`: Aucun. N’affiche pas une moyenne, mais affiche les données brutes comme il est collecté  
+ 
+- `RateOfCountsPerSecond32`: (N1 - N0) / ((D1-D0) / F), où N1 et N0 sont des valeurs de compteur de performance, D1 et D0 sont leurs valeurs temporelles correspondantes, et F représente le nombre de graduations par seconde. Par conséquent, le numérateur représente le nombre d’opérations exécutées au cours du dernier intervalle échantillon, le dénominateur représente le nombre de graduations écoulées au cours du dernier intervalle échantillon, et F représente la fréquence des graduations. La valeur de F est factorisée dans l’équation de sorte que le résultat peut être affiché en secondes.  
+
+- `RateOfCountsPerSecond64`: (N1 - N0) / ((D1-D0) / F), où N1 et N0 sont des valeurs de compteur de performance, D1 et D0 sont leurs valeurs temporelles correspondantes, et F représente le nombre de graduations par seconde. Par conséquent, le numérateur représente le nombre d’opérations exécutées au cours du dernier intervalle échantillon, le dénominateur représente le nombre de graduations écoulées au cours du dernier intervalle échantillon, et F représente la fréquence des graduations. La valeur de F est factorisée dans l’équation de sorte que le résultat peut être affiché en secondes.  
+
+- `RawFraction`: (N0 / D0) x 100, où D0 représente un attribut mesuré (à l’aide d’un compteur de base du type `RawBase`) et N0 représente un composant de cet attribut.
+
+- `SampleCounter`: (N1 - N0) / ((D1-D0) / F), où le numérateur (N) représente le nombre d’opérations exécutées, le dénominateur (D) représente le temps écoulé en unités de graduations de la minuterie des performances système, et F représente le nombre de graduations écoulées en une seconde. F est factorisée dans l’équation de sorte que le résultat peut être affiché en secondes.
+
+- `SampleFraction`: ((N1 - N0) / (D1 - D0)) x 100, où le numérateur représente le nombre d’opérations réussies au cours du dernier intervalle échantillon et le dénominateur représente la modification du nombre de toutes les opérations (du type mesuré) exécutée au cours de l’intervalle d’échantillonnage, à l’aide des compteurs de type `SampleBase`.
+
+- `Timer100Ns`: (N1 - N0) / (D1 - D0) x 100, où le numérateur représente les parties de l’intervalle échantillon pendant lequel les composants surveillés étaient actifs et le dénominateur représente le temps total écoulé de l’intervalle échantillon.
+
+- `Timer100NsInverse`: (1 - ((N1-N0) / (D1 - D0))) x 100, où le numérateur représente le temps pendant l’intervalle lorsque les composants surveillés étaient inactifs et le dénominateur représente le temps total écoulé de l’intervalle échantillon.  
+
 ## Examples  
  Les exemples suivants illustrent plusieurs des types de compteurs dans le <xref:System.Diagnostics.PerformanceCounterType> énumération.  
   
@@ -137,6 +192,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
@@ -163,23 +219,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>1073874176</MemberValue>
       <Docs>
-        <summary>Compteur de moyenne qui affiche le nombre d'éléments traités, en moyenne, au cours d'une opération. Les compteurs de ce type affichent un rapport entre les éléments traités et le nombre d'opérations exécutées. Le rapport est calculé en comparant le nombre d'éléments traités au cours du dernier intervalle et le nombre d'opérations exécutées au cours du dernier intervalle.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : (N 1 -N 0) / (B 1 -B 0), où N 1 et N 0 sont des valeurs de compteur de performance, et B 1 et B 0 sont leurs correspondant `AverageBase` valeurs. Par conséquent, le numérateur représente le nombre d’éléments traités pendant l’intervalle échantillon et le dénominateur représente le nombre d’opérations exécutées au cours de l’intervalle échantillon.  
-  
- Les compteurs de ce type comprennent PhysicalDisk\ moyenne Disque, octets/transfert.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur de moyenne qui affiche le nombre d'éléments traités, en moyenne, au cours d'une opération. Les compteurs de ce type affichent un rapport entre les éléments traités et le nombre d'opérations exécutées. Le rapport est calculé en comparant le nombre d'éléments traités au cours du dernier intervalle et le nombre d'opérations exécutées au cours du dernier intervalle. Les compteurs de ce type incluent Disque physique\ Moy. octets disque/transfert.</summary>
       </Docs>
     </Member>
     <Member MemberName="AverageTimer32">
@@ -199,23 +246,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>805438464</MemberValue>
       <Docs>
-        <summary>Compteur de moyenne qui mesure le temps qui lui est nécessaire, en moyenne, pour exécuter un processus ou une opération. Les compteurs de ce type affichent un rapport entre le temps total écoulé de l'intervalle échantillon et le nombre de processus ou d'opérations exécutés au cours de ce temps. Ce type de compteur mesure le temps en graduations de l'horloge système.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : ((N 1 -N 0) /F) / (B 1 -B 0), le cas N 1 et N 0 sont des valeurs de compteur de performance, B 1 et B 0 existe correspondants `AverageBase` valeurs et F est le nombre de graduations par seconde. La valeur de F est factorisée dans l’équation de sorte que le résultat peut être affiché en secondes. Par conséquent, le numérateur représente le nombre de graduations comptées au cours du dernier intervalle échantillon, F représente la fréquence des graduations et le dénominateur représente le nombre d’opérations exécutées au cours du dernier intervalle échantillon.  
-  
- Les compteurs de ce type comprennent PhysicalDisk\ moyenne Disque s/transfert.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur de moyenne qui mesure le temps qui lui est nécessaire, en moyenne, pour exécuter un processus ou une opération. Les compteurs de ce type affichent un rapport entre le temps total écoulé de l'intervalle échantillon et le nombre de processus ou d'opérations exécutés au cours de ce temps. Ce type de compteur mesure le temps en graduations de l'horloge système. Les compteurs de ce type incluent Disque physique\ Moy. disque s/transfert.</summary>
       </Docs>
     </Member>
     <Member MemberName="CounterDelta32">
@@ -235,6 +273,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
@@ -242,14 +281,6 @@
       <MemberValue>4195328</MemberValue>
       <Docs>
         <summary>Compteur de différence qui affiche la modification de l'attribut mesuré entre les deux derniers intervalles échantillons.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : N 1 -N 0, où N 1 et N 0 sont des valeurs de compteur de performance.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CounterDelta64">
@@ -269,6 +300,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
@@ -276,14 +308,6 @@
       <MemberValue>4195584</MemberValue>
       <Docs>
         <summary>Compteur de différence qui affiche la modification de l'attribut mesuré entre les deux derniers intervalles échantillons. Il est identique au type de compteur <see langword="CounterDelta32" />, sauf qu'il utilise des champs plus étendus afin de contenir des valeurs plus élevées.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : N 1 -N 0, où N 1 et N 0 sont des valeurs de compteur de performance.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CounterMultiBase">
@@ -303,6 +327,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
@@ -329,23 +354,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>574686464</MemberValue>
       <Docs>
-        <summary>Compteur de pourcentage qui affiche la durée d'activité d'un ou plusieurs composants sous forme de pourcentage du temps total de l'intervalle échantillon. Compte tenu que le numérateur enregistre la durée d'activité des composants fonctionnant simultanément, le pourcentage qui en résulte peut dépasser 100 pour cent.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Ce compteur est une multiminuterie. Les multiminuteries collectent des données provenant de plusieurs instances d'un composant, tel qu'un processeur ou un disque. Ce type de compteur diffère de `CounterMultiTimer100Ns` en ce sens qu'il mesure le temps en unités de graduations de la minuterie des performances système, plutôt qu'en unités de 100 nanosecondes.  
-  
- Formule : ((1 N - N 0) / (D 1 - D 0)) x 100 / B, où N 1 et N 0 sont des valeurs de compteur de performance, D 1 et D 0 sont leurs valeurs temporelles correspondantes en graduations de la minuterie des performances système, et la variable B indique le nombre de base pour les composants surveillés (à l’aide un services bas compteur e du type `CounterMultiBase`). Par conséquent, le numérateur représente les parties de l’intervalle échantillon pendant lequel les composants surveillés étaient actifs et le dénominateur représente le temps total écoulé de l’intervalle échantillon.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur de pourcentage qui affiche la durée d'activité d'un ou plusieurs composants sous forme de pourcentage du temps total de l'intervalle échantillon. Compte tenu que le numérateur enregistre la durée d'activité des composants fonctionnant simultanément, le pourcentage qui en résulte peut dépasser 100 pour cent. Ce type de compteur diffère de <see langword="CounterMultiTimer100Ns" /> en ce sens qu'il mesure le temps en unités de graduations de la minuterie des performances système, plutôt qu'en unités de 100 nanosecondes. Ce type de compteur est une multiminuterie.</summary>
       </Docs>
     </Member>
     <Member MemberName="CounterMultiTimer100Ns">
@@ -365,23 +381,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>575735040</MemberValue>
       <Docs>
-        <summary>Compteur de pourcentage qui affiche la durée d'activité d'un ou plusieurs composants sous forme de pourcentage du temps total de l'intervalle échantillon. Il mesure le temps en unités de 100 nanosecondes (ns).</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Ce type de compteur est une multiminuterie. Les multiminuteries sont conçues pour surveiller plusieurs instances d'un composant, tel qu'un processeur ou un disque.  
-  
- Formule : ((1 N - N 0) / (D 1 - D 0)) x 100 / B, où N 1 et N 0 sont des valeurs de compteur de performance, D 1 et D 0 sont leurs valeurs temporelles correspondantes en unités de 100 nanosecondes, et la variable B indique le nombre de base pour les composants surveillés (à l’aide du type de compteur de base  `CounterMultiBase`). Par conséquent, le numérateur représente les parties de l’intervalle échantillon pendant lequel les composants surveillés étaient actifs et le dénominateur représente le temps total écoulé de l’intervalle échantillon.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur de pourcentage qui affiche la durée d'activité d'un ou plusieurs composants sous forme de pourcentage du temps total de l'intervalle échantillon. Il mesure le temps en unités de 100 nanosecondes (ns). Ce type de compteur est une multiminuterie.</summary>
       </Docs>
     </Member>
     <Member MemberName="CounterMultiTimer100NsInverse">
@@ -401,23 +408,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>592512256</MemberValue>
       <Docs>
-        <summary>Compteur de pourcentage qui affiche la durée d'activité d'un ou plusieurs composants sous forme de pourcentage du temps total de l'intervalle échantillon. Les compteurs de ce type mesurent le temps en unités de 100 nanosecondes (ns). Ils dérivent le temps d'activité en mesurant le temps pendant lequel les composants étaient inactifs et en soustrayant le résultat de la multiplication de 100 pour cent par le nombre d'objets surveillés.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Ce type de compteur est une multiminuterie inverse. Les multiminuteries sont conçues pour surveiller plusieurs instances d'un composant, tel qu'un processeur ou un disque. Les compteurs inverses mesurent le temps pendant lequel un composant n’est pas actif et dérivent son temps d’activité à partir de la mesure du temps d’inactivité  
-  
- Formule : (B - ((N 1-N 0) / (1 D - D 0))) x 100, où le dénominateur représente le temps total écoulé de l’intervalle échantillon, le numérateur représente le temps pendant l’intervalle lorsque les composants surveillés étaient inactifs, et B représente le nombre de composants en cours d’analyse , à l’aide d’un compteur de base du type `CounterMultiBase`.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur de pourcentage qui affiche la durée d'activité d'un ou plusieurs composants sous forme de pourcentage du temps total de l'intervalle échantillon. Les compteurs de ce type mesurent le temps en unités de 100 nanosecondes (ns). Ils dérivent le temps d'activité en mesurant le temps pendant lequel les composants étaient inactifs et en soustrayant le résultat de la multiplication de 100 pour cent par le nombre d'objets surveillés. Ce type de compteur est une multiminuterie inverse.</summary>
       </Docs>
     </Member>
     <Member MemberName="CounterMultiTimerInverse">
@@ -437,25 +435,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>591463680</MemberValue>
       <Docs>
-        <summary>Compteur de pourcentage qui affiche la durée d'activité d'un ou plusieurs composants sous forme de pourcentage du temps total de l'intervalle échantillon. Il dérive le temps d'activité en mesurant le temps pendant lequel les composants n'étaient pas actifs et en soustrayant le résultat de la multiplication de 100 pour cent par le nombre d'objets surveillés.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Ce type de compteur est une multiminuterie inverse. Les multiminuteries surveillent plusieurs instances d'un composant, tel qu'un processeur ou un disque. Les compteurs inverses mesurent le temps pendant lequel un composant n’est pas actif et dérivent son temps d’activité à partir de cette mesure.  
-  
- Ce compteur diffère de `CounterMultiTimer100NsInverse` en ce sens qu'il mesure le temps en unités de graduations de la minuterie des performances système, plutôt qu'en unités de 100 nanosecondes.  
-  
- Formule : (B - ((1 N - N 0) / (D 1 - D 0))) x 100, où le dénominateur représente le temps total écoulé de l’intervalle échantillon, le numérateur représente le temps pendant l’intervalle lorsque les composants surveillés étaient inactifs, et B représente le nombre de composants en cours d’analyse , à l’aide d’un compteur de base du type `CounterMultiBase`.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur de pourcentage qui affiche la durée d'activité d'un ou plusieurs composants sous forme de pourcentage du temps total de l'intervalle échantillon. Il dérive le temps d'activité en mesurant le temps pendant lequel les composants n'étaient pas actifs et en soustrayant le résultat de la multiplication de 100 pour cent par le nombre d'objets surveillés. Ce type de compteur est une multiminuterie inverse. Il diffère de `CounterMultiTimer100NsInverse` en ce sens qu'il mesure le temps en unités de graduations de la minuterie des performances système, plutôt qu'en unités de 100 nanosecondes.</summary>
       </Docs>
     </Member>
     <Member MemberName="CounterTimer">
@@ -475,6 +462,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
@@ -482,14 +470,6 @@
       <MemberValue>541132032</MemberValue>
       <Docs>
         <summary>Compteur de pourcentage qui affiche la durée moyenne d'activité d'un composant sous forme de pourcentage de la durée échantillon totale.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : (N 1 - N 0) / (D 1 - D 0), où N 1 et N 0 sont des valeurs de compteur de performance et D 1 et D 0 sont leurs valeurs temporelles correspondantes. Par conséquent, le numérateur représente les parties de l’intervalle échantillon pendant lequel les composants surveillés étaient actifs et le dénominateur représente le temps total écoulé de l’intervalle échantillon.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CounterTimerInverse">
@@ -509,23 +489,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>557909248</MemberValue>
       <Docs>
-        <summary>Compteur de pourcentage qui affiche le pourcentage moyen de temps d'activité observé au cours de l'intervalle échantillon. La valeur de ces compteurs est calculée en surveillant le pourcentage de temps au cours duquel le service était inactif, puis en soustrayant cette valeur de 100 pour cent.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Il s'agit d'un type de compteur inverse. Les compteurs inverses mesurent le temps qui est un composant inactif et dérivent le temps d’activité à partir de cette mesure. Ce type de compteur est identique à `CounterTimer100NsInv` , à ceci près qu’il mesure le temps en unités de graduations de la minuterie des performances système plutôt qu’en unités de 100 nanosecondes.  
-  
- Formule : (1 - ((1 N - N 0) / (D 1 - D 0))) x 100, où le numérateur représente le temps pendant l’intervalle lorsque les composants surveillés étaient inactifs et le dénominateur représente le temps total écoulé de l’intervalle échantillon.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur de pourcentage qui affiche le pourcentage moyen de temps d'activité observé au cours de l'intervalle échantillon. La valeur de ces compteurs est calculée en surveillant le pourcentage de temps au cours duquel le service était inactif, puis en soustrayant cette valeur de 100 pour cent. Il s'agit d'un type de compteur inverse. Il est identique à `CounterTimer100NsInv`, sauf qu'il mesure le temps en unités de graduations de la minuterie des performances système, plutôt qu'en unités de 100 nanosecondes.</summary>
       </Docs>
     </Member>
     <Member MemberName="CountPerTimeInterval32">
@@ -545,6 +516,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
@@ -552,14 +524,6 @@
       <MemberValue>4523008</MemberValue>
       <Docs>
         <summary>Compteur de moyenne conçu pour surveiller la longueur moyenne d'une file d'attente vers une ressource dans le temps. Il affiche la différence entre les longueurs de file d'attente observées au cours des deux derniers intervalles échantillons divisée par la durée de l'intervalle. Ce type de compteur est généralement utilisé pour assurer le suivi du nombre d'éléments en attente ou mis en file d'attente.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : (N 1 - N 0) / (D 1 - D 0), où le numérateur représente le nombre d’éléments dans la file d’attente et le dénominateur représente le temps écoulé au cours du dernier intervalle échantillon.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="CountPerTimeInterval64">
@@ -579,6 +543,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
@@ -586,14 +551,6 @@
       <MemberValue>4523264</MemberValue>
       <Docs>
         <summary>Compteur de moyenne qui surveille la longueur moyenne d'une file d'attente vers une ressource dans le temps. Les compteurs de ce type affichent la différence entre les longueurs de file d'attente observées au cours des deux derniers intervalles échantillons divisée par la durée de l'intervalle. Ce type de compteur est identique à <see langword="CountPerTimeInterval32" />, sauf qu'il utilise des champs plus étendus afin de contenir des valeurs plus élevées. Ce type de compteur est généralement utilisé pour assurer le suivi d'un grand volume ou d'un très grand nombre d'éléments en attente ou mis en file d'attente.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : (N 1 - N 0) / (D 1 - D 0), où le numérateur représente le nombre d’éléments dans une file d’attente et le dénominateur représente le temps écoulé durant l’intervalle échantillon.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="ElapsedTime">
@@ -613,23 +570,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>807666944</MemberValue>
       <Docs>
-        <summary>Minuterie de différence qui affiche le temps total écoulé entre le démarrage du composant ou du processus et l'heure à laquelle cette valeur est calculée.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : (D 0 - N 0) / F, où D 0 représente l’heure actuelle, N 0 représente l’heure de l’objet a été démarré, et F représente le nombre d’unités de temps qui s’écouler lors d’une seconde. La valeur de F est factorisée dans l’équation de sorte que le résultat peut être affiché en secondes.  
-  
- Les compteurs de ce type comprennent la transcription de l’heure système.  
-  
- ]]></format>
-        </remarks>
+        <summary>Minuterie de différence qui affiche le temps total écoulé entre le démarrage du composant ou du processus et l'heure à laquelle cette valeur est calculée. Les compteurs de ce type incluent Système\ Temps d'activité système.</summary>
       </Docs>
     </Member>
     <Member MemberName="NumberOfItems32">
@@ -649,23 +597,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>65536</MemberValue>
       <Docs>
-        <summary>Compteur instantané qui affiche la dernière valeur observée. Utilisé, par exemple, pour gérer un nombre simple d'éléments ou d'opérations.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : Aucun. N’affiche pas une moyenne, mais affiche les données brutes comme il est collecté.  
-  
- Compteurs de ce type comprennent Mémoire\octets disponibles.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur instantané qui affiche la dernière valeur observée. Utilisé, par exemple, pour gérer un nombre simple d'éléments ou d'opérations. Les compteurs de ce type incluent Mémoire\Octets disponibles.</summary>
       </Docs>
     </Member>
     <Member MemberName="NumberOfItems64">
@@ -685,6 +624,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
@@ -692,14 +632,6 @@
       <MemberValue>65792</MemberValue>
       <Docs>
         <summary>Compteur instantané qui affiche la dernière valeur observée. Utilisé, par exemple, pour maintenir un simple décompte d'une très grande quantité d'éléments ou d'opérations. Identique à <see langword="NumberOfItems32" />, sauf qu'il utilise des champs plus étendus afin de contenir des valeurs plus élevées.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : Aucun. N’affiche pas une moyenne, mais affiche les données brutes comme il est collecté.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="NumberOfItemsHEX32">
@@ -719,6 +651,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
@@ -726,14 +659,6 @@
       <MemberValue>0</MemberValue>
       <Docs>
         <summary>Compteur instantané qui affiche la dernière valeur observée au format hexadécimal. Utilisé, par exemple, pour gérer un nombre simple d'éléments ou d'opérations.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : Aucun. N’affiche pas une moyenne, mais affiche les données brutes comme il est collecté.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="NumberOfItemsHEX64">
@@ -753,6 +678,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
@@ -760,14 +686,6 @@
       <MemberValue>256</MemberValue>
       <Docs>
         <summary>Compteur instantané qui affiche la dernière valeur observée. Utilisé, par exemple, pour maintenir un simple décompte d'une très grande quantité d'éléments ou d'opérations. Identique à <see langword="NumberOfItemsHEX32" />, sauf qu'il utilise des champs plus étendus afin de contenir des valeurs plus élevées.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : Aucun. N’affiche pas une moyenne, mais affiche les données brutes comme il est collecté  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="RateOfCountsPerSecond32">
@@ -787,23 +705,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>272696320</MemberValue>
       <Docs>
-        <summary>Compteur de différence qui affiche le nombre moyen d'opérations exécutées au cours de chaque seconde de l'intervalle échantillon. Les compteurs de ce type mesurent le temps en graduations de l'horloge système.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : (N 1 - N 0) / ((D 1-d 0) / F), où N 1 et N 0 sont des valeurs de compteur de performance, D 1 et D 0 sont leurs valeurs temporelles correspondantes, et F représente le nombre de graduations par seconde. Par conséquent, le numérateur représente le nombre d’opérations exécutées au cours du dernier intervalle échantillon, le dénominateur représente le nombre de graduations écoulées au cours du dernier intervalle échantillon, et F représente la fréquence des graduations. La valeur de F est factorisée dans l’équation de sorte que le résultat peut être affiché en secondes.  
-  
- Les compteurs de ce type comprennent les opérations/s de lecture de fichier de transcription.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur de différence qui affiche le nombre moyen d'opérations exécutées au cours de chaque seconde de l'intervalle échantillon. Les compteurs de ce type mesurent le temps en graduations de l'horloge système. Les compteurs de ce type incluent Système\ Opérations de lecture de fichier/s.</summary>
       </Docs>
     </Member>
     <Member MemberName="RateOfCountsPerSecond64">
@@ -823,23 +732,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>272696576</MemberValue>
       <Docs>
-        <summary>Compteur de différence qui affiche le nombre moyen d'opérations exécutées au cours de chaque seconde de l'intervalle échantillon. Les compteurs de ce type mesurent le temps en graduations de l'horloge système. Ce type de compteur est identique au type <see langword="RateOfCountsPerSecond32" />, mais il utilise des champs plus étendus afin de contenir des valeurs plus élevées pour assurer le suivi d'un grand nombre d'éléments ou d'opérations par seconde, tel qu'un taux de transmission d'octets.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : (N 1 - N 0) / ((D 1-d 0) / F), où N 1 et N 0 sont des valeurs de compteur de performance, D 1 et D 0 sont leurs valeurs temporelles correspondantes, et F représente le nombre de graduations par seconde. Par conséquent, le numérateur représente le nombre d’opérations exécutées au cours du dernier intervalle échantillon, le dénominateur représente le nombre de graduations écoulées au cours du dernier intervalle échantillon, et F représente la fréquence des graduations. La valeur de F est factorisée dans l’équation de sorte que le résultat peut être affiché en secondes.  
-  
- Les compteurs de ce type comprennent des octets/s de lecture de fichier de transcription.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur de différence qui affiche le nombre moyen d'opérations exécutées au cours de chaque seconde de l'intervalle échantillon. Les compteurs de ce type mesurent le temps en graduations de l'horloge système. Ce type de compteur est identique au type <see langword="RateOfCountsPerSecond32" />, mais il utilise des champs plus étendus afin de contenir des valeurs plus élevées pour assurer le suivi d'un grand nombre d'éléments ou d'opérations par seconde, tel qu'un taux de transmission d'octets. Les compteurs de ce type incluent Système\ Octets lus sur fichier/s.</summary>
       </Docs>
     </Member>
     <Member MemberName="RawBase">
@@ -859,6 +759,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
@@ -885,23 +786,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>537003008</MemberValue>
       <Docs>
-        <summary>Compteur de pourcentage instantané qui affiche le rapport entre un sous-ensemble et son ensemble sous forme de pourcentage. Par exemple, il compare le nombre d'octets utilisés sur un disque avec le nombre total d'octets de ce disque. Les compteurs de ce type affichent uniquement le pourcentage actuel, non pas une moyenne dans le temps.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : (N 0 / D 0) x 100, où D 0 représente un attribut mesuré (à l’aide d’un compteur de base du type `RawBase`) et N 0 représente un composant de cet attribut.  
-  
- Compteurs de ce type incluent le fichier de pagination\\% l’utilisation de pointe.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur de pourcentage instantané qui affiche le rapport entre un sous-ensemble et son ensemble sous forme de pourcentage. Par exemple, il compare le nombre d'octets utilisés sur un disque avec le nombre total d'octets de ce disque. Les compteurs de ce type affichent uniquement le pourcentage actuel, non pas une moyenne dans le temps. Les compteurs de ce type incluent Fichier d'échange\\% usage maximal.</summary>
       </Docs>
     </Member>
     <Member MemberName="SampleBase">
@@ -921,6 +813,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
@@ -947,6 +840,7 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
@@ -954,14 +848,6 @@
       <MemberValue>4260864</MemberValue>
       <Docs>
         <summary>Compteur de moyenne qui affiche le nombre moyen d'opérations exécutées en une seconde. Lorsqu'un compteur de ce type échantillonne les données, chaque interruption d'échantillonnage retourne un ou zéro. Les données du compteur sont le nombre de « un » qui ont été échantillonnés. Il mesure le temps en unités de graduations de la minuterie des performances système.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : (N 1 - N 0) / ((1 D - D 0) / F), où le numérateur (N) représente le nombre d’opérations exécutées, le dénominateur (D) représente le temps écoulé en unités de graduations de la minuterie des performances système, et F représente le nombre de graduations écoulées en une seconde. F est factorisée dans l’équation de sorte que le résultat peut être affiché en secondes.  
-  
- ]]></format>
-        </remarks>
       </Docs>
     </Member>
     <Member MemberName="SampleFraction">
@@ -981,23 +867,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>549585920</MemberValue>
       <Docs>
-        <summary>Compteur de pourcentage qui affiche le rapport moyen entre les accès et toutes les opérations au cours des deux derniers intervalles échantillons.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : ((1 N - N 0) / (D 1 - D 0)) x 100, où le numérateur représente le nombre d’opérations réussies au cours du dernier intervalle échantillon et le dénominateur représente la modification du nombre de toutes les opérations (du type mesuré) exécutée au cours de l’exemple intervalle, à l’aide des compteurs de type `SampleBase`.  
-  
- Les compteurs de ce type comprennent cache% %.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur de pourcentage qui affiche le rapport moyen entre les accès et toutes les opérations au cours des deux derniers intervalles échantillons. Les compteurs de ce type incluent Cache\Pourcentage de présence des données épinglées.</summary>
       </Docs>
     </Member>
     <Member MemberName="Timer100Ns">
@@ -1017,23 +894,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>542180608</MemberValue>
       <Docs>
-        <summary>Compteur de pourcentage qui affiche la durée d'activité d'un composant sous forme de pourcentage du temps total écoulé de l'intervalle échantillon. Il mesure le temps en unités de 100 nanosecondes (ns). Les compteurs de ce type sont conçus pour mesurer l'activité d'un seul composant à la fois.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Formule : (N 1 - N 0) / (D 1 - D 0) x 100, où le numérateur représente les parties de l’intervalle échantillon pendant lequel les composants surveillés étaient actifs et le dénominateur représente le temps total écoulé de l’intervalle échantillon.  
-  
- Les compteurs de ce type comprennent Processor\ % temps utilisateur.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur de pourcentage qui affiche la durée d'activité d'un composant sous forme de pourcentage du temps total écoulé de l'intervalle échantillon. Il mesure le temps en unités de 100 nanosecondes (ns). Les compteurs de ce type sont conçus pour mesurer l'activité d'un seul composant à la fois. Les compteurs de ce type incluent Processeur\ % temps utilisateur.</summary>
       </Docs>
     </Member>
     <Member MemberName="Timer100NsInverse">
@@ -1053,25 +921,14 @@
       <AssemblyInfo>
         <AssemblyName>System.Diagnostics.PerformanceCounter</AssemblyName>
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
+        <AssemblyVersion>4.0.1.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Diagnostics.PerformanceCounterType</ReturnType>
       </ReturnValue>
       <MemberValue>558957824</MemberValue>
       <Docs>
-        <summary>Compteur de pourcentage qui affiche le pourcentage moyen de temps d'activité observé au cours de l'intervalle échantillon.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Il s'agit d'un compteur inverse. Les compteurs de ce type de calculent le temps d’activité en mesurant le temps pendant lequel le service était inactif, puis en soustrayant le pourcentage de temps d’activité de 100 pour cent.  
-  
- Formule : (1 - ((1 N - N 0) / (D 1 - D 0))) x 100, où le numérateur représente le temps pendant l’intervalle lorsque les composants surveillés étaient inactifs et le dénominateur représente le temps total écoulé de l’intervalle échantillon.  
-  
- Les compteurs de ce type comprennent Processor\ % temps processeur.  
-  
- ]]></format>
-        </remarks>
+        <summary>Compteur de pourcentage qui affiche le pourcentage moyen de temps d'activité observé au cours de l'intervalle échantillon. Il s'agit d'un compteur inverse. Les compteurs de ce type incluent Processeur\ % temps processeur.</summary>
       </Docs>
     </Member>
   </Members>
