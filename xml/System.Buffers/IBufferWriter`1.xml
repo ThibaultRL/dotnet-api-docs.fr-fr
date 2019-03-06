@@ -1,5 +1,5 @@
 <Type Name="IBufferWriter&lt;T&gt;" FullName="System.Buffers.IBufferWriter&lt;T&gt;">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="cd890b9a02855189dbf57af223fa03cb5209e33a" /><Meta Name="ms.sourcegitcommit" Value="8e213bb5e6801f6e29861ba72664978ad00e34fa" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="02/18/2019" /><Meta Name="ms.locfileid" Value="56387450" /></Metadata><TypeSignature Language="C#" Value="public interface IBufferWriter&lt;T&gt;" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="674f0a0d53c9622f7a10d3a2b32626681056eef4" /><Meta Name="ms.sourcegitcommit" Value="9e7aa84070156026697d2898b5311e6c025a1e6a" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="02/28/2019" /><Meta Name="ms.locfileid" Value="56996718" /></Metadata><TypeSignature Language="C#" Value="public interface IBufferWriter&lt;T&gt;" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IBufferWriter`1&lt;T&gt;" />
   <TypeSignature Language="DocId" Value="T:System.Buffers.IBufferWriter`1" />
   <TypeSignature Language="VB.NET" Value="Public Interface IBufferWriter(Of T)" />
@@ -17,7 +17,7 @@
   <Interfaces />
   <Docs>
     <typeparam name="T">Le type des éléments dans le <see cref="T:System.Buffers.IBufferWriter`1" />.</typeparam>
-    <summary>Représente un récepteur <typeparamref name="T" />.</summary>
+    <summary>Représente un récepteur de sortie dans lequel des données <typeparamref name="T" /> peuvent être écrites.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -43,8 +43,8 @@
       </Parameters>
       <Docs>
         <param name="count">Nombre d'éléments de données écrits dans <see cref="T:System.Span`1" /> ou <see cref="T:System.Memory`1" />.</param>
-        <summary>Indique à <see cref="T:System.Buffers.IBufferWriter`1" /> que des éléments de données <paramref name="count" /> ont été écrits dans <see cref="T:System.Span`1" /> ou <see cref="T:System.Memory`1" />.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Indique à <see cref="T:System.Buffers.IBufferWriter`1" /> que des éléments de données <paramref name="count" /> ont été écrits dans les sorties <see cref="T:System.Span`1" /> ou <see cref="T:System.Memory`1" />.</summary>
+        <remarks>Vous devez demander une nouvelle mémoire tampon après l’appel à l’avance pour continuer à écrire plus de données ; Impossible d’écrire vers une mémoire tampon obtenue précédemment.</remarks>
       </Docs>
     </Member>
     <Member MemberName="GetMemory">
@@ -67,10 +67,21 @@
         <Parameter Name="sizeHint" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="sizeHint">Taille de la <see cref="T:System.Memory`1" /> demandée. Si sa valeur est 0, demande la mémoire actuellement disponible.</param>
-        <summary>Demande une <see cref="T:System.Memory`1" /> d’au moins <paramref name="sizeHint" /> si possible.</summary>
-        <returns><see cref="T:System.Memory`1" /> d'une taille de <paramref name="sizeHint" />, si disponible ; sinon, <see cref="T:System.Memory`1" /> correspondant à la mémoire maximale disponible. Si la valeur de <paramref name="sizeHint" /> est 0, retourne la mémoire actuellement disponible.</returns>
-        <remarks>To be added.</remarks>
+        <param name="sizeHint">La longueur minimale de l’élément <see cref="T:System.Memory`1" /> retourné. Si 0, une mémoire tampon est renvoyé.</param>
+        <summary>Renvoie un élément <see cref="T:System.Memory`1" /> à écrire d’au moins la taille requise (spécifiée par <paramref name="sizeHint" />).</summary>
+        <returns>Un élément <see cref="T:System.Memory`1" /> d’au moins <paramref name="sizeHint" />. Si <paramref name="sizeHint" /> est 0, renvoie une mémoire tampon non vide.</returns>
+        <remarks>  
+          <format type="text/markdown"><![CDATA[  
+
+Il n’existe aucune garantie que les appels successifs retournera la même mémoire tampon ou la mémoire tampon de même taille.
+
+Cela ne doit jamais retourner <xref:System.Span%601.Empty?displayProperty=nameWithType>, mais il peut lever si la taille de mémoire tampon demandée n’est pas disponible.
+
+Vous devez demander une nouvelle mémoire tampon après l’appel `Advance` de continuer d’écrire plus de données ; vous ne peut pas écrire dans une mémoire tampon obtenue précédemment.
+
+         ]]></format>
+         </remarks>
+         <exception cref="T:System.OutOfMemoryException">La mémoire tampon demandée n'est pas disponible.</exception>        
       </Docs>
     </Member>
     <Member MemberName="GetSpan">
@@ -93,10 +104,19 @@
         <Parameter Name="sizeHint" Type="System.Int32" />
       </Parameters>
       <Docs>
-        <param name="sizeHint">Taille de l’étendue de mémoire demandée. Si sa valeur est 0, demande la mémoire actuellement disponible.</param>
-        <summary>Demande une étendue d’au moins <paramref name="sizeHint" /> si possible.</summary>
-        <returns>Étendue d'une taille de <paramref name="sizeHint" />, si disponible ; sinon, étendue correspondant à la mémoire maximale disponible. Si la valeur de <paramref name="sizeHint" /> est 0, retourne la mémoire actuellement disponible.</returns>
-        <remarks>To be added.</remarks>
+        <param name="sizeHint">La longueur minimale de l’élément <see cref="T:System.Span`1" /> retourné. Si 0, une mémoire tampon est renvoyé.</param>
+        <summary>Renvoie un élément <see cref="T:System.Span`1" /> à écrire d’au moins la taille requise (spécifiée par <paramref name="sizeHint" />).</summary>
+        <returns>Un élément <see cref="T:System.Span`1" /> d’au moins <paramref name="sizeHint" />. Si <paramref name="sizeHint" /> est 0, renvoie une mémoire tampon non vide.</returns>
+        <remarks>  
+          <format type="text/markdown"><![CDATA[
+  
+Il n’existe aucune garantie que les appels successifs retournera la même mémoire tampon ou la mémoire tampon de même taille.
+
+Cette méthode ne doit jamais retourner <xref:System.Span%601.Empty?displayProperty=nameWithType>, mais il peut lever si la taille de mémoire tampon demandée n’est pas disponible.
+
+Vous devez demander une nouvelle mémoire tampon après l’appel `Advance` de continuer d’écrire plus de données ; vous ne peut pas écrire dans une mémoire tampon obtenue précédemment.
+         ]]></format>
+         </remarks>
       </Docs>
     </Member>
   </Members>
