@@ -1,5 +1,5 @@
 <Type Name="AssemblyLoadContext" FullName="System.Runtime.Loader.AssemblyLoadContext">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="8ebdc67076b230b6f3fc37df9fe5903780b82006" /><Meta Name="ms.sourcegitcommit" Value="220917117f9d774aaa482439aa7324e39dc1f5b6" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="02/25/2019" /><Meta Name="ms.locfileid" Value="56772322" /></Metadata><TypeSignature Language="C#" Value="public abstract class AssemblyLoadContext" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="6209379b4106b6c91c0c89b2b8a7511fc986490a" /><Meta Name="ms.sourcegitcommit" Value="67e8bb367eab32b26025454e7769040cfb1d71c4" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="03/09/2019" /><Meta Name="ms.locfileid" Value="57701356" /></Metadata><TypeSignature Language="C#" Value="public abstract class AssemblyLoadContext" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract beforefieldinit AssemblyLoadContext extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Runtime.Loader.AssemblyLoadContext" />
   <TypeSignature Language="VB.NET" Value="Public MustInherit Class AssemblyLoadContext" />
@@ -71,6 +71,8 @@
  ]]></format>
     </remarks>
     <related type="Article" href="https://github.com/dotnet/coreclr/blob/master/Documentation/design-docs/assemblyloadcontext.md">Document de design AssemblyLoadContext CoreCLR</related>
+    <related type="Article" href="/en-us/dotnet/standard/assembly/unloadability-howto">L’utilisation et débogage assembly unloadability dans .NET Core</related>.
+    <related type="Article" href="https://github.com/dotnet/coreclr/blob/master/Documentation/design-docs/unloadability.md">Document de design AssemblyLoadContext unloadability</related>
   </Docs>
   <Members>
     <Member MemberName=".ctor">
@@ -121,8 +123,8 @@ Ce constructeur est protégé. Elle peut uniquement être appelée à partir de 
         <Parameter Name="isCollectible" Type="System.Boolean" Index="0" FrameworkAlternate="netcore-3.0" />
       </Parameters>
       <Docs>
-        <param name="isCollectible">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="isCollectible"><see langword="true" /> pour activer le garbage collection ; sinon, <see langword="false" />.</param>
+        <summary>Initialise une nouvelle instance de la classe <see cref="T:System.Runtime.Loader.AssemblyLoadContext" /> avec une valeur qui indique si le garbage collection est activé.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -237,9 +239,16 @@ Ce constructeur est protégé. Elle peut uniquement être appelée à partir de 
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
-        <remarks>To be added.</remarks>
+        <summary>Obtient une valeur indiquant si ce <see cref="T:System.Runtime.Loader.AssemblyLoadContext" /> peut être collecté.</summary>
+        <value><see langword="true" /> Si cette <see cref="T:System.Runtime.Loader.AssemblyLoadContext" /> est pouvant être collecté ; sinon, <see langword="false" />. Si une valeur n’est pas spécifiée dans le constructeur, la valeur est <see langword="false" />.</value>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks
+ Pour plus d’informations, consultez <see href="/en-us/dotnet/standard/assembly/unloadability-howto">comment utiliser et déboguer unloadability assembly dans .NET Core</see>.
+
+ ]]></format>
+        </remarks>
       </Docs>
     </Member>
     <Member MemberName="Load">
@@ -706,8 +715,19 @@ Ce constructeur est protégé. Elle peut uniquement être appelée à partir de 
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>To be added.</summary>
-        <remarks>To be added.</remarks>
+        <summary>Initie une opération de déchargement de ce <see cref="T:System.Runtime.Loader.AssemblyLoadContext" />.</summary>
+        <remarks>
+          <format type="text/markdown"><![CDATA[
+
+## Remarks
+
++ Un AssemblyLoadContext peut uniquement être déchargé dans le cas pouvant être collecté.
++ Déchargement se produit en mode asynchrone.
++ Déchargement n’a pas lieu alors qu’il existe des références à la AssemblyLoadContext.
+
+ ]]></format>
+        </remarks>
+        <exception cref="T:System.InvalidOperationException">Le déchargement n'est pas autorisé.</exception>
       </Docs>
     </Member>
     <Member MemberName="Unloading">

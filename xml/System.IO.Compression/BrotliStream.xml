@@ -1,5 +1,5 @@
 <Type Name="BrotliStream" FullName="System.IO.Compression.BrotliStream">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="41cf7982f1ea6ea0717945a9ae5c2d9266b71816" /><Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="08/24/2018" /><Meta Name="ms.locfileid" Value="36562065" /></Metadata><TypeSignature Language="C#" Value="public sealed class BrotliStream : System.IO.Stream" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="356c7773b5d1750d20a77a0f5dc5033b172ec941" /><Meta Name="ms.sourcegitcommit" Value="c58096d6814a25766abaf19020c7831e5c59ffc9" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="03/08/2019" /><Meta Name="ms.locfileid" Value="57665907" /></Metadata><TypeSignature Language="C#" Value="public sealed class BrotliStream : System.IO.Stream" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit BrotliStream extends System.IO.Stream" />
   <TypeSignature Language="DocId" Value="T:System.IO.Compression.BrotliStream" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class BrotliStream&#xA;Inherits Stream" />
@@ -14,7 +14,7 @@
   </Base>
   <Interfaces />
   <Docs>
-    <summary>To be added.</summary>
+    <summary>Fournit les méthodes et les propriétés utilisées pour compresser et décompresser des flux à l’aide de la spécification de format de données Brotli.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -34,9 +34,9 @@
         <Parameter Name="compressionLevel" Type="System.IO.Compression.CompressionLevel" />
       </Parameters>
       <Docs>
-        <param name="stream">To be added.</param>
-        <param name="compressionLevel">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="stream">Flux à compresser.</param>
+        <param name="compressionLevel">L'une des valeurs d'énumération qui indique s'il faut mettre l'accent sur la rapidité et l'efficacité de compression en compressant le flux de données.</param>
+        <summary>Initialise une nouvelle instance de la classe <see cref="T:System.IO.Compression.BrotliStream" /> à l'aide du flux et du niveau de compression spécifiés.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -56,9 +56,9 @@
         <Parameter Name="mode" Type="System.IO.Compression.CompressionMode" />
       </Parameters>
       <Docs>
-        <param name="stream">To be added.</param>
-        <param name="mode">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="stream">Flux à compresser.</param>
+        <param name="mode">L'une des valeurs d'énumération qui indique s'il faut compresser ou décompresser le flux.</param>
+        <summary>Initialise une nouvelle instance de la classe <see cref="T:System.IO.Compression.BrotliStream" /> à l'aide du flux et du mode de compression spécifiés.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -79,10 +79,10 @@
         <Parameter Name="leaveOpen" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="stream">To be added.</param>
-        <param name="compressionLevel">To be added.</param>
-        <param name="leaveOpen">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="stream">Flux à compresser.</param>
+        <param name="compressionLevel">L'une des valeurs d'énumération qui indique s'il faut mettre l'accent sur la rapidité et l'efficacité de compression en compressant le flux de données.</param>
+        <param name="leaveOpen"><see langword="true" /> pour maintenir le flux ouvert après avoir supprimé l'objet <see cref="T:System.IO.Compression.BrotliStream" /> ; sinon, <see langword="false" />.</param>
+        <summary>Initialise une nouvelle instance de la classe <see cref="T:System.IO.Compression.BrotliStream" /> à l'aide du flux et du niveau de compression spécifiés, et permet éventuellement de laisser le flux ouvert.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -103,10 +103,10 @@
         <Parameter Name="leaveOpen" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="stream">To be added.</param>
-        <param name="mode">To be added.</param>
+        <param name="stream">Flux à compresser.</param>
+        <param name="mode">L'une des valeurs d'énumération qui indique s'il faut compresser ou décompresser le flux.</param>
         <param name="leaveOpen">To be added.</param>
-        <summary>To be added.</summary>
+        <summary>Initialise une nouvelle instance de la classe <see cref="T:System.IO.Compression.BrotliStream" /> à l'aide du flux et du mode de compression spécifiés, et permet éventuellement de laisser le flux ouvert.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -126,9 +126,10 @@
         <ReturnType>System.IO.Stream</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Obtient une référence au flux sous-jacent.</summary>
+        <value>Objet de flux qui représente le flux sous-jacent.</value>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ObjectDisposedException">Le flux sous-jacent est fermé.</exception>
       </Docs>
     </Member>
     <Member MemberName="BeginRead">
@@ -153,14 +154,19 @@
         <Parameter Name="asyncState" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="asyncCallback">To be added.</param>
-        <param name="asyncState">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="buffer">Mémoire tampon à partir de laquelle les données doivent être lues.</param>
+        <param name="offset">Dans <paramref name="array" />, décalage d'octet à partir duquel commencer la lecture des données à partir du flux.</param>
+        <param name="count">Nombre maximal d'octets à lire.</param>
+        <param name="asyncCallback">Rappel asynchrone optionnel à appeler lorsque la lecture est terminée.</param>
+        <param name="asyncState">Objet fourni par l'utilisateur qui distingue cette requête de lecture asynchrone des autres requêtes.</param>
+        <summary>Débute une opération de lecture asynchrone. (Utilisez la méthode <see cref="M:System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)" /> à la place.)</summary>
+        <returns>Objet représentant la lecture asynchrone qui pourrait toujours être en attente.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.IO.IOException">La méthode a essayé de lire de façon asynchrone au delà de la fin du flux de données, ou une erreur disque s'est produite.</exception>
+        <exception cref="T:System.ArgumentException">Un ou plusieurs arguments ne sont pas valides.</exception>
+        <exception cref="T:System.ObjectDisposedException">Des méthodes ont été appelées après la fermeture du flux.</exception>
+        <exception cref="T:System.NotSupportedException">L’implémentation du <see cref="T:System.IO.Compression.BrotliStream" /> en cours ne prend pas en charge l’opération de lecture.</exception>
+        <exception cref="T:System.InvalidOperationException">Cet appel ne peut pas être effectué.</exception>
       </Docs>
     </Member>
     <Member MemberName="BeginWrite">
@@ -185,14 +191,19 @@
         <Parameter Name="asyncState" Type="System.Object" />
       </Parameters>
       <Docs>
-        <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
-        <param name="asyncCallback">To be added.</param>
-        <param name="asyncState">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="buffer">Mémoire tampon à partir de laquelle les données doivent être écrites.</param>
+        <param name="offset">Dans <paramref name="array" />, décalage d'octet auquel commencer l'écriture des données à partir du flux.</param>
+        <param name="count">Nombre maximal d'octets à écrire.</param>
+        <param name="asyncCallback">Rappel asynchrone facultatif à appeler lorsque l'opération d'écriture est terminée.</param>
+        <param name="asyncState">Objet fourni par l'utilisateur qui distingue cette requête d'écriture asynchrone des autres requêtes.</param>
+        <summary>Débute une opération d'écriture asynchrone. (Utilisez la méthode <see cref="M:System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)" /> à la place.)</summary>
+        <returns>Objet représentant l'écriture asynchrone qui pourrait toujours être en attente.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.IO.IOException">La méthode a essayé d'écrire de façon asynchrone au delà de la fin du flux de données, ou une erreur disque s'est produite.</exception>
+        <exception cref="T:System.ArgumentException">Un ou plusieurs arguments ne sont pas valides.</exception>
+        <exception cref="T:System.ObjectDisposedException">Des méthodes ont été appelées après la fermeture du flux.</exception>
+        <exception cref="T:System.NotSupportedException">L’implémentation du <see cref="T:System.IO.Compression.BrotliStream" /> en cours ne prend pas en charge l’opération d’écriture.</exception>
+        <exception cref="T:System.InvalidOperationException">L’opération d’écriture ne peut pas être exécutée car le flux est fermé.</exception>
       </Docs>
     </Member>
     <Member MemberName="CanRead">
@@ -211,8 +222,8 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Obtient une valeur indiquant si le flux prend en charge la lecture pendant la décompression d'un fichier.</summary>
+        <value><see langword="true" /> si la valeur de <see cref="T:System.IO.Compression.CompressionMode" /> est <see langword="Decompress," />, que le flux sous-jacent prend en charge la lecture et qu'il n'est pas fermé ; sinon, <see langword="false" />.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -232,8 +243,8 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Obtient une valeur indiquant si le flux prend en charge la recherche.</summary>
+        <value><see langword="false" /> dans tous les cas.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -253,8 +264,8 @@
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Obtient une valeur indiquant si le flux prend en charge l'écriture.</summary>
+        <value><see langword="true" /> si la valeur de <see cref="T:System.IO.Compression.CompressionMode" /> est <see langword="Compress" />, que le flux sous-jacent prend en charge l'écriture et qu'il n'est pas fermé ; sinon, <see langword="false" />.</value>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -277,8 +288,30 @@
         <Parameter Name="disposing" Type="System.Boolean" />
       </Parameters>
       <Docs>
-        <param name="disposing">To be added.</param>
+        <param name="disposing"><see langword="true" /> pour libérer les ressources managées et non managées ; <see langword="false" /> pour libérer uniquement les ressources non managées.</param>
+        <summary>Libère les ressources non managées utilisées par <see cref="T:System.IO.Compression.BrotliStream" /> et libère éventuellement les ressources managées.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="DisposeAsync">
+      <MemberSignature Language="C#" Value="public override System.Threading.Tasks.ValueTask DisposeAsync ();" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance valuetype System.Threading.Tasks.ValueTask DisposeAsync() cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Compression.BrotliStream.DisposeAsync" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function DisposeAsync () As ValueTask" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Threading::Tasks::ValueTask DisposeAsync();" />
+      <MemberSignature Language="F#" Value="override this.DisposeAsync : unit -&gt; System.Threading.Tasks.ValueTask" Usage="brotliStream.DisposeAsync " />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Compression.Brotli</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.Tasks.ValueTask</ReturnType>
+      </ReturnValue>
+      <Parameters />
+      <Docs>
         <summary>To be added.</summary>
+        <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -301,10 +334,13 @@
         <Parameter Name="asyncResult" Type="System.IAsyncResult" />
       </Parameters>
       <Docs>
-        <param name="asyncResult">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="asyncResult">Référence à la requête asynchrone en attente à terminer.</param>
+        <summary>Attend que la requête asynchrone en attente se termine. (Utilisez la méthode <see cref="M:System.IO.Stream.ReadAsync(System.Byte[],System.Int32,System.Int32)" /> à la place.)</summary>
+        <returns>Nombre d'octets lus à partir du flux, entre zéro (0) et le nombre d'octets demandé. <see cref="T:System.IO.Compression.BrotliStream" /> retourne uniquement 0 à la fin du flux ; sinon, il se bloque jusqu'à ce qu'au moins un octet soit disponible.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="asyncResult" /> est <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentException"><paramref name="asyncResult" /> ne provenait pas d’une méthode <see cref="M:System.IO.Compression.BrotliStream.BeginRead(System.Byte[],System.Int32,System.Int32,System.AsyncCallback,System.Object)" /> sur le flux en cours.</exception>
+        <exception cref="T:System.InvalidOperationException">L’opération de fin ne peut pas être exécutée car le flux est fermé.</exception>
       </Docs>
     </Member>
     <Member MemberName="EndWrite">
@@ -326,9 +362,10 @@
         <Parameter Name="asyncResult" Type="System.IAsyncResult" />
       </Parameters>
       <Docs>
-        <param name="asyncResult">To be added.</param>
-        <summary>To be added.</summary>
+        <param name="asyncResult">Objet qui représente l'appel asynchrone.</param>
+        <summary>Gère la fin d'une opération d'écriture asynchrone. (Utilisez la méthode <see cref="M:System.IO.Stream.WriteAsync(System.Byte[],System.Int32,System.Int32)" /> à la place.)</summary>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.InvalidOperationException">Le flux sous-jacent est fermé ou <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="Flush">
@@ -348,7 +385,31 @@
       </ReturnValue>
       <Parameters />
       <Docs>
+        <summary>L'implémentation actuelle de cette méthode n'a aucune fonctionnalité.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="FlushAsync">
+      <MemberSignature Language="C#" Value="public override System.Threading.Tasks.Task FlushAsync (System.Threading.CancellationToken cancellationToken);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance class System.Threading.Tasks.Task FlushAsync(valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Compression.BrotliStream.FlushAsync(System.Threading.CancellationToken)" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override System::Threading::Tasks::Task ^ FlushAsync(System::Threading::CancellationToken cancellationToken);" />
+      <MemberSignature Language="F#" Value="override this.FlushAsync : System.Threading.CancellationToken -&gt; System.Threading.Tasks.Task" Usage="brotliStream.FlushAsync cancellationToken" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Compression.Brotli</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.Tasks.Task</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" Index="0" FrameworkAlternate="netcore-3.0" />
+      </Parameters>
+      <Docs>
+        <param name="cancellationToken">To be added.</param>
         <summary>To be added.</summary>
+        <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -368,9 +429,10 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>To be added.</summary>
-        <value>To be added.</value>
+        <summary>Cette propriété n'est pas prise en charge et lève toujours <see cref="T:System.NotSupportedException" />.</summary>
+        <value>Valeur Long.</value>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.NotSupportedException">Cette propriété n’est pas prise en charge sur ce flux.</exception>
       </Docs>
     </Member>
     <Member MemberName="Position">
@@ -389,8 +451,34 @@
         <ReturnType>System.Int64</ReturnType>
       </ReturnValue>
       <Docs>
+        <summary>Cette propriété n'est pas prise en charge et lève toujours <see cref="T:System.NotSupportedException" />.</summary>
+        <value>Valeur Long.</value>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.NotSupportedException">Cette propriété n’est pas prise en charge sur ce flux.</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="Read">
+      <MemberSignature Language="C#" Value="public override int Read (Span&lt;byte&gt; buffer);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance int32 Read(valuetype System.Span`1&lt;unsigned int8&gt; buffer) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Compression.BrotliStream.Read(System.Span{System.Byte})" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Function Read (buffer As Span(Of Byte)) As Integer" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override int Read(Span&lt;System::Byte&gt; buffer);" />
+      <MemberSignature Language="F#" Value="override this.Read : Span&lt;byte&gt; -&gt; int" Usage="brotliStream.Read buffer" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Compression.Brotli</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Int32</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="buffer" Type="System.Span&lt;System.Byte&gt;" Index="0" FrameworkAlternate="netcore-3.0" />
+      </Parameters>
+      <Docs>
+        <param name="buffer">To be added.</param>
         <summary>To be added.</summary>
-        <value>To be added.</value>
+        <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -415,9 +503,40 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
+        <param name="buffer">Tableau utilisé pour décompresser les octets.</param>
+        <param name="offset">Dans <paramref name="buffer" />, décalage d'octet auquel les octets lus seront placés.</param>
+        <param name="count">Nombre maximal d'octets décompressés à lire.</param>
+        <summary>Lit un certain nombre d'octets décompressés dans le tableau d'octets spécifié.</summary>
+        <returns>Nombre d'octets qui ont été décompressés dans le tableau d'octets. Si la fin du flux a été atteinte, zéro ou le nombre d'octets lus est retourné.</returns>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ArgumentNullException"><paramref name="buffer" /> est <see langword="null" />.</exception>
+        <exception cref="T:System.InvalidOperationException">La valeur <see cref="T:System.IO.Compression.CompressionMode" /> était <see langword="Compress" /> lorsque l’objet a été créé, ou il existe déjà une opération asynchrone active sur ce flux.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException"><paramref name="offset" /> ou <paramref name="count" /> est inférieur à zéro.</exception>
+        <exception cref="T:System.ArgumentException">La longueur de <paramref name="buffer" /> moins le point de départ de l’index est inférieur à <paramref name="count" />.</exception>
+        <exception cref="T:System.IO.InvalidDataException">Le format des données n’est pas valide.</exception>
+        <exception cref="T:System.ObjectDisposedException">Le flux sous-jacent est Null ou fermé.</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="ReadAsync">
+      <MemberSignature Language="C#" Value="public override System.Threading.Tasks.ValueTask&lt;int&gt; ReadAsync (Memory&lt;byte&gt; buffer, System.Threading.CancellationToken cancellationToken = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance valuetype System.Threading.Tasks.ValueTask`1&lt;int32&gt; ReadAsync(valuetype System.Memory`1&lt;unsigned int8&gt; buffer, valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Compression.BrotliStream.ReadAsync(System.Memory{System.Byte},System.Threading.CancellationToken)" />
+      <MemberSignature Language="F#" Value="override this.ReadAsync : Memory&lt;byte&gt; * System.Threading.CancellationToken -&gt; System.Threading.Tasks.ValueTask&lt;int&gt;" Usage="brotliStream.ReadAsync (buffer, cancellationToken)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Compression.Brotli</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.Tasks.ValueTask&lt;System.Int32&gt;</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="buffer" Type="System.Memory&lt;System.Byte&gt;" Index="0" FrameworkAlternate="netcore-3.0" />
+        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" Index="1" FrameworkAlternate="netcore-3.0" />
+      </Parameters>
+      <Docs>
         <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
+        <param name="cancellationToken">To be added.</param>
         <summary>To be added.</summary>
         <returns>To be added.</returns>
         <remarks>To be added.</remarks>
@@ -473,11 +592,12 @@
         <Parameter Name="origin" Type="System.IO.SeekOrigin" />
       </Parameters>
       <Docs>
-        <param name="offset">To be added.</param>
-        <param name="origin">To be added.</param>
-        <summary>To be added.</summary>
-        <returns>To be added.</returns>
+        <param name="offset">Emplacement dans le flux.</param>
+        <param name="origin">Une des valeurs de <see cref="T:System.IO.SeekOrigin" />.</param>
+        <summary>Cette propriété n'est pas prise en charge et lève toujours <see cref="T:System.NotSupportedException" />.</summary>
+        <returns>Valeur Long.</returns>
         <remarks>To be added.</remarks>
+        <exception cref="T:System.NotSupportedException">Cette propriété n’est pas prise en charge sur ce flux.</exception>
       </Docs>
     </Member>
     <Member MemberName="SetLength">
@@ -499,7 +619,31 @@
         <Parameter Name="value" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="value">To be added.</param>
+        <param name="value">Longueur du flux.</param>
+        <summary>Cette propriété n'est pas prise en charge et lève toujours <see cref="T:System.NotSupportedException" />.</summary>
+        <remarks>To be added.</remarks>
+      </Docs>
+    </Member>
+    <Member MemberName="Write">
+      <MemberSignature Language="C#" Value="public override void Write (ReadOnlySpan&lt;byte&gt; buffer);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance void Write(valuetype System.ReadOnlySpan`1&lt;unsigned int8&gt; buffer) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Compression.BrotliStream.Write(System.ReadOnlySpan{System.Byte})" />
+      <MemberSignature Language="VB.NET" Value="Public Overrides Sub Write (buffer As ReadOnlySpan(Of Byte))" />
+      <MemberSignature Language="C++ CLI" Value="public:&#xA; override void Write(ReadOnlySpan&lt;System::Byte&gt; buffer);" />
+      <MemberSignature Language="F#" Value="override this.Write : ReadOnlySpan&lt;byte&gt; -&gt; unit" Usage="brotliStream.Write buffer" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Compression.Brotli</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Void</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="buffer" Type="System.ReadOnlySpan&lt;System.Byte&gt;" Index="0" FrameworkAlternate="netcore-3.0" />
+      </Parameters>
+      <Docs>
+        <param name="buffer">To be added.</param>
         <summary>To be added.</summary>
         <remarks>To be added.</remarks>
       </Docs>
@@ -525,10 +669,36 @@
         <Parameter Name="count" Type="System.Int32" />
       </Parameters>
       <Docs>
+        <param name="buffer">Mémoire tampon qui contient les données à compresser.</param>
+        <param name="offset">Dans <paramref name="array" />, décalage d'octet à partir duquel les octets seront lus.</param>
+        <param name="count">Nombre maximal d'octets à écrire.</param>
+        <summary>Écrit les octets compressés dans le flux sous-jacent à partir du tableau d'octets spécifié.</summary>
+        <remarks>To be added.</remarks>
+        <exception cref="T:System.ObjectDisposedException">L’opération d’écriture ne peut pas être exécutée car le flux est fermé.</exception>
+      </Docs>
+    </Member>
+    <Member MemberName="WriteAsync">
+      <MemberSignature Language="C#" Value="public override System.Threading.Tasks.ValueTask WriteAsync (ReadOnlyMemory&lt;byte&gt; buffer, System.Threading.CancellationToken cancellationToken = null);" />
+      <MemberSignature Language="ILAsm" Value=".method public hidebysig virtual instance valuetype System.Threading.Tasks.ValueTask WriteAsync(valuetype System.ReadOnlyMemory`1&lt;unsigned int8&gt; buffer, valuetype System.Threading.CancellationToken cancellationToken) cil managed" />
+      <MemberSignature Language="DocId" Value="M:System.IO.Compression.BrotliStream.WriteAsync(System.ReadOnlyMemory{System.Byte},System.Threading.CancellationToken)" />
+      <MemberSignature Language="F#" Value="override this.WriteAsync : ReadOnlyMemory&lt;byte&gt; * System.Threading.CancellationToken -&gt; System.Threading.Tasks.ValueTask" Usage="brotliStream.WriteAsync (buffer, cancellationToken)" />
+      <MemberType>Method</MemberType>
+      <AssemblyInfo>
+        <AssemblyName>System.IO.Compression.Brotli</AssemblyName>
+        <AssemblyVersion>4.2.1.0</AssemblyVersion>
+      </AssemblyInfo>
+      <ReturnValue>
+        <ReturnType>System.Threading.Tasks.ValueTask</ReturnType>
+      </ReturnValue>
+      <Parameters>
+        <Parameter Name="buffer" Type="System.ReadOnlyMemory&lt;System.Byte&gt;" Index="0" FrameworkAlternate="netcore-3.0" />
+        <Parameter Name="cancellationToken" Type="System.Threading.CancellationToken" Index="1" FrameworkAlternate="netcore-3.0" />
+      </Parameters>
+      <Docs>
         <param name="buffer">To be added.</param>
-        <param name="offset">To be added.</param>
-        <param name="count">To be added.</param>
+        <param name="cancellationToken">To be added.</param>
         <summary>To be added.</summary>
+        <returns>To be added.</returns>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
