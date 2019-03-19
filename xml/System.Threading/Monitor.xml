@@ -1,5 +1,5 @@
 <Type Name="Monitor" FullName="System.Threading.Monitor">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="e925d576d52267c0e301b6428f677609e99940d3" /><Meta Name="ms.sourcegitcommit" Value="adc8598fd19d91438cacaa8fa7ce613e28c8218e" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="12/11/2018" /><Meta Name="ms.locfileid" Value="53230739" /></Metadata><TypeSignature Language="C#" Value="public static class Monitor" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="420a40d5ec114eb0c6230857ac9328eded3c08f9" /><Meta Name="ms.sourcegitcommit" Value="bac13a81377b1c4ebf3990e3287a6f1700f73751" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="03/19/2019" /><Meta Name="ms.locfileid" Value="57925498" /></Metadata><TypeSignature Language="C#" Value="public static class Monitor" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi abstract sealed beforefieldinit Monitor extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Threading.Monitor" />
   <TypeSignature Language="VB.NET" Value="Public Class Monitor" />
@@ -38,7 +38,7 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Les objets <xref:System.Threading.Monitor> permettent de synchroniser l'accès à une zone de code en prenant et en libérant un verrou sur un objet particulier à l'aide des méthodes <xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.TryEnter%2A?displayProperty=nameWithType> et <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType>. Les verrous d’objets permettent de restreindre l’accès à un bloc de code, généralement appelé une section critique. Pendant un thread possède le verrou d’un objet, aucun autre thread ne peut acquérir ce verrou. Vous pouvez également utiliser le <xref:System.Threading.Monitor> classe pour vous assurer qu’aucun autre thread n’est autorisé à accéder à une section de l’application de code en cours d’exécution par le propriétaire du verrou, sauf si l’autre thread exécute le code à l’aide d’un autre objet verrouillé.  
+ Le <xref:System.Threading.Monitor> classe permet de synchroniser l’accès à une région de code en prenant et en libérant un verrou sur un objet particulier en appelant le <xref:System.Threading.Monitor.Enter%2A?displayProperty=nameWithType>, <xref:System.Threading.Monitor.TryEnter%2A?displayProperty=nameWithType>, et <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> méthodes. Les verrous d’objets permettent de restreindre l’accès à un bloc de code, généralement appelé une section critique. Pendant un thread possède le verrou d’un objet, aucun autre thread ne peut acquérir ce verrou. Vous pouvez également utiliser le <xref:System.Threading.Monitor> classe pour vous assurer qu’aucun autre thread n’est autorisé à accéder à une section de l’application de code en cours d’exécution par le propriétaire du verrou, sauf si l’autre thread exécute le code à l’aide d’un autre objet verrouillé.  
   
  Dans cet article :  
   
@@ -101,20 +101,20 @@
  Notez que vous pouvez synchroniser sur un objet dans plusieurs domaines d’application si l’objet utilisé comme verrou dérive <xref:System.MarshalByRefObject>.  
   
 <a name="CriticalSection"></a>   
-## <a name="the-critical-section"></a>Section critique  
+## <a name="the-critical-section"></a>La section critique  
  Utilisez le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes pour marquer le début et la fin d’une section critique.  
   
 > [!NOTE]
 >  La fonctionnalité fournie par le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes est identique à celle fournie par le [verrou](~/docs/csharp/language-reference/keywords/lock-statement.md) instruction en langage c# et le [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instruction en Visual Basic, à ceci près que le constructions de langage de type wrap le <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29?displayProperty=nameWithType> surcharge de méthode et la <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> méthode dans un `try`...`finally` bloc pour garantir que la libération du moniteur.  
   
- Si la section critique est un ensemble d’instructions contiguës, puis le verrou acquis par la <xref:System.Threading.Monitor.Enter%2A> méthode ne garantit qu’un seul thread peut exécuter le code délimité avec l’objet verrouillé. Dans ce cas, nous vous recommandons de placer ce code dans un `try` bloquer et placer l’appel à la <xref:System.Threading.Monitor.Exit%2A> méthode dans un `finally` bloc. Cela garantit la libération du verrou même si une exception se produit. Le fragment de code suivant illustre ce concept :  
+ Si la section critique est un ensemble d’instructions contiguës, puis le verrou acquis par la <xref:System.Threading.Monitor.Enter%2A> méthode ne garantit qu’un seul thread peut exécuter le code délimité avec l’objet verrouillé. Dans ce cas, nous vous recommandons de placer ce code dans un `try` bloquer et placer l’appel à la <xref:System.Threading.Monitor.Exit%2A> méthode dans un `finally` bloc. Cela garantit la libération du verrou même si une exception se produit. Le fragment de code suivant illustre ce modèle.  
   
  [!code-csharp[System.Threading.Monitor.Class#2](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/Pattern2.cs#2)]
  [!code-vb[System.Threading.Monitor.Class#2](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/Pattern2.vb#2)]  
   
  Cette fonctionnalité est généralement utilisée pour synchroniser l’accès à un mappage statique ou méthode d’instance d’une classe.  
   
- Si une section critique s’étend sur l’ensemble d’une méthode, l’outil de verrouillage peut être obtenue en plaçant le <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType> sur la méthode et en spécifiant le <xref:System.Runtime.CompilerServices.MethodImplOptions.Synchronized> valeur dans le constructeur de <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType>. Lorsque vous utilisez cet attribut, le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> les appels de méthode ne sont pas nécessaires. Le fragment de code suivant illustre ce concept :  
+ Si une section critique s’étend sur l’ensemble d’une méthode, l’outil de verrouillage peut être obtenue en plaçant le <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType> sur la méthode et en spécifiant le <xref:System.Runtime.CompilerServices.MethodImplOptions.Synchronized> valeur dans le constructeur de <xref:System.Runtime.CompilerServices.MethodImplAttribute?displayProperty=nameWithType>. Lorsque vous utilisez cet attribut, le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> les appels de méthode ne sont pas nécessaires. Le fragment de code suivant illustre ce modèle :  
   
  [!code-csharp[System.Threading.Monitor.Class#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/Pattern2.cs#3)]
  [!code-vb[System.Threading.Monitor.Class#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/Pattern2.vb#3)]  
@@ -132,10 +132,10 @@
  Lorsque le thread qui détient les appels de verrou <xref:System.Threading.Monitor.Pulse%2A>, le thread à la tête de la file d’attente est déplacé vers la file d’attente opérationnelle. L’appel à la <xref:System.Threading.Monitor.PulseAll%2A> méthode déplace tous les threads à partir de la file d’attente vers la file d’attente opérationnelle.  
   
 <a name="WaitHandles"></a>   
-## <a name="monitors-and-wait-handles"></a>Tâches et handles d’attente  
- Il est important de faire la distinction entre les objets <xref:System.Threading.Monitor> et <xref:System.Threading.WaitHandle>.  
+## <a name="monitors-and-wait-handles"></a>Moniteurs et les handles d’attente  
+ Il est important de noter la distinction entre l’utilisation de la <xref:System.Threading.Monitor> classe et <xref:System.Threading.WaitHandle> objets.  
   
--   Les objets <xref:System.Threading.Monitor> sont exclusivement managés et entièrement portables. Ils peuvent être plus appropriés pour remplir les exigences de ressources du système d'exploitation.  
+-   Le <xref:System.Threading.Monitor> classe est purement managés, entièrement portables et peuvent être plus efficace en termes de besoins en ressources de système d’exploitation.  
   
 -   Les objets <xref:System.Threading.WaitHandle> représentent des objets d'attente de système d'exploitation et sont utiles pour la synchronisation entre le code managé et le code non managé. Ils exposent certaines fonctionnalités avancées de système d'exploitation, comme la possibilité d'attendre plusieurs objets à la fois.  
   
@@ -149,16 +149,16 @@
   
  Car ils sont accessibles à partir de n’importe quelle tâche en cours d’exécution sur un thread de pool de threads, accéder aux variables `total` et `n` doivent également être synchronisés. Le <xref:System.Threading.Interlocked.Add%2A?displayProperty=nameWithType> méthode est utilisée à cet effet.  
   
- L'exemple de code suivant illustre l'utilisation combinée de la classe <xref:System.Threading.Monitor> (implémentée avec les instructions de compilateur `lock` et `SyncLock`), de la classe <xref:System.Threading.Interlocked> et de la classe <xref:System.Threading.AutoResetEvent>. Il définit deux classes `internal` (en C#) ou `Friend` (en Visual Basic), `SyncResource` et `UnSyncResource`, qui fournissent respectivement un accès synchronisé et non synchronisé à une ressource. Pour garantir que l’exemple illustre la différence entre l’accès synchronisé et non synchronisé (ce qui pourrait être le cas si chaque appel de méthode se termine rapidement), la méthode inclut un délai aléatoire : pour les threads dont la propriété <xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType> est paire, la méthode appelle <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> pour introduire un délai de 2000 millisecondes. La classe `SyncResource` n’étant pas publique, aucune partie du code client n’acquiert un verrou sur la ressource synchronisée. C’est la classe interne proprement dite qui acquiert le verrou. Cela empêche que du code malveillant acquière un verrou sur un objet public.  
+ L’exemple suivant illustre l’utilisation combinée de la <xref:System.Threading.Monitor> classe (implémentée avec le `lock` ou `SyncLock` construction de langage), le <xref:System.Threading.Interlocked> (classe) et le <xref:System.Threading.AutoResetEvent> classe. Il définit deux classes `internal` (en C#) ou `Friend` (en Visual Basic), `SyncResource` et `UnSyncResource`, qui fournissent respectivement un accès synchronisé et non synchronisé à une ressource. Pour garantir que l’exemple illustre la différence entre l’accès synchronisé et non synchronisé (ce qui pourrait être le cas si chaque appel de méthode se termine rapidement), la méthode inclut un délai aléatoire : pour les threads dont la propriété <xref:System.Threading.Thread.ManagedThreadId%2A?displayProperty=nameWithType> est paire, la méthode appelle <xref:System.Threading.Thread.Sleep%2A?displayProperty=nameWithType> pour introduire un délai de 2000 millisecondes. La classe `SyncResource` n’étant pas publique, aucune partie du code client n’acquiert un verrou sur la ressource synchronisée. C’est la classe interne proprement dite qui acquiert le verrou. Cela empêche que du code malveillant acquière un verrou sur un objet public.  
   
  [!code-csharp[Conceptual.Monitors#1](~/samples/snippets/csharp/VS_Snippets_CLR/conceptual.monitors/cs/source.cs#1)]
  [!code-vb[Conceptual.Monitors#1](~/samples/snippets/visualbasic/VS_Snippets_CLR/conceptual.monitors/vb/source.vb#1)]  
   
- L’exemple définit une variable, `numOps`, qui définit le nombre de threads qui tenteront d’accéder à la ressource. Le thread d’application appelle la méthode <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> à cinq reprises pour l’accès synchronisé et non synchronisé. La méthode <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> possède un seul paramètre, un délégué qui n’accepte aucun paramètre et ne retourne aucune valeur. Pour l’accès synchronisé, elle appelle la méthode `SyncUpdateResource`. Pour l’accès non synchronisé, elle appelle la méthode `UnSyncUpdateResource`. Après chaque ensemble d’appels de méthode, le thread d’application appelle la méthode AutoResetEvent.WaitOne](xref:System.Threading.WaitHandle.WaitOne*)<xref:System.Threading.AutoResetEvent>[ pour provoquer un blocage jusqu’à ce que l’instance  soit signalée.  
+ L’exemple définit une variable, `numOps`, qui définit le nombre de threads qui tenteront d’accéder à la ressource. Le thread d’application appelle la méthode <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> à cinq reprises pour l’accès synchronisé et non synchronisé. La méthode <xref:System.Threading.ThreadPool.QueueUserWorkItem%28System.Threading.WaitCallback%29?displayProperty=nameWithType> possède un seul paramètre, un délégué qui n’accepte aucun paramètre et ne retourne aucune valeur. Pour l’accès synchronisé, elle appelle la méthode `SyncUpdateResource`. Pour l’accès non synchronisé, elle appelle la méthode `UnSyncUpdateResource`. Après chaque ensemble d’appels de méthode, le thread d’application appelle le [AutoResetEvent.WaitOne](xref:System.Threading.WaitHandle.WaitOne*) méthode afin qu’elle se bloque jusqu'à ce que le <xref:System.Threading.AutoResetEvent> instance est signalée.  
   
- Chaque appel à la méthode `SyncUpdateResource` appelle la méthode `SyncResource.Access` interne, puis appelle la méthode <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> pour décrémenter le compteur `numOps`. La méthode <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> est utilisée pour décrémenter, car sinon vous ne pouvez pas être certain qu’un deuxième thread n’accédera pas à la valeur avant que la valeur décrémentée d’un premier thread ait été stockée dans la variable. Quand le dernier thread de travail synchronisé décrémente le compteur à zéro, ce qui indique que tous les threads synchronisés ont terminé d’accéder à la ressource, la méthode `SyncUpdateResource` appelle la méthode EventWaitHandle.Set<xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> pour signaler au thread principal qu’il doit poursuivre l’exécution.  
+ Chaque appel à la méthode `SyncUpdateResource` appelle la méthode `SyncResource.Access` interne, puis appelle la méthode <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> pour décrémenter le compteur `numOps`. Le <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> méthode est utilisée pour décrémenter le compteur, car sinon vous ne pouvez pas être certain qu’un deuxième thread accéder à la valeur avant du d’un thread de premier décrémenté valeur ayant été stockée dans la variable. Lors de la dernière synchronisation décrémente de thread de travail le compteur à zéro, indiquant que tous les threads synchronisés ont terminé d’accéder à la ressource, le `SyncUpdateResource` les appels de méthode le <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> (méthode), qui signale au thread principal de continuer exécution.  
   
- Chaque appel à la méthode `UnSyncUpdateResource` appelle la méthode `UnSyncResource.Access` interne, puis appelle la méthode <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> pour décrémenter le compteur `numOps`. Là encore, la méthode <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> est utilisée pour décrémenter, afin de s’assurer qu’un deuxième thread n’accède pas à la valeur avant que la valeur décrémentée d’un premier thread n’ait été assignée à la variable. Quand le dernier thread de travail non synchronisé décrémente le compteur à zéro, ce qui indique que plus aucun thread non synchronisé n’a besoin d’accéder à la ressource, la méthode `UnSyncUpdateResource` appelle la méthode EventWaitHandle.Set<xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> pour signaler au thread principal qu’il doit poursuivre l’exécution.  
+ Chaque appel à la méthode `UnSyncUpdateResource` appelle la méthode `UnSyncResource.Access` interne, puis appelle la méthode <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> pour décrémenter le compteur `numOps`. Une fois encore, le <xref:System.Threading.Interlocked.Decrement%2A?displayProperty=nameWithType> méthode est utilisée pour décrémenter le compteur pour vous assurer qu’un deuxième thread n’accède pas à la valeur avant valeur décrémentée d’un premier thread ait été attribuée à la variable. Lors de la dernière non synchronisé décrémente de thread de travail le compteur à zéro, indiquant qu’aucun autre non synchronisé threads doivent accéder à la ressource, le `UnSyncUpdateResource` les appels de méthode le <xref:System.Threading.EventWaitHandle.Set%2A?displayProperty=nameWithType> (méthode), qui signale le thread principal pour continuer l’exécution .  
   
  Comme le montre la sortie de l’exemple, l’accès synchronisé garantit que le thread appelant quitte la ressource protégée avant qu’un autre thread puisse y accéder ; chaque thread attend son prédécesseur. En revanche, sans verrou la méthode `UnSyncResource.Access` est appelée dans l’ordre dans lequel les threads l’atteignent.  
   
@@ -227,11 +227,11 @@
 ## Remarks  
  Utilisez `Enter` pour acquérir le <xref:System.Threading.Monitor> sur l’objet passé comme paramètre. Si un autre thread a exécuté une `Enter` sur l’objet, mais le n'a pas encore exécuté correspondant <xref:System.Threading.Monitor.Exit%2A>, bloque le thread actuel jusqu'à ce que l’autre thread libère l’objet. Il est autorisé pour le même thread appeler `Enter` plusieurs fois sans se bloquer ; Toutefois, un nombre égal de `Exit` appels doivent être appelées avant que les autres threads en attente sur l’objet débloque.  
   
- <xref:System.Threading.Monitor> verrouille des objets (c'est-à-dire des types référence), mais pas des types valeur. Lorsque vous passez une variable de type valeur à `Enter`, il est converti (boxed) en tant qu’objet. Si vous transmettez la même variable à `Enter` là encore, il est converti (boxed) en tant qu’objet distinct et le thread ne bloque pas. Dans ce cas, le code qui `Monitor` est censé protéger n’est pas protégé. En outre, lorsque vous passez la variable à `Exit`, toujours à un autre objet distinct est créé. Étant donné que l’objet passé à `Exit` est différent de l’objet passé à `Enter`, `Monitor` lève <xref:System.Threading.SynchronizationLockException>. Pour plus d’informations, consultez la rubrique conceptuelle [moniteurs](xref:System.Threading.Monitor).  
+ Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Lorsque vous passez une variable de type valeur à `Enter`, il est converti (boxed) en tant qu’objet. Si vous transmettez la même variable à `Enter` là encore, il est converti (boxed) en tant qu’objet distinct et le thread ne bloque pas. Dans ce cas, le code qui `Monitor` est censé protéger n’est pas protégé. En outre, lorsque vous passez la variable à `Exit`, toujours à un autre objet distinct est créé. Étant donné que l’objet passé à `Exit` est différent de l’objet passé à `Enter`, `Monitor` lève <xref:System.Threading.SynchronizationLockException>. Pour plus d’informations, consultez la rubrique conceptuelle [moniteurs](xref:System.Threading.Monitor).  
   
  <xref:System.Threading.Thread.Interrupt%2A> peut interrompre des threads qui attendent pour entrer un `Monitor` sur un objet. Un <xref:System.Threading.ThreadInterruptedException> sera levée.  
   
- Utiliser C# `try`...`finally` `Try`Bloc`Finally` en Visual Basic) pour vous assurer que vous le moniteur de mise en production, ou utilisez le c# `lock` instruction (`SyncLock` instruction en Visual Basic), qui encapsule le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes dans un `try`...`finally` Bloc  
+ Utiliser C# `try`...`finally` bloc (`Try`...`Finally` en Visual Basic) pour vous assurer que vous le moniteur de mise en production, ou utilisez le c# `lock` instruction (`SyncLock` instruction en Visual Basic), qui encapsule le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes dans un `try`...`finally` bloc.  
   
    
   
@@ -286,8 +286,8 @@
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="obj" Type="System.Object" />
-        <Parameter Name="lockTaken" Type="System.Boolean" RefType="ref" />
+        <Parameter Name="obj" Type="System.Object" Index="0" FrameworkAlternate="dotnet-uwp-10.0;netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
+        <Parameter Name="lockTaken" Type="System.Boolean" RefType="ref" Index="1" FrameworkAlternate="dotnet-uwp-10.0;netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
         <param name="obj">Objet sur lequel attendre.</param>
@@ -303,7 +303,7 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
   
  Si le verrou n’a pas été appliqué, car une exception a été levée, la variable spécifiée pour le `lockTaken` paramètre est `false` après la fin de cette méthode. Cela permet au programme déterminer, dans tous les cas, s’il est nécessaire libérer le verrou. Si cette méthode retourne sans lever d’exception, la variable spécifiée pour le `lockTaken` paramètre est toujours `true`, et il n’est pas nécessaire pour le tester.  
   
- <xref:System.Threading.Monitor> verrouille des objets (c'est-à-dire des types référence), mais pas des types valeur. Lorsque vous passez une variable de type valeur à `Enter`, il est converti (boxed) en tant qu’objet. Si vous transmettez la même variable à `Enter` là encore, il est converti (boxed) en tant qu’objet distinct et le thread ne bloque pas. Dans ce cas, le code qui `Monitor` est censé protéger n’est pas protégé. En outre, lorsque vous passez la variable à `Exit`, un autre objet distinct est créé. Étant donné que l’objet passé à `Exit` est différent de l’objet passé à `Enter`, `Monitor` lève <xref:System.Threading.SynchronizationLockException>. Pour plus d’informations, consultez la rubrique conceptuelle [moniteurs](xref:System.Threading.Monitor).  
+ Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Lorsque vous passez une variable de type valeur à `Enter`, il est converti (boxed) en tant qu’objet. Si vous transmettez la même variable à `Enter` là encore, il est converti (boxed) en tant qu’objet distinct et le thread ne bloque pas. Dans ce cas, le code qui `Monitor` est censé protéger n’est pas protégé. En outre, lorsque vous passez la variable à `Exit`, un autre objet distinct est créé. Étant donné que l’objet passé à `Exit` est différent de l’objet passé à `Enter`, `Monitor` lève <xref:System.Threading.SynchronizationLockException>. Pour plus d’informations, consultez la rubrique conceptuelle [moniteurs](xref:System.Threading.Monitor).  
   
  <xref:System.Threading.Thread.Interrupt%2A> peut interrompre des threads qui attendent pour entrer un `Monitor` sur un objet. Un <xref:System.Threading.ThreadInterruptedException> sera levée.  
   
@@ -363,7 +363,7 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
       </Parameters>
       <Docs>
         <param name="obj">Objet sur lequel libérer le verrou.</param>
-        <summary>Libère un verrou exclusif sur l’objet spécifié.</summary>
+        <summary>Libère un verrou exclusif sur l'objet spécifié.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -423,12 +423,12 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="obj" Type="System.Object" />
+        <Parameter Name="obj" Type="System.Object" Index="0" FrameworkAlternate="dotnet-uwp-10.0;netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
         <param name="obj">Objet à tester.</param>
         <summary>Détermine si le thread actuel détient le verrou sur l'objet spécifié.</summary>
-        <returns><see langword="true" /> si le thread actuel détient le verrou sur <paramref name="obj" /> ; sinon, <see langword="false" />.</returns>
+        <returns><see langword="true" /> si le thread en cours détient le verrou sur <paramref name="obj" /> ; sinon, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -439,7 +439,7 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="obj" /> a la valeur <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="obj" /> est <see langword="null" />.</exception>
       </Docs>
     </Member>
     <Member MemberName="Pulse">
@@ -627,7 +627,7 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
  Cette méthode est similaire à <xref:System.Threading.Monitor.Enter%2A>, mais il ne se bloque jamais le thread actuel. Si le thread ne peut pas entrer sans se bloquer, la méthode retourne `false,`.  
   
 > [!NOTE]
->  <xref:System.Threading.Monitor> verrouille des objets (c'est-à-dire des types référence), mais pas des types valeur. Pour plus d'informations, consultez la propriété <xref:System.Threading.Monitor>.  
+>  Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> article.  
   
  Pour vous assurer que le thread n’entre pas de la section critique, vous devez examiner la valeur de retour et exécuter du code dans la section critique uniquement si sa valeur de retour est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour vous assurer que le thread appelant libère son verrou sur la section critique si une exception se produit.  
   
@@ -686,8 +686,8 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="obj" Type="System.Object" />
-        <Parameter Name="lockTaken" Type="System.Boolean" RefType="ref" />
+        <Parameter Name="obj" Type="System.Object" Index="0" FrameworkAlternate="dotnet-uwp-10.0;netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
+        <Parameter Name="lockTaken" Type="System.Boolean" RefType="ref" Index="1" FrameworkAlternate="dotnet-uwp-10.0;netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
         <param name="obj">Objet sur lequel acquérir le verrou.</param>
@@ -704,7 +704,7 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
  Cette méthode est similaire à <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29>, mais il ne se bloque jamais le thread actuel. Si le thread ne peut pas entrer sans se bloquer, le `lockTaken` argument a la valeur `false` lorsque la méthode est retournée.  
   
 > [!NOTE]
->  <xref:System.Threading.Monitor> verrouille des objets (c'est-à-dire des types référence), mais pas des types valeur. Pour plus d'informations, voir l'article <xref:System.Threading.Monitor>.  
+>  Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Pour plus d'informations, voir l'article <xref:System.Threading.Monitor>.  
   
  Pour vous assurer que le thread n’entre pas de la section critique, vous devez examiner la valeur de `lockTaken` et exécuter du code dans la section critique uniquement si sa valeur est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour vous assurer que le thread appelant libère son verrou sur la section critique si une exception se produit.  
   
@@ -775,7 +775,7 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
  Si le `millisecondsTimeout` paramètre est égal à <xref:System.Threading.Timeout.Infinite>, cette méthode équivaut à <xref:System.Threading.Monitor.Enter%2A>. Si `millisecondsTimeout` est égal à 0, cette méthode équivaut à <xref:System.Threading.Monitor.TryEnter%2A>.  
   
 > [!NOTE]
->  <xref:System.Threading.Monitor> verrouille des objets (c'est-à-dire des types référence), mais pas des types valeur. Pour plus d'informations, consultez la propriété <xref:System.Threading.Monitor>.  
+>  Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> article.  
   
  Pour vous assurer que le thread n’entre pas de la section critique, vous devez examiner la valeur de retour et exécuter du code dans la section critique uniquement si sa valeur de retour est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour vous assurer que le thread appelant libère son verrou sur la section critique si une exception se produit.  
   
@@ -835,7 +835,7 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
  Si la valeur de la `timeout` paramètre convertie en millisecondes est égale à -1, cette méthode équivaut à <xref:System.Threading.Monitor.Enter%2A>. Si la valeur de `timeout` est égal à 0, cette méthode équivaut à <xref:System.Threading.Monitor.TryEnter%2A>.  
   
 > [!NOTE]
->  <xref:System.Threading.Monitor> verrouille des objets (c'est-à-dire des types référence), mais pas des types valeur. Pour plus d'informations, consultez la classe <xref:System.Threading.Monitor>.  
+>  Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> rubrique de la classe.  
   
  Pour vous assurer que le thread n’entre pas de la section critique, vous devez examiner la valeur de retour et exécuter du code dans la section critique uniquement si sa valeur de retour est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour vous assurer que le thread appelant libère son verrou sur la section critique si une exception se produit.  
   
@@ -886,9 +886,9 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="obj" Type="System.Object" />
-        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
-        <Parameter Name="lockTaken" Type="System.Boolean" RefType="ref" />
+        <Parameter Name="obj" Type="System.Object" Index="0" FrameworkAlternate="dotnet-uwp-10.0;netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
+        <Parameter Name="millisecondsTimeout" Type="System.Int32" Index="1" FrameworkAlternate="dotnet-uwp-10.0;netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
+        <Parameter Name="lockTaken" Type="System.Boolean" RefType="ref" Index="2" FrameworkAlternate="dotnet-uwp-10.0;netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
         <param name="obj">Objet sur lequel acquérir le verrou.</param>
@@ -904,7 +904,7 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
  Si le verrou n’a pas été appliqué, car une exception a été levée, la variable spécifiée pour le `lockTaken` paramètre est `false` après la fin de cette méthode. Cela permet au programme déterminer, dans tous les cas, s’il est nécessaire libérer le verrou.  
   
 > [!NOTE]
->  <xref:System.Threading.Monitor> verrouille des objets (c'est-à-dire des types référence), mais pas des types valeur. Pour plus d'informations, consultez la classe <xref:System.Threading.Monitor>.  
+>  Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> rubrique de la classe.  
   
  Pour vous assurer que le thread n’entre pas de la section critique, vous devez examiner la valeur de `lockTaken` et exécuter du code dans la section critique uniquement si sa valeur est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour vous assurer que le thread appelant libère son verrou sur la section critique si une exception se produit.  
   
@@ -959,9 +959,9 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
         <ReturnType>System.Void</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="obj" Type="System.Object" />
-        <Parameter Name="timeout" Type="System.TimeSpan" />
-        <Parameter Name="lockTaken" Type="System.Boolean" RefType="ref" />
+        <Parameter Name="obj" Type="System.Object" Index="0" FrameworkAlternate="dotnet-uwp-10.0;netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
+        <Parameter Name="timeout" Type="System.TimeSpan" Index="1" FrameworkAlternate="dotnet-uwp-10.0;netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
+        <Parameter Name="lockTaken" Type="System.Boolean" RefType="ref" Index="2" FrameworkAlternate="dotnet-uwp-10.0;netcore-1.0;netcore-1.1;netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-1.0;netstandard-1.1;netstandard-1.2;netstandard-1.3;netstandard-1.4;netstandard-1.6;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
         <param name="obj">Objet sur lequel acquérir le verrou.</param>
@@ -977,7 +977,7 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
  Si le verrou n’a pas été appliqué, car une exception a été levée, la variable spécifiée pour le `lockTaken` paramètre est `false` après la fin de cette méthode. Cela permet au programme déterminer, dans tous les cas, s’il est nécessaire libérer le verrou.  
   
 > [!NOTE]
->  <xref:System.Threading.Monitor> verrouille des objets (c'est-à-dire des types référence), mais pas des types valeur. Pour plus d'informations, consultez la classe <xref:System.Threading.Monitor>.  
+>  Utilisez <xref:System.Threading.Monitor> pour verrouiller les objets (autrement dit, les types référence), pas des types valeur. Pour plus d’informations, consultez le <xref:System.Threading.Monitor> rubrique de la classe.  
   
  Pour vous assurer que le thread n’entre pas de la section critique, vous devez examiner la valeur de `lockTaken` et exécuter du code dans la section critique uniquement si sa valeur est `true`. Le fragment de code suivant montre le modèle utilisé pour appeler cette méthode. Notez que vous devez appeler <xref:System.Threading.Monitor.Exit%2A> dans un `finally` bloc pour vous assurer que le thread appelant libère son verrou sur la section critique si une exception se produit.  
   
@@ -1262,15 +1262,15 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="obj" Type="System.Object" />
-        <Parameter Name="millisecondsTimeout" Type="System.Int32" />
-        <Parameter Name="exitContext" Type="System.Boolean" />
+        <Parameter Name="obj" Type="System.Object" Index="0" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
+        <Parameter Name="millisecondsTimeout" Type="System.Int32" Index="1" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
+        <Parameter Name="exitContext" Type="System.Boolean" Index="2" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
         <param name="obj">Objet sur lequel attendre.</param>
         <param name="millisecondsTimeout">Nombre de millisecondes à attendre avant que le thread intègre la file d'attente opérationnelle.</param>
         <param name="exitContext"><see langword="true" /> pour abandonner et acquérir à nouveau le domaine de synchronisation associé au contexte (dans le cas d'un contexte synchronisé) avant l'attente ; sinon, <see langword="false" />.</param>
-        <summary>Libère le verrou d’un objet et bloque le thread actuel jusqu’à ce qu’il acquière à nouveau le verrou. Si le délai d'attente spécifié est écoulé, le thread intègre la file d'attente opérationnelle. Cette méthode spécifie également si le domaine de synchronisation associé au contexte (dans le cas d’un contexte synchronisé) est abandonné avant l’attente et acquis à nouveau par la suite.</summary>
+        <summary>Libère le verrou d’un objet et bloque le thread actuel jusqu’à ce qu’il acquière à nouveau le verrou. Si le délai d'attente spécifié est écoulé, le thread intègre la file d'attente opérationnelle. Cette méthode spécifie également si le domaine de synchronisation associé au contexte (dans le cas d'un contexte synchronisé) est abandonné avant l'attente et acquis à nouveau par la suite.</summary>
         <returns><see langword="true" /> si le verrou a fait l'objet d'une nouvelle acquisition avant l'expiration du délai spécifié ; <see langword="false" /> si le verrou a fait l'objet d'une nouvelle acquisition après l'expiration du délai spécifié. La méthode ne retourne pas de valeur tant que le verrou n'est pas acquis à nouveau.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1342,9 +1342,9 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Parameters>
-        <Parameter Name="obj" Type="System.Object" />
-        <Parameter Name="timeout" Type="System.TimeSpan" />
-        <Parameter Name="exitContext" Type="System.Boolean" />
+        <Parameter Name="obj" Type="System.Object" Index="0" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
+        <Parameter Name="timeout" Type="System.TimeSpan" Index="1" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
+        <Parameter Name="exitContext" Type="System.Boolean" Index="2" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0" />
       </Parameters>
       <Docs>
         <param name="obj">Objet sur lequel attendre.</param>
