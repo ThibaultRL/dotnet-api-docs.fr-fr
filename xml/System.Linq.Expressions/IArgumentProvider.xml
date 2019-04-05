@@ -1,5 +1,5 @@
 <Type Name="IArgumentProvider" FullName="System.Linq.Expressions.IArgumentProvider">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="c1987bffe3d2cba01471534c9b3fac3e0c152c07" /><Meta Name="ms.sourcegitcommit" Value="434f60616a9793fa8436744549fc856e94f7a648" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="08/24/2018" /><Meta Name="ms.locfileid" Value="36555646" /></Metadata><TypeSignature Language="C#" Value="public interface IArgumentProvider" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="18b622ce78fe8295b4aac908d2b2687c5ed1f01f" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58715513" /></Metadata><TypeSignature Language="C#" Value="public interface IArgumentProvider" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IArgumentProvider" />
   <TypeSignature Language="DocId" Value="T:System.Linq.Expressions.IArgumentProvider" />
   <TypeSignature Language="VB.NET" Value="Public Interface IArgumentProvider" />
@@ -20,20 +20,21 @@
   <AssemblyInfo>
     <AssemblyName>netstandard</AssemblyName>
     <AssemblyVersion>2.0.0.0</AssemblyVersion>
+    <AssemblyVersion>2.1.0.0</AssemblyVersion>
   </AssemblyInfo>
   <Interfaces />
   <Docs>
-    <summary>Fournit une interface interne pour accéder aux arguments de plusieurs nœuds d’arborescence (DynamicExpression, ElementInit, MethodCallExpression, InvocationExpression, NewExpression et InexExpression).  Vous ne devez pas utiliser cette API.  Elle est publique uniquement en raison de la refactorisation de la DLL et existe seulement pour optimiser les performances internes.  
+    <summary>Fournit une interface interne pour accéder aux arguments de plusieurs nœuds d’arborescence (DynamicExpression, ElementInit, MethodCallExpression, InvocationExpression, NewExpression et IndexExpression).  Vous ne devez pas utiliser cette API.  Elle est publique uniquement en raison de la refactorisation de la DLL, et existe seulement pour optimiser les performances internes.  
   
-Ceci permet deux optimisations qui réduisent la taille des arborescences d’expressions.  La première permet aux nœuds de l’arborescence de conserver un IList&lt;T&gt; au lieu d’un ReadOnlyCollection.  IList&lt;T&gt; évite d’allouer ReadOnlyCollection pour chaque nœud.  La deuxième permet la création de sous-classes spécialisées contenant un nombre spécifique d’arguments (par exemple, Block2, Block3, Block4).  Ces nœuds évitent donc l’allocation à la fois d’une ReadOnlyCollection et d’un tableau pour stocker leurs éléments, économisant ainsi 32 octets par nœud.  
+Ceci permet deux optimisations qui réduisent la taille des arborescences d’expressions.  La première permet aux nœuds de l’arborescence de conserver un IList&lt;T&gt; au lieu d’un ReadOnlyCollection.  IList&lt;T&gt; évite d’allouer ReadOnlyCollection pour chaque nœud.  La deuxième permet la création de sous-classes spécialisées contenant un nombre spécifique d’arguments (par exemple Block2, Block3, Block4).  Ces nœuds évitent donc l’allocation à la fois d’une ReadOnlyCollection et d’un tableau pour stocker leurs éléments, économisant ainsi 32 octets par nœud.  
   
 Les nœuds d’arborescence d’expression continuent d’exposer les propriétés LINQ d’origine de ReadOnlyCollections.  Pour cela, les nœuds réutilisent un champ pour stocker le tableau ou un élément qui serait normalement stocké dans le tableau.  
   
 Dans le cas du tableau, la collection est de type IList&lt;T&gt; au lieu de ReadOnlyCollection&lt;T&gt;.  Quand le nœud est initialement créé, c’est un tableau.  Quand le compilateur accède aux membres, il utilise cette interface.  L’accès aux éléments du tableau promeut le tableau en ReadOnlyCollection.  
   
-Dans le cas de l’objet, nous stockons le premier argument dans un champ de type objet.  Quand le nœud est initialement créé, le champ contient l’expression.  Le compilateur accède aux arguments via cette interface, et l’accesseur pour le premier argument utilise Expression.ReturnObject pour retourner l’objet qui gère le cas Expression ou ReadOnlyCollection.  Quand l’utilisateur accède à la ReadOnlyCollection, le champ de l’objet est mis à jour pour conserver directement la ReadOnlyCollection.  
+Dans le cas de l’objet, nous stockons le premier argument dans un champ de type objet.  Quand le nœud est initialement créé, le champ contient l’expression.  Le compilateur accède aux arguments par le biais de cette interface, et l’accesseur pour le premier argument utilise Expression.ReturnObject pour retourner l’objet qui gère le cas Expression ou ReadOnlyCollection.  Quand l’utilisateur accède à la ReadOnlyCollection, le champ de l’objet est mis à jour pour conserver directement la ReadOnlyCollection.  
   
-Il est important que les expressions retournent toujours la même ReadOnlyCollection.  Sinon, l’analyseur d’arborescence de réécriture s’arrêtera.  Il s’agit d’une modification en rupture avec LINQ v1, qui retournait des ReadOnlyCollections différentes à partir du même nœud Expression.  Les utilisateurs peuvent actuellement s’appuyer sur l’identité de l’objet pour indiquer si le nœud a changé.  Le stockage de la ReadOnlyCollection dans un champ surchargé à la fois réduit l’utilisation de la mémoire et maintient la compatibilité pour l’API publique.</summary>
+Il est important que les expressions retournent toujours la même ReadOnlyCollection.  Sinon, l’analyseur d’arborescence de réécriture s’arrêtera.  Il s’agit d’un changement cassant par rapport à LINQ v1, qui retournait des ReadOnlyCollections différentes à partir du même nœud Expression.  Les utilisateurs peuvent actuellement s’appuyer sur l’identité de l’objet pour savoir si le nœud a changé.  Le stockage de la ReadOnlyCollection dans un champ surchargé réduit l’utilisation de la mémoire tout en maintenant la compatibilité pour l’API publique.</summary>
     <remarks>To be added.</remarks>
   </Docs>
   <Members>
@@ -60,6 +61,7 @@ Il est important que les expressions retournent toujours la même ReadOnlyCollec
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
+        <AssemblyVersion>2.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Int32</ReturnType>
@@ -93,6 +95,7 @@ Il est important que les expressions retournent toujours la même ReadOnlyCollec
       <AssemblyInfo>
         <AssemblyName>netstandard</AssemblyName>
         <AssemblyVersion>2.0.0.0</AssemblyVersion>
+        <AssemblyVersion>2.1.0.0</AssemblyVersion>
       </AssemblyInfo>
       <ReturnValue>
         <ReturnType>System.Linq.Expressions.Expression</ReturnType>
