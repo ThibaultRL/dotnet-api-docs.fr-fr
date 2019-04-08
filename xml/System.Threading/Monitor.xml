@@ -71,11 +71,11 @@
 |<xref:System.Threading.Monitor.Pulse%2A> (signal), <xref:System.Threading.Monitor.PulseAll%2A>|Envoie un signal à un ou plusieurs threads en attente. Le signal avertit un thread en attente que l’état de l’objet verrouillé a changé, et le propriétaire du verrou est prêt à libérer le verrou. Le thread en attente est placé dans la file d’attente opérationnelle de l’objet afin qu’il peut finir par recevoir le verrou pour l’objet. Une fois que le thread dispose le verrou, il peut vérifier le nouvel état de l’objet pour voir si l’état requis a été atteint.|  
 |<xref:System.Threading.Monitor.Exit%2A>|Libère le verrou sur un objet. Cette action marque également la fin d’une section critique protégée par l’objet verrouillé.|  
   
- Compter les [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], il existe deux ensembles de surcharges pour les <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.TryEnter%2A> méthodes. Un ensemble de surcharges a un `ref` (en c#) ou `ByRef` (en Visual Basic) <xref:System.Boolean> paramètre qui est défini atomiquement sur `true` si le verrou est acquis, même si une exception est levée lors de l’acquisition du verrou. Utilisez ces surcharges s’il est essentiel pour libérer le verrou dans tous les cas, même lorsque les ressources que protège le verrou ne peuvent pas être dans un état cohérent.  
+ Compter les [!INCLUDE[net_v40_long](~/includes/net-v40-long-md.md)], il existe deux ensembles de surcharges pour les <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.TryEnter%2A> méthodes. Un ensemble de surcharges a un `ref` (en C#) ou `ByRef` (en Visual Basic) <xref:System.Boolean> paramètre qui est défini atomiquement sur `true` si le verrou est acquis, même si une exception est levée lors de l’acquisition du verrou. Utilisez ces surcharges s’il est essentiel pour libérer le verrou dans tous les cas, même lorsque les ressources que protège le verrou ne peuvent pas être dans un état cohérent.  
   
 <a name="Lock"></a>   
 ## <a name="the-lock-object"></a>L’objet de verrouillage  
- La classe Monitor se compose de `static` (en c#) ou `Shared` (en Visual Basic) méthodes qui opèrent sur un objet qui contrôle l’accès à la section critique.  Les informations suivantes sont conservées pour chaque objet synchronisé :  
+ La classe Monitor se compose de `static` (en C#) ou `Shared` (en Visual Basic) méthodes qui opèrent sur un objet qui contrôle l’accès à la section critique.  Les informations suivantes sont conservées pour chaque objet synchronisé :  
   
 -   Une référence au thread qui détient actuellement le verrou.  
   
@@ -106,7 +106,7 @@
  Utilisez le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes pour marquer le début et la fin d’une section critique.  
   
 > [!NOTE]
->  La fonctionnalité fournie par le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes est identique à celle fournie par le [verrou](~/docs/csharp/language-reference/keywords/lock-statement.md) instruction en langage c# et le [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instruction en Visual Basic, à ceci près que le constructions de langage de type wrap le <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29?displayProperty=nameWithType> surcharge de méthode et la <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> méthode dans un `try`...`finally` bloc pour garantir que la libération du moniteur.  
+>  La fonctionnalité fournie par le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes est identique à celle fournie par le [verrou](~/docs/csharp/language-reference/keywords/lock-statement.md) instruction en langage C# et le [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instruction en Visual Basic, à ceci près que le constructions de langage de type wrap le <xref:System.Threading.Monitor.Enter%28System.Object%2CSystem.Boolean%40%29?displayProperty=nameWithType> surcharge de méthode et la <xref:System.Threading.Monitor.Exit%2A?displayProperty=nameWithType> méthode dans un `try`...`finally` bloc pour garantir que la libération du moniteur.  
   
  Si la section critique est un ensemble d’instructions contiguës, puis le verrou acquis par la <xref:System.Threading.Monitor.Enter%2A> méthode ne garantit qu’un seul thread peut exécuter le code délimité avec l’objet verrouillé. Dans ce cas, nous vous recommandons de placer ce code dans un `try` bloquer et placer l’appel à la <xref:System.Threading.Monitor.Exit%2A> méthode dans un `finally` bloc. Cela garantit la libération du verrou même si une exception se produit. Le fragment de code suivant illustre ce modèle.  
   
@@ -120,7 +120,7 @@
  [!code-csharp[System.Threading.Monitor.Class#3](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.threading.monitor.class/cs/Pattern2.cs#3)]
  [!code-vb[System.Threading.Monitor.Class#3](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.threading.monitor.class/vb/Pattern2.vb#3)]  
   
- Notez que l’attribut oblige le thread actuel détient le verrou jusqu'à ce que la méthode est retournée ; Si le verrou peut être libéré plus tôt, utilisez la <xref:System.Threading.Monitor> classe c# [verrou](~/docs/csharp/language-reference/keywords/lock-statement.md) instruction ou Visual Basic [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instruction à l’intérieur de la méthode au lieu de l’attribut.  
+ Notez que l’attribut oblige le thread actuel détient le verrou jusqu'à ce que la méthode est retournée ; Si le verrou peut être libéré plus tôt, utilisez la <xref:System.Threading.Monitor> classe C# [verrou](~/docs/csharp/language-reference/keywords/lock-statement.md) instruction ou Visual Basic [SyncLock](~/docs/visual-basic/language-reference/statements/synclock-statement.md) instruction à l’intérieur de la méthode au lieu de l’attribut.  
   
  S’il est possible pour le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> les instructions qui verrouillent et libèrent un objet donné à l’intersection des membres ou les limites de classe ou les deux, cette pratique n’est pas recommandée.  
   
@@ -233,7 +233,7 @@
   
  <xref:System.Threading.Thread.Interrupt%2A> peut interrompre des threads qui attendent pour entrer un `Monitor` sur un objet. Un <xref:System.Threading.ThreadInterruptedException> sera levée.  
   
- Utiliser C# `try`...`finally` bloc (`Try`...`Finally` en Visual Basic) pour vous assurer que vous le moniteur de mise en production, ou utilisez le c# `lock` instruction (`SyncLock` instruction en Visual Basic), qui encapsule le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes dans un `try`...`finally` bloc.  
+ Utiliser C# `try`...`finally` bloc (`Try`...`Finally` en Visual Basic) pour vous assurer que vous le moniteur de mise en production, ou utilisez le C# `lock` instruction (`SyncLock` instruction en Visual Basic), qui encapsule le <xref:System.Threading.Monitor.Enter%2A> et <xref:System.Threading.Monitor.Exit%2A> méthodes dans un `try`...`finally` bloc.  
   
    
   
@@ -438,7 +438,7 @@ Remarque   Si aucune exception ne se produit, la sortie de cette méthode est to
           <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Cette méthode fonctionne uniquement pour les verrous acquis en utilisant les méthodes de la <xref:System.Threading.Monitor> classe, ou en utilisant c# `lock` instruction ou Visual Basic `SyncLock` instruction, qui sont implémentées avec <xref:System.Threading.Monitor>.  
+ Cette méthode fonctionne uniquement pour les verrous acquis en utilisant les méthodes de la <xref:System.Threading.Monitor> classe, ou en utilisant C# `lock` instruction ou Visual Basic `SyncLock` instruction, qui sont implémentées avec <xref:System.Threading.Monitor>.  
   
  Utilisez cette méthode avec les outils de diagnostic, comme le <xref:System.Diagnostics.Debug.Assert%2A> (méthode) et le <xref:System.Diagnostics.Contracts.Contract> (classe), pour déboguer les problèmes de verrouillage qui impliquent la <xref:System.Threading.Monitor> classe.  
   
