@@ -1,5 +1,5 @@
 <Type Name="OpCodes" FullName="System.Reflection.Emit.OpCodes">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="9bcce798c8cc62c813ad4a1b1fe926a783383e80" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58727891" /></Metadata><TypeSignature Language="C#" Value="public class OpCodes" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="d6d2cd6f31cc97089037cf8c47853b3dd6d37d7e" /><Meta Name="ms.sourcegitcommit" Value="3efce15f3841385ee3ba24bd71ff0c0cf9a47815" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="04/03/2019" /><Meta Name="ms.locfileid" Value="58875578" /></Metadata><TypeSignature Language="C#" Value="public class OpCodes" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi beforefieldinit OpCodes extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Reflection.Emit.OpCodes" />
   <TypeSignature Language="VB.NET" Value="Public Class OpCodes" />
@@ -112,7 +112,7 @@
   
  Les types d’opérande acceptables et leur type de données de résultat correspondant sont répertoriés dans le tableau ci-dessous. S’il n’existe aucune entrée pour une combinaison de type particulier (par exemple, `int32` et `float`; `int32` et `int64`), il est un non valide langage MSIL (Microsoft Intermediate) et génère une erreur.  
   
-|Opérande|type valeur 1|type valeur 2|Type de résultat|  
+|opérande|type valeur 1|type valeur 2|type de résultat|  
 |-------------|-----------------|-----------------|-----------------|  
 |add|`int32`|`int32`|`int32`|  
 |add|`int32`|`native int`|`native int`|  
@@ -194,7 +194,7 @@
   
  Les types d’opérande acceptables et leur type de données de résultat correspondant sont répertoriés dans le tableau ci-dessous. S’il n’existe aucune entrée pour une combinaison de type particulier (par exemple, `int32` et `float`; `int32` et `int64`), il est une instruction de langage MSIL (Microsoft Intermediate Language) non valide et génère une erreur.  
   
-|Opérande|type valeur 1|type valeur 2|Type de résultat|  
+|opérande|type valeur 1|type valeur 2|type de résultat|  
 |-------------|-----------------|-----------------|-----------------|  
 |add|`int32`|`int32`|`int32`|  
 |add|`int32`|`native int`|`native int`|  
@@ -276,7 +276,7 @@
   
  Les types d’opérande acceptables et leur type de données de résultat correspondant sont répertoriés dans le tableau ci-dessous. S’il n’existe aucune entrée pour une combinaison de type particulier (par exemple, `int32` et `float`; `int32` et `int64`), il est une instruction de langage MSIL (Microsoft Intermediate Language) non valide et génère une erreur.  
   
-|Opérande|type valeur 1|type valeur 2|Type de résultat|  
+|opérande|type valeur 1|type valeur 2|type de résultat|  
 |-------------|-----------------|-----------------|-----------------|  
 |add|`int32`|`int32`|`int32`|  
 |add|`int32`|`native int`|`native int`|  
@@ -403,7 +403,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|arglist|Retourne un handle de liste d’arguments pour la méthode actuelle.|  
+|FE 00|arglist|Retourne un handle de liste d’arguments pour la méthode actuelle.|  
   
  Aucun comportement de la pile d’évaluation n’est effectuées par cette opération.  
   
@@ -456,7 +456,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|3B|beq `target`|Branche à l’instruction cible à l’offset `target` si les deux valeurs sont égales.|  
+|3B < `int32` >|beq `target`|Branche à l’instruction cible à l’offset `target` si les deux valeurs sont égales.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -586,7 +586,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|3C.|bge `target`|Branche à l’instruction cible à l’offset spécifié si la première valeur est supérieure ou égale à la deuxième valeur.|  
+|3C `<int32>`|bge `target`|Branche à l’instruction cible à l’offset spécifié si la première valeur est supérieure ou égale à la deuxième valeur.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -830,7 +830,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|3D|bgt `target`|Branche à l’instruction cible à l’offset spécifié si la première valeur est supérieure à la deuxième valeur.|  
+|3D < `int32` >|bgt `target`|Branche à l’instruction cible à l’offset spécifié si la première valeur est supérieure à la deuxième valeur.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -1318,7 +1318,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|%3F|blt `target`|Branche à l’instruction cible à l’offset spécifié si la première valeur est inférieure à la deuxième valeur.|  
+|3F < `int32` >|blt `target`|Branche à l’instruction cible à l’offset spécifié si la première valeur est inférieure à la deuxième valeur.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -1684,7 +1684,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|8C < `T` >|`valTypeToken`Box|Convertir un type valeur (du type spécifié dans `valTypeToken`) à une référence d’objet true.|  
+|8C < `T` >|zone `valTypeToken`|Convertir un type valeur (du type spécifié dans `valTypeToken`) à une référence d’objet true.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -1702,7 +1702,7 @@
   
  Le `box` instruction convertit le type de valeur « brut » (unboxed) en une référence d’objet (type `O`). Cela s’effectue en créant un nouvel objet et de copie des données à partir du type de valeur dans l’objet nouvellement alloué. `valTypeToken` est un jeton de métadonnées indiquant le type du type de valeur sur la pile.  
   
- La mémoire est insuffisante pour répondre à la demande.  
+ <xref:System.OutOfMemoryException> est levée si la mémoire est insuffisante pour satisfaire la requête.  
   
  <xref:System.TypeLoadException> est levée si la classe est introuvable. Cela est généralement détecté lorsque le langage MSIL (Microsoft Intermediate Language) est converti en code natif, plutôt que lors de l’exécution.  
   
@@ -1757,7 +1757,7 @@
   
  Aucun comportement de la pile d’évaluation n’est effectuées par cette opération.  
   
- Transfère le contrôle à une instruction cible de manière non conditionnelle (forme abrégée). L’instruction de la cible est représentée par un offset signé de 4 octets à partir du début de l’instruction suivant l’instruction actuelle.  
+ La `br` instruction transfère sans condition le contrôle à une instruction cible. L’instruction de la cible est représentée par un offset signé de 4 octets à partir du début de l’instruction suivant l’instruction actuelle.  
   
  Si l’instruction cible contient un ou plusieurs codes de préfixe, le contrôle peut uniquement être transféré à la première de ces préfixes. Le contrôle est transféré dans et hors du `try`, `catch`, `filter`, et `finally` blocs ne peut pas être effectuées par cette instruction.  
   
@@ -1812,7 +1812,7 @@
   
  Aucun comportement de la pile d’évaluation n’est effectuées par cette opération.  
   
- Transfère le contrôle à une instruction cible de manière non conditionnelle (forme abrégée). L’instruction de la cible est représentée par un offset signé de 1 octet à partir du début de l’instruction suivant l’instruction actuelle.  
+ La `br.s` instruction transfère sans condition le contrôle à une instruction cible. L’instruction de la cible est représentée par un offset signé de 1 octet à partir du début de l’instruction suivant l’instruction actuelle.  
   
  Si l’instruction cible contient un ou plusieurs codes de préfixe, le contrôle peut uniquement être transféré à la première de ces préfixes. Le contrôle est transféré dans et hors du `try`, `catch`, `filter`, et `finally` blocs ne peut pas être effectuées par cette instruction.  
   
@@ -1920,7 +1920,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|39 < `int32` >|brfalse `target`<br /><br /> brnull `target`<br /><br /> brzero correspondants `target`|Branches à une instruction cible à l’offset spécifié si `false`.|  
+|39 < `int32` >|brfalse `target`<br /><br /> brnull `target`<br /><br /> brzero `target`|Branches à une instruction cible à l’offset spécifié si `false`.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -2042,7 +2042,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|3A|brtrue `target`<br /><br /> brinst `target`|Créer une branche vers une instruction cible à l’offset spécifié si différente de zéro (`true`).|  
+|3A < `int32` >|brtrue `target`<br /><br /> brinst `target`|Créer une branche vers une instruction cible à l’offset spécifié si différente de zéro (`true`).|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -2105,7 +2105,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|2D|brtrue.s `target`<br /><br /> brinst.s `target`|Créer une branche vers une instruction cible à l’offset spécifié si différente de zéro (`true`), forme abrégée.|  
+|2D < `int8` >|brtrue.s `target`<br /><br /> brinst.s `target`|Créer une branche vers une instruction cible à l’offset spécifié si différente de zéro (`true`), forme abrégée.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -2168,7 +2168,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|28 < `T` >|appel|Appelez la méthode décrite par `methodDesc`.|  
+|28 < `T` >|appel `methodDesc`|Appelez la méthode décrite par `methodDesc`.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -2464,7 +2464,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|ceq|Exécute un push de 1 si `value1` est égal à `value2`; sinon exécute un push de 0.|  
+|FE 01|ceq|Exécute un push de 1 si `value1` est égal à `value2`; sinon exécute un push de 0.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -2527,7 +2527,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|cgt|Exécute un push de 1 si `value1` est supérieur à `value2`; sinon exécute un push de 0.|  
+|FE 02|cgt|Exécute un push de 1 si `value1` est supérieur à `value2`; sinon exécute un push de 0.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -2590,7 +2590,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|cgt.un|Exécute un push de 1 si `value1` est supérieur à `value2`; sinon exécute un push de 0 (valeurs non signées).|  
+|FE 03|cgt.un|Exécute un push de 1 si `value1` est supérieur à `value2`; sinon exécute un push de 0 (valeurs non signées).|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -2657,7 +2657,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|C3|ckfinite|Lève <xref:System.ArithmeticException> si la valeur n'est pas un nombre fini.|  
+|C3|ckfinite|lever <xref:System.ArithmeticException> si la valeur n’est pas un nombre fini.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -2720,15 +2720,17 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|clt|Exécute un push de 1 si `value1` est inférieure à `value2`; sinon exécute un push de 0.|  
+|FE 04|clt|Exécute un push de 1 si `value1` est inférieure à `value2`; sinon exécute un push de 0.|  
   
- Le comportement de transition de pile, dans un ordre séquentiel, est : `value1` est placé sur la pile.  
+ Le comportement de transition de pile, dans un ordre séquentiel, est : 
+
+1.  `value1` est placé sur la pile.  
   
-1.  `value2` est placé sur la pile.  
+2.  `value2` est placé sur la pile.  
   
-2.  `value2` et `value1` sont dépilés de la pile ; `clt` teste si `value1` est inférieure à `value2`.  
+3.  `value2` et `value1` sont dépilés de la pile ; `clt` teste si `value1` est inférieure à `value2`.  
   
-3.  Si `value1` est inférieure à `value2`, 1 est placé sur la pile ; sinon, 0 est placé sur la pile.  
+4.  Si `value1` est inférieure à `value2`, 1 est placé sur la pile ; sinon, 0 est placé sur la pile.  
   
  Le `clt` instruction compare `value1` et `value2`. Si `value1` est strictement inférieur à `value2`, puis un `int32` la valeur 1 est ajoutée à la pile. Sinon, un `int32` la valeur 0 est ajoutée à la pile.  
   
@@ -2781,7 +2783,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|clt.un|Exécute un push de 1 si `value1` est inférieure à `value2`; sinon exécute un push de 0 (valeurs non signées).|  
+|FE 05|clt.un|Exécute un push de 1 si `value1` est inférieure à `value2`; sinon exécute un push de 0 (valeurs non signées).|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -2849,7 +2851,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|Restreinte `thisType`|Appel d’une méthode virtuelle sur un type contraint à être de type `T`.|  
+|FE 16 < `T` >|contrainte. `thisType`|Appel d’une méthode virtuelle sur un type contraint à être de type `T`.|  
   
  Le `constrained` préfixe est autorisé uniquement sur un `callvirt` instruction.  
   
@@ -3251,7 +3253,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|D4 :|conv.ovf.i|Convertir un `native int` (sur la pile en tant que `native int`) et lève une exception de dépassement de capacité.|  
+|D4|conv.ovf.i|Convertir un `native int` (sur la pile en tant que `native int`) et lève une exception de dépassement de capacité.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -4706,7 +4708,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|"E0"|conv.u|Convertir en `unsigned native int`, exécution de type push `native int` sur la pile.|  
+|E0|conv.u|Convertir en `unsigned native int`, exécution de type push `native int` sur la pile.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -5031,7 +5033,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|cpblk|Copier des données à partir d’un bloc de mémoire à un autre.|  
+|FE 17|cpblk|Copier des données à partir d’un bloc de mémoire à un autre.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -5043,7 +5045,7 @@
   
 4.  Le nombre d’octets, l’adresse source et l’adresse de destination est dépilé de la pile ; le nombre spécifié d’octets est copié à partir de l’adresse source à l’adresse de destination.  
   
- Le `cpblk` instruction copie un nombre (type `unsigned int32`) d’octets à partir d’une adresse source (de type `*`, `native int`, ou `&`) à une adresse de destination (de type `*`, `native int`, ou `&`). Le comportement de `cpblk` n'est pas défini si les chaînes source et de destination se chevauchent.  
+ Le `cpblk` instruction copie un nombre (type `unsigned int32`) d’octets à partir d’une adresse source (de type `*`, `native int`, ou `&`) à une adresse de destination (de type `*`, `native int`, ou `&`). Le comportement de `cpblk` n’est pas spécifié si les zones source et de destination se chevauchent.  
   
  `cpblk` suppose que la source et la destination traités sont alignées avec la taille naturelle de l’ordinateur. Le `cpblk` instruction peut être immédiatement précédée par le `unaligned.<prefix>` pour indiquer que la source ou la destination n’est pas alignée.  
   
@@ -5238,7 +5240,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|&5C|div.un|Divise deux valeurs, non signés, retournant un quotient.|  
+|5C|div.un|Divise deux valeurs, non signés, retournant un quotient.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -5299,7 +5301,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|25|_dup|Duplique la valeur en haut de la pile.|  
+|25|DUP|Duplique la valeur en haut de la pile.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -5360,7 +5362,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|endfilter|Clause de filtre de fin de la gestion des exceptions SEH.|  
+|FE 11|endfilter|Clause de filtre de fin de la gestion des exceptions SEH.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -5488,7 +5490,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|initblk|Définir chaque emplacement dans un bloc de mémoire à une valeur donnée.|  
+|FE 18|initblk|Définir chaque emplacement dans un bloc de mémoire à une valeur donnée.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -5553,7 +5555,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|`initobj` `typeTok`|Initialise un type valeur.|  
+|FE 15 < `T` >|`initobj` `typeTok`|Initialise un type valeur.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -5673,7 +5675,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|27 < `T` >|jmp `method`|Quitte la méthode actuelle et passe à la méthode spécifiée.|  
+|27 < `T` >|jmp `method`|Quitte la méthode actuelle et passer à la méthode spécifiée.|  
   
  Il n’existe aucune pile de comportements de transition pour cette instruction.  
   
@@ -5730,7 +5732,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|ldarg `index`|Charge l’argument à `index` sur pile.|  
+|FE 09 < `unsigned int16` >|ldarg `index`|Charge l’argument à `index` sur pile.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -6206,7 +6208,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|20 < `int32` >|ldc.i4 `num`|Exécute un push sur une valeur sur la pile.|  
+|20 < `int32` >|ldc.i4 `num`|Exécute un push de la valeur `num` dans la pile.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -7036,7 +7038,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|A3|ldelem `typeTok`|Charge l’élément à `index` en haut de la pile en tant que type `typeTok`.|  
+|A3 < `T` >|ldelem `typeTok`|Charge l’élément à `index` en haut de la pile en tant que type `typeTok`.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -7117,7 +7119,7 @@
   
  Le `ldelem.i` instruction charge la valeur de l’élément avec index `index` (type `native int`) dans le tableau unidimensionnel de base zéro `array` et le place en haut de la pile. Les tableaux sont des objets et sont donc représentés par une valeur de type `O`.  
   
- La valeur de retour est `ldelem.i`.  
+ La valeur de retour pour `ldelem.i` est `native int`.  
   
  Notez que les valeurs entières inférieures à 4 octets sont étendues à `int32` (pas `native int`) lorsqu’elles sont chargées dans la pile d’évaluation.  
   
@@ -7188,7 +7190,7 @@
   
  Le `ldelem.i1` instruction charge la valeur de l’élément avec index `index` (type `native int`) dans le tableau unidimensionnel de base zéro `array` et le place en haut de la pile. Les tableaux sont des objets et sont donc représentés par une valeur de type `O`.  
   
- La valeur de retour est `ldelem.i1`.  
+ La valeur de retour pour `ldelem.i1` est `int8`.  
   
  Notez que les valeurs entières inférieures à 4 octets sont étendues à `int32` (pas `native int`) lorsqu’elles sont chargées dans la pile d’évaluation.  
   
@@ -7259,7 +7261,7 @@
   
  Le `ldelem.i2` instruction charge la valeur de l’élément avec index `index` (type `native int`) dans le tableau unidimensionnel de base zéro `array` et le place en haut de la pile. Les tableaux sont des objets et sont donc représentés par une valeur de type `O`.  
   
- La valeur de retour est `ldelem.i2`.  
+ La valeur de retour pour `ldelem.i2` est `int16`.  
   
  Notez que les valeurs entières inférieures à 4 octets sont étendues à `int32` (pas `native int`) lorsqu’elles sont chargées dans la pile d’évaluation.  
   
@@ -7330,7 +7332,7 @@
   
  Le `ldelem.i4` instruction charge la valeur de l’élément avec index `index` (type `native int`) dans le tableau unidimensionnel de base zéro `array` et le place en haut de la pile. Les tableaux sont des objets et sont donc représentés par une valeur de type `O`.  
   
- La valeur de retour est `ldelem.i4`.  
+ La valeur de retour pour `ldelem.i4` est `int32`.  
   
  Notez que les valeurs entières inférieures à 4 octets sont étendues à `int32` (pas `native int`) lorsqu’elles sont chargées dans la pile d’évaluation.  
   
@@ -7401,7 +7403,7 @@
   
  Le `ldelem.i8` instruction charge la valeur de l’élément avec index `index` (type `native int`) dans le tableau unidimensionnel de base zéro `array` et le place en haut de la pile. Les tableaux sont des objets et sont donc représentés par une valeur de type `O`.  
   
- La valeur de retour est `ldelem.i8`.  
+ La valeur de retour pour `ldelem.i8` est `int64`.  
   
  Notez que les valeurs entières inférieures à 4 octets sont étendues à `int32` (pas `native int`) lorsqu’elles sont chargées dans la pile d’évaluation.  
   
@@ -7472,7 +7474,7 @@
   
  Le `ldelem.r4` instruction charge la valeur de l’élément avec index `index` (type `native int`) dans le tableau unidimensionnel de base zéro `array` et le place en haut de la pile. Les tableaux sont des objets et sont donc représentés par une valeur de type `O`.  
   
- La valeur de retour est `ldelem.r4`.  
+ La valeur de retour pour `ldelem.r4` est `float32`.  
   
  Valeurs à virgule flottante sont convertis en type `F` lors du chargement dans la pile d’évaluation.  
   
@@ -7543,7 +7545,7 @@
   
  Le `ldelem.r8` instruction charge la valeur de l’élément avec index `index` (type `native int`) dans le tableau unidimensionnel de base zéro `array` et le place en haut de la pile. Les tableaux sont des objets et sont donc représentés par une valeur de type `O`.  
   
- La valeur de retour est `ldelem.r8`.  
+ La valeur de retour pour `ldelem.r8` est `float64`.  
   
  Valeurs à virgule flottante sont convertis en type `F` lors du chargement dans la pile d’évaluation.  
   
@@ -7683,7 +7685,7 @@
   
  Le `ldelem.u1` instruction charge la valeur de l’élément avec index `index` (type `native int`) dans le tableau unidimensionnel de base zéro `array` et le place en haut de la pile. Les tableaux sont des objets et sont donc représentés par une valeur de type `O`.  
   
- La valeur de retour est `ldelem.u1`.  
+ La valeur de retour pour `ldelem.u1` est `int8`.  
   
  Notez que les valeurs entières inférieures à 4 octets sont étendues à `int32` (pas `native int`) lorsqu’elles sont chargées dans la pile d’évaluation.  
   
@@ -7754,7 +7756,7 @@
   
  Le `ldelem.u2` instruction charge la valeur de l’élément avec index `index` (type `native int`) dans le tableau unidimensionnel de base zéro `array` et le place en haut de la pile. Les tableaux sont des objets et sont donc représentés par une valeur de type `O`.  
   
- La valeur de retour est `ldelem.u1`.  
+ La valeur de retour pour `ldelem.u2` est `int16`.  
   
  Notez que les valeurs entières inférieures à 4 octets sont étendues à `int32` (pas `native int`) lorsqu’elles sont chargées dans la pile d’évaluation.  
   
@@ -7825,7 +7827,7 @@
   
  Le `ldelem.u4` instruction charge la valeur de l’élément avec index `index` (type `native int`) dans le tableau unidimensionnel de base zéro `array` et le place en haut de la pile. Les tableaux sont des objets et sont donc représentés par une valeur de type `O`.  
   
- La valeur de retour est `ldelem.u1`.  
+ La valeur de retour pour `ldelem.u4` est `int32`.  
   
  Notez que les valeurs entières inférieures à 4 octets sont étendues à `int32` (pas `native int`) lorsqu’elles sont chargées dans la pile d’évaluation.  
   
@@ -7882,7 +7884,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|8F < `T` >|ldelema `class`|Charge l'adresse de l'élément de tableau situé à un index de tableau spécifié en haut de la pile d'évaluation en tant que type `index` (pointeur managé).|  
+|8F < `T` >|ldelema `class`|Charge l’adresse de l’élément de tableau à `index` en haut de la pile d’évaluation en tant que type `&` (pointeur managé).|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -8087,7 +8089,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|ldftn `method`|Exécute un push d’un pointeur vers une méthode référencée par `method` sur la pile.|  
+|FE 06 < `T` >|ldftn `method`|Exécute un push d’un pointeur vers une méthode référencée par `method` sur la pile.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -8351,7 +8353,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|4A.|ldind.i4|Charge le `int32` valeur à l’adresse `addr` dans la pile en tant qu’un `int32`.|  
+|4A|ldind.i4|Charge le `int32` valeur à l’adresse `addr` dans la pile en tant qu’un `int32`.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -8834,7 +8836,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|4B.|ldind.u4|Charge le `unsigned int32` valeur à l’adresse `addr` dans la pile en tant qu’un `int32`.|  
+|4B|ldind.u4|Charge le `unsigned int32` valeur à l’adresse `addr` dans la pile en tant qu’un `int32`.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -9082,7 +9084,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|07|ldloc.1|Charge la variable locale à l'index 1 dans la pile d'évaluation.|  
+|07|ldloc.1|Charge la variable locale à l’index 1 dans la pile d’évaluation.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -9139,7 +9141,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|08|ldloc.2|Charge la variable locale à l'index 2 dans la pile d'évaluation.|  
+|08|ldloc.2|Charge la variable locale à l’index 2 dans la pile d’évaluation.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -9196,7 +9198,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|09|ldloc.3|Charge la variable locale à l'index 3 dans la pile d'évaluation.|  
+|09|ldloc.3|Charge la variable locale à l’index 3 dans la pile d’évaluation.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -9312,7 +9314,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE OD &LT; `unsigned int16` >|ldloca `index`|Charge l'adresse de la variable locale à un index spécifique dans la pile d'évaluation.|  
+|FE OD &LT; `unsigned int16` >|ldloca `index`|Charge l’adresse de la variable locale à `index` dans la pile d’évaluation.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -9367,7 +9369,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|12 < `unsigned int8` >|ldloca.s `index`|Charge l'adresse de la variable locale à un index spécifique dans la pile d'évaluation (forme abrégée).|  
+|12 < `unsigned int8` >|ldloca.s `index`|Charge l’adresse de la variable locale à `index` dans la pile d’évaluation, la forme abrégée.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -9782,7 +9784,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|ldvirtftn `method`|Exécute un push le pointeur à la méthode virtuelle d’un objet `method` sur la pile.|  
+|FE 07 < `T` >|ldvirtftn `method`|Exécute un push le pointeur à la méthode virtuelle d’un objet `method` sur la pile.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -9843,7 +9845,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|DD|`target`__leave|Quitte une région de code protégée.|  
+|DD &LT; `int32` >|Laissez le champ `target`|Quitte une région de code protégée.|  
   
  Il n’existe aucun comportement de transition de pile spécifié pour cette instruction.  
   
@@ -9902,7 +9904,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|DE|leave.s `target`|Quitte une région protégée du code, forme abrégée.|  
+|DE < `int8` >|leave.s `target`|Quitte une région protégée du code, forme abrégée.|  
   
  Il n’existe aucun comportement de transition de pile spécifié pour cette instruction.  
   
@@ -10026,7 +10028,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|C6|mkrefany `class`|Exécute un push d’une référence typée de type `class` dans la pile.|  
+|C6 < `T` >|mkrefany `class`|Exécute un push d’une référence typée de type `class` dans la pile.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -10089,7 +10091,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|5A|MUL|Multiplie deux valeurs sur la pile.|  
+|5A|mul|Multiplie deux valeurs sur la pile.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -10280,7 +10282,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|65|Neg|Inverse la valeur actuellement située en haut de la pile.|  
+|65|neg|Inverse la valeur actuellement située en haut de la pile.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -10361,7 +10363,7 @@
   
  Tableaux unidimensionnels de base et les tableaux multidimensionnels sont créés à l’aide de <xref:System.Reflection.Emit.OpCodes.Newobj> plutôt que `newarr`. En général, ils sont créés à l’aide des méthodes de la <xref:System.Array> classe dans le .NET Framework.  
   
- La mémoire est insuffisante pour répondre à la demande.  
+ <xref:System.OutOfMemoryException> est levée si la mémoire est insuffisante pour satisfaire la requête.  
   
  <xref:System.OverflowException> est levée si `numElems` est inférieur à 0.  
   
@@ -10432,7 +10434,7 @@
   
  Les types valeur ne sont pas généralement créés à l’aide de `newobj`. Ils sont généralement alloués en tant qu’arguments ou variables locales, à l’aide de `newarr` (pour les tableaux unidimensionnels de base zéro) ou en tant que champs d’objets. Une fois allouée, ils sont initialisés à l’aide de <xref:System.Reflection.Emit.OpCodes.Initobj>. Toutefois, la `newobj` instruction peut être utilisée pour créer une nouvelle instance d’un type valeur dans la pile, ce qui peut ensuite être transmise en tant qu’argument, stocké dans une variable locale et ainsi de suite.  
   
- La mémoire est insuffisante pour répondre à la demande.  
+ <xref:System.OutOfMemoryException> est levée si la mémoire est insuffisante pour satisfaire la requête.  
   
  <xref:System.MissingMethodException> est levée si une méthode de constructeur `ctor` portant le nom indiqué, classe et la signature est introuvable. Cela est généralement détecté lorsque les instructions de langage MSIL (Microsoft Intermediate Language) sont converties en code natif, plutôt que lors de l’exécution.  
   
@@ -10483,7 +10485,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|00|__nop|Effectue une opération sans comportement.|  
+|00|nop|Effectue une opération sans comportement.|  
   
  Il n’existe aucun comportement de transition de pile défini pour cette instruction.  
   
@@ -10984,7 +10986,7 @@
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE 1E|readonly|Spécifie que l'opération d'adresse de tableau suivante n'exécute aucun contrôle de type au moment de l'exécution et qu'il retourne un pointeur managé dont la mutabilité est restreinte.|  
+|FE 1E|en lecture seule.|Spécifier que l’opération d’adresse de tableau suivante n’exécute aucun contrôle de type au moment de l’exécution, et qu’il retourne un pointeur managé avec la mutabilité est restreinte.|  
   
  Ce préfixe ne peut apparaître qu’immédiatement précédent le `ldelema` instruction et les appels à spéciale `Address` (méthode) sur les tableaux. Son effet sur l’opération suivante est double :  
   
@@ -11130,7 +11132,7 @@ callvirt m
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|C2|refanyval `type`|Exécute un push de l’adresse stockée dans une référence typée.|  
+|C2 < `T` >|refanyval `type`|Exécute un push de l’adresse stockée dans une référence typée.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -11208,7 +11210,7 @@ callvirt m
   
 4.  Le résultat est placé sur la pile.  
   
- Vérifiez les conditions suivantes :  
+ `result` = `value1` `rem` `value2` satisfait les conditions suivantes :  
   
  `result` = `value1` - `value2` `×` (`value1` `div` `value2`), et :  
   
@@ -11279,7 +11281,7 @@ callvirt m
   
 4.  Le résultat est placé sur la pile.  
   
- Vérifiez les conditions suivantes :  
+ `result` = `value1` `rem.un` `value2` satisfait les conditions suivantes :  
   
  `result` = `value1` - `value2` x (`value1` `div.un` `value2`), et :  
   
@@ -11338,7 +11340,7 @@ callvirt m
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|%2A|RET|Renvoie, à partir de la méthode, éventuellement retournant une valeur.|  
+|2A|RET|Renvoie, à partir de la méthode, éventuellement retournant une valeur.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -11399,7 +11401,7 @@ callvirt m
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE 1A|Rethrow|Lève de nouveau l'exception en cours.|  
+|FE 1A|rethrow|Lève à nouveau l’exception actuelle|  
   
  Aucun comportement de transition de pile n’est défini pour cette instruction.  
   
@@ -11641,7 +11643,7 @@ callvirt m
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE 1C < `T` >|`valType`sizeof         !=  &#124;  !!?|Push de la taille, en octets, d’un type valeur comme un `unsigned int32`.|  
+|FE 1C < `T` >|sizeof `valType`|Push de la taille, en octets, d’un type valeur comme un `unsigned int32`.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -11818,7 +11820,7 @@ callvirt m
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|A4|stelem `typeTok`|Remplace l’élément de tableau à l’index fourni par une valeur de type `typeTok` sur la pile.|  
+|A4 < `T` >|stelem `typeTok`|Remplace l’élément de tableau à l’index fourni par une valeur de type `typeTok` sur la pile.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -12441,7 +12443,7 @@ callvirt m
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|7 J|stfld `field`|Remplace la valeur de `field` de l’objet avec une nouvelle valeur.|  
+|7D < `T` >|stfld `field`|Remplace la valeur de `field` de l’objet avec une nouvelle valeur.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -13128,7 +13130,7 @@ callvirt m
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|0 octet|stloc.1|Dépile une valeur de la pile dans la variable locale 1.|  
+|0B|stloc.1|Dépile une valeur de la pile dans la variable locale 1.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -13437,7 +13439,7 @@ callvirt m
   
 2.  Une valeur est dépilée et stockée dans `field`.  
   
- Remplace la valeur d'un champ statique par une valeur de la pile d'évaluation. `field` est un jeton de métadonnées qui doit faire référence à un membre de champ statique.  
+ La `stsfld` instruction remplace la valeur d’un champ statique avec une valeur de la pile. `field` est un jeton de métadonnées qui doit faire référence à un membre de champ statique.  
   
  Le `stsfld` instruction peut-être être précédée <xref:System.Reflection.Emit.OpCodes.Volatile>.  
   
@@ -13753,7 +13755,7 @@ callvirt m
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|Tail|L’appel suivant met fin à des méthodes actuelles|  
+|FE 14|tail.|L’appel suivant met fin à des méthodes actuelles|  
   
  Il n’existe aucun comportement de transition de pile défini pour cette instruction.  
   
@@ -13931,7 +13933,7 @@ callvirt m
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|__unaligned `alignment`|Indique que l’instruction de pointeur suivantes peut-être ne pas être alignée.|  
+|FE 12 < `unsigned int8` >|non alignés. `alignment`|Indique que l’instruction de pointeur suivantes peut-être ne pas être alignée.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -13994,7 +13996,7 @@ callvirt m
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|79 < `T` >|effectuer une conversion unbox|Extrait les données de type valeur à partir de `obj`, ses boxed de représentation.|  
+|79 < `T` >|effectuer une conversion unboxing `valType`|Extrait les données de type valeur à partir de `obj`, ses boxed de représentation.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -14066,7 +14068,7 @@ callvirt m
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|A5|unbox.Any `typeTok`|Extraire les données à partir de `obj`, ses boxed de représentation.|  
+|A5 < `T` >|unbox.any `typeTok`|Extraire les données à partir de `obj`, ses boxed de représentation.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
@@ -14133,7 +14135,7 @@ callvirt m
   
 |Format|Format d’assembly|Description |  
 |------------|---------------------|-----------------|  
-|FE|volatile|Indique que la référence de pointeur suivante est volatile.|  
+|FE 13|volatile.|Indique que la référence de pointeur suivante est volatile.|  
   
  Le comportement de transition de pile, dans un ordre séquentiel, est :  
   
