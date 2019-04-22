@@ -1,5 +1,5 @@
 <Type Name="FileAttributes" FullName="System.IO.FileAttributes">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="35b4199264ecbc920ff8cc871fdaa66557a8dff0" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58713901" /></Metadata><TypeSignature Language="C#" Value="public enum FileAttributes" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="4fe767d223ee9761bb15692322415ccad0e3232f" /><Meta Name="ms.sourcegitcommit" Value="9fde55ecc35aa9df4967f3522d7e9ce113f5147c" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="04/16/2019" /><Meta Name="ms.locfileid" Value="59614998" /></Metadata><TypeSignature Language="C#" Value="public enum FileAttributes" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi serializable sealed FileAttributes extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.IO.FileAttributes" />
   <TypeSignature Language="VB.NET" Value="Public Enum FileAttributes" />
@@ -47,18 +47,32 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Vous pouvez obtenir des attributs pour les fichiers et répertoires en appelant le <xref:System.IO.File.GetAttributes%2A> (méthode) et vous pouvez les définir en appelant le <xref:System.IO.File.SetAttributes%2A> (méthode).  
+ Vous pouvez obtenir des attributs pour les fichiers et répertoires en appelant le <xref:System.IO.File.GetAttributes%2A?displayProperty=nameWithType> (méthode) et vous pouvez les définir en appelant le <xref:System.IO.File.SetAttributes%2A?displayProperty=nameWithType> (méthode).  
   
- Il n’est pas possible de modifier l’état de compression d’un <xref:System.IO.File> objet à l’aide de la <xref:System.IO.File.SetAttributes%2A> (méthode). Au lieu de cela, vous devez en fait de compresser le fichier à l’aide d’un outil de compression ou d’une des classes dans le <xref:System.IO.Compression?displayProperty=nameWithType> espace de noms.  
+ Il n’est pas possible de modifier l’état de compression d’un <xref:System.IO.File> objet à l’aide de la <xref:System.IO.File.SetAttributes%2A?displayProperty=nameWithType> (méthode). Au lieu de cela, vous devez en fait de compresser le fichier à l’aide d’un outil de compression ou d’une des classes dans le <xref:System.IO.Compression?displayProperty=nameWithType> espace de noms.  
   
-   
-  
+Les attributs suivants ne sont pas pris en charge par .NET Core sur Linux et macOS :
+
+- <xref:System.IO.FileAttributes.Archive?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.Compressed?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.Device?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.Encrypted?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.IntegrityStream?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.NoScrubData?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.NotContentIndexed?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.Offline?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.SparseFile?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.System?displayProperty=nameWithType>
+- <xref:System.IO.FileAttributes.Temporary?displayProperty=nameWithType>
+
+Sur les systèmes Unix, la valeur retournée par <xref:System.IO.File.GetAttributes%2A?displayProperty=nameWithType> inclut `Hidden` pour un fichier dont le nom commence par un point («. »). Sur macOS, vous pouvez obtenir ou définir l’indicateur masqué.
+
 ## Examples  
  L’exemple suivant montre comment récupérer les attributs d’un fichier et vérifiez si le fichier est en lecture seule.  
   
  [!code-csharp[System.IO.FileAttributes#1](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.io.fileattributes/cs/example.cs#1)]
- [!code-vb[System.IO.FileAttributes#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.io.fileattributes/vb/example.vb#1)]  
-  
+ [!code-vb[System.IO.FileAttributes#1](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.io.fileattributes/vb/example.vb#1)] 
+
  ]]></format>
     </remarks>
     <altmember cref="M:System.IO.File.GetAttributes(System.String)" />
@@ -100,7 +114,7 @@
       </ReturnValue>
       <MemberValue>32</MemberValue>
       <Docs>
-        <summary>Le fichier est candidat pour la sauvegarde ou la suppression.</summary>
+        <summary>Ce fichier est marqué à inclure dans une opération de sauvegarde incrémentielle. Windows définit cet attribut chaque fois que le fichier est modifié, et le logiciel de sauvegarde doit l’effacer quand le fichier est traité pour la sauvegarde incrémentielle.</summary>
       </Docs>
     </Member>
     <Member MemberName="Compressed">
@@ -214,7 +228,7 @@
       </ReturnValue>
       <MemberValue>16</MemberValue>
       <Docs>
-        <summary>Le fichier est un répertoire.</summary>
+        <summary>Le fichier est un répertoire. <see langword="Directory" /> est pris en charge sur Windows, Linux et macOS.</summary>
       </Docs>
     </Member>
     <Member MemberName="Encrypted">
@@ -290,7 +304,7 @@
       </ReturnValue>
       <MemberValue>2</MemberValue>
       <Docs>
-        <summary>Le fichier est masqué et n’est donc pas compris dans un listing de répertoires ordinaire.</summary>
+        <summary>Le fichier est masqué et n’est donc pas compris dans un listing de répertoires ordinaire. <see langword="Hidden" /> est pris en charge sur Windows, Linux et macOS.</summary>
       </Docs>
     </Member>
     <Member MemberName="IntegrityStream">
@@ -369,7 +383,7 @@
       </ReturnValue>
       <MemberValue>128</MemberValue>
       <Docs>
-        <summary>Le fichier est un fichier standard qui n’a pas d’attributs spéciaux. Cet attribut est valide uniquement s’il est utilisé seul.</summary>
+        <summary>Le fichier est un fichier standard qui n’a pas d’attributs spéciaux. Cet attribut est valide uniquement s’il est utilisé seul. <see langword="Normal" /> est pris en charge sur Windows, Linux et macOS.</summary>
       </Docs>
     </Member>
     <Member MemberName="NoScrubData">
@@ -524,7 +538,7 @@
       </ReturnValue>
       <MemberValue>1</MemberValue>
       <Docs>
-        <summary>Le fichier est en lecture seule.</summary>
+        <summary>Le fichier est en lecture seule. <see langword="ReadOnly" /> est pris en charge sur Windows, Linux et macOS. Sur Linux et macOS, le changement de l’indicateur <see langword="ReadOnly" /> est une opération d’autorisations.</summary>
       </Docs>
     </Member>
     <Member MemberName="ReparsePoint">
@@ -562,7 +576,7 @@
       </ReturnValue>
       <MemberValue>1024</MemberValue>
       <Docs>
-        <summary>Le fichier contient un point d’analyse, qui est un bloc de données définies par l’utilisateur associé à un fichier ou à un répertoire.</summary>
+        <summary>Le fichier contient un point d’analyse, qui est un bloc de données définies par l’utilisateur associé à un fichier ou à un répertoire. <see langword="ReparsePoint" /> est pris en charge sur Windows, Linux et macOS.</summary>
       </Docs>
     </Member>
     <Member MemberName="SparseFile">
