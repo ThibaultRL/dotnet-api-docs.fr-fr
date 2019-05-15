@@ -1,5 +1,5 @@
 <Type Name="HttpResponse" FullName="System.Web.HttpResponse">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="3cae72cd1480276ab5971635f798c273c0b43e76" /><Meta Name="ms.sourcegitcommit" Value="bac13a81377b1c4ebf3990e3287a6f1700f73751" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="03/19/2019" /><Meta Name="ms.locfileid" Value="57962171" /></Metadata><TypeSignature Language="C#" Value="public sealed class HttpResponse" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="c66db36ccfe044d894b43aa576b28232e960bb28" /><Meta Name="ms.sourcegitcommit" Value="0609891c89ddaa91e4c02970acb00072fcc29baf" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="05/13/2019" /><Meta Name="ms.locfileid" Value="65559010" /></Metadata><TypeSignature Language="C#" Value="public sealed class HttpResponse" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit HttpResponse extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Web.HttpResponse" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class HttpResponse" />
@@ -124,8 +124,8 @@
         </Parameter>
       </Parameters>
       <Docs>
-        <param name="dependencies">Fichier, clé de cache, ou <see cref="T:System.Web.Caching.CacheDependency" /> à ajouter à la liste de dépendances d'application.</param>
-        <summary>Associe un jeu de dépendances de cache à la réponse pour faciliter l'invalidation de cette dernière si elle est stockée dans le cache de sortie et si les dépendances spécifiées changent.</summary>
+        <param name="dependencies">Fichier, clé de cache ou <see cref="T:System.Web.Caching.CacheDependency" /> à ajouter à la liste de dépendances d'application.</param>
+        <summary>Associe un jeu de dépendances de cache à la réponse pour faciliter l'invalidation de cette dernière si elle est stockée dans le cache de sortie et si les dépendances spécifiées sont modifiées.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -143,7 +143,7 @@
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">Le paramètre <paramref name="dependencies" /> a la valeur <see langword="null" />.</exception>
-        <exception cref="T:System.InvalidOperationException">Cette méthode a été appelée trop tard dans le pipeline du traitement du cache, une fois la réponse mise en cache créée.</exception>
+        <exception cref="T:System.InvalidOperationException">Cette méthode a été appelée trop tard dans le pipeline de traitement du cache, une fois que la réponse mise en cache a déjà été créée.</exception>
         <altmember cref="T:System.Web.Caching.CacheDependency" />
         <related type="Article" href="https://msdn.microsoft.com/library/e9666a1b-88df-4931-af0b-a754fc65660b(v=vs.100)">La mise en cache de Pages ASP.NET</related>
       </Docs>
@@ -524,7 +524,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Web.HttpException">Un cookie est ajouté après l'envoi des en-têtes HTTP.</exception>
+        <exception cref="T:System.Web.HttpException">Un cookie est ajouté après que les en-têtes HTTP ont été envoyés.</exception>
       </Docs>
     </Member>
     <Member MemberName="AppendHeader">
@@ -570,7 +570,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Web.HttpException">L'en-tête est ajouté une fois que les en-têtes HTTP ont été envoyés.</exception>
+        <exception cref="T:System.Web.HttpException">L’en-tête est ajouté après que les en-têtes HTTP ont été envoyés.</exception>
       </Docs>
     </Member>
     <Member MemberName="AppendToLog">
@@ -870,7 +870,7 @@
       </ReturnValue>
       <Docs>
         <summary>Obtient ou définit l'en-tête HTTP <see langword="Cache-Control" /> qui correspond à l'une des valeurs d'énumération<see cref="T:System.Web.HttpCacheability" /></summary>
-        <value>Représentation sous forme de chaîne  de la valeur d'énumération <see cref="T:System.Web.HttpCacheability" />.</value>
+        <value>Représentation sous forme de chaîne de la valeur d'énumération <see cref="T:System.Web.HttpCacheability" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -881,7 +881,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentException">La valeur définie pour la chaîne ne correspond pas à l'une des valeurs d'énumération <see cref="T:System.Web.HttpCacheability" />.</exception>
+        <exception cref="T:System.ArgumentException">La valeur de chaîne définie ne correspond pas à un de la <see cref="T:System.Web.HttpCacheability" /> valeurs d’énumération.</exception>
       </Docs>
     </Member>
     <Member MemberName="Charset">
@@ -920,7 +920,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Web.HttpException">La propriété <see langword="Charset" /> a été définie après l'envoi d'en-têtes.</exception>
+        <exception cref="T:System.Web.HttpException">Le <see langword="Charset" /> propriété a été définie après l’envoi des en-têtes.</exception>
       </Docs>
     </Member>
     <Member MemberName="Clear">
@@ -1039,7 +1039,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Web.HttpException">Les en-têtes sont effacés après l'envoi des en-têtes HTTP.</exception>
+        <exception cref="T:System.Web.HttpException">Les en-têtes sont effacés après que les en-têtes HTTP ont été envoyés.</exception>
         <altmember cref="M:System.Web.HttpResponse.ClearContent" />
       </Docs>
     </Member>
@@ -1255,7 +1255,7 @@
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Désactive la mise en cache de noyau pour la réponse en cours.</summary>
+        <summary>Désactive la mise en cache de noyau pour la réponse actuelle.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1355,7 +1355,7 @@
         <param name="asyncResult">Objet du résultat asynchrone.</param>
         <summary>Termine une opération de vidage asynchrone.</summary>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">Le vidage asynchrone n'est pas pris en charge et le paramètre <paramref name="asyncResult" /> est <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Vidage asynchrone n’est pas pris en charge et la <paramref name="asyncResult" /> paramètre est <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException">Le vidage asynchrone n’est pas pris en charge et le paramètre <paramref name="asyncResult" /> ne peut pas être casté en objet <c>FlushAsyncResult</c>.</exception>
       </Docs>
     </Member>
@@ -1382,7 +1382,7 @@
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit, en minutes, le délai d'expiration d'une page mise en cache sur un navigateur. Si l'utilisateur retourne à la même page avant qu'elle n'expire, la version mise en cache est affichée. <see cref="P:System.Web.HttpResponse.Expires" /> est fourni pour des raisons de compatibilité avec les versions précédentes d'ASP.</summary>
+        <summary>Obtient ou définit le nombre de minutes avant l'expiration d'une page mise en cache dans un navigateur. Si l'utilisateur retourne à la même page avant qu'elle n'expire, la version mise en cache est affichée. <see cref="P:System.Web.HttpResponse.Expires" /> est fourni pour des raisons de compatibilité avec les versions précédentes d'ASP.</summary>
         <value>Nombre de minutes avant l'expiration de la page.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1417,7 +1417,7 @@
         <ReturnType>System.DateTime</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit la date et heure absolues auxquelles supprimer des informations présentes dans le cache. <see cref="P:System.Web.HttpResponse.ExpiresAbsolute" /> est fourni pour des raisons de compatibilité avec les versions précédentes d'ASP.</summary>
+        <summary>Obtient ou définit la date et l'heure absolues auxquelles supprimer des informations du cache. <see cref="P:System.Web.HttpResponse.ExpiresAbsolute" /> est fourni pour des raisons de compatibilité avec les versions précédentes d'ASP.</summary>
         <value>Date et heure auxquelles la page expire.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1447,8 +1447,8 @@
         <ReturnType>System.IO.Stream</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit un objet wrapping filter à utiliser pour modifier le corps d'une entité HTTP avant la transmission.</summary>
-        <value>Objet <see cref="T:System.IO.Stream" /> qui agit comme filtre de sortie.</value>
+        <summary>Obtient ou définit un objet de filtre de retour à la ligne utilisé pour modifier le corps d'une entité HTTP avant la transmission.</summary>
+        <value>Objet <see cref="T:System.IO.Stream" /> qui fait office de filtre de sortie.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1465,7 +1465,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Web.HttpException">Le filtrage n'est pas autorisé avec cette entité.</exception>
+        <exception cref="T:System.Web.HttpException">Le filtrage n’est pas autorisé avec l’entité.</exception>
       </Docs>
     </Member>
     <Member MemberName="Flush">
@@ -1506,7 +1506,7 @@
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Web.HttpException">Le cache est vidé une fois la réponse envoyée.</exception>
+        <exception cref="T:System.Web.HttpException">Le cache est vidé une fois que la réponse a été envoyée.</exception>
       </Docs>
     </Member>
     <Member MemberName="FlushAsync">
@@ -1683,7 +1683,7 @@ Les en-têtes ont déjà été envoyés.</exception>
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient une valeur Boolean qui indique si le client est transféré vers un nouvel emplacement.</summary>
+        <summary>Obtient une valeur booléenne qui indique si le client est transféré vers un nouvel emplacement.</summary>
         <value><see langword="true" /> si la valeur de l'en-tête de réponse d'emplacement est différente de l'emplacement actuel ; sinon, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1722,7 +1722,7 @@ Les en-têtes ont déjà été envoyés.</exception>
       </ReturnValue>
       <Docs>
         <summary>Permet la sortie du texte dans le flux de réponse HTTP sortant.</summary>
-        <value>Objet <see cref="T:System.IO.TextWriter" /> qui active les sorties personnalisées vers le client.</value>
+        <value>Objet <see cref="T:System.IO.TextWriter" /> qui permet une sortie personnalisée vers le client.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1755,7 +1755,7 @@ Les en-têtes ont déjà été envoyés.</exception>
       </ReturnValue>
       <Docs>
         <summary>Permet une sortie binaire vers le corps du contenu HTTP sortant.</summary>
-        <value><see cref="T:System.IO.Stream" /> d'E/S qui représente le contenu brut du corps du contenu HTTP sortant.</value>
+        <value><see cref="T:System.IO.Stream" /> d'E/S représentant le contenu brut du corps du contenu HTTP sortant.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2020,7 +2020,7 @@ Les en-têtes ont déjà été envoyés.</exception>
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="url" /> est <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="url" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException"><paramref name="url" /> contient un caractère de saut de ligne.</exception>
         <exception cref="T:System.Web.HttpException">Une redirection a été tentée après l’envoi des en-têtes HTTP.</exception>
         <exception cref="T:System.ApplicationException">La demande de page est le résultat d’un rappel.</exception>
@@ -2050,7 +2050,7 @@ Les en-têtes ont déjà été envoyés.</exception>
       </ReturnValue>
       <Docs>
         <summary>Obtient ou définit la valeur de l'en-tête HTTP <see langword="Location" />.</summary>
-        <value>URI absolu transmis au client dans l'en-tête HTTP Location <see langword="Location" />.</value>
+        <value>URI absolu transmis au client dans l'en-tête HTTP <see langword="Location" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2102,7 +2102,7 @@ Response.End();
         <Parameter Name="url" Type="System.String" Index="0" FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8" />
       </Parameters>
       <Docs>
-        <param name="url">Emplacement vers lequel rediriger la requête.</param>
+        <param name="url">Emplacement vers lequel la requête est redirigée.</param>
         <summary>Exécute une redirection permanente de l'URL demandée vers l'URL spécifiée.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -2114,7 +2114,7 @@ Response.End();
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="url" /> est <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="url" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException"><paramref name="url" /> inclut un caractère de saut de ligne (<c>\n</c>).</exception>
       </Docs>
     </Member>
@@ -2143,9 +2143,9 @@ Response.End();
         <Parameter Name="endResponse" Type="System.Boolean" Index="1" FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8" />
       </Parameters>
       <Docs>
-        <param name="url">Emplacement vers lequel rediriger la requête.</param>
-        <param name="endResponse"><see langword="true" /> pour terminer la réponse ; sinon <see langword="false" />. La valeur par défaut est <see langword="false" />.</param>
-        <summary>Exécute une redirection permanente de l'URL demandée vers l'URL spécifiée, et permet de compléter la réponse.</summary>
+        <param name="url">Emplacement vers lequel la requête est redirigée.</param>
+        <param name="endResponse"><see langword="true" /> pour terminer la réponse ; sinon, <see langword="false" />. La valeur par défaut est <see langword="false" />.</param>
+        <summary>Exécute une redirection permanente de l'URL demandée vers l'URL spécifiée et permet de compléter la réponse.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2154,7 +2154,7 @@ Response.End();
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="url" /> est <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="url" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.ArgumentException"><paramref name="url" /> inclut un caractère de saut de ligne (<c>\n</c>).</exception>
       </Docs>
     </Member>
@@ -2164,7 +2164,7 @@ Response.End();
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Redirige une requête vers une nouvelle URL en utilisant des valeurs de paramètres d'itinéraires, un nom d'itinéraire, ou les deux.</summary>
+        <summary>Redirige une requête vers une nouvelle URL en utilisant des valeurs de paramètres d'itinéraire, un nom d'itinéraire ou les deux.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="RedirectToRoute">
@@ -2186,8 +2186,8 @@ Response.End();
         <Parameter Name="routeValues" Type="System.Object" Index="0" FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8" />
       </Parameters>
       <Docs>
-        <param name="routeValues">Valeurs de paramètre d'itinéraire.</param>
-        <summary>Redirige une requête vers une nouvelle URL à l'aide de valeurs de paramètres d'itinéraires.</summary>
+        <param name="routeValues">Valeurs des paramètres d'itinéraire.</param>
+        <summary>Redirige une requête vers une nouvelle URL en utilisant les valeurs des paramètres d'itinéraire.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2215,8 +2215,8 @@ Response.RedirectToRoute(
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d'itinéraire spécifiés.</exception>
-        <exception cref="T:System.Web.HttpException">Une tentative de redirection a eu lieu après l'envoi des en-têtes HTTP.</exception>
+        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d’itinéraire spécifié.</exception>
+        <exception cref="T:System.Web.HttpException">La redirection a été tentée une fois que les en-têtes HTTP envoyés.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/892441af-8f1d-483e-ab5f-b82c23576f5a">Routage ASP.NET</related>
       </Docs>
     </Member>
@@ -2245,7 +2245,7 @@ Response.RedirectToRoute(
       </Parameters>
       <Docs>
         <param name="routeName">Nom de l’itinéraire.</param>
-        <summary>Redirige une requête vers une nouvelle URL à l'aide d'un nom d'itinéraire.</summary>
+        <summary>Redirige une requête vers une nouvelle URL en utilisant un nom d'itinéraire.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2271,8 +2271,8 @@ Response.RedirectToRoute("Products");
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d'itinéraire spécifiés.</exception>
-        <exception cref="T:System.Web.HttpException">Une tentative de redirection a eu lieu après l'envoi des en-têtes HTTP.</exception>
+        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d’itinéraire spécifié.</exception>
+        <exception cref="T:System.Web.HttpException">La redirection a été tentée une fois que les en-têtes HTTP envoyés.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/892441af-8f1d-483e-ab5f-b82c23576f5a">Routage ASP.NET</related>
       </Docs>
     </Member>
@@ -2300,8 +2300,8 @@ Response.RedirectToRoute("Products");
         <Parameter Name="routeValues" Type="System.Web.Routing.RouteValueDictionary" Index="0" FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8" />
       </Parameters>
       <Docs>
-        <param name="routeValues">Valeurs de paramètre d'itinéraire.</param>
-        <summary>Redirige une requête vers une nouvelle URL à l'aide de valeurs de paramètres d'itinéraires.</summary>
+        <param name="routeValues">Valeurs des paramètres d'itinéraire.</param>
+        <summary>Redirige une requête vers une nouvelle URL en utilisant les valeurs des paramètres d'itinéraire.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2329,8 +2329,8 @@ Response.RedirectToRoute(
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d'itinéraire spécifiés.</exception>
-        <exception cref="T:System.Web.HttpException">Une tentative de redirection a eu lieu après l'envoi des en-têtes HTTP.</exception>
+        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d’itinéraire spécifié.</exception>
+        <exception cref="T:System.Web.HttpException">La redirection a été tentée une fois que les en-têtes HTTP envoyés.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/892441af-8f1d-483e-ab5f-b82c23576f5a">Routage ASP.NET</related>
       </Docs>
     </Member>
@@ -2355,8 +2355,8 @@ Response.RedirectToRoute(
       </Parameters>
       <Docs>
         <param name="routeName">Nom de l’itinéraire.</param>
-        <param name="routeValues">Valeurs de paramètre d'itinéraire.</param>
-        <summary>Redirige une requête vers une nouvelle URL en utilisant des valeurs de paramètres d'itinéraires et un nom d'itinéraire.</summary>
+        <param name="routeValues">Valeurs des paramètres d'itinéraire.</param>
+        <summary>Redirige une requête vers une nouvelle URL en utilisant les valeurs des paramètres d'itinéraire et un nom d'itinéraire.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2384,8 +2384,8 @@ Response.RedirectToRoute("Product",
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d'itinéraire spécifiés.</exception>
-        <exception cref="T:System.Web.HttpException">Une tentative de redirection a eu lieu après l'envoi des en-têtes HTTP.</exception>
+        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d’itinéraire spécifié.</exception>
+        <exception cref="T:System.Web.HttpException">La redirection a été tentée une fois que les en-têtes HTTP envoyés.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/892441af-8f1d-483e-ab5f-b82c23576f5a">Routage ASP.NET</related>
       </Docs>
     </Member>
@@ -2415,8 +2415,8 @@ Response.RedirectToRoute("Product",
       </Parameters>
       <Docs>
         <param name="routeName">Nom de l’itinéraire.</param>
-        <param name="routeValues">Valeurs de paramètre d'itinéraire.</param>
-        <summary>Redirige une requête vers une nouvelle URL en utilisant des valeurs de paramètres d'itinéraires et un nom d'itinéraire.</summary>
+        <param name="routeValues">Valeurs des paramètres d'itinéraire.</param>
+        <summary>Redirige une requête vers une nouvelle URL en utilisant les valeurs des paramètres d'itinéraire et un nom d'itinéraire.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2444,8 +2444,8 @@ Response.RedirectToRoute("Product",
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d'itinéraire spécifiés.</exception>
-        <exception cref="T:System.Web.HttpException">Une tentative de redirection a eu lieu après l'envoi des en-têtes HTTP.</exception>
+        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d’itinéraire spécifié.</exception>
+        <exception cref="T:System.Web.HttpException">La redirection a été tentée une fois que les en-têtes HTTP envoyés.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/892441af-8f1d-483e-ab5f-b82c23576f5a">Routage ASP.NET</related>
       </Docs>
     </Member>
@@ -2455,7 +2455,7 @@ Response.RedirectToRoute("Product",
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Effectue une redirection permanente à partir d'une URL demandée vers une nouvelle URL en utilisant des valeurs de paramètres d'itinéraires, un nom d'itinéraire, ou les deux.</summary>
+        <summary>Effectue une redirection permanente d'une URL demandée vers une nouvelle URL en utilisant les valeurs des paramètres d'itinéraire, un nom d'itinéraire, ou les deux.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="RedirectToRoutePermanent">
@@ -2477,8 +2477,8 @@ Response.RedirectToRoute("Product",
         <Parameter Name="routeValues" Type="System.Object" Index="0" FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8" />
       </Parameters>
       <Docs>
-        <param name="routeValues">Valeurs de paramètre d'itinéraire.</param>
-        <summary>Effectue une redirection permanente à partir d'une URL demandée vers une nouvelle URL à l'aide de valeurs de paramètres d'itinéraires.</summary>
+        <param name="routeValues">Valeurs des paramètres d'itinéraire.</param>
+        <summary>Effectue une redirection permanente d'une URL demandée vers une nouvelle URL en utilisant les valeurs des paramètres d'itinéraire.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2506,8 +2506,8 @@ Response.RedirectToRoutePermanent(
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d'itinéraire spécifiés.</exception>
-        <exception cref="T:System.Web.HttpException">Une tentative de redirection a eu lieu après l'envoi des en-têtes HTTP.</exception>
+        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d’itinéraire spécifié.</exception>
+        <exception cref="T:System.Web.HttpException">La redirection a été tentée une fois que les en-têtes HTTP envoyés.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/892441af-8f1d-483e-ab5f-b82c23576f5a">Routage ASP.NET</related>
       </Docs>
     </Member>
@@ -2536,7 +2536,7 @@ Response.RedirectToRoutePermanent(
       </Parameters>
       <Docs>
         <param name="routeName">Nom de l’itinéraire.</param>
-        <summary>Effectue une redirection permanente à partir d'une URL demandée vers une nouvelle URL à l'aide d'un nom d'itinéraire.</summary>
+        <summary>Effectue une redirection permanente d'une URL demandée vers une nouvelle URL en utilisant un nom d'itinéraire.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2562,8 +2562,8 @@ Response.RedirectToRoutePermanent("Products");
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d'itinéraire spécifiés.</exception>
-        <exception cref="T:System.Web.HttpException">Une tentative de redirection a eu lieu après l'envoi des en-têtes HTTP.</exception>
+        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d’itinéraire spécifié.</exception>
+        <exception cref="T:System.Web.HttpException">La redirection a été tentée une fois que les en-têtes HTTP envoyés.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/892441af-8f1d-483e-ab5f-b82c23576f5a">Routage ASP.NET</related>
       </Docs>
     </Member>
@@ -2591,8 +2591,8 @@ Response.RedirectToRoutePermanent("Products");
         <Parameter Name="routeValues" Type="System.Web.Routing.RouteValueDictionary" Index="0" FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8" />
       </Parameters>
       <Docs>
-        <param name="routeValues">Valeurs de paramètre d'itinéraire.</param>
-        <summary>Effectue une redirection permanente à partir d'une URL demandée vers une nouvelle URL à l'aide de valeurs de paramètres d'itinéraires.</summary>
+        <param name="routeValues">Valeurs des paramètres d'itinéraire.</param>
+        <summary>Effectue une redirection permanente d'une URL demandée vers une nouvelle URL en utilisant les valeurs des paramètres d'itinéraire.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2620,8 +2620,8 @@ Response.RedirectToRoutePermanent(
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d'itinéraire spécifiés.</exception>
-        <exception cref="T:System.Web.HttpException">Une tentative de redirection a eu lieu après l'envoi des en-têtes HTTP.</exception>
+        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d’itinéraire spécifié.</exception>
+        <exception cref="T:System.Web.HttpException">La redirection a été tentée une fois que les en-têtes HTTP envoyés.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/892441af-8f1d-483e-ab5f-b82c23576f5a">Routage ASP.NET</related>
       </Docs>
     </Member>
@@ -2646,8 +2646,8 @@ Response.RedirectToRoutePermanent(
       </Parameters>
       <Docs>
         <param name="routeName">Nom de l’itinéraire.</param>
-        <param name="routeValues">Valeurs de paramètre d'itinéraire.</param>
-        <summary>Effectue une redirection permanente à partir d'une URL demandée vers une nouvelle URL en utilisant les valeurs de paramètres d'itinéraires et le nom d'itinéraire qui correspondent à la nouvelle URL.</summary>
+        <param name="routeValues">Valeurs des paramètres d'itinéraire.</param>
+        <summary>Effectue une redirection permanente d'une URL demandée vers une nouvelle URL en utilisant les valeurs des paramètres d'itinéraire et le nom d'itinéraire qui correspondent à la nouvelle URL.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2675,8 +2675,8 @@ Response.RedirectToRoutePermanent("Product",
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d'itinéraire spécifiés.</exception>
-        <exception cref="T:System.Web.HttpException">Une tentative de redirection a eu lieu après l'envoi des en-têtes HTTP.</exception>
+        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d’itinéraire spécifié.</exception>
+        <exception cref="T:System.Web.HttpException">La redirection a été tentée une fois que les en-têtes HTTP envoyés.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/892441af-8f1d-483e-ab5f-b82c23576f5a">Routage ASP.NET</related>
       </Docs>
     </Member>
@@ -2706,8 +2706,8 @@ Response.RedirectToRoutePermanent("Product",
       </Parameters>
       <Docs>
         <param name="routeName">Nom de l’itinéraire.</param>
-        <param name="routeValues">Valeurs de paramètre d'itinéraire.</param>
-        <summary>Effectue une redirection permanente à partir d'une URL demandée vers une nouvelle URL en utilisant des valeurs de paramètres d'itinéraires et un nom d'itinéraire.</summary>
+        <param name="routeValues">Valeurs des paramètres d'itinéraire.</param>
+        <summary>Effectue une redirection permanente d'une URL demandée vers une nouvelle URL en utilisant les valeurs des paramètres d'itinéraire et un nom d'itinéraire.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2735,8 +2735,8 @@ Response.RedirectToRoutePermanent("Product",
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d'itinéraire spécifiés.</exception>
-        <exception cref="T:System.Web.HttpException">Une tentative de redirection a eu lieu après l'envoi des en-têtes HTTP.</exception>
+        <exception cref="T:System.InvalidOperationException">Aucun itinéraire ne correspond aux paramètres d’itinéraire spécifié.</exception>
+        <exception cref="T:System.Web.HttpException">La redirection a été tentée une fois que les en-têtes HTTP envoyés.</exception>
         <related type="Article" href="https://msdn.microsoft.com/library/892441af-8f1d-483e-ab5f-b82c23576f5a">Routage ASP.NET</related>
       </Docs>
     </Member>
@@ -2746,7 +2746,7 @@ Response.RedirectToRoutePermanent("Product",
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Supprime des éléments mis en cache du cache de sortie à l'aide du fournisseur de caches de sortie par défaut.</summary>
+        <summary>Supprime des éléments du cache de sortie à l'aide du fournisseur de cache de sortie par défaut.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="RemoveOutputCacheItem">
@@ -2775,8 +2775,8 @@ Response.RedirectToRoutePermanent("Product",
         <Parameter Name="path" Type="System.String" />
       </Parameters>
       <Docs>
-        <param name="path">Chemin d'accès virtuel des éléments retirés du cache.</param>
-        <summary>Supprime du cache tous les éléments associés au fournisseur de caches de sortie par défaut. Cette méthode est statique.</summary>
+        <param name="path">Chemin d’accès absolu virtuel des éléments retirés du cache.</param>
+        <summary>Supprime du cache tous les éléments associés au fournisseur de cache de sortie par défaut. Cette méthode est statique.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2785,8 +2785,8 @@ Response.RedirectToRoutePermanent("Product",
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="path" /> est <see langword="null" />.</exception>
-        <exception cref="T:System.ArgumentException"><paramref name="path" /> n'est pas un chemin d'accès virtuel absolu.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="path" /> a la valeur <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentException"><paramref name="path" /> n’est pas un chemin d’accès virtuel absolu.</exception>
       </Docs>
     </Member>
     <Member MemberName="RemoveOutputCacheItem">
@@ -2809,9 +2809,9 @@ Response.RedirectToRoutePermanent("Product",
         <Parameter Name="providerName" Type="System.String" Index="1" FrameworkAlternate="netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8" />
       </Parameters>
       <Docs>
-        <param name="path">Chemin d'accès virtuel des éléments retirés du cache.</param>
-        <param name="providerName">Fournisseur utilisé pour supprimer les artefacts de cache de sortie associés au chemin d'accès spécifié.</param>
-        <summary>Utilise le fournisseur de caches de sortie spécifié pour supprimer tous les éléments de cache de sortie associés au chemin d'accès spécifié.</summary>
+        <param name="path">Chemin d’accès virtuel des éléments retirés du cache.</param>
+        <param name="providerName">Fournisseur utilisé pour supprimer les artefacts de cache de sortie associés au chemin d’accès spécifié.</param>
+        <summary>Utilise le fournisseur de cache de sortie spécifié pour supprimer tous les éléments de cache de sortie associés au chemin d’accès spécifié.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2821,7 +2821,7 @@ Response.RedirectToRoutePermanent("Product",
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException"><paramref name="path" /> a la valeur null.</exception>
-        <exception cref="T:System.ArgumentException"><paramref name="path" /> n'est pas un chemin d'accès valide.</exception>
+        <exception cref="T:System.ArgumentException"><paramref name="path" /> est un chemin d’accès non valide.</exception>
       </Docs>
     </Member>
     <Member MemberName="SetCookie">
@@ -2845,8 +2845,8 @@ Response.RedirectToRoutePermanent("Product",
         <Parameter Name="cookie" Type="System.Web.HttpCookie" />
       </Parameters>
       <Docs>
-        <param name="cookie">Le cookie à mettre à jour dans la collection </param>
-        <summary>Dans la mesure où la méthode <b>HttpResponse.SetCookie</b> est exclusivement réservée à un usage interne, vous ne devez pas l’appeler dans votre code. Appelez plutôt la méthode <b>HttpResponse.Cookies.Set</b>, comme le montre l’exemple suivant.<br /> Met à jour un cookie dans la collection de cookies.</summary>
+        <param name="cookie">Cookie à mettre à jour dans la collection.</param>
+        <summary>Dans la mesure où la méthode <b>HttpResponse.SetCookie</b> est exclusivement réservée à un usage interne, vous ne devez pas l’appeler dans votre code. Appelez plutôt la méthode <b>HttpResponse.Cookies.Set</b>, comme le montre l’exemple suivant.<br /> Met à jour un cookie existant dans la collection de cookies.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2858,7 +2858,7 @@ Response.RedirectToRoutePermanent("Product",
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Web.HttpException">Tentative de définir le cookie après l'envoi des en-têtes HTTP.</exception>
+        <exception cref="T:System.Web.HttpException">A tenté de définir le cookie après que les en-têtes HTTP ont été envoyés.</exception>
         <altmember cref="F:System.Net.HttpRequestHeader.Cookie" />
         <altmember cref="T:System.Web.HttpCookie" />
         <altmember cref="T:System.Web.HttpCookieMode" />
@@ -2882,7 +2882,7 @@ Response.RedirectToRoutePermanent("Product",
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Définit la ligne <see langword="Status" /> retournée vers le client.</summary>
+        <summary>Définit la ligne <see langword="Status" /> retournée au client.</summary>
         <value>Le fait de définir le code d'état provoque le retour au client d'une chaîne décrivant l'état de la sortie HTTP. La valeur par défaut est 200 (OK).</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -2892,7 +2892,7 @@ Response.RedirectToRoutePermanent("Product",
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Web.HttpException">Le code d'état spécifié n'est pas valide.</exception>
+        <exception cref="T:System.Web.HttpException">État est défini sur un code d’état non valide.</exception>
       </Docs>
     </Member>
     <Member MemberName="StatusCode">
@@ -2919,7 +2919,7 @@ Response.RedirectToRoutePermanent("Product",
       </ReturnValue>
       <Docs>
         <summary>Obtient ou définit le code d'état HTTP du résultat retourné au client.</summary>
-        <value>Entier représentant l'état du résultat HTTP retourné au client. La valeur par défaut est 200 (OK). Pour obtenir la liste des codes d’état valides, consultez [Codes d’état Http](https://go.microsoft.com/fwlink/?LinkId=73157).</value>
+        <value>Entier représentant l'état de la sortie HTTP retournée au client. La valeur par défaut est 200 (OK). Pour obtenir la liste des codes d’état valides, consultez [Codes d’état Http](https://go.microsoft.com/fwlink/?LinkId=73157).</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2931,7 +2931,7 @@ Response.RedirectToRoutePermanent("Product",
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Web.HttpException"><see cref="P:System.Web.HttpResponse.StatusCode" /> est défini une fois les en-têtes HTTP envoyés.</exception>
+        <exception cref="T:System.Web.HttpException"><see cref="P:System.Web.HttpResponse.StatusCode" /> est défini une fois que les en-têtes HTTP ont été envoyés.</exception>
         <altmember cref="P:System.Web.HttpResponse.SubStatusCode" />
       </Docs>
     </Member>
@@ -2953,8 +2953,8 @@ Response.RedirectToRoutePermanent("Product",
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit la chaîne d'état HTTP du résultat retourné au client.</summary>
-        <value>Chaîne décrivant l'état du résultat HTTP retourné au client. La valeur par défaut est "OK". Pour obtenir la liste des codes d’état valides, consultez [Codes d’état Http](https://go.microsoft.com/fwlink/?LinkId=73157).</value>
+        <summary>Obtient ou définit la chaîne d'état HTTP de la sortie retournée au client.</summary>
+        <value>Chaîne qui décrit l'état de la sortie HTTP retournée au client. La valeur par défaut est « OK ». Pour obtenir la liste des codes d’état valides, consultez [Codes d’état Http](https://go.microsoft.com/fwlink/?LinkId=73157).</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2966,8 +2966,8 @@ Response.RedirectToRoutePermanent("Product",
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.Web.HttpException"><paramref name="StatusDescription" /> est défini une fois les en-têtes HTTP envoyés.</exception>
-        <exception cref="T:System.ArgumentOutOfRangeException">La valeur sélectionnée a une longueur supérieure à 512.</exception>
+        <exception cref="T:System.Web.HttpException"><paramref name="StatusDescription" /> est défini une fois que les en-têtes HTTP ont été envoyés.</exception>
+        <exception cref="T:System.ArgumentOutOfRangeException">La valeur sélectionnée a une longueur supérieure à 512.</exception>
       </Docs>
     </Member>
     <Member MemberName="SubStatusCode">
@@ -3006,7 +3006,7 @@ Response.RedirectToRoutePermanent("Product",
  ]]></format>
         </remarks>
         <exception cref="T:System.PlatformNotSupportedException">L’opération exige le mode pipeline intégré d’[!INCLUDE[iisver](~/includes/iisver-md.md)] et au moins le .NET Framework version 3.0.</exception>
-        <exception cref="T:System.Web.HttpException">Le code d'état est défini une fois que tous les en-têtes HTTP ont été envoyés.</exception>
+        <exception cref="T:System.Web.HttpException">Le code d’état est défini une fois que tous les en-têtes HTTP ont été envoyés.</exception>
         <altmember cref="P:System.Web.HttpResponse.StatusCode" />
       </Docs>
     </Member>
@@ -3100,7 +3100,7 @@ Response.RedirectToRoutePermanent("Product",
 ## Remarks  
  Par défaut, ASP.NET envoie un `Cache-Control: private` en-tête de réponse, sauf si une stratégie de cache explicite a été spécifiée pour cette réponse. Cette propriété autorise la suppression de cet en-tête de réponse par défaut sur une base par demande. L’en-tête peut toujours être supprimée pour l’application entière en définissant <xref:System.Web.Configuration.HttpRuntimeSection.SendCacheControlHeader%2A> dans [httpRuntime, élément (schéma des paramètres ASP.NET)](https://msdn.microsoft.com/library/e9b81350-8aaf-47cc-9843-5f7d0c59f369) ou [outputCache, élément de caching (schéma des paramètres ASP.NET)](https://msdn.microsoft.com/library/47cd2b47-316f-4dfd-bbf8-539be3066fee).  
   
- Soyez prudent lors de la suppression de la valeur par défaut `Cache-Control: private` en-tête, en tant que proxy et autres intermédiaires peuvent traiter des réponses sans cet en-tête comme mis en cache par défaut. Ce traitement peut entraîner la mise en cache par inadvertance des informations sensibles. Consultez [le document RFC 2616, s. 13.4](http://tools.ietf.org/html/rfc2616) pour plus d’informations.  
+ Soyez prudent lors de la suppression de la valeur par défaut `Cache-Control: private` en-tête, en tant que proxy et autres intermédiaires peuvent traiter des réponses sans cet en-tête comme mis en cache par défaut. Ce traitement peut entraîner la mise en cache par inadvertance des informations sensibles. Consultez [le document RFC 2616, s. 13.4](https://tools.ietf.org/html/rfc2616) pour plus d’informations.  
   
  ]]></format>
         </remarks>
@@ -3122,8 +3122,8 @@ Response.RedirectToRoutePermanent("Product",
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit une valeur qui spécifie si la redirection d'authentification par formulaire à la page de connexion doit être supprimée.</summary>
-        <value><see langword="true" /> si la redirection authentification par formulaire doit être supprimée ; sinon <see langword="false" />.</value>
+        <summary>Obtient ou définit une valeur qui indique si la redirection d'authentification par formulaire à la page de connexion doit être supprimée.</summary>
+        <value><see langword="true" /> si la redirection d'authentification par formulaire doit être supprimée ; sinon, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3167,7 +3167,7 @@ Response.RedirectToRoutePermanent("Product",
         <param name="filename">Nom du fichier à écrire dans la sortie HTTP.</param>
         <summary>Écrit le fichier spécifié directement dans un flux de sortie de réponse HTTP sans le placer en mémoire tampon.</summary>
         <remarks>To be added.</remarks>
-        <exception cref="T:System.ArgumentNullException">Le paramètre <paramref name="filename" /> est <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException">Le <paramref name="filename" /> est de paramètre <see langword="null" /></exception>
       </Docs>
     </Member>
     <Member MemberName="TransmitFile">
@@ -3193,7 +3193,7 @@ Response.RedirectToRoutePermanent("Product",
       </Parameters>
       <Docs>
         <param name="filename">Nom du fichier à écrire dans la sortie HTTP.</param>
-        <param name="offset">Position dans le fichier à partir de laquelle commencer l'écriture vers la sortie HTTP.</param>
+        <param name="offset">Position dans le fichier d'où commence l'écriture vers la sortie HTTP.</param>
         <param name="length">Nombre d'octets à transmettre.</param>
         <summary>Écrit la partie spécifiée d'un fichier directement dans un flux de sortie de réponse HTTP sans la placer en mémoire tampon.</summary>
         <remarks>
@@ -3210,15 +3210,15 @@ ou
 Le paramètre <paramref name="length" /> est inférieur à -1.  
   
 ou 
-Le paramètre <paramref name="length" /> spécifie un nombre d'octets supérieur au nombre d'octets que le fichier contient (moins la valeur offset).</exception>
-        <exception cref="T:System.PlatformNotSupportedException">La requête de travail hors processus n'est pas prise en charge.  
+Le <paramref name="length" /> paramètre spécifie un nombre d’octets est supérieur au nombre d’octets que le fichier contient moins le décalage.</exception>
+        <exception cref="T:System.PlatformNotSupportedException">La demande de travail hors processus n’est pas prise en charge.  
   
 ou 
-La réponse n'utilise pas d'objet <see cref="T:System.Web.HttpWriter" />.</exception>
-        <exception cref="T:System.ArgumentException">Le paramètre <paramref name="offset" /> est inférieur à zéro ou supérieur à la taille du fichier.  
+La réponse n’utilise pas un <see cref="T:System.Web.HttpWriter" /> objet.</exception>
+        <exception cref="T:System.ArgumentException">Le <paramref name="offset" /> paramètre est inférieur à zéro ou supérieur à la taille du fichier.  
   
 ou 
-Le paramètre <paramref name="length" /> est inférieur à -1 ou supérieur à la valeur du paramètre <paramref name="offset" /> plus la taille du fichier.</exception>
+Le <paramref name="length" /> paramètre est inférieur à -1 ou supérieur à la valeur de la <paramref name="offset" /> paramètre ainsi que la taille du fichier.</exception>
       </Docs>
     </Member>
     <Member MemberName="TrySkipIisCustomErrors">
@@ -3239,7 +3239,7 @@ Le paramètre <paramref name="length" /> est inférieur à -1 ou supérieur à l
       </ReturnValue>
       <Docs>
         <summary>Obtient ou définit une valeur qui indique si les erreurs personnalisées d'[!INCLUDE[iisver](~/includes/iisver-md.md)] sont désactivées.</summary>
-        <value><see langword="true" /> pour des erreurs personnalisées désactivées ; sinon, <see langword="false" />.</value>
+        <value><see langword="true" /> pour des erreurs personnalisées IIS désactivées ; sinon, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3256,7 +3256,7 @@ Le paramètre <paramref name="length" /> est inférieur à -1 ou supérieur à l
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Écrit des informations dans le flux de sortie de réponse HTTP.</summary>
+        <summary>Écrit les informations dans un flux de sortie de réponse HTTP.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="Write">
@@ -3280,7 +3280,7 @@ Le paramètre <paramref name="length" /> est inférieur à -1 ou supérieur à l
         <Parameter Name="ch" Type="System.Char" />
       </Parameters>
       <Docs>
-        <param name="ch">Caractère à écrire vers le flux de sortie HTTP.</param>
+        <param name="ch">Caractère à écrire dans le flux de sortie HTTP.</param>
         <summary>Écrit un caractère dans un flux de sortie de réponse HTTP.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -3317,7 +3317,7 @@ Le paramètre <paramref name="length" /> est inférieur à -1 ou supérieur à l
       </Parameters>
       <Docs>
         <param name="obj"><see cref="T:System.Object" /> à écrire dans le flux de sortie HTTP.</param>
-        <summary>Écrit <see cref="T:System.Object" /> dans un flux de réponse HTTP.</summary>
+        <summary>Écrit un <see cref="T:System.Object" /> dans un flux de réponse HTTP.</summary>
         <remarks>To be added.</remarks>
       </Docs>
     </Member>
@@ -3392,7 +3392,7 @@ Le paramètre <paramref name="length" /> est inférieur à -1 ou supérieur à l
       </Parameters>
       <Docs>
         <param name="buffer">Tableau de caractères à écrire.</param>
-        <param name="index">Emplacement dans le tableau de caractères où l'écriture commence.</param>
+        <param name="index">Emplacement dans le tableau de caractères où débute l'écriture.</param>
         <param name="count">Nombre de caractères à écrire, à partir de <paramref name="index" />.</param>
         <summary>Écrit un tableau de caractères dans un flux de sortie de réponse HTTP.</summary>
         <remarks>
@@ -3439,7 +3439,7 @@ Le paramètre <paramref name="length" /> est inférieur à -1 ou supérieur à l
       </Parameters>
       <Docs>
         <param name="filename">Nom du fichier à écrire dans la sortie HTTP.</param>
-        <summary>Écrit le contenu du fichier spécifié directement dans un flux de sortie de réponse HTTP comme un bloc de fichier.</summary>
+        <summary>Écrit le contenu du fichier spécifié directement dans un flux de sortie de réponse HTTP sous forme de bloc de fichier.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3483,7 +3483,7 @@ Le paramètre <paramref name="length" /> est inférieur à -1 ou supérieur à l
       <Docs>
         <param name="filename">Nom du fichier à écrire dans un bloc de mémoire.</param>
         <param name="readIntoMemory">Indique si le fichier sera écrit dans un bloc de mémoire.</param>
-        <summary>Écrit le contenu du fichier spécifié directement dans un flux de sortie de réponse HTTP comme un bloc de mémoire.</summary>
+        <summary>Écrit le contenu du fichier spécifié directement dans un flux de sortie de réponse HTTP sous forme de bloc de mémoire.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3526,7 +3526,7 @@ Le paramètre <paramref name="length" /> est inférieur à -1 ou supérieur à l
         <Parameter Name="size" Type="System.Int64" />
       </Parameters>
       <Docs>
-        <param name="fileHandle">Handle de fichier du fichier à écrire dans le flux de sortie HTTP.</param>
+        <param name="fileHandle">Handle du fichier à écrire dans le flux de sortie HTTP.</param>
         <param name="offset">Position de l'octet où l'écriture va commencer dans le fichier.</param>
         <param name="size">Nombre d'octets à écrire dans le flux de sortie.</param>
         <summary>Écrit le fichier spécifié directement dans un flux de sortie de réponse HTTP.</summary>
@@ -3546,7 +3546,7 @@ Le paramètre <paramref name="length" /> est inférieur à -1 ou supérieur à l
   
  ]]></format>
         </remarks>
-        <exception cref="T:System.ArgumentNullException"><paramref name="fileHandler" /> est <see langword="null" />.</exception>
+        <exception cref="T:System.ArgumentNullException"><paramref name="fileHandler" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.Web.HttpException"><paramref name="offset" /> est inférieur à 0.  
   
 ou 
@@ -3577,7 +3577,7 @@ ou
       </Parameters>
       <Docs>
         <param name="filename">Nom du fichier à écrire dans le flux de sortie HTTP.</param>
-        <param name="offset">Position de l'octet où l'écriture va commencer dans le fichier.</param>
+        <param name="offset">Position de l'octet où commencer l'écriture dans le fichier.</param>
         <param name="size">Nombre d'octets à écrire dans le flux de sortie.</param>
         <summary>Écrit le fichier spécifié directement dans un flux de sortie de réponse HTTP.</summary>
         <remarks>
@@ -3623,8 +3623,8 @@ ou
         <Parameter Name="callback" Type="System.Web.HttpResponseSubstitutionCallback" Index="0" FrameworkAlternate="netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8" />
       </Parameters>
       <Docs>
-        <param name="callback">La méthode, le contrôle utilisateur ou l'objet à substituer.</param>
-        <summary>Autorise l'insertion de blocs de substitution de réponse dans la réponse ; cette technique permet la génération dynamique de régions de réponse spécifiées pour les réponses mises en cache de sortie.</summary>
+        <param name="callback">Méthode, contrôle utilisateur ou objet à substituer.</param>
+        <summary>Autorise l'insertion de blocs de substitution de réponse dans la réponse ; cette technique permet la génération dynamique de régions de réponse spécifiées pour les réponses de sortie mises en cache.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
