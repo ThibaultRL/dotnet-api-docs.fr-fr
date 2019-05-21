@@ -1,5 +1,5 @@
 <Type Name="ProtectedData" FullName="System.Security.Cryptography.ProtectedData">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="bcc571c1b9e91c577a9733b53e867330b9c48f83" /><Meta Name="ms.sourcegitcommit" Value="220917117f9d774aaa482439aa7324e39dc1f5b6" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="02/25/2019" /><Meta Name="ms.locfileid" Value="56771496" /></Metadata><TypeSignature Language="C#" Value="public sealed class ProtectedData" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="38eb090e97e5972009f0065e48a5b55765ceee17" /><Meta Name="ms.sourcegitcommit" Value="3575d47a0ba065e8986f03d99279f478811907b8" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="05/20/2019" /><Meta Name="ms.locfileid" Value="65922700" /></Metadata><TypeSignature Language="C#" Value="public sealed class ProtectedData" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed beforefieldinit ProtectedData extends System.Object" />
   <TypeSignature Language="DocId" Value="T:System.Security.Cryptography.ProtectedData" />
   <TypeSignature Language="VB.NET" Value="Public NotInheritable Class ProtectedData" />
@@ -28,15 +28,17 @@
     <remarks>
       <format type="text/markdown"><![CDATA[  
   
-## Remarks  
- Cette classe fournit l’accès à l’API de Protection des données (DPAPI) disponible dans Microsoft Windows 2000 et les systèmes d’exploitation ultérieurs. Il s’agit d’un service qui est fourni par le système d’exploitation et ne nécessite pas de bibliothèques supplémentaires. Elle offre une protection à l’aide des informations d’identification de l’utilisateur ou l’ordinateur pour chiffrer ou déchiffrer des données.  
+## Remarks
+
+Cette classe fournit l’accès à l’API de Protection des données (DPAPI) disponible dans les systèmes d’exploitation Windows. Il s’agit d’un service qui est fourni par le système d’exploitation et ne nécessite pas de bibliothèques supplémentaires. Elle offre une protection à l’aide des informations d’identification de l’utilisateur ou l’ordinateur pour chiffrer ou déchiffrer des données.
+
+> [!IMPORTANT]
+> Car il repose sur DPAPI, la `ProtectedData` classe est prise en charge sur la plateforme Windows uniquement. Son utilisation sur .NET Core sur les plates-formes autres que Windows lève un <xref:System.PlatformNotSupportedException>.
   
- La classe se compose de deux wrappers pour l’interface DPAPI non managé, <xref:System.Security.Cryptography.ProtectedData.Protect%2A> et <xref:System.Security.Cryptography.ProtectedData.Unprotect%2A>. Ces deux méthodes peuvent être utilisées pour chiffrer et déchiffrer des données telles que les mots de passe, les clés et les chaînes de connexion.  
+La classe se compose de deux wrappers pour l’interface DPAPI non managé, <xref:System.Security.Cryptography.ProtectedData.Protect%2A> et <xref:System.Security.Cryptography.ProtectedData.Unprotect%2A>. Ces deux méthodes peuvent être utilisées pour chiffrer et déchiffrer des données telles que les mots de passe, les clés et les chaînes de connexion.  
   
- Si vous utilisez ces méthodes pendant l’emprunt d’identité, vous pouvez recevoir l’erreur suivante : « Clé non valide pour une utilisation dans l’état spécifié. » Cela se produit, car l’interface DPAPI stocke les données de clé dans les profils utilisateur. Si le profil n’est pas chargé, DPAPI ne pourrez pas effectuer le déchiffrement. Pour éviter cette erreur, charger le profil de l’utilisateur que vous souhaitez emprunter l’identité avant d’appeler soit la méthode. À l’aide de DPAPI avec l’emprunt d’identité peuvent entraîner une baisse significative complication et nécessite des choix de conception minutieuse.  
-  
-   
-  
+Si vous utilisez ces méthodes pendant l’emprunt d’identité, vous pouvez recevoir l’erreur suivante : « Clé non valide pour une utilisation dans l’état spécifié. » Cela se produit, car l’interface DPAPI stocke les données de clé dans les profils utilisateur. Si le profil n’est pas chargé, DPAPI ne pourrez pas effectuer le déchiffrement. Pour éviter cette erreur, charger le profil de l’utilisateur que vous souhaitez emprunter l’identité avant d’appeler soit la méthode. À l’aide de DPAPI avec l’emprunt d’identité peuvent entraîner une baisse significative complication et nécessite des choix de conception minutieuse.  
+
 ## Examples  
  L’exemple suivant montre comment utiliser la protection des données.  
   
@@ -84,9 +86,9 @@
         <Parameter Name="scope" Type="System.Security.Cryptography.DataProtectionScope" />
       </Parameters>
       <Docs>
-        <param name="userData">Tableau d'octets qui contient les données à chiffrer.</param>
-        <param name="optionalEntropy">Le tableau d'octets supplémentaire facultatif utilisé pour augmenter la complexité du chiffrement, ou <see langword="null" /> pour aucune complexité supplémentaire.</param>
-        <param name="scope">Une des valeurs d'énumération qui spécifie la portée du chiffrement.</param>
+        <param name="userData">Tableau d’octets qui contient les données à chiffrer.</param>
+        <param name="optionalEntropy">Un tableau d’octets supplémentaire facultatif utilisé pour augmenter la complexité du chiffrement, ou <see langword="null" /> pour aucune complexité supplémentaire.</param>
+        <param name="scope">Une des valeurs d’énumération qui spécifie la portée du chiffrement.</param>
         <summary>Chiffre les données contenues dans un tableau d'octets spécifié et retourne un tableau d'octets contenant les données chiffrées.</summary>
         <returns>Tableau d'octets représentant les données chiffrées.</returns>
         <remarks>
@@ -111,8 +113,9 @@
         </remarks>
         <exception cref="T:System.ArgumentNullException">Le paramètre <paramref name="userData" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.Security.Cryptography.CryptographicException">Le chiffrement a échoué.</exception>
-        <exception cref="T:System.NotSupportedException">Le système d'exploitation ne prend pas en charge cette méthode.</exception>
-        <exception cref="T:System.OutOfMemoryException">Le système s'est trouvé à court de mémoire pendant le chiffrement des données.</exception>
+        <exception cref="T:System.NotSupportedException">Le système d’exploitation ne prend pas en charge cette méthode.</exception>
+        <exception cref="T:System.OutOfMemoryException">Le système a manqué de mémoire pendant le chiffrement des données.</exception>
+        <exception cref="T:System.PlatformNotSupportedException">.NET Core uniquement : Les appels à la <c>protéger</c> méthode sont prises en charge sur les systèmes d’exploitation Windows uniquement.</exception>
         <permission cref="T:System.Security.Permissions.DataProtectionPermission">avec associé <see cref="P:System.Security.Permissions.DataProtectionPermissionAttribute.ProtectData" /> indicateur pour l’autorisation protéger les données.</permission>
       </Docs>
     </Member>
@@ -152,9 +155,9 @@
         <Parameter Name="scope" Type="System.Security.Cryptography.DataProtectionScope" />
       </Parameters>
       <Docs>
-        <param name="encryptedData">Un tableau d'octets contenant des données chiffrées à l'aide de la méthode <see cref="M:System.Security.Cryptography.ProtectedData.Protect(System.Byte[],System.Byte[],System.Security.Cryptography.DataProtectionScope)" />.</param>
-        <param name="optionalEntropy">Le tableau d'octets supplémentaire facultatif qui a été utilisé pour chiffrer les données, ou <see langword="null" /> si le tableau d'octets supplémentaire n'a pas été utilisé.</param>
-        <param name="scope">Une des valeurs d'énumération qui spécifie la portée de la protection des données utilisée pour chiffrer les données.</param>
+        <param name="encryptedData">Un tableau d’octets contenant des données chiffrées à l’aide de la <see cref="M:System.Security.Cryptography.ProtectedData.Protect(System.Byte[],System.Byte[],System.Security.Cryptography.DataProtectionScope)" /> (méthode).</param>
+        <param name="optionalEntropy">Tableau d’octets supplémentaire facultatif qui a été utilisé pour chiffrer les données, ou <see langword="null" /> si le tableau d’octets supplémentaire n’a pas été utilisé.</param>
+        <param name="scope">Une des valeurs d’énumération qui spécifie la portée de protection des données qui a été utilisée pour chiffrer les données.</param>
         <summary>Déchiffre les données contenues dans un tableau d'octets spécifié et retourne un tableau d'octets contenant les données déchiffrées.</summary>
         <returns>Tableau d'octets représentant les données déchiffrées.</returns>
         <remarks>
@@ -179,8 +182,9 @@
         </remarks>
         <exception cref="T:System.ArgumentNullException">Le paramètre <paramref name="encryptedData" /> a la valeur <see langword="null" />.</exception>
         <exception cref="T:System.Security.Cryptography.CryptographicException">Le déchiffrement a échoué.</exception>
-        <exception cref="T:System.NotSupportedException">Le système d'exploitation ne prend pas en charge cette méthode.</exception>
+        <exception cref="T:System.NotSupportedException">Le système d’exploitation ne prend pas en charge cette méthode.</exception>
         <exception cref="T:System.OutOfMemoryException">Mémoire insuffisante.</exception>
+        <exception cref="T:System.PlatformNotSupportedException">.NET Core uniquement : Les appels à la <c>Unprotect</c> méthode sont prises en charge sur les systèmes d’exploitation Windows uniquement.</exception>
         <permission cref="T:System.Security.Permissions.DataProtectionPermission">avec associé <see cref="P:System.Security.Permissions.DataProtectionPermissionAttribute.UnprotectData" /> indicateur pour l’autorisation ôter la protection des données.</permission>
       </Docs>
     </Member>

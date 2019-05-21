@@ -1,5 +1,5 @@
 <Type Name="CultureInfo" FullName="System.Globalization.CultureInfo">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="5d22463ac83363aad9b99f88b9600e59ebd2ac53" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58714276" /></Metadata><TypeSignature Language="C#" Value="public class CultureInfo : ICloneable, IFormatProvider" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="99a9c72622633b0afab49cf0a30001d21c76259e" /><Meta Name="ms.sourcegitcommit" Value="5ebd9691c6f7d50c4730e997fba69e54bdd7cc0c" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="05/17/2019" /><Meta Name="ms.locfileid" Value="65829767" /></Metadata><TypeSignature Language="C#" Value="public class CultureInfo : ICloneable, IFormatProvider" />
   <TypeSignature Language="ILAsm" Value=".class public sequential ansi serializable beforefieldinit CultureInfo extends System.Object implements class System.ICloneable, class System.IFormatProvider" />
   <TypeSignature Language="DocId" Value="T:System.Globalization.CultureInfo" />
   <TypeSignature Language="VB.NET" Value="Public Class CultureInfo&#xA;Implements ICloneable, IFormatProvider" />
@@ -60,7 +60,7 @@
  [Cultures invariants, neutres et spécifiques](#Invariant)   
  [Cultures personnalisées](#Custom)   
  [Données de culture dynamiques](#Dynamic)   
- [La culture actuelle et la culture d’interface utilisateur actuelle](#Current)   
+ [CultureInfo et données culturelles](#cultureinfo-and-cultural-data) [la culture actuelle et la culture d’interface utilisateur actuelle](#Current)   
  [Obtention de toutes les cultures](#GetAll)   
  [Culture et des threads](#Threads)   
  [Domaines d’application et de culture](#AppDomain)   
@@ -69,7 +69,7 @@
  [Remplace le panneau de configuration](#CPanel)   
  [Ordres de tri secondaires](#AlternateSort)   
  [Applications Windows et de culture](#Windows)  
-  
+
 <a name="CultureNames"></a>   
 ## <a name="culture-names-and-identifiers"></a>Identificateurs et noms de cultures  
  Le <xref:System.Globalization.CultureInfo> classe spécifie un nom unique pour chaque culture, en fonction de la norme RFC 4646. Le nom est une combinaison d’un code de culture en minuscules à deux lettres ISO 639 associé à une langue et un code de sous-culture à deux lettres majuscules ISO 3166 associé à un pays ou une région. En outre, pour les applications qui ciblent [!INCLUDE[net_v40_short](~/includes/net-v40-short-md.md)] ou version ultérieure et sont en cours d’exécution sous Windows 10 ou version ultérieure, les noms de cultures qui correspondent à la langue BCP-47 valide balises sont prises en charge.  
@@ -142,7 +142,27 @@
 -   N’oubliez pas que les cultures personnalisées remplacent les valeurs par défaut. Par conséquent, vous ne peut pas prendre en compte les données culture stables. Noms de pays, les formats de nombre et date, orthographes et peuvent changer à l’avenir. Si vous souhaitez sérialiser les données de la culture tels que les chaînes de date et l’heure à passer à la date et l’heure de fonctions d’analyse, vous devez utiliser la culture dite indifférente ou un spécifique.  
   
  Le <xref:System.Globalization.CultureInfo.CultureTypes%2A> inclut de la valeur de propriété de cultures personnalisées installé sur un système le <xref:System.Globalization.CultureTypes?displayProperty=nameWithType> indicateur et les cultures personnalisées sont affectés un <xref:System.Globalization.CultureInfo.LCID%2A> valeur de propriété de `LOCALE_CUSTOM_UNSPECIFIED` (0 x 1000 ou 4096). Notez que, à compter de Windows 10, cette valeur est également assignée à cultures définies par le système qui ne disposent pas de données culturelles terminées.  
-  
+
+## <a name="cultureinfo-and-cultural-data"></a>CultureInfo et données culturelles
+
+.NET dérive ses données culturelles de le des diverses sources, selon l’implémentation, la plateforme et version :
+
+- Dans .NET Framework 3.5 et versions antérieures, les données de culturels sont fournies par le système d’exploitation Windows et .NET Framework.
+
+- Dans .NET Framework 4 et versions ultérieures, les données culturelles sont fournies par le système d’exploitation Windows.
+
+- Dans toutes les versions de .NET Core s’exécutant sur Windows, les données culturelles sont fournies par le système d’exploitation Windows.
+
+- Dans toutes les versions de .NET Core en cours d’exécution sur les plateformes Unix, données culturelles sont fournies par le [International Components for Unicode (ICU) bibliothèque](http://site.icu-project.org/). La version spécifique de la bibliothèque ICU varie selon le système d’exploitation individuel.
+
+Pour cette raison, une culture disponible sur une implémentation, une plateforme ou une version .NET particulier n’est peut-être pas disponible sur une implémentation, une plateforme ou une version .NET différents.
+
+Certains `CultureInfo` objets diffèrent selon la plateforme sous-jacente. En particulier, « zh-CN », ou chinois (simplifié, Chine) et zh-TW ou chinois traditionnel (Taïwan), sont des cultures disponibles sur les systèmes Windows, mais ils sont des cultures un alias sur les systèmes Unix. « zh-CN » est un alias pour la culture « zh-Hans-CN » et « zh-TW » est un alias pour la culture « zh-Hant-TW ». Un alias cultures ne sont pas retournés par les appels à la <xref:System.Globalization.CultureInfo.GetCultures%2A> (méthode) et peut avoir différentes valeurs de propriété, y compris les différents <xref:System.Globalization.CultureInfo.Parent> cultures, que leurs homologues Windows. Pour les cultures zh-CN et zh-TW, ces differenes sont les suivants :
+
+- Sur les systèmes Windows, la culture parente de la culture « zh-CN » est « zh-Hans » et la culture parente de la culture « zh-TW » est « zh-Hant ». La culture parente de ces deux cultures est « zh ». Sur les systèmes Unix, les parents de ces deux cultures sont « zh ». Cela signifie que, si vous ne fournissez pas les ressources spécifiques à la culture pour les cultures « zh-CN » ou « zh-TW », mais fournissez une ressource pour la culture de « zh-Hant » ou un « zh-Hans « neutres, votre application chargera ainsi les ressources de la culture neutre sur Windows, mais pas sur Unix . Sur les systèmes Unix, vous devez définir explicitement le thread <xref:System.Globalization.CultureInfo.CurrentUICulture> à « zh-Hans » ou « zh-Hant ». 
+
+- Sur les systèmes Windows, l’appel <xref:System.Globalization.CultureInfo.Equals%2A?displayProperty=nameWithType> sur une instance qui représente la culture « zh-CN » et en lui passant une instance de « zh-Hans-CN » retourne `true`. Sur les systèmes Unix, l’appel de méthode retourne `false`. Ce comportement s’applique également à l’appel <xref:System.Globalization.CultureInfo.Equals%2A> sur un « zh-TW » <xref:System.Globalization.CultureInfo> instance et en lui passant une instance de « zh-Hant-Tw ».
+
 <a name="Dynamic"></a>   
 ## <a name="dynamic-culture-data"></a>Données de culture dynamiques  
  À l’exception de la culture dite indifférente, les données de la culture sont dynamiques. Cela est vrai même pour les cultures prédéfinies. Par exemple, les pays ou régions adoptent de nouvelles devises, modifier leur orthographe des mots ou modifier leur calendrier par défaut, et modifier des définitions de culture pour effectuer ce suivi.  Cultures personnalisées sont susceptibles de changer sans préavis et n’importe quelle culture spécifique peut être substituée par une culture de remplacement personnalisé. En outre, comme indiqué ci-dessous, un utilisateur individuel peut substituer des préférences culturelles. Les applications doivent toujours obtenir les données de la culture en cours d’exécution.  
@@ -152,7 +172,7 @@
   
 <a name="Current"></a>   
 ## <a name="the-current-culture-and-current-ui-culture"></a>La culture actuelle et la culture d’interface utilisateur actuelle  
- Chaque thread dans une application .NET Framework a une culture actuelle et une culture d’interface utilisateur actuelle. La culture actuelle détermine les conventions de mise en forme pour les dates, heures, nombres et les valeurs de devise, l’ordre de tri de texte, les conventions de casse et les façons dont les chaînes sont comparées. La culture d’interface utilisateur actuelle est utilisée pour récupérer des ressources spécifiques à la culture lors de l’exécution.  
+ Chaque thread dans une application .NET a une culture actuelle et une culture d’interface utilisateur actuelle. La culture actuelle détermine les conventions de mise en forme pour les dates, heures, nombres et les valeurs de devise, l’ordre de tri de texte, les conventions de casse et les façons dont les chaînes sont comparées. La culture d’interface utilisateur actuelle est utilisée pour récupérer des ressources spécifiques à la culture lors de l’exécution.  
   
 > [!NOTE]
 >  Pour plus d’informations sur la détermination de la culture d’interface utilisateur actuelle et en cours sur un thread par thread, consultez la [Culture et les threads](#Threads) section. Pour plus d’informations sur la détermination de la culture d’interface utilisateur actuelle et en cours sur les threads de l’exécution dans un domaine d’application et sur les threads qui traversent les limites du domaine d’application, consultez le [Culture et les domaines d’application](#AppDomain) section. Pour plus d’informations sur la détermination de l’actuel et en cours sur les threads effectuant des opérations asynchrones basées sur des tâches, consultez le [Culture et opérations asynchrones basées sur les tâches](#Async) section.  
@@ -187,7 +207,7 @@
   
 1.  Instancier un <xref:System.Globalization.CultureInfo> objet qui représente cette culture en appelant un <xref:System.Globalization.CultureInfo> classe constructeur et en lui passant le nom de la culture. Le <xref:System.Globalization.CultureInfo.%23ctor%28System.String%29> constructeur instancie un <xref:System.Globalization.CultureInfo> objet qui reflète l’utilisateur remplace si la nouvelle culture est identique à la culture actuelle de Windows.   Le <xref:System.Globalization.CultureInfo.%23ctor%28System.String%2CSystem.Boolean%29> constructeur vous permet de spécifier si nouvellement instancié <xref:System.Globalization.CultureInfo> objet reflète les remplacements d’utilisateur si la nouvelle culture est identique à la culture actuelle de Windows.  
   
-2.  Affecter le <xref:System.Globalization.CultureInfo> de l’objet à la <xref:System.Threading.Thread.CurrentCulture%2A?displayProperty=nameWithType> ou <xref:System.Threading.Thread.CurrentUICulture%2A?displayProperty=nameWithType> propriété. En outre, pour les applications en cours d’exécution sur la version 4.6 ou ultérieure du .NET Framework de bureau, vous pouvez également affecter la <xref:System.Globalization.CultureInfo> de l’objet à la <xref:System.Globalization.CultureInfo.CurrentCulture%2A?displayProperty=nameWithType> ou <xref:System.Globalization.CultureInfo.CurrentUICulture%2A?displayProperty=nameWithType> propriété.  
+2.  Affecter le <xref:System.Globalization.CultureInfo> de l’objet à la <xref:System.Globalization.CultureInfo.CurrentCulture%2A?displayProperty=nameWithType> ou <xref:System.Globalization.CultureInfo.CurrentUICulture%2A?displayProperty=nameWithType> propriété sur .NET Core et .NET Framework 4.6 et versions ultérieures. (Sur .NET Framework 4.5.2 et versions antérieures, youc une attribuer le `CultureInfo` de l’objet à la <xref:System.Threading.Thread.CurrentCulture%2A?displayProperty=nameWithType> ou <xref:System.Threading.Thread.CurrentUICulture%2A?displayProperty=nameWithType> propriété.)   
   
  L’exemple suivant récupère la culture actuelle. Si elle n’est pas la culture Français (France), il remplace la culture actuelle par Français (France). Sinon, il remplace la culture actuelle par Français (Luxembourg).  
   
@@ -277,15 +297,15 @@
  [!code-csharp[System.Globalization.CultureInfo.Class.Async#4](~/samples/snippets/csharp/VS_Snippets_CLR_System/system.globalization.cultureinfo.class.async/cs/asyncculture4.cs#4)]
  [!code-vb[System.Globalization.CultureInfo.Class.Async#4](~/samples/snippets/visualbasic/VS_Snippets_CLR_System/system.globalization.cultureinfo.class.async/vb/asyncculture4.vb#4)]  
   
-<a name="Serialization"></a>   
+<a name="Serialization"></a>  
 ## <a name="cultureinfo-object-serialization"></a>Sérialisation d’un objet CultureInfo  
  Quand un <xref:System.Globalization.CultureInfo> objet est sérialisé, tout ce qui est réellement stocké est <xref:System.Globalization.CultureInfo.Name%2A> et <xref:System.Globalization.CultureInfo.UseUserOverride%2A>. Il est désérialisé avec succès uniquement dans un environnement où qui <xref:System.Globalization.CultureInfo.Name%2A> a la même signification. Les trois exemples suivants montrent pourquoi cela n’est pas toujours le cas :  
   
--   Si le <xref:System.Globalization.CultureInfo.CultureTypes%2A> valeur de propriété est <xref:System.Globalization.CultureTypes?displayProperty=nameWithType>, et si cette culture a été introduite dans Windows Vista ou une version ultérieure du système d’exploitation Windows, il n’est pas possible de le désérialiser sur Windows XP. De même, si la culture a été introduite dans Windows XP Service Pack 2, il n’est pas possible de le désérialiser pour un système Windows XP sur lequel la culture n’a pas été installée.  
+- Si le <xref:System.Globalization.CultureInfo.CultureTypes%2A> valeur de propriété est <xref:System.Globalization.CultureTypes.InstalledWin32Cultures?displayProperty=nameWithType>, et si cette culture a été introduite dans une version particulière du système d’exploitation Windows, il n’est pas possible de le désérialiser sur une version antérieure de Windows. Par exemple, si une culture a été introduite dans Windows 10, il ne peut pas être désérialisé sur Windows 8.  
   
--   Si le <xref:System.Globalization.CultureInfo.CultureTypes%2A> valeur est <xref:System.Globalization.CultureTypes?displayProperty=nameWithType>et l’ordinateur sur lequel il est désérialisé n’a pas de cette culture personnalisée utilisateur installée, il n’est pas possible de le désérialiser.  
+-   Si le <xref:System.Globalization.CultureInfo.CultureTypes%2A> valeur est <xref:System.Globalization.CultureTypes.UserCustomCulture?displayProperty=nameWithType>et l’ordinateur sur lequel il est désérialisé n’a pas de cette culture personnalisée utilisateur installée, il n’est pas possible de le désérialiser.  
   
--   Si le <xref:System.Globalization.CultureInfo.CultureTypes%2A> valeur est <xref:System.Globalization.CultureTypes?displayProperty=nameWithType>et l’ordinateur sur lequel il est désérialisé ne dispose pas de cette culture de remplacement, il désérialise pour le même nom, mais pas toutes les mêmes caractéristiques. Par exemple, si en-US est une culture de remplacement sur l’ordinateur A, mais pas sur l’ordinateur B et si un <xref:System.Globalization.CultureInfo> objet faisant référence à cette culture est sérialisé sur l’ordinateur A et désérialisé sur l’ordinateur B, aucune des caractéristiques personnalisées de la culture sont transmis. La culture est désérialisée avec succès, mais avec une signification différente.  
+-   Si le <xref:System.Globalization.CultureInfo.CultureTypes%2A> valeur est <xref:System.Globalization.CultureTypes.ReplacementCultures?displayProperty=nameWithType>et l’ordinateur sur lequel il est désérialisé ne dispose pas de cette culture de remplacement, il désérialise pour le même nom, mais pas toutes les mêmes caractéristiques. Par exemple, si en-US est une culture de remplacement sur l’ordinateur A, mais pas sur l’ordinateur B et si un <xref:System.Globalization.CultureInfo> objet faisant référence à cette culture est sérialisé sur l’ordinateur A et désérialisé sur l’ordinateur B, aucune des caractéristiques personnalisées de la culture sont transmis. La culture désérialise avec succès, mais avec une signification différente.  
   
 <a name="CPanel"></a>   
 ## <a name="control-panel-overrides"></a>Remplace le panneau de configuration  
@@ -295,7 +315,7 @@
   
 <a name="AlternateSort"></a>   
 ## <a name="alternate-sort-orders"></a>Ordres de tri secondaires  
- Certaines cultures prennent en charge plus d’un ordre de tri. Par exemple :  
+ Certaines cultures prennent en charge plus d’un ordre de tri. Exemple :  
   
 -   La culture Espagnol (Espagne) a deux ordres de tri : l’ordre de tri international par défaut et l’ordre de tri traditionnel. Lorsque vous instanciez un <xref:System.Globalization.CultureInfo> de l’objet portant le nom de culture es-ES, l’ordre de tri international est utilisé. Lorsque vous instanciez un <xref:System.Globalization.CultureInfo> de l’objet avec le nom de culture de es-ES-tradnl, l’ordre de tri traditionnel est utilisé.  
   
@@ -460,7 +480,7 @@ Dans les applications .NET Framework et .NET Core, la culture actuelle est un pa
       </Parameters>
       <Docs>
         <param name="name">Nom de <see cref="T:System.Globalization.CultureInfo" /> prédéfini, élément <see cref="P:System.Globalization.CultureInfo.Name" /> d'un élément <see cref="T:System.Globalization.CultureInfo" /> existant ou nom de culture propre à Windows. <paramref name="name" /> ne respecte pas la casse.</param>
-        <summary>Initialise une nouvelle instance de la classe <see cref="T:System.Globalization.CultureInfo" /> en fonction de la culture spécifiée par nom.</summary>
+        <summary>Initialise une nouvelle instance de la classe <see cref="T:System.Globalization.CultureInfo" /> basée sur la culture spécifiée par le nom.</summary>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -701,7 +721,7 @@ Dans les applications .NET Framework et .NET Core, la culture actuelle est un pa
       </ReturnValue>
       <Docs>
         <summary>Obtient le calendrier par défaut utilisé par la culture.</summary>
-        <value><see cref="T:System.Globalization.Calendar" /> qui représente le calendrier par défaut utilisé par la culture.</value>
+        <value>Élément <see cref="T:System.Globalization.Calendar" /> qui représente le calendrier par défaut utilisé par la culture.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1364,8 +1384,8 @@ Dans les applications .NET Framework et .NET Core, la culture d’interface util
         <ReturnType>System.Globalization.DateTimeFormatInfo</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit un <see cref="T:System.Globalization.DateTimeFormatInfo" /> qui définit le format d'affichage des dates et de l'heure approprié pour la culture.</summary>
-        <value><see cref="T:System.Globalization.DateTimeFormatInfo" /> qui définit le format d'affichage des dates et de l'heure approprié pour la culture.</value>
+        <summary>Obtient ou définit un élément <see cref="T:System.Globalization.DateTimeFormatInfo" /> qui définit le format d'affichage des dates et heures culturellement approprié.</summary>
+        <value>Élément <see cref="T:System.Globalization.DateTimeFormatInfo" /> qui définit le format d'affichage des dates et des heures culturellement approprié.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1390,7 +1410,7 @@ Dans les applications .NET Framework et .NET Core, la culture d’interface util
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">La propriété a la valeur null.</exception>
-        <exception cref="T:System.InvalidOperationException">La propriété <see cref="P:System.Globalization.CultureInfo.DateTimeFormat" /> ou une des propriétés <see cref="T:System.Globalization.DateTimeFormatInfo" /> est définie et <see cref="T:System.Globalization.CultureInfo" /> est en lecture seule.</exception>
+        <exception cref="T:System.InvalidOperationException">La propriété <see cref="P:System.Globalization.CultureInfo.DateTimeFormat" /> ou l’une des propriétés <see cref="T:System.Globalization.DateTimeFormatInfo" /> est définie, et le <see cref="T:System.Globalization.CultureInfo" /> est en lecture seule.</exception>
         <block subset="none" type="usage"><para>Si <see cref="P:System.Globalization.DateTimeFormatInfo.Calendar" /> est la <see cref="T:System.Globalization.TaiwanCalendar" /> mais le <see cref="P:System.Threading.Thread.CurrentCulture" /> n’est pas définie pour le chinois (Taïwan), appelé zh-TW, puis <see cref="P:System.Globalization.DateTimeFormatInfo.NativeCalendarName" />, <see cref="M:System.Globalization.DateTimeFormatInfo.GetEraName(System.Int32)" />, et <see cref="M:System.Globalization.DateTimeFormatInfo.GetAbbreviatedEraName(System.Int32)" /> retourne une chaîne vide (« »).</para></block>
         <altmember cref="T:System.Globalization.DateTimeFormatInfo" />
         <altmember cref="M:System.Globalization.CultureInfo.GetFormat(System.Type)" />
@@ -1434,8 +1454,8 @@ Dans les applications .NET Framework et .NET Core, la culture d’interface util
         <ReturnType>System.Globalization.CultureInfo</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit la culture par défaut pour les threads dans le domaine d'application en cours.</summary>
-        <value>Culture par défaut pour les threads dans le domaine d'application en cours, ou <see langword="null" /> si la culture système en cours est la culture du thread par défaut dans le domaine d'application.</value>
+        <summary>Obtient ou définit la culture par défaut pour les threads dans le domaine d'application actuel.</summary>
+        <value>Culture par défaut pour les threads dans le domaine d'application actuel, ou <see langword="null" /> si la culture du système actuelle est la culture du thread par défaut dans le domaine d'application.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1559,7 +1579,7 @@ resgen greetingstrings.ru-RU.txt
 vbc Example1.vb /resource:GreetingStrings.resources  
 ```  
   
- Pour le compilateur C#, la commande est similaire :  
+ Pour le compilateur c#, la commande est similaire :  
   
 ```console  
 csc /resource:GreetingStrings.resources Example1.cs  
@@ -1778,8 +1798,8 @@ csc /resource:GreetingStrings.resources Example1.cs
       </Parameters>
       <Docs>
         <param name="value">Objet à comparer au <see cref="T:System.Globalization.CultureInfo" /> actif.</param>
-        <summary>Détermine si la culture de l'objet spécifié est identique à celle du <see cref="T:System.Globalization.CultureInfo" /> en cours.</summary>
-        <returns><see langword="true" /> si <paramref name="value" /> est la même culture que celle du <see cref="T:System.Globalization.CultureInfo" /> en cours ; sinon, <see langword="false" />.</returns>
+        <summary>Détermine si l'objet spécifié est la même culture que l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel.</summary>
+        <returns><see langword="true" /> si <paramref name="value" /> est la même culture que l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel ; sinon, <see langword="false" />.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -1833,7 +1853,7 @@ csc /resource:GreetingStrings.resources Example1.cs
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Obtient une autre culture de l'interface utilisateur qui convient aux applications console lorsque la culture de l'interface utilisateur graphique par défaut est inappropriée.</summary>
+        <summary>Obtient une autre culture de l'interface utilisateur qui convient aux applications de console quand la culture de l'interface graphique par défaut est inappropriée.</summary>
         <returns>Autre culture utilisée pour lire et afficher le texte dans la console.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -1926,7 +1946,7 @@ csc /resource:GreetingStrings.resources Example1.cs
 |Thaï (Thaïlande)|th-Th|fr-FR|  
 |OUÏGOUR|groupe d’utilisateurs|fr-FR|  
 |Ouïgour (RPC)|ug-CN|fr-FR|  
-|Ourdou|votre|fr-FR|  
+|Urdu|votre|fr-FR|  
 |Urdu (Pakistan)|votre clé primaire / clé|fr-FR|  
 |Vietnamien|vi|fr-FR|  
 |Vietnamien (Vietnam)|vi-VN|fr-FR|  
@@ -1953,7 +1973,7 @@ csc /resource:GreetingStrings.resources Example1.cs
         <AssemblyVersion>4.0.0.0</AssemblyVersion>
       </AssemblyInfo>
       <Docs>
-        <summary>Récupère l'instance mise en cache et en lecture seule d'une culture.</summary>
+        <summary>Récupère une instance mise en cache et en lecture seule d'une culture.</summary>
       </Docs>
     </MemberGroup>
     <Member MemberName="GetCultureInfo">
@@ -2045,7 +2065,7 @@ csc /resource:GreetingStrings.resources Example1.cs
       </Parameters>
       <Docs>
         <param name="name">Nom d'une culture. <paramref name="name" /> ne respecte pas la casse.</param>
-        <summary>Récupère l'instance mise en cache et en lecture seule d'une culture à l'aide du nom de culture spécifié.</summary>
+        <summary>Récupère une instance mise en cache et en lecture seule d'une culture en utilisant le nom de culture spécifié.</summary>
         <returns>Objet <see cref="T:System.Globalization.CultureInfo" /> en lecture seule.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -2104,7 +2124,7 @@ csc /resource:GreetingStrings.resources Example1.cs
       <Docs>
         <param name="name">Nom d'une culture. <paramref name="name" /> ne respecte pas la casse.</param>
         <param name="altName">Nom d'une culture qui fournit les objets <see cref="T:System.Globalization.TextInfo" /> et <see cref="T:System.Globalization.CompareInfo" /> utilisés pour initialiser <paramref name="name" />. <paramref name="altName" /> ne respecte pas la casse.</param>
-        <summary>Récupère l'instance mise en cache et en lecture seule d'une culture. Les paramètres spécifient une culture qui est initialisée avec les objets <see cref="T:System.Globalization.TextInfo" /> et <see cref="T:System.Globalization.CompareInfo" /> spécifiés par une autre culture.</summary>
+        <summary>Récupère une instance mise en cache et en lecture seule d'une culture. Les paramètres spécifient une culture qui est initialisée avec les objets <see cref="T:System.Globalization.TextInfo" /> et <see cref="T:System.Globalization.CompareInfo" /> spécifiés par une autre culture.</summary>
         <returns>Objet <see cref="T:System.Globalization.CultureInfo" /> en lecture seule.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -2159,8 +2179,8 @@ csc /resource:GreetingStrings.resources Example1.cs
         <Parameter Name="name" Type="System.String" Index="0" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netstandard-2.1" />
       </Parameters>
       <Docs>
-        <param name="name">Nom d'une langue tel que spécifié par la norme RFC 4646.</param>
-        <summary>Obsolète. Récupère un objet <see cref="T:System.Globalization.CultureInfo" /> en lecture seule ayant des caractéristiques linguistiques identifiées par la balise de langue RFC 4646 spécifiée.</summary>
+        <param name="name">Nom d'une langue tel qu'il est spécifié par la norme RFC 4646.</param>
+        <summary>Obsolète. Récupère un objet <see cref="T:System.Globalization.CultureInfo" /> en lecture seule ayant des caractéristiques linguistiques identifiées par l’étiquette de langue RFC 4646 spécifiée.</summary>
         <returns>Objet <see cref="T:System.Globalization.CultureInfo" /> en lecture seule.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -2223,8 +2243,8 @@ csc /resource:GreetingStrings.resources Example1.cs
         <Parameter Name="types" Type="System.Globalization.CultureTypes" Index="0" FrameworkAlternate="netcore-2.0;netcore-2.1;netcore-2.2;netcore-3.0;netframework-1.1;netframework-2.0;netframework-3.0;netframework-3.5;netframework-4.0;netframework-4.5;netframework-4.5.1;netframework-4.5.2;netframework-4.6;netframework-4.6.1;netframework-4.6.2;netframework-4.7;netframework-4.7.1;netframework-4.7.2;netframework-4.8;netstandard-2.0;xamarinandroid-7.1;xamarinios-10.8;xamarinmac-3.0;netstandard-2.1" />
       </Parameters>
       <Docs>
-        <param name="types">Combinaison d'opérations de bits de valeurs d'énumération qui filtrent les cultures à récupérer.</param>
-        <summary>Obtient la liste des cultures prises en charge, filtrées selon le paramètre <see cref="T:System.Globalization.CultureTypes" /> spécifié.</summary>
+        <param name="types">Combinaison au niveau du bit des valeurs d'énumération qui filtrent les cultures à récupérer.</param>
+        <summary>Obtient la liste des cultures prises en charge filtrées selon le paramètre <see cref="T:System.Globalization.CultureTypes" /> spécifié.</summary>
         <returns>Tableau qui contient les cultures spécifiées par le paramètre <paramref name="types" />. Le tableau de cultures n'est pas trié.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -2306,15 +2326,15 @@ csc /resource:GreetingStrings.resources Example1.cs
         <Parameter Name="formatType" Type="System.Type" />
       </Parameters>
       <Docs>
-        <param name="formatType"><see cref="T:System.Type" /> pour lequel obtenir un objet de mise en forme. Cette méthode prend en charge les types <see cref="T:System.Globalization.NumberFormatInfo" /> et <see cref="T:System.Globalization.DateTimeFormatInfo" /> uniquement.</param>
+        <param name="formatType">Élément <see cref="T:System.Type" /> pour lequel obtenir un objet de mise en forme. Cette méthode prend en charge seulement les types <see cref="T:System.Globalization.NumberFormatInfo" /> et <see cref="T:System.Globalization.DateTimeFormatInfo" />.</param>
         <summary>Obtient un objet définissant la mise en forme du type spécifié.</summary>
-        <returns>Valeur de la propriété <see cref="P:System.Globalization.CultureInfo.NumberFormat" /> qui est un <see cref="T:System.Globalization.NumberFormatInfo" /> contenant les informations sur le format numérique par défaut pour le <see cref="T:System.Globalization.CultureInfo" /> en cours, si <paramref name="formatType" /> est l'objet <see cref="T:System.Type" /> de la classe <see cref="T:System.Globalization.NumberFormatInfo" />.  
+        <returns>Valeur de la propriété <see cref="P:System.Globalization.CultureInfo.NumberFormat" />, qui est un élément <see cref="T:System.Globalization.NumberFormatInfo" /> contenant les informations sur le format numérique par défaut pour l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel, si <paramref name="formatType" /> est l'objet <see cref="T:System.Type" /> pour la classe <see cref="T:System.Globalization.NumberFormatInfo" />.  
   
 ou 
-Valeur de la propriété <see cref="P:System.Globalization.CultureInfo.DateTimeFormat" /> qui est un <see cref="T:System.Globalization.DateTimeFormatInfo" /> contenant les informations sur le format de date et d'heure par défaut pour le <see cref="T:System.Globalization.CultureInfo" /> en cours, si <paramref name="formatType" /> est l'objet <see cref="T:System.Type" /> de la classe <see cref="T:System.Globalization.DateTimeFormatInfo" />.  
+Valeur de la propriété <see cref="P:System.Globalization.CultureInfo.DateTimeFormat" />, qui est un élément <see cref="T:System.Globalization.DateTimeFormatInfo" /> contenant les informations de format de date et d'heure par défaut pour l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel, si <paramref name="formatType" /> est l'objet <see cref="T:System.Type" /> pour la classe <see cref="T:System.Globalization.DateTimeFormatInfo" />.  
   
 ou 
-null, si <paramref name="formatType" /> correspond à tout autre objet.</returns>
+null, si <paramref name="formatType" /> est n'importe quel autre objet.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2372,7 +2392,7 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
       </ReturnValue>
       <Parameters />
       <Docs>
-        <summary>Est utilisé comme fonction de hachage pour le <see cref="T:System.Globalization.CultureInfo" /> en cours et convient aux algorithmes de hachage et aux structures de données, par exemple une table de hachage.</summary>
+        <summary>Est utilisé comme fonction de hachage pour l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel, et convient aux algorithmes de hachage et aux structures de données, comme une table de hachage.</summary>
         <returns>Code de hachage du <see cref="T:System.Globalization.CultureInfo" /> actuel.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -2479,8 +2499,8 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.Globalization.CultureInfo</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient le <see cref="T:System.Globalization.CultureInfo" /> représentant la culture installée avec le système d'exploitation.</summary>
-        <value><see cref="T:System.Globalization.CultureInfo" /> représentant la culture installée avec le système d'exploitation.</value>
+        <summary>Obtient l'élément <see cref="T:System.Globalization.CultureInfo" /> représentant la culture installée avec le système d'exploitation.</summary>
+        <value>Élément <see cref="T:System.Globalization.CultureInfo" /> représentant la culture installée avec le système d'exploitation.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2535,8 +2555,8 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.Globalization.CultureInfo</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient l'objet <see cref="T:System.Globalization.CultureInfo" /> indépendant de la culture (indifférent).</summary>
-        <value>Obtient qui est indépendant de la culture (indifférent).</value>
+        <summary>Obtient l'objet <see cref="T:System.Globalization.CultureInfo" /> qui est indépendant de la culture (invariant).</summary>
+        <value>Objet qui est indépendant de la culture (invariant).</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2604,8 +2624,8 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient une valeur indiquant si le <see cref="T:System.Globalization.CultureInfo" /> en cours représente une culture neutre.</summary>
-        <value><see langword="true" /> si le <see cref="T:System.Globalization.CultureInfo" /> en cours représente une culture neutre ; sinon, <see langword="false" />.</value>
+        <summary>Obtient une valeur indiquant si l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel représente une culture neutre.</summary>
+        <value><see langword="true" /> si l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel représente une culture neutre ; sinon, <see langword="false" /></value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2665,7 +2685,7 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.Boolean</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient une valeur indiquant si le <see cref="T:System.Globalization.CultureInfo" /> en cours est en lecture seule.</summary>
+        <summary>Obtient une valeur indiquant si l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel est en lecture seule.</summary>
         <value><see langword="true" /> si le <see cref="T:System.Globalization.CultureInfo" /> actuel est en lecture seule ; sinon, <see langword="false" />. La valeur par défaut est <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
@@ -2723,8 +2743,8 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient l'identificateur des paramètres régionaux d'entrée actifs.</summary>
-        <value>Nombre signé de 32 bits qui spécifie un identificateur de paramètres régionaux d'entrée.</value>
+        <summary>Obtient l'identificateur des paramètres régionaux en entrée actifs.</summary>
+        <value>Nombre signé de 32 bits qui spécifie un identificateur de paramètres régionaux en entrée.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2772,8 +2792,8 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient l'identificateur de culture du <see cref="T:System.Globalization.CultureInfo" /> en cours.</summary>
-        <value>Identificateur de culture du <see cref="T:System.Globalization.CultureInfo" /> en cours.</value>
+        <summary>Obtient l'identificateur de culture pour l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel.</summary>
+        <value>Identificateur de culture pour l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2902,8 +2922,8 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient le nom de la culture, qui est composé de la langue, du pays ou de la région et du script facultatif, pour lesquels la culture est configurée.</summary>
-        <value>Nom de la culture composé du nom complet de la langue, du nom complet du pays ou de la région et du script facultatif. Le format est discuté dans la description de la classe <see cref="T:System.Globalization.CultureInfo" />.</value>
+        <summary>Obtient le nom de la culture, qui est composé de la langue, du pays/région et du script facultatif, pour lesquels la culture est configurée.</summary>
+        <value>Nom de la culture, composé du nom complet de la langue, du nom complet du pays ou de la région, et du script facultatif. Le format est présenté dans la description de la classe <see cref="T:System.Globalization.CultureInfo" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2959,8 +2979,8 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.Globalization.NumberFormatInfo</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient ou définit un <see cref="T:System.Globalization.NumberFormatInfo" /> qui définit le format d'affichage des nombres, devises et pourcentages approprié pour la culture.</summary>
-        <value><see cref="T:System.Globalization.NumberFormatInfo" /> qui définit le format d'affichage des nombres, devises et pourcentages approprié pour la culture.</value>
+        <summary>Obtient ou définit un élément <see cref="T:System.Globalization.NumberFormatInfo" /> qui définit le format d'affichage des nombres, devises et pourcentages approprié pour la culture.</summary>
+        <value>Élément <see cref="T:System.Globalization.NumberFormatInfo" /> qui définit le format d'affichage des nombres, devises et pourcentages approprié pour la culture.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -2985,7 +3005,7 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
  ]]></format>
         </remarks>
         <exception cref="T:System.ArgumentNullException">La propriété a la valeur null.</exception>
-        <exception cref="T:System.InvalidOperationException">La propriété <see cref="P:System.Globalization.CultureInfo.NumberFormat" /> ou une des propriétés <see cref="T:System.Globalization.NumberFormatInfo" /> est définie et <see cref="T:System.Globalization.CultureInfo" /> est en lecture seule.</exception>
+        <exception cref="T:System.InvalidOperationException">La propriété <see cref="P:System.Globalization.CultureInfo.NumberFormat" /> ou l’une des propriétés <see cref="T:System.Globalization.NumberFormatInfo" /> est définie, et le <see cref="T:System.Globalization.CultureInfo" /> est en lecture seule.</exception>
         <altmember cref="T:System.Globalization.NumberFormatInfo" />
         <altmember cref="M:System.Globalization.CultureInfo.GetFormat(System.Type)" />
         <altmember cref="P:System.Globalization.CultureInfo.DateTimeFormat" />
@@ -3030,8 +3050,8 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.Globalization.Calendar[]</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient la liste des calendriers pouvant être utilisés par la culture.</summary>
-        <value>Tableau de type <see cref="T:System.Globalization.Calendar" /> qui représente les calendriers pouvant être utilisés par la culture représentée par le <see cref="T:System.Globalization.CultureInfo" /> en cours.</value>
+        <summary>Obtient la liste des calendriers qui peuvent être utilisés par la culture.</summary>
+        <value>Tableau de type <see cref="T:System.Globalization.Calendar" /> représentant les calendriers qui peuvent être utilisés par la culture représentée par l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3093,8 +3113,8 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.Globalization.CultureInfo</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient le <see cref="T:System.Globalization.CultureInfo" /> qui représente la culture parente du <see cref="T:System.Globalization.CultureInfo" /> en cours.</summary>
-        <value><see cref="T:System.Globalization.CultureInfo" /> qui représente la culture parente du <see cref="T:System.Globalization.CultureInfo" /> en cours.</value>
+        <summary>Obtient l'élément <see cref="T:System.Globalization.CultureInfo" /> qui représente la culture parente de l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel.</summary>
+        <value>Élément <see cref="T:System.Globalization.CultureInfo" /> qui représente la culture parente de l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3167,7 +3187,7 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <Parameter Name="ci" Type="System.Globalization.CultureInfo" />
       </Parameters>
       <Docs>
-        <param name="ci">Objet <see cref="T:System.Globalization.CultureInfo" /> à inclure dans un wrapper.</param>
+        <param name="ci">L'objet <see cref="T:System.Globalization.CultureInfo" /> à inclure dans un wrapper.</param>
         <summary>Retourne un wrapper en lecture seule autour de l’objet <see cref="T:System.Globalization.CultureInfo" /> spécifié.</summary>
         <returns>Wrapper <see cref="T:System.Globalization.CultureInfo" /> en lecture seule autour de <paramref name="ci" />.</returns>
         <remarks>
@@ -3225,8 +3245,8 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.Globalization.TextInfo</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient le <see cref="T:System.Globalization.TextInfo" /> définissant le système d'écriture associé à la culture.</summary>
-        <value><see cref="T:System.Globalization.TextInfo" /> définissant le système d'écriture associé à la culture.</value>
+        <summary>Obtient l'élément <see cref="T:System.Globalization.TextInfo" /> qui définit le système d'écriture associé à la culture.</summary>
+        <value>Élément <see cref="T:System.Globalization.TextInfo" /> qui définit le système d'écriture associé à la culture.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3284,8 +3304,8 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient le code ISO 639-2 de trois lettres correspondant à la langue du <see cref="T:System.Globalization.CultureInfo" /> en cours.</summary>
-        <value>Code ISO 639-2 de trois lettres correspondant à la langue du <see cref="T:System.Globalization.CultureInfo" /> en cours.</value>
+        <summary>Obtient le code ISO 639-2 de trois lettres correspondant à la langue de l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel.</summary>
+        <value>Code ISO 639-2 de trois lettres correspondant à la langue de l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3354,8 +3374,8 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient le code de trois lettres correspondant à la langue, tel que défini dans l'API Windows.</summary>
-        <value>Code de trois lettres correspondant à la langue, tel que défini dans l'API Windows.</value>
+        <summary>Obtient le code de trois lettres correspondant à la langue, tel qu'il est défini dans l'API Windows.</summary>
+        <value>Code à trois lettres correspondant à la langue, tel que défini dans l'API Windows.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3423,7 +3443,7 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
       <Parameters />
       <Docs>
         <summary>Retourne une chaîne contenant le nom de l’élément <see cref="T:System.Globalization.CultureInfo" /> actuel au format *code_langue2*-*code_région/pays2*.</summary>
-        <returns>Chaîne contenant le nom du <see cref="T:System.Globalization.CultureInfo" /> actuel.</returns>
+        <returns>Chaîne contenant le nom de l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel.</returns>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3477,8 +3497,8 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
         <ReturnType>System.String</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Obtient le code ISO 639-1 de deux lettres correspondant à la langue du <see cref="T:System.Globalization.CultureInfo" /> en cours.</summary>
-        <value>Code ISO 639-1 de deux lettres correspondant à la langue du <see cref="T:System.Globalization.CultureInfo" /> en cours.</value>
+        <summary>Obtient le code ISO 639-1 de deux lettres correspondant à la langue de l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel.</summary>
+        <value>Code ISO 639-1 de deux lettres correspondant à la langue de l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
@@ -3541,7 +3561,7 @@ null, si <paramref name="formatType" /> correspond à tout autre objet.</returns
       </ReturnValue>
       <Docs>
         <summary>Obtient une valeur indiquant si l’élément <see cref="T:System.Globalization.CultureInfo" /> actuel utilise les paramètres de culture sélectionnés par l’utilisateur.</summary>
-        <value><see langword="true" /> si le <see cref="T:System.Globalization.CultureInfo" /> en cours utilise les paramètres de culture sélectionnés par l'utilisateur ; sinon, <see langword="false" />.</value>
+        <value><see langword="true" /> si l'élément <see cref="T:System.Globalization.CultureInfo" /> actuel utilise les paramètres de culture sélectionnés par l'utilisateur ; sinon, <see langword="false" />.</value>
         <remarks>
           <format type="text/markdown"><![CDATA[  
   
