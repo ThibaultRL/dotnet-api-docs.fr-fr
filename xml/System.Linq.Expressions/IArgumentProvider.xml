@@ -1,5 +1,5 @@
 <Type Name="IArgumentProvider" FullName="System.Linq.Expressions.IArgumentProvider">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="18b622ce78fe8295b4aac908d2b2687c5ed1f01f" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58715513" /></Metadata><TypeSignature Language="C#" Value="public interface IArgumentProvider" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="4abd0b0508fdc62e37d2117e5823a54dfc7dfdce" /><Meta Name="ms.sourcegitcommit" Value="d3dcd8c426adcf1bbe5ff78a76dee13bd8ad6efd" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="05/28/2019" /><Meta Name="ms.locfileid" Value="66251526" /></Metadata><TypeSignature Language="C#" Value="public interface IArgumentProvider" />
   <TypeSignature Language="ILAsm" Value=".class public interface auto ansi abstract IArgumentProvider" />
   <TypeSignature Language="DocId" Value="T:System.Linq.Expressions.IArgumentProvider" />
   <TypeSignature Language="VB.NET" Value="Public Interface IArgumentProvider" />
@@ -24,18 +24,28 @@
   </AssemblyInfo>
   <Interfaces />
   <Docs>
-    <summary>Fournit une interface interne pour accéder aux arguments de plusieurs nœuds d’arborescence (DynamicExpression, ElementInit, MethodCallExpression, InvocationExpression, NewExpression et IndexExpression).  Vous ne devez pas utiliser cette API.  Elle est publique uniquement en raison de la refactorisation de la DLL, et existe seulement pour optimiser les performances internes.  
+    <summary>Fournit une interface interne pour accéder aux arguments de plusieurs nœuds d’arborescence (DynamicExpression, ElementInit, MethodCallExpression, InvocationExpression, NewExpression et IndexExpression).  Cette API est destinée à un usage interne uniquement.</summary>
+    <remarks>
+      <format type="text/markdown"><![CDATA[
+      
+## Remarks
+
+Vous ne devez pas utiliser cette API.  Il est public uniquement en raison de la refactorisation de l’assembly, et il existe uniquement pour optimiser les performances internes. Il permet deux optimisations qui réduisent la taille des arborescences :
   
-Ceci permet deux optimisations qui réduisent la taille des arborescences d’expressions.  La première permet aux nœuds de l’arborescence de conserver un IList&lt;T&gt; au lieu d’un ReadOnlyCollection.  IList&lt;T&gt; évite d’allouer ReadOnlyCollection pour chaque nœud.  La deuxième permet la création de sous-classes spécialisées contenant un nombre spécifique d’arguments (par exemple Block2, Block3, Block4).  Ces nœuds évitent donc l’allocation à la fois d’une ReadOnlyCollection et d’un tableau pour stocker leurs éléments, économisant ainsi 32 octets par nœud.  
+1. Il permet aux nœuds à maintenir un <xref:System.Collections.Generic.IList%601> au lieu d’un <xref:System.Collections.ObjectModel.ReadOnlyCollection%601>.  Cela permet d’économiser le coût d’allouer de la collection en lecture seule pour chaque nœud.
   
-Les nœuds d’arborescence d’expression continuent d’exposer les propriétés LINQ d’origine de ReadOnlyCollections.  Pour cela, les nœuds réutilisent un champ pour stocker le tableau ou un élément qui serait normalement stocké dans le tableau.  
-  
-Dans le cas du tableau, la collection est de type IList&lt;T&gt; au lieu de ReadOnlyCollection&lt;T&gt;.  Quand le nœud est initialement créé, c’est un tableau.  Quand le compilateur accède aux membres, il utilise cette interface.  L’accès aux éléments du tableau promeut le tableau en ReadOnlyCollection.  
-  
-Dans le cas de l’objet, nous stockons le premier argument dans un champ de type objet.  Quand le nœud est initialement créé, le champ contient l’expression.  Le compilateur accède aux arguments par le biais de cette interface, et l’accesseur pour le premier argument utilise Expression.ReturnObject pour retourner l’objet qui gère le cas Expression ou ReadOnlyCollection.  Quand l’utilisateur accède à la ReadOnlyCollection, le champ de l’objet est mis à jour pour conserver directement la ReadOnlyCollection.  
-  
-Il est important que les expressions retournent toujours la même ReadOnlyCollection.  Sinon, l’analyseur d’arborescence de réécriture s’arrêtera.  Il s’agit d’un changement cassant par rapport à LINQ v1, qui retournait des ReadOnlyCollections différentes à partir du même nœud Expression.  Les utilisateurs peuvent actuellement s’appuyer sur l’identité de l’objet pour savoir si le nœud a changé.  Le stockage de la ReadOnlyCollection dans un champ surchargé réduit l’utilisation de la mémoire tout en maintenant la compatibilité pour l’API publique.</summary>
-    <remarks>To be added.</remarks>
+2. Il permet les sous-classes spécialisées à créer ce blocage sur un nombre spécifique d’arguments (par exemple, `Block2`, `Block2`, `Block4`).  Par conséquent, ces nœuds évitent l’allocation à la fois un <xref:System.Collections.ObjectModel.ReadOnlyCollection%601> et un tableau pour stocker leurs éléments, ce qui évite de 32 octets par nœud.  Cette technique est utilisée par différents nœuds, y compris <xref:System.Linq.Expressions.BlockExpression>, <xref:System.Linq.Expressions.InvocationExpression>, et <xref:System.Linq.Expressions.MethodCallExpression>.
+            
+Les nœuds d’arbre expression continuent d’exposer les propriétés LINQ d’origine de <xref:System.Collections.ObjectModel.ReadOnlyCollection%601> objets. Pour cela, ils réutilisation d’un champ pour stocker le tableau ou un élément qui serait normalement stocké dans le tableau.
+            
+Dans le cas du tableau, la collection est de type <xref:System.Collections.Generic.IList%601> au lieu de <xref:System.Collections.ObjectModel.ReadOnlyCollection%601>. Quand le nœud est initialement créé, il s’agit d’un tableau.  Le compilateur ou les utilitaires dans cette bibliothèque accéder aux éléments via cette interface. L’accès aux éléments du tableau promeut le tableau en un <xref:System.Collections.ObjectModel.ReadOnlyCollection%601>.
+            
+Dans le cas de l’objet, le premier argument est stocké dans un champ de type <xref:System.Object>. Quand le nœud est initialement créé, ce champ conserve le <xref:System.Linq.Expressions.Expression> du premier argument.  Lorsque le compilateur et les utilitaires dans cette bibliothèque accéder aux arguments, ils utilisent à nouveau cette interface, et l’accesseur pour le premier argument utilise interne `Expression.ReturnObject<T>(System.Object)` méthode d’assistance pour retourner l’objet qui gère la <xref:System.Linq.Expressions.Expression> ou <xref:System.Collections.ObjectModel.ReadOnlyCollection%601> cas. Lorsque l’utilisateur accède à la <xref:System.Collections.ObjectModel.ReadOnlyCollection%601>, le champ objet est mis à jour pour conserver directement la <xref:System.Collections.ObjectModel.ReadOnlyCollection%601>.
+            
+Il est important que <xref:System.Linq.Expressions.Expression> propriétés retournent de manière cohérente les mêmes <xref:System.Collections.ObjectModel.ReadOnlyCollection%601>. Sinon, l’analyseur d’arborescence de module de réécriture utilisé par les visiteurs de l’expression sera interrompue. Il s’agit d’une modification avec rupture de la version v1 LINQ pour retourner différents <xref:System.Collections.ObjectModel.ReadOnlyCollection%601> à partir de la même <xref:System.Linq.Expressions.Expression> nœud. Actuellement, les utilisateurs peuvent compter sur l’identité de l’objet pour indiquer si le nœud a changé.  Stocker le <xref:System.Collections.ObjectModel.ReadOnlyCollection%601> dans un champ surchargé à la fois réduit l’utilisation de mémoire et maintient la compatibilité pour l’API publique.
+
+      ]]></format>
+    </remarks>
   </Docs>
   <Members>
     <Member MemberName="ArgumentCount">
@@ -67,9 +77,9 @@ Il est important que les expressions retournent toujours la même ReadOnlyCollec
         <ReturnType>System.Int32</ReturnType>
       </ReturnValue>
       <Docs>
-        <summary>Retourne le nombre d’arguments du nœud d’arborescence d’expression.  Vous ne devez pas utiliser ce type.  Il est public uniquement en raison de la refactorisation de l’assembly, et il est utilisé en interne pour optimiser les performances.</summary>
+        <summary>Retourne le nombre d’arguments du nœud d’arborescence d’expression. Cette API est destinée à un usage interne uniquement.</summary>
         <value>Nombre d’arguments du nœud d’arborescence d’expression, au format <see cref="T:System.Int32" />.</value>
-        <remarks>To be added.</remarks>
+        <remarks>Vous ne devez pas utiliser cette API. Il est public uniquement en raison de la refactorisation de l’assembly, et il est utilisé en interne pour optimiser les performances.</remarks>
       </Docs>
     </Member>
     <Member MemberName="GetArgument">
@@ -105,9 +115,9 @@ Il est important que les expressions retournent toujours la même ReadOnlyCollec
       </Parameters>
       <Docs>
         <param name="index">Index de l’argument.</param>
-        <summary>Retourne l’argument à l’index, en levant une exception si l’index est hors limites.  Vous ne devez pas utiliser ce type.  Il est public uniquement en raison de la refactorisation de l’assembly, et il est utilisé en interne pour optimiser les performances.</summary>
-        <returns>Argument à l’index, avec une exception levée si l’index est hors limites comme <see cref="T:System.Linq.Expressions.Expression" />.</returns>
-        <remarks>To be added.</remarks>
+        <summary>Retourne l’argument à l’<paramref name="index" />, en levant une exception si l’<paramref name="index" /> est hors limites. Cette API est destinée à un usage interne uniquement.</summary>
+        <returns>Argument à l’index.</returns>
+        <remarks>Vous ne devez pas utiliser cette API.  Il est public uniquement en raison de la refactorisation de l’assembly, et il est utilisé en interne pour optimiser les performances.</remarks>
       </Docs>
     </Member>
   </Members>

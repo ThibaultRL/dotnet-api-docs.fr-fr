@@ -1,5 +1,5 @@
 <Type Name="CommandBehavior" FullName="System.Data.CommandBehavior">
-  <Metadata><Meta Name="ms.openlocfilehash" Value="06bf0e5f9cd0830b6df366d100746730876bffda" /><Meta Name="ms.sourcegitcommit" Value="a3e01ec36374fac54a55add0dcc1e754e394abeb" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="03/30/2019" /><Meta Name="ms.locfileid" Value="58692855" /></Metadata><TypeSignature Language="C#" Value="public enum CommandBehavior" />
+  <Metadata><Meta Name="ms.openlocfilehash" Value="8dc33ced8e52016db3b9d4d5cbce685de60f0ab5" /><Meta Name="ms.sourcegitcommit" Value="9a6da88bd5455e8274257ca7ad259b42f1de114f" /><Meta Name="ms.translationtype" Value="MT" /><Meta Name="ms.contentlocale" Value="fr-FR" /><Meta Name="ms.lasthandoff" Value="05/22/2019" /><Meta Name="ms.locfileid" Value="66006808" /></Metadata><TypeSignature Language="C#" Value="public enum CommandBehavior" />
   <TypeSignature Language="ILAsm" Value=".class public auto ansi sealed CommandBehavior extends System.Enum" />
   <TypeSignature Language="DocId" Value="T:System.Data.CommandBehavior" />
   <TypeSignature Language="VB.NET" Value="Public Enum CommandBehavior" />
@@ -38,15 +38,21 @@
       <format type="text/markdown"><![CDATA[  
   
 ## Remarks  
- Le <xref:System.Data.CommandBehavior> valeurs sont utilisées par le <xref:System.Data.IDbCommand.ExecuteReader%2A> méthode de <xref:System.Data.IDbCommand> et toutes les classes dérivées à partir de celui-ci.  
+ Le `CommandBehavior` valeurs sont utilisées par le <xref:System.Data.IDbCommand.ExecuteReader%2A> méthode de <xref:System.Data.IDbCommand> et les classes d’implémentation.  
   
  Une combinaison au niveau du bit des valeurs suivantes peut être utilisée.  
   
- <xref:System.Data.CommandBehavior> est ignoré lorsqu’il est utilisé pour définir un <xref:System.Data.Sql.SqlNotificationRequest> ou <xref:System.Data.SqlClient.SqlDependency> et doit par conséquent pas être utilisé. Utilisez le constructeur qui ne nécessite pas un `CommandBehavior` paramètre dans ces deux cas.  
-  
+`CommandBehavior` est ignoré lorsqu’il est utilisé pour définir un <xref:System.Data.Sql.SqlNotificationRequest> ou <xref:System.Data.SqlClient.SqlDependency> et doit par conséquent pas être utilisé. Utilisez le constructeur qui ne nécessite pas un `CommandBehavior` paramètre dans ces deux cas.  
+
+### <a name="notes-on-individual-enumeration-members"></a>Remarques sur les membres de l’énumération individuelles
+
+Lorsque vous utilisez `KeyInfo`, le fournisseur de données .NET Framework pour SQL Server fait précéder l’instruction en cours d’exécution avec `SET FMTONLY OFF` et `SET NO_BROWSETABLE ON`. L’utilisateur doit être conscient des effets secondaires potentiels, tels que les interférences avec l’utilisation de `SET FMTONLY ON` instructions. Pour plus d’informations, consultez [SET FMTONLY (Transact-SQL)](/sql/t-sql/statements/set-fmtonly-transact-sql).
+
 > [!NOTE]
->  SequentialAccess permet de récupérer des valeurs élevées et des données binaires. Sinon, un <xref:System.OutOfMemoryException> peut se produire et la connexion va être fermée.  
-  
+>  Utilisez `SequentialAccess` pour récupérer des valeurs élevées et des données binaires. Sinon, un <xref:System.OutOfMemoryException> peut se produire et la connexion va être fermée.  
+
+Lorsque vous spécifiez `SequentialAccess`, vous êtes invité à lire les colonnes dans l’ordre où elles sont retournées, même si vous n’êtes pas obligé de lire chaque colonne. Une fois que vous avez lu au-delà d’un emplacement dans le flux de données retourné, les données à ou avant cet emplacement n’est plus peuvent être lues qu’à partir de la `DataReader`. Lorsque vous utilisez le <xref:System.Data.OleDb.OleDbDataReader>, vous pouvez relire la valeur actuelle de la colonne jusqu'à ce que de lecture au-delà de celle-ci. Lorsque vous utilisez le <xref:System.Data.SqlClient.SqlDataReader>, vous pouvez lire une valeur de colonne qu’une seule fois.  
+
  ]]></format>
     </remarks>
   </Docs>
@@ -153,17 +159,8 @@
       </ReturnValue>
       <MemberValue>4</MemberValue>
       <Docs>
-        <summary>La requête retourne des informations de colonne et de clé primaire.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Lorsque KeyInfo est utilisé pour l’exécution de la commande, le fournisseur permet d’ajouter des colonnes supplémentaires à un jeu de résultats pour la clé primaire existante et des colonnes timestamp.  
-  
- Lorsque vous utilisez les informations de clé, le fournisseur de données .NET Framework pour SQL Server précède l’instruction en cours d’exécution par SET FMTONLY OFF et SET NO_BROWSETABLE ON. L'utilisateur doit connaître les effets secondaires potentiels, tels que les interférences avec l'utilisation d'instructions SET FMTONLY ON. Pour plus d’informations, consultez [SET FMTONLY (Transact-SQL)](/sql/t-sql/statements/set-fmtonly-transact-sql).
-  
- ]]></format>
-        </remarks>
+        <summary>La requête retourne des informations de colonne et de clé primaire. Le fournisseur ajoute des colonnes supplémentaires au jeu de résultats pour les colonnes clé primaire et timestamp existantes.</summary>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="SchemaOnly">
@@ -234,14 +231,7 @@
       <MemberValue>16</MemberValue>
       <Docs>
         <summary>Fournit à <see langword="DataReader" /> un moyen de gérer les lignes qui contiennent des colonnes renfermant des valeurs binaires élevées. Plutôt que de charger la ligne entière, <see langword="SequentialAccess" /> permet à <see langword="DataReader" /> de charger les données en tant que flux. Vous pouvez ensuite utiliser la méthode <see langword="GetBytes" /> ou <see langword="GetChars" /> afin de spécifier un emplacement d'octets à partir duquel démarrer l'opération de lecture, ainsi qu'une taille de mémoire tampon limitée pour les données retournées.</summary>
-        <remarks>
-          <format type="text/markdown"><![CDATA[  
-  
-## Remarks  
- Lorsque vous spécifiez `SequentialAccess`, vous êtes invité à lire les colonnes dans l’ordre où elles sont retournées, même si vous n’êtes pas obligé de lire chaque colonne. Une fois que vous avez lu au-delà d’un emplacement dans le flux de données retourné, les données à ou avant cet emplacement n’est plus peuvent être lues qu’à partir de la `DataReader`. Lorsque vous utilisez le <xref:System.Data.OleDb.OleDbDataReader>, vous pouvez relire la valeur actuelle de la colonne jusqu'à ce que de lecture au-delà de celle-ci. Lorsque vous utilisez le <xref:System.Data.SqlClient.SqlDataReader>, vous pouvez lire une valeur de colonne qu’une seule fois.  
-  
- ]]></format>
-        </remarks>
+        <remarks>To be added.</remarks>
       </Docs>
     </Member>
     <Member MemberName="SingleResult">
